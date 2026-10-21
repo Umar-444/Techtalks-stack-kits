@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Deployment — Laravel Security Masterclass</title>
+  <meta name="description" content="Deployment security is critical because misconfigured servers are responsible for the majority of data breaches. A secure deployment protects against:">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/secure-deployment.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/secure-deployment.html">
+  <meta property="og:title" content="Secure Deployment — Laravel Security Masterclass">
+  <meta property="og:description" content="Deployment security is critical because misconfigured servers are responsible for the majority of data breaches. A secure deployment protects against:">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="Secure Deployment — Laravel Security Masterclass">
+  <meta name="twitter:description" content="Deployment security is critical because misconfigured servers are responsible for the majority of data breaches. A secure deployment protects against:">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Secure Deployment",
+      "description": "Deployment security is critical because misconfigured servers are responsible for the majority of data breaches. A secure deployment protects against:",
+      "author": {
+        "@type": "Person",
+        "name": "Umar Farooq",
+        "email": "contact@itsumarfarooq.com",
+        "url": "https://itsumarfarooq.com",
+        "jobTitle": "Senior Full-Stack & Security Engineer",
+        "sameAs": [
+          "https://github.com/umar-444",
+          "https://linkedin.com/in/umar444",
+          "https://x.com/umartechtalks",
+          "https://worldwebtree.com"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "UmarTechTalks",
+        "url": "https://techtalks.itsumarfarooq.com"
+      },
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://techtalks.itsumarfarooq.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Security Hub",
+          "item": "https://techtalks.itsumarfarooq.com/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Laravel Track",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Secure Deployment",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/secure-deployment.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
+    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">Secure Deployment</span>
+    </nav>
+
+    <!-- Lesson Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 06</span>
+        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 21</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
+        Secure Deployment
+      </h1>
+      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+        <span>Curated by Umar Farooq</span>
+        <span>&bull;</span>
+        <span>18 min read</span>
+      </div>
+    </div>
+
+    <!-- Quick Answer Box -->
+    <div class="quick-answer">
+      <div class="quick-answer-badge">Quick Answer &amp; Core Takeaway</div>
+      <p class="text-ink dark:text-white font-medium text-[15px] leading-relaxed">
+        Deployment security is critical because misconfigured servers are responsible for the majority of data breaches. A secure deployment protects against:
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="lesson-content my-8">
+      <h1>Secure Deployment</h1>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Why Secure Deployment Matters</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Deployment security is critical because misconfigured servers are responsible for the majority of data breaches. A secure deployment protects against:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Unauthorized access</strong> to sensitive data</li>
+<li><strong>Code execution</strong> through misconfigured permissions</li>
+<li><strong>Data interception</strong> via unencrypted connections</li>
+<li><strong>Service disruption</strong> from denial of service attacks</li>
+<li><strong>Information leakage</strong> through exposed sensitive files</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Deployment Security Statistics</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>80%</strong> of breaches involve misconfigured servers</li>
+<li><strong>60%</strong> of data breaches occur within minutes of deployment</li>
+<li><strong>40%</strong> of organizations have experienced cloud misconfigurations</li>
+<li><strong>Average cost</strong> of deployment-related breach: $4.87 million</li>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">HTTPS Configuration</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">SSL/TLS Certificate Management</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Let's Encrypt (Free Certificates) — Certbot Snap (2026 Method)</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># Install Certbot via snap (recommended — apt package is outdated)
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+
+# Generate certificate with automatic HTTPS redirect
+sudo certbot --apache -d yourdomain.com -d www.yourdomain.com
+
+# Or for Nginx:
+sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+
+# Automatic renewal is set up by default via systemd timer
+# Verify the renewal timer:
+sudo systemctl status snap.certbot.renew.timer
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Commercial SSL — ECDSA P-256 (Recommended) or RSA-4096</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># [SECURE] Recommended: ECDSA P-256 — Faster, smaller, equally secure
+openssl ecparam -genkey -name prime256v1 | openssl ec -out yourdomain-ec.key
+openssl req -new -key yourdomain-ec.key -out yourdomain.csr \
+  -subj &quot;/C=US/ST=State/L=City/O=Company/CN=yourdomain.com&quot;
+
+# Or RSA-4096 (if ECDSA not supported by your CA)
+# RSA-2048 is considered marginal by NIST as of 2024 — use 4096 minimum
+openssl req -new -newkey rsa:4096 -nodes -keyout yourdomain.key -out yourdomain.csr
+
+# Install certificate files
+sudo cp yourdomain.crt /etc/ssl/certs/
+sudo cp yourdomain-ec.key /etc/ssl/private/
+sudo cp intermediate.crt /etc/ssl/certs/
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Apache HTTPS Configuration</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-apache"># /etc/apache2/sites-available/yourdomain-ssl.conf
+&lt;VirtualHost *:443&gt;
+    ServerName yourdomain.com
+    ServerAlias www.yourdomain.com
+    DocumentRoot /var/www/yourdomain/public
+
+    # SSL Configuration
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/yourdomain.crt
+    SSLCertificateKeyFile /etc/ssl/private/yourdomain.key
+    SSLCertificateChainFile /etc/ssl/certs/intermediate.crt
+
+    # HSTS (HTTP Strict Transport Security)
+    Header always set Strict-Transport-Security &quot;max-age=31536000; includeSubDomains; preload&quot;
+
+    # Security Headers
+    Header always set X-Frame-Options DENY
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-XSS-Protection &quot;1; mode=block&quot;
+    Header always set Referrer-Policy &quot;strict-origin-when-cross-origin&quot;
+
+    # SSL Protocol — TLS 1.3 preferred, TLS 1.2 minimum (TLS 1.0/1.1 disabled)
+    SSLProtocol -all +TLSv1.3 +TLSv1.2
+
+    # TLS 1.3 cipher suites (configured automatically in OpenSSL 1.1.1+)
+    # TLS 1.2 cipher suites — strong AEAD only
+    SSLCipherSuite ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256
+    SSLHonorCipherOrder off   # TLS 1.3 ignores this; for TLS 1.2 prefer server order
+    SSLCompression off        # Disable CRIME attack vector
+    SSLSessionTickets off     # Disable for perfect forward secrecy
+
+    # OCSP Stapling
+    SSLUseStapling on
+    SSLStaplingCache &quot;shmcb:logs/stapling-cache(150000)&quot;
+
+    &lt;Directory /var/www/yourdomain/public&gt;
+        Options -Indexes -FollowSymLinks
+        AllowOverride All
+        Require all granted
+
+        # Additional security for Laravel
+        php_value upload_max_filesize 10M
+        php_value post_max_size 12M
+        php_value memory_limit 256M
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+
+# Redirect HTTP to HTTPS
+&lt;VirtualHost *:80&gt;
+    ServerName yourdomain.com
+    ServerAlias www.yourdomain.com
+    Redirect permanent / https://yourdomain.com/
+&lt;/VirtualHost&gt;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Nginx HTTPS Configuration</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-nginx"># /etc/nginx/sites-available/yourdomain
+server {
+    listen 80;
+    server_name yourdomain.com www.yourdomain.com;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name yourdomain.com www.yourdomain.com;
+
+    # SSL Configuration
+    ssl_certificate /etc/ssl/certs/yourdomain.crt;
+    ssl_certificate_key /etc/ssl/private/yourdomain.key;
+    ssl_trusted_certificate /etc/ssl/certs/intermediate.crt;
+
+    # SSL Protocols and Ciphers
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-SHA256;
+    ssl_prefer_server_ciphers off;
+
+    # HSTS
+    add_header Strict-Transport-Security &quot;max-age=31536000; includeSubDomains; preload&quot; always;
+
+    # Security Headers
+    add_header X-Frame-Options DENY always;
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-XSS-Protection &quot;1; mode=block&quot; always;
+    add_header Referrer-Policy &quot;strict-origin-when-cross-origin&quot; always;
+
+    # OCSP Stapling
+    ssl_stapling on;
+    ssl_stapling_verify on;
+    resolver 8.8.8.8 8.8.4.4 valid=300s;
+    resolver_timeout 5s;
+
+    # Root directory
+    root /var/www/yourdomain/public;
+    index index.php index.html;
+
+    # Hide nginx version
+    server_tokens off;
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+
+    # Secure file access
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+
+    # Restrict access to sensitive files
+    location ~ \.(env|log|htaccess|htpasswd)$ {
+        deny all;
+        return 444;
+    }
+
+    # Cache static assets
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg)$ {
+        expires 1y;
+        add_header Cache-Control &quot;public, immutable&quot;;
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">SSL/TLS Best Practices</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Certificate Configuration</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># Test SSL configuration
+openssl s_client -connect yourdomain.com:443 -servername yourdomain.com
+
+# Check certificate details
+openssl x509 -in yourdomain.crt -text -noout
+
+# Verify certificate chain
+openssl verify -CAfile intermediate.crt yourdomain.crt
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">SSL Labs Testing</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># Test SSL configuration quality
+# Visit: https://www.ssllabs.com/ssltest/
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Server File Permissions</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Linux File Permissions</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Understanding Permissions</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># File permission format: rwxrwxrwx (owner, group, others)
+# r = read (4), w = write (2), x = execute (1)
+
+# View permissions
+ls -la /var/www/
+
+# Change ownership
+sudo chown -R www-data:www-data /var/www/yourdomain
+
+# Set directory permissions (755)
+sudo find /var/www/yourdomain -type d -exec chmod 755 {} \;
+
+# Set file permissions (644)
+sudo find /var/www/yourdomain -type f -exec chmod 644 {} \;
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Laravel-Specific Permissions</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># Laravel storage and bootstrap cache permissions
+sudo chown -R www-data:www-data /var/www/yourdomain/storage
+sudo chown -R www-data:www-data /var/www/yourdomain/bootstrap/cache
+sudo chmod -R 775 /var/www/yourdomain/storage
+sudo chmod -R 775 /var/www/yourdomain/bootstrap/cache
+
+# Make artisan executable
+sudo chmod +x /var/www/yourdomain/artisan
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure Directory Structure</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash">/var/www/yourdomain/
+├── app/                    # 755
+├── bootstrap/             # 755
+│   └── cache/            # 775
+├── config/               # 755
+├── database/             # 755
+├── public/               # 755
+│   ├── index.php        # 644
+│   └── .htaccess       # 644
+├── resources/           # 755
+├── routes/              # 755
+├── storage/             # 775
+│   ├── app/            # 775
+│   ├── framework/      # 775
+│   └── logs/           # 775
+├── tests/               # 755
+├── vendor/              # 755
+├── artisan             # 755
+├── composer.json       # 644
+├── composer.lock       # 644
+├── package.json        # 644
+├── webpack.mix.js      # 644
+├── .env.example        # 644
+└── .env               # 600 (restrictive!)
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">File Permission Audit Script</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash">#!/bin/bash
+# secure-permissions.sh - Audit and fix file permissions
+
+TARGET_DIR=&quot;/var/www/yourdomain&quot;
+WEB_USER=&quot;www-data&quot;
+WEB_GROUP=&quot;www-data&quot;
+
+echo &quot; Auditing file permissions in $TARGET_DIR&quot;
+
+# Check .env file permissions
+ENV_FILE=&quot;$TARGET_DIR/.env&quot;
+if [ -f &quot;$ENV_FILE&quot; ]; then
+    PERMS=$(stat -c &quot;%a&quot; &quot;$ENV_FILE&quot;)
+    if [ &quot;$PERMS&quot; != &quot;600&quot; ]; then
+        echo &quot;[INSECURE] .env file has insecure permissions: $PERMS (should be 600)&quot;
+        chmod 600 &quot;$ENV_FILE&quot;
+        echo &quot;[SECURE] Fixed .env permissions&quot;
+    fi
+fi
+
+# Check storage directory permissions
+STORAGE_DIR=&quot;$TARGET_DIR/storage&quot;
+if [ -d &quot;$STORAGE_DIR&quot; ]; then
+    find &quot;$STORAGE_DIR&quot; -type d -exec chmod 775 {} \;
+    find &quot;$STORAGE_DIR&quot; -type f -exec chmod 664 {} \;
+    chown -R &quot;$WEB_USER:$WEB_GROUP&quot; &quot;$STORAGE_DIR&quot;
+    echo &quot;[SECURE] Fixed storage directory permissions&quot;
+fi
+
+# Check bootstrap cache permissions
+BOOTSTRAP_CACHE=&quot;$TARGET_DIR/bootstrap/cache&quot;
+if [ -d &quot;$BOOTSTRAP_CACHE&quot; ]; then
+    chmod 775 &quot;$BOOTSTRAP_CACHE&quot;
+    chown -R &quot;$WEB_USER:$WEB_GROUP&quot; &quot;$BOOTSTRAP_CACHE&quot;
+    echo &quot;[SECURE] Fixed bootstrap cache permissions&quot;
+fi
+
+# Find world-writable files (security risk)
+echo &quot; Checking for world-writable files...&quot;
+WORLD_WRITABLE=$(find &quot;$TARGET_DIR&quot; -type f -perm -002 2&gt;/dev/null)
+if [ -n &quot;$WORLD_WRITABLE&quot; ]; then
+    echo &quot;[INSECURE] Found world-writable files:&quot;
+    echo &quot;$WORLD_WRITABLE&quot;
+    echo &quot;Consider removing world write permissions&quot;
+fi
+
+# Find files with incorrect ownership
+echo &quot; Checking file ownership...&quot;
+INCORRECT_OWNER=$(find &quot;$TARGET_DIR&quot; -not -user &quot;$WEB_USER&quot; -type f \( -name &quot;*.php&quot; -o -name &quot;*.log&quot; \) 2&gt;/dev/null | head -10)
+if [ -n &quot;$INCORRECT_OWNER&quot; ]; then
+    echo &quot;Warning: Found files not owned by $WEB_USER:&quot;
+    echo &quot;$INCORRECT_OWNER&quot;
+fi
+
+echo &quot; Permission audit completed!&quot;
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Hiding Sensitive Files</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Web Server Configuration</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Apache .htaccess</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-apache"># /var/www/yourdomain/public/.htaccess
+
+# Hide sensitive files
+&lt;FilesMatch &quot;\.(env|log|htaccess|htpasswd|ini|conf|bak|backup|old)$&quot;&gt;
+    Order Allow,Deny
+    Deny from all
+    Require all denied
+&lt;/FilesMatch&gt;
+
+# Hide version control files
+&lt;FilesMatch &quot;(\.git|\.svn|\.hg)&quot;&gt;
+    Order Allow,Deny
+    Deny from all
+    Require all denied
+&lt;/FilesMatch&gt;
+
+# Hide backup files
+&lt;FilesMatch &quot;\.(bak|backup|old|orig|tmp|temp)$&quot;&gt;
+    Order Allow,Deny
+    Deny from all
+    Require all denied
+&lt;/FilesMatch&gt;
+
+# Hide PHP error logs
+&lt;Files &quot;error_log&quot;&gt;
+    Order Allow,Deny
+    Deny from all
+    Require all denied
+&lt;/Files&gt;
+
+# Hide composer files
+&lt;FilesMatch &quot;(composer\.json|composer\.lock)&quot;&gt;
+    Order Allow,Deny
+    Deny from all
+    Require all denied
+&lt;/FilesMatch&gt;
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Nginx Configuration</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-nginx"># /etc/nginx/sites-available/yourdomain
+
+server {
+    # ... SSL configuration ...
+
+    # Hide sensitive files
+    location ~ /\.(env|git|svn|hg) {
+        deny all;
+        return 444;
+    }
+
+    location ~ \.(log|htaccess|htpasswd|ini|conf|bak|backup|old|orig|tmp|temp)$ {
+        deny all;
+        return 444;
+    }
+
+    location ~ (composer\.json|composer\.lock|package\.json|webpack\.mix\.js)$ {
+        deny all;
+        return 444;
+    }
+
+    location ~ \.php$ {
+        # ... PHP configuration ...
+
+        # Prevent access to certain PHP files
+        location ~ /(artisan|console)$ {
+            deny all;
+            return 444;
+        }
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel-Specific File Protection</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// routes/web.php - Additional file protection
+
+// Prevent access to sensitive Laravel files
+Route::get('/artisan', function () {
+    abort(404);
+});
+
+Route::get('/console', function () {
+    abort(404);
+});
+
+// Prevent access to composer files
+Route::get('/composer.{json,lock}', function () {
+    abort(404);
+});
+
+// Prevent access to environment files
+Route::get('/.env{,.example}', function () {
+    abort(404);
+});
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">File Location Strategy</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># Secure file placement strategy
+
+# 1. Public files (accessible via web)
+/var/www/yourdomain/public/
+├── index.php
+├── assets/
+├── uploads/        # User-uploaded files (with access control)
+└── .htaccess
+
+# 2. Application files (not web-accessible)
+/var/www/yourdomain/
+├── app/
+├── config/
+├── database/
+├── resources/
+├── routes/
+├── tests/
+├── vendor/
+├── composer.json
+├── composer.lock
+└── artisan
+
+# 3. Sensitive files (restricted access)
+/var/www/yourdomain/
+├── .env           # 600 permissions
+├── storage/logs/  # 775 permissions
+└── bootstrap/cache/ # 775 permissions
+
+# 4. Backup files (outside web root)
+/var/backups/yourdomain/
+├── database/
+└── files/
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Basic Firewall Rules</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">UFW (Uncomplicated Firewall)</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># Install UFW
+sudo apt install ufw
+
+# Enable UFW
+sudo ufw enable
+
+# Allow SSH (before enabling firewall!)
+sudo ufw allow ssh
+sudo ufw allow 22
+
+# Allow HTTP and HTTPS
+sudo ufw allow 80
+sudo ufw allow 443
+
+# Allow MySQL (if needed from specific IPs)
+sudo ufw allow from 192.168.1.0/24 to any port 3306
+
+# Deny everything else by default
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
+# Check status
+sudo ufw status verbose
+
+# View numbered rules
+sudo ufw status numbered
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">iptables (Advanced Configuration)</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash">#!/bin/bash
+# secure-firewall.sh - Configure iptables firewall
+
+# Flush existing rules
+iptables -F
+iptables -X
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+
+# Default policies
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+iptables -P OUTPUT ACCEPT
+
+# Allow loopback interface
+iptables -A INPUT -i lo -j ACCEPT
+
+# Allow established connections
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+# Allow SSH (rate limited)
+iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --set
+iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 4 -j DROP
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+# Allow HTTP
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+
+# Allow HTTPS
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+
+# Allow MySQL from specific IPs
+iptables -A INPUT -p tcp -s 192.168.1.0/24 --dport 3306 -j ACCEPT
+
+# Allow ping
+iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+
+# Log dropped packets
+iptables -A INPUT -j LOG --log-prefix &quot;Dropped: &quot; --log-level 4
+
+# Save rules
+sudo iptables-save &gt; /etc/iptables/rules.v4
+
+# Make persistent
+sudo apt install iptables-persistent
+sudo systemctl enable netfilter-persistent
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Fail2Ban Integration</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># Install Fail2Ban
+sudo apt install fail2ban
+
+# Configure SSH protection
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+
+# Edit /etc/fail2ban/jail.local
+[sshd]
+enabled = true
+port = ssh
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+bantime = 3600
+
+# Configure Apache protection
+[apache-noscript]
+enabled = true
+port = http,https
+filter = apache-noscript
+logpath = /var/log/apache2/error.log
+maxretry = 6
+
+[apache-badbots]
+enabled = true
+port = http,https
+filter = apache-badbots
+logpath = /var/log/apache2/access.log
+maxretry = 2
+
+# Restart Fail2Ban
+sudo systemctl restart fail2ban
+
+# Check status
+sudo fail2ban-client status
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Application-Level Firewall</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class ApplicationFirewall
+{
+    private array $blacklist = [];
+    private array $whitelist = [];
+
+    public function __construct()
+    {
+        // Load IP blacklists
+        $this-&gt;loadIPLists();
+    }
+
+    public function checkRequest(): bool
+    {
+        $clientIP = $_SERVER['REMOTE_ADDR'];
+        $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+
+        // Check IP blacklist
+        if ($this-&gt;isBlacklisted($clientIP)) {
+            $this-&gt;logBlockedRequest($clientIP, 'IP blacklist');
+            return false;
+        }
+
+        // Check suspicious user agents
+        if ($this-&gt;isSuspiciousUserAgent($userAgent)) {
+            $this-&gt;logBlockedRequest($clientIP, 'Suspicious user agent');
+            return false;
+        }
+
+        // Check for malicious patterns in URI
+        if ($this-&gt;containsMaliciousPatterns($requestUri)) {
+            $this-&gt;logBlockedRequest($clientIP, 'Malicious URI pattern');
+            return false;
+        }
+
+        return true;
+    }
+
+    private function loadIPLists(): void
+    {
+        // Load from files or database
+        $this-&gt;blacklist = [
+            '192.168.1.100', // Example blocked IP
+            '10.0.0.1',
+        ];
+
+        $this-&gt;whitelist = [
+            '192.168.1.0/24', // Local network
+        ];
+    }
+
+    private function isBlacklisted(string $ip): bool
+    {
+        return in_array($ip, $this-&gt;blacklist);
+    }
+
+    private function isSuspiciousUserAgent(string $userAgent): bool
+    {
+        $suspiciousPatterns = [
+            '/sqlmap/i',
+            '/nikto/i',
+            '/dirbuster/i',
+            '/acunetix/i',
+            '/nessus/i',
+        ];
+
+        foreach ($suspiciousPatterns as $pattern) {
+            if (preg_match($pattern, $userAgent)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function containsMaliciousPatterns(string $uri): bool
+    {
+        $maliciousPatterns = [
+            '/\.\./', // Directory traversal
+            '/&lt;script/i', // XSS attempts
+            '/union\s+select/i', // SQL injection
+            '/eval\(/i', // Code injection
+            '/base64_decode/i', // Obfuscation
+        ];
+
+        foreach ($maliciousPatterns as $pattern) {
+            if (preg_match($pattern, $uri)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function logBlockedRequest(string $ip, string $reason): void
+    {
+        $logEntry = sprintf(
+            &quot;[FIREWALL BLOCK] IP: %s, Reason: %s, URI: %s, User-Agent: %s, Time: %s\n&quot;,
+            $ip,
+            $reason,
+            $_SERVER['REQUEST_URI'] ?? '',
+            $_SERVER['HTTP_USER_AGENT'] ?? '',
+            date('Y-m-d H:i:s')
+        );
+
+        error_log($logEntry);
+    }
+}
+
+// Usage in application bootstrap
+$firewall = new ApplicationFirewall();
+if (!$firewall-&gt;checkRequest()) {
+    http_response_code(403);
+    echo &quot;Access Denied&quot;;
+    exit;
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Deployment Security Checklist</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">HTTPS Configuration</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">SSL/TLS certificates installed and valid</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">HTTP traffic redirected to HTTPS</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">HSTS headers configured</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Secure cipher suites enabled</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Certificate chain complete</span>
+</label>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">File Permissions</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Web server user has minimal permissions</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Sensitive files have restrictive permissions (.env = 600)</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Storage directories have proper permissions (775)</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">No world-writable files exist</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">File ownership is correct</span>
+</label>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">File Protection</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Sensitive files blocked from web access</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Version control files hidden</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Backup files not accessible</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">PHP error logs protected</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Composer files hidden</span>
+</label>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Firewall Configuration</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Unnecessary ports closed</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">SSH access restricted</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Database ports protected</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Rate limiting implemented</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Fail2Ban configured</span>
+</label>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Server Hardening</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Latest security patches applied</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Unnecessary services disabled</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Root login disabled</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">SSH key authentication enabled</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Automatic updates configured</span>
+</label>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Automated Deployment Scripts</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure Deployment Script</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash">#!/bin/bash
+# secure-deploy.sh
+
+set -e  # Exit on any error
+
+echo &quot; Starting secure deployment...&quot;
+
+# Pre-deployment checks
+echo &quot; Running pre-deployment checks...&quot;
+
+# Check if running as root (dangerous)
+if [ &quot;$EUID&quot; -eq 0 ]; then
+    echo &quot;[INSECURE] Do not run deployment as root&quot;
+    exit 1
+fi
+
+# Check disk space
+REQUIRED_SPACE=1000000  # 1GB in KB
+AVAILABLE_SPACE=$(df /var/www | tail -1 | awk '{print $4}')
+if [ &quot;$AVAILABLE_SPACE&quot; -lt &quot;$REQUIRED_SPACE&quot; ]; then
+    echo &quot;[INSECURE] Insufficient disk space&quot;
+    exit 1
+fi
+
+# Backup current deployment
+echo &quot; Creating backup...&quot;
+BACKUP_DIR=&quot;/var/backups/$(date +%Y%m%d_%H%M%S)&quot;
+sudo mkdir -p &quot;$BACKUP_DIR&quot;
+sudo cp -r /var/www/yourdomain &quot;$BACKUP_DIR/&quot;
+
+# Deploy application
+echo &quot; Deploying application...&quot;
+sudo cp -r /tmp/deployment/* /var/www/yourdomain/
+
+# Set secure permissions
+echo &quot; Setting secure permissions...&quot;
+sudo chown -R www-data:www-data /var/www/yourdomain
+sudo find /var/www/yourdomain -type f -exec chmod 644 {} \;
+sudo find /var/www/yourdomain -type d -exec chmod 755 {} \;
+sudo chmod 600 /var/www/yourdomain/.env
+sudo chmod 775 /var/www/yourdomain/storage
+sudo chmod 775 /var/www/yourdomain/bootstrap/cache
+
+# Install dependencies
+echo &quot; Installing dependencies...&quot;
+cd /var/www/yourdomain
+composer install --no-dev --optimize-autoloader
+npm ci --production
+
+# Run database migrations
+echo &quot; Running migrations...&quot;
+php artisan migrate --force
+
+# Clear and cache configuration
+echo &quot; Optimizing application...&quot;
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+php artisan event:cache
+
+# Install Node.js dependencies and build assets
+echo &quot; Building assets...&quot;
+npm run production
+
+# Run tests
+echo &quot; Running tests...&quot;
+if ! php artisan test --no-coverage; then
+    echo &quot;[INSECURE] Tests failed - rolling back...&quot;
+    sudo rm -rf /var/www/yourdomain
+    sudo mv &quot;$BACKUP_DIR/yourdomain&quot; /var/www/
+    exit 1
+fi
+
+# Health check
+echo &quot; Running health checks...&quot;
+if curl -f -s http://localhost/health-check &gt; /dev/null; then
+    echo &quot;[SECURE] Application health check passed&quot;
+else
+    echo &quot;[INSECURE] Application health check failed - rolling back...&quot;
+    sudo rm -rf /var/www/yourdomain
+    sudo mv &quot;$BACKUP_DIR/yourdomain&quot; /var/www/
+    exit 1
+fi
+
+# Clean up old backups (keep last 5)
+echo &quot; Cleaning up old backups...&quot;
+cd /var/backups
+ls -t | tail -n +6 | xargs -r sudo rm -rf
+
+# Restart services
+echo &quot; Restarting services...&quot;
+sudo systemctl reload nginx
+sudo systemctl reload php8.2-fpm
+
+# Log deployment
+echo &quot;$(date): Deployment completed successfully&quot; &gt;&gt; /var/log/deployments.log
+
+echo &quot; Secure deployment completed successfully!&quot;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Rollback Script</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash">#!/bin/bash
+# rollback.sh
+
+echo &quot; Starting rollback...&quot;
+
+# Find latest backup
+LATEST_BACKUP=$(ls -t /var/backups | head -1)
+
+if [ -z &quot;$LATEST_BACKUP&quot; ]; then
+    echo &quot;[INSECURE] No backup found&quot;
+    exit 1
+fi
+
+echo &quot; Rolling back to: $LATEST_BACKUP&quot;
+
+# Stop services
+sudo systemctl stop nginx
+sudo systemctl stop php8.2-fpm
+
+# Restore backup
+sudo rm -rf /var/www/yourdomain
+sudo cp -r &quot;/var/backups/$LATEST_BACKUP&quot; /var/www/yourdomain
+
+# Restart services
+sudo systemctl start php8.2-fpm
+sudo systemctl start nginx
+
+# Health check
+if curl -f -s http://localhost/health-check &gt; /dev/null; then
+    echo &quot;[SECURE] Rollback successful&quot;
+else
+    echo &quot;[INSECURE] Rollback failed - manual intervention required&quot;
+    exit 1
+fi
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Monitoring and Alerting</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Server Monitoring Setup</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># Install monitoring tools
+sudo apt install nagios-nrpe-server nagios-plugins
+sudo apt install prometheus node-exporter
+
+# Configure log monitoring
+sudo apt install logwatch
+sudo logwatch --detail high --mailto admin@yourdomain.com --range today
+
+# Set up automated security scans
+sudo apt install lynis
+sudo lynis audit system --cronjob
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Deployment Monitoring</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class DeploymentMonitor
+{
+    public static function logDeployment(array $details): void
+    {
+        $logEntry = [
+            'timestamp' =&gt; date('c'),
+            'type' =&gt; 'DEPLOYMENT',
+            'version' =&gt; $details['version'] ?? 'unknown',
+            'environment' =&gt; $details['environment'] ?? 'production',
+            'user' =&gt; $details['user'] ?? 'automated',
+            'duration' =&gt; $details['duration'] ?? 0,
+            'status' =&gt; $details['status'] ?? 'unknown',
+            'commit_hash' =&gt; $details['commit_hash'] ?? null,
+        ];
+
+        // Log to file
+        $jsonEntry = json_encode($logEntry, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        file_put_contents('/var/log/deployments.log', $jsonEntry . &quot;\n&quot;, FILE_APPEND | LOCK_EX);
+
+        // Send alert for failed deployments
+        if (($details['status'] ?? 'unknown') === 'failed') {
+            self::sendFailureAlert($details);
+        }
+    }
+
+    public static function checkPostDeploymentHealth(): array
+    {
+        $issues = [];
+
+        // Check file permissions
+        if (!self::checkFilePermissions()) {
+            $issues[] = 'File permissions incorrect after deployment';
+        }
+
+        // Check database connectivity
+        if (!self::checkDatabaseConnection()) {
+            $issues[] = 'Database connection failed';
+        }
+
+        // Check application responsiveness
+        if (!self::checkApplicationHealth()) {
+            $issues[] = 'Application health check failed';
+        }
+
+        return $issues;
+    }
+
+    private static function checkFilePermissions(): bool
+    {
+        $envFile = '/var/www/yourdomain/.env';
+        return file_exists($envFile) &amp;&amp; decoct(fileperms($envFile) &amp; 0777) === '600';
+    }
+
+    private static function checkDatabaseConnection(): bool
+    {
+        try {
+            $pdo = new PDO(
+                &quot;mysql:host=&quot; . getenv('DB_HOST') . &quot;;dbname=&quot; . getenv('DB_DATABASE'),
+                getenv('DB_USERNAME'),
+                getenv('DB_PASSWORD')
+            );
+            return true;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    private static function checkApplicationHealth(): bool
+    {
+        $context = stream_context_create([
+            'http' =&gt; [
+                'timeout' =&gt; 5,
+                'ignore_errors' =&gt; true
+            ]
+        ]);
+
+        $response = file_get_contents('http://localhost/health-check', false, $context);
+        return $response !== false &amp;&amp; strpos($response, 'OK') !== false;
+    }
+
+    private static function sendFailureAlert(array $details): void
+    {
+        $message = &quot; Deployment Failed\n\n&quot;;
+        $message .= &quot;Version: {$details['version']}\n&quot;;
+        $message .= &quot;Environment: {$details['environment']}\n&quot;;
+        $message .= &quot;Error: {$details['error'] ?? 'Unknown error'}\n&quot;;
+        $message .= &quot;Time: &quot; . date('Y-m-d H:i:s') . &quot;\n&quot;;
+
+        // Send email alert
+        mail(
+            getenv('ADMIN_EMAIL') ?: 'admin@yourdomain.com',
+            'Deployment Failure Alert',
+            $message
+        );
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Summary: Secure Deployment Rules</h2>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li><strong>Always use HTTPS</strong> - Redirect HTTP traffic and use strong SSL/TLS</li>
+<li><strong>Set restrictive file permissions</strong> - Follow principle of least privilege</li>
+<li><strong>Hide sensitive files</strong> - Block access to .env, logs, and configuration files</li>
+<li><strong>Configure firewall properly</strong> - Close unnecessary ports and implement rate limiting</li>
+<li><strong>Use automated deployment</strong> - Implement CI/CD with security checks</li>
+<li><strong>Monitor deployments</strong> - Log deployment activities and monitor health</li>
+<li><strong>Have rollback procedures</strong> - Be able to quickly revert problematic deployments</li>
+<li><strong>Regular security audits</strong> - Scan for vulnerabilities after deployment</li>
+<li><strong>Implement least privilege</strong> - Run services with minimal required permissions</li>
+<li><strong>Keep systems updated</strong> - Apply security patches regularly</li>
+</ol>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Next Steps</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Now that you understand secure deployment, explore:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong><a href="/security/laravel/api-security-basics.html">API Security Basics</a></strong> - Secure API authentication and rate limiting</li>
+<li><strong><a href="/security/laravel/error-handling-logging.html">Error Handling &amp; Logging</a></strong> - Secure error management</li>
+<li><strong><a href="/security/laravel/secure-deployment.html">Dependency Security</a></strong> - Secure package management</li>
+</ul>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Remember: Security is not just about code - deployment configuration is equally critical. A perfectly secure application can be compromised through misconfigured servers!</p>
+    </div>
+
+    <!-- Ask AI Assistant Row -->
+    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://chatgpt.com/?q=Secure+Deployment+Laravel+security+best+practices+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          ChatGPT &nearr;
+        </a>
+        <a href="https://www.perplexity.ai/search?q=Secure+Deployment+Laravel+PHP+8.4+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Perplexity &nearr;
+        </a>
+        <a href="https://claude.ai/new?q=Explain+Secure+Deployment+in+Laravel+applications+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Claude &nearr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
+      <div><a href="/security/laravel/secure-headers.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: Security Headers &amp; CSP Nonces</a></div>
+      <div><a href="/security/laravel/error-handling-logging.html" class="button-primary text-xs flex items-center gap-1.5">Next: Error Handling &amp; Security Logging &rarr;</a></div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

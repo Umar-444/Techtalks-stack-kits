@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSRF Protection — Laravel Security Masterclass</title>
+  <meta name="description" content="Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application in which they&#x27;re currently authenti">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/csrf-protection.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/csrf-protection.html">
+  <meta property="og:title" content="CSRF Protection — Laravel Security Masterclass">
+  <meta property="og:description" content="Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application in which they&#x27;re currently authenti">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="CSRF Protection — Laravel Security Masterclass">
+  <meta name="twitter:description" content="Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application in which they&#x27;re currently authenti">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "CSRF Protection",
+      "description": "Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application in which they're currently authenticated",
+      "author": {
+        "@type": "Person",
+        "name": "Umar Farooq",
+        "email": "contact@itsumarfarooq.com",
+        "url": "https://itsumarfarooq.com",
+        "jobTitle": "Senior Full-Stack & Security Engineer",
+        "sameAs": [
+          "https://github.com/umar-444",
+          "https://linkedin.com/in/umar444",
+          "https://x.com/umartechtalks",
+          "https://worldwebtree.com"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "UmarTechTalks",
+        "url": "https://techtalks.itsumarfarooq.com"
+      },
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://techtalks.itsumarfarooq.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Security Hub",
+          "item": "https://techtalks.itsumarfarooq.com/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Laravel Track",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "CSRF Protection",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/csrf-protection.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
+    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">CSRF Protection</span>
+    </nav>
+
+    <!-- Lesson Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 03</span>
+        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 09</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
+        CSRF Protection
+      </h1>
+      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+        <span>Curated by Umar Farooq</span>
+        <span>&bull;</span>
+        <span>13 min read</span>
+      </div>
+    </div>
+
+    <!-- Quick Answer Box -->
+    <div class="quick-answer">
+      <div class="quick-answer-badge">Quick Answer &amp; Core Takeaway</div>
+      <p class="text-ink dark:text-white font-medium text-[15px] leading-relaxed">
+        Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application in which they&#x27;re currently authenticated. CSRF attacks specifically target state-changing requests, not theft of data, since the attacker has no way to see the response to the forged request.
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="lesson-content my-8">
+      <h1>CSRF Protection</h1>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">What is CSRF?</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Cross-Site Request Forgery (CSRF) is an attack that forces an end user to execute unwanted actions on a web application in which they're currently authenticated. CSRF attacks specifically target state-changing requests, not theft of data, since the attacker has no way to see the response to the forged request.</p>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">How CSRF Works</h3>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li><strong>User Authentication</strong>: Victim logs into a trusted site (bank, email, social media)</li>
+<li><strong>Malicious Site</strong>: Victim visits attacker's malicious website</li>
+<li><strong>Forged Request</strong>: Malicious site sends request to trusted site using victim's credentials</li>
+<li><strong>Unwanted Action</strong>: Trusted site executes action thinking it's legitimate</li>
+</ol>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Real-World CSRF Examples</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Bank Transfer Attack</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-html">&lt;!-- Malicious website --&gt;
+&lt;img src=&quot;http://bank.com/transfer?to=attacker&amp;amount=1000&quot; style=&quot;display:none&quot;&gt;
+</code></pre>
+</div>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">When victim visits the malicious site, their browser automatically loads the image, which sends a GET request to transfer $1000 to the attacker.</p>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Social Media Attack</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-html">&lt;!-- Hidden form on malicious site --&gt;
+&lt;form action=&quot;http://socialmedia.com/follow&quot; method=&quot;POST&quot; style=&quot;display:none&quot;&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;user_id&quot; value=&quot;attacker_id&quot;&gt;
+&lt;/form&gt;
+&lt;script&gt;document.forms[0].submit();&lt;/script&gt;
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Email Unsubscribe Attack</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-html">&lt;!-- In malicious email or website --&gt;
+&lt;img src=&quot;http://newsletter.com/unsubscribe?user_id=12345&quot;&gt;
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">CSRF Attack Vectors</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. GET-based CSRF</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-html">&lt;img src=&quot;http://example.com/delete?id=123&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;http://example.com/delete?id=123&quot;&gt;
+&lt;script src=&quot;http://example.com/delete?id=123&quot;&gt;&lt;/script&gt;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. POST-based CSRF</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-html">&lt;form action=&quot;http://example.com/transfer&quot; method=&quot;POST&quot; id=&quot;csrf-form&quot;&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;to&quot; value=&quot;attacker&quot;&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;amount&quot; value=&quot;500&quot;&gt;
+&lt;/form&gt;
+&lt;script&gt;document.getElementById('csrf-form').submit();&lt;/script&gt;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. JSON-based CSRF (Modern APIs)</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-html">&lt;script&gt;
+fetch('/api/user/update', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({name: 'Hacked'})
+});
+&lt;/script&gt;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">4. Login CSRF</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-html">&lt;form action=&quot;http://example.com/login&quot; method=&quot;POST&quot;&gt;
+    &lt;input name=&quot;username&quot; value=&quot;victim_username&quot;&gt;
+    &lt;input name=&quot;password&quot; value=&quot;attacker_password&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Why CSRF Protection Matters</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Impact of CSRF Attacks</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Data Manipulation</strong>: Unauthorized changes to user data</li>
+<li><strong>Financial Loss</strong>: Unauthorized transactions or transfers</li>
+<li><strong>Account Takeover</strong>: Changing passwords or email addresses</li>
+<li><strong>Privacy Violation</strong>: Unauthorized posting or sharing</li>
+<li><strong>System Compromise</strong>: Escalating privileges or deleting data</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">CSRF vs XSS Comparison</h3>
+<div class="overflow-x-auto my-6 border border-surface-hairline dark:border-dark-border rounded-md shadow-soft"><table class="w-full text-left text-xs text-ink-secondary dark:text-dark-muted">
+<thead class="bg-surface-warm dark:bg-dark-surface text-ink dark:text-white font-semibold uppercase tracking-wider text-[11px] border-b border-surface-hairline dark:border-dark-border">
+<tr>
+<th class="px-4 py-3 border-b border-surface-hairline dark:border-dark-border">Aspect</th>
+<th class="px-4 py-3 border-b border-surface-hairline dark:border-dark-border">CSRF</th>
+<th class="px-4 py-3 border-b border-surface-hairline dark:border-dark-border">XSS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>Target</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Actions</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Data theft</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>Authentication</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Uses victim's session</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Bypasses authentication</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>User Interaction</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Victim visits malicious site</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Victim clicks malicious link</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>Prevention</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Anti-CSRF tokens</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Input validation &amp; output escaping</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>Scope</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">State-changing operations</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Any user-controllable output</td>
+</tr>
+</tbody>
+</table></div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">CSRF Protection Strategies</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Synchronizer Token Pattern (Recommended)</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">How It Works</h4>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li>Server generates unique token for each user session/form</li>
+<li>Token included in all state-changing requests</li>
+<li>Server validates token before processing request</li>
+<li>Tokens expire with session or have short lifetimes</li>
+</ol>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Implementation</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class CSRFTokenManager
+{
+    private const TOKEN_LENGTH = 32;
+    private const TOKEN_LIFETIME = 3600; // 1 hour
+
+    public static function generateToken(): string
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        $token = bin2hex(random_bytes(self::TOKEN_LENGTH));
+        $_SESSION['csrf_token'] = $token;
+        $_SESSION['csrf_token_time'] = time();
+
+        return $token;
+    }
+
+    public static function validateToken(string $token): bool
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Check if token exists
+        if (!isset($_SESSION['csrf_token'])) {
+            return false;
+        }
+
+        // Check token value
+        if (!hash_equals($_SESSION['csrf_token'], $token)) {
+            return false;
+        }
+
+        // Check token lifetime
+        if (isset($_SESSION['csrf_token_time'])) {
+            $tokenAge = time() - $_SESSION['csrf_token_time'];
+            if ($tokenAge &gt; self::TOKEN_LIFETIME) {
+                self::clearToken();
+                return false;
+            }
+        }
+
+        // Token is valid - clear it to prevent reuse
+        self::clearToken();
+        return true;
+    }
+
+    public static function getToken(): string
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Generate token if it doesn't exist or is expired
+        if (!isset($_SESSION['csrf_token']) ||
+            !isset($_SESSION['csrf_token_time']) ||
+            (time() - $_SESSION['csrf_token_time']) &gt; self::TOKEN_LIFETIME) {
+            return self::generateToken();
+        }
+
+        return $_SESSION['csrf_token'];
+    }
+
+    private static function clearToken(): void
+    {
+        unset($_SESSION['csrf_token'], $_SESSION['csrf_token_time']);
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. Double Submit Cookie Pattern</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">How It Works</h4>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li>Token stored in both session and cookie</li>
+<li>Client sends token in both cookie and POST data</li>
+<li>Server compares both values</li>
+</ol>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Implementation</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class DoubleSubmitCookieCSRF
+{
+    private const COOKIE_NAME = 'csrf_token';
+    private const TOKEN_LENGTH = 32;
+
+    public static function generateToken(): string
+    {
+        $token = bin2hex(random_bytes(self::TOKEN_LENGTH));
+
+        // Store in session
+        $_SESSION[self::COOKIE_NAME] = $token;
+
+        // Set httpOnly cookie
+        setcookie(self::COOKIE_NAME, $token, [
+            'httponly' =&gt; true,
+            'secure' =&gt; true,
+            'samesite' =&gt; 'Strict',
+            'path' =&gt; '/',
+        ]);
+
+        return $token;
+    }
+
+    public static function validateToken(string $token): bool
+    {
+        // Get token from session and cookie
+        $sessionToken = $_SESSION[self::COOKIE_NAME] ?? null;
+        $cookieToken = $_COOKIE[self::COOKIE_NAME] ?? null;
+
+        // Both must exist and match
+        if (!$sessionToken || !$cookieToken) {
+            return false;
+        }
+
+        // Use hash_equals for timing attack protection
+        return hash_equals($sessionToken, $token) &amp;&amp;
+               hash_equals($cookieToken, $token);
+    }
+
+    public static function getToken(): string
+    {
+        return $_SESSION[self::COOKIE_NAME] ?? self::generateToken();
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. Origin Header Validation</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">How It Works</h4>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li>Check <code>Origin</code> or <code>Referer</code> headers</li>
+<li>Ensure request comes from same origin</li>
+<li>Reject requests from different origins</li>
+</ol>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Implementation</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class OriginValidator
+{
+    public static function validateOrigin(string $allowedOrigin = null): bool
+    {
+        $allowedOrigin = $allowedOrigin ?? self::getCurrentOrigin();
+
+        // Check Origin header first (more reliable)
+        $origin = $_SERVER['HTTP_ORIGIN'] ?? null;
+        if ($origin) {
+            return self::isSameOrigin($origin, $allowedOrigin);
+        }
+
+        // Fallback to Referer header
+        $referer = $_SERVER['HTTP_REFERER'] ?? null;
+        if ($referer) {
+            return self::isSameOrigin($referer, $allowedOrigin);
+        }
+
+        // No origin headers - could be legitimate (curl, etc.)
+        // Consider rejecting or requiring additional validation
+        return false;
+    }
+
+    private static function getCurrentOrigin(): string
+    {
+        $scheme = isset($_SERVER['HTTPS']) &amp;&amp; $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        return $scheme . '://' . $host;
+    }
+
+    private static function isSameOrigin(string $url1, string $url2): bool
+    {
+        $parsed1 = parse_url($url1);
+        $parsed2 = parse_url($url2);
+
+        if (!$parsed1 || !$parsed2) {
+            return false;
+        }
+
+        return ($parsed1['scheme'] ?? '') === ($parsed2['scheme'] ?? '') &amp;&amp;
+               ($parsed1['host'] ?? '') === ($parsed2['host'] ?? '') &amp;&amp;
+               ($parsed1['port'] ?? null) === ($parsed2['port'] ?? null);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Laravel CSRF Protection</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Built-in CSRF Protection</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Laravel provides automatic CSRF protection through middleware.</p>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Configuration</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// In app/Http/Kernel.php
+protected $middlewareGroups = [
+    'web' =&gt; [
+        \App\Http\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \App\Http\Middleware\VerifyCsrfToken::class, // CSRF Protection
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+    ],
+];
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Using CSRF Tokens in Forms</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-blade">{{-- Laravel Blade template --}}
+&lt;form action=&quot;/post&quot; method=&quot;POST&quot;&gt;
+    @csrf  {{-- Laravel automatically generates and includes CSRF token --}}
+    &lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;
+    &lt;button type=&quot;submit&quot;&gt;Submit&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Manual CSRF Token Usage</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// In controller or view
+$token = csrf_token(); // Laravel helper
+
+// Or in Blade
+{{ csrf_token() }}
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">API CSRF Protection</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// For API routes, use Sanctum or Passport
+use Laravel\Sanctum\HasApiTokens;
+
+class User extends Authenticatable
+{
+    use HasApiTokens;
+}
+
+// In API routes
+Route::middleware('auth:sanctum')-&gt;group(function () {
+    Route::post('/user/profile', [UserController::class, 'update']);
+});
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Custom CSRF Middleware</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
+class CustomCsrfMiddleware
+{
+    public function handle(Request $request, Closure $next)
+    {
+        // Skip CSRF check for certain routes
+        if ($this-&gt;shouldSkipCsrfCheck($request)) {
+            return $next($request);
+        }
+
+        // Check CSRF token for state-changing methods
+        if ($this-&gt;isStateChangingMethod($request-&gt;method())) {
+            if (!$request-&gt;hasHeader('X-CSRF-TOKEN') &amp;&amp;
+                !$request-&gt;has('_token')) {
+                Log::warning('CSRF token missing', [
+                    'url' =&gt; $request-&gt;fullUrl(),
+                    'method' =&gt; $request-&gt;method(),
+                    'ip' =&gt; $request-&gt;ip(),
+                ]);
+                return response('CSRF token missing', 419);
+            }
+
+            $token = $request-&gt;header('X-CSRF-TOKEN') ??
+                    $request-&gt;input('_token');
+
+            if (!hash_equals($request-&gt;session()-&gt;token(), $token)) {
+                Log::warning('CSRF token mismatch', [
+                    'url' =&gt; $request-&gt;fullUrl(),
+                    'method' =&gt; $request-&gt;method(),
+                    'ip' =&gt; $request-&gt;ip(),
+                ]);
+                return response('CSRF token mismatch', 419);
+            }
+        }
+
+        return $next($request);
+    }
+
+    private function shouldSkipCsrfCheck(Request $request): bool
+    {
+        // Skip for API routes
+        if ($request-&gt;is('api/*')) {
+            return true;
+        }
+
+        // Skip for webhook endpoints
+        if ($request-&gt;is('webhooks/*')) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private function isStateChangingMethod(string $method): bool
+    {
+        return in_array(strtoupper($method), ['POST', 'PUT', 'PATCH', 'DELETE']);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">PHP Manual CSRF Protection</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Basic CSRF Protection Class</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class CSRFProtection
+{
+    private const TOKEN_NAME = '_csrf_token';
+    private const TOKEN_LENGTH = 32;
+    private const TOKEN_LIFETIME = 3600; // 1 hour
+
+    public static function init(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Generate token if needed
+        if (!isset($_SESSION[self::TOKEN_NAME]) ||
+            self::isTokenExpired()) {
+            self::generateToken();
+        }
+    }
+
+    public static function generateToken(): string
+    {
+        $token = bin2hex(random_bytes(self::TOKEN_LENGTH));
+        $_SESSION[self::TOKEN_NAME] = $token;
+        $_SESSION[self::TOKEN_NAME . '_time'] = time();
+        return $token;
+    }
+
+    public static function getToken(): string
+    {
+        self::init();
+        return $_SESSION[self::TOKEN_NAME];
+    }
+
+    public static function validateToken(string $token = null): bool
+    {
+        self::init();
+
+        // Get token from various sources
+        $token = $token ??
+                $_POST[self::TOKEN_NAME] ??
+                $_GET[self::TOKEN_NAME] ??
+                $_SERVER['HTTP_X_CSRF_TOKEN'] ??
+                '';
+
+        if (empty($token)) {
+            return false;
+        }
+
+        // Validate token
+        if (!isset($_SESSION[self::TOKEN_NAME]) ||
+            !hash_equals($_SESSION[self::TOKEN_NAME], $token)) {
+            return false;
+        }
+
+        // Check expiration
+        if (self::isTokenExpired()) {
+            self::clearToken();
+            return false;
+        }
+
+        // Token is valid - optionally clear it to prevent reuse
+        // self::clearToken();
+
+        return true;
+    }
+
+    private static function isTokenExpired(): bool
+    {
+        if (!isset($_SESSION[self::TOKEN_NAME . '_time'])) {
+            return true;
+        }
+
+        return (time() - $_SESSION[self::TOKEN_NAME . '_time']) &gt; self::TOKEN_LIFETIME;
+    }
+
+    private static function clearToken(): void
+    {
+        unset(
+            $_SESSION[self::TOKEN_NAME],
+            $_SESSION[self::TOKEN_NAME . '_time']
+        );
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Using CSRF Protection in Forms</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// Initialize CSRF protection
+CSRFProtection::init();
+?&gt;
+
+&lt;!-- HTML Form with CSRF Protection --&gt;
+&lt;form action=&quot;/transfer&quot; method=&quot;POST&quot;&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;_csrf_token&quot; value=&quot;&lt;?php echo CSRFProtection::getToken(); ?&gt;&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;to_account&quot; placeholder=&quot;Recipient Account&quot;&gt;
+    &lt;input type=&quot;number&quot; name=&quot;amount&quot; placeholder=&quot;Amount&quot;&gt;
+    &lt;button type=&quot;submit&quot;&gt;Transfer Money&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Protecting API Endpoints</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SecureAPIController
+{
+    public function handleRequest(): void
+    {
+        // Validate CSRF token for state-changing operations
+        if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+            if (!CSRFProtection::validateToken()) {
+                http_response_code(403);
+                echo json_encode(['error' =&gt; 'CSRF token validation failed']);
+                exit;
+            }
+        }
+
+        // Process request...
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">AJAX CSRF Protection</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-javascript">// JavaScript for AJAX requests
+function makeSecureRequest(url, data) {
+    // Add CSRF token to request
+    data._csrf_token = '&lt;?php echo CSRFProtection::getToken(); ?&gt;';
+
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': '&lt;?php echo CSRFProtection::getToken(); ?&gt;'
+        },
+        body: JSON.stringify(data)
+    });
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Advanced CSRF Protection Techniques</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Encrypted Tokens</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class EncryptedCSRFToken
+{
+    private static $key;
+
+    public static function setEncryptionKey(string $key): void
+    {
+        self::$key = $key;
+    }
+
+    public static function generateEncryptedToken(): string
+    {
+        $data = json_encode([
+            'token' =&gt; bin2hex(random_bytes(16)),
+            'timestamp' =&gt; time(),
+            'user_id' =&gt; $_SESSION['user_id'] ?? null,
+        ]);
+
+        return self::encrypt($data);
+    }
+
+    public static function validateEncryptedToken(string $encryptedToken): bool
+    {
+        $data = self::decrypt($encryptedToken);
+        if (!$data) return false;
+
+        $payload = json_decode($data, true);
+        if (!$payload) return false;
+
+        // Check timestamp (5 minute window)
+        if ((time() - $payload['timestamp']) &gt; 300) {
+            return false;
+        }
+
+        // Check user ID
+        if (isset($payload['user_id']) &amp;&amp;
+            $payload['user_id'] !== ($_SESSION['user_id'] ?? null)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static function encrypt(string $data): string
+    {
+        $iv = random_bytes(16);
+        $encrypted = openssl_encrypt($data, 'AES-256-CBC', self::$key, 0, $iv);
+        return base64_encode($iv . $encrypted);
+    }
+
+    private static function decrypt(string $data): ?string
+    {
+        $data = base64_decode($data);
+        if (strlen($data) &lt; 16) return null;
+
+        $iv = substr($data, 0, 16);
+        $encrypted = substr($data, 16);
+
+        return openssl_decrypt($encrypted, 'AES-256-CBC', self::$key, 0, $iv);
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. HMAC-Based Tokens</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class HMACCsrfToken
+{
+    private static $secret;
+
+    public static function setSecret(string $secret): void
+    {
+        self::$secret = $secret;
+    }
+
+    public static function generateHMACToken(): string
+    {
+        $data = [
+            'timestamp' =&gt; time(),
+            'user_id' =&gt; $_SESSION['user_id'] ?? 0,
+            'nonce' =&gt; bin2hex(random_bytes(8)),
+        ];
+
+        $message = json_encode($data);
+        $hmac = hash_hmac('sha256', $message, self::$secret);
+
+        return base64_encode(json_encode([
+            'data' =&gt; $data,
+            'hmac' =&gt; $hmac
+        ]));
+    }
+
+    public static function validateHMACToken(string $token): bool
+    {
+        $payload = json_decode(base64_decode($token), true);
+        if (!$payload || !isset($payload['data'], $payload['hmac'])) {
+            return false;
+        }
+
+        $message = json_encode($payload['data']);
+        $expectedHmac = hash_hmac('sha256', $message, self::$secret);
+
+        if (!hash_equals($expectedHmac, $payload['hmac'])) {
+            return false;
+        }
+
+        // Check timestamp (5 minute window)
+        if ((time() - $payload['data']['timestamp']) &gt; 300) {
+            return false;
+        }
+
+        return true;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">CSRF Protection for Different Frameworks</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">CodeIgniter CSRF Protection</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// In config.php
+$config['csrf_protection'] = TRUE;
+$config['csrf_token_name'] = 'csrf_token_name';
+$config['csrf_cookie_name'] = 'csrf_cookie_name';
+$config['csrf_expire'] = 7200; // 2 hours
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Symfony CSRF Protection</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// In controller
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
+
+class MyController extends AbstractController
+{
+    public function submitForm(Request $request, CsrfTokenManager $csrfTokenManager)
+    {
+        $token = new CsrfToken('form_token', $request-&gt;request-&gt;get('_token'));
+
+        if (!$csrfTokenManager-&gt;isTokenValid($token)) {
+            throw new Exception('CSRF token is invalid');
+        }
+
+        // Process form...
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Testing CSRF Protection</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Manual Testing</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-html">&lt;!-- Test form without CSRF token --&gt;
+&lt;form action=&quot;/transfer&quot; method=&quot;POST&quot;&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;to&quot; value=&quot;attacker&quot;&gt;
+    &lt;input type=&quot;hidden&quot; name=&quot;amount&quot; value=&quot;100&quot;&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Test CSRF&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Automated Testing</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class CSRFProtectionTest
+{
+    public function testCSRFProtection(): void
+    {
+        // Start session
+        CSRFProtection::init();
+
+        // Test token generation
+        $token = CSRFProtection::getToken();
+        $this-&gt;assertNotEmpty($token);
+        $this-&gt;assertEquals(64, strlen($token)); // 32 bytes hex encoded
+
+        // Test token validation
+        $this-&gt;assertTrue(CSRFProtection::validateToken($token));
+
+        // Test invalid token
+        $this-&gt;assertFalse(CSRFProtection::validateToken('invalid_token'));
+
+        // Test token reuse (if one-time tokens)
+        // $this-&gt;assertFalse(CSRFProtection::validateToken($token));
+    }
+
+    public function testLaravelCSRF(): void
+    {
+        // Test Laravel CSRF token
+        $token = csrf_token();
+        $this-&gt;assertNotEmpty($token);
+
+        // Test form with CSRF token
+        $response = $this-&gt;post('/protected-endpoint', [
+            '_token' =&gt; $token,
+            'data' =&gt; 'test'
+        ]);
+
+        $response-&gt;assertStatus(200);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Common CSRF Vulnerabilities</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Missing CSRF Protection</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// VULNERABLE: No CSRF protection
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $userId = $_SESSION['user_id'];
+    $newEmail = $_POST['email'];
+
+    // Update email without CSRF check
+    updateUserEmail($userId, $newEmail);
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. Weak Token Generation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// VULNERABLE: Predictable tokens
+$token = md5($_SESSION['user_id'] . time()); // Predictable
+
+// BETTER but still vulnerable to timing attacks
+$token = md5(uniqid(mt_rand(), true));
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. Token in URL Parameters</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// PROBLEMATIC: Token in URL (logged in access logs)
+$form = &quot;&lt;form action='/action?_csrf_token={$token}' method='POST'&gt;&quot;;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">4. Missing Origin Validation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// WEAK: Only checking Referer (can be spoofed)
+$referer = $_SERVER['HTTP_REFERER'];
+if (strpos($referer, 'trusted-domain.com') === false) {
+    die('CSRF detected');
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">CSRF Protection Best Practices</h2>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li><strong>Use Synchronizer Tokens</strong>: Generate unique tokens per request/session</li>
+<li><strong>Validate Origin Headers</strong>: Check Origin and Referer headers</li>
+<li><strong>Use Secure Tokens</strong>: Cryptographically secure random tokens</li>
+<li><strong>Implement Token Expiration</strong>: Tokens should expire</li>
+<li><strong>Use HTTPS</strong>: Prevents token interception</li>
+<li><strong>Validate on Server</strong>: Client-side validation can be bypassed</li>
+<li><strong>Log CSRF Attempts</strong>: Monitor and alert on suspicious activity</li>
+<li><strong>Use Framework Features</strong>: Leverage built-in CSRF protection</li>
+<li><strong>Test Thoroughly</strong>: Include CSRF testing in security audits</li>
+<li><strong>Keep Updated</strong>: Stay current with security best practices</li>
+</ol>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Summary</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">CSRF attacks exploit the trust between users and web applications. The most effective protection combines:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Anti-CSRF tokens</strong> in all state-changing forms</li>
+<li><strong>Origin header validation</strong> for additional security</li>
+<li><strong>Proper session management</strong> to prevent fixation</li>
+<li><strong>Framework-provided protections</strong> (Laravel's built-in CSRF)</li>
+</ul>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Remember: CSRF protection is essential for any application that maintains user sessions and processes state-changing requests.</p>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Next Steps</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Now that you understand CSRF protection, explore:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong><a href="/security/laravel/xss-protection.html">XSS Protection</a></strong> - Prevent cross-site scripting attacks</li>
+<li><strong><a href="/security/laravel/session-security.html">Session Security</a></strong> - Secure session management</li>
+<li><strong><a href="/security/laravel/input-handling.html">Input Handling</a></strong> - Validate and sanitize user input</li>
+</ul>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">CSRF protection is a critical component of web application security. Implement it consistently across all user-facing forms and API endpoints!</p>
+    </div>
+
+    <!-- Ask AI Assistant Row -->
+    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://chatgpt.com/?q=CSRF+Protection+Laravel+security+best+practices+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          ChatGPT &nearr;
+        </a>
+        <a href="https://www.perplexity.ai/search?q=CSRF+Protection+Laravel+PHP+8.4+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Perplexity &nearr;
+        </a>
+        <a href="https://claude.ai/new?q=Explain+CSRF+Protection+in+Laravel+applications+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Claude &nearr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
+      <div><a href="/security/laravel/xss-protection.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: Cross-Site Scripting (XSS) Defense</a></div>
+      <div><a href="/security/laravel/file-uploads.html" class="button-primary text-xs flex items-center gap-1.5">Next: Secure File Uploads &rarr;</a></div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

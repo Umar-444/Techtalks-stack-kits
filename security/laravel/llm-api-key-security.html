@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LLM API Key and Cost Security in Laravel — Laravel Security Masterclass</title>
+  <meta name="description" content="LLM cost security protects applications from financial denial-of-wallet attacks and credential leaks. In Laravel, API keys must remain strictly server-side">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/llm-api-key-security.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/llm-api-key-security.html">
+  <meta property="og:title" content="LLM API Key and Cost Security in Laravel — Laravel Security Masterclass">
+  <meta property="og:description" content="LLM cost security protects applications from financial denial-of-wallet attacks and credential leaks. In Laravel, API keys must remain strictly server-side">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="LLM API Key and Cost Security in Laravel — Laravel Security Masterclass">
+  <meta name="twitter:description" content="LLM cost security protects applications from financial denial-of-wallet attacks and credential leaks. In Laravel, API keys must remain strictly server-side">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "LLM API Key and Cost Security in Laravel",
+      "description": "LLM cost security protects applications from financial denial-of-wallet attacks and credential leaks. In Laravel, API keys must remain strictly server-side (sto",
+      "author": {
+        "@type": "Person",
+        "name": "Umar Farooq",
+        "email": "contact@itsumarfarooq.com",
+        "url": "https://itsumarfarooq.com",
+        "jobTitle": "Senior Full-Stack & Security Engineer",
+        "sameAs": [
+          "https://github.com/umar-444",
+          "https://linkedin.com/in/umar444",
+          "https://x.com/umartechtalks",
+          "https://worldwebtree.com"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "UmarTechTalks",
+        "url": "https://techtalks.itsumarfarooq.com"
+      },
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://techtalks.itsumarfarooq.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Security Hub",
+          "item": "https://techtalks.itsumarfarooq.com/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Laravel Track",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "LLM API Key and Cost Security in Laravel",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/llm-api-key-security.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
+    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">LLM API Key and Cost Security in Laravel</span>
+    </nav>
+
+    <!-- Lesson Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 05</span>
+        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 14</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
+        LLM API Key and Cost Security in Laravel
+      </h1>
+      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+        <span>Curated by Umar Farooq</span>
+        <span>&bull;</span>
+        <span>5 min read</span>
+      </div>
+    </div>
+
+    <!-- Quick Answer Box -->
+    <div class="quick-answer">
+      <div class="quick-answer-badge">Quick Answer &amp; Core Takeaway</div>
+      <p class="text-ink dark:text-white font-medium text-[15px] leading-relaxed">
+        LLM cost security protects applications from financial denial-of-wallet attacks and credential leaks. In Laravel, API keys must remain strictly server-side (stored in encrypted environment configurations, never bundled into frontend assets). Every AI endpoint requires granular per-tenant token budgets, strict sliding-window rate limiting via Redis, and automatic circuit breakers that halt traffic when unexpected token spikes occur.
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="lesson-content my-8">
+      <h1>LLM API Key and Cost Security in Laravel</h1>
+<div class="callout callout-info my-4">
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Last reviewed: 2026-10. Applies to: PHP 8.4+, Laravel 11.x – 13.x.</p>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Quick Answer</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">LLM cost security protects applications from financial denial-of-wallet attacks and credential leaks. In Laravel, API keys must remain strictly server-side (stored in encrypted environment configurations, never bundled into frontend assets). Every AI endpoint requires granular per-tenant token budgets, strict sliding-window rate limiting via Redis, and automatic circuit breakers that halt traffic when unexpected token spikes occur.</p>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Threat Model</h2>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Attacker Profile</strong>: Malicious actors exploiting public endpoints, compromised customer accounts, or bots conducting high-frequency LLM generation loops.</li>
+<li><strong>Attack Vectors</strong>:</li>
+<li><strong>Exposed Keys</strong>: Committing OpenAI/Anthropic/Google keys in Git or exposing them in frontend Vue/Inertia props.</li>
+<li><strong>Denial-of-Wallet (Billing Attack)</strong>: Looping high-context prompt requests with maximum <code>max_tokens</code> set to drain enterprise API quotas.</li>
+<li><strong>Noisy Neighbor Tenant</strong>: A single tenant overwhelming a shared API tier, causing service failure for all other customers.</li>
+<li><strong>Impact &amp; Cost</strong>: Thousands of dollars in unbudgeted cloud invoices, account suspension by AI providers, and application downtime.</li>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Vulnerable Example</h2>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+
+declare(strict_types=1);
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
+class VulnerableAiChatController extends Controller
+{
+    /**
+     * [INSECURE]: No rate limiting, unbounded token limits, and keys loaded directly from raw env.
+     */
+    public function chat(Request $request)
+    {
+        // Vulnerable: no user quota check, no maximum token constraint
+        $prompt = (string) $request-&gt;input('message');
+
+        $response = Http::withToken((string) env('OPENAI_API_KEY'))
+            -&gt;post('https://api.openai.com/v1/chat/completions', [
+                'model' =&gt; 'gpt-4o',
+                'messages' =&gt; [['role' =&gt; 'user', 'content' =&gt; $prompt]],
+            ]);
+
+        return response()-&gt;json($response-&gt;json());
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Secure Implementation</h2>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+
+declare(strict_types=1);
+
+namespace App\Services\Ai;
+
+use App\Models\User;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use RuntimeException;
+
+final class SecureLlmBillingGuardService
+{
+    private const int DAILY_USER_TOKEN_LIMIT = 50_000;
+    private const int MAX_OUTPUT_TOKENS = 1_000;
+
+    /**
+     * [SECURE]: Budget verification, enforced output limits, and usage tracking.
+     */
+    public function executeBudgetedPrompt(User $user, string $systemPrompt, string $userMessage): string
+    {
+        $todayKey = 'ai_usage:' . $user-&gt;id . ':' . now()-&gt;format('Y-m-d');
+        $usedTokens = (int) Cache::get($todayKey, 0);
+
+        if ($usedTokens &gt;= self::DAILY_USER_TOKEN_LIMIT) {
+            Log::warning('User exceeded daily AI token quota', [
+                'user_id' =&gt; $user-&gt;id,
+                'used_tokens' =&gt; $usedTokens,
+            ]);
+            throw new RuntimeException('Daily AI token quota reached. Please upgrade or try again tomorrow.');
+        }
+
+        $apiKey = config('services.openai.key');
+        if (!is_string($apiKey) || empty($apiKey)) {
+            throw new RuntimeException('OpenAI API key is missing or not configured.');
+        }
+
+        $response = Http::withToken($apiKey)
+            -&gt;timeout(20)
+            -&gt;post('https://api.openai.com/v1/chat/completions', [
+                'model' =&gt; 'gpt-4o-mini',
+                'max_tokens' =&gt; self::MAX_OUTPUT_TOKENS, // Enforce strict upper bound
+                'messages' =&gt; [
+                    ['role' =&gt; 'system', 'content' =&gt; $systemPrompt],
+                    ['role' =&gt; 'user', 'content' =&gt; $userMessage],
+                ],
+            ]);
+
+        if (!$response-&gt;successful()) {
+            Log::error('AI Provider Error', ['status' =&gt; $response-&gt;status(), 'body' =&gt; $response-&gt;body()]);
+            throw new RuntimeException('Upstream AI service error.');
+        }
+
+        $totalUsedInCall = (int) $response-&gt;json('usage.total_tokens', 500);
+
+        // Atomically update user daily token usage
+        Cache::increment($todayKey, $totalUsedInCall);
+        Cache::put($todayKey, Cache::get($todayKey), now()-&gt;endOfDay());
+
+        return (string) $response-&gt;json('choices.0.message.content');
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Laravel-Specific Notes</h2>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Configuration Caching</strong>: Always reference <code>config('services.openai.key')</code> rather than <code>env()</code>. In production, <code>php artisan config:cache</code> prevents <code>env()</code> calls from returning null.</li>
+<li><strong>Middleware Rate Limiting</strong>: In <code>bootstrap/app.php</code>, configure a custom rate limiter:<br />
+<code>php
+  RateLimiter::for('ai-endpoints', function (Request $request) {
+      return Limit::perMinute(10)-&gt;by($request-&gt;user()?-&gt;id ?: $request-&gt;ip());
+  });</code></li>
+<li><strong>Webhook Spend Alerts</strong>: Set hard monthly spending caps directly inside your OpenAI/Anthropic organization console.</li>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Checklist</h2>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">API keys are stored in <code>.env</code> and accessed strictly through <code>config(...)</code> (never passed to frontend).</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Every LLM request specifies an explicit <code>max_tokens</code> parameter.</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Endpoints are protected by rate limiting in <code>bootstrap/app.php</code>.</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Token usage is recorded and checked against per-user or per-organization daily spend caps.</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Hard billing caps and automated alerts are configured in the AI provider dashboard.</span>
+</label>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Further Reading</h2>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><a href="https://genai.owasp.org/llm-top-10/">OWASP Top 10 for LLM Applications (LLM04: Model Denial of Service)</a></li>
+<li><a href="https://laravel.com/docs/13.x/cache">Laravel Cache &amp; Atomic Locks Documentation</a></li>
+<li><a href="https://laravel.com/docs/13.x/routing#rate-limiting">Laravel Rate Limiting Documentation</a></li>
+</ul>
+    </div>
+
+    <!-- Ask AI Assistant Row -->
+    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://chatgpt.com/?q=LLM+API+Key+and+Cost+Security+in+Laravel+Laravel+security+best+practices+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          ChatGPT &nearr;
+        </a>
+        <a href="https://www.perplexity.ai/search?q=LLM+API+Key+and+Cost+Security+in+Laravel+Laravel+PHP+8.4+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Perplexity &nearr;
+        </a>
+        <a href="https://claude.ai/new?q=Explain+LLM+API+Key+and+Cost+Security+in+Laravel+in+Laravel+applications+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Claude &nearr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
+      <div><a href="/security/laravel/prompt-injection.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: Prompt Injection Defense</a></div>
+      <div><a href="/security/laravel/rag-tenant-isolation.html" class="button-primary text-xs flex items-center gap-1.5">Next: RAG Multi-Tenant Isolation &rarr;</a></div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

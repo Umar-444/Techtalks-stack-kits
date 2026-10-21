@@ -1,0 +1,58 @@
+# UmarTechTalks — Complete Software Security & AI Masterclass
+
+> Website: https://techtalks.itsumarfarooq.com
+> Author: Umar Farooq (Senior Full-Stack & Security Engineer, 5+ years experience)
+> Portfolio: https://itsumarfarooq.com
+> GitHub: https://github.com/umar-444
+> GitHub Masterclass Repo: https://github.com/Umar-444/Techtalks-stack-kits
+> X / Twitter: https://x.com/umartechtalks
+> LinkedIn: https://linkedin.com/in/umar444
+> Email: contact@itsumarfarooq.com
+> Company: Worldwebtree.com (https://worldwebtree.com)
+
+## About UmarTechTalks
+UmarTechTalks is an enterprise static knowledge hub providing production-ready software engineering standards, web security playbooks, and AI threat defense masterclasses. The flagship track covers PHP 8.4 and Laravel 13 web security and LLM integrations.
+
+---
+
+## Complete Curriculum Directory
+
+### Hubs & Tools
+- https://techtalks.itsumarfarooq.com/ — Main Hub
+- https://techtalks.itsumarfarooq.com/security/ — Security Masterclass Directory
+- https://techtalks.itsumarfarooq.com/security/laravel/ — Laravel AI Security Track
+- https://techtalks.itsumarfarooq.com/security/laravel/checklist.html — Master 28-Point Security Checklist
+
+### Track 01: Foundations & Architecture
+- https://techtalks.itsumarfarooq.com/security/laravel/secure-coding-basics.html — Secure coding fundamentals, defense-in-depth, and principle of least privilege.
+- https://techtalks.itsumarfarooq.com/security/laravel/php-security.html — Modern PHP 8.4 security features: readonly classes, typed properties, and Fibers.
+- https://techtalks.itsumarfarooq.com/security/laravel/laravel-security.html — Laravel 13 pipeline security, bootstrap/app.php middleware, Precognition, and Reverb.
+
+### Track 02: Authentication & Password Security
+- https://techtalks.itsumarfarooq.com/security/laravel/password-handling.html — NIST SP 800-63B standards, Argon2id parameters, and FIDO2 Passkeys / WebAuthn.
+- https://techtalks.itsumarfarooq.com/security/laravel/session-security.html — Session fixation mitigation, secure cookie attributes, and Redis session storage.
+
+### Track 03: Input Handling & Attack Prevention
+- https://techtalks.itsumarfarooq.com/security/laravel/input-handling.html — Zero-trust input filtering, FormRequest validation rules, and UTF-8 normalization.
+- https://techtalks.itsumarfarooq.com/security/laravel/sql-injection.html — Defeating SQL injection with Eloquent query bindings, safe whereRaw, and PDO parameterization.
+- https://techtalks.itsumarfarooq.com/security/laravel/xss-protection.html — Blade automatic escaping, innerHTML defense, context-aware escaping, and DOM sanitization.
+- https://techtalks.itsumarfarooq.com/security/laravel/csrf-protection.html — CSRF tokens, AJAX headers, SameSite cookie mechanics, and webhook exemptions.
+- https://techtalks.itsumarfarooq.com/security/laravel/file-uploads.html — MIME verification, polyglot file detection, private cloud disk storage, and filename hashing.
+
+### Track 04: API Security (OWASP API Top 10)
+- https://techtalks.itsumarfarooq.com/security/laravel/api-security-basics.html — Sanctum 4.x token authorization, BOLA/IDOR prevention, rate limiting, and mass assignment.
+- https://techtalks.itsumarfarooq.com/security/laravel/common-vulnerabilities.html — Broken authentication, SSRF allowlisting, and unrestricted resource consumption.
+
+### Track 05: AI & LLM Threat Defenses
+- https://techtalks.itsumarfarooq.com/security/laravel/prompt-injection.html — Cryptographic boundary nonces, role segregation, and prompt injection defense.
+- https://techtalks.itsumarfarooq.com/security/laravel/llm-api-key-security.html — API key protection, Redis sliding-window token budgets, and Denial of Wallet mitigation.
+- https://techtalks.itsumarfarooq.com/security/laravel/rag-tenant-isolation.html — Vector database tenant isolation with pgvector and Eloquent access controls.
+- https://techtalks.itsumarfarooq.com/security/laravel/agent-tool-sandboxing.html — Autonomous agent tool allowlists, Laravel Gate policies, and Human-in-the-Loop gates.
+- https://techtalks.itsumarfarooq.com/security/laravel/pii-redaction.html — Reversible PII tokenization for Saudi National IDs, emails, phones, and Saudi PDPL compliance.
+- https://techtalks.itsumarfarooq.com/security/laravel/model-output-validation.html — JSON Schema validation with PHP 8.4 json_validate() and second-order injection defense.
+
+### Track 06: Hardening, Deployment & Compliance
+- https://techtalks.itsumarfarooq.com/security/laravel/secure-configuration.html — Environment variable protection, OPcache tuning, debug mode risks, and secret vaults.
+- https://techtalks.itsumarfarooq.com/security/laravel/secure-headers.html — Content Security Policy with nonces, HSTS preloading, COOP, COEP, and headers.
+- https://techtalks.itsumarfarooq.com/security/laravel/secure-deployment.html — TLS 1.3 ciphers, ECDSA P-256 / RSA 4096 keys, Linux permissions, Fail2Ban, and firewalls.
+- https://techtalks.itsumarfarooq.com/security/laravel/error-handling-logging.html — Masking stack traces in production, structured JSON security audit trails, and SIEM alerting.

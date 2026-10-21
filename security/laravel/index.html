@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laravel AI Security Masterclass — PHP 8.4 &amp; Laravel 13</title>
+  <meta name="description" content="Production guide and runnable code for securing Laravel web applications and AI features. Covers prompt injection, RAG isolation, Passkeys, and OWASP 2026.">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/">
+  <meta property="og:title" content="Laravel AI Security Masterclass — PHP 8.4 &amp; Laravel 13">
+  <meta property="og:description" content="Production guide and runnable code for securing Laravel web applications and AI features.">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="Laravel AI Security Masterclass — PHP 8.4 &amp; Laravel 13">
+  <meta name="twitter:description" content="Production guide and runnable code for securing Laravel web applications and AI features.">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Laravel AI Security Masterclass",
+  "description": "Comprehensive security and AI defense curriculum for modern PHP 8.4 and Laravel 13 web applications.",
+  "provider": {
+    "@type": "Person",
+    "name": "Umar Farooq",
+    "email": "contact@itsumarfarooq.com",
+    "url": "https://itsumarfarooq.com"
+  }
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 py-12 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">Laravel Track</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="mb-12">
+      <div class="chip-blue mb-4">
+        Complete 6-Track Curriculum &bull; 22 Lessons
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-ink dark:text-white tracking-[-0.035em]">
+        Laravel AI Security Masterclass
+      </h1>
+      <p class="text-ink-secondary dark:text-dark-muted mt-4 max-w-3xl text-base sm:text-lg leading-relaxed">
+        Production-tested playbooks, concrete threat models, and runnable hardened PHP 8.4 &amp; Laravel 13 code. Designed for developers building high-stakes web applications and enterprise AI systems.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="/security/laravel/secure-coding-basics.html" class="button-primary text-sm px-5 h-[42px]">
+          Start First Lesson &rarr;
+        </a>
+        <a href="/security/laravel/checklist.html" class="button-secondary text-sm px-5 h-[42px]">
+          Master 28-Point Checklist
+        </a>
+      </div>
+    </div>
+
+    <!-- Curriculum Modules -->
+    <div class="my-10">
+      <div class="flex items-center gap-3 mb-5 border-b border-surface-hairline dark:border-dark-border pb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 01</span>
+        <h2 class="text-xl font-bold text-ink dark:text-white">Track 01 Modules</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <a href="/security/laravel/secure-coding-basics.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 01</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Secure Coding Basics
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Fundamental security principles, defense-in-depth, least privilege, and secure SDLC in PHP.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/php-security.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 02</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              PHP 8.4 Security Features
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Modern PHP 8.4 security: readonly classes, typed properties, Fibers, and memory safety.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/laravel-security.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 03</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Laravel 13 Architecture Security
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Laravel 13 security pipeline, bootstrap/app.php middleware, Precognition, and Reverb channels.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="my-10">
+      <div class="flex items-center gap-3 mb-5 border-b border-surface-hairline dark:border-dark-border pb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 02</span>
+        <h2 class="text-xl font-bold text-ink dark:text-white">Track 02 Modules</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <a href="/security/laravel/password-handling.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 04</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Password Handling &amp; Passkeys
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              NIST SP 800-63B standards, Argon2id parameters, and passwordless FIDO2 WebAuthn Passkeys.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/session-security.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 05</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Session Security &amp; Fixation Defense
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Session fixation mitigation, secure cookie flags, session hijacking defense, and Redis storage.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="my-10">
+      <div class="flex items-center gap-3 mb-5 border-b border-surface-hairline dark:border-dark-border pb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 03</span>
+        <h2 class="text-xl font-bold text-ink dark:text-white">Track 03 Modules</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <a href="/security/laravel/input-handling.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 06</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Input Handling &amp; Sanitization
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Zero-trust input filtering, strict FormRequest validation rules, and UTF-8 normalization.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/sql-injection.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 07</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              SQL Injection Prevention
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Defeating SQL injection with Eloquent query bindings, safe whereRaw, and PDO parameterization.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/xss-protection.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 08</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Cross-Site Scripting (XSS) Defense
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Blade automatic HTML-escaping, innerHTML hazards, context-aware escaping, and DOM sanitization.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/csrf-protection.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 09</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              CSRF Protection &amp; SameSite Cookies
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Synchronizer tokens, AJAX CSRF headers, SameSite cookie mechanics, and webhook exemptions.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/file-uploads.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 10</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Secure File Uploads
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              MIME verification, polyglot file detection, private cloud disk storage, and filename hashing.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="my-10">
+      <div class="flex items-center gap-3 mb-5 border-b border-surface-hairline dark:border-dark-border pb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 04</span>
+        <h2 class="text-xl font-bold text-ink dark:text-white">Track 04 Modules</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <a href="/security/laravel/api-security-basics.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 11</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              API Security &amp; OWASP API Top 10
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Sanctum 4.x token authorization, BOLA/IDOR prevention, rate limiting, and mass assignment.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/common-vulnerabilities.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 12</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Common API Exploits &amp; SSRF
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Deep dive into broken authentication, SSRF allowlisting, and unrestricted resource consumption.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="my-10">
+      <div class="flex items-center gap-3 mb-5 border-b border-surface-hairline dark:border-dark-border pb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 05</span>
+        <h2 class="text-xl font-bold text-ink dark:text-white">Track 05 Modules</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <a href="/security/laravel/prompt-injection.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 13</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Prompt Injection Defense
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Direct &amp; indirect prompt injection defense, system/user role separation, and boundary nonces.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/llm-api-key-security.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 14</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              LLM API Key &amp; Cost Security
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              API key protection, Redis sliding-window token budgets, and Denial of Wallet mitigation.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/rag-tenant-isolation.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 15</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              RAG Multi-Tenant Isolation
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Vector database tenant filtering with pgvector and Eloquent access controls.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/agent-tool-sandboxing.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 16</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Agent Tool Sandboxing
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Autonomous agent tool allowlists, Laravel Gate policies, and human approval gates.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/pii-redaction.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 17</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              PII Redaction Pipeline
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Reversible tokenization for Saudi National IDs, emails, phones, and Saudi PDPL compliance.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/model-output-validation.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 18</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Model Output Validation
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Treating model outputs as untrusted: JSON schema validation and second-order injection defense.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="my-10">
+      <div class="flex items-center gap-3 mb-5 border-b border-surface-hairline dark:border-dark-border pb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 06</span>
+        <h2 class="text-xl font-bold text-ink dark:text-white">Track 06 Modules</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <a href="/security/laravel/secure-configuration.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 19</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Secure Configuration &amp; Environment
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Environment variable protection, OPcache tuning, debug mode risks, and secret vaults.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/secure-headers.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 20</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Security Headers &amp; CSP Nonces
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Content Security Policy with nonces, HSTS preloading, COOP, COEP, and modern headers.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/secure-deployment.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 21</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Secure Server Deployment &amp; TLS 1.3
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              TLS 1.3 ciphers, ECDSA P-256 / RSA 4096 keys, Linux permissions, Fail2Ban, and firewalls.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+        <a href="/security/laravel/error-handling-logging.html" class="card-interactive p-5 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono text-ink-muted mb-2.5">
+              <span class="chip-blue text-[11px] px-2 py-0.5">Lesson 22</span>
+              <span>10 min read</span>
+            </div>
+            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-1.5 leading-snug">
+              Error Handling &amp; Security Logging
+            </h3>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted leading-relaxed line-clamp-2">
+              Masking stack traces in production, structured JSON security audit trails, and SIEM alerting.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Read Lesson</span> &rarr;
+          </div>
+        </a>
+      </div>
+    </div>
+
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

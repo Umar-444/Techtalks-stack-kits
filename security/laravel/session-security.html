@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session Security — Laravel Security Masterclass</title>
+  <meta name="description" content="Sessions allow web applications to maintain state across multiple HTTP requests. They enable features like user authentication, shopping carts, and persona">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/session-security.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/session-security.html">
+  <meta property="og:title" content="Session Security — Laravel Security Masterclass">
+  <meta property="og:description" content="Sessions allow web applications to maintain state across multiple HTTP requests. They enable features like user authentication, shopping carts, and persona">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="Session Security — Laravel Security Masterclass">
+  <meta name="twitter:description" content="Sessions allow web applications to maintain state across multiple HTTP requests. They enable features like user authentication, shopping carts, and persona">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Session Security",
+      "description": "Sessions allow web applications to maintain state across multiple HTTP requests. They enable features like user authentication, shopping carts, and personalized",
+      "author": {
+        "@type": "Person",
+        "name": "Umar Farooq",
+        "email": "contact@itsumarfarooq.com",
+        "url": "https://itsumarfarooq.com",
+        "jobTitle": "Senior Full-Stack & Security Engineer",
+        "sameAs": [
+          "https://github.com/umar-444",
+          "https://linkedin.com/in/umar444",
+          "https://x.com/umartechtalks",
+          "https://worldwebtree.com"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "UmarTechTalks",
+        "url": "https://techtalks.itsumarfarooq.com"
+      },
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://techtalks.itsumarfarooq.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Security Hub",
+          "item": "https://techtalks.itsumarfarooq.com/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Laravel Track",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Session Security",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/session-security.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
+    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">Session Security</span>
+    </nav>
+
+    <!-- Lesson Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 02</span>
+        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 05</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
+        Session Security
+      </h1>
+      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+        <span>Curated by Umar Farooq</span>
+        <span>&bull;</span>
+        <span>11 min read</span>
+      </div>
+    </div>
+
+    <!-- Quick Answer Box -->
+    <div class="quick-answer">
+      <div class="quick-answer-badge">Quick Answer &amp; Core Takeaway</div>
+      <p class="text-ink dark:text-white font-medium text-[15px] leading-relaxed">
+        Sessions allow web applications to maintain state across multiple HTTP requests. They enable features like user authentication, shopping carts, and personalized experiences. However, poorly managed sessions are a common attack vector.
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="lesson-content my-8">
+      <h1>Session Security</h1>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">What are Sessions?</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Sessions allow web applications to maintain state across multiple HTTP requests. They enable features like user authentication, shopping carts, and personalized experiences. However, poorly managed sessions are a common attack vector.</p>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Session Mechanics</h3>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li><strong>Session Creation</strong>: Server generates a unique session ID</li>
+<li><strong>Cookie Storage</strong>: Session ID stored in browser cookie</li>
+<li><strong>Data Storage</strong>: Session data stored on server</li>
+<li><strong>Data Retrieval</strong>: Server uses session ID to retrieve user data</li>
+</ol>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Session Attack Vectors</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Session Hijacking</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Attackers steal session IDs to impersonate legitimate users.</p>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Methods:</h4>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Network Sniffing</strong>: Intercepting unencrypted traffic</li>
+<li><strong>XSS Attacks</strong>: Stealing session cookies via JavaScript</li>
+<li><strong>Session Fixation</strong>: Tricking users into using attacker-controlled session IDs</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. Session Fixation</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Attacker sets victim's session ID before they authenticate.</p>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// VULNERABLE: Accepting user-provided session ID
+if (isset($_GET['session_id'])) {
+    session_id($_GET['session_id']); // DANGER!
+    session_start();
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. Session Poisoning</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Manipulating session data to escalate privileges or bypass security.</p>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">4. Session Riding (CSRF)</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Using victim's active session to perform unwanted actions.</p>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Secure Session Configuration</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">PHP Session Security Settings</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// Secure session configuration
+ini_set('session.cookie_secure', '1');      // HTTPS only
+ini_set('session.cookie_httponly', '1');    // Prevent XSS theft
+ini_set('session.cookie_samesite', 'Strict'); // CSRF protection
+ini_set('session.use_only_cookies', '1');   // No URL sessions
+ini_set('session.cookie_lifetime', '0');    // Session cookies (expire on browser close)
+ini_set('session.gc_maxlifetime', '1440');  // 24 minutes server-side timeout
+ini_set('session.cookie_domain', 'example.com'); // Domain restriction
+ini_set('session.cookie_path', '/');        // Path restriction
+
+// Start session with custom name
+session_name('SECURE_APP_SESSION');
+session_start();
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Session Configuration</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">In <code>config/session.php</code>:</p>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+return [
+    'driver' =&gt; env('SESSION_DRIVER', 'file'),
+    'lifetime' =&gt; env('SESSION_LIFETIME', 120), // 2 hours
+    'expire_on_close' =&gt; true,
+    'encrypt' =&gt; true, // Laravel encrypts session data
+    'path' =&gt; '/',
+    'domain' =&gt; env('SESSION_DOMAIN', null),
+    'secure' =&gt; env('SESSION_SECURE_COOKIE', true), // HTTPS only
+    'http_only' =&gt; true, // Prevent XSS
+    'same_site' =&gt; 'strict', // CSRF protection
+];
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Secure Cookies</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Cookie Security Attributes</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Secure Flag</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// Only send cookie over HTTPS
+setcookie('session_id', $sessionId, [
+    'secure' =&gt; true,
+    'httponly' =&gt; true,
+    'samesite' =&gt; 'Strict'
+]);
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">HttpOnly Flag</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// Prevent JavaScript access to cookies
+setcookie('session_id', $sessionId, [
+    'secure' =&gt; true,
+    'httponly' =&gt; true, // JavaScript cannot read this cookie
+    'samesite' =&gt; 'Strict'
+]);
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">SameSite Attribute</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// CSRF protection
+setcookie('session_id', $sessionId, [
+    'secure' =&gt; true,
+    'httponly' =&gt; true,
+    'samesite' =&gt; 'Strict' // Lax or Strict
+]);
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Cookie Scope Limitations</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// Limit cookie to specific domain and path
+setcookie('session_id', $sessionId, [
+    'expires' =&gt; time() + 3600,
+    'path' =&gt; '/app/',     // Only for /app/ paths
+    'domain' =&gt; 'app.example.com', // Only for this subdomain
+    'secure' =&gt; true,
+    'httponly' =&gt; true,
+    'samesite' =&gt; 'Strict'
+]);
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Session ID Security</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Session ID Generation</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Weak Session IDs [INSECURE]</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// PREDICTABLE - Don't do this!
+session_id('session_' . time());
+session_id('session_' . rand(1000, 9999));
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Strong Session IDs [SECURE]</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// PHP generates secure random session IDs automatically
+session_start(); // Uses cryptographically secure random bytes
+
+// Or generate custom secure IDs
+$secureId = bin2hex(random_bytes(32)); // 64 character hex string
+session_id($secureId);
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Session ID Regeneration</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">When to Regenerate Session IDs</h4>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li><strong>After Login</strong> - Prevents session fixation</li>
+<li><strong>After Logout</strong> - Clears old session</li>
+<li><strong>Periodically</strong> - Reduces hijacking window</li>
+<li><strong>After Privilege Changes</strong> - Role escalation</li>
+</ol>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SecureSessionManager
+{
+    public static function login($userId, $username)
+    {
+        // CRITICAL: Regenerate session ID after successful login
+        session_regenerate_id(true);
+
+        $_SESSION['user_id'] = $userId;
+        $_SESSION['username'] = $username;
+        $_SESSION['login_time'] = time();
+        $_SESSION['ip_address'] = $_SERVER['REMOTE_ADDR'];
+        $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'] ?? '';
+    }
+
+    public static function logout()
+    {
+        // Clear session data
+        $_SESSION = [];
+
+        // Delete session cookie
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time() - 3600, '/', '', true, true);
+        }
+
+        // Destroy session
+        session_destroy();
+
+        // Start new session to prevent session fixation
+        session_start();
+        session_regenerate_id(true);
+    }
+
+    public static function validateSession()
+    {
+        // Check session timeout (30 minutes)
+        if (isset($_SESSION['login_time']) &amp;&amp;
+            (time() - $_SESSION['login_time']) &gt; 1800) {
+            self::logout();
+            return false;
+        }
+
+        // Optional: Check IP address consistency
+        if (isset($_SESSION['ip_address']) &amp;&amp;
+            $_SESSION['ip_address'] !== $_SERVER['REMOTE_ADDR']) {
+            error_log('IP address changed for session: ' . session_id());
+            self::logout();
+            return false;
+        }
+
+        // Optional: Check user agent consistency
+        if (isset($_SESSION['user_agent']) &amp;&amp;
+            $_SESSION['user_agent'] !== ($_SERVER['HTTP_USER_AGENT'] ?? '')) {
+            error_log('User agent changed for session: ' . session_id());
+            self::logout();
+            return false;
+        }
+
+        return true;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Session Data Management</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">What NOT to Store in Sessions</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Sensitive Data [INSECURE]</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// DANGER: Never store sensitive data in sessions
+$_SESSION['password'] = $userPassword;      // Passwords
+$_SESSION['credit_card'] = $ccNumber;       // Payment info
+$_SESSION['ssn'] = $socialSecurityNumber;   // PII
+$_SESSION['api_key'] = $secretApiKey;       // Secrets
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Large Data [INSECURE]</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// PROBLEMATIC: Large data in sessions
+$_SESSION['user_profile'] = $largeUserObject;  // Memory issues
+$_SESSION['file_contents'] = file_get_contents('large_file.txt'); // Performance
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">What to Store in Sessions [SECURE]</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// SAFE: Store only identifiers and flags
+$_SESSION['user_id'] = $user-&gt;id;
+$_SESSION['username'] = $user-&gt;username;
+$_SESSION['role'] = $user-&gt;role;
+$_SESSION['login_time'] = time();
+$_SESSION['csrf_token'] = generateCSRFToken();
+$_SESSION['permissions'] = ['read', 'write']; // Simple arrays OK
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure Session Data Handling</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SessionDataHandler
+{
+    /**
+     * Safely get session value with default
+     */
+    public static function get(string $key, $default = null)
+    {
+        return $_SESSION[$key] ?? $default;
+    }
+
+    /**
+     * Safely set session value with type checking
+     */
+    public static function set(string $key, $value): void
+    {
+        // Basic type validation
+        if (is_object($value) || is_resource($value)) {
+            throw new InvalidArgumentException('Cannot store objects or resources in session');
+        }
+
+        $_SESSION[$key] = $value;
+    }
+
+    /**
+     * Remove session value
+     */
+    public static function remove(string $key): void
+    {
+        unset($_SESSION[$key]);
+    }
+
+    /**
+     * Check if session key exists
+     */
+    public static function has(string $key): bool
+    {
+        return isset($_SESSION[$key]);
+    }
+
+    /**
+     * Get all session data (for debugging only)
+     */
+    public static function all(): array
+    {
+        return $_SESSION;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Session Storage Security</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">File-Based Sessions (Default PHP)</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// Configure secure session file storage
+ini_set('session.save_path', '/var/secure/sessions'); // Secure directory
+chmod('/var/secure/sessions', 0730); // Restrictive permissions
+
+// Only the web server should access session files
+// chown www-data:www-data /var/secure/sessions
+// chmod 600 /var/secure/sessions/sess_*
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Database Session Storage</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class DatabaseSessionHandler implements SessionHandlerInterface
+{
+    private $pdo;
+    private $table = 'sessions';
+
+    public function __construct(PDO $pdo)
+    {
+        $this-&gt;pdo = $pdo;
+        $this-&gt;createTable();
+    }
+
+    private function createTable(): void
+    {
+        $this-&gt;pdo-&gt;exec(&quot;
+            CREATE TABLE IF NOT EXISTS {$this-&gt;table} (
+                id VARCHAR(128) PRIMARY KEY,
+                data TEXT NOT NULL,
+                last_access TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                ip_address VARCHAR(45),
+                user_agent TEXT,
+                INDEX idx_last_access (last_access)
+            )
+        &quot;);
+    }
+
+    public function open($savePath, $sessionName): bool
+    {
+        return true;
+    }
+
+    public function close(): bool
+    {
+        return true;
+    }
+
+    public function read($sessionId): string
+    {
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;
+            SELECT data FROM {$this-&gt;table}
+            WHERE id = ? AND last_access &gt; DATE_SUB(NOW(), INTERVAL 24 HOUR)
+        &quot;);
+        $stmt-&gt;execute([$sessionId]);
+        $result = $stmt-&gt;fetch(PDO::FETCH_ASSOC);
+
+        return $result ? $result['data'] : '';
+    }
+
+    public function write($sessionId, $data): bool
+    {
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;
+            INSERT INTO {$this-&gt;table} (id, data, ip_address, user_agent, last_access)
+            VALUES (?, ?, ?, ?, NOW())
+            ON DUPLICATE KEY UPDATE
+                data = VALUES(data),
+                ip_address = VALUES(ip_address),
+                user_agent = VALUES(user_agent),
+                last_access = NOW()
+        &quot;);
+
+        return $stmt-&gt;execute([
+            $sessionId,
+            $data,
+            $_SERVER['REMOTE_ADDR'] ?? '',
+            $_SERVER['HTTP_USER_AGENT'] ?? ''
+        ]);
+    }
+
+    public function destroy($sessionId): bool
+    {
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;DELETE FROM {$this-&gt;table} WHERE id = ?&quot;);
+        return $stmt-&gt;execute([$sessionId]);
+    }
+
+    public function gc($maxLifetime): int
+    {
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;
+            DELETE FROM {$this-&gt;table}
+            WHERE last_access &lt; DATE_SUB(NOW(), INTERVAL ? SECOND)
+        &quot;);
+        $stmt-&gt;execute([$maxLifetime]);
+        return $stmt-&gt;rowCount();
+    }
+}
+
+// Usage
+$handler = new DatabaseSessionHandler($pdo);
+session_set_save_handler($handler, true);
+session_start();
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Redis Session Storage</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// Using Redis for session storage
+ini_set('session.save_handler', 'redis');
+ini_set('session.save_path', 'tcp://127.0.0.1:6379?auth=your_password');
+
+// Or with phpredis extension
+$redis = new Redis();
+$redis-&gt;connect('127.0.0.1', 6379);
+$redis-&gt;auth('your_password');
+
+// Set key prefix for security
+ini_set('session.save_path', 'tcp://127.0.0.1:6379/app_sessions');
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Laravel Session Security</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Session Configuration</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// config/session.php - Secure configuration
+return [
+    'driver' =&gt; 'database', // Or 'redis' for better performance
+    'lifetime' =&gt; 120,      // 2 hours
+    'expire_on_close' =&gt; true,
+    'encrypt' =&gt; true,      // Laravel encrypts all session data
+    'path' =&gt; '/',
+    'domain' =&gt; '.example.com', // Subdomain support
+    'secure' =&gt; true,       // HTTPS only
+    'http_only' =&gt; true,    // XSS protection
+    'same_site' =&gt; 'strict', // CSRF protection
+];
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Session Usage</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
+class AuthController extends Controller
+{
+    public function login(Request $request)
+    {
+        // Validate credentials...
+
+        // Regenerate session ID (Laravel does this automatically on login)
+        // But you can force it if needed
+        $request-&gt;session()-&gt;regenerate();
+
+        // Store user data
+        Session::put('user_id', $user-&gt;id);
+        Session::put('username', $user-&gt;username);
+        Session::put('role', $user-&gt;role);
+
+        return redirect('/dashboard');
+    }
+
+    public function logout(Request $request)
+    {
+        // Laravel's Auth::logout() handles session cleanup
+        auth()-&gt;logout();
+
+        $request-&gt;session()-&gt;invalidate();
+        $request-&gt;session()-&gt;regenerateToken();
+
+        return redirect('/');
+    }
+
+    public function dashboard(Request $request)
+    {
+        // Check authentication
+        if (!Session::has('user_id')) {
+            return redirect('/login');
+        }
+
+        // Get session data
+        $userId = Session::get('user_id');
+        $username = Session::get('username');
+
+        return view('dashboard', compact('username'));
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Middleware for Session Security</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
+class SessionSecurityMiddleware
+{
+    public function handle(Request $request, Closure $next)
+    {
+        // Check session timeout
+        if (Session::has('last_activity')) {
+            $inactiveTime = time() - Session::get('last_activity');
+            if ($inactiveTime &gt; config('session.lifetime') * 60) {
+                auth()-&gt;logout();
+                Session::flush();
+                return redirect('/login')-&gt;with('message', 'Session expired');
+            }
+        }
+
+        // Update last activity
+        Session::put('last_activity', time());
+
+        // Check IP address consistency (optional)
+        if (Session::has('ip_address')) {
+            if (Session::get('ip_address') !== $request-&gt;ip()) {
+                // Log suspicious activity
+                \Log::warning('IP address changed', [
+                    'session_id' =&gt; Session::getId(),
+                    'old_ip' =&gt; Session::get('ip_address'),
+                    'new_ip' =&gt; $request-&gt;ip(),
+                    'user_agent' =&gt; $request-&gt;userAgent()
+                ]);
+
+                // Optional: Force re-authentication
+                // auth()-&gt;logout();
+                // Session::flush();
+                // return redirect('/login')-&gt;with('message', 'Security alert');
+            }
+        } else {
+            Session::put('ip_address', $request-&gt;ip());
+        }
+
+        return $next($request);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Session Security Monitoring</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Logging Session Events</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SessionLogger
+{
+    public static function logSessionEvent(string $event, array $data = []): void
+    {
+        $logData = array_merge($data, [
+            'session_id' =&gt; session_id(),
+            'ip_address' =&gt; $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+            'user_agent' =&gt; $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
+            'timestamp' =&gt; date('Y-m-d H:i:s'),
+            'uri' =&gt; $_SERVER['REQUEST_URI'] ?? 'unknown',
+        ]);
+
+        error_log(&quot;SESSION {$event}: &quot; . json_encode($logData));
+    }
+
+    public static function logLogin(string $username): void
+    {
+        self::logSessionEvent('LOGIN_SUCCESS', ['username' =&gt; $username]);
+    }
+
+    public static function logFailedLogin(string $username): void
+    {
+        self::logSessionEvent('LOGIN_FAILED', ['username' =&gt; $username]);
+    }
+
+    public static function logLogout(string $username = null): void
+    {
+        self::logSessionEvent('LOGOUT', ['username' =&gt; $username]);
+    }
+
+    public static function logSuspiciousActivity(string $reason): void
+    {
+        self::logSessionEvent('SUSPICIOUS', ['reason' =&gt; $reason]);
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Session Analytics</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SessionAnalytics
+{
+    private $pdo;
+
+    public function __construct(PDO $pdo)
+    {
+        $this-&gt;pdo = $pdo;
+    }
+
+    public function trackSession(string $sessionId, string $userId = null): void
+    {
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;
+            INSERT INTO session_tracking (session_id, user_id, ip_address, user_agent, created_at)
+            VALUES (?, ?, ?, ?, NOW())
+            ON DUPLICATE KEY UPDATE last_activity = NOW()
+        &quot;);
+
+        $stmt-&gt;execute([
+            $sessionId,
+            $userId,
+            $_SERVER['REMOTE_ADDR'] ?? '',
+            $_SERVER['HTTP_USER_AGENT'] ?? ''
+        ]);
+    }
+
+    public function getActiveSessions(): array
+    {
+        $stmt = $this-&gt;pdo-&gt;query(&quot;
+            SELECT * FROM session_tracking
+            WHERE last_activity &gt; DATE_SUB(NOW(), INTERVAL 30 MINUTE)
+            ORDER BY last_activity DESC
+        &quot;);
+
+        return $stmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function detectAnomalies(): array
+    {
+        // Detect multiple sessions from same IP with different user agents
+        $stmt = $this-&gt;pdo-&gt;query(&quot;
+            SELECT ip_address, COUNT(DISTINCT user_agent) as agent_count,
+                   GROUP_CONCAT(DISTINCT user_id) as users
+            FROM session_tracking
+            WHERE last_activity &gt; DATE_SUB(NOW(), INTERVAL 1 HOUR)
+            GROUP BY ip_address
+            HAVING agent_count &gt; 2 AND COUNT(*) &gt; 3
+        &quot;);
+
+        return $stmt-&gt;fetchAll(PDO::FETCH_ASSOC);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Security Best Practices Summary</h2>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li><strong>Use HTTPS</strong> - Always encrypt session traffic</li>
+<li><strong>Secure Cookies</strong> - Set secure, httponly, samesite flags</li>
+<li><strong>Regenerate Session IDs</strong> - After login/logout and periodically</li>
+<li><strong>Validate Sessions</strong> - Check timeouts and consistency</li>
+<li><strong>Avoid Sensitive Data</strong> - Don't store passwords, keys, or large objects</li>
+<li><strong>Monitor Sessions</strong> - Log and analyze session activity</li>
+<li><strong>Use Secure Storage</strong> - Database or Redis over file-based sessions</li>
+<li><strong>Implement Timeouts</strong> - Both idle and absolute session timeouts</li>
+<li><strong>Validate Requests</strong> - Check IP/user agent consistency</li>
+<li><strong>Clean Up</strong> - Properly destroy sessions on logout</li>
+</ol>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Next Steps</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Now that you understand session security, explore:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong><a href="/security/laravel/csrf-protection.html">CSRF Protection</a></strong> - Prevent cross-site request forgery</li>
+<li><strong><a href="/security/laravel/xss-protection.html">XSS Protection</a></strong> - Prevent cross-site scripting attacks</li>
+<li><strong><a href="/security/laravel/password-handling.html">Authentication &amp; Password Handling</a></strong> - Complete user security</li>
+</ul>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Remember: Sessions are a critical security component. Implement these practices to protect your users and prevent session-based attacks!</p>
+    </div>
+
+    <!-- Ask AI Assistant Row -->
+    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://chatgpt.com/?q=Session+Security+Laravel+security+best+practices+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          ChatGPT &nearr;
+        </a>
+        <a href="https://www.perplexity.ai/search?q=Session+Security+Laravel+PHP+8.4+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Perplexity &nearr;
+        </a>
+        <a href="https://claude.ai/new?q=Explain+Session+Security+in+Laravel+applications+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Claude &nearr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
+      <div><a href="/security/laravel/password-handling.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: Password Handling &amp; Passkeys</a></div>
+      <div><a href="/security/laravel/input-handling.html" class="button-primary text-xs flex items-center gap-1.5">Next: Input Handling &amp; Sanitization &rarr;</a></div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

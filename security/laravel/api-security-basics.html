@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Security Basics — Laravel 13 / PHP 8.4 — Laravel Security Masterclass</title>
+  <meta name="description" content="APIs are the backbone of modern web applications, enabling communication between different systems, mobile apps, and third-party services. However, APIs ar">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/api-security-basics.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/api-security-basics.html">
+  <meta property="og:title" content="API Security Basics — Laravel 13 / PHP 8.4 — Laravel Security Masterclass">
+  <meta property="og:description" content="APIs are the backbone of modern web applications, enabling communication between different systems, mobile apps, and third-party services. However, APIs ar">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="API Security Basics — Laravel 13 / PHP 8.4 — Laravel Security Masterclass">
+  <meta name="twitter:description" content="APIs are the backbone of modern web applications, enabling communication between different systems, mobile apps, and third-party services. However, APIs ar">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "API Security Basics \u2014 Laravel 13 / PHP 8.4",
+      "description": "APIs are the backbone of modern web applications, enabling communication between different systems, mobile apps, and third-party services. However, APIs are pri",
+      "author": {
+        "@type": "Person",
+        "name": "Umar Farooq",
+        "email": "contact@itsumarfarooq.com",
+        "url": "https://itsumarfarooq.com",
+        "jobTitle": "Senior Full-Stack & Security Engineer",
+        "sameAs": [
+          "https://github.com/umar-444",
+          "https://linkedin.com/in/umar444",
+          "https://x.com/umartechtalks",
+          "https://worldwebtree.com"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "UmarTechTalks",
+        "url": "https://techtalks.itsumarfarooq.com"
+      },
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://techtalks.itsumarfarooq.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Security Hub",
+          "item": "https://techtalks.itsumarfarooq.com/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Laravel Track",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "API Security Basics \u2014 Laravel 13 / PHP 8.4",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/api-security-basics.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
+    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">API Security Basics — Laravel 13 / PHP 8.4</span>
+    </nav>
+
+    <!-- Lesson Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 04</span>
+        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 11</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
+        API Security Basics — Laravel 13 / PHP 8.4
+      </h1>
+      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+        <span>Curated by Umar Farooq</span>
+        <span>&bull;</span>
+        <span>20 min read</span>
+      </div>
+    </div>
+
+    <!-- Quick Answer Box -->
+    <div class="quick-answer">
+      <div class="quick-answer-badge">Quick Answer &amp; Core Takeaway</div>
+      <p class="text-ink dark:text-white font-medium text-[15px] leading-relaxed">
+        APIs are the backbone of modern web applications, enabling communication between different systems, mobile apps, and third-party services. However, APIs are prime targets for attackers due to their:
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="lesson-content my-8">
+      <h1>API Security Basics — Laravel 13 / PHP 8.4</h1>
+<div class="callout callout-info my-4">
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]"><strong>Updated:</strong> October 2026 — Aligned with <strong>OWASP API Security Top 10 (2023 edition)</strong> and Laravel 13 / Sanctum 4.x.</p>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Why API Security Matters</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">APIs are the backbone of modern web applications, enabling communication between different systems, mobile apps, and third-party services. However, APIs are prime targets for attackers due to their:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Direct data access</strong> - APIs often provide direct access to sensitive data</li>
+<li><strong>High-value targets</strong> - APIs typically contain business logic and data</li>
+<li><strong>Public exposure</strong> - APIs are designed to be accessible from external sources</li>
+<li><strong>Complex attack surface</strong> - APIs handle various input formats and authentication methods</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">API Security Statistics (2025)</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>95%</strong> of organizations experienced API security incidents in the past year</li>
+<li><strong>83%</strong> of web traffic is API-based</li>
+<li><strong>Over 50%</strong> of attacks now target APIs specifically (Cloudflare 2025 report)</li>
+<li><strong>Average cost</strong> of API data breach: $4.87 million (IBM 2025)</li>
+</ul>
+<hr />
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">[CRITICAL] OWASP API Security Top 10 — 2023 Edition</h2>
+<div class="callout callout-info my-4">
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">The <strong>2019 list is outdated</strong>. Use the <strong>2023 edition</strong> for all security reviews.</p>
+</div>
+<div class="overflow-x-auto my-6 border border-surface-hairline dark:border-dark-border rounded-md shadow-soft"><table class="w-full text-left text-xs text-ink-secondary dark:text-dark-muted">
+<thead class="bg-surface-warm dark:bg-dark-surface text-ink dark:text-white font-semibold uppercase tracking-wider text-[11px] border-b border-surface-hairline dark:border-dark-border">
+<tr>
+<th class="px-4 py-3 border-b border-surface-hairline dark:border-dark-border">#</th>
+<th class="px-4 py-3 border-b border-surface-hairline dark:border-dark-border">Risk</th>
+<th class="px-4 py-3 border-b border-surface-hairline dark:border-dark-border">Description</th>
+<th class="px-4 py-3 border-b border-surface-hairline dark:border-dark-border">Laravel Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API1:2023</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Broken Object Level Authorization</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Accessing another user's data via ID manipulation</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Validate ownership in every controller action with <code>Policy</code></td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API2:2023</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Broken Authentication</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Weak or missing authentication</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Use Sanctum 4.x / Passport — never roll custom token schemes</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API3:2023</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Broken Object Property Level Authorization</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Exposing internal fields via mass assignment</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Use <code>$fillable</code> strictly — <code>$guarded = []</code> is forbidden</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API4:2023</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Unrestricted Resource Consumption</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">No rate limiting — DoS or abuse</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><code>RateLimiter::for()</code> with per-user and per-IP limits</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API5:2023</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Broken Function Level Authorization</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Accessing admin functions without authorization</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Gates/Policies on every sensitive endpoint</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API6:2023</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Unrestricted Access to Sensitive Business Flows</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Abusing multi-step flows (e.g., checkout, password reset)</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Multi-step flow protection + rate limiting on flows</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API7:2023</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Server Side Request Forgery (SSRF)</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Making the server fetch internal URLs via user input</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Validate and allowlist all outbound URLs</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API8:2023</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Security Misconfiguration</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Debug mode on, version headers exposed, CORS open</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><code>APP_DEBUG=false</code>, remove <code>X-Powered-By</code>, strict CORS</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API9:2023</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Improper Inventory Management</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Undocumented shadow APIs, old API versions running</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">API versioning, remove unused routes, document everything</td>
+</tr>
+<tr>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API10:2023</strong></td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Unsafe Consumption of APIs</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Trusting third-party API responses without validation</td>
+<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Validate and sanitize all external API data</td>
+</tr>
+</tbody>
+</table></div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">API1:2023 — Broken Object Level Authorization (Laravel Example)</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Http\Controllers\Api;
+
+use App\Models\Invoice;
+use Illuminate\Http\Request;
+
+class InvoiceController extends Controller
+{
+    public function show(Request $request, int $invoiceId)
+    {
+        $invoice = Invoice::findOrFail($invoiceId);
+
+        // [SECURE] Always authorize ownership — NEVER just find by ID
+        $this-&gt;authorize('view', $invoice);
+
+        return response()-&gt;json($invoice);
+    }
+
+    // [INSECURE] VULNERABLE — no ownership check
+    public function showVulnerable(int $invoiceId)
+    {
+        return Invoice::findOrFail($invoiceId); // Any user can access any invoice
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">API3:2023 — Broken Object Property Level Authorization (Laravel Example)</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// app/Models/User.php
+class User extends Model
+{
+    // [SECURE] Explicit allowlist — only these fields can be mass-assigned
+    protected $fillable = ['name', 'email', 'password'];
+
+    // [INSECURE] These fields are protected and never in $fillable:
+    // 'is_admin', 'role', 'email_verified_at', 'two_factor_secret'
+}
+
+// app/Http/Controllers/Api/UserController.php
+public function update(Request $request)
+{
+    $validated = $request-&gt;validate([
+        'name'  =&gt; ['required', 'string', 'max:255'],
+        'email' =&gt; ['required', 'email:rfc,dns'],
+        // [SECURE] Never accept 'is_admin', 'role', or sensitive fields from input
+    ]);
+
+    auth()-&gt;user()-&gt;update($validated);
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">API4:2023 — Unrestricted Resource Consumption (Laravel Rate Limiting)</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// routes/api.php — Laravel 13 Rate Limiting
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Cache\RateLimiting\Limit;
+
+RateLimiter::for('api', function (Request $request) {
+    return $request-&gt;user()
+        ? Limit::perMinute(120)-&gt;by($request-&gt;user()-&gt;id)
+        : Limit::perMinute(20)-&gt;by($request-&gt;ip());
+});
+
+// Stricter limit for auth endpoints
+RateLimiter::for('auth', function (Request $request) {
+    return [
+        Limit::perMinute(5)-&gt;by($request-&gt;ip()),          // IP-based
+        Limit::perMinute(10)-&gt;by($request-&gt;input('email')), // Email-based
+    ];
+});
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">API7:2023 — SSRF Prevention (Laravel Example)</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Services;
+
+use Illuminate\Support\Facades\Http;
+
+class ExternalApiService
+{
+    // [SECURE] Allowlist of permitted external domains
+    private const ALLOWED_HOSTS = [
+        'api.stripe.com',
+        'api.sendgrid.com',
+        'hooks.slack.com',
+    ];
+
+    public function fetchFromUrl(string $url): array
+    {
+        $parsed = parse_url($url);
+
+        // [SECURE] Block private/internal IPs
+        if (filter_var($parsed['host'] ?? '', FILTER_VALIDATE_IP)) {
+            $ip = $parsed['host'];
+            if (
+                filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false
+            ) {
+                throw new \InvalidArgumentException('Private/internal IP addresses are not allowed');
+            }
+        }
+
+        // [SECURE] Only allowlisted domains
+        if (!in_array($parsed['host'] ?? '', self::ALLOWED_HOSTS, true)) {
+            throw new \InvalidArgumentException(&quot;Host not in allowlist: {$parsed['host']}&quot;);
+        }
+
+        // [SECURE] HTTPS only
+        if (($parsed['scheme'] ?? '') !== 'https') {
+            throw new \InvalidArgumentException('Only HTTPS URLs are permitted');
+        }
+
+        return Http::timeout(10)-&gt;get($url)-&gt;json();
+    }
+}
+</code></pre>
+</div>
+<hr />
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">API Authentication Methods</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">API Tokens</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">API tokens are the most common authentication method for APIs. They provide a way to identify and authorize API clients.</p>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Types of API Tokens</h4>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">1. <strong>Bearer Tokens</strong></h4>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li>Included in <code>Authorization: Bearer &lt;token&gt;</code> header</li>
+<li>Stateless - server doesn't maintain session state</li>
+<li>Most common for REST APIs</li>
+</ul>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">2. <strong>API Keys</strong></h4>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li>Simple string identifiers passed in headers or query parameters</li>
+<li>Often used for public APIs with rate limiting</li>
+<li>Less secure than bearer tokens</li>
+</ul>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">3. <strong>JWT Tokens</strong></h4>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li>JSON Web Tokens containing user information and claims</li>
+<li>Can be signed and encrypted</li>
+<li>Self-contained - no server-side storage needed</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure Token Implementation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class APITokenManager
+{
+    private PDO $pdo;
+    private string $table = 'api_tokens';
+
+    public function __construct(PDO $pdo)
+    {
+        $this-&gt;pdo = $pdo;
+        $this-&gt;createTable();
+    }
+
+    private function createTable(): void
+    {
+        $this-&gt;pdo-&gt;exec(&quot;
+            CREATE TABLE IF NOT EXISTS {$this-&gt;table} (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                user_id INT NOT NULL,
+                token VARCHAR(255) UNIQUE NOT NULL,
+                name VARCHAR(100) NOT NULL,
+                abilities JSON NULL,
+                last_used_at TIMESTAMP NULL,
+                expires_at TIMESTAMP NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                INDEX idx_user (user_id),
+                INDEX idx_token (token),
+                INDEX idx_expires (expires_at)
+            )
+        &quot;);
+    }
+
+    /**
+     * Generate a secure API token
+     */
+    public function generateToken(int $userId, string $name, array $abilities = [], ?DateTime $expiresAt = null): string
+    {
+        $token = bin2hex(random_bytes(32)); // 64 character hex token
+
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;
+            INSERT INTO {$this-&gt;table} (user_id, token, name, abilities, expires_at)
+            VALUES (?, ?, ?, ?, ?)
+        &quot;);
+
+        $abilitiesJson = json_encode($abilities);
+        $expiresAtStr = $expiresAt ? $expiresAt-&gt;format('Y-m-d H:i:s') : null;
+
+        $stmt-&gt;execute([$userId, $token, $name, $abilitiesJson, $expiresAtStr]);
+
+        return $token;
+    }
+
+    /**
+     * Validate API token
+     */
+    public function validateToken(string $token): ?array
+    {
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;
+            SELECT t.*, u.email, u.role
+            FROM {$this-&gt;table} t
+            JOIN users u ON t.user_id = u.id
+            WHERE t.token = ? AND (t.expires_at IS NULL OR t.expires_at &gt; NOW())
+        &quot;);
+
+        $stmt-&gt;execute([$token]);
+        $tokenData = $stmt-&gt;fetch(PDO::FETCH_ASSOC);
+
+        if (!$tokenData) {
+            return null;
+        }
+
+        // Update last used timestamp
+        $this-&gt;updateLastUsed($tokenData['id']);
+
+        return [
+            'id' =&gt; $tokenData['id'],
+            'user_id' =&gt; $tokenData['user_id'],
+            'email' =&gt; $tokenData['email'],
+            'role' =&gt; $tokenData['role'],
+            'abilities' =&gt; json_decode($tokenData['abilities'] ?? '[]', true),
+            'name' =&gt; $tokenData['name'],
+        ];
+    }
+
+    /**
+     * Check if token has specific ability
+     */
+    public function tokenHasAbility(array $tokenData, string $ability): bool
+    {
+        // Check if token has wildcard ability (*)
+        if (in_array('*', $tokenData['abilities'])) {
+            return true;
+        }
+
+        // Check specific ability
+        return in_array($ability, $tokenData['abilities']);
+    }
+
+    /**
+     * Revoke API token
+     */
+    public function revokeToken(int $tokenId, int $userId): bool
+    {
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;
+            DELETE FROM {$this-&gt;table}
+            WHERE id = ? AND user_id = ?
+        &quot;);
+
+        return $stmt-&gt;execute([$tokenId, $userId]);
+    }
+
+    /**
+     * Update last used timestamp
+     */
+    private function updateLastUsed(int $tokenId): void
+    {
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;
+            UPDATE {$this-&gt;table}
+            SET last_used_at = NOW()
+            WHERE id = ?
+        &quot;);
+        $stmt-&gt;execute([$tokenId]);
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Sanctum API Tokens</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Laravel Sanctum provides a simple API token authentication system.</p>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// User model with API tokens
+use Laravel\Sanctum\HasApiTokens;
+
+class User extends Authenticatable
+{
+    use HasApiTokens;
+
+    // Create API token
+    public function createAPIToken(string $name, array $abilities = ['*']): string
+    {
+        return $this-&gt;createToken($name, $abilities)-&gt;plainTextToken;
+    }
+
+    // Check token abilities
+    public function tokenCan(string $ability): bool
+    {
+        return $this-&gt;currentAccessToken()-&gt;can($ability);
+    }
+}
+
+// API Routes with Sanctum
+Route::middleware('auth:sanctum')-&gt;group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request-&gt;user();
+    });
+
+    Route::middleware('ability:server:update')-&gt;group(function () {
+        Route::post('/server/{server}/update', [ServerController::class, 'update']);
+    });
+});
+
+// Controller usage
+class APIController extends Controller
+{
+    public function getUser(Request $request)
+    {
+        // Get authenticated user
+        $user = $request-&gt;user();
+
+        // Check token abilities
+        if (!$user-&gt;tokenCan('user:read')) {
+            return response()-&gt;json(['error' =&gt; 'Insufficient permissions'], 403);
+        }
+
+        return response()-&gt;json(['user' =&gt; $user]);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Rate Limiting</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Rate limiting prevents API abuse by limiting the number of requests a client can make in a given time period.</p>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Why Rate Limiting Matters</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Prevents DoS attacks</strong> - Limits resource consumption</li>
+<li><strong>Reduces scraping</strong> - Makes it harder to extract large amounts of data</li>
+<li><strong>Improves performance</strong> - Prevents server overload</li>
+<li><strong>Fair resource allocation</strong> - Ensures fair access for all users</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Rate Limiting Strategies</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">1. <strong>Fixed Window</strong></h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class FixedWindowRateLimiter
+{
+    private PDO $pdo;
+    private string $table = 'rate_limits';
+    private int $maxRequests;
+    private int $windowSeconds;
+
+    public function __construct(PDO $pdo, int $maxRequests = 60, int $windowSeconds = 60)
+    {
+        $this-&gt;pdo = $pdo;
+        $this-&gt;maxRequests = $maxRequests;
+        $this-&gt;windowSeconds = $windowSeconds;
+        $this-&gt;createTable();
+    }
+
+    private function createTable(): void
+    {
+        $this-&gt;pdo-&gt;exec(&quot;
+            CREATE TABLE IF NOT EXISTS {$this-&gt;table} (
+                id VARCHAR(255) PRIMARY KEY,
+                requests INT DEFAULT 0,
+                window_start TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                INDEX idx_window (window_start)
+            )
+        &quot;);
+    }
+
+    public function isAllowed(string $identifier): bool
+    {
+        $now = time();
+        $windowStart = $now - ($now % $this-&gt;windowSeconds);
+
+        // Clean old entries
+        $this-&gt;cleanOldEntries($windowStart);
+
+        // Get or create record for this identifier
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;
+            INSERT INTO {$this-&gt;table} (id, requests, window_start)
+            VALUES (?, 1, FROM_UNIXTIME(?))
+            ON DUPLICATE KEY UPDATE
+                requests = IF(window_start = FROM_UNIXTIME(?), requests + 1, 1),
+                window_start = FROM_UNIXTIME(?)
+        &quot;);
+
+        $stmt-&gt;execute([$identifier, $windowStart, $windowStart, $windowStart]);
+
+        // Check if limit exceeded
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;
+            SELECT requests FROM {$this-&gt;table}
+            WHERE id = ? AND window_start = FROM_UNIXTIME(?)
+        &quot;);
+
+        $stmt-&gt;execute([$identifier, $windowStart]);
+        $result = $stmt-&gt;fetch(PDO::FETCH_ASSOC);
+
+        return ($result['requests'] ?? 0) &lt;= $this-&gt;maxRequests;
+    }
+
+    private function cleanOldEntries(int $currentWindow): void
+    {
+        $cutoff = $currentWindow - $this-&gt;windowSeconds;
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;DELETE FROM {$this-&gt;table} WHERE window_start &lt; FROM_UNIXTIME(?)&quot;);
+        $stmt-&gt;execute([$cutoff]);
+    }
+}
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">2. <strong>Sliding Window</strong></h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SlidingWindowRateLimiter
+{
+    private PDO $pdo;
+    private string $table = 'rate_limit_requests';
+    private int $maxRequests;
+    private int $windowSeconds;
+
+    public function __construct(PDO $pdo, int $maxRequests = 100, int $windowSeconds = 60)
+    {
+        $this-&gt;pdo = $pdo;
+        $this-&gt;maxRequests = $maxRequests;
+        $this-&gt;windowSeconds = $windowSeconds;
+        $this-&gt;createTable();
+    }
+
+    private function createTable(): void
+    {
+        $this-&gt;pdo-&gt;exec(&quot;
+            CREATE TABLE IF NOT EXISTS {$this-&gt;table} (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                identifier VARCHAR(255) NOT NULL,
+                timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                INDEX idx_identifier_time (identifier, timestamp)
+            )
+        &quot;);
+    }
+
+    public function isAllowed(string $identifier): bool
+    {
+        $now = date('Y-m-d H:i:s');
+        $windowStart = date('Y-m-d H:i:s', strtotime(&quot;-{$this-&gt;windowSeconds} seconds&quot;));
+
+        // Count requests in sliding window
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;
+            SELECT COUNT(*) as count FROM {$this-&gt;table}
+            WHERE identifier = ? AND timestamp &gt;= ?
+        &quot;);
+
+        $stmt-&gt;execute([$identifier, $windowStart]);
+        $result = $stmt-&gt;fetch(PDO::FETCH_ASSOC);
+        $requestCount = $result['count'];
+
+        // Record this request
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;INSERT INTO {$this-&gt;table} (identifier) VALUES (?)&quot;);
+        $stmt-&gt;execute([$identifier]);
+
+        // Clean old entries
+        $stmt = $this-&gt;pdo-&gt;prepare(&quot;DELETE FROM {$this-&gt;table} WHERE timestamp &lt; ?&quot;);
+        $stmt-&gt;execute([$windowStart]);
+
+        return $requestCount &lt; $this-&gt;maxRequests;
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Rate Limiting</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Laravel provides built-in rate limiting through middleware.</p>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// In routes/api.php
+use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
+
+Route::middleware('throttle:60,1')-&gt;group(function () {
+    // 60 requests per minute
+    Route::get('/user', function (Request $request) {
+        return $request-&gt;user();
+    });
+});
+
+// Custom rate limits
+Route::middleware('throttle:uploads:10,1')-&gt;group(function () {
+    // 10 uploads per minute
+    Route::post('/upload', [UploadController::class, 'store']);
+});
+
+// Different limits for authenticated users
+Route::middleware('auth:sanctum')-&gt;middleware(function ($request, $next) {
+    // Higher limits for authenticated users
+    return app(\Illuminate\Routing\Middleware\ThrottleRequests::class)
+        -&gt;handle($request, $next, 'api_authenticated:100,1');
+})-&gt;group(function () {
+    Route::apiResource('posts', PostController::class);
+});
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Custom Rate Limiting Middleware</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Symfony\Component\HttpFoundation\Response;
+
+class CustomRateLimiter
+{
+    public function handle(Request $request, Closure $next, string $limit = '60', string $decayMinutes = '1'): Response
+    {
+        $key = $this-&gt;resolveRequestSignature($request);
+        $maxAttempts = (int) $limit;
+        $decaySeconds = (int) $decayMinutes * 60;
+
+        // Check if limit exceeded
+        if ($this-&gt;tooManyAttempts($key, $maxAttempts)) {
+            return $this-&gt;buildLimitExceededResponse($request, $key, $maxAttempts, $decaySeconds);
+        }
+
+        // Increment attempts
+        $this-&gt;hit($key, $decaySeconds);
+
+        $response = $next($request);
+
+        // Add rate limit headers
+        $response-&gt;headers-&gt;set('X-RateLimit-Limit', $maxAttempts);
+        $response-&gt;headers-&gt;set('X-RateLimit-Remaining', $this-&gt;remainingAttempts($key, $maxAttempts));
+        $response-&gt;headers-&gt;set('X-RateLimit-Reset', $this-&gt;availableIn($key));
+
+        return $response;
+    }
+
+    protected function resolveRequestSignature(Request $request): string
+    {
+        // Use IP + route for rate limiting
+        return sha1($request-&gt;ip() . '|' . $request-&gt;route()-&gt;getName());
+    }
+
+    protected function tooManyAttempts(string $key, int $maxAttempts): bool
+    {
+        return Cache::get($key, 0) &gt;= $maxAttempts;
+    }
+
+    protected function hit(string $key, int $decaySeconds): void
+    {
+        Cache::add($key, 1, $decaySeconds);
+        Cache::increment($key);
+    }
+
+    protected function remainingAttempts(string $key, int $maxAttempts): int
+    {
+        return max(0, $maxAttempts - Cache::get($key, 0));
+    }
+
+    protected function availableIn(string $key): int
+    {
+        return Cache::getStore()-&gt;getTTL($key);
+    }
+
+    protected function buildLimitExceededResponse(Request $request, string $key, int $maxAttempts, int $decaySeconds): Response
+    {
+        $retryAfter = $this-&gt;availableIn($key);
+
+        $response = response()-&gt;json([
+            'error' =&gt; 'Too Many Requests',
+            'message' =&gt; 'API rate limit exceeded',
+            'retry_after' =&gt; $retryAfter
+        ], 429);
+
+        $response-&gt;headers-&gt;set('X-RateLimit-Limit', $maxAttempts);
+        $response-&gt;headers-&gt;set('Retry-After', $retryAfter);
+        $response-&gt;headers-&gt;set('X-RateLimit-Reset', time() + $retryAfter);
+
+        return $response;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">JSON Input Handling</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">JSON Parsing Security</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">JSON input can contain malicious content or malformed data. Proper validation is crucial.</p>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Safe JSON Decoding</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SecureJSONHandler
+{
+    /**
+     * Safely decode JSON with comprehensive validation
+     */
+    public static function safeDecode(string $json, bool $associative = true, int $maxDepth = 512): mixed
+    {
+        if (empty(trim($json))) {
+            throw new InvalidArgumentException('JSON input is empty');
+        }
+
+        // Check JSON length limits
+        if (strlen($json) &gt; 1048576) { // 1MB limit
+            throw new InvalidArgumentException('JSON input too large');
+        }
+
+        // Basic JSON structure validation
+        $json = trim($json);
+        if (!self::isValidJSONStructure($json)) {
+            throw new InvalidArgumentException('Invalid JSON structure');
+        }
+
+        // Decode with error handling
+        $data = json_decode($json, $associative, $maxDepth, JSON_THROW_ON_ERROR);
+
+        // Additional security checks
+        if ($associative &amp;&amp; is_array($data)) {
+            $data = self::sanitizeArray($data);
+        }
+
+        return $data;
+    }
+
+    /**
+     * Validate basic JSON structure
+     */
+    private static function isValidJSONStructure(string $json): bool
+    {
+        $json = trim($json);
+
+        // Must start with valid JSON characters
+        if (!str_starts_with($json, '{') &amp;&amp;
+            !str_starts_with($json, '[') &amp;&amp;
+            !str_starts_with($json, '&quot;')) {
+            return false;
+        }
+
+        // Must end with valid JSON characters
+        if (!str_ends_with($json, '}') &amp;&amp;
+            !str_ends_with($json, ']') &amp;&amp;
+            !str_ends_with($json, '&quot;')) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Sanitize decoded array data
+     */
+    private static function sanitizeArray(array $data, int $depth = 0): array
+    {
+        // Prevent deep recursion attacks
+        if ($depth &gt; 10) {
+            throw new InvalidArgumentException('JSON structure too deep');
+        }
+
+        $sanitized = [];
+
+        foreach ($data as $key =&gt; $value) {
+            // Validate key
+            if (!is_string($key) &amp;&amp; !is_int($key)) {
+                throw new InvalidArgumentException('Invalid array key type');
+            }
+
+            // Sanitize key
+            if (is_string($key)) {
+                $key = self::sanitizeString($key);
+            }
+
+            // Sanitize value based on type
+            if (is_string($value)) {
+                $value = self::sanitizeString($value);
+            } elseif (is_array($value)) {
+                $value = self::sanitizeArray($value, $depth + 1);
+            } elseif (is_object($value)) {
+                // Convert objects to arrays for consistency
+                $value = self::sanitizeArray((array) $value, $depth + 1);
+            }
+            // Numbers and booleans are safe as-is
+
+            $sanitized[$key] = $value;
+        }
+
+        return $sanitized;
+    }
+
+    /**
+     * Sanitize string values
+     */
+    private static function sanitizeString(string $string): string
+    {
+        // Remove null bytes and other control characters
+        $string = preg_replace('/\x00/', '', $string);
+
+        // Limit string length
+        if (strlen($string) &gt; 65535) { // 64KB limit per string
+            throw new InvalidArgumentException('String value too long');
+        }
+
+        // Basic XSS prevention (additional to JSON validation)
+        $string = filter_var($string, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+        return $string;
+    }
+
+    /**
+     * Validate JSON against schema
+     */
+    public static function validateAgainstSchema(mixed $data, array $schema): bool
+    {
+        foreach ($schema as $field =&gt; $rules) {
+            if (!isset($data[$field])) {
+                if (($rules['required'] ?? false)) {
+                    return false;
+                }
+                continue;
+            }
+
+            $value = $data[$field];
+            $type = $rules['type'] ?? null;
+
+            // Type validation
+            if ($type &amp;&amp; !$self::validateType($value, $type)) {
+                return false;
+            }
+
+            // Length validation
+            if (isset($rules['max_length']) &amp;&amp; is_string($value)) {
+                if (strlen($value) &gt; $rules['max_length']) {
+                    return false;
+                }
+            }
+
+            // Range validation
+            if (isset($rules['min']) &amp;&amp; is_numeric($value)) {
+                if ($value &lt; $rules['min']) {
+                    return false;
+                }
+            }
+
+            if (isset($rules['max']) &amp;&amp; is_numeric($value)) {
+                if ($value &gt; $rules['max']) {
+                    return false;
+                }
+            }
+
+            // Pattern validation
+            if (isset($rules['pattern']) &amp;&amp; is_string($value)) {
+                if (!preg_match($rules['pattern'], $value)) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private static function validateType($value, string $type): bool
+    {
+        return match ($type) {
+            'string' =&gt; is_string($value),
+            'int' =&gt; is_int($value),
+            'float' =&gt; is_float($value),
+            'bool' =&gt; is_bool($value),
+            'array' =&gt; is_array($value),
+            'email' =&gt; is_string($value) &amp;&amp; filter_var($value, FILTER_VALIDATE_EMAIL),
+            'url' =&gt; is_string($value) &amp;&amp; filter_var($value, FILTER_VALIDATE_URL),
+            default =&gt; false
+        };
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel JSON Request Validation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class APIStoreUserRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'name' =&gt; 'required|string|max:255|regex:/^[a-zA-Z\s\-\.\']+$/',
+            'email' =&gt; 'required|email:rfc,dns|max:254|unique:users,email',
+            'password' =&gt; 'required|string|min:8|confirmed',
+            'age' =&gt; 'nullable|integer|min:13|max:120',
+            'preferences' =&gt; 'nullable|array',
+            'preferences.theme' =&gt; 'nullable|string|in:light,dark',
+            'preferences.language' =&gt; 'nullable|string|size:2',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.regex' =&gt; 'Name can only contain letters, spaces, hyphens, periods, and apostrophes.',
+            'email.email' =&gt; 'Please provide a valid email address.',
+            'password.min' =&gt; 'Password must be at least 8 characters.',
+            'age.min' =&gt; 'You must be at least 13 years old.',
+            'preferences.theme.in' =&gt; 'Theme must be either light or dark.',
+            'preferences.language.size' =&gt; 'Language code must be exactly 2 characters.',
+        ];
+    }
+
+    public function prepareForValidation(): void
+    {
+        // Sanitize input before validation
+        if ($this-&gt;has('name')) {
+            $this-&gt;merge([
+                'name' =&gt; trim($this-&gt;name)
+            ]);
+        }
+
+        if ($this-&gt;has('email')) {
+            $this-&gt;merge([
+                'email' =&gt; strtolower(trim($this-&gt;email))
+            ]);
+        }
+    }
+
+    protected function passedValidation(): void
+    {
+        // Additional processing after validation
+        $this-&gt;merge([
+            'email_verified_at' =&gt; null,
+            'password' =&gt; bcrypt($this-&gt;password),
+        ]);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">API Security Middleware</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Comprehensive API Security Middleware</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Http\Middleware;
+
+use Closure;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\Response;
+
+class APISecurityMiddleware
+{
+    public function handle(Request $request, Closure $next): Response
+    {
+        // Only apply to API routes
+        if (!$this-&gt;isAPIRoute($request)) {
+            return $next($request);
+        }
+
+        // 1. Validate Content-Type for POST/PUT/PATCH
+        if ($this-&gt;requiresJSONContent($request)) {
+            if (!$this-&gt;hasValidContentType($request)) {
+                return $this-&gt;errorResponse('Content-Type must be application/json', 415);
+            }
+        }
+
+        // 2. Validate JSON structure if present
+        if ($request-&gt;isJson()) {
+            try {
+                $jsonData = $request-&gt;json()-&gt;all();
+                $this-&gt;validateJSONStructure($jsonData);
+                $this-&gt;sanitizeJSONData($jsonData);
+            } catch (\Exception $e) {
+                Log::warning('Invalid JSON in API request', [
+                    'ip' =&gt; $request-&gt;ip(),
+                    'user_agent' =&gt; $request-&gt;userAgent(),
+                    'error' =&gt; $e-&gt;getMessage()
+                ]);
+                return $this-&gt;errorResponse('Invalid JSON format', 400);
+            }
+        }
+
+        // 3. Check for suspicious patterns
+        if ($this-&gt;containsSuspiciousPatterns($request)) {
+            Log::warning('Suspicious API request detected', [
+                'ip' =&gt; $request-&gt;ip(),
+                'url' =&gt; $request-&gt;fullUrl(),
+                'data' =&gt; $this-&gt;sanitizeForLogging($request-&gt;all())
+            ]);
+            return $this-&gt;errorResponse('Request contains invalid data', 400);
+        }
+
+        // 4. Validate API token if required
+        if ($this-&gt;requiresAuthentication($request)) {
+            if (!$this-&gt;validateAPIToken($request)) {
+                return $this-&gt;errorResponse('Invalid or missing API token', 401);
+            }
+        }
+
+        // 5. Apply rate limiting
+        if (!$this-&gt;checkRateLimit($request)) {
+            return $this-&gt;errorResponse('Rate limit exceeded', 429);
+        }
+
+        $response = $next($request);
+
+        // 6. Add security headers
+        $this-&gt;addSecurityHeaders($response);
+
+        // 7. Log successful API calls
+        if ($response-&gt;getStatusCode() &lt; 400) {
+            Log::info('API call successful', [
+                'method' =&gt; $request-&gt;method(),
+                'url' =&gt; $request-&gt;fullUrl(),
+                'status' =&gt; $response-&gt;getStatusCode(),
+                'user_id' =&gt; $request-&gt;user() ? $request-&gt;user()-&gt;id : null,
+                'ip' =&gt; $request-&gt;ip()
+            ]);
+        }
+
+        return $response;
+    }
+
+    private function isAPIRoute(Request $request): bool
+    {
+        return str_starts_with($request-&gt;path(), 'api/') ||
+               $request-&gt;expectsJson();
+    }
+
+    private function requiresJSONContent(Request $request): bool
+    {
+        return in_array($request-&gt;method(), ['POST', 'PUT', 'PATCH']);
+    }
+
+    private function hasValidContentType(Request $request): bool
+    {
+        $contentType = $request-&gt;header('Content-Type');
+        return str_contains($contentType, 'application/json');
+    }
+
+    private function validateJSONStructure(array $data, int $depth = 0): void
+    {
+        if ($depth &gt; 10) {
+            throw new \Exception('JSON structure too deep');
+        }
+
+        foreach ($data as $key =&gt; $value) {
+            if (!is_string($key) &amp;&amp; !is_int($key)) {
+                throw new \Exception('Invalid JSON key type');
+            }
+
+            if (is_array($value)) {
+                $this-&gt;validateJSONStructure($value, $depth + 1);
+            } elseif (is_string($value) &amp;&amp; strlen($value) &gt; 65535) {
+                throw new \Exception('JSON string value too long');
+            }
+        }
+    }
+
+    private function sanitizeJSONData(array &amp;$data): void
+    {
+        foreach ($data as $key =&gt; &amp;$value) {
+            if (is_string($value)) {
+                // Remove null bytes and control characters
+                $value = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $value);
+            } elseif (is_array($value)) {
+                $this-&gt;sanitizeJSONData($value);
+            }
+        }
+    }
+
+    private function containsSuspiciousPatterns(Request $request): bool
+    {
+        $data = json_encode($request-&gt;all());
+
+        $suspiciousPatterns = [
+            '/&lt;script/i',
+            '/javascript:/i',
+            '/vbscript:/i',
+            '/data:/i',
+            '/\x00/', // Null bytes
+            '/\.\./', // Directory traversal
+        ];
+
+        foreach ($suspiciousPatterns as $pattern) {
+            if (preg_match($pattern, $data)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function validateAPIToken(Request $request): bool
+    {
+        $token = $request-&gt;bearerToken() ?? $request-&gt;header('X-API-Token');
+
+        if (!$token) {
+            return false;
+        }
+
+        // Validate token format (basic check)
+        if (!preg_match('/^[a-f0-9]{64}$/', $token)) {
+            return false;
+        }
+
+        // Here you would check the token against your database/cache
+        // For now, just check if it exists in a simple array
+        $validTokens = ['your_api_token_here'];
+
+        return in_array($token, $validTokens);
+    }
+
+    private function checkRateLimit(Request $request): bool
+    {
+        $key = 'api_rate_limit:' . $request-&gt;ip();
+        $maxRequests = 100; // 100 requests per minute
+        $decayMinutes = 1;
+
+        // Use Laravel's built-in rate limiter
+        return !app(\Illuminate\Cache\RateLimiter::class)-&gt;tooManyAttempts($key, $maxRequests);
+    }
+
+    private function addSecurityHeaders($response): void
+    {
+        $response-&gt;headers-&gt;set('X-Content-Type-Options', 'nosniff');
+        $response-&gt;headers-&gt;set('X-Frame-Options', 'DENY');
+        $response-&gt;headers-&gt;set('X-API-Version', '1.0');
+        $response-&gt;headers-&gt;set('Content-Security-Policy', &quot;default-src 'none'&quot;);
+    }
+
+    private function sanitizeForLogging(array $data): array
+    {
+        $sanitized = [];
+
+        foreach ($data as $key =&gt; $value) {
+            if (is_string($value)) {
+                // Mask sensitive fields
+                if (str_contains(strtolower($key), 'password') ||
+                    str_contains(strtolower($key), 'token') ||
+                    str_contains(strtolower($key), 'secret')) {
+                    $sanitized[$key] = '[REDACTED]';
+                } else {
+                    $sanitized[$key] = strlen($value) &gt; 100 ? substr($value, 0, 100) . '...' : $value;
+                }
+            } elseif (is_array($value)) {
+                $sanitized[$key] = $this-&gt;sanitizeForLogging($value);
+            } else {
+                $sanitized[$key] = $value;
+            }
+        }
+
+        return $sanitized;
+    }
+
+    private function errorResponse(string $message, int $statusCode): Response
+    {
+        return response()-&gt;json([
+            'error' =&gt; true,
+            'message' =&gt; $message,
+            'timestamp' =&gt; now()-&gt;timestamp
+        ], $statusCode);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">API Security Best Practices</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. <strong>Use HTTPS Only</strong></h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li>Always require HTTPS for API endpoints</li>
+<li>Redirect HTTP requests to HTTPS</li>
+<li>Use HSTS headers</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. <strong>Implement Proper Authentication</strong></h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li>Use secure token-based authentication</li>
+<li>Implement token expiration and rotation</li>
+<li>Validate token permissions</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. <strong>Apply Rate Limiting</strong></h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li>Prevent abuse with appropriate limits</li>
+<li>Use different limits for different endpoints</li>
+<li>Implement gradual backoff</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">4. <strong>Validate All Input</strong></h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li>Validate JSON structure and content</li>
+<li>Sanitize input data</li>
+<li>Use schema validation</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">5. <strong>Implement Proper Error Handling</strong></h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li>Don't expose internal errors</li>
+<li>Use consistent error response format</li>
+<li>Log errors securely</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">6. <strong>Monitor API Usage</strong></h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li>Log all API requests and responses</li>
+<li>Implement anomaly detection</li>
+<li>Set up alerts for suspicious activity</li>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Next Steps</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Now that you understand API security basics, explore:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong><a href="/security/laravel/secure-deployment.html">Secure Deployment</a></strong> - Production deployment security</li>
+<li><strong><a href="/security/laravel/password-handling.html">Authentication &amp; Password Handling</a></strong> - User authentication</li>
+<li><strong><a href="/security/laravel/api-security-basics.html">Rate Limiting</a></strong> - Advanced rate limiting techniques</li>
+</ul>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Remember: APIs are high-value targets. Implement multiple layers of security to protect your API endpoints and data!</p>
+    </div>
+
+    <!-- Ask AI Assistant Row -->
+    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://chatgpt.com/?q=API+Security+Basics+—+Laravel+13+/+PHP+8.4+Laravel+security+best+practices+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          ChatGPT &nearr;
+        </a>
+        <a href="https://www.perplexity.ai/search?q=API+Security+Basics+—+Laravel+13+/+PHP+8.4+Laravel+PHP+8.4+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Perplexity &nearr;
+        </a>
+        <a href="https://claude.ai/new?q=Explain+API+Security+Basics+—+Laravel+13+/+PHP+8.4+in+Laravel+applications+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Claude &nearr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
+      <div><a href="/security/laravel/file-uploads.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: Secure File Uploads</a></div>
+      <div><a href="/security/laravel/common-vulnerabilities.html" class="button-primary text-xs flex items-center gap-1.5">Next: Common API Exploits &amp; SSRF &rarr;</a></div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

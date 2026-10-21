@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface text-ink antialiased transition-colors duration-150;
+  }
+  .dark body {
+    @apply bg-dark-bg text-dark-text;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight font-sans;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .button-primary, .btn-primary {
+    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-4 h-[38px] text-[15px] bg-primary text-white hover:bg-primary-pressed focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 active:bg-primary-pressed select-none;
+  }
+
+  .button-secondary, .btn-secondary {
+    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-4 h-[38px] text-[15px] bg-primary-tint text-primary-pressed hover:bg-[#D8EDFD] dark:bg-primary/20 dark:text-blue-300 dark:hover:bg-primary/30 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 select-none;
+  }
+
+  .button-ghost, .btn-ghost {
+    @apply inline-flex items-center justify-center font-normal transition-all duration-150 rounded-xs px-2.5 h-[30px] text-[14px] bg-transparent text-ink/90 dark:text-dark-text/90 hover:bg-black/5 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 select-none;
+  }
+
+  .button-white {
+    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-4 h-[38px] text-[15px] bg-white text-ink border border-surface-hairline hover:bg-surface-warm dark:bg-dark-card dark:text-white dark:border-dark-border dark:hover:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 select-none shadow-soft;
+  }
+
+  /* Cards */
+  .card-standard, .card {
+    @apply bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border rounded-md p-6 shadow-soft transition-all duration-200;
+  }
+
+  .card-warm {
+    @apply bg-surface-warm dark:bg-dark-surface border border-surface-hairline/80 dark:border-dark-border rounded-md p-6 shadow-soft transition-all duration-200;
+  }
+
+  .card-interactive, .card-hover {
+    @apply card-standard hover:shadow-soft-hover hover:border-primary/60 dark:hover:border-primary/60 hover:-translate-y-0.5 cursor-pointer;
+  }
+
+  /* Badges & Chips */
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+  .chip-lavender {
+    @apply chip bg-accent-lavender text-[#3F1B69] dark:bg-purple-950/60 dark:text-purple-200;
+  }
+  .chip-blue {
+    @apply chip bg-primary-tint text-primary-pressed dark:bg-blue-950/60 dark:text-blue-300;
+  }
+  .chip-emerald, .badge-secure {
+    @apply chip bg-accent-successTint text-[#0E6321] dark:bg-emerald-950/60 dark:text-emerald-300;
+  }
+  .chip-amber {
+    @apply chip bg-[#FFF4D9] text-[#7A4B00] dark:bg-amber-950/60 dark:text-amber-300;
+  }
+  .chip-coral, .badge-insecure {
+    @apply chip bg-[#FEEAE8] text-accent-red dark:bg-rose-950/60 dark:text-rose-300;
+  }
+
+  /* Quick Answer Callout */
+  .quick-answer {
+    @apply relative overflow-hidden rounded-md p-6 my-6 bg-surface-warm dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft;
+  }
+  .quick-answer-badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-primary-tint text-primary-pressed dark:bg-blue-950/60 dark:text-blue-300 mb-3 border border-primary/20;
+  }
+
+  /* Editorial Quote Callout */
+  .callout-quote {
+    @apply font-serif italic text-lg text-ink/80 dark:text-dark-text/90 pl-5 border-l-2 border-primary my-6;
+  }
+
+  /* Standard Callouts */
+  .callout {
+    @apply rounded-md p-5 my-6 border text-sm leading-relaxed;
+  }
+  .callout-info {
+    @apply callout bg-primary-tint/50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900 text-blue-950 dark:text-blue-200;
+  }
+  .callout-warning {
+    @apply callout bg-[#FFF9EC] dark:bg-amber-950/30 border-amber-200 dark:border-amber-900 text-amber-950 dark:text-amber-200;
+  }
+  .callout-danger {
+    @apply callout bg-[#FFF5F4] dark:bg-rose-950/30 border-rose-200 dark:border-rose-900 text-rose-950 dark:text-rose-200;
+  }
+  .callout-tip {
+    @apply callout bg-accent-successTint/40 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900 text-emerald-950 dark:text-emerald-200;
+  }
+
+  /* Code Blocks */
+  .code-container {
+    @apply relative my-5 rounded-md overflow-hidden border border-surface-hairline dark:border-dark-border bg-[#191919] text-[#EDEDED] shadow-soft;
+  }
+  .code-header {
+    @apply flex items-center justify-between px-4 py-2 bg-[#222222] border-b border-[#2C2C2C] text-xs font-mono text-[#A39E98] select-none;
+  }
+  .code-copy-btn {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-xs bg-[#333333] hover:bg-[#444444] text-[#EDEDED] transition-colors duration-150;
+  }
+
+  /* Checklist Items */
+  .checklist-box {
+    @apply flex items-start gap-3 p-3.5 rounded-sm border border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-card my-2 transition-all hover:border-primary/50;
+  }
+
+  /* FAQ Items */
+  .faq-item {
+    @apply border border-surface-hairline dark:border-dark-border rounded-md mb-3 overflow-hidden bg-white dark:bg-dark-card transition-all;
+  }
+  .faq-question {
+    @apply w-full flex items-center justify-between p-5 text-left font-semibold text-ink dark:text-dark-text hover:bg-surface-warm dark:hover:bg-dark-surface transition-colors select-none;
+  }
+  .faq-answer {
+    @apply px-5 pb-5 pt-1 text-ink-secondary dark:text-dark-muted leading-relaxed text-sm;
+  }
+}
+
+/* Print Styles for Checklist */
+@media print {
+  header, footer, .no-print, .button-primary, .button-secondary, .button-ghost, .faq-accordion {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .card-standard, .quick-answer, .callout {
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+}

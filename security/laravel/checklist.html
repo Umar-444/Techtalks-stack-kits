@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laravel &amp; AI Production Security Checklist (2026 Edition)</title>
+  <meta name="description" content="Interactive 28-point production security checklist for PHP 8.4 and Laravel 13 web applications. Covers Passkeys, OWASP API, and LLM defense controls.">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/checklist.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/checklist.html">
+  <meta property="og:title" content="Laravel &amp; AI Production Security Checklist (2026 Edition)">
+  <meta property="og:description" content="Interactive 28-point production security checklist for PHP 8.4 and Laravel 13 web applications.">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="Laravel &amp; AI Production Security Checklist (2026 Edition)">
+  <meta name="twitter:description" content="Interactive 28-point production security checklist for PHP 8.4 and Laravel 13 web applications.">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Laravel & AI Production Security Checklist (2026 Edition)",
+  "description": "Interactive 28-point production security checklist for PHP 8.4 and Laravel 13 web applications with printable formatting.",
+  "author": {
+    "@type": "Person",
+    "name": "Umar Farooq",
+    "email": "contact@itsumarfarooq.com",
+    "url": "https://itsumarfarooq.com",
+    "jobTitle": "Senior Full-Stack & Security Engineer",
+    "sameAs": [
+      "https://github.com/umar-444",
+      "https://linkedin.com/in/umar444",
+      "https://x.com/umartechtalks",
+      "https://worldwebtree.com"
+    ]
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "UmarTechTalks",
+    "url": "https://techtalks.itsumarfarooq.com"
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21"
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost ">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost text-primary font-semibold">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-12 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8 print:hidden" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">Checklist</span>
+    </nav>
+
+    <!-- Header Section -->
+    <div class="mb-10">
+      <div class="chip-emerald mb-4">
+        Interactive Verification Tool &bull; 28 Items
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-ink dark:text-white tracking-[-0.035em]">
+        Production Security Checklist
+      </h1>
+      <p class="text-ink-secondary dark:text-dark-muted mt-3 text-base leading-relaxed">
+        Verify your web application against these 28 production security controls before deploying to production. Your progress is saved automatically in your browser.
+      </p>
+    </div>
+
+    <!-- Interactive Progress Bar Widget -->
+    <div class="sticky top-20 z-30 card-standard p-4 my-6 bg-white/95 dark:bg-dark-card/95 backdrop-blur-md border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <span class="text-xs uppercase tracking-wider text-ink-muted font-semibold">Verification Progress</span>
+          <div class="text-lg font-bold text-ink dark:text-white font-mono" id="checklist-counter">0 / 28 Completed</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" id="reset-checklist-btn" class="button-ghost text-xs text-ink-muted hover:text-accent-red">
+            Reset
+          </button>
+          <button type="button" onclick="window.print()" class="button-secondary text-xs">
+            Print Checklist
+          </button>
+        </div>
+      </div>
+      <div class="w-full bg-surface-warm dark:bg-dark-border h-2 rounded-full overflow-hidden mt-3">
+        <div id="checklist-progress-bar" class="bg-primary h-full w-0 transition-all duration-200"></div>
+      </div>
+    </div>
+
+    <!-- Checklist Sections -->
+    <div class="my-8">
+      <h2 class="text-lg font-bold text-ink dark:text-white flex items-center gap-2 mb-4 border-b border-surface-hairline dark:border-dark-border pb-2.5">
+        <span class="w-6 h-6 rounded-xs bg-primary-tint text-primary text-xs flex items-center justify-center font-bold">1</span>
+        <span>1. Authentication, Sessions &amp; Identity</span>
+      </h2>
+      <div class="space-y-2">
+        <label class="checklist-box cursor-pointer select-none" for="chk_1_1">
+          <input type="checkbox" id="chk_1_1" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Argon2id Password Hashing (memory_cost &gt;= 65536, time_cost &gt;= 4)</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Enforce memory-hard Argon2id key derivation parameters in config/hashing.php over legacy bcrypt.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_1_2">
+          <input type="checkbox" id="chk_1_2" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">FIDO2 WebAuthn Passkeys / Multi-Factor Authentication</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Offer phish-resistant biometric Passkeys alongside standard credentials.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_1_3">
+          <input type="checkbox" id="chk_1_3" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Session Fixation Mitigation &amp; Regeneration</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Invoke $request-&gt;session()-&gt;regenerate() upon every authentication state transition.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_1_4">
+          <input type="checkbox" id="chk_1_4" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Strict Cookie Security Flags (__Host-, HttpOnly, Secure, SameSite=Strict/Lax)</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Prevent script accessibility and ensure session cookies are only transmitted over TLS.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_1_5">
+          <input type="checkbox" id="chk_1_5" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Redis-Backed Distributed Session Storage</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Avoid local file sessions in scaled production environments; protect against session tampering.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_1_6">
+          <input type="checkbox" id="chk_1_6" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Centralized Session Revocation &amp; Invalidation</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Provide users with &#x27;Log out other devices&#x27; functionality via $request-&gt;session()-&gt;flush().</p>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="my-8">
+      <h2 class="text-lg font-bold text-ink dark:text-white flex items-center gap-2 mb-4 border-b border-surface-hairline dark:border-dark-border pb-2.5">
+        <span class="w-6 h-6 rounded-xs bg-primary-tint text-primary text-xs flex items-center justify-center font-bold">2</span>
+        <span>2. Input Validation, Injection Defense &amp; Uploads</span>
+      </h2>
+      <div class="space-y-2">
+        <label class="checklist-box cursor-pointer select-none" for="chk_2_1">
+          <input type="checkbox" id="chk_2_1" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Strict Zero-Trust FormRequest Validation Rules</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Validate every incoming parameter with type constraints, string bounds, and regex patterns.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_2_2">
+          <input type="checkbox" id="chk_2_2" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Eloquent Query Parameterization (Zero Raw Concatenation)</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Defeat SQL injection by strictly using PDO parameter bindings on all dynamic WHERE clauses.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_2_3">
+          <input type="checkbox" id="chk_2_3" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Blade Context-Aware HTML Escaping (Avoid Unchecked {!! !!})</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Rely on double-brace {{ }} syntax for automatic HTML entities conversion; never print untrusted user input with {!! !!}.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_2_4">
+          <input type="checkbox" id="chk_2_4" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Synchronizer CSRF Tokens &amp; AJAX X-CSRF-TOKEN Headers</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Enforce VerifyCsrfToken middleware on all state-changing POST, PUT, PATCH, and DELETE endpoints.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_2_5">
+          <input type="checkbox" id="chk_2_5" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">File Upload MIME Verification via Magic Bytes (finfo)</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Never trust client-reported file extensions; verify underlying magic bytes and store on private cloud disks.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_2_6">
+          <input type="checkbox" id="chk_2_6" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Cryptographic Filename Hashing (Str::uuid() / Str::random())</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Strip original filenames to block directory traversal and malicious extension spoofing.</p>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="my-8">
+      <h2 class="text-lg font-bold text-ink dark:text-white flex items-center gap-2 mb-4 border-b border-surface-hairline dark:border-dark-border pb-2.5">
+        <span class="w-6 h-6 rounded-xs bg-primary-tint text-primary text-xs flex items-center justify-center font-bold">3</span>
+        <span>3. API Security &amp; OWASP Top 10</span>
+      </h2>
+      <div class="space-y-2">
+        <label class="checklist-box cursor-pointer select-none" for="chk_3_1">
+          <input type="checkbox" id="chk_3_1" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Laravel Sanctum 4.x Token Authorization &amp; Scopes</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Issue cryptographically signed tokens with least-privilege token abilities/scopes.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_3_2">
+          <input type="checkbox" id="chk_3_2" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">BOLA / IDOR Defense via Policy Authorization Gates</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Always call $this-&gt;authorize(&#x27;view&#x27;, $model) before serving records.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_3_3">
+          <input type="checkbox" id="chk_3_3" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Tiered Dynamic Rate Limiting (RateLimiter::for)</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Protect public authentication and API endpoints against brute-force and credential stuffing.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_3_4">
+          <input type="checkbox" id="chk_3_4" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Mass Assignment Protection (Strict $fillable Allowlist)</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Explicitly declare model fillable attributes to prevent privilege escalation.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_3_5">
+          <input type="checkbox" id="chk_3_5" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">SSRF Defense with IP Address Allowlisting</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Filter target URLs against loopback (127.0.0.1) and internal cloud metadata ranges before HTTP requests.</p>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="my-8">
+      <h2 class="text-lg font-bold text-ink dark:text-white flex items-center gap-2 mb-4 border-b border-surface-hairline dark:border-dark-border pb-2.5">
+        <span class="w-6 h-6 rounded-xs bg-primary-tint text-primary text-xs flex items-center justify-center font-bold">4</span>
+        <span>4. AI, LLM &amp; RAG Application Security</span>
+      </h2>
+      <div class="space-y-2">
+        <label class="checklist-box cursor-pointer select-none" for="chk_4_1">
+          <input type="checkbox" id="chk_4_1" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Cryptographic Boundary Nonces for User Prompts</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Enclose untrusted user input within random cryptographic delimiter tags to stop direct prompt injection.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_4_2">
+          <input type="checkbox" id="chk_4_2" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Strict Role Segregation (System vs User Prompts)</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Never concatenate untrusted user text into the System instruction prompt context.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_4_3">
+          <input type="checkbox" id="chk_4_3" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Redis Sliding-Window Token &amp; Cost Budgets</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Limit token consumption per user per hour to mitigate Denial of Wallet attacks.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_4_4">
+          <input type="checkbox" id="chk_4_4" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Vector Database Multi-Tenant Isolation (pgvector / Eloquent)</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Enforce mandatory tenant_id WHERE filters on every vector similarity query.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_4_5">
+          <input type="checkbox" id="chk_4_5" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">PII Redaction Pipeline (Deterministic Reversible Tokenization)</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Scrub national IDs, phone numbers, IBANs, and emails with deterministic reversible replacement.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_4_6">
+          <input type="checkbox" id="chk_4_6" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Model Output Validation as Untrusted Input</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Never pass LLM output into raw Blade templates or unparameterized queries. Always validate schemas.</p>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="my-8">
+      <h2 class="text-lg font-bold text-ink dark:text-white flex items-center gap-2 mb-4 border-b border-surface-hairline dark:border-dark-border pb-2.5">
+        <span class="w-6 h-6 rounded-xs bg-primary-tint text-primary text-xs flex items-center justify-center font-bold">5</span>
+        <span>5. Infrastructure, CI/CD &amp; Production Hardening</span>
+      </h2>
+      <div class="space-y-2">
+        <label class="checklist-box cursor-pointer select-none" for="chk_5_1">
+          <input type="checkbox" id="chk_5_1" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">TLS 1.3-First &amp; RSA 4096 / ECDSA P-256 Keys</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Disable legacy TLS 1.0 and 1.1; enforce modern forward-secrecy cipher suites.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_5_2">
+          <input type="checkbox" id="chk_5_2" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Automated Dependency Auditing (composer audit --locked)</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Enforce weekly CI audits with GitHub Actions to block vulnerable packages from deploying.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_5_3">
+          <input type="checkbox" id="chk_5_3" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Secret Management (Zero Plaintext .env in Git)</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Use environment variables injected via AWS SSM, HashiCorp Vault, or encrypted Laravel env files.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_5_4">
+          <input type="checkbox" id="chk_5_4" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Production OPcache Hardening</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Set opcache.validate_timestamps=0 in production to eliminate filesystem race conditions.</p>
+          </div>
+        </label>
+        <label class="checklist-box cursor-pointer select-none" for="chk_5_5">
+          <input type="checkbox" id="chk_5_5" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border cursor-pointer">
+          <div>
+            <div class="text-sm font-semibold text-ink dark:text-white">Model Encrypted Casts for Sensitive PII at Rest</div>
+            <p class="text-xs text-ink-secondary dark:text-dark-muted mt-0.5 leading-relaxed">Use Laravel &#x27;encrypted&#x27; casts on all sensitive database fields.</p>
+          </div>
+        </label>
+      </div>
+    </div>
+
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10 print:hidden">
+      <a href="/security/laravel/" class="button-secondary text-xs flex items-center gap-1.5">
+        &larr; Back to Laravel Track
+      </a>
+      <a href="/security/laravel/prompt-injection.html" class="button-primary text-xs flex items-center gap-1.5">
+        Start Lesson 1: Prompt Injection &rarr;
+      </a>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const checkboxes = document.querySelectorAll('.checklist-checkbox');
+      const counter = document.getElementById('checklist-counter');
+      const progressBar = document.getElementById('checklist-progress-bar');
+      const resetBtn = document.getElementById('reset-checklist-btn');
+
+      function updateCounter() {
+        const total = checkboxes.length;
+        const checked = document.querySelectorAll('.checklist-checkbox:checked').length;
+        if (counter) counter.innerText = checked + ' / ' + total + ' Completed';
+        if (progressBar) {
+          const pct = total > 0 ? (checked / total) * 100 : 0;
+          progressBar.style.width = pct + '%';
+        }
+      }
+
+      checkboxes.forEach(cb => cb.addEventListener('change', updateCounter));
+      updateCounter();
+
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          if (confirm('Reset all checkboxes?')) {
+            checkboxes.forEach(cb => cb.checked = false);
+            localStorage.removeItem('checklist_' + window.location.pathname);
+            updateCounter();
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

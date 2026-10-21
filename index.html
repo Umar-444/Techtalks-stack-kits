@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UmarTechTalks — Production AI &amp; Web Application Security</title>
+  <meta name="description" content="Technical security guides, threat models, and runnable production code for modern web architectures and AI features. Built by Umar Farooq.">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/">
+  
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/">
+  <meta property="og:title" content="UmarTechTalks — Production AI &amp; Web Application Security">
+  <meta property="og:description" content="Technical security guides, threat models, and runnable production code for modern web architectures and AI features.">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="UmarTechTalks — Production AI &amp; Web Application Security">
+  <meta name="twitter:description" content="Technical security guides, threat models, and runnable production code for modern web architectures and AI features.">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "UmarTechTalks",
+  "url": "https://techtalks.itsumarfarooq.com/",
+  "description": "Production engineering, software architecture, and AI threat defense masterclasses.",
+  "author": {
+    "@type": "Person",
+    "name": "Umar Farooq",
+    "email": "contact@itsumarfarooq.com",
+    "url": "https://itsumarfarooq.com",
+    "jobTitle": "Senior Full-Stack & Security Engineer",
+    "sameAs": [
+      "https://github.com/umar-444",
+      "https://linkedin.com/in/umar444",
+      "https://x.com/umartechtalks",
+      "https://worldwebtree.com"
+    ]
+  }
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost text-primary font-semibold">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost ">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-20 w-full">
+    <div class="max-w-3xl">
+      <div class="chip-lavender mb-5">
+        Production Engineering &bull; 2026 Edition
+      </div>
+      <h1 class="text-4xl sm:text-6xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-[1.08]">
+        Engineering playbooks for modern web &amp; <span class="text-primary">AI security</span>.
+      </h1>
+      <p class="text-lg sm:text-xl text-ink-secondary dark:text-dark-muted mt-5 leading-relaxed">
+        Curated by <strong>Umar Farooq</strong>. In-depth technical guides, concrete threat models, and verified production code for full-stack developers shipping high-stakes web and AI features.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href="/security/laravel/" class="button-primary text-sm px-5 h-[42px]">
+          Explore Laravel AI Masterclass &rarr;
+        </a>
+        <a href="/security/laravel/checklist.html" class="button-secondary text-sm px-5 h-[42px]">
+          28-Point Security Checklist
+        </a>
+      </div>
+    </div>
+
+    <!-- Proof Numbers Band -->
+    <div class="my-14 rounded-md bg-surface-warm dark:bg-dark-surface border border-surface-hairline dark:border-dark-border p-6 sm:p-8">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+        <div>
+          <div class="text-3xl sm:text-4xl font-extrabold text-primary font-mono">22</div>
+          <div class="text-xs text-ink-secondary dark:text-dark-muted mt-1 uppercase tracking-wider font-medium">Production Lessons</div>
+        </div>
+        <div>
+          <div class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white font-mono">6</div>
+          <div class="text-xs text-ink-secondary dark:text-dark-muted mt-1 uppercase tracking-wider font-medium">Curriculum Tracks</div>
+        </div>
+        <div>
+          <div class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white font-mono">100%</div>
+          <div class="text-xs text-ink-secondary dark:text-dark-muted mt-1 uppercase tracking-wider font-medium">PHP 8.4 &amp; Laravel 13</div>
+        </div>
+        <div>
+          <div class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white font-mono">0 KB</div>
+          <div class="text-xs text-ink-secondary dark:text-dark-muted mt-1 uppercase tracking-wider font-medium">JS Framework Bloat</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Curriculum Tracks Grid -->
+    <div class="my-14">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-ink dark:text-white tracking-tight">Curriculum Tracks</h2>
+          <p class="text-sm text-ink-secondary dark:text-dark-muted mt-1">Multi-stack security guides tailored for senior software engineers.</p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Track 1: Laravel AI -->
+        <a href="/security/laravel/" class="card-interactive p-6 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="chip-blue">Active Track</span>
+              <span class="text-ink-muted">22 Lessons</span>
+            </div>
+            <div class="w-10 h-10 rounded-sm bg-primary-tint dark:bg-primary/20 flex items-center justify-center text-primary mb-4 font-bold text-base">
+              L13
+            </div>
+            <h3 class="text-xl font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-2">
+              Laravel &amp; AI Security
+            </h3>
+            <p class="text-sm text-ink-secondary dark:text-dark-muted leading-relaxed">
+              Complete security masterclass: prompt injection defense, Passkeys, RAG multi-tenant isolation, agent tool sandboxing, and Saudi PDPL compliance.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Explore 22 Lessons</span> &rarr;
+          </div>
+        </a>
+
+        <!-- Track 2: Interactive Checklist -->
+        <a href="/security/laravel/checklist.html" class="card-interactive p-6 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="chip-emerald">Interactive Tool</span>
+              <span class="text-ink-muted">28 Controls</span>
+            </div>
+            <div class="w-10 h-10 rounded-sm bg-accent-successTint/60 dark:bg-emerald-950/40 flex items-center justify-center text-accent-success mb-4 font-bold text-base">
+              CHK
+            </div>
+            <h3 class="text-xl font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-2">
+              Production Security Checklist
+            </h3>
+            <p class="text-sm text-ink-secondary dark:text-dark-muted leading-relaxed">
+              Interactive 28-point pre-flight checklist. Track your progress across authentication, API gates, LLM pipelines, and server headers with browser persistence.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Open Checklist</span> &rarr;
+          </div>
+        </a>
+
+        <!-- Track 3: Security Hub -->
+        <a href="/security/" class="card-interactive p-6 flex flex-col justify-between group">
+          <div>
+            <div class="flex items-center justify-between text-xs font-mono mb-4">
+              <span class="chip-lavender">Central Hub</span>
+              <span class="text-ink-muted">Directory</span>
+            </div>
+            <div class="w-10 h-10 rounded-sm bg-accent-lavender/60 dark:bg-purple-950/40 flex items-center justify-center text-[#3F1B69] dark:text-purple-300 mb-4 font-bold text-base">
+              HUB
+            </div>
+            <h3 class="text-xl font-bold text-ink dark:text-white group-hover:text-primary transition-colors mb-2">
+              Security Masterclass Hub
+            </h3>
+            <p class="text-sm text-ink-secondary dark:text-dark-muted leading-relaxed">
+              Central catalog of all security engineering tracks, threat modeling playbooks, interactive compliance tooling, and multi-cloud security baselines.
+            </p>
+          </div>
+          <div class="mt-6 pt-4 border-t border-surface-hairline dark:border-dark-border text-xs font-semibold text-primary flex items-center justify-between">
+            <span>Browse Masterclasses</span> &rarr;
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Editorial Philosophy Quote -->
+    <div class="my-14 p-8 rounded-md bg-surface-warm dark:bg-dark-surface border border-surface-hairline dark:border-dark-border">
+      <div class="max-w-2xl mx-auto text-center">
+        <blockquote class="font-serif italic text-xl sm:text-2xl text-ink/90 dark:text-dark-text/90 leading-snug">
+          &ldquo;Security in high-stakes web and AI applications is never an afterthought—it is the foundational architecture upon which trust, compliance, and resilience are built.&rdquo;
+        </blockquote>
+        <div class="mt-4 text-xs font-medium uppercase tracking-wider text-ink-muted">
+          &mdash; Umar Farooq &bull; Senior Full-Stack &amp; Security Engineer
+        </div>
+      </div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

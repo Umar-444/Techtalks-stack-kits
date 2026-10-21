@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Error Handling &amp; Logging — Laravel Security Masterclass</title>
+  <meta name="description" content="Proper error handling and logging are critical for both security and application stability. Poor error handling can expose sensitive information to attacke">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/error-handling-logging.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/error-handling-logging.html">
+  <meta property="og:title" content="Error Handling &amp; Logging — Laravel Security Masterclass">
+  <meta property="og:description" content="Proper error handling and logging are critical for both security and application stability. Poor error handling can expose sensitive information to attacke">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="Error Handling &amp; Logging — Laravel Security Masterclass">
+  <meta name="twitter:description" content="Proper error handling and logging are critical for both security and application stability. Poor error handling can expose sensitive information to attacke">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Error Handling & Logging",
+      "description": "Proper error handling and logging are critical for both security and application stability. Poor error handling can expose sensitive information to attackers, w",
+      "author": {
+        "@type": "Person",
+        "name": "Umar Farooq",
+        "email": "contact@itsumarfarooq.com",
+        "url": "https://itsumarfarooq.com",
+        "jobTitle": "Senior Full-Stack & Security Engineer",
+        "sameAs": [
+          "https://github.com/umar-444",
+          "https://linkedin.com/in/umar444",
+          "https://x.com/umartechtalks",
+          "https://worldwebtree.com"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "UmarTechTalks",
+        "url": "https://techtalks.itsumarfarooq.com"
+      },
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://techtalks.itsumarfarooq.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Security Hub",
+          "item": "https://techtalks.itsumarfarooq.com/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Laravel Track",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Error Handling & Logging",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/error-handling-logging.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
+    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">Error Handling &amp; Logging</span>
+    </nav>
+
+    <!-- Lesson Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 06</span>
+        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 22</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
+        Error Handling &amp; Logging
+      </h1>
+      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+        <span>Curated by Umar Farooq</span>
+        <span>&bull;</span>
+        <span>14 min read</span>
+      </div>
+    </div>
+
+    <!-- Quick Answer Box -->
+    <div class="quick-answer">
+      <div class="quick-answer-badge">Quick Answer &amp; Core Takeaway</div>
+      <p class="text-ink dark:text-white font-medium text-[15px] leading-relaxed">
+        Proper error handling and logging are critical for both security and application stability. Poor error handling can expose sensitive information to attackers, while inadequate logging makes it difficult to detect and respond to security incidents.
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="lesson-content my-8">
+      <h1>Error Handling &amp; Logging</h1>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Why Error Handling Matters</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Proper error handling and logging are critical for both security and application stability. Poor error handling can expose sensitive information to attackers, while inadequate logging makes it difficult to detect and respond to security incidents.</p>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Security Risks of Poor Error Handling</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Information Disclosure</strong>: Error messages revealing database structure, file paths, or sensitive configuration</li>
+<li><strong>System Fingerprinting</strong>: Error types helping attackers identify vulnerable software versions</li>
+<li><strong>Debug Information Leakage</strong>: Stack traces exposing internal application logic</li>
+<li><strong>Denial of Service</strong>: Unhandled errors crashing applications</li>
+<li><strong>Security Monitoring Gaps</strong>: Lack of logging making attacks undetectable</li>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Production Error Display</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">The Problem with Development Error Display</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// DEVELOPMENT - Useful for debugging
+ini_set('display_errors', '1');
+error_reporting(E_ALL);
+
+// PRODUCTION - Dangerous!
+ini_set('display_errors', '1'); // DON'T DO THIS IN PRODUCTION
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure Production Error Configuration</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// Production error handling - secure approach
+ini_set('display_errors', '0');          // Hide errors from users
+ini_set('display_startup_errors', '0');  // Hide startup errors
+error_reporting(E_ALL &amp; ~E_DEPRECATED); // Log all but deprecated
+ini_set('log_errors', '1');             // Enable error logging
+ini_set('error_log', '/var/log/php_errors.log'); // Secure log location
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Error Configuration</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// config/app.php
+return [
+    'debug' =&gt; env('APP_DEBUG', false), // NEVER true in production
+    'env' =&gt; env('APP_ENV', 'production'),
+];
+
+// .env.production
+APP_ENV=production
+APP_DEBUG=false
+LOG_LEVEL=error
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Secure Error Logging</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">What to Log (and What Not to Log)</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Log Security Events [SECURE]</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SecurityLogger
+{
+    public static function logSecurityEvent(string $event, array $data = []): void
+    {
+        $logEntry = [
+            'timestamp' =&gt; date('Y-m-d H:i:s'),
+            'event' =&gt; $event,
+            'ip' =&gt; $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+            'user_agent' =&gt; $_SERVER['HTTP_USER_AGENT'] ?? 'unknown',
+            'user_id' =&gt; $_SESSION['user_id'] ?? 'anonymous',
+            'data' =&gt; $data
+        ];
+
+        error_log(&quot;SECURITY: &quot; . json_encode($logEntry));
+    }
+
+    // Log authentication events
+    public static function logLoginAttempt(string $username, bool $success): void
+    {
+        self::logSecurityEvent('LOGIN_ATTEMPT', [
+            'username' =&gt; $username,
+            'success' =&gt; $success
+        ]);
+    }
+
+    // Log suspicious activities
+    public static function logSuspiciousActivity(string $activity, array $details): void
+    {
+        self::logSecurityEvent('SUSPICIOUS_ACTIVITY', [
+            'activity' =&gt; $activity,
+            'details' =&gt; $details
+        ]);
+    }
+}
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Never Log Sensitive Data [INSECURE]</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// WRONG: Logging sensitive information
+error_log(&quot;User login failed: password='{$password}'&quot;);
+error_log(&quot;Credit card: &quot; . $ccNumber);
+error_log(&quot;API key: &quot; . $apiKey);
+
+// RIGHT: Log without sensitive data
+error_log(&quot;User login failed for username: {$username}&quot;);
+error_log(&quot;Payment processing failed for user: {$userId}&quot;);
+error_log(&quot;API call failed for service: {$serviceName}&quot;);
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Structured Logging</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class StructuredLogger
+{
+    private static string $logFile = '/var/log/app/security.log';
+
+    public static function log(array $data): void
+    {
+        $entry = [
+            'timestamp' =&gt; date('c'), // ISO 8601 format
+            'level' =&gt; $data['level'] ?? 'INFO',
+            'message' =&gt; $data['message'] ?? '',
+            'context' =&gt; $data['context'] ?? [],
+            'user' =&gt; [
+                'id' =&gt; $_SESSION['user_id'] ?? null,
+                'ip' =&gt; $_SERVER['REMOTE_ADDR'] ?? 'unknown',
+                'agent' =&gt; $_SERVER['HTTP_USER_AGENT'] ?? 'unknown'
+            ]
+        ];
+
+        $jsonEntry = json_encode($entry, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+        // Ensure log directory exists
+        $logDir = dirname(self::$logFile);
+        if (!is_dir($logDir)) {
+            mkdir($logDir, 0755, true);
+        }
+
+        // Secure log file permissions
+        if (!file_exists(self::$logFile)) {
+            touch(self::$logFile);
+            chmod(self::$logFile, 0600);
+        }
+
+        file_put_contents(self::$logFile, $jsonEntry . &quot;\n&quot;, FILE_APPEND | LOCK_EX);
+    }
+
+    public static function error(string $message, array $context = []): void
+    {
+        self::log([
+            'level' =&gt; 'ERROR',
+            'message' =&gt; $message,
+            'context' =&gt; $context
+        ]);
+    }
+
+    public static function security(string $message, array $context = []): void
+    {
+        self::log([
+            'level' =&gt; 'SECURITY',
+            'message' =&gt; $message,
+            'context' =&gt; $context
+        ]);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Custom Error Handlers</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">PHP Error Handler</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SecureErrorHandler
+{
+    private static bool $debugMode = false;
+
+    public static function initialize(bool $debugMode = false): void
+    {
+        self::$debugMode = $debugMode;
+
+        // Set error reporting
+        if ($debugMode) {
+            error_reporting(E_ALL);
+            ini_set('display_errors', '1');
+        } else {
+            error_reporting(E_ALL &amp; ~E_DEPRECATED);
+            ini_set('display_errors', '0');
+            ini_set('log_errors', '1');
+        }
+
+        // Register handlers
+        set_error_handler([self::class, 'handleError']);
+        set_exception_handler([self::class, 'handleException']);
+        register_shutdown_function([self::class, 'handleShutdown']);
+    }
+
+    public static function handleError(int $errno, string $errstr, string $errfile, int $errline): bool
+    {
+        // Sanitize error message
+        $safeMessage = self::sanitizeErrorMessage($errstr);
+        $safeFile = basename($errfile); // Hide full paths
+
+        // Log error securely
+        StructuredLogger::error('PHP Error', [
+            'errno' =&gt; $errno,
+            'message' =&gt; $safeMessage,
+            'file' =&gt; $safeFile,
+            'line' =&gt; $errline,
+            'ip' =&gt; $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+        ]);
+
+        // Don't display errors in production
+        return !self::$debugMode;
+    }
+
+    public static function handleException(Throwable $exception): void
+    {
+        $safeMessage = self::sanitizeErrorMessage($exception-&gt;getMessage());
+        $safeFile = basename($exception-&gt;getFile());
+
+        StructuredLogger::error('Uncaught Exception', [
+            'message' =&gt; $safeMessage,
+            'file' =&gt; $safeFile,
+            'line' =&gt; $exception-&gt;getLine(),
+            'trace' =&gt; self::$debugMode ? $exception-&gt;getTraceAsString() : null,
+            'ip' =&gt; $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+        ]);
+
+        if (!self::$debugMode) {
+            self::showErrorPage();
+        } else {
+            // Re-throw in development
+            throw $exception;
+        }
+    }
+
+    public static function handleShutdown(): void
+    {
+        $error = error_get_last();
+
+        if ($error &amp;&amp; in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+            $safeMessage = self::sanitizeErrorMessage($error['message']);
+            $safeFile = basename($error['file']);
+
+            StructuredLogger::error('Fatal Error', [
+                'message' =&gt; $safeMessage,
+                'file' =&gt; $safeFile,
+                'line' =&gt; $error['line'],
+                'ip' =&gt; $_SERVER['REMOTE_ADDR'] ?? 'unknown'
+            ]);
+
+            if (!self::$debugMode) {
+                self::showErrorPage();
+            }
+        }
+    }
+
+    private static function sanitizeErrorMessage(string $message): string
+    {
+        // Remove sensitive information from error messages
+        $patterns = [
+            '/password[\'&quot;]?\s*[:=]\s*[\'&quot;][^\'&quot;]*[\'&quot;]/i',
+            '/key[\'&quot;]?\s*[:=]\s*[\'&quot;][^\'&quot;]*[\'&quot;]/i',
+            '/secret[\'&quot;]?\s*[:=]\s*[\'&quot;][^\'&quot;]*[\'&quot;]/i',
+            '/token[\'&quot;]?\s*[:=]\s*[\'&quot;][^\'&quot;]*[\'&quot;]/i',
+            '/(mysql|pgsql).*?@/i',
+            '/\/var\/www\/[^)]*\//', // Full paths
+        ];
+
+        foreach ($patterns as $pattern) {
+            $message = preg_replace($pattern, '[REDACTED]', $message);
+        }
+
+        return $message;
+    }
+
+    private static function showErrorPage(): void
+    {
+        if (!headers_sent()) {
+            http_response_code(500);
+            header('Content-Type: text/html; charset=utf-8');
+            header('X-Content-Type-Options: nosniff');
+        }
+
+        echo self::getErrorPageHtml();
+        exit;
+    }
+
+    private static function getErrorPageHtml(): string
+    {
+        return &lt;&lt;&lt;'HTML'
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;Application Error&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .error-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 2rem;
+            text-align: center;
+            max-width: 500px;
+            margin: 1rem;
+        }
+        .error-icon {
+            font-size: 3rem;
+            color: #e74c3c;
+            margin-bottom: 1rem;
+        }
+        .error-title {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .error-message {
+            color: #7f8c8d;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .error-actions {
+            margin-top: 1.5rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #2980b9;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;error-container&quot;&gt;
+        &lt;div class=&quot;error-icon&quot;&gt;Warning:&lt;/div&gt;
+        &lt;h1 class=&quot;error-title&quot;&gt;Oops! Something went wrong&lt;/h1&gt;
+        &lt;p class=&quot;error-message&quot;&gt;
+            We encountered an unexpected error while processing your request.
+            Our team has been notified and is working to fix the issue.
+        &lt;/p&gt;
+        &lt;div class=&quot;error-actions&quot;&gt;
+            &lt;a href=&quot;/&quot; class=&quot;btn&quot;&gt;Return to Homepage&lt;/a&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+HTML;
+    }
+}
+
+// Initialize secure error handling
+SecureErrorHandler::initialize(getenv('APP_ENV') === 'development');
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Laravel Error Handling</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Exception Handler</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Exceptions;
+
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
+use Throwable;
+
+class Handler extends ExceptionHandler
+{
+    protected $dontReport = [
+        // Don't report these exceptions
+    ];
+
+    protected $dontFlash = [
+        'current_password',
+        'password',
+        'password_confirmation',
+    ];
+
+    public function report(Throwable $exception): void
+    {
+        // Custom reporting logic
+        if ($this-&gt;shouldReport($exception)) {
+            // Sanitize exception data before logging
+            $safeContext = $this-&gt;sanitizeExceptionContext([
+                'message' =&gt; $exception-&gt;getMessage(),
+                'file' =&gt; $exception-&gt;getFile(),
+                'line' =&gt; $exception-&gt;getLine(),
+                'trace' =&gt; $exception-&gt;getTraceAsString(),
+                'url' =&gt; request()-&gt;fullUrl(),
+                'ip' =&gt; request()-&gt;ip(),
+                'user_agent' =&gt; request()-&gt;userAgent(),
+                'user_id' =&gt; auth()-&gt;id(),
+            ]);
+
+            Log::error('Application Exception', $safeContext);
+        }
+
+        parent::report($exception);
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        // Custom rendering logic
+        if ($request-&gt;expectsJson()) {
+            return response()-&gt;json([
+                'error' =&gt; 'Internal Server Error',
+                'message' =&gt; app()-&gt;environment('production')
+                    ? 'An error occurred while processing your request.'
+                    : $exception-&gt;getMessage()
+            ], 500);
+        }
+
+        // Show custom error page in production
+        if (app()-&gt;environment('production')) {
+            return response()-&gt;view('errors.500', [], 500);
+        }
+
+        return parent::render($request, $exception);
+    }
+
+    private function sanitizeExceptionContext(array $context): array
+    {
+        // Remove sensitive data from context
+        $sensitiveKeys = ['password', 'password_confirmation', 'credit_card', 'api_key'];
+
+        foreach ($context as $key =&gt; $value) {
+            if (in_array($key, $sensitiveKeys) || str_contains(strtolower($key), 'password')) {
+                $context[$key] = '[REDACTED]';
+            }
+
+            // Sanitize file paths
+            if ($key === 'file' &amp;&amp; is_string($value)) {
+                $context[$key] = basename($value);
+            }
+
+            // Sanitize stack traces
+            if ($key === 'trace' &amp;&amp; is_string($value)) {
+                $context[$key] = $this-&gt;sanitizeStackTrace($value);
+            }
+        }
+
+        return $context;
+    }
+
+    private function sanitizeStackTrace(string $trace): string
+    {
+        // Remove full paths and sensitive information
+        $lines = explode(&quot;\n&quot;, $trace);
+        $sanitized = [];
+
+        foreach ($lines as $line) {
+            // Replace full paths with relative paths
+            $line = preg_replace('/\/var\/www\/[^)]*\//', '/app/', $line);
+            $line = preg_replace('/\/home\/[^\/]*\//', '/home/user/', $line);
+
+            // Remove sensitive function calls
+            $line = preg_replace('/password.*?\)/i', 'password([REDACTED]))', $line);
+
+            $sanitized[] = $line;
+        }
+
+        return implode(&quot;\n&quot;, $sanitized);
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Logging Configuration</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// config/logging.php
+return [
+    'default' =&gt; env('LOG_CHANNEL', 'stack'),
+
+    'channels' =&gt; [
+        'stack' =&gt; [
+            'driver' =&gt; 'stack',
+            'channels' =&gt; ['single', 'daily'],
+            'ignore_exceptions' =&gt; false,
+        ],
+
+        'single' =&gt; [
+            'driver' =&gt; 'single',
+            'path' =&gt; storage_path('logs/laravel.log'),
+            'level' =&gt; env('LOG_LEVEL', 'debug'),
+        ],
+
+        'daily' =&gt; [
+            'driver' =&gt; 'daily',
+            'path' =&gt; storage_path('logs/laravel.log'),
+            'level' =&gt; env('LOG_LEVEL', 'debug'),
+            'days' =&gt; 14,
+        ],
+
+        'security' =&gt; [
+            'driver' =&gt; 'daily',
+            'path' =&gt; storage_path('logs/security.log'),
+            'level' =&gt; 'debug',
+            'days' =&gt; 90, // Keep security logs longer
+        ],
+    ],
+];
+
+// Usage
+use Illuminate\Support\Facades\Log;
+
+Log::channel('security')-&gt;info('User login', [
+    'user_id' =&gt; auth()-&gt;id(),
+    'ip' =&gt; request()-&gt;ip(),
+    'user_agent' =&gt; request()-&gt;userAgent()
+]);
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Log Analysis and Monitoring</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Log Parsing and Analysis</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class LogAnalyzer
+{
+    public static function analyzeSecurityLogs(string $logFile): array
+    {
+        $analysis = [
+            'total_entries' =&gt; 0,
+            'security_events' =&gt; 0,
+            'failed_logins' =&gt; 0,
+            'suspicious_ips' =&gt; [],
+            'error_patterns' =&gt; []
+        ];
+
+        if (!file_exists($logFile)) {
+            return $analysis;
+        }
+
+        $lines = file($logFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+        foreach ($lines as $line) {
+            $analysis['total_entries']++;
+
+            // Parse JSON log entries
+            $entry = json_decode($line, true);
+            if (!$entry) continue;
+
+            // Analyze security events
+            if (isset($entry['level']) &amp;&amp; $entry['level'] === 'SECURITY') {
+                $analysis['security_events']++;
+
+                if (isset($entry['message']) &amp;&amp; str_contains($entry['message'], 'LOGIN_ATTEMPT')) {
+                    if (isset($entry['data']['success']) &amp;&amp; !$entry['data']['success']) {
+                        $analysis['failed_logins']++;
+
+                        $ip = $entry['ip'] ?? 'unknown';
+                        if (!isset($analysis['suspicious_ips'][$ip])) {
+                            $analysis['suspicious_ips'][$ip] = 0;
+                        }
+                        $analysis['suspicious_ips'][$ip]++;
+                    }
+                }
+            }
+
+            // Analyze error patterns
+            if (isset($entry['level']) &amp;&amp; $entry['level'] === 'ERROR') {
+                $message = $entry['message'] ?? '';
+                $pattern = self::extractErrorPattern($message);
+
+                if (!isset($analysis['error_patterns'][$pattern])) {
+                    $analysis['error_patterns'][$pattern] = 0;
+                }
+                $analysis['error_patterns'][$pattern]++;
+            }
+        }
+
+        // Filter suspicious IPs (more than 5 failed attempts)
+        $analysis['suspicious_ips'] = array_filter(
+            $analysis['suspicious_ips'],
+            fn($count) =&gt; $count &gt; 5
+        );
+
+        return $analysis;
+    }
+
+    private static function extractErrorPattern(string $message): string
+    {
+        // Extract common error patterns
+        if (preg_match('/SQLSTATE\[\w+\]/', $message)) {
+            return 'Database Error';
+        }
+
+        if (preg_match('/Undefined (variable|index)/', $message)) {
+            return 'Undefined Variable/Index';
+        }
+
+        if (preg_match('/Call to undefined method/', $message)) {
+            return 'Undefined Method';
+        }
+
+        return 'Other Error';
+    }
+
+    public static function generateSecurityReport(): string
+    {
+        $logFile = '/var/log/app/security.log';
+        $analysis = self::analyzeSecurityLogs($logFile);
+
+        $report = &quot; Security Log Analysis Report\n&quot;;
+        $report .= &quot;Generated: &quot; . date('Y-m-d H:i:s') . &quot;\n\n&quot;;
+
+        $report .= &quot; Summary:\n&quot;;
+        $report .= &quot;- Total Log Entries: {$analysis['total_entries']}\n&quot;;
+        $report .= &quot;- Security Events: {$analysis['security_events']}\n&quot;;
+        $report .= &quot;- Failed Login Attempts: {$analysis['failed_logins']}\n\n&quot;;
+
+        if (!empty($analysis['suspicious_ips'])) {
+            $report .= &quot; Suspicious IPs:\n&quot;;
+            foreach ($analysis['suspicious_ips'] as $ip =&gt; $count) {
+                $report .= &quot;- {$ip}: {$count} failed attempts\n&quot;;
+            }
+            $report .= &quot;\n&quot;;
+        }
+
+        if (!empty($analysis['error_patterns'])) {
+            $report .= &quot; Error Patterns:\n&quot;;
+            foreach ($analysis['error_patterns'] as $pattern =&gt; $count) {
+                $report .= &quot;- {$pattern}: {$count} occurrences\n&quot;;
+            }
+        }
+
+        return $report;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Log Rotation and Retention</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Automated Log Rotation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash">#!/bin/bash
+# log-rotate.sh - Secure log rotation script
+
+LOG_DIR=&quot;/var/log/app&quot;
+BACKUP_DIR=&quot;/var/log/app/archive&quot;
+RETENTION_DAYS=90
+
+# Ensure directories exist
+mkdir -p &quot;$BACKUP_DIR&quot;
+
+# Rotate current logs
+for log_file in &quot;$LOG_DIR&quot;/*.log; do
+    if [ -f &quot;$log_file&quot; ]; then
+        base_name=$(basename &quot;$log_file&quot; .log)
+        timestamp=$(date +%Y%m%d_%H%M%S)
+        backup_file=&quot;$BACKUP_DIR/${base_name}_${timestamp}.log.gz&quot;
+
+        # Compress and backup
+        gzip -c &quot;$log_file&quot; &gt; &quot;$backup_file&quot;
+
+        # Clear original log
+        &gt; &quot;$log_file&quot;
+
+        # Set secure permissions on backup
+        chmod 600 &quot;$backup_file&quot;
+    fi
+done
+
+# Remove old backups
+find &quot;$BACKUP_DIR&quot; -name &quot;*.log.gz&quot; -mtime +$RETENTION_DAYS -delete
+
+echo &quot;Log rotation completed at $(date)&quot;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Log Integrity Monitoring</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class LogIntegrityMonitor
+{
+    private static string $integrityFile = '/var/log/app/integrity.hash';
+
+    public static function updateIntegrityHash(): void
+    {
+        $logFiles = glob('/var/log/app/*.log');
+        $hashes = [];
+
+        foreach ($logFiles as $file) {
+            $hashes[$file] = hash_file('sha256', $file);
+        }
+
+        file_put_contents(self::$integrityFile, json_encode([
+            'timestamp' =&gt; time(),
+            'hashes' =&gt; $hashes
+        ]));
+
+        chmod(self::$integrityFile, 0600);
+    }
+
+    public static function verifyIntegrity(): array
+    {
+        $issues = [];
+
+        if (!file_exists(self::$integrityFile)) {
+            $issues[] = 'Integrity file missing';
+            return $issues;
+        }
+
+        $integrity = json_decode(file_get_contents(self::$integrityFile), true);
+
+        if (!$integrity || !isset($integrity['hashes'])) {
+            $issues[] = 'Invalid integrity file';
+            return $issues;
+        }
+
+        $currentHashes = [];
+        foreach ($integrity['hashes'] as $file =&gt; $storedHash) {
+            if (file_exists($file)) {
+                $currentHash = hash_file('sha256', $file);
+                if ($currentHash !== $storedHash) {
+                    $issues[] = &quot;Log file modified: {$file}&quot;;
+                }
+            } else {
+                $issues[] = &quot;Log file missing: {$file}&quot;;
+            }
+        }
+
+        return $issues;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Error Handling Best Practices</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Fail Safely</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+function processPayment(array $data): bool
+{
+    try {
+        // Validate input
+        if (empty($data['amount']) || !is_numeric($data['amount'])) {
+            StructuredLogger::error('Invalid payment amount', [
+                'amount' =&gt; $data['amount'] ?? 'null',
+                'user_id' =&gt; $data['user_id'] ?? 'unknown'
+            ]);
+            return false;
+        }
+
+        // Process payment
+        $result = $this-&gt;paymentGateway-&gt;charge($data);
+
+        if (!$result['success']) {
+            StructuredLogger::error('Payment failed', [
+                'error' =&gt; $result['error'],
+                'user_id' =&gt; $data['user_id']
+            ]);
+            return false;
+        }
+
+        StructuredLogger::log('Payment successful', [
+            'amount' =&gt; $data['amount'],
+            'user_id' =&gt; $data['user_id']
+        ]);
+
+        return true;
+
+    } catch (Exception $e) {
+        StructuredLogger::error('Payment processing error', [
+            'error' =&gt; $e-&gt;getMessage(),
+            'user_id' =&gt; $data['user_id'] ?? 'unknown'
+        ]);
+        return false;
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. Graceful Degradation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class GracefulDegradationHandler
+{
+    public static function handleServiceFailure(string $service, Exception $e): mixed
+    {
+        StructuredLogger::error(&quot;Service failure: {$service}&quot;, [
+            'error' =&gt; $e-&gt;getMessage(),
+            'service' =&gt; $service
+        ]);
+
+        // Return cached data if available
+        $cached = self::getCachedData($service);
+        if ($cached) {
+            return $cached;
+        }
+
+        // Return default/fallback data
+        return self::getFallbackData($service);
+    }
+
+    public static function handleDatabaseFailure(PDOException $e): array
+    {
+        StructuredLogger::error('Database connection failed', [
+            'error' =&gt; $e-&gt;getMessage()
+        ]);
+
+        // Try to reconnect
+        try {
+            // Attempt reconnection logic
+            return ['status' =&gt; 'reconnected'];
+        } catch (Exception $reconnectError) {
+            // Use read-only mode or cached data
+            return ['status' =&gt; 'readonly_mode'];
+        }
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. User-Friendly Error Messages</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class UserFriendlyErrors
+{
+    private static array $errorMessages = [
+        'db_connection' =&gt; 'Service temporarily unavailable. Please try again later.',
+        'payment_failed' =&gt; 'Payment could not be processed. Please check your payment information.',
+        'file_upload' =&gt; 'File upload failed. Please try again or contact support.',
+        'validation' =&gt; 'Please check your input and try again.',
+        'permission' =&gt; 'You do not have permission to perform this action.',
+        'not_found' =&gt; 'The requested resource was not found.',
+        'rate_limit' =&gt; 'Too many requests. Please wait before trying again.',
+    ];
+
+    public static function getMessage(string $errorType, array $context = []): string
+    {
+        $message = self::$errorMessages[$errorType] ??
+                  'An unexpected error occurred. Please try again later.';
+
+        // Log detailed error internally
+        StructuredLogger::error(&quot;User error: {$errorType}&quot;, $context);
+
+        return $message;
+    }
+
+    public static function handleExceptionForUser(Throwable $exception): string
+    {
+        // Log full exception details
+        StructuredLogger::error('Exception for user', [
+            'message' =&gt; $exception-&gt;getMessage(),
+            'file' =&gt; basename($exception-&gt;getFile()),
+            'line' =&gt; $exception-&gt;getLine(),
+            'trace' =&gt; app()-&gt;environment('production') ? null : $exception-&gt;getTraceAsString()
+        ]);
+
+        // Return user-friendly message
+        return 'Something went wrong. Our team has been notified.';
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Security Monitoring Integration</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Real-time Alerting</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SecurityAlertSystem
+{
+    public static function checkForAnomalies(): void
+    {
+        $analysis = LogAnalyzer::analyzeSecurityLogs('/var/log/app/security.log');
+
+        // Alert thresholds
+        if ($analysis['failed_logins'] &gt; 10) {
+            self::sendAlert('High number of failed login attempts detected');
+        }
+
+        if (count($analysis['suspicious_ips']) &gt; 5) {
+            self::sendAlert('Multiple suspicious IP addresses detected');
+        }
+
+        // Check for error spikes
+        $errorCount = array_sum($analysis['error_patterns']);
+        if ($errorCount &gt; 50) {
+            self::sendAlert('High error rate detected');
+        }
+    }
+
+    public static function sendAlert(string $message): void
+    {
+        // Log alert
+        StructuredLogger::security('ALERT: ' . $message);
+
+        // Send email alert
+        $alertEmail = getenv('SECURITY_ALERT_EMAIL') ?: 'admin@example.com';
+        $subject = 'Security Alert: ' . date('Y-m-d H:i:s');
+
+        mail($alertEmail, $subject, $message);
+
+        // Could also integrate with Slack, PagerDuty, etc.
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Summary: Error Handling &amp; Logging Rules</h2>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li><strong>Never display errors in production</strong> - Hide sensitive information from users</li>
+<li><strong>Log everything securely</strong> - Use structured logging with sensitive data sanitization</li>
+<li><strong>Implement custom error handlers</strong> - Control error display and logging</li>
+<li><strong>Sanitize error messages</strong> - Remove passwords, keys, and file paths</li>
+<li><strong>Use graceful error pages</strong> - User-friendly error messages</li>
+<li><strong>Monitor logs regularly</strong> - Detect security incidents and anomalies</li>
+<li><strong>Implement log rotation</strong> - Manage log file sizes and retention</li>
+<li><strong>Maintain log integrity</strong> - Prevent log tampering</li>
+<li><strong>Fail safely</strong> - Graceful degradation when services fail</li>
+<li><strong>Alert on anomalies</strong> - Real-time security monitoring</li>
+</ol>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Next Steps</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Now that you understand error handling and logging, explore:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong><a href="/security/laravel/secure-deployment.html">Dependency Security</a></strong> - Secure package management</li>
+<li><strong><a href="/security/laravel/laravel-security.html">Access Control</a></strong> - User permissions and authorization</li>
+<li><strong><a href="/security/laravel/secure-configuration.html">Secure Configuration</a></strong> - Production configuration security</li>
+</ul>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Remember: Proper error handling and logging are essential for both security monitoring and preventing information disclosure. Implement comprehensive logging and never expose sensitive error details to users!</p>
+    </div>
+
+    <!-- Ask AI Assistant Row -->
+    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://chatgpt.com/?q=Error+Handling+&+Logging+Laravel+security+best+practices+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          ChatGPT &nearr;
+        </a>
+        <a href="https://www.perplexity.ai/search?q=Error+Handling+&+Logging+Laravel+PHP+8.4+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Perplexity &nearr;
+        </a>
+        <a href="https://claude.ai/new?q=Explain+Error+Handling+&+Logging+in+Laravel+applications+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Claude &nearr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
+      <div><a href="/security/laravel/secure-deployment.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: Secure Server Deployment &amp; TLS 1.3</a></div>
+      <div><a href="/security/laravel/checklist.html" class="button-primary text-xs flex items-center gap-1.5">Master Checklist &rarr;</a></div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

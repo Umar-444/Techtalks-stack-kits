@@ -1,0 +1,24 @@
+# Cloudflare Pages Clean URL Redirects
+/security/laravel/checklist /security/laravel/checklist.html 301
+/security/laravel/secure-coding-basics /security/laravel/secure-coding-basics.html 301
+/security/laravel/php-security /security/laravel/php-security.html 301
+/security/laravel/laravel-security /security/laravel/laravel-security.html 301
+/security/laravel/password-handling /security/laravel/password-handling.html 301
+/security/laravel/session-security /security/laravel/session-security.html 301
+/security/laravel/input-handling /security/laravel/input-handling.html 301
+/security/laravel/sql-injection /security/laravel/sql-injection.html 301
+/security/laravel/xss-protection /security/laravel/xss-protection.html 301
+/security/laravel/csrf-protection /security/laravel/csrf-protection.html 301
+/security/laravel/file-uploads /security/laravel/file-uploads.html 301
+/security/laravel/api-security-basics /security/laravel/api-security-basics.html 301
+/security/laravel/common-vulnerabilities /security/laravel/common-vulnerabilities.html 301
+/security/laravel/prompt-injection /security/laravel/prompt-injection.html 301
+/security/laravel/llm-api-key-security /security/laravel/llm-api-key-security.html 301
+/security/laravel/rag-tenant-isolation /security/laravel/rag-tenant-isolation.html 301
+/security/laravel/agent-tool-sandboxing /security/laravel/agent-tool-sandboxing.html 301
+/security/laravel/pii-redaction /security/laravel/pii-redaction.html 301
+/security/laravel/model-output-validation /security/laravel/model-output-validation.html 301
+/security/laravel/secure-configuration /security/laravel/secure-configuration.html 301
+/security/laravel/secure-headers /security/laravel/secure-headers.html 301
+/security/laravel/secure-deployment /security/laravel/secure-deployment.html 301
+/security/laravel/error-handling-logging /security/laravel/error-handling-logging.html 301

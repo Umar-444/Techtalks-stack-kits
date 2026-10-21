@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Configuration — Laravel Security Masterclass</title>
+  <meta name="description" content="Application configuration contains sensitive information that attackers target: - Database credentials - Access to data - API keys - Unauthorized service a">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/secure-configuration.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/secure-configuration.html">
+  <meta property="og:title" content="Secure Configuration — Laravel Security Masterclass">
+  <meta property="og:description" content="Application configuration contains sensitive information that attackers target: - Database credentials - Access to data - API keys - Unauthorized service a">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="Secure Configuration — Laravel Security Masterclass">
+  <meta name="twitter:description" content="Application configuration contains sensitive information that attackers target: - Database credentials - Access to data - API keys - Unauthorized service a">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Secure Configuration",
+      "description": "Application configuration contains sensitive information that attackers target: - Database credentials - Access to data - API keys - Unauthorized service access",
+      "author": {
+        "@type": "Person",
+        "name": "Umar Farooq",
+        "email": "contact@itsumarfarooq.com",
+        "url": "https://itsumarfarooq.com",
+        "jobTitle": "Senior Full-Stack & Security Engineer",
+        "sameAs": [
+          "https://github.com/umar-444",
+          "https://linkedin.com/in/umar444",
+          "https://x.com/umartechtalks",
+          "https://worldwebtree.com"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "UmarTechTalks",
+        "url": "https://techtalks.itsumarfarooq.com"
+      },
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://techtalks.itsumarfarooq.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Security Hub",
+          "item": "https://techtalks.itsumarfarooq.com/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Laravel Track",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Secure Configuration",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/secure-configuration.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
+    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">Secure Configuration</span>
+    </nav>
+
+    <!-- Lesson Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 06</span>
+        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 19</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
+        Secure Configuration
+      </h1>
+      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+        <span>Curated by Umar Farooq</span>
+        <span>&bull;</span>
+        <span>13 min read</span>
+      </div>
+    </div>
+
+    <!-- Quick Answer Box -->
+    <div class="quick-answer">
+      <div class="quick-answer-badge">Quick Answer &amp; Core Takeaway</div>
+      <p class="text-ink dark:text-white font-medium text-[15px] leading-relaxed">
+        Application configuration contains sensitive information that attackers target: - Database credentials - Access to data - API keys - Unauthorized service access - Encryption keys - Data decryption - Debug information - System reconnaissance - Server details - Attack planning
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="lesson-content my-8">
+      <h1>Secure Configuration</h1>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Why Configuration Security Matters</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Application configuration contains sensitive information that attackers target:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Database credentials</strong> - Access to data</li>
+<li><strong>API keys</strong> - Unauthorized service access</li>
+<li><strong>Encryption keys</strong> - Data decryption</li>
+<li><strong>Debug information</strong> - System reconnaissance</li>
+<li><strong>Server details</strong> - Attack planning</li>
+</ul>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Poor configuration security is responsible for many data breaches.</p>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Environment Variables (.env files)</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">The Problem with .env Files</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Laravel and many PHP frameworks use <code>.env</code> files to store configuration. These files are often:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Committed to version control</strong> (accidentally)</li>
+<li><strong>Readable by web server</strong> (misconfiguration)</li>
+<li><strong>Exposed in error messages</strong> (debug mode)</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure .env File Management</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">1. Never Commit .env Files</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># .gitignore should always include:
+.env
+.env.local
+.env.production
+.env.staging
+
+# Never commit these files!
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">2. Secure File Permissions</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># Set restrictive permissions on .env files
+chmod 600 .env
+chown www-data:www-data .env
+
+# Ensure web server cannot read .env directly
+# Place .env outside web root if possible
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">3. Use Environment-Specific Configurations</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># Directory structure
+project/
+├── .env.example          # Template (safe to commit)
+├── .env.local           # Local development
+├── .env.staging         # Staging environment
+└── .env.production      # Production environment
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">4. Encrypt Sensitive Values</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// Don't store plain text secrets
+// BAD:
+DB_PASSWORD=mysecretpassword
+API_KEY=sk_live_123456789
+
+// GOOD: Use encrypted values or environment variables
+DB_PASSWORD=${DB_PASSWORD_ENCRYPTED}
+API_KEY=${API_KEY_ENCRYPTED}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel .env Security</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Laravel Environment Detection</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// config/app.php - Secure environment detection
+'env' =&gt; env('APP_ENV', 'production'),
+
+// Ensure production environment is properly detected
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Secure Laravel Configuration</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// config/app.php - Production settings
+'debug' =&gt; env('APP_DEBUG', false), // NEVER true in production
+'env' =&gt; env('APP_ENV', 'production'),
+
+// config/database.php - Secure database config
+'connections' =&gt; [
+    'mysql' =&gt; [
+        'host' =&gt; env('DB_HOST', '127.0.0.1'),
+        'database' =&gt; env('DB_DATABASE'),
+        'username' =&gt; env('DB_USERNAME'),
+        'password' =&gt; env('DB_PASSWORD'),
+        'charset' =&gt; 'utf8mb4',
+        'options' =&gt; [
+            PDO::MYSQL_ATTR_SSL_CA =&gt; env('MYSQL_SSL_CA'), // Use SSL
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT =&gt; true,
+        ],
+    ],
+],
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Debug Mode Security</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">The Dangers of Debug Mode</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Debug mode exposes sensitive information:</p>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// Debug enabled - DANGEROUS in production
+APP_DEBUG=true
+
+// Exposed information:
+- Full file paths
+- Database queries with parameters
+- Session data
+- Environment variables
+- Stack traces with sensitive data
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure Debug Configuration</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Laravel Debug Management</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// config/app.php
+'debug' =&gt; env('APP_DEBUG', false),
+
+// Bootstrap/app.php - Environment-specific debug
+$app-&gt;useEnvironmentPath(__DIR__.'/../');
+$app-&gt;loadEnvironmentFrom('.env');
+
+// Only enable debug for specific environments
+if ($app-&gt;environment(['local', 'development'])) {
+    $app-&gt;make('config')-&gt;set('app.debug', true);
+}
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">PHP Error Reporting</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// Production error reporting - hide sensitive info
+ini_set('display_errors', '0');          // Don't display errors
+ini_set('display_startup_errors', '0');  // Hide startup errors
+error_reporting(E_ALL &amp; ~E_DEPRECATED); // Log all but deprecated
+
+// Development error reporting - show everything
+if (getenv('APP_ENV') === 'development') {
+    ini_set('display_errors', '1');
+    ini_set('display_startup_errors', '1');
+    error_reporting(E_ALL);
+}
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Custom Error Handler</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SecureErrorHandler
+{
+    public static function setup(): void
+    {
+        // Custom error handler
+        set_error_handler([self::class, 'handleError']);
+
+        // Custom exception handler
+        set_exception_handler([self::class, 'handleException']);
+
+        // Fatal error handler
+        register_shutdown_function([self::class, 'handleShutdown']);
+    }
+
+    public static function handleError(int $errno, string $errstr, string $errfile, int $errline): bool
+    {
+        // Log error securely
+        self::logError('PHP Error', [
+            'errno' =&gt; $errno,
+            'errstr' =&gt; self::sanitizeErrorMessage($errstr),
+            'errfile' =&gt; basename($errfile), // Don't expose full paths
+            'errline' =&gt; $errline,
+        ]);
+
+        // Don't display errors in production
+        if (getenv('APP_ENV') === 'production') {
+            return true; // Prevent default error handler
+        }
+
+        return false; // Use default error handler in development
+    }
+
+    public static function handleException(Throwable $exception): void
+    {
+        self::logError('Uncaught Exception', [
+            'message' =&gt; self::sanitizeErrorMessage($exception-&gt;getMessage()),
+            'file' =&gt; basename($exception-&gt;getFile()),
+            'line' =&gt; $exception-&gt;getLine(),
+            'trace' =&gt; self::sanitizeStackTrace($exception-&gt;getTraceAsString()),
+        ]);
+
+        // Show user-friendly error page
+        if (getenv('APP_ENV') === 'production') {
+            http_response_code(500);
+            echo self::getErrorPage();
+            exit;
+        }
+
+        // Re-throw in development
+        throw $exception;
+    }
+
+    public static function handleShutdown(): void
+    {
+        $error = error_get_last();
+        if ($error &amp;&amp; in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+            self::logError('Fatal Error', [
+                'message' =&gt; self::sanitizeErrorMessage($error['message']),
+                'file' =&gt; basename($error['file']),
+                'line' =&gt; $error['line'],
+            ]);
+
+            if (getenv('APP_ENV') === 'production') {
+                http_response_code(500);
+                echo self::getErrorPage();
+            }
+        }
+    }
+
+    private static function sanitizeErrorMessage(string $message): string
+    {
+        // Remove sensitive information from error messages
+        $patterns = [
+            '/(password|passwd|pwd)[\'&quot;]?\s*[:=]\s*[\'&quot;][^\'&quot;]*[\'&quot;]/i',
+            '/(key|token|secret)[\'&quot;]?\s*[:=]\s*[\'&quot;][^\'&quot;]*[\'&quot;]/i',
+            '/(mysql|database).*?@/i',
+        ];
+
+        foreach ($patterns as $pattern) {
+            $message = preg_replace($pattern, '[REDACTED]', $message);
+        }
+
+        return $message;
+    }
+
+    private static function sanitizeStackTrace(string $trace): string
+    {
+        // Remove full paths from stack trace
+        $lines = explode(&quot;\n&quot;, $trace);
+        $sanitized = [];
+
+        foreach ($lines as $line) {
+            // Replace full paths with relative paths
+            $line = preg_replace('/\/var\/www\/[^)]*\//', '/app/', $line);
+            $sanitized[] = $line;
+        }
+
+        return implode(&quot;\n&quot;, $sanitized);
+    }
+
+    private static function logError(string $type, array $data): void
+    {
+        $logMessage = sprintf(
+            &quot;[%s] %s in %s:%d - %s&quot;,
+            date('Y-m-d H:i:s'),
+            $type,
+            $data['file'] ?? 'unknown',
+            $data['line'] ?? 0,
+            $data['message'] ?? 'No message'
+        );
+
+        error_log($logMessage);
+    }
+
+    private static function getErrorPage(): string
+    {
+        return &lt;&lt;&lt;'HTML'
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Server Error&lt;/title&gt;
+    &lt;style&gt;
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        .error { color: #d9534f; font-size: 24px; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1 class=&quot;error&quot;&gt;Oops! Something went wrong.&lt;/h1&gt;
+    &lt;p&gt;We're working to fix this issue. Please try again later.&lt;/p&gt;
+    &lt;p&gt;If the problem persists, contact support.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+HTML;
+    }
+}
+
+// Setup secure error handling
+SecureErrorHandler::setup();
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">PHP Version Hiding</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Why Hide PHP Version?</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">PHP version disclosure helps attackers:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Identify vulnerabilities</strong> in specific PHP versions</li>
+<li><strong>Target known exploits</strong> for that version</li>
+<li><strong>Plan attacks</strong> based on PHP capabilities</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Hiding PHP Version</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">1. PHP Configuration</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-ini">; php.ini - Hide PHP version
+expose_php = Off
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">2. Web Server Configuration</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-apache"># Apache .htaccess
+&lt;IfModule mod_headers.c&gt;
+    Header unset X-Powered-By
+    Header unset Server
+&lt;/IfModule&gt;
+
+# Nginx configuration
+server {
+    # Hide nginx version
+    server_tokens off;
+
+    # Hide PHP version
+    fastcgi_hide_header X-Powered-By;
+    fastcgi_hide_header Server;
+}
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">3. PHP Code Headers</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// Remove PHP version from headers
+header_remove('X-Powered-By');
+header_remove('Server');
+
+// Custom server header (optional)
+header('Server: Web Server');
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">4. Laravel Specific</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// In Laravel middleware
+class SecurityHeadersMiddleware
+{
+    public function handle($request, $next)
+    {
+        $response = $next($request);
+
+        // Remove PHP/Laravel version headers
+        $response-&gt;headers-&gt;remove('X-Powered-By');
+        $response-&gt;headers-&gt;remove('Server');
+
+        return $response;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Production PHP Configuration</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure php.ini Settings</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-ini">; php.ini - Production Security Settings
+
+; Error Handling
+display_errors = Off
+display_startup_errors = Off
+error_reporting = E_ALL &amp; ~E_DEPRECATED &amp; ~E_STRICT
+log_errors = On
+error_log = /var/log/php_errors.log
+
+; File Uploads
+file_uploads = On
+upload_max_filesize = 10M
+max_file_uploads = 5
+post_max_size = 12M
+
+; Session Security
+session.cookie_secure = 1
+session.cookie_httponly = 1
+session.cookie_samesite = &quot;Strict&quot;
+session.use_only_cookies = 1
+session.gc_maxlifetime = 1440
+session.save_path = &quot;/var/secure/sessions&quot;
+
+; Resource Limits
+max_execution_time = 30
+max_input_time = 60
+memory_limit = 128M
+
+; Security
+expose_php = Off
+allow_url_fopen = Off
+allow_url_include = Off
+disable_functions = exec,passthru,shell_exec,system,proc_open,popen,curl_exec,curl_multi_exec,parse_ini_file,show_source
+
+; OpenSSL
+openssl.cafile = /etc/ssl/certs/ca-certificates.crt
+
+; Timezone
+date.timezone = &quot;UTC&quot;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">PHP-FPM Configuration</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-ini">; /etc/php/7.4/fpm/php-fpm.conf
+[www]
+
+; Security settings
+security.limit_extensions = .php .php3 .php4 .php5 .php7
+
+; Process management
+pm = dynamic
+pm.max_children = 50
+pm.start_servers = 5
+pm.min_spare_servers = 5
+pm.max_spare_servers = 35
+
+; Logging
+log_level = notice
+access.log = /var/log/php-fpm/access.log
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Opcache Security</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-ini">; opcache.ini - Production settings
+opcache.enable = 1
+opcache.enable_cli = 0
+opcache.memory_consumption = 256
+opcache.max_accelerated_files = 7963
+opcache.revalidate_freq = 0
+opcache.validate_timestamps = 0 ; Set to 1 in development
+opcache.save_comments = 0
+opcache.enable_file_override = 0
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Database Configuration Security</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure Database Connections</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SecureDatabaseConfig
+{
+    public static function getSecurePDO(string $env): PDO
+    {
+        $config = self::getDatabaseConfig($env);
+
+        $dsn = sprintf(
+            'mysql:host=%s;dbname=%s;charset=utf8mb4',
+            $config['host'],
+            $config['database']
+        );
+
+        $options = [
+            PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE =&gt; PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES =&gt; false,
+            PDO::MYSQL_ATTR_INIT_COMMAND =&gt; 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci',
+            PDO::MYSQL_ATTR_SSL_CA =&gt; $config['ssl_ca'] ?? null,
+            PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT =&gt; true,
+        ];
+
+        return new PDO($dsn, $config['username'], $config['password'], $options);
+    }
+
+    private static function getDatabaseConfig(string $env): array
+    {
+        // Load from secure environment variables
+        return [
+            'host' =&gt; getenv('DB_HOST') ?: 'localhost',
+            'database' =&gt; getenv('DB_NAME') ?: 'app_db',
+            'username' =&gt; getenv('DB_USER'),
+            'password' =&gt; getenv('DB_PASS'),
+            'ssl_ca' =&gt; getenv('DB_SSL_CA'),
+        ];
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Database Security</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// config/database.php - Secure configuration
+return [
+    'connections' =&gt; [
+        'mysql' =&gt; [
+            'driver' =&gt; 'mysql',
+            'host' =&gt; env('DB_HOST', '127.0.0.1'),
+            'port' =&gt; env('DB_PORT', '3306'),
+            'database' =&gt; env('DB_DATABASE'),
+            'username' =&gt; env('DB_USERNAME'),
+            'password' =&gt; env('DB_PASSWORD'),
+            'unix_socket' =&gt; env('DB_SOCKET'),
+            'charset' =&gt; 'utf8mb4',
+            'collation' =&gt; 'utf8mb4_unicode_ci',
+            'prefix' =&gt; '',
+            'strict' =&gt; true, // Strict mode for security
+            'engine' =&gt; null,
+            'options' =&gt; [
+                PDO::MYSQL_ATTR_SSL_CA =&gt; env('MYSQL_SSL_CA'),
+                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT =&gt; env('MYSQL_SSL_VERIFY_SERVER_CERT', true),
+                PDO::ATTR_PERSISTENT =&gt; false, // Don't use persistent connections
+            ],
+        ],
+    ],
+];
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Application Configuration Security</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure API Keys Management</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SecureApiKeyManager
+{
+    private static array $keys = [];
+
+    public static function loadKeys(): void
+    {
+        // Load from secure environment variables
+        self::$keys = [
+            'stripe_secret' =&gt; getenv('STRIPE_SECRET_KEY'),
+            'aws_access' =&gt; getenv('AWS_ACCESS_KEY_ID'),
+            'aws_secret' =&gt; getenv('AWS_SECRET_ACCESS_KEY'),
+            'jwt_secret' =&gt; getenv('JWT_SECRET'),
+        ];
+
+        // Validate required keys exist
+        $required = ['stripe_secret', 'jwt_secret'];
+        foreach ($required as $key) {
+            if (empty(self::$keys[$key])) {
+                throw new RuntimeException(&quot;Required configuration key missing: {$key}&quot;);
+            }
+        }
+    }
+
+    public static function getKey(string $name): ?string
+    {
+        return self::$keys[$name] ?? null;
+    }
+
+    public static function validateConfiguration(): array
+    {
+        $issues = [];
+
+        // Check file permissions
+        $envFile = __DIR__ . '/../.env';
+        if (file_exists($envFile)) {
+            $perms = fileperms($envFile) &amp; 0777;
+            if ($perms !== 0600) {
+                $issues[] = '.env file has incorrect permissions (should be 600)';
+            }
+        }
+
+        // Check debug mode
+        if (getenv('APP_DEBUG') === 'true' &amp;&amp; getenv('APP_ENV') === 'production') {
+            $issues[] = 'Debug mode enabled in production';
+        }
+
+        // Check required environment variables
+        $required = ['APP_KEY', 'DB_PASSWORD', 'REDIS_PASSWORD'];
+        foreach ($required as $var) {
+            if (empty(getenv($var))) {
+                $issues[] = &quot;Missing required environment variable: {$var}&quot;;
+            }
+        }
+
+        return $issues;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Deployment Configuration</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure Deployment Script</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash">#!/bin/bash
+# secure-deploy.sh
+
+set -e  # Exit on any error
+
+echo &quot; Starting secure deployment...&quot;
+
+# Check environment
+if [ &quot;$ENVIRONMENT&quot; != &quot;production&quot; ]; then
+    echo &quot;[INSECURE] This script should only run in production&quot;
+    exit 1
+fi
+
+# Validate configuration
+echo &quot; Validating configuration...&quot;
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# Check for security issues
+echo &quot; Running security checks...&quot;
+if php artisan tinker --execute=&quot;echo app()-&gt;environment()&quot; | grep -q &quot;production&quot;; then
+    echo &quot;[SECURE] Environment correctly set to production&quot;
+else
+    echo &quot;[INSECURE] Environment not set to production&quot;
+    exit 1
+fi
+
+# Set secure permissions
+echo &quot; Setting secure permissions...&quot;
+find . -type f -name &quot;*.php&quot; -exec chmod 644 {} \;
+find . -type d -exec chmod 755 {} \;
+chmod 600 .env
+chmod 600 storage/logs/*.log
+
+# Clear sensitive caches
+echo &quot; Clearing sensitive data...&quot;
+php artisan config:clear
+php artisan cache:clear
+php artisan view:clear
+
+# Health check
+echo &quot; Running health checks...&quot;
+curl -f -s http://localhost/health-check &gt; /dev/null
+if [ $? -eq 0 ]; then
+    echo &quot;[SECURE] Application health check passed&quot;
+else
+    echo &quot;[INSECURE] Application health check failed&quot;
+    exit 1
+fi
+
+echo &quot; Secure deployment completed successfully!&quot;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Configuration Validation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// Laravel command to validate configuration
+namespace App\Console\Commands;
+
+use Illuminate\Console\Command;
+
+class ValidateConfig extends Command
+{
+    protected $signature = 'config:validate';
+    protected $description = 'Validate production configuration security';
+
+    public function handle()
+    {
+        $this-&gt;info(' Validating configuration security...');
+
+        $issues = [];
+
+        // Check debug mode
+        if (config('app.debug') &amp;&amp; app()-&gt;environment('production')) {
+            $issues[] = 'Debug mode enabled in production';
+        }
+
+        // Check session security
+        $sessionConfig = config('session');
+        if (!$sessionConfig['secure']) {
+            $issues[] = 'Session cookies not marked as secure';
+        }
+        if (!$sessionConfig['http_only']) {
+            $issues[] = 'Session cookies not marked as http-only';
+        }
+
+        // Check database SSL
+        $dbConfig = config('database.connections.mysql');
+        if (empty($dbConfig['options'][PDO::MYSQL_ATTR_SSL_CA])) {
+            $issues[] = 'Database not configured to use SSL';
+        }
+
+        // Report issues
+        if (empty($issues)) {
+            $this-&gt;info('[SECURE] All configuration checks passed!');
+            return 0;
+        }
+
+        foreach ($issues as $issue) {
+            $this-&gt;error(&quot;[INSECURE] {$issue}&quot;);
+        }
+
+        return 1;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Monitoring and Alerting</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Configuration Change Monitoring</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class ConfigurationMonitor
+{
+    private static string $configHashFile = '/var/secure/config_hash.txt';
+
+    public static function checkConfigurationChanges(): void
+    {
+        $currentHash = self::calculateConfigHash();
+
+        if (file_exists(self::$configHashFile)) {
+            $storedHash = trim(file_get_contents(self::$configHashFile));
+
+            if ($storedHash !== $currentHash) {
+                // Configuration changed - alert administrators
+                self::alertConfigChange($storedHash, $currentHash);
+
+                // Update stored hash
+                file_put_contents(self::$configHashFile, $currentHash);
+            }
+        } else {
+            // First run - store initial hash
+            file_put_contents(self::$configHashFile, $currentHash);
+        }
+    }
+
+    private static function calculateConfigHash(): string
+    {
+        $configFiles = [
+            __DIR__ . '/../.env',
+            __DIR__ . '/../config/app.php',
+            __DIR__ . '/../config/database.php',
+            '/etc/php/7.4/fpm/php-fpm.conf',
+        ];
+
+        $hashes = [];
+        foreach ($configFiles as $file) {
+            if (file_exists($file)) {
+                $hashes[] = hash_file('sha256', $file);
+            }
+        }
+
+        return hash('sha256', implode('', $hashes));
+    }
+
+    private static function alertConfigChange(string $oldHash, string $newHash): void
+    {
+        $message = sprintf(
+            &quot;Configuration change detected!\nOld hash: %s\nNew hash: %s\nTime: %s&quot;,
+            $oldHash,
+            $newHash,
+            date('Y-m-d H:i:s')
+        );
+
+        // Log alert
+        error_log(&quot;SECURITY ALERT: &quot; . $message);
+
+        // Send email alert (implement based on your needs)
+        // mail('admin@example.com', 'Configuration Change Alert', $message);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Configuration Security Checklist</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Environment Variables</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">.env files excluded from version control</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Secure file permissions (600) on .env files</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Environment-specific configuration files</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">No sensitive data in .env files (use external vaults)</span>
+</label>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Debug and Error Handling</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Debug mode disabled in production</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Custom error handlers that don't expose sensitive data</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Error messages sanitized of credentials and paths</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Error logging enabled with secure storage</span>
+</label>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">PHP Configuration</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">PHP version not exposed in headers</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Secure php.ini settings for production</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Disabled dangerous PHP functions</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Proper resource limits set</span>
+</label>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Application Security</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Secure session configuration</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Database connections use SSL</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">API keys stored securely</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Configuration validation on startup</span>
+</label>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Deployment Security</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Automated security checks in deployment</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Configuration validation scripts</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Secure file permissions set during deployment</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Configuration change monitoring</span>
+</label>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Next Steps</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Now that you understand secure configuration, explore:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong><a href="/security/laravel/file-uploads.html">File Upload Security</a></strong> - Secure file handling</li>
+<li><strong><a href="/security/laravel/secure-headers.html">Secure Headers</a></strong> - HTTP security headers</li>
+<li><strong><a href="/security/laravel/password-handling.html">Authentication &amp; Password Handling</a></strong> - User security</li>
+</ul>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Remember: Secure configuration is the foundation of application security. Regular audits and monitoring are essential to maintain security posture!</p>
+    </div>
+
+    <!-- Ask AI Assistant Row -->
+    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://chatgpt.com/?q=Secure+Configuration+Laravel+security+best+practices+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          ChatGPT &nearr;
+        </a>
+        <a href="https://www.perplexity.ai/search?q=Secure+Configuration+Laravel+PHP+8.4+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Perplexity &nearr;
+        </a>
+        <a href="https://claude.ai/new?q=Explain+Secure+Configuration+in+Laravel+applications+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Claude &nearr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
+      <div><a href="/security/laravel/model-output-validation.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: Model Output Validation</a></div>
+      <div><a href="/security/laravel/secure-headers.html" class="button-primary text-xs flex items-center gap-1.5">Next: Security Headers &amp; CSP Nonces &rarr;</a></div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

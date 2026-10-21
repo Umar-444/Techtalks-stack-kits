@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Input Handling: Validation &amp; Sanitization — Laravel Security Masterclass</title>
+  <meta name="description" content="Input handling is the foundation of web application security. All user input should be considered potentially malicious until proven otherwise. Proper inpu">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/input-handling.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/input-handling.html">
+  <meta property="og:title" content="Input Handling: Validation &amp; Sanitization — Laravel Security Masterclass">
+  <meta property="og:description" content="Input handling is the foundation of web application security. All user input should be considered potentially malicious until proven otherwise. Proper inpu">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="Input Handling: Validation &amp; Sanitization — Laravel Security Masterclass">
+  <meta name="twitter:description" content="Input handling is the foundation of web application security. All user input should be considered potentially malicious until proven otherwise. Proper inpu">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "Input Handling: Validation & Sanitization",
+      "description": "Input handling is the foundation of web application security. All user input should be considered potentially malicious until proven otherwise. Proper input val",
+      "author": {
+        "@type": "Person",
+        "name": "Umar Farooq",
+        "email": "contact@itsumarfarooq.com",
+        "url": "https://itsumarfarooq.com",
+        "jobTitle": "Senior Full-Stack & Security Engineer",
+        "sameAs": [
+          "https://github.com/umar-444",
+          "https://linkedin.com/in/umar444",
+          "https://x.com/umartechtalks",
+          "https://worldwebtree.com"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "UmarTechTalks",
+        "url": "https://techtalks.itsumarfarooq.com"
+      },
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://techtalks.itsumarfarooq.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Security Hub",
+          "item": "https://techtalks.itsumarfarooq.com/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Laravel Track",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Input Handling: Validation & Sanitization",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/input-handling.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
+    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">Input Handling: Validation &amp; Sanitization</span>
+    </nav>
+
+    <!-- Lesson Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 03</span>
+        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 06</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
+        Input Handling: Validation &amp; Sanitization
+      </h1>
+      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+        <span>Curated by Umar Farooq</span>
+        <span>&bull;</span>
+        <span>8 min read</span>
+      </div>
+    </div>
+
+    <!-- Quick Answer Box -->
+    <div class="quick-answer">
+      <div class="quick-answer-badge">Quick Answer &amp; Core Takeaway</div>
+      <p class="text-ink dark:text-white font-medium text-[15px] leading-relaxed">
+        Input handling is the foundation of web application security. All user input should be considered potentially malicious until proven otherwise. Proper input validation and sanitization prevents the majority of common web vulnerabilities including SQL injection, XSS, and command injection.
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="lesson-content my-8">
+      <h1>Input Handling: Validation &amp; Sanitization</h1>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Why Input Handling Matters</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Input handling is the foundation of web application security. All user input should be considered potentially malicious until proven otherwise. Proper input validation and sanitization prevents the majority of common web vulnerabilities including SQL injection, XSS, and command injection.</p>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">The Core Principle</h3>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]"><strong>"Never trust user input"</strong> - This is the fundamental rule of secure web development.</p>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Input Validation vs Sanitization</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Input Validation</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Purpose</strong>: Ensures data meets expected criteria</li>
+<li><strong>Approach</strong>: Checks if input is what we expect</li>
+<li><strong>Result</strong>: Accepts or rejects data</li>
+<li><strong>When</strong>: Always performed first</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Input Sanitization</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Purpose</strong>: Cleans or transforms data to make it safe</li>
+<li><strong>Approach</strong>: Removes or encodes dangerous characters</li>
+<li><strong>Result</strong>: Modified safe data</li>
+<li><strong>When</strong>: Performed after validation</li>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Validation Strategies</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Allow-List vs Block-List Approach</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Block-List (Deny-List) Approach [INSECURE]</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// PROBLEMATIC: Block-list approach
+function validateUsername($username) {
+    // Remove potentially dangerous characters
+    $username = str_replace(['&lt;', '&gt;', '&quot;', &quot;'&quot;], '', $username);
+
+    // Check length
+    if (strlen($username) &lt; 3 || strlen($username) &gt; 20) {
+        return false;
+    }
+
+    return true;
+}
+</code></pre>
+</div>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]"><strong>Problems with Block-List:</strong><br />
+- Easy to miss dangerous characters<br />
+- New attack vectors can bypass filters<br />
+- Character encoding issues<br />
+- Context-dependent dangerous characters</p>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Allow-List (Permit-List) Approach [SECURE]</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">function validateUsername($username) {
+    // Only allow specific characters
+    if (!preg_match('/^[a-zA-Z0-9_-]{3,20}$/', $username)) {
+        return false;
+    }
+
+    return true;
+}
+</code></pre>
+</div>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]"><strong>Advantages of Allow-List:</strong><br />
+- Explicit about what is allowed<br />
+- Much harder to bypass<br />
+- Clear and maintainable<br />
+- Reduces attack surface</p>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">PHP Validation Functions</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Built-in Filter Functions</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Email Validation</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// Basic email validation
+$email = $_POST['email'];
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    die(&quot;Invalid email format&quot;);
+}
+
+// Advanced email validation with options
+$email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL, [
+    'options' =&gt; [
+        'default' =&gt; false // Return false instead of null
+    ]
+]);
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">URL Validation</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">$url = $_POST['website'];
+if (!filter_var($url, FILTER_VALIDATE_URL)) {
+    die(&quot;Invalid URL format&quot;);
+}
+
+// Validate URL with specific schemes
+$url = filter_var($_POST['website'], FILTER_VALIDATE_URL, [
+    'options' =&gt; [
+        'default' =&gt; false,
+        'flags' =&gt; FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_HOST_REQUIRED
+    ],
+    'flags' =&gt; FILTER_FLAG_SCHEME_REQUIRED
+]);
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Integer Validation</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">$id = $_POST['user_id'];
+
+// Basic integer validation
+if (!filter_var($id, FILTER_VALIDATE_INT)) {
+    die(&quot;Invalid user ID&quot;);
+}
+
+// Integer within range
+$id = filter_var($id, FILTER_VALIDATE_INT, [
+    'options' =&gt; [
+        'min_range' =&gt; 1,
+        'max_range' =&gt; 1000
+    ]
+]);
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Float Validation</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">$price = $_POST['price'];
+$price = filter_var($price, FILTER_VALIDATE_FLOAT, [
+    'options' =&gt; [
+        'min_range' =&gt; 0.01,
+        'max_range' =&gt; 999.99
+    ]
+]);
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Regular Expression Validation</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Common Patterns</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">class InputValidator
+{
+    public static function validateUsername($username) {
+        // Alphanumeric, underscore, hyphen (3-20 chars)
+        return preg_match('/^[a-zA-Z0-9_-]{3,20}$/', $username);
+    }
+
+    public static function validatePassword($password) {
+        // At least 8 chars, one uppercase, one lowercase, one digit
+        return preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&amp;]{8,}$/', $password);
+    }
+
+    public static function validatePhone($phone) {
+        // US phone format: (123) 456-7890 or 123-456-7890
+        return preg_match('/^(\(\d{3}\)\s?|\d{3}-?)\d{3}-?\d{4}$/', $phone);
+    }
+
+    public static function validatePostalCode($zip) {
+        // US ZIP code: 12345 or 12345-6789
+        return preg_match('/^\d{5}(-\d{4})?$/', $zip);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Laravel Validation</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Form Request Validation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class CreateUserRequest extends FormRequest
+{
+    public function authorize()
+    {
+        return true; // Or implement authorization logic
+    }
+
+    public function rules()
+    {
+        return [
+            'name' =&gt; 'required|string|min:2|max:50',
+            'email' =&gt; 'required|email|unique:users,email',
+            'password' =&gt; 'required|string|min:8|confirmed',
+            'age' =&gt; 'nullable|integer|min:18|max:120',
+            'website' =&gt; 'nullable|url',
+            'phone' =&gt; 'nullable|regex:/^(\(\d{3}\)\s?|\d{3}-?)\d{3}-?\d{4}$/',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' =&gt; 'Name is required',
+            'email.email' =&gt; 'Please provide a valid email address',
+            'password.min' =&gt; 'Password must be at least 8 characters',
+        ];
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Controller Validation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">public function store(CreateUserRequest $request)
+{
+    // Validation is automatically handled by CreateUserRequest
+
+    $validated = $request-&gt;validated();
+
+    // Create user with validated data
+    User::create($validated);
+
+    return response()-&gt;json(['message' =&gt; 'User created successfully']);
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Manual Validation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">public function updateProfile(Request $request)
+{
+    $request-&gt;validate([
+        'name' =&gt; 'required|string|min:2|max:50',
+        'email' =&gt; 'required|email|unique:users,email,' . auth()-&gt;id(),
+        'bio' =&gt; 'nullable|string|max:500',
+    ]);
+
+    // Update profile...
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Output Sanitization</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">HTML Context Sanitization</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">class OutputSanitizer
+{
+    public static function sanitizeForHtml($data) {
+        return htmlspecialchars($data, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    }
+
+    public static function sanitizeForAttribute($data) {
+        return htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
+    }
+
+    public static function sanitizeForJavaScript($data) {
+        return json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP);
+    }
+
+    public static function sanitizeForUrl($data) {
+        return urlencode($data);
+    }
+}
+
+// Usage
+$name = $_GET['name'];
+echo &quot;&lt;h1&gt;Welcome, &quot; . OutputSanitizer::sanitizeForHtml($name) . &quot;!&lt;/h1&gt;&quot;;
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Blade Sanitization</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-blade">{{-- Automatic escaping --}}
+&lt;h1&gt;Welcome, {{ $name }}&lt;/h1&gt;
+
+{{-- Explicit unescaping (use only for trusted content) --}}
+&lt;h1&gt;Welcome, {!! $trustedHtml !!}&lt;/h1&gt;
+
+{{-- Attribute escaping --}}
+&lt;input type=&quot;text&quot; value=&quot;{{ $value }}&quot; /&gt;
+
+{{-- JavaScript escaping --}}
+&lt;script&gt;
+    var userData = {!! json_encode($userData) !!};
+&lt;/script&gt;
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Preventing Broken Data Entry</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Type Juggling Prevention</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// PROBLEMATIC: PHP type juggling
+$userId = $_GET['id']; // &quot;123abc&quot; becomes 123
+
+// SECURE: Strict type checking
+$userId = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+if ($userId === false) {
+    throw new InvalidArgumentException('Invalid user ID');
+}
+
+// Even better: Use strict types
+declare(strict_types=1);
+
+function getUserById(int $userId): ?User
+{
+    return User::find($userId);
+}
+
+// Call with type checking
+$userId = (int) $_GET['id'];
+if ($userId &lt;= 0) {
+    throw new InvalidArgumentException('User ID must be positive integer');
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Numeric Validation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">class NumericValidator
+{
+    public static function validatePositiveInteger($value, $max = null) {
+        $int = filter_var($value, FILTER_VALIDATE_INT, [
+            'options' =&gt; [
+                'min_range' =&gt; 1,
+                'max_range' =&gt; $max
+            ]
+        ]);
+
+        return $int !== false;
+    }
+
+    public static function validateDecimal($value, $decimals = 2) {
+        if (!is_numeric($value)) {
+            return false;
+        }
+
+        $parts = explode('.', $value);
+        if (count($parts) &gt; 2) {
+            return false;
+        }
+
+        if (isset($parts[1]) &amp;&amp; strlen($parts[1]) &gt; $decimals) {
+            return false;
+        }
+
+        return true;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Input Filtering Techniques</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Trim and Normalize</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">function normalizeInput($input) {
+    // Trim whitespace
+    $input = trim($input);
+
+    // Normalize Unicode (prevent homograph attacks)
+    $input = normalizer_normalize($input, Normalizer::FORM_C);
+
+    // Convert to lowercase for case-insensitive fields
+    // $input = mb_strtolower($input);
+
+    return $input;
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Length Validation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">class LengthValidator
+{
+    public static function validateLength($input, $min = null, $max = null) {
+        $length = mb_strlen($input); // Multi-byte safe
+
+        if ($min !== null &amp;&amp; $length &lt; $min) {
+            return false;
+        }
+
+        if ($max !== null &amp;&amp; $length &gt; $max) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function truncate($input, $maxLength) {
+        return mb_substr($input, 0, $maxLength);
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">File Upload Validation</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Basic File Validation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">class FileValidator
+{
+    private static $allowedMimeTypes = [
+        'image/jpeg' =&gt; ['jpg', 'jpeg'],
+        'image/png' =&gt; ['png'],
+        'image/gif' =&gt; ['gif'],
+        'application/pdf' =&gt; ['pdf'],
+    ];
+
+    public static function validateUploadedFile($file) {
+        // Check if file was uploaded
+        if (!isset($file['error']) || $file['error'] !== UPLOAD_ERR_OK) {
+            return ['valid' =&gt; false, 'error' =&gt; 'Upload failed'];
+        }
+
+        // Validate file size (5MB max)
+        if ($file['size'] &gt; 5242880) {
+            return ['valid' =&gt; false, 'error' =&gt; 'File too large'];
+        }
+
+        // Get MIME type
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $mimeType = finfo_file($finfo, $file['tmp_name']);
+        finfo_close($finfo);
+
+        // Validate MIME type
+        if (!array_key_exists($mimeType, self::$allowedMimeTypes)) {
+            return ['valid' =&gt; false, 'error' =&gt; 'Invalid file type'];
+        }
+
+        // Validate extension matches MIME type
+        $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        if (!in_array($extension, self::$allowedMimeTypes[$mimeType])) {
+            return ['valid' =&gt; false, 'error' =&gt; 'Extension does not match file type'];
+        }
+
+        return ['valid' =&gt; true];
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Laravel File Validation</h2>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">public function uploadFile(Request $request)
+{
+    $request-&gt;validate([
+        'file' =&gt; [
+            'required',
+            'file',
+            'max:5120', // 5MB
+            'mimes:jpeg,png,pdf,docx',
+            'dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000', // For images
+        ]
+    ]);
+
+    // Additional security checks
+    $file = $request-&gt;file('file');
+
+    // Check file content (basic malware detection)
+    $content = file_get_contents($file-&gt;getRealPath());
+    if (preg_match('/&lt;\?php|&lt;%|script|javascript:/i', $content)) {
+        return response()-&gt;json(['error' =&gt; 'Suspicious file content detected'], 422);
+    }
+
+    // Store securely
+    $path = $file-&gt;store('uploads', 'public');
+
+    return response()-&gt;json(['path' =&gt; $path]);
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Common Input Validation Patterns</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Email Validation with DNS Check</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">function validateEmailWithDNS($email) {
+    // Basic format validation
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+
+    // Extract domain
+    $domain = substr(strrchr($email, &quot;@&quot;), 1);
+
+    // Check DNS records (MX or A record)
+    return checkdnsrr($domain, 'MX') || checkdnsrr($domain, 'A');
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Strong Password Validation</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">class PasswordValidator
+{
+    public static function isStrong($password) {
+        $checks = [
+            'length' =&gt; strlen($password) &gt;= 8,
+            'uppercase' =&gt; preg_match('/[A-Z]/', $password),
+            'lowercase' =&gt; preg_match('/[a-z]/', $password),
+            'digit' =&gt; preg_match('/\d/', $password),
+            'special' =&gt; preg_match('/[@$!%*?&amp;]/', $password),
+            'no_common' =&gt; !preg_match('/password|123456|qwerty/i', $password),
+        ];
+
+        return !in_array(false, $checks, true);
+    }
+
+    public static function getStrengthScore($password) {
+        $score = 0;
+
+        if (strlen($password) &gt;= 8) $score += 20;
+        if (preg_match('/[A-Z]/', $password)) $score += 20;
+        if (preg_match('/[a-z]/', $password)) $score += 20;
+        if (preg_match('/\d/', $password)) $score += 20;
+        if (preg_match('/[@$!%*?&amp;]/', $password)) $score += 20;
+
+        return $score;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Best Practices Summary</h2>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li><strong>Always validate input</strong> - Never skip validation</li>
+<li><strong>Use allow-lists</strong> - Prefer over block-lists</li>
+<li><strong>Validate on server-side</strong> - Client-side validation can be bypassed</li>
+<li><strong>Sanitize output</strong> - Escape data based on context</li>
+<li><strong>Use appropriate filters</strong> - Choose the right validation method</li>
+<li><strong>Handle errors gracefully</strong> - Don't expose validation logic</li>
+<li><strong>Log validation failures</strong> - Monitor for attack patterns</li>
+<li><strong>Keep validation rules updated</strong> - Regular security reviews</li>
+</ol>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Next Steps</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Now that you understand input handling, explore:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong><a href="/security/laravel/sql-injection.html">SQL Injection Prevention</a></strong> - Database security</li>
+<li><strong><a href="/security/laravel/password-handling.html">Authentication &amp; Password Handling</a></strong> - User security</li>
+<li><strong><a href="/security/laravel/secure-coding-basics.html">Secure Coding Basics</a></strong> - Overall security principles</li>
+</ul>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Remember: Input validation is your first line of defense against web attacks.</p>
+    </div>
+
+    <!-- Ask AI Assistant Row -->
+    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://chatgpt.com/?q=Input+Handling:+Validation+&+Sanitization+Laravel+security+best+practices+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          ChatGPT &nearr;
+        </a>
+        <a href="https://www.perplexity.ai/search?q=Input+Handling:+Validation+&+Sanitization+Laravel+PHP+8.4+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Perplexity &nearr;
+        </a>
+        <a href="https://claude.ai/new?q=Explain+Input+Handling:+Validation+&+Sanitization+in+Laravel+applications+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Claude &nearr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
+      <div><a href="/security/laravel/session-security.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: Session Security &amp; Fixation Defense</a></div>
+      <div><a href="/security/laravel/sql-injection.html" class="button-primary text-xs flex items-center gap-1.5">Next: SQL Injection Prevention &rarr;</a></div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

@@ -1,22 +1,11 @@
-# Operating Playbook (Private)
-important.md
-
-# Dependencies & Composer
-/vendor/
-composer.phar
-
-# Environment & Local Config
-.env
-.env.backup
-.env.production
-*.local
-
-# Testing & Cache
-.phpunit.result.cache
-.pest/
-/build/
-
-# OS Artifacts
+node_modules/
 .DS_Store
 Thumbs.db
-Desktop.ini
+*.log
+important.md
+DESIGN.md
+09-Agent-Master-Brief.md
+
+00-START-HERE-Build-Plan.md
+09-Agent-Master-Brief.md
+AI Stack Kits Ecosystem Research.html

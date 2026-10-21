@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>File Upload Security — Laravel Security Masterclass</title>
+  <meta name="description" content="File upload functionality is one of the most dangerous features in web applications. Attackers can exploit file uploads to: - Execute malicious code on the">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/file-uploads.html">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/file-uploads.html">
+  <meta property="og:title" content="File Upload Security — Laravel Security Masterclass">
+  <meta property="og:description" content="File upload functionality is one of the most dangerous features in web applications. Attackers can exploit file uploads to: - Execute malicious code on the">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@umartechtalks">
+  <meta name="twitter:creator" content="@umartechtalks">
+  <meta name="twitter:title" content="File Upload Security — Laravel Security Masterclass">
+  <meta name="twitter:description" content="File upload functionality is one of the most dangerous features in web applications. Attackers can exploit file uploads to: - Execute malicious code on the">
+  <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "TechArticle",
+      "headline": "File Upload Security",
+      "description": "File upload functionality is one of the most dangerous features in web applications. Attackers can exploit file uploads to: - Execute malicious code on the serv",
+      "author": {
+        "@type": "Person",
+        "name": "Umar Farooq",
+        "email": "contact@itsumarfarooq.com",
+        "url": "https://itsumarfarooq.com",
+        "jobTitle": "Senior Full-Stack & Security Engineer",
+        "sameAs": [
+          "https://github.com/umar-444",
+          "https://linkedin.com/in/umar444",
+          "https://x.com/umartechtalks",
+          "https://worldwebtree.com"
+        ]
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "UmarTechTalks",
+        "url": "https://techtalks.itsumarfarooq.com"
+      },
+      "datePublished": "2026-10-21",
+      "dateModified": "2026-10-21"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://techtalks.itsumarfarooq.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Security Hub",
+          "item": "https://techtalks.itsumarfarooq.com/security/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Laravel Track",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "File Upload Security",
+          "item": "https://techtalks.itsumarfarooq.com/security/laravel/file-uploads.html"
+        }
+      ]
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+
+  <!-- Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
+    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
+        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
+        <span>Umar<span class="text-primary">TechTalks</span></span>
+      </a>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost ">Home</a>
+        <a href="/security/" class="button-ghost ">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
+        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-primary transition-colors">Home</a>
+      <span>/</span>
+      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <span>/</span>
+      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <span>/</span>
+      <span class="text-ink dark:text-white font-medium">File Upload Security</span>
+    </nav>
+
+    <!-- Lesson Header -->
+    <div class="mb-8">
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 03</span>
+        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 10</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
+        File Upload Security
+      </h1>
+      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+        <span>Curated by Umar Farooq</span>
+        <span>&bull;</span>
+        <span>14 min read</span>
+      </div>
+    </div>
+
+    <!-- Quick Answer Box -->
+    <div class="quick-answer">
+      <div class="quick-answer-badge">Quick Answer &amp; Core Takeaway</div>
+      <p class="text-ink dark:text-white font-medium text-[15px] leading-relaxed">
+        File upload functionality is one of the most dangerous features in web applications. Attackers can exploit file uploads to: - Execute malicious code on the server - Access sensitive files through directory traversal - Spread malware to other users - Perform denial of service attacks - Bypass security controls using uploaded backdoors
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="lesson-content my-8">
+      <h1>File Upload Security</h1>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">The Dangers of File Uploads</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">File upload functionality is one of the most dangerous features in web applications. Attackers can exploit file uploads to:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Execute malicious code</strong> on the server</li>
+<li><strong>Access sensitive files</strong> through directory traversal</li>
+<li><strong>Spread malware</strong> to other users</li>
+<li><strong>Perform denial of service</strong> attacks</li>
+<li><strong>Bypass security controls</strong> using uploaded backdoors</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Real-World File Upload Attacks</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Shell uploads</strong>: PHP shells disguised as images</li>
+<li><strong>Web shell access</strong>: Remote code execution via uploaded scripts</li>
+<li><strong>Malware distribution</strong>: Infecting users who download files</li>
+<li><strong>Server compromise</strong>: Gaining full system access</li>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">File Upload Attack Vectors</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Malicious File Extensions</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// VULNERABLE: Only checking client-provided extension
+$filename = $_FILES['file']['name'];
+$extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+if ($extension === 'jpg' || $extension === 'png') {
+    // Attacker can upload shell.php.jpg which becomes shell.php
+    move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $filename);
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. MIME Type Spoofing</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// VULNERABLE: Trusting MIME type from client
+$mimeType = $_FILES['file']['type'];
+
+if ($mimeType === 'image/jpeg') {
+    // MIME type can be easily spoofed
+    move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $filename);
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. Directory Traversal</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// VULNERABLE: Allowing path traversal
+$filename = $_FILES['file']['name'];
+
+// Attacker uploads with name: ../../../etc/passwd
+if (move_uploaded_file($_FILES['file']['tmp_name'], 'uploads/' . $filename)) {
+    // File ends up in /etc/passwd, overwriting system file
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">4. Null Byte Injection</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// VULNERABLE: Null byte injection
+$filename = $_FILES['file']['name'];
+$filename = str_replace(&quot;\0&quot;, '', $filename); // Incomplete protection
+
+// Attacker: shell.php%00.jpg becomes shell.php when saved
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Secure File Upload Principles</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Never Trust Client Input</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>File names</strong> can be malicious</li>
+<li><strong>MIME types</strong> can be spoofed</li>
+<li><strong>File extensions</strong> can be bypassed</li>
+<li><strong>File contents</strong> can be disguised</li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. Use Defense in Depth</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Multiple validation layers</strong></li>
+<li><strong>Server-side verification</strong></li>
+<li><strong>Content analysis</strong></li>
+<li><strong>Secure storage</strong></li>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. Principle of Least Privilege</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong>Restrict file permissions</strong></li>
+<li><strong>Limit execution rights</strong></li>
+<li><strong>Isolate uploaded files</strong></li>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">File Validation Strategies</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">MIME Type Validation</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Method 1: File Extension + MIME Type</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">class FileValidator
+{
+    private static array $allowedTypes = [
+        'image/jpeg' =&gt; ['jpg', 'jpeg'],
+        'image/png' =&gt; ['png'],
+        'image/gif' =&gt; ['gif'],
+        'image/webp' =&gt; ['webp'],
+        'application/pdf' =&gt; ['pdf'],
+        'text/plain' =&gt; ['txt'],
+        'application/msword' =&gt; ['doc'],
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' =&gt; ['docx'],
+    ];
+
+    public static function validateFile(array $file): array
+    {
+        $result = [
+            'valid' =&gt; false,
+            'error' =&gt; '',
+            'safe_filename' =&gt; ''
+        ];
+
+        // Check upload errors
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            $result['error'] = self::getUploadErrorMessage($file['error']);
+            return $result;
+        }
+
+        // Validate file size (5MB max)
+        if ($file['size'] &gt; 5242880) {
+            $result['error'] = 'File size exceeds 5MB limit';
+            return $result;
+        }
+
+        // Validate file size (minimum 1 byte)
+        if ($file['size'] &lt; 1) {
+            $result['error'] = 'File is empty';
+            return $result;
+        }
+
+        // Get MIME type using multiple methods
+        $mimeType = self::getSecureMimeType($file['tmp_name']);
+        if (!$mimeType) {
+            $result['error'] = 'Could not determine file type';
+            return $result;
+        }
+
+        // Validate MIME type is allowed
+        if (!isset(self::$allowedTypes[$mimeType])) {
+            $result['error'] = 'File type not allowed';
+            return $result;
+        }
+
+        // Validate file extension matches MIME type
+        $originalExtension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        if (!in_array($originalExtension, self::$allowedTypes[$mimeType])) {
+            $result['error'] = 'File extension does not match content type';
+            return $result;
+        }
+
+        // Additional security checks
+        if (!self::isSafeFileContent($file['tmp_name'], $mimeType)) {
+            $result['error'] = 'File contains potentially unsafe content';
+            return $result;
+        }
+
+        // Generate safe filename
+        $result['safe_filename'] = self::generateSecureFilename($file['name']);
+        $result['valid'] = true;
+
+        return $result;
+    }
+
+    private static function getSecureMimeType(string $filePath): ?string
+    {
+        // Method 1: finfo (most reliable)
+        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        if ($finfo) {
+            $mime = finfo_file($finfo, $filePath);
+            finfo_close($finfo);
+            if ($mime) return $mime;
+        }
+
+        // Method 2: getimagesize for images
+        $imageInfo = getimagesize($filePath);
+        if ($imageInfo &amp;&amp; isset($imageInfo['mime'])) {
+            return $imageInfo['mime'];
+        }
+
+        // Method 3: mime_content_type (fallback)
+        $mime = mime_content_type($filePath);
+        if ($mime) return $mime;
+
+        return null;
+    }
+
+    private static function isSafeFileContent(string $filePath, string $mimeType): bool
+    {
+        $content = file_get_contents($filePath);
+
+        // Check for null bytes (common in file upload attacks)
+        if (str_contains($content, &quot;\0&quot;)) {
+            return false;
+        }
+
+        // Check for script content in non-script files
+        if (!str_starts_with($mimeType, 'text/') &amp;&amp; !str_starts_with($mimeType, 'application/')) {
+            if (preg_match('/&lt;\?php|&lt;script|&lt;%/i', $content)) {
+                return false;
+            }
+        }
+
+        // Additional checks based on MIME type
+        switch ($mimeType) {
+            case 'image/jpeg':
+            case 'image/png':
+            case 'image/gif':
+            case 'image/webp':
+                // Verify image file headers
+                return self::validateImageHeaders($filePath, $mimeType);
+
+            case 'text/plain':
+                // Check for script content in text files
+                return !preg_match('/&lt;\?php|&lt;script|&lt;%|javascript:/i', $content);
+
+            case 'application/pdf':
+                // Check PDF header
+                return str_starts_with($content, '%PDF-');
+
+            default:
+                return true;
+        }
+    }
+
+    private static function validateImageHeaders(string $filePath, string $mimeType): bool
+    {
+        $handle = fopen($filePath, 'rb');
+        if (!$handle) return false;
+
+        $header = fread($handle, 12);
+        fclose($handle);
+
+        return match ($mimeType) {
+            'image/jpeg' =&gt; str_starts_with($header, &quot;\xFF\xD8\xFF&quot;),
+            'image/png' =&gt; str_starts_with($header, &quot;\x89PNG\r\n\x1A\n&quot;),
+            'image/gif' =&gt; str_starts_with($header, 'GIF87a') || str_starts_with($header, 'GIF89a'),
+            'image/webp' =&gt; str_starts_with($header, 'RIFF') &amp;&amp; strpos($header, 'WEBP') !== false,
+            default =&gt; false
+        };
+    }
+
+    private static function generateSecureFilename(string $originalName): string
+    {
+        // Remove path traversal attempts
+        $safeName = basename($originalName);
+
+        // Get extension
+        $extension = strtolower(pathinfo($safeName, PATHINFO_EXTENSION));
+
+        // Generate secure random name
+        $randomName = bin2hex(random_bytes(16));
+
+        // Add timestamp for uniqueness
+        $timestamp = time();
+
+        return $timestamp . '_' . $randomName . '.' . $extension;
+    }
+
+    private static function getUploadErrorMessage(int $errorCode): string
+    {
+        return match ($errorCode) {
+            UPLOAD_ERR_INI_SIZE =&gt; 'File exceeds server size limit',
+            UPLOAD_ERR_FORM_SIZE =&gt; 'File exceeds form size limit',
+            UPLOAD_ERR_PARTIAL =&gt; 'File was only partially uploaded',
+            UPLOAD_ERR_NO_FILE =&gt; 'No file was uploaded',
+            UPLOAD_ERR_NO_TMP_DIR =&gt; 'Missing temporary folder',
+            UPLOAD_ERR_CANT_WRITE =&gt; 'Failed to write file to disk',
+            UPLOAD_ERR_EXTENSION =&gt; 'File upload stopped by extension',
+            default =&gt; 'Unknown upload error'
+        };
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">File Storage Security</h3>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Never Store in Web Root</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">// [INSECURE] DANGEROUS: Storing in public web directory
+move_uploaded_file($file['tmp_name'], '/var/www/html/uploads/' . $filename);
+
+// [SECURE]: Store outside web root
+$uploadDir = '/var/secure/uploads/'; // Outside web root
+move_uploaded_file($file['tmp_name'], $uploadDir . $safeFilename);
+
+// Serve files through PHP script
+if (preg_match('/^[a-f0-9_]+\.[a-zA-Z0-9]+$/', $_GET['file'])) {
+    $filePath = $uploadDir . $_GET['file'];
+    if (file_exists($filePath)) {
+        // Check permissions, log access, etc.
+        header('Content-Type: ' . mime_content_type($filePath));
+        readfile($filePath);
+        exit;
+    }
+}
+</code></pre>
+</div>
+<h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Secure Directory Structure</h4>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">class SecureFileStorage
+{
+    private string $baseDir;
+
+    public function __construct(string $baseDir = '/var/secure/uploads/')
+    {
+        $this-&gt;baseDir = rtrim($baseDir, '/') . '/';
+
+        // Ensure base directory exists and is secure
+        if (!is_dir($this-&gt;baseDir)) {
+            mkdir($this-&gt;baseDir, 0755, true);
+        }
+
+        // Set proper permissions
+        chmod($this-&gt;baseDir, 0755);
+    }
+
+    public function storeFile(string $tempPath, string $safeFilename, string $userId): string
+    {
+        // Create user-specific directory
+        $userDir = $this-&gt;baseDir . 'user_' . $userId . '/';
+        if (!is_dir($userDir)) {
+            mkdir($userDir, 0755, true);
+        }
+
+        // Create date-based subdirectory
+        $dateDir = $userDir . date('Y/m/d') . '/';
+        if (!is_dir($dateDir)) {
+            mkdir($dateDir, 0755, true);
+        }
+
+        $finalPath = $dateDir . $safeFilename;
+
+        // Move file to secure location
+        if (move_uploaded_file($tempPath, $finalPath)) {
+            // Set secure permissions (readable by owner and group, no execute)
+            chmod($finalPath, 0640);
+
+            return $finalPath;
+        }
+
+        throw new RuntimeException('Failed to store file');
+    }
+
+    public function getSecurePath(string $filename, string $userId): ?string
+    {
+        // Validate filename format
+        if (!preg_match('/^\d+_[a-f0-9]+\.[a-zA-Z0-9]+$/', $filename)) {
+            return null;
+        }
+
+        $userDir = $this-&gt;baseDir . 'user_' . $userId . '/';
+
+        // Find file in user directory (prevent directory traversal)
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($userDir));
+        foreach ($iterator as $file) {
+            if ($file-&gt;isFile() &amp;&amp; basename($file-&gt;getFilename()) === $filename) {
+                return $file-&gt;getPathname();
+            }
+        }
+
+        return null;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Laravel File Upload Security</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Validation Rules</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class SecureFileUploadRequest extends FormRequest
+{
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    public function rules(): array
+    {
+        return [
+            'avatar' =&gt; [
+                'required',
+                'file',
+                'max:2048', // 2MB
+                'mimes:jpeg,png,jpg,gif,webp',
+                'dimensions:min_width=100,min_height=100,max_width=2000,max_height=2000',
+                function ($attribute, $value, $fail) {
+                    if (!$this-&gt;isFileSafe($value)) {
+                        $fail('The uploaded file contains potentially unsafe content.');
+                    }
+                },
+            ],
+            'document' =&gt; [
+                'nullable',
+                'file',
+                'max:10240', // 10MB
+                'mimes:pdf,doc,docx,txt',
+            ],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'avatar.max' =&gt; 'Avatar file size must not exceed 2MB.',
+            'avatar.mimes' =&gt; 'Avatar must be a JPEG, PNG, JPG, GIF, or WebP image.',
+            'avatar.dimensions' =&gt; 'Avatar dimensions must be between 100x100 and 2000x2000 pixels.',
+            'document.max' =&gt; 'Document file size must not exceed 10MB.',
+            'document.mimes' =&gt; 'Document must be a PDF, DOC, DOCX, or TXT file.',
+        ];
+    }
+
+    private function isFileSafe($file): bool
+    {
+        if (!$file instanceof \Illuminate\Http\UploadedFile) {
+            return false;
+        }
+
+        $path = $file-&gt;getRealPath();
+        $content = file_get_contents($path);
+
+        // Check for dangerous content
+        if (preg_match('/&lt;\?php|&lt;script|&lt;%/i', $content)) {
+            return false;
+        }
+
+        // Validate image headers for images
+        if (str_starts_with($file-&gt;getMimeType(), 'image/')) {
+            return $this-&gt;validateImageHeaders($path, $file-&gt;getMimeType());
+        }
+
+        return true;
+    }
+
+    private function validateImageHeaders(string $path, string $mimeType): bool
+    {
+        $handle = fopen($path, 'rb');
+        if (!$handle) return false;
+
+        $header = fread($handle, 12);
+        fclose($handle);
+
+        return match ($mimeType) {
+            'image/jpeg' =&gt; str_starts_with($header, &quot;\xFF\xD8\xFF&quot;),
+            'image/png' =&gt; str_starts_with($header, &quot;\x89PNG\r\n\x1A\n&quot;),
+            'image/gif' =&gt; str_starts_with($header, 'GIF87a') || str_starts_with($header, 'GIF89a'),
+            'image/webp' =&gt; str_starts_with($header, 'RIFF') &amp;&amp; strpos($header, 'WEBP') !== false,
+            default =&gt; false
+        };
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Secure File Storage</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Services;
+
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
+class SecureFileUploadService
+{
+    public function storeSecurely(UploadedFile $file, string $directory = 'uploads', string $disk = 'secure'): string
+    {
+        // Generate secure filename
+        $originalName = $file-&gt;getClientOriginalName();
+        $extension = $file-&gt;getClientOriginalExtension();
+        $filename = Str::uuid() . '_' . time() . '.' . $extension;
+
+        // Store file on secure disk
+        $path = $file-&gt;storeAs($directory, $filename, $disk);
+
+        // Log upload for security monitoring
+        \Log::info('File uploaded securely', [
+            'original_name' =&gt; $originalName,
+            'stored_name' =&gt; $filename,
+            'size' =&gt; $file-&gt;getSize(),
+            'mime_type' =&gt; $file-&gt;getMimeType(),
+            'user_id' =&gt; auth()-&gt;id(),
+            'ip_address' =&gt; request()-&gt;ip(),
+        ]);
+
+        return $path;
+    }
+
+    public function serveSecureFile(string $path, string $disk = 'secure')
+    {
+        // Check if user has permission to access file
+        if (!$this-&gt;userCanAccessFile($path)) {
+            abort(403, 'Access denied');
+        }
+
+        // Log file access
+        \Log::info('File accessed', [
+            'path' =&gt; $path,
+            'user_id' =&gt; auth()-&gt;id(),
+            'ip_address' =&gt; request()-&gt;ip(),
+        ]);
+
+        // Serve file with appropriate headers
+        return Storage::disk($disk)-&gt;download($path);
+    }
+
+    private function userCanAccessFile(string $path): bool
+    {
+        $userId = auth()-&gt;id();
+
+        // Check if file belongs to user (based on filename or database)
+        // Implementation depends on your access control requirements
+
+        return true; // Placeholder - implement proper access control
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Controller with Secure Upload</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">&lt;?php
+namespace App\Http\Controllers;
+
+use App\Http\Requests\SecureFileUploadRequest;
+use App\Services\SecureFileUploadService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
+
+class FileUploadController extends Controller
+{
+    private SecureFileUploadService $uploadService;
+
+    public function __construct(SecureFileUploadService $uploadService)
+    {
+        $this-&gt;uploadService = $uploadService;
+    }
+
+    public function upload(SecureFileUploadRequest $request): JsonResponse
+    {
+        try {
+            $uploadedFiles = [];
+
+            // Handle avatar upload
+            if ($request-&gt;hasFile('avatar')) {
+                $path = $this-&gt;uploadService-&gt;storeSecurely(
+                    $request-&gt;file('avatar'),
+                    'avatars',
+                    'secure'
+                );
+                $uploadedFiles['avatar'] = $path;
+
+                // Update user avatar
+                auth()-&gt;user()-&gt;update(['avatar' =&gt; $path]);
+            }
+
+            // Handle document upload
+            if ($request-&gt;hasFile('document')) {
+                $path = $this-&gt;uploadService-&gt;storeSecurely(
+                    $request-&gt;file('document'),
+                    'documents',
+                    'secure'
+                );
+                $uploadedFiles['document'] = $path;
+            }
+
+            return response()-&gt;json([
+                'success' =&gt; true,
+                'message' =&gt; 'Files uploaded successfully',
+                'files' =&gt; $uploadedFiles
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('File upload failed', [
+                'error' =&gt; $e-&gt;getMessage(),
+                'user_id' =&gt; auth()-&gt;id(),
+                'ip_address' =&gt; $request-&gt;ip(),
+            ]);
+
+            return response()-&gt;json([
+                'success' =&gt; false,
+                'message' =&gt; 'File upload failed'
+            ], 500);
+        }
+    }
+
+    public function download(string $filename)
+    {
+        try {
+            return $this-&gt;uploadService-&gt;serveSecureFile('documents/' . $filename);
+        } catch (\Exception $e) {
+            abort(404, 'File not found');
+        }
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Advanced Security Measures</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">File Content Analysis</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">class FileContentAnalyzer
+{
+    public static function analyzeFile(string $filePath): array
+    {
+        $results = [
+            'safe' =&gt; true,
+            'warnings' =&gt; [],
+            'threats' =&gt; []
+        ];
+
+        $content = file_get_contents($filePath);
+        $mimeType = mime_content_type($filePath);
+
+        // Check for embedded scripts
+        if (preg_match_all('/&lt;\?php|&lt;script|&lt;%|javascript:/i', $content, $matches)) {
+            $results['safe'] = false;
+            $results['threats'][] = 'Embedded scripts detected: ' . implode(', ', $matches[0]);
+        }
+
+        // Check for suspicious file signatures
+        if (self::hasSuspiciousSignatures($content, $mimeType)) {
+            $results['safe'] = false;
+            $results['threats'][] = 'Suspicious file signatures detected';
+        }
+
+        // Check file entropy (potential encryption/obfuscation)
+        $entropy = self::calculateEntropy($content);
+        if ($entropy &gt; 7.5) { // High entropy might indicate compressed/encrypted content
+            $results['warnings'][] = 'High file entropy detected (potential obfuscation)';
+        }
+
+        return $results;
+    }
+
+    private static function hasSuspiciousSignatures(string $content, string $mimeType): bool
+    {
+        // Check for common malware signatures
+        $suspiciousPatterns = [
+            '/eval\(/i',
+            '/base64_decode\(/i',
+            '/gzinflate\(/i',
+            '/str_rot13\(/i',
+            '/shell_exec\(/i',
+            '/exec\(/i',
+            '/system\(/i',
+        ];
+
+        foreach ($suspiciousPatterns as $pattern) {
+            if (preg_match($pattern, $content)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static function calculateEntropy(string $content): float
+    {
+        $length = strlen($content);
+        if ($length === 0) return 0;
+
+        $charCounts = count_chars($content, 1);
+        $entropy = 0;
+
+        foreach ($charCounts as $count) {
+            $probability = $count / $length;
+            $entropy -= $probability * log($probability, 2);
+        }
+
+        return $entropy;
+    }
+}
+</code></pre>
+</div>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Rate Limiting Uploads</h3>
+<div class="code-container my-6">
+  <div class="code-header">
+    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <button type="button" class="code-copy-btn">Copy</button>
+  </div>
+  <pre><code class="language-php">class UploadRateLimiter
+{
+    private static int $maxUploadsPerHour = 10;
+    private static int $maxUploadsPerDay = 50;
+
+    public static function canUpload(string $userId): bool
+    {
+        $now = time();
+        $hourAgo = $now - 3600;
+        $dayAgo = $now - 86400;
+
+        // Check hourly limit
+        $hourlyUploads = self::countUploads($userId, $hourAgo, $now);
+        if ($hourlyUploads &gt;= self::$maxUploadsPerHour) {
+            return false;
+        }
+
+        // Check daily limit
+        $dailyUploads = self::countUploads($userId, $dayAgo, $now);
+        if ($dailyUploads &gt;= self::$maxUploadsPerDay) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static function recordUpload(string $userId, string $filename, int $fileSize): void
+    {
+        // Store upload record in database/cache
+        $stmt = self::getDB()-&gt;prepare(&quot;
+            INSERT INTO upload_logs (user_id, filename, file_size, uploaded_at)
+            VALUES (?, ?, ?, NOW())
+        &quot;);
+        $stmt-&gt;execute([$userId, $filename, $fileSize]);
+    }
+
+    private static function countUploads(string $userId, int $startTime, int $endTime): int
+    {
+        $stmt = self::getDB()-&gt;prepare(&quot;
+            SELECT COUNT(*) as count FROM upload_logs
+            WHERE user_id = ? AND uploaded_at BETWEEN FROM_UNIXTIME(?) AND FROM_UNIXTIME(?)
+        &quot;);
+        $stmt-&gt;execute([$userId, $startTime, $endTime]);
+        $result = $stmt-&gt;fetch(PDO::FETCH_ASSOC);
+
+        return (int) $result['count'];
+    }
+
+    private static function getDB(): PDO
+    {
+        // Return database connection
+        static $pdo = null;
+        if ($pdo === null) {
+            $pdo = new PDO(&quot;mysql:host=localhost;dbname=secure_uploads&quot;, &quot;user&quot;, &quot;pass&quot;);
+        }
+        return $pdo;
+    }
+}
+</code></pre>
+</div>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">File Upload Security Checklist</h2>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Pre-Upload Validation</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Validate file size limits</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Check MIME types against allowlist</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Verify file extensions match content</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Scan file content for malicious code</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Implement rate limiting per user</span>
+</label>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Storage Security</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Store files outside web root</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Generate secure random filenames</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Set restrictive file permissions</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Use separate directories per user</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Log all upload activities</span>
+</label>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Access Control</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Require authentication for uploads</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Implement authorization checks</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Serve files through PHP (not direct access)</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Add download rate limiting</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Implement file expiration</span>
+</label>
+</ul>
+<h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Monitoring &amp; Maintenance</h3>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Log all file operations</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Regular malware scanning</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Implement backup strategies</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Set up automated cleanup</span>
+</label>
+<label class="checklist-box cursor-pointer select-none">
+  <input type="checkbox" class="checklist-checkbox mt-1 w-4 h-4 rounded-xs text-primary focus:ring-primary border-surface-hairline dark:border-dark-border">
+  <span class="text-xs text-ink dark:text-dark-text">Monitor disk space usage</span>
+</label>
+</ul>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Summary: File Upload Security Rules</h2>
+<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<li><strong>Never trust client-provided file data</strong> - Validate everything server-side</li>
+<li><strong>Use allowlists for file types</strong> - Don't rely on blocklists</li>
+<li><strong>Validate file content, not just extensions</strong> - Check actual file headers</li>
+<li><strong>Store files securely outside web root</strong> - Prevent direct access</li>
+<li><strong>Generate secure random filenames</strong> - Prevent enumeration and traversal</li>
+<li><strong>Set restrictive permissions</strong> - Limit access to necessary users</li>
+<li><strong>Implement rate limiting</strong> - Prevent abuse and DoS attacks</li>
+<li><strong>Log all upload activities</strong> - Monitor for suspicious behavior</li>
+<li><strong>Regular security scanning</strong> - Check for malware and vulnerabilities</li>
+<li><strong>Test thoroughly</strong> - Include upload security in penetration testing</li>
+</ol>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Next Steps</h2>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Now that you understand file upload security, explore:</p>
+<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<li><strong><a href="/security/laravel/secure-configuration.html">Secure Configuration</a></strong> - Protect your application configuration</li>
+<li><strong><a href="/security/laravel/secure-headers.html">Secure Headers</a></strong> - Implement security headers</li>
+<li><strong><a href="/security/laravel/password-handling.html">Authentication &amp; Password Handling</a></strong> - Secure user authentication</li>
+</ul>
+<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Remember: File uploads are a high-risk feature. Implement multiple layers of security and regular monitoring to protect your application and users!</p>
+    </div>
+
+    <!-- Ask AI Assistant Row -->
+    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
+      </div>
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="https://chatgpt.com/?q=File+Upload+Security+Laravel+security+best+practices+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          ChatGPT &nearr;
+        </a>
+        <a href="https://www.perplexity.ai/search?q=File+Upload+Security+Laravel+PHP+8.4+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Perplexity &nearr;
+        </a>
+        <a href="https://claude.ai/new?q=Explain+File+Upload+Security+in+Laravel+applications+techtalks.itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-white text-xs">
+          Claude &nearr;
+        </a>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
+      <div><a href="/security/laravel/csrf-protection.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: CSRF Protection &amp; SameSite Cookies</a></div>
+      <div><a href="/security/laravel/api-security-basics.html" class="button-primary text-xs flex items-center gap-1.5">Next: API Security &amp; OWASP API Top 10 &rarr;</a></div>
+    </div>
+
+    <!-- Author Card -->
+    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+          UF
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+          </p>
+          <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
+            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
+        <div>
+          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
+            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
+            <span>Umar<span class="text-primary">TechTalks</span></span>
+          </a>
+          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
+            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
+          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
+          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
+          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
+        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

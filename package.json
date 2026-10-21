@@ -1,0 +1,14 @@
+{
+  "name": "techtalks-site",
+  "version": "1.0.0",
+  "description": "UmarTechTalks - Modern AI & Web Application Security Masterclass",
+  "author": "Umar Farooq (contact@itsumarfarooq.com)",
+  "license": "MIT",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/input.css -o ./assets/css/styles.css --minify",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./assets/css/styles.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.14"
+  }
+}
