@@ -3,219 +3,149 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #12140F;
+    background-color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .dark html, html.dark {
+    color: #F2F2EC;
+    background-color: #0F1110;
+  }
+
   body {
-    @apply bg-surface text-ink antialiased transition-colors duration-150;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
   }
-  .dark body {
-    @apply bg-dark-bg text-dark-text;
-  }
+
   h1, h2, h3, h4, h5, h6 {
-    @apply tracking-tight font-sans;
+    font-weight: 700;
+  }
+
+  h1 {
+    letter-spacing: -0.03em;
+  }
+
+  h2, h3 {
+    letter-spacing: -0.02em;
+  }
+
+  p, li {
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  ::selection {
+    background-color: #FFF1E8;
+    color: #E85D26;
+  }
+  
+  .dark ::selection {
+    background-color: #2A1E16;
+    color: #FF8D5C;
   }
 }
 
 @layer components {
+  /* Document 17 Design System Exact Component Classes */
+
   /* Buttons */
-  .button-primary, .btn-primary {
-    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-4 h-[38px] text-[15px] bg-primary text-white hover:bg-primary-pressed focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 active:bg-primary-pressed select-none;
+  .btn-primary {
+    @apply inline-flex items-center justify-center h-[40px] px-[18px] rounded-[6px] text-[14px] font-semibold bg-[#12140F] text-white hover:bg-[#2A2E2C] dark:bg-white dark:text-[#12140F] dark:hover:bg-[#EAECE8] focus:outline-none focus:ring-2 focus:ring-[#E85D26] focus:ring-offset-2 transition-colors duration-150 active:scale-[0.98] select-none shadow-none disabled:opacity-45 disabled:pointer-events-none;
   }
 
-  .button-secondary, .btn-secondary {
-    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-4 h-[38px] text-[15px] bg-primary-tint text-primary-pressed hover:bg-[#D8EDFD] dark:bg-primary/20 dark:text-blue-300 dark:hover:bg-primary/30 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 select-none;
+  .btn-primary-orange {
+    @apply inline-flex items-center justify-center h-[40px] px-[18px] rounded-[6px] text-[14px] font-semibold bg-[#E85D26] text-white hover:bg-[#D44F1C] focus:outline-none focus:ring-2 focus:ring-[#E85D26] focus:ring-offset-2 transition-colors duration-150 active:scale-[0.98] select-none shadow-none disabled:opacity-45 disabled:pointer-events-none;
   }
 
-  .button-ghost, .btn-ghost {
-    @apply inline-flex items-center justify-center font-normal transition-all duration-150 rounded-xs px-2.5 h-[30px] text-[14px] bg-transparent text-ink/90 dark:text-dark-text/90 hover:bg-black/5 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 select-none;
+  .btn-secondary {
+    @apply inline-flex items-center justify-center h-[40px] px-[18px] rounded-[6px] text-[14px] font-semibold bg-white dark:bg-[#141615] border border-[#E6E6DF] dark:border-[#2A2E2A] text-[#12140F] dark:text-[#F2F2EC] hover:bg-[#F7F7F3] dark:hover:bg-[#1A1D1B] hover:border-[#CFCFC4] dark:hover:border-[#3A3E3B] focus:outline-none focus:ring-2 focus:ring-[#E85D26] focus:ring-offset-2 transition-colors duration-150 active:scale-[0.98] select-none shadow-none disabled:opacity-45 disabled:pointer-events-none;
   }
 
-  .button-white {
-    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-4 h-[38px] text-[15px] bg-white text-ink border border-surface-hairline hover:bg-surface-warm dark:bg-dark-card dark:text-white dark:border-dark-border dark:hover:bg-dark-surface focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 select-none shadow-soft;
+  .btn-ghost {
+    @apply inline-flex items-center justify-center h-[36px] px-3 rounded-[6px] text-[14px] font-medium text-[#5C6058] dark:text-[#A8ACA0] hover:bg-[#F4F4F0] dark:hover:bg-[#171A18] hover:text-[#12140F] dark:hover:text-[#F2F2EC] focus:outline-none focus:ring-2 focus:ring-[#E85D26] transition-colors duration-150 select-none;
+  }
+
+  .btn-sm {
+    @apply h-[32px] px-3 text-[13px] font-semibold;
   }
 
   /* Cards */
-  .card-standard, .card {
-    @apply bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border rounded-md p-6 shadow-soft transition-all duration-200;
+  .card-kit {
+    @apply bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] rounded-[8px] p-[22px] transition-all duration-200 shadow-none hover:border-[#CFCFC4] dark:hover:border-[#3A3E3B] hover:-translate-y-[2px];
+  }
+  .card-kit:hover {
+    box-shadow: 0 8px 24px rgba(18, 20, 15, 0.06);
   }
 
-  .card-warm {
-    @apply bg-surface-warm dark:bg-dark-surface border border-surface-hairline/80 dark:border-dark-border rounded-md p-6 shadow-soft transition-all duration-200;
-  }
-
-  .card-interactive, .card-hover {
-    @apply card-standard hover:shadow-soft-hover hover:border-primary/60 dark:hover:border-primary/60 hover:-translate-y-0.5 cursor-pointer;
-  }
-
-  /* Badges & Chips */
+  /* Chips */
   .chip {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
-  }
-  .chip-lavender {
-    @apply chip bg-accent-lavender text-[#3F1B69] dark:bg-purple-950/60 dark:text-purple-200;
-  }
-  .chip-blue {
-    @apply chip bg-primary-tint text-primary-pressed dark:bg-blue-950/60 dark:text-blue-300;
-  }
-  .chip-emerald, .badge-secure {
-    @apply chip bg-accent-successTint text-[#0E6321] dark:bg-emerald-950/60 dark:text-emerald-300;
-  }
-  .chip-amber {
-    @apply chip bg-[#FFF4D9] text-[#7A4B00] dark:bg-amber-950/60 dark:text-amber-300;
-  }
-  .chip-coral, .badge-insecure {
-    @apply chip bg-[#FEEAE8] text-accent-red dark:bg-rose-950/60 dark:text-rose-300;
+    @apply inline-flex items-center px-2 py-0.5 rounded-[4px] font-mono text-[11px] bg-[#F4F4F0] dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] text-[#5C6058] dark:text-[#A8ACA0];
   }
 
-  /* Quick Answer Callout */
-  .quick-answer {
-    @apply relative overflow-hidden rounded-md p-6 my-6 bg-surface-warm dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft;
-  }
-  .quick-answer-badge {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-wider bg-primary-tint text-primary-pressed dark:bg-blue-950/60 dark:text-blue-300 mb-3 border border-primary/20;
+  .chip-status-ready {
+    @apply inline-flex items-center gap-1.5 px-[9px] py-[3px] rounded-full font-mono text-[11px] font-semibold bg-[#E6F4F1] dark:bg-[#122A26] text-[#0A584C] dark:text-[#3CD6BC] border border-[#0E7C6B]/25;
   }
 
-  /* Editorial Quote Callout */
-  .callout-quote {
-    @apply font-serif italic text-lg text-ink/80 dark:text-dark-text/90 pl-5 border-l-2 border-primary my-6;
+  .chip-status-blueprint {
+    @apply inline-flex items-center gap-1.5 px-[9px] py-[3px] rounded-full font-mono text-[11px] font-semibold bg-[#FEF6D8] dark:bg-[#2A2410] text-[#7A4B00] dark:text-[#F4BE5A] border border-[#B7791F]/25;
   }
 
-  /* Standard Callouts */
-  .callout {
-    @apply rounded-md p-5 my-6 border text-sm leading-relaxed;
+  .chip-status-new {
+    @apply inline-flex items-center gap-1.5 px-[9px] py-[3px] rounded-full font-mono text-[11px] font-semibold bg-[#FFF1E8] dark:bg-[#2A1E16] text-[#B33D14] dark:text-[#FF8D5C] border border-[#E85D26]/25;
   }
-  .callout-info {
-    @apply callout bg-primary-tint/50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-900 text-blue-950 dark:text-blue-200;
+
+  .chip-version {
+    @apply chip;
   }
-  .callout-warning {
-    @apply callout bg-[#FFF9EC] dark:bg-amber-950/30 border-amber-200 dark:border-amber-900 text-amber-950 dark:text-amber-200;
+
+  /* Eyebrows */
+  .eyebrow {
+    @apply font-mono text-[11px] uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] font-semibold;
   }
-  .callout-danger {
-    @apply callout bg-[#FFF5F4] dark:bg-rose-950/30 border-rose-200 dark:border-rose-900 text-rose-950 dark:text-rose-200;
+
+  .eyebrow-orange {
+    @apply font-mono text-[11px] uppercase tracking-wider text-[#E85D26] font-semibold;
   }
-  .callout-tip {
-    @apply callout bg-accent-successTint/40 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-900 text-emerald-950 dark:text-emerald-200;
+
+  /* Section Rhythm */
+  .section-pad {
+    @apply py-[72px];
+  }
+
+  .section-pad-hero {
+    @apply py-[96px];
   }
 
   /* Code Blocks */
-  .code-container {
-    @apply relative my-5 rounded-md overflow-hidden border border-surface-hairline dark:border-dark-border bg-[#191919] text-[#EDEDED] shadow-soft;
-  }
-  .code-header {
-    @apply flex items-center justify-between px-4 py-2 bg-[#222222] border-b border-[#2C2C2C] text-xs font-mono text-[#A39E98] select-none;
-  }
-  .code-copy-btn {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-xs bg-[#333333] hover:bg-[#444444] text-[#EDEDED] transition-colors duration-150;
+  .code-block {
+    @apply bg-[#0F1110] text-[#F2F2EC] font-mono text-[13.5px] leading-[1.7] rounded-[8px] border border-[#2A2E2A] p-4 overflow-x-auto relative;
   }
 
-  /* Checklist Items */
-  .checklist-box {
-    @apply flex items-start gap-3 p-3.5 rounded-sm border border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-card my-2 transition-all hover:border-primary/50;
+  /* Callouts */
+  .callout {
+    @apply bg-[#F7F7F3] dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] border-l-[3px] rounded-[8px] p-[16px_18px] text-[15px] leading-relaxed my-4;
   }
 
-  /* FAQ Items */
-  .faq-item {
-    @apply border border-surface-hairline dark:border-dark-border rounded-md mb-3 overflow-hidden bg-white dark:bg-dark-card transition-all;
-  }
-  .faq-question {
-    @apply w-full flex items-center justify-between p-5 text-left font-semibold text-ink dark:text-dark-text hover:bg-surface-warm dark:hover:bg-dark-surface transition-colors select-none;
-  }
-  .faq-answer {
-    @apply px-5 pb-5 pt-1 text-ink-secondary dark:text-dark-muted leading-relaxed text-sm;
-  }
-}
-
-/* Print Styles for Checklist */
-@media print {
-  header, footer, .no-print, .button-primary, .button-secondary, .button-ghost, .faq-accordion {
-    display: none !important;
-  }
-  body {
-    background: white !important;
-    color: black !important;
-  }
-  .card-standard, .quick-answer, .callout {
-    border: 1px solid #ccc !important;
-    box-shadow: none !important;
-  }
-}
-
-
-/* TechTalks Stack Kits Design System Tokens & Components */
-:root {
-  --color-brand-orange: #E85D26;
-  --color-brand-orange-hover: #CF4D19;
-  --color-brand-orange-bg: #FFF1E8;
-  --color-brand-teal: #0E7C6B;
-  --color-brand-teal-hover: #095C4F;
-  --color-brand-teal-bg: #E6F4F1;
-  --color-brand-gold: #B7791F;
-  --color-brand-gold-bg: #FEF6D8;
-  --color-kit-bg: #FFFFFF;
-  --color-kit-bg2: #F4F4F0;
-  --color-kit-card: #FFFFFF;
-  --color-kit-line: #E6E6DF;
-  --color-kit-ink: #12140F;
-  --color-kit-muted: #5C6058;
-}
-
-.dark {
-  --color-brand-orange-bg: #2A1E16;
-  --color-brand-teal: #1DB89E;
-  --color-brand-teal-hover: #129B84;
-  --color-brand-teal-bg: #122A26;
-  --color-brand-gold: #D4952C;
-  --color-brand-gold-bg: #2A2410;
-  --color-kit-bg: #0F1110;
-  --color-kit-bg2: #171A18;
-  --color-kit-card: #171A18;
-  --color-kit-line: #2A2E2A;
-  --color-kit-ink: #F2F2EC;
-  --color-kit-muted: #A8ACA0;
-}
-
-@layer components {
-  /* Brand Action Buttons */
-  .btn-brand-orange {
-    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-4 h-[38px] text-[15px] bg-[#E85D26] text-white hover:bg-[#CF4D19] focus:outline-none focus:ring-2 focus:ring-[#E85D26] focus:ring-offset-2 active:bg-[#B33D14] select-none shadow-sm;
+  .callout-info {
+    @apply callout border-l-[#0E7C6B] text-[#12140F] dark:text-[#F2F2EC];
   }
 
-  .btn-brand-teal {
-    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-4 h-[38px] text-[15px] bg-[#0E7C6B] text-white hover:bg-[#095C4F] dark:bg-[#129B84] dark:hover:bg-[#0E7C6B] focus:outline-none focus:ring-2 focus:ring-[#0E7C6B] focus:ring-offset-2 select-none shadow-sm;
+  .callout-warning {
+    @apply callout border-l-[#B7791F] text-[#12140F] dark:text-[#F2F2EC];
   }
 
-  .btn-brand-subtle {
-    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-3.5 h-[34px] text-[14px] bg-[#F4F4F0] dark:bg-[#171A18] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A] hover:border-[#E85D26]/40 dark:hover:border-[#E85D26]/40 hover:bg-white dark:hover:bg-[#202420] focus:outline-none select-none;
+  .callout-danger {
+    @apply callout border-l-[#DC2626] text-[#12140F] dark:text-[#F2F2EC];
   }
 
-  /* Kit Cards */
-  .card-kit {
-    @apply bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] rounded-md p-6 transition-all duration-200 relative overflow-hidden;
-    box-shadow: 0 1px 3px rgba(18, 20, 15, 0.04), 0 6px 16px rgba(18, 20, 15, 0.04);
-  }
-
-  .card-kit:hover {
-    @apply border-[#E85D26]/50 dark:border-[#E85D26]/60 -translate-y-0.5;
-    box-shadow: 0 4px 12px rgba(232, 93, 38, 0.08), 0 12px 32px rgba(18, 20, 15, 0.08);
-  }
-
-  /* Brand Chips & Badges */
-  .chip-orange {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FFF1E8] text-[#B33D14] dark:bg-[#2A1E16] dark:text-[#FF8D5C] border border-[#E85D26]/20;
-  }
-
-  .chip-teal {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#E6F4F1] text-[#0A584C] dark:bg-[#122A26] dark:text-[#3CD6BC] border border-[#0E7C6B]/20;
-  }
-
-  .chip-gold {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FEF6D8] text-[#7A4B00] dark:bg-[#2A2410] dark:text-[#F4BE5A] border border-[#B7791F]/20;
-  }
-
-  .chip-neutral {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#F4F4F0] text-[#5C6058] dark:bg-[#202420] dark:text-[#A8ACA0] border border-[#E6E6DF] dark:border-[#2A2E2A];
-  }
-
-  /* Stack Layer Anatomy Pill */
-  .layer-pill {
-    @apply inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-mono border;
+  .callout-tip {
+    @apply callout border-l-[#16A34A] text-[#12140F] dark:text-[#F2F2EC];
   }
 }

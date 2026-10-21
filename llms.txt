@@ -1,4 +1,4 @@
-# TechTalks — Full-Stack Kits & AI Security Masterclasses
+# TechTalks • Complete Stack Kits for AI Coding Agents
 
 > Canonical Website: https://techtalks.itsumarfarooq.com
 > Author: Umar Farooq (Senior Full-Stack & Security Engineer)
@@ -42,7 +42,14 @@ TechTalks is an open-source engineering knowledge platform providing production-
 - **DESIGN.md Design System Library** — Canonical visual design tokens, contrast ratios, and layout invariants enforced across agent prompts.
 - [Reverse Engineering & Security Agent Stack](https://techtalks.itsumarfarooq.com/kits/reverse-engineering-security/) — `Blueprint`. GhidraMCP, Radare2, Semgrep AST analysis, firmware decompilation pipelines.
 
-## Security Masterclass Curriculum (22 Lessons)
+## Engineering Blog & Releases (/blog/)
+- [TechTalks Stack Kits: What a Kit Is and Why AI Agents Need One](https://techtalks.itsumarfarooq.com/blog/what-is-a-stack-kit/) — The launch manifesto explaining why traditional starter templates fail with autonomous agents.
+- [Build Log: Kit #1 Produced by an Agent from Bootstrap Prompt with Evals](https://techtalks.itsumarfarooq.com/blog/kit-1-build-log-agent-evals/) — Benchmark evaluation report of autonomous kit generation.
+- [Why Every Kit Ships Its Own Security Checks](https://techtalks.itsumarfarooq.com/blog/why-every-kit-ships-security-checks/) — Why security checks must be executable code inside the repository.
+- [The DESIGN.md Specification: How Agents Follow Design Systems Without Hallucinating](https://techtalks.itsumarfarooq.com/blog/the-design-md-specification/) — Encoding design tokens and anti-slop rules for LLMs.
+- [Stack Kits 2026 Roadmap: 5 Tiers and How to Propose a Kit](https://techtalks.itsumarfarooq.com/blog/stack-kits-roadmap-and-proposals/) — Catalogue expansion and community proposal guidelines.
+
+## Laravel Security Guide (Companion to the Laravel Kits) — 22 Lessons
 
 ### Hubs & Tools
 - [Interactive 28-Point Production Security Checklist](https://techtalks.itsumarfarooq.com/security/laravel/checklist) — Interactive client-side audit tool with progress tracking and JSON export.

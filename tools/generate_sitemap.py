@@ -57,13 +57,24 @@ def generate():
         "changefreq": "weekly"
     })
     pages.append({
-        "url": f"{BASE_URL}/security/laravel/checklist",
-        "file": "security/laravel/checklist.html",
+        "url": f"{BASE_URL}/blog/",
+        "file": "blog/index.html",
         "priority": "0.85",
         "changefreq": "weekly"
     })
 
-    # 3. Stack Kits (10 Kits)
+    # 3. Blog Posts (5 Posts)
+    blog_dirs = sorted(glob.glob("blog/*/index.html"))
+    for bd in blog_dirs:
+        slug = os.path.basename(os.path.dirname(bd))
+        pages.append({
+            "url": f"{BASE_URL}/blog/{slug}/",
+            "file": bd,
+            "priority": "0.8",
+            "changefreq": "monthly"
+        })
+
+    # 4. Stack Kits (10 Kits)
     kit_dirs = sorted(glob.glob("kits/*/index.html"))
     for kd in kit_dirs:
         slug = os.path.basename(os.path.dirname(kd))
@@ -74,7 +85,7 @@ def generate():
             "changefreq": "weekly"
         })
 
-    # 4. Security Lessons (22 Lessons)
+    # 5. Security Lessons (22 Lessons - Retired checklist excluded as it redirects)
     lesson_files = sorted(glob.glob("security/laravel/*.html"))
     for lf in lesson_files:
         base = os.path.basename(lf)

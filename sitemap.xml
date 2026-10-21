@@ -25,10 +25,40 @@
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://techtalks.itsumarfarooq.com/security/laravel/checklist</loc>
+    <loc>https://techtalks.itsumarfarooq.com/blog/</loc>
     <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://techtalks.itsumarfarooq.com/blog/kit-1-build-log-agent-evals/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://techtalks.itsumarfarooq.com/blog/stack-kits-roadmap-and-proposals/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://techtalks.itsumarfarooq.com/blog/the-design-md-specification/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://techtalks.itsumarfarooq.com/blog/what-is-a-stack-kit/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://techtalks.itsumarfarooq.com/blog/why-every-kit-ships-security-checks/</loc>
+    <lastmod>2026-10-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://techtalks.itsumarfarooq.com/kits/agentic-langgraph-crewai/</loc>

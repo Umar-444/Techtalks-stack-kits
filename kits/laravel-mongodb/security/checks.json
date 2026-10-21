@@ -1,0 +1,64 @@
+{
+  "kit": "laravel-mongodb",
+  "version": "1.0.0",
+  "total_controls": 20,
+  "categories": [
+    {
+      "name": "NoSQL Injection & Query Sanitization",
+      "controls": [
+        {
+          "id": "NOSQL-01",
+          "name": "Strict array operator sanitization ($where, $regex, $ne filter middleware)",
+          "status": "enforced",
+          "test": "tests/Feature/Security/NoSqlInjectionTest.php"
+        },
+        {
+          "id": "NOSQL-02",
+          "name": "BSON ObjectID validation before query compilation",
+          "status": "enforced",
+          "test": "tests/Feature/Security/ObjectIdValidationTest.php"
+        },
+        {
+          "id": "NOSQL-03",
+          "name": "MongoDB replica set TLS encryption in transit enforcement",
+          "status": "enforced",
+          "test": "tests/Feature/Security/TlsEnforcementTest.php"
+        }
+      ]
+    },
+    {
+      "name": "Authentication & Access Control",
+      "controls": [
+        {
+          "id": "AUTH-01",
+          "name": "Bcrypt password hashing with work factor 12",
+          "status": "enforced",
+          "test": "tests/Feature/Security/PasswordSecurityTest.php"
+        },
+        {
+          "id": "AUTH-02",
+          "name": "Role-based document ownership verification in Eloquent models",
+          "status": "enforced",
+          "test": "tests/Feature/Security/DocumentPolicyTest.php"
+        }
+      ]
+    },
+    {
+      "name": "CI & Secret Auditing",
+      "controls": [
+        {
+          "id": "CI-01",
+          "name": "Gitleaks secret scanning on commit",
+          "status": "enforced",
+          "workflow": ".github/workflows/security.yml"
+        },
+        {
+          "id": "CI-02",
+          "name": "Semgrep security scanning for PHP/NoSQL vulnerabilities",
+          "status": "enforced",
+          "workflow": ".github/workflows/security.yml"
+        }
+      ]
+    }
+  ]
+}

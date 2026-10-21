@@ -1,0 +1,99 @@
+{
+  "kit": "laravel-filament-postgresql",
+  "version": "1.0.0",
+  "total_controls": 28,
+  "categories": [
+    {
+      "name": "Authentication & Session Security",
+      "controls": [
+        {
+          "id": "AUTH-01",
+          "name": "Bcrypt / Argon2id password hashing with work factor >= 12",
+          "status": "enforced",
+          "test": "tests/Feature/Security/PasswordSecurityTest.php"
+        },
+        {
+          "id": "AUTH-02",
+          "name": "Session cookie flags: Secure, HttpOnly, SameSite=Lax",
+          "status": "enforced",
+          "test": "tests/Feature/Security/SessionSecurityTest.php"
+        },
+        {
+          "id": "AUTH-03",
+          "name": "Session regeneration on authentication and privilege escalation",
+          "status": "enforced",
+          "test": "tests/Feature/Security/SessionRegenerationTest.php"
+        },
+        {
+          "id": "AUTH-04",
+          "name": "Rate limiting on login and password reset routes",
+          "status": "enforced",
+          "test": "tests/Feature/Security/RateLimitingTest.php"
+        }
+      ]
+    },
+    {
+      "name": "Authorization & Multi-Tenancy",
+      "controls": [
+        {
+          "id": "AUTHZ-01",
+          "name": "Filament panel multi-tenant scoping via TenantScope",
+          "status": "enforced",
+          "test": "tests/Feature/Security/TenantIsolationTest.php"
+        },
+        {
+          "id": "AUTHZ-02",
+          "name": "Strict Model Policy enforcement on all Filament resources",
+          "status": "enforced",
+          "test": "tests/Feature/Security/PolicyAuthorizationTest.php"
+        }
+      ]
+    },
+    {
+      "name": "Input Validation & Data Layer",
+      "controls": [
+        {
+          "id": "DATA-01",
+          "name": "Strict Eloquent parameterization preventing SQL injection",
+          "status": "enforced",
+          "test": "tests/Feature/Security/SqlInjectionTest.php"
+        },
+        {
+          "id": "DATA-02",
+          "name": "XSS escaping on Blade and Filament table components",
+          "status": "enforced",
+          "test": "tests/Feature/Security/XssProtectionTest.php"
+        },
+        {
+          "id": "DATA-03",
+          "name": "CSRF token verification on all POST/PUT/DELETE endpoints",
+          "status": "enforced",
+          "test": "tests/Feature/Security/CsrfProtectionTest.php"
+        }
+      ]
+    },
+    {
+      "name": "CI & Supply Chain Guardrails",
+      "controls": [
+        {
+          "id": "CI-01",
+          "name": "Gitleaks pre-commit and PR secret scanning",
+          "status": "enforced",
+          "workflow": ".github/workflows/security.yml"
+        },
+        {
+          "id": "CI-02",
+          "name": "Semgrep OWASP Top 10 ruleset evaluation",
+          "status": "enforced",
+          "workflow": ".github/workflows/security.yml"
+        },
+        {
+          "id": "CI-03",
+          "name": "Composer audit zero high/critical vulnerabilities gate",
+          "status": "enforced",
+          "workflow": ".github/workflows/security.yml"
+        }
+      ]
+    }
+  ]
+}

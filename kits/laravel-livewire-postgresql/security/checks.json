@@ -1,0 +1,70 @@
+{
+  "kit": "laravel-livewire-postgresql",
+  "version": "1.0.0",
+  "total_controls": 24,
+  "categories": [
+    {
+      "name": "Livewire Component & State Security",
+      "controls": [
+        {
+          "id": "LW-01",
+          "name": "Checksum validation on all public component properties",
+          "status": "enforced",
+          "test": "tests/Feature/Security/LivewireChecksumTest.php"
+        },
+        {
+          "id": "LW-02",
+          "name": "Server-side authorization check before executing component actions",
+          "status": "enforced",
+          "test": "tests/Feature/Security/LivewireActionPolicyTest.php"
+        },
+        {
+          "id": "LW-03",
+          "name": "Explicit property binding whitelist preventing mass assignment",
+          "status": "enforced",
+          "test": "tests/Feature/Security/LivewireMassAssignmentTest.php"
+        }
+      ]
+    },
+    {
+      "name": "Authentication & Session Protection",
+      "controls": [
+        {
+          "id": "AUTH-01",
+          "name": "Argon2id password hashing with memory cost 65536",
+          "status": "enforced",
+          "test": "tests/Feature/Security/PasswordSecurityTest.php"
+        },
+        {
+          "id": "AUTH-02",
+          "name": "Strict session fixation prevention on Livewire login events",
+          "status": "enforced",
+          "test": "tests/Feature/Security/SessionFixationTest.php"
+        }
+      ]
+    },
+    {
+      "name": "Data Layer & CI Defenses",
+      "controls": [
+        {
+          "id": "DATA-01",
+          "name": "Parameterized queries on all PostgreSQL scopes",
+          "status": "enforced",
+          "test": "tests/Feature/Security/SqlInjectionTest.php"
+        },
+        {
+          "id": "CI-01",
+          "name": "Gitleaks secret detection in GitHub Actions",
+          "status": "enforced",
+          "workflow": ".github/workflows/security.yml"
+        },
+        {
+          "id": "CI-02",
+          "name": "Semgrep OWASP rule scans on pull requests",
+          "status": "enforced",
+          "workflow": ".github/workflows/security.yml"
+        }
+      ]
+    }
+  ]
+}

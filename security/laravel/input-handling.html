@@ -20,10 +20,10 @@
   <meta name="twitter:title" content="Input Handling: Validation &amp; Sanitization — Laravel Security Masterclass">
   <meta name="twitter:description" content="Input handling is the foundation of web application security. All user input should be considered potentially malicious until proven otherwise. Proper inpu">
   <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
-
+  <!-- Fonts: Inter 400-800, JetBrains Mono, Newsreader italic (Document 17 Exact) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/styles.css">
 
   <script type="application/ld+json">
@@ -96,31 +96,164 @@
   </div>
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#0F1110]/95 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2.5 font-bold text-lg tracking-tight">
-          <span class="w-8 h-8 rounded-sm bg-[#E85D26] flex items-center justify-center text-white text-sm font-bold shadow-sm">TS</span>
-          <span>TechTalks <span class="text-[#E85D26]">Platform</span></span>
+  <!-- Master Navbar (Document 18 Exact: Sticky 60px, Paper 90% blur, Hairline border) -->
+  <header class="sticky top-0 z-50 h-[60px] bg-white/90 dark:bg-[#0F1110]/90 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#2A2E2A] transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+      
+      <!-- Left: Logo & Wordmark -->
+      <div class="flex items-center gap-8">
+        <a href="../../" class="flex items-center gap-2.5 group select-none" aria-label="TechTalks Stack Kits Home">
+          <div class="w-[30px] h-[30px] rounded-[6px] bg-[#E85D26] flex items-center justify-center text-white font-bold text-xs shadow-none">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+            </svg>
+          </div>
+          <div class="flex items-baseline">
+            <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F2F2EC] group-hover:text-[#E85D26] transition-colors">TechTalks</span>
+            <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] font-semibold ml-2">STACK KITS</span>
+          </div>
         </a>
 
-      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
-        <a href="/" class="button-ghost">Home</a>
-        <a href="/kits/" class="button-ghost text-[#E85D26] font-semibold bg-[#FFF1E8]/60 dark:bg-[#2A1E16]/60">Stack Kits <span class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-[#E85D26] text-white font-mono">10</span></a>
-        <a href="/security/" class="button-ghost">Security Hub</a>
-        <a href="/security/laravel/" class="button-ghost font-semibold">Laravel Track</a>
-        <a href="/security/laravel/checklist.html" class="button-ghost">Checklist</a>
-        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0]">GitHub &nearr;</a>
-      </nav>
+        <!-- Center / Left Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-6 text-[15px]" aria-label="Main Navigation">
+          
+          <!-- Kits Dropdown -->
+          <div class="relative group py-2">
+            <a href="../../kits/" class="flex items-center gap-1 text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">
+              <span>Kits</span>
+              <svg class="w-3.5 h-3.5 text-[#8C9088] group-hover:text-[#12140F] dark:group-hover:text-white transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </a>
+            
+            <!-- Hover dropdown menu -->
+            <div class="absolute top-full left-0 w-72 bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] rounded-[8px] p-2 shadow-lg hidden group-hover:block transition-all z-50">
+              <div class="px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-[#8C9088] font-semibold">
+                Complete Kits (Ready to Ship)
+              </div>
+              <a href="../../kits/laravel-filament-postgresql/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
+                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Laravel + Filament + PostgreSQL</span>
+                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Admin dashboard with multi-tenancy & audit logging</span>
+              </a>
+              <a href="../../kits/laravel-livewire-postgresql/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
+                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Laravel + Livewire + PostgreSQL</span>
+                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Reactive full-stack SaaS foundation with Alpine.js</span>
+              </a>
+              <a href="../../kits/laravel-mongodb/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
+                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Laravel + MongoDB</span>
+                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Document-oriented data layer with MongoDB 7+</span>
+              </a>
+              <a href="../../kits/nextjs-approuter-supabase/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
+                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Next.js 15+ + Supabase</span>
+                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">App Router, React 19, Server Actions & Supabase RLS</span>
+              </a>
+              <div class="border-t border-[#E6E6DF] dark:border-[#2A2E2A] my-1"></div>
+              <a href="../../kits/" class="flex items-center justify-between px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] text-[13px] font-semibold text-[#12140F] dark:text-white transition-colors">
+                <span>All kits and blueprints</span>
+                <span class="font-mono text-xs text-[#E85D26]">&rarr;</span>
+              </a>
+              <a href="https://github.com/Umar-444/Techtalks-stack-kits/issues/new?template=new-topic.yml" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] text-[13px] text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">
+                <span>Propose a kit</span>
+                <span class="text-xs">&nearr;</span>
+              </a>
+            </div>
+          </div>
 
-      <div class="flex items-center gap-2.5">
-        <button type="button" data-theme-toggle class="button-ghost p-2" aria-label="Toggle color theme">
-          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+          <a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">How It Works</a>
+          <a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">Blog</a>
+          <a href="../../security/" class="text-[#12140F] dark:text-white font-semibold border-b-2 border-[#E85D26] pb-[1px] transition-colors">Standards</a>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors inline-flex items-center gap-1">
+            <span>Community</span>
+            <span class="text-xs text-[#8C9088]">&nearr;</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Right: Search, GitHub with live star count, Theme Toggle, Primary CTA -->
+      <div class="flex items-center gap-3">
+        
+        <!-- Search Button (Ctrl K hint) -->
+        <button type="button" class="hidden sm:inline-flex items-center gap-2 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors" onclick="alert('Quick Search: Type to filter kits or press /kits/ to view catalogue.')">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+          <span>Search</span>
+          <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[#F4F4F0] dark:bg-[#202422] border border-[#E6E6DF] dark:border-[#2A2E2A]">Ctrl K</kbd>
         </button>
 
-        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="btn-brand-orange text-xs hidden sm:inline-flex gap-1.5 items-center">
-          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          <span>Star on GitHub</span>
+        <!-- GitHub Repo with Stars Badge -->
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-mono text-[#12140F] dark:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors" title="View repository on GitHub">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          <span class="font-semibold text-xs text-[#8C9088]">&bull;</span>
+          <span class="text-xs font-semibold text-[#12140F] dark:text-[#F2F2EC]">Star</span>
+        </a>
+
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" type="button" aria-label="Toggle theme" class="w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors focus:outline-none focus:ring-2 focus:ring-[#E85D26]">
+          <!-- Sun Icon -->
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          <!-- Moon Icon -->
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+
+        <!-- Primary CTA: Ink Background 'Get a Kit' -->
+        <a href="../../kits/" class="hidden sm:inline-flex items-center justify-center h-[38px] px-4 rounded-[6px] text-[14px] font-semibold bg-[#12140F] text-white hover:bg-[#2A2E2C] dark:bg-white dark:text-[#12140F] dark:hover:bg-[#EAECE8] focus:outline-none focus:ring-2 focus:ring-[#E85D26] focus:ring-offset-2 transition-colors select-none">
+          Get a Kit
+        </a>
+
+        <!-- Mobile Menu Hamburger -->
+        <button id="mobile-menu-toggle" type="button" aria-label="Toggle navigation menu" class="md:hidden w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer Sheet (Document 18: Full-width sheet under header, links at 17px, kits expanded) -->
+    <div id="mobile-menu" class="hidden md:hidden fixed inset-x-0 top-[60px] bottom-0 bg-white dark:bg-[#0F1110] border-t border-[#E6E6DF] dark:border-[#2A2E2A] p-6 flex flex-col justify-between overflow-y-auto z-40">
+      <div class="space-y-4">
+        
+        <div class="font-mono text-xs uppercase tracking-wider text-[#8C9088] font-semibold">
+          Navigation
+        </div>
+        
+        <div class="flex flex-col text-[17px] font-medium space-y-3 pb-4 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
+          <a href="../../kits/" class="text-[#12140F] dark:text-white font-semibold flex items-center justify-between">
+            <span>Kits &amp; Blueprints</span>
+            <span class="text-xs font-mono text-[#E85D26]">All &rarr;</span>
+          </a>
+          <div class="pl-3 flex flex-col space-y-2 text-[14px] text-[#5C6058] dark:text-[#A8ACA0]">
+            <a href="../../kits/laravel-filament-postgresql/">&bull; Laravel + Filament + PostgreSQL</a>
+            <a href="../../kits/laravel-livewire-postgresql/">&bull; Laravel + Livewire + PostgreSQL</a>
+            <a href="../../kits/laravel-mongodb/">&bull; Laravel + MongoDB</a>
+            <a href="../../kits/nextjs-approuter-supabase/">&bull; Next.js 15+ + Supabase</a>
+          </div>
+        </div>
+
+        <div class="flex flex-col text-[17px] font-medium space-y-3 pb-4 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
+          <a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">How It Works</a>
+          <a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">Blog</a>
+          <a href="../../security/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">Standards</a>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white flex items-center justify-between">
+            <span>Community</span>
+            <span class="text-xs">&nearr;</span>
+          </a>
+        </div>
+
+      </div>
+
+      <div class="pt-6 border-t border-[#E6E6DF] dark:border-[#2A2E2A]">
+        <a href="../../kits/" class="w-full inline-flex items-center justify-center h-[42px] rounded-[6px] text-[15px] font-semibold bg-[#12140F] text-white dark:bg-white dark:text-[#12140F] transition-colors">
+          Get a Kit &rarr;
         </a>
       </div>
     </div>
@@ -128,15 +261,21 @@
 
   <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-8" aria-label="Breadcrumb">
+    <!-- Breadcrumb: Guides / Laravel Security Guide (Document 18 Master Spec) -->
+    <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-6 flex-wrap" aria-label="Breadcrumb">
       <a href="/" class="hover:text-[#E85D26] transition-colors">Home</a>
       <span>/</span>
-      <a href="/security/" class="hover:text-[#E85D26] transition-colors">Security Hub</a>
+      <a href="/security/" class="hover:text-[#E85D26] transition-colors">Standards</a>
       <span>/</span>
-      <a href="/security/laravel/" class="hover:text-[#E85D26] transition-colors">Laravel Track</a>
+      <a href="/security/laravel/" class="hover:text-[#E85D26] transition-colors">Laravel Security Guide</a>
       <span>/</span>
-      <span class="text-ink dark:text-white font-medium">Input Handling: Validation &amp; Sanitization</span>
+      <span class="text-[#12140F] dark:text-white font-medium">Input Handling: Validation &amp; Sanitization</span>
     </nav>
+
+    <!-- Companion Guide Callout (Document 18 Part 4) -->
+    <div class="callout-info mb-8">
+      <strong>Companion Guide:</strong> This guide belongs to the Laravel kits. Every Laravel kit ships these checks built in. Explore <a href="/kits/laravel-filament-postgresql/" class="font-semibold underline hover:text-[#E85D26]">Kit #1 (Filament)</a>, <a href="/kits/laravel-livewire-postgresql/" class="font-semibold underline hover:text-[#E85D26]">Kit #2 (Livewire)</a>, and <a href="/kits/laravel-mongodb/" class="font-semibold underline hover:text-[#E85D26]">Kit #3 (MongoDB)</a>.
+    </div>
 
     <!-- Lesson Header -->
     <div class="mb-8">
@@ -807,31 +946,117 @@ if ($userId &lt;= 0) {
   </main>
 
   <!-- Footer -->
-  <footer class="mt-auto border-t border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#0F1110] py-12 text-sm text-[#5C6058] dark:text-[#A8ACA0]">
+  <!-- Master Footer (Document 18 Exact: Tint #F7F7F3, 4 Columns, Hairline, No Fake Newsletter) -->
+  <footer class="bg-[#F7F7F3] dark:bg-[#111312] border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-16 pb-12 transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
-        <div class="flex items-center gap-2.5 font-bold text-base text-[#12140F] dark:text-white">
-          <span class="w-7 h-7 rounded-sm bg-[#E85D26] flex items-center justify-center text-white text-xs font-bold">TS</span>
-          <span>TechTalks <span class="text-[#E85D26]">Platform</span></span>
+      
+      <!-- 4 Columns Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
+        
+        <!-- Column 1: Brand (wider, ~1.4x) -->
+        <div class="md:col-span-5 space-y-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-[28px] h-[28px] rounded-[6px] bg-[#E85D26] flex items-center justify-center text-white text-xs font-bold shrink-0">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+            </div>
+            <div class="flex items-baseline">
+              <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F2F2EC]">TechTalks</span>
+              <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] font-semibold ml-2">STACK KITS</span>
+            </div>
+          </div>
+          <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6] max-w-sm">
+            Complete stack kits for AI coding agents: starter code, rules, skills, design and security checks in one clone.
+          </p>
+          
+          <!-- Social Icons Row (18px stroke icons, ghost circles with hairline border) -->
+          <div class="flex items-center gap-2 pt-1">
+            <!-- GitHub -->
+            <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="GitHub">
+              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            </a>
+            <!-- LinkedIn -->
+            <a href="https://linkedin.com/in/itsumarfarooq" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="LinkedIn">
+              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <!-- X / Twitter -->
+            <a href="https://x.com/itsumarfarooq" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="X (Twitter)">
+              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <!-- YouTube -->
+            <a href="https://youtube.com/@itsumarfarooq" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="YouTube">
+              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+          </div>
+
+          <div class="pt-2 text-xs text-[#5C6058] dark:text-[#A8ACA0]">
+            By Umar Farooq &bull; <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-[#12140F] dark:text-white font-medium hover:text-[#E85D26] underline transition-colors">itsumarfarooq.com &nearr;</a>
+          </div>
         </div>
 
-        <div class="flex flex-wrap items-center gap-4 text-xs">
-          <a href="/" class="hover:text-[#E85D26] transition-colors">Home</a>
-          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
-          <a href="/kits/" class="hover:text-[#E85D26] transition-colors">Stack Kits (10)</a>
-          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
-          <a href="/security/" class="hover:text-[#E85D26] transition-colors">Security Hub</a>
-          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
-          <a href="/security/laravel/checklist.html" class="hover:text-[#E85D26] transition-colors">Checklist</a>
-          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
-          <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="hover:text-[#E85D26] transition-colors">GitHub</a>
+        <!-- Column 2: Kits -->
+        <div class="md:col-span-2 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Kits
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="../../kits/laravel-filament-postgresql/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Filament</a></li>
+            <li><a href="../../kits/laravel-livewire-postgresql/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Livewire</a></li>
+            <li><a href="../../kits/laravel-mongodb/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + MongoDB</a></li>
+            <li><a href="../../kits/nextjs-approuter-supabase/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Next.js + Supabase</a></li>
+            <li><a href="../../kits/" class="font-medium text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">All Kits &amp; Blueprints &rarr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/issues/new?template=new-topic.yml" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Propose a Kit &nearr;</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Resources -->
+        <div class="md:col-span-2 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Resources
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Blog</a></li>
+            <li><a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">How It Works</a></li>
+            <li><a href="../../security/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Security Standard</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Contributor Guide &nearr;</a></li>
+            <li><a href="../../llms.txt" class="font-mono text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">llms.txt</a></li>
+            <li><a href="../../sitemap.xml" class="font-mono text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">sitemap.xml</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Community -->
+        <div class="md:col-span-3 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Community
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">GitHub Repository &nearr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Discussions &nearr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Good First Issues &nearr;</a></li>
+            <li><a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Changelog &amp; Releases</a></li>
+            <li><a href="https://itsumarfarooq.com#contact" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Contact Maintainer &nearr;</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar (Document 18: Hairline above, 13px muted, three items) -->
+      <div class="pt-8 flex flex-col md:flex-row items-center justify-between text-[13px] text-[#5C6058] dark:text-[#A8ACA0] gap-4">
+        <div>
+          &copy; 2026 Umar Farooq &bull; TechTalks Stack Kits &bull; <a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-[#12140F] dark:hover:text-white">MIT License</a>
+        </div>
+        <div class="text-center">
+          Not affiliated with Laravel, Filament, Anthropic or OpenAI.
+        </div>
+        <div>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="hover:text-[#12140F] dark:hover:text-white transition-colors inline-flex items-center gap-1">
+            <span>Built in the open on GitHub</span>
+            <span class="text-xs">&nearr;</span>
+          </a>
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">
-        <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
-        <p>Curated open-source project setups &amp; security playbooks for AI agents.</p>
-      </div>
     </div>
   </footer>
 

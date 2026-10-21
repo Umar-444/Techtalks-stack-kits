@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>TechTalks Stack Kits Engineering Blog</title>
+    <link>https://techtalks.itsumarfarooq.com/blog/</link>
+    <description>Engineering release notes, benchmark logs, and security guides for TechTalks Stack Kits.</description>
+    <language>en-us</language>
+    <lastBuildDate>2026-10-21T12:00:00Z</lastBuildDate>
+    <atom:link href="https://techtalks.itsumarfarooq.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
+    
+    <item>
+      <title><![CDATA[TechTalks Stack Kits: What a Kit Is and Why AI Agents Need One]]></title>
+      <link>https://techtalks.itsumarfarooq.com/blog/what-is-a-stack-kit/</link>
+      <guid>https://techtalks.itsumarfarooq.com/blog/what-is-a-stack-kit/</guid>
+      <pubDate>2026-10-21T00:00:00Z</pubDate>
+      <category>Announcements</category>
+      <description><![CDATA[Why traditional starter templates fail with autonomous coding agents, and how our 5-layer kits stop architectural drift at the root.]]></description>
+    </item>
+
+    <item>
+      <title><![CDATA[Build Log: Kit #1 Produced by an Agent from Bootstrap Prompt with Evals]]></title>
+      <link>https://techtalks.itsumarfarooq.com/blog/kit-1-build-log-agent-evals/</link>
+      <guid>https://techtalks.itsumarfarooq.com/blog/kit-1-build-log-agent-evals/</guid>
+      <pubDate>2026-10-18T00:00:00Z</pubDate>
+      <category>Build Logs</category>
+      <description><![CDATA[A deep dive into how an autonomous agent constructed Kit #1 (Laravel + Filament + PostgreSQL) from our bootstrap prompt, evaluated by our benchmark runner.]]></description>
+    </item>
+
+    <item>
+      <title><![CDATA[Why Every Kit Ships Its Own Security Checks]]></title>
+      <link>https://techtalks.itsumarfarooq.com/blog/why-every-kit-ships-security-checks/</link>
+      <guid>https://techtalks.itsumarfarooq.com/blog/why-every-kit-ships-security-checks/</guid>
+      <pubDate>2026-10-15T00:00:00Z</pubDate>
+      <category>Guides</category>
+      <description><![CDATA[Retiring standalone checklists in favor of embedded, executable security test suites inside every repository.]]></description>
+    </item>
+
+    <item>
+      <title><![CDATA[The DESIGN.md Specification: How Agents Follow Design Systems Without Hallucinating]]></title>
+      <link>https://techtalks.itsumarfarooq.com/blog/the-design-md-specification/</link>
+      <guid>https://techtalks.itsumarfarooq.com/blog/the-design-md-specification/</guid>
+      <pubDate>2026-10-12T00:00:00Z</pubDate>
+      <category>Guides</category>
+      <description><![CDATA[Our exact methodology for encoding design tokens, typography scales, and anti-slop rules into LLM-friendly markdown files.]]></description>
+    </item>
+
+    <item>
+      <title><![CDATA[Stack Kits 2026 Roadmap: 5 Tiers and How to Propose a Kit]]></title>
+      <link>https://techtalks.itsumarfarooq.com/blog/stack-kits-roadmap-and-proposals/</link>
+      <guid>https://techtalks.itsumarfarooq.com/blog/stack-kits-roadmap-and-proposals/</guid>
+      <pubDate>2026-10-09T00:00:00Z</pubDate>
+      <category>Releases</category>
+      <description><![CDATA[Our 18-kit catalogue expansion plan across Laravel, JavaScript, Python, and AI, and our open proposal process.]]></description>
+    </item>
+
+  </channel>
+</rss>

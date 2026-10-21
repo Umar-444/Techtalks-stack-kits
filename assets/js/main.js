@@ -59,6 +59,27 @@ function initMobileMenu() {
    ========================================================================== */
 function initCopyButtons() {
   const copyButtons = document.querySelectorAll('.code-copy-btn');
+  const cmdButtons = document.querySelectorAll('[data-copy-cmd]');
+
+  cmdButtons.forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const cmd = btn.getAttribute('data-copy-cmd');
+      if (!cmd) return;
+      try {
+        await navigator.clipboard.writeText(cmd);
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = `<svg class="w-3.5 h-3.5 text-emerald-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg><span class="text-emerald-600 dark:text-emerald-400 font-semibold text-xs">Copied!</span>`;
+        btn.classList.add('border-emerald-500/50');
+        setTimeout(() => {
+          btn.innerHTML = originalHtml;
+          btn.classList.remove('border-emerald-500/50');
+        }, 2200);
+      } catch (err) {
+        console.error('Clipboard copy failed:', err);
+      }
+    });
+  });
 
   copyButtons.forEach(button => {
     button.addEventListener('click', async () => {
