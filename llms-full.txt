@@ -13,6 +13,37 @@
 TechTalks is an open-source engineering knowledge platform providing production-tested full-stack project setups with pre-wired AI agent rules (transpiled to 6 native dialects: Cursor, Claude Code, Copilot, Cline, Codex, Antigravity) alongside comprehensive threat models and verified security masterclasses.
 
 ===============================================================================
+## Master Stack Kits Catalogue (18 Kits & Layers in 5 Tiers)
+
+### Tier 1: Laravel Ecosystem
+- [Laravel 13 + Filament 4 + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/laravel-filament-postgresql/) — `Complete & Verified`. PHP 8.4, Filament 4, PostgreSQL 16+. UUID v7, BOLA authorization policies, zero plaintext credentials.
+- [Laravel 12 + Livewire 4 + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/laravel-livewire-postgresql/) — `Complete & Verified`. PHP 8.3+, Livewire 4, Flux UI, Volt single-file components, Folio routing.
+- [Laravel 12 + MongoDB NoSQL](https://techtalks.itsumarfarooq.com/kits/laravel-mongodb/) — `Complete & Verified`. PHP 8.3+, MongoDB 7.0+, mongodb/laravel-mongodb Eloquent driver, NoSQL injection defenses.
+- [Laravel + MySQL Dashboard](https://techtalks.itsumarfarooq.com/kits/laravel-mysql/) — `Blueprint (Build Next)`. PHP 8.4, MySQL 8, Larastan Level 8, Pest Arch tests, high-concurrency indexing.
+- **Laravel + Filament + MySQL** — `Planned`. Enterprise admin architecture tailored for existing MySQL infrastructure.
+- **Laravel API + Sanctum** — `Planned`. Pure headless API architecture, sliding tokens, rate limiting, and OpenAPI schema generators.
+
+### Tier 2: JavaScript & TypeScript
+- [Next.js 15+ + Supabase + shadcn/ui](https://techtalks.itsumarfarooq.com/kits/nextjs-approuter-supabase/) — `Complete & Verified`. Next.js 15, React 19, Supabase RLS, Server Actions with Zod validation.
+- **Next.js 15 + Prisma + PostgreSQL** — `Planned`. Type-safe ORM integration, automated schema migrations, and connection pooling.
+- **Next.js AI Chatbot** — `Planned`. Vercel AI SDK, streaming UI, prompt safety guardrails, and token-cost fences.
+
+### Tier 3: Python Web & API
+- [Django 5+ + Tailwind + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/django-tailwind-postgresql/) — `Blueprint`. Python 3.12+, Django 5, Celery background queues, django-tailwind, custom user model auth.
+- [Flask 3 + HTMX + Alpine.js](https://techtalks.itsumarfarooq.com/kits/flask-htmx-sqlite/) — `Blueprint`. Lightweight hypermedia stack, partial HTML over the wire, zero heavy JS build tooling.
+- **FastAPI Modern Backend** — `Planned`. Python 3.12+, async endpoints, Pydantic v2 schemas, automated OpenAPI documentation, and JWT security gates.
+
+### Tier 4: AI & Agentic Systems
+- [Production RAG Stack](https://techtalks.itsumarfarooq.com/kits/rag-fastapi-qdrant/) — `Blueprint`. Python 3.12+, FastAPI, Qdrant / Chroma, multi-tenant vector isolation, Ragas evaluation benchmark.
+- [Autonomous Multi-Agent System](https://techtalks.itsumarfarooq.com/kits/agentic-langgraph-crewai/) — `Blueprint`. LangGraph, CrewAI, Docker sandboxing, human-in-the-loop approvals, and tool execution fences.
+- **MCP Tools Kit** — `Planned`. Standard Model Context Protocol servers for secure local agent tooling and database introspection.
+- **Laravel AI Features** — `Planned`. Native Laravel integration of prompt injection defense, dual-LLM arbiters, and PII redaction from the masterclass.
+
+### Tier 5: Foundation Layers
+- **DESIGN.md Design System Library** — Canonical visual design tokens, contrast ratios, and layout invariants enforced across agent prompts.
+- [Reverse Engineering & Security Agent Stack](https://techtalks.itsumarfarooq.com/kits/reverse-engineering-security/) — `Blueprint`. GhidraMCP, Radare2, Semgrep AST analysis, firmware decompilation pipelines.
+
+===============================================================================
 # COMPLETE STACK KITS SPECIFICATIONS & AGENT BUILD STEPS
 ===============================================================================
 

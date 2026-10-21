@@ -77,7 +77,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        serif: ['"Lyon Text"', 'Georgia', 'Cambria', 'serif'],
+        serif: ['Newsreader', 'Georgia', 'Cambria', 'serif'],
         mono: ['"JetBrains Mono"', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
       borderRadius: {

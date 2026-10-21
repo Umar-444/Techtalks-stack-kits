@@ -592,8 +592,13 @@ def build_all():
         generated_count += 1
         print(f"Rendered: {dest_html_path}")
 
-    # Update sitemap.xml
-    update_sitemap(generated_urls)
+    # Generate complete dynamic sitemap.xml
+    try:
+        from tools.generate_sitemap import generate as gen_sitemap
+        gen_sitemap()
+    except Exception:
+        import subprocess
+        subprocess.run([sys.executable, "tools/generate_sitemap.py"])
     print(f"Successfully generated {generated_count} kit pages and updated sitemap.")
 
 def update_sitemap(new_urls):
