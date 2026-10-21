@@ -1,0 +1,49 @@
+{
+  "kit_slug": "rust-axum-postgresql",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "rust-axum-postgresql-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 2425,
+      "completion_tokens": 2964,
+      "tokens_consumed": 5389
+    },
+    {
+      "id": "rust-axum-postgresql-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 2675,
+      "completion_tokens": 3694,
+      "tokens_consumed": 6369
+    },
+    {
+      "id": "rust-axum-postgresql-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 2587,
+      "completion_tokens": 3292,
+      "tokens_consumed": 5879
+    },
+    {
+      "id": "rust-axum-postgresql-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 2744,
+      "completion_tokens": 4116,
+      "tokens_consumed": 6860
+    }
+  ],
+  "median_task_tokens": 6124,
+  "median_tokens_to_complete_reference_build": 24497,
+  "efficiency_tier": "B",
+  "efficiency_note": "Axum Tower middleware, SQLx compile-checked queries",
+  "token_light": false
+}

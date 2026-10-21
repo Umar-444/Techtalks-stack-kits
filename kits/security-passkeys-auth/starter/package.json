@@ -1,0 +1,12 @@
+{
+  "name": "passkeys-auth-reference",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "bun run src/server.ts"
+  },
+  "dependencies": {
+    "@simplewebauthn/server": "^10.0.1",
+    "@simplewebauthn/browser": "^10.0.0",
+    "hono": "^4.6.0"
+  }
+}

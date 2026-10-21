@@ -1,0 +1,55 @@
+{
+  "kit_slug": "security-devsecops-ci",
+  "name": "DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)",
+  "token_metrics": {
+    "median_tokens": 8400,
+    "tier": "A+",
+    "token_light": true
+  },
+  "eval_tasks": [
+    {
+      "id": "security-devsecops-ci-task-01",
+      "title": "Core Environment & Service Initialization",
+      "instruction": "Initialize the DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM) core runtime with zero-warning configuration.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health endpoint responds 200 OK"
+      ],
+      "prompt_tokens": 831,
+      "completion_tokens": 1016
+    },
+    {
+      "id": "security-devsecops-ci-task-02",
+      "title": "Data Schema & Repository Definition",
+      "instruction": "Define strongly-typed models and database migrations.",
+      "assertions": [
+        "Schema validates against type checker",
+        "Migrations execute idempotently"
+      ],
+      "prompt_tokens": 917,
+      "completion_tokens": 1266
+    },
+    {
+      "id": "security-devsecops-ci-task-03",
+      "title": "API Routing & Authorization Policy",
+      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "assertions": [
+        "Unauthorized access returns 401/403",
+        "Owner access returns 200"
+      ],
+      "prompt_tokens": 887,
+      "completion_tokens": 1128
+    },
+    {
+      "id": "security-devsecops-ci-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "assertions": [
+        "Gitleaks zero findings",
+        "Automated attack suite passes 100%"
+      ],
+      "prompt_tokens": 940,
+      "completion_tokens": 1411
+    }
+  ]
+}

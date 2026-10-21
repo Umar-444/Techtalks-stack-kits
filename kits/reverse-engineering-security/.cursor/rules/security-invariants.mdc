@@ -1,0 +1,10 @@
+---
+description: Security for Reverse Engineering & Security Audit Pack
+globs: *
+alwaysApply: true
+---
+
+# Security for Reverse Engineering & Security Audit Pack
+
+# Security
+Zero credential leaks.

@@ -1,0 +1,74 @@
+schema_version: 1.0.0
+name: RAG FastAPI + Qdrant + OpenAI
+slug: rag-fastapi-qdrant
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: High-speed semantic search & retrieval augmented generation API using
+  FastAPI, Qdrant vector database, and streaming LLM responses.
+category: RAG
+maintainer:
+  name: TechTalks AI Engineering Group
+  role: Vector Search Engineer
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Python
+    version: 3.12+
+    registry: pypi.org
+  framework:
+    name: FastAPI
+    version: 0.115+
+    registry: pypi.org
+  vector_db: Qdrant
+  embeddings: OpenAI / FastEmbed
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: rag-fastapi-qdrant-core
+      path: skills/rag-fastapi-qdrant-core/SKILL.md
+      description: Core operations skill for RAG FastAPI + Qdrant + OpenAI.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: false
+  median_eval_tokens: 23500
+  efficiency_tier: A
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

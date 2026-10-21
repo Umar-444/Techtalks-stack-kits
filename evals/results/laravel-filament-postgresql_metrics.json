@@ -1,0 +1,49 @@
+{
+  "kit_slug": "laravel-filament-postgresql",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "kit1-task-01",
+      "title": "Filament Panel SPA Configuration",
+      "status": "PASS",
+      "prompt_tokens": 872,
+      "completion_tokens": 818,
+      "tokens_consumed": 1690
+    },
+    {
+      "id": "kit1-task-02",
+      "title": "UUID Model & PostgreSQL Schema",
+      "status": "PASS",
+      "prompt_tokens": 868,
+      "completion_tokens": 818,
+      "tokens_consumed": 1686
+    },
+    {
+      "id": "kit1-task-03",
+      "title": "BOLA Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 865,
+      "completion_tokens": 854,
+      "tokens_consumed": 1719
+    },
+    {
+      "id": "kit1-task-04",
+      "title": "Pest Architecture Test",
+      "status": "PASS",
+      "prompt_tokens": 863,
+      "completion_tokens": 782,
+      "tokens_consumed": 1645
+    }
+  ],
+  "median_task_tokens": 1688,
+  "median_tokens_to_complete_reference_build": 6740,
+  "efficiency_tier": "B",
+  "efficiency_note": "Full admin panel generation, Pest architecture suites",
+  "token_light": false
+}

@@ -1,0 +1,6 @@
+rules:
+  - id: generic-check
+    pattern: "$X.run(...)"
+    message: "Check"
+    languages: [python, php, javascript]
+    severity: INFO

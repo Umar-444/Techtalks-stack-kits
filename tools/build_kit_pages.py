@@ -597,164 +597,19 @@ def render_kit_page(kit_meta, kit_dir, readme_html=""):
 
 def build_all():
     kits_base = "kits"
-    if not os.path.isdir(kits_base):
-        print(f"Directory {kits_base} not found.")
-        return
-
-    ten_kits = [
-        {
-            "slug": "laravel-filament-postgresql",
-            "name": "Laravel 13 + Filament 4 + PostgreSQL",
-            "version": "1.0.0",
-            "status": "stable",
-            "description": "Production admin panel and REST API stack with strict UUID v7 schemas, BOLA authorization policies, zero plaintext credentials, and single-source agent rules.",
-            "stack": {
-                "language": "PHP 8.4",
-                "framework": "Laravel 13",
-                "admin_panel": "Filament 4",
-                "database": "PostgreSQL 16+",
-                "extra": ["Docker Compose", "Pest PHP", "Semgrep", "Gitleaks"]
-            },
-            "security": {"gitleaks": True, "semgrep": True, "auth_enforced": True, "input_validation_enforced": True}
-        },
-        {
-            "slug": "laravel-livewire-postgresql",
-            "name": "Laravel 12 + Livewire 4 + PostgreSQL",
-            "version": "1.0.0",
-            "status": "stable",
-            "description": "Reactive TALL Stack with Flux UI, Volt single-file components, Folio page routing, Fortify authentication, and PostgreSQL.",
-            "stack": {
-                "language": "PHP 8.3+",
-                "framework": "Laravel 12",
-                "admin_panel": "Livewire 4 + Flux UI",
-                "database": "PostgreSQL 16+",
-                "extra": ["Volt", "Folio", "Fortify"]
-            },
-            "security": {"gitleaks": True, "semgrep": True, "auth_enforced": True, "input_validation_enforced": True}
-        },
-        {
-            "slug": "laravel-mongodb",
-            "name": "Laravel 12 + MongoDB (NoSQL)",
-            "version": "1.0.0",
-            "status": "stable",
-            "description": "Pioneer document store stack. Official mongodb/laravel-mongodb package, embedded documents, aggregation pipelines, and custom React/Inertia dashboard.",
-            "stack": {
-                "language": "PHP 8.3+",
-                "framework": "Laravel 12",
-                "database": "MongoDB 7.0+",
-                "admin_panel": "Inertia + React",
-                "extra": ["mongodb/laravel-mongodb"]
-            },
-            "security": {"gitleaks": True, "semgrep": True, "auth_enforced": True, "input_validation_enforced": True}
-        },
-        {
-            "slug": "nextjs-approuter-supabase",
-            "name": "Next.js 15+ + Supabase + shadcn/ui",
-            "version": "1.0.0",
-            "status": "stable",
-            "description": "React Server Components, Server Actions with Zod validation, Row-Level Security in Supabase/PostgreSQL, and shadcn/ui tokens.",
-            "stack": {
-                "language": "TypeScript 5+",
-                "framework": "Next.js 15 (Turbopack)",
-                "database": "Supabase / PostgreSQL",
-                "extra": ["shadcn/ui", "Zod", "Server Actions"]
-            },
-            "security": {"gitleaks": True, "semgrep": True, "auth_enforced": True, "input_validation_enforced": True}
-        },
-        {
-            "slug": "laravel-mysql",
-            "name": "Laravel + MySQL Dashboard (Blueprint)",
-            "version": "1.0.0-blueprint",
-            "status": "blueprint",
-            "description": "Battle-tested enterprise foundation. Larastan Level 8, Pint formatting, Pest Architecture tests, and high-concurrency MySQL 8 indexing.",
-            "stack": {
-                "language": "PHP 8.4",
-                "framework": "Laravel 12",
-                "database": "MySQL 8",
-                "extra": ["Larastan L8", "Pint", "Pest Arch"]
-            },
-            "security": {"gitleaks": True, "semgrep": True, "auth_enforced": True}
-        },
-        {
-            "slug": "django-tailwind-postgresql",
-            "name": "Django 5+ + Tailwind + PostgreSQL",
-            "version": "1.0.0-blueprint",
-            "status": "blueprint",
-            "description": "Python enterprise backend with batteries-included admin, Celery background queues, django-tailwind, and custom user model auth.",
-            "stack": {
-                "language": "Python 3.12+",
-                "framework": "Django 5",
-                "database": "PostgreSQL",
-                "extra": ["Celery", "Redis", "django-tailwind"]
-            },
-            "security": {"gitleaks": True, "semgrep": True, "auth_enforced": True}
-        },
-        {
-            "slug": "flask-htmx-sqlite",
-            "name": "Flask + HTMX + Alpine.js",
-            "version": "1.0.0-blueprint",
-            "status": "blueprint",
-            "description": "Lightweight hypermedia stack. Zero complex JS build tooling, partial HTML over the wire, and minimal memory overhead.",
-            "stack": {
-                "language": "Python 3.12+",
-                "framework": "Flask 3",
-                "database": "SQLite / PostgreSQL",
-                "extra": ["HTMX 2", "Alpine.js", "SQLAlchemy 2"]
-            },
-            "security": {"gitleaks": True, "semgrep": True, "auth_enforced": True}
-        },
-        {
-            "slug": "rag-fastapi-qdrant",
-            "name": "Production RAG Stack",
-            "version": "1.0.0-blueprint",
-            "status": "blueprint",
-            "description": "Production Retrieval-Augmented Generation. Ingest, chunk, embed, retrieve, generate with tenant isolation and eval benchmarks.",
-            "stack": {
-                "language": "Python 3.12+",
-                "framework": "FastAPI",
-                "database": "Qdrant / Chroma",
-                "extra": ["LangChain", "LlamaIndex", "Ollama", "OpenAI"]
-            },
-            "security": {"gitleaks": True, "semgrep": True, "auth_enforced": True}
-        },
-        {
-            "slug": "agentic-langgraph-crewai",
-            "name": "Autonomous Multi-Agent System",
-            "version": "1.0.0-blueprint",
-            "status": "blueprint",
-            "description": "State-machine agent graph with LangGraph and CrewAI. Safe tool execution, Docker sandboxing, human-in-the-loop approvals, and cost fences.",
-            "stack": {
-                "language": "Python 3.12+",
-                "framework": "LangGraph + CrewAI",
-                "extra": ["Pydantic v2", "Docker Sandboxing"]
-            },
-            "security": {"gitleaks": True, "semgrep": True, "sandboxed_tools": True}
-        },
-        {
-            "slug": "reverse-engineering-security",
-            "name": "Reverse Engineering & Security Agent Stack",
-            "version": "1.0.0-blueprint",
-            "status": "blueprint",
-            "description": "Binary, firmware, and AST code analysis tools structured for AI agents. GhidraMCP, Radare2, Semgrep rule authoring, and memory safety checks.",
-            "stack": {
-                "language": "Python 3.12+",
-                "framework": "GhidraMCP + Radare2",
-                "extra": ["Semgrep AST", "Binary Ninja API"]
-            },
-            "security": {"gitleaks": True, "semgrep": True, "sandboxed_tools": True}
-        }
-    ]
+    all_kit_dirs = sorted([
+        d for d in os.listdir(kits_base)
+        if os.path.isdir(os.path.join(kits_base, d)) and os.path.isfile(os.path.join(kits_base, d, "kit.yaml"))
+    ])
+    print(f"Dynamically discovered {len(all_kit_dirs)} kits with kit.yaml in {kits_base}/")
 
     generated_urls = []
     generated_count = 0
 
-    for kit in ten_kits:
-        slug = kit["slug"]
+    for slug in all_kit_dirs:
         kit_dir = os.path.join(kits_base, slug)
-        os.makedirs(kit_dir, exist_ok=True)
-
         manifest_path = os.path.join(kit_dir, "kit.yaml")
-        meta = kit.copy()
+        meta = {"slug": slug}
         if os.path.exists(manifest_path) and yaml is not None:
             try:
                 with open(manifest_path, "r", encoding="utf-8") as mf:
@@ -763,6 +618,20 @@ def build_all():
                         meta.update(file_meta)
             except Exception as e:
                 print(f"Warning reading {manifest_path}: {e}")
+
+        # Merge token metrics if available
+        metric_file = os.path.join("evals", "results", f"{slug}_metrics.json")
+        if os.path.isfile(metric_file):
+            try:
+                with open(metric_file, "r", encoding="utf-8") as mf:
+                    m = json.load(mf)
+                    meta["token_metrics"] = {
+                        "median_eval_tokens": m.get("median_tokens_to_complete_reference_build", 0),
+                        "efficiency_tier": m.get("efficiency_tier", "A"),
+                        "token_light": m.get("token_light", False)
+                    }
+            except Exception:
+                pass
 
         # Render HTML
         page_html = render_kit_page(meta, kit_dir)
@@ -782,6 +651,7 @@ def build_all():
         import subprocess
         subprocess.run([sys.executable, "tools/generate_sitemap.py"])
     print(f"Successfully generated {generated_count} kit pages and updated sitemap.")
+
 
 def update_sitemap(new_urls):
     sitemap_path = "sitemap.xml"

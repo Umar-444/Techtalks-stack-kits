@@ -1,0 +1,49 @@
+{
+  "kit_slug": "rust-actix-postgresql",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "rust-actix-postgresql-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 2653,
+      "completion_tokens": 3242,
+      "tokens_consumed": 5895
+    },
+    {
+      "id": "rust-actix-postgresql-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 2926,
+      "completion_tokens": 4041,
+      "tokens_consumed": 6967
+    },
+    {
+      "id": "rust-actix-postgresql-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 2830,
+      "completion_tokens": 3601,
+      "tokens_consumed": 6431
+    },
+    {
+      "id": "rust-actix-postgresql-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 3001,
+      "completion_tokens": 4502,
+      "tokens_consumed": 7503
+    }
+  ],
+  "median_task_tokens": 6699,
+  "median_tokens_to_complete_reference_build": 26796,
+  "efficiency_tier": "B",
+  "efficiency_note": "High-performance Actix actors, SeaORM entities",
+  "token_light": false
+}

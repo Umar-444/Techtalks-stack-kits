@@ -1,0 +1,11 @@
+---
+id: security-invariants
+title: Security Invariants for OWASP API Security Top 10 Reference + Pytest Attack Suite
+globs: "*"
+alwaysApply: true
+---
+
+# Security Invariants
+- Verify tenant boundary before reading or writing any persistent state.
+- Sanitize all external inputs using validated schemas.
+- Reject requests with missing or expired bearer tokens.

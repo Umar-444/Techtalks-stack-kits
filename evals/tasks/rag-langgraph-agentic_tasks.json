@@ -1,0 +1,55 @@
+{
+  "kit_slug": "rag-langgraph-agentic",
+  "name": "LangGraph + LangChain + Qdrant + Ragas Evals",
+  "token_metrics": {
+    "median_tokens": 27800,
+    "tier": "B",
+    "token_light": false
+  },
+  "eval_tasks": [
+    {
+      "id": "rag-langgraph-agentic-task-01",
+      "title": "Core Environment & Service Initialization",
+      "instruction": "Initialize the LangGraph + LangChain + Qdrant + Ragas Evals core runtime with zero-warning configuration.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health endpoint responds 200 OK"
+      ],
+      "prompt_tokens": 2752,
+      "completion_tokens": 3363
+    },
+    {
+      "id": "rag-langgraph-agentic-task-02",
+      "title": "Data Schema & Repository Definition",
+      "instruction": "Define strongly-typed models and database migrations.",
+      "assertions": [
+        "Schema validates against type checker",
+        "Migrations execute idempotently"
+      ],
+      "prompt_tokens": 3035,
+      "completion_tokens": 4192
+    },
+    {
+      "id": "rag-langgraph-agentic-task-03",
+      "title": "API Routing & Authorization Policy",
+      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "assertions": [
+        "Unauthorized access returns 401/403",
+        "Owner access returns 200"
+      ],
+      "prompt_tokens": 2935,
+      "completion_tokens": 3736
+    },
+    {
+      "id": "rag-langgraph-agentic-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "assertions": [
+        "Gitleaks zero findings",
+        "Automated attack suite passes 100%"
+      ],
+      "prompt_tokens": 3113,
+      "completion_tokens": 4670
+    }
+  ]
+}

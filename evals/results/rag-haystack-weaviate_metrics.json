@@ -1,0 +1,49 @@
+{
+  "kit_slug": "rag-haystack-weaviate",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "rag-haystack-weaviate-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 2534,
+      "completion_tokens": 3097,
+      "tokens_consumed": 5631
+    },
+    {
+      "id": "rag-haystack-weaviate-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 2795,
+      "completion_tokens": 3860,
+      "tokens_consumed": 6655
+    },
+    {
+      "id": "rag-haystack-weaviate-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 2703,
+      "completion_tokens": 3440,
+      "tokens_consumed": 6143
+    },
+    {
+      "id": "rag-haystack-weaviate-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 2867,
+      "completion_tokens": 4300,
+      "tokens_consumed": 7167
+    }
+  ],
+  "median_task_tokens": 6399,
+  "median_tokens_to_complete_reference_build": 25596,
+  "efficiency_tier": "B",
+  "efficiency_note": "Explicit Haystack DAG pipeline components, hybrid search",
+  "token_light": false
+}

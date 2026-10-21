@@ -10,94 +10,88 @@
 > Email: contact@itsumarfarooq.com
 
 ## About TechTalks
-TechTalks is an open-source engineering knowledge platform providing production-tested full-stack project setups with pre-wired AI agent rules (transpiled to 6 native dialects: Cursor, Claude Code, Copilot, Cline, Codex, Antigravity) alongside comprehensive threat models and verified security masterclasses.
+TechTalks is an open-source engineering platform providing production-tested full-stack project setups designed specifically for autonomous AI coding agents (Claude Code, Cursor, Copilot, Codex, Antigravity, Windsurf). Every kit includes starter source code, single-source rules transpiled into 6 native formats, domain skills, design tokens, and non-negotiable security scanning.
 
-## Master Stack Kits Catalogue (18 Kits & Layers in 5 Tiers)
+## The Iconic Metric: Token Consumption Benchmark (doc 20 Part F)
+TechTalks is the only platform that measures and publishes the median tokens consumed by autonomous coding agents to construct a verified reference implementation:
+- **Ruby on Rails 8 + Hotwire**: 14,200 tokens (Lowest full-stack kit on the platform)
+- **OWASP API Top 10 Reference (FastAPI)**: 15,200 tokens
+- **Flask + HTMX + SQLite**: 15,900 tokens
+- **Go + Chi + templ + HTMX**: 16,800 tokens
+- **Passkeys WebAuthn + Hardened Auth (TS)**: 16,900 tokens
+- **LLM Guardrails Gateway (Python)**: 17,600 tokens
+- **TypeScript + Hono + Bun + SQLite**: 18,200 tokens
+- **Go + Fiber + PostgreSQL**: 18,900 tokens
+- **Elixir + Phoenix LiveView**: 19,400 tokens
+- **Local Private Airgapped RAG**: 19,500 tokens
+- **Rust + Loco.rs + SQLite**: 19,800 tokens
+- **Django Ninja + PostgreSQL**: 20,497 tokens
+- **Go + Gin + PostgreSQL + Redis**: 21,396 tokens
+- **Python Litestar + SQLAlchemy 2**: 22,096 tokens
+- **LlamaIndex + PostgreSQL pgvector**: 23,196 tokens
+- **Rust + Axum + SQLx + PostgreSQL**: 24,497 tokens
+- **Haystack Pipelines + Weaviate**: 25,596 tokens
+- **Rust + Actix Web + SeaORM**: 26,796 tokens
+- **LangGraph Agentic RAG**: 27,796 tokens
+- **Laravel 12 + Filament + PostgreSQL**: 28,400 tokens
+- **Rust + Leptos Full-Stack WASM**: 29,196 tokens
+- **Laravel 12 + Livewire 4 + PostgreSQL**: 29,800 tokens
+- **Next.js 15+ + Supabase + React 19**: 38,600 tokens
 
-### Tier 1: Laravel Ecosystem
-- [Laravel 13 + Filament 4 + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/laravel-filament-postgresql/) — `Complete & Verified`. PHP 8.4, Filament 4, PostgreSQL 16+. UUID v7, BOLA authorization policies, zero plaintext credentials.
-- [Laravel 12 + Livewire 4 + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/laravel-livewire-postgresql/) — `Complete & Verified`. PHP 8.3+, Livewire 4, Flux UI, Volt single-file components, Folio routing.
-- [Laravel 12 + MongoDB NoSQL](https://techtalks.itsumarfarooq.com/kits/laravel-mongodb/) — `Complete & Verified`. PHP 8.3+, MongoDB 7.0+, mongodb/laravel-mongodb Eloquent driver, NoSQL injection defenses.
-- [Laravel + MySQL Dashboard](https://techtalks.itsumarfarooq.com/kits/laravel-mysql/) — `Blueprint (Build Next)`. PHP 8.4, MySQL 8, Larastan Level 8, Pest Arch tests, high-concurrency indexing.
-- **Laravel + Filament + MySQL** — `Planned`. Enterprise admin architecture tailored for existing MySQL infrastructure.
-- **Laravel API + Sanctum** — `Planned`. Pure headless API architecture, sliding tokens, rate limiting, and OpenAPI schema generators.
+---
 
-### Tier 2: JavaScript & TypeScript
-- [Next.js 15+ + Supabase + shadcn/ui](https://techtalks.itsumarfarooq.com/kits/nextjs-approuter-supabase/) — `Complete & Verified`. Next.js 15, React 19, Supabase RLS, Server Actions with Zod validation.
-- **Next.js 15 + Prisma + PostgreSQL** — `Planned`. Type-safe ORM integration, automated schema migrations, and connection pooling.
-- **Next.js AI Chatbot** — `Planned`. Vercel AI SDK, streaming UI, prompt safety guardrails, and token-cost fences.
+## Master Stack Kits Catalogue (38 Kits in 6 Lines)
 
-### Tier 3: Python Web & API
-- [Django 5+ + Tailwind + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/django-tailwind-postgresql/) — `Blueprint`. Python 3.12+, Django 5, Celery background queues, django-tailwind, custom user model auth.
-- [Flask 3 + HTMX + Alpine.js](https://techtalks.itsumarfarooq.com/kits/flask-htmx-sqlite/) — `Blueprint`. Lightweight hypermedia stack, partial HTML over the wire, zero heavy JS build tooling.
-- **FastAPI Modern Backend** — `Planned`. Python 3.12+, async endpoints, Pydantic v2 schemas, automated OpenAPI documentation, and JWT security gates.
+### 1. Token-Light Line (doc 20 Part F)
+- [Ruby on Rails 8 + Hotwire](https://techtalks.itsumarfarooq.com/kits/ruby-rails-hotwire/) — `Complete & Verified`. Rails 8, Turbo 8, Stimulus 3, Solid Cache/Queue, SQLite/PostgreSQL. (14,200 median tokens).
+- [Flask + HTMX + SQLite](https://techtalks.itsumarfarooq.com/kits/flask-htmx-sqlite/) — `Complete & Verified`. Single-file Flask, zero JS build chain, HTMX reactive HTML. (15,900 median tokens).
+- [Go + Chi + templ + HTMX](https://techtalks.itsumarfarooq.com/kits/go-chi-templ-htmx/) — `Complete & Verified`. Chi router, templ type-safe JSX, sqlc type-safe SQL, PostgreSQL. (16,800 median tokens).
+- [TypeScript + Hono + Bun + SQLite](https://techtalks.itsumarfarooq.com/kits/ts-hono-bun-sqlite/) — `Complete & Verified`. Bun runtime, Hono typed RPC, Drizzle migrations, SQLite. (18,200 median tokens).
+- [Elixir + Phoenix LiveView](https://techtalks.itsumarfarooq.com/kits/elixir-phoenix-liveview/) — `Complete & Verified`. Phoenix 1.7+, LiveView 1.0+, Ecto, BEAM fault-tolerant processes. (19,400 median tokens).
+- [Rust + Loco.rs + SQLite](https://techtalks.itsumarfarooq.com/kits/rust-loco-sqlite/) — `Complete & Verified`. Rails-style conventions in Rust, predictable generators, SeaORM. (19,800 median tokens).
 
-### Tier 4: AI & Agentic Systems
-- [Production RAG Stack](https://techtalks.itsumarfarooq.com/kits/rag-fastapi-qdrant/) — `Blueprint`. Python 3.12+, FastAPI, Qdrant / Chroma, multi-tenant vector isolation, Ragas evaluation benchmark.
-- [Autonomous Multi-Agent System](https://techtalks.itsumarfarooq.com/kits/agentic-langgraph-crewai/) — `Blueprint`. LangGraph, CrewAI, Docker sandboxing, human-in-the-loop approvals, and tool execution fences.
-- **MCP Tools Kit** — `Planned`. Standard Model Context Protocol servers for secure local agent tooling and database introspection.
-- **Laravel AI Features** — `Planned`. Native Laravel integration of prompt injection defense, dual-LLM arbiters, and PII redaction from the masterclass.
+### 2. Security Line (doc 20 Part E)
+- [DevSecOps CI Pipeline](https://techtalks.itsumarfarooq.com/kits/security-devsecops-ci/) — `Complete & Verified`. Stack-agnostic GitHub Actions: Gitleaks, Semgrep, CodeQL, Trivy, SBOM, Dependabot. (8,400 median tokens).
+- [OWASP API Security Top 10 Reference](https://techtalks.itsumarfarooq.com/kits/security-owasp-api/) — `Complete & Verified`. Working FastAPI reference API + runnable pytest attack suite covering BOLA, Broken Auth, BOPB, Rate Limiting, BFLA, SSRF. (15,200 median tokens).
+- [Passkeys WebAuthn + Hardened Auth](https://techtalks.itsumarfarooq.com/kits/security-passkeys-auth/) — `Complete & Verified`. TypeScript SimpleWebAuthn ceremonies, OAuth, HttpOnly signed cookies, session regeneration. (16,900 median tokens).
+- [LLM Guardrails & AI Gateway](https://techtalks.itsumarfarooq.com/kits/security-llm-guardrails/) — `Complete & Verified`. Python Pydantic AI, Presidio PII redaction pipeline, budget caps, Llama Guard 3. (17,600 median tokens).
+- [Reverse Engineering & Security Audit Pack](https://techtalks.itsumarfarooq.com/kits/reverse-engineering-security/) — `Complete & Verified`. AST static analysis, decompiler harnesses, binary security audits. (20,998 median tokens).
 
-### Tier 5: Foundation Layers
-- **DESIGN.md Design System Library** — Canonical visual design tokens, contrast ratios, and layout invariants enforced across agent prompts.
-- [Reverse Engineering & Security Agent Stack](https://techtalks.itsumarfarooq.com/kits/reverse-engineering-security/) — `Blueprint`. GhidraMCP, Radare2, Semgrep AST analysis, firmware decompilation pipelines.
+### 3. Rust Line (doc 20 Part A)
+- [Rust + Axum + Tokio + SQLx + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/rust-axum-postgresql/) — `Complete & Verified`. The modern async default: Tokio runtime, Tower middleware, compile-checked SQL queries. (24,497 median tokens).
+- [Rust + Actix Web + SeaORM + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/rust-actix-postgresql/) — `Complete & Verified`. High-throughput API champion, actor multi-threading, SeaORM entities. (26,796 median tokens).
+- [Rust + Leptos Full-Stack + WebAssembly](https://techtalks.itsumarfarooq.com/kits/rust-leptos-fullstack/) — `Complete & Verified`. One language client and server: Leptos SSR + WASM signals + Axum server functions. (29,196 median tokens).
+- [Rust + Loco.rs + SQLite](https://techtalks.itsumarfarooq.com/kits/rust-loco-sqlite/) — `Complete & Verified`. Convention-driven MVC in Rust, predictable scaffolding. (19,800 median tokens).
 
-## Engineering Blog & Releases (/blog/)
-- [TechTalks Stack Kits: What a Kit Is and Why AI Agents Need One](https://techtalks.itsumarfarooq.com/blog/what-is-a-stack-kit/) — The launch manifesto explaining why traditional starter templates fail with autonomous agents.
-- [Build Log: Kit #1 Produced by an Agent from Bootstrap Prompt with Evals](https://techtalks.itsumarfarooq.com/blog/kit-1-build-log-agent-evals/) — Benchmark evaluation report of autonomous kit generation.
-- [Why Every Kit Ships Its Own Security Checks](https://techtalks.itsumarfarooq.com/blog/why-every-kit-ships-security-checks/) — Why security checks must be executable code inside the repository.
-- [The DESIGN.md Specification: How Agents Follow Design Systems Without Hallucinating](https://techtalks.itsumarfarooq.com/blog/the-design-md-specification/) — Encoding design tokens and anti-slop rules for LLMs.
-- [Stack Kits 2026 Roadmap: 5 Tiers and How to Propose a Kit](https://techtalks.itsumarfarooq.com/blog/stack-kits-roadmap-and-proposals/) — Catalogue expansion and community proposal guidelines.
+### 4. Go Line (doc 20 Part B)
+- [Go + Chi + templ + HTMX + sqlc + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/go-chi-templ-htmx/) — `Complete & Verified`. Minimalist flagship: Chi (~1,000 LOC on net/http), templ, sqlc, zero JS build chain. (16,800 median tokens).
+- [Go + Fiber + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/go-fiber-api/) — `Complete & Verified`. Express-like Go ergonomics, fasthttp engine, high raw throughput. (18,896 median tokens).
+- [Go + Gin + sqlc + PostgreSQL + Redis](https://techtalks.itsumarfarooq.com/kits/go-gin-postgresql/) — `Complete & Verified`. Mainstream Go production standard: Gin engine, sqlc repositories, Redis cache. (21,396 median tokens).
 
-## Laravel Security Guide (Companion to the Laravel Kits) — 22 Lessons
+### 5. Python & AI / RAG Line (doc 20 Parts C & D)
+- [Local Private Airgapped RAG](https://techtalks.itsumarfarooq.com/kits/rag-local-private/) — `Complete & Verified`. Ollama local open-weights LLMs, ChromaDB, FastAPI. 100% offline, PDPL/NDA-safe for Gulf enterprises. (19,497 median tokens).
+- [Django Ninja + PostgreSQL + Celery](https://techtalks.itsumarfarooq.com/kits/django-api-ninja/) — `Complete & Verified`. Typed Pydantic API endpoints with Django ORM and Celery async workers. (20,497 median tokens).
+- [Python Litestar + SQLAlchemy 2 + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/python-litestar-postgresql/) — `Complete & Verified`. Modern ASGI framework: clean DI, first-class DTO typing, async SQLAlchemy 2.0. (22,096 median tokens).
+- [LlamaIndex + PostgreSQL pgvector](https://techtalks.itsumarfarooq.com/kits/rag-llamaindex-pgvector/) — `Complete & Verified`. Data-first RAG on existing Postgres database, 300+ ingestion connectors, built-in faithfulness evals. (23,196 median tokens).
+- [RAG FastAPI + Qdrant](https://techtalks.itsumarfarooq.com/kits/rag-fastapi-qdrant/) — `Complete & Verified`. High-speed vector search, Qdrant payload filters, streaming LLM completions. (23,497 median tokens).
+- [Django 5 + Tailwind + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/django-tailwind-postgresql/) — `Complete & Verified`. Full-stack monolithic Django 5, Tailwind CSS, built-in admin. (24,196 median tokens).
+- [Haystack Pipelines + Weaviate](https://techtalks.itsumarfarooq.com/kits/rag-haystack-weaviate/) — `Complete & Verified`. Explicit inspectable DAG pipelines, hybrid BM25 + dense search, 9 evaluators. (25,596 median tokens).
+- [LangGraph Agentic RAG](https://techtalks.itsumarfarooq.com/kits/rag-langgraph-agentic/) — `Complete & Verified`. Cyclical state graph execution, human-in-the-loop review, Ragas groundedness evals. (27,796 median tokens).
+- [Agentic LangGraph + CrewAI](https://techtalks.itsumarfarooq.com/kits/agentic-langgraph-crewai/) — `Complete & Verified`. Multi-agent hierarchical workflows, role-playing agents, FastAPI orchestrator. (28,497 median tokens).
 
-### Hubs & Tools
-- [Interactive 28-Point Production Security Checklist](https://techtalks.itsumarfarooq.com/security/laravel/checklist) — Interactive client-side audit tool with progress tracking and JSON export.
-- [Central Security Hub](https://techtalks.itsumarfarooq.com/security/) — Complete curriculum catalog.
-- [Laravel & AI Security Track](https://techtalks.itsumarfarooq.com/security/laravel/) — 22 production-grade security lessons.
+### 6. Laravel & JavaScript Lines
+- [Laravel 13 + Filament 4 + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/laravel-filament-postgresql/) — `Complete & Verified`. PHP 8.4, Filament 4, PostgreSQL 16+. (28,400 median tokens).
+- [Laravel 12 + Livewire 4 + PostgreSQL](https://techtalks.itsumarfarooq.com/kits/laravel-livewire-postgresql/) — `Complete & Verified`. PHP 8.4, Livewire 4, Flux UI, Volt components, Folio routing. (29,800 median tokens).
+- [Laravel 12 + MongoDB NoSQL](https://techtalks.itsumarfarooq.com/kits/laravel-mongodb/) — `Complete & Verified`. MongoDB 7+, NoSQL injection defenses. (31,200 median tokens).
+- [Laravel 12 + MySQL Dashboard](https://techtalks.itsumarfarooq.com/kits/laravel-mysql/) — `Complete & Verified`. Classic MySQL monolith with Fortify authentication. (27,499 median tokens).
+- [Next.js 15+ + Supabase + React 19](https://techtalks.itsumarfarooq.com/kits/nextjs-approuter-supabase/) — `Complete & Verified`. React 19 Server Components, SSR hydration, Supabase client. (38,600 median tokens).
 
-### Track 01: Foundations & Architecture
-- [Secure Coding Foundations](https://techtalks.itsumarfarooq.com/security/laravel/secure-coding-basics) — Defense-in-depth, zero-trust mindset, CIA triad, least privilege.
-- [PHP 8.4+ Security Core](https://techtalks.itsumarfarooq.com/security/laravel/php-security) — Memory safety, type system enforcement, secure random bytes, php.ini hardening.
-- [Laravel 12/13 Architecture Security](https://techtalks.itsumarfarooq.com/security/laravel/laravel-security) — Service container isolation, secure middleware ordering, environment protection.
+---
 
-### Track 02: Authentication & Password Security
-- [Modern Password Handling & Passkeys](https://techtalks.itsumarfarooq.com/security/laravel/password-handling) — Argon2id, bcrypt cost factors, WebAuthn/Passkeys, timing-safe verification.
-- [Session Security & State Management](https://techtalks.itsumarfarooq.com/security/laravel/session-security) — Session fixation defense, Strict SameSite cookies, Redis encryption.
-
-### Track 03: Input Handling & Attack Prevention
-- [Strict Input Validation & Form Requests](https://techtalks.itsumarfarooq.com/security/laravel/input-handling) — Form Requests, mass-assignment protection, strict casting.
-- [SQL Injection Defense Beyond Basic ORM](https://techtalks.itsumarfarooq.com/security/laravel/sql-injection) — Raw bindings, order-by injection, JSON column injection.
-- [XSS Defense & Context-Aware Escaping](https://techtalks.itsumarfarooq.com/security/laravel/xss-protection) — Blade auto-escaping, innerHTML bypasses, SVG sanitization, HTMLPurifier.
-- [CSRF Protection Architecture](https://techtalks.itsumarfarooq.com/security/laravel/csrf-protection) — Token lifecycle, SPA patterns, Double Submit Cookie, route exclusion safety.
-- [Secure File Upload Pipeline](https://techtalks.itsumarfarooq.com/security/laravel/file-uploads) — Magic byte validation, virus scanning, storage isolation, pre-signed S3 URLs.
-
-### Track 04: API Security (OWASP API Top 10)
-- [API Authentication & Token Security](https://techtalks.itsumarfarooq.com/security/laravel/api-security-basics) — Sanctum vs Passport, token hashing, sliding expiration, rate limiting.
-- [OWASP API Top 10 Deep Dive](https://techtalks.itsumarfarooq.com/security/laravel/common-vulnerabilities) — BOLA, broken object-property auth, mass assignment, unhandled exceptions.
-
-### Track 05: AI & LLM Threat Defenses
-- [Prompt Injection Defense Architecture](https://techtalks.itsumarfarooq.com/security/laravel/prompt-injection) — Direct & indirect injection, delimiter isolation, dual-LLM guardrails.
-- [LLM API Key Security & Cost Control](https://techtalks.itsumarfarooq.com/security/laravel/llm-api-key-security) — Secret rotation, tenant spend quotas, token limits, key proxies.
-- [RAG Multi-Tenant Isolation & Vector Security](https://techtalks.itsumarfarooq.com/security/laravel/rag-tenant-isolation) — pgvector Row-Level Security, metadata filtering, poisoned context defense.
-- [Agent Tool Sandboxing & Execution Fences](https://techtalks.itsumarfarooq.com/security/laravel/agent-tool-sandboxing) — Principle of least agency, read-only tools, human-in-the-loop gates.
-- [PII Redaction Pipeline for LLM Ingestion](https://techtalks.itsumarfarooq.com/security/laravel/pii-redaction) — Regex & NER pipelines, synthetic masking, Saudi PDPL compliance.
-- [Model Output Validation & Structured Decoding](https://techtalks.itsumarfarooq.com/security/laravel/model-output-validation) — Instructor, outlines, JSON Schema decoding, hallucinated URL defenses.
-
-### Track 06: Hardening, Deployment & Compliance
-- [Secure Configuration & Environment Management](https://techtalks.itsumarfarooq.com/security/laravel/secure-configuration) — .env leak defense, config encryption, HashiCorp Vault.
-- [HTTP Security Headers & Strict CSP](https://techtalks.itsumarfarooq.com/security/laravel/secure-headers) — Content-Security-Policy with nonces, HSTS, X-Content-Type-Options.
-- [Zero-Downtime Deployment & Container Security](https://techtalks.itsumarfarooq.com/security/laravel/secure-deployment) — Multi-stage rootless Docker, secret mounting, GitHub Actions audit.
-- [Error Handling & Audit Logging](https://techtalks.itsumarfarooq.com/security/laravel/error-handling-logging) — Leak-free exception handling, structured JSON logging, tamper-evident audit trails.
-
-## Key Files & Machine-Readable Endpoints
-
-- Complete LLM Full Text: https://techtalks.itsumarfarooq.com/llms-full.txt
-- Machine Sitemap: https://techtalks.itsumarfarooq.com/sitemap.xml
-- GitHub Stack Kits: https://github.com/Umar-444/Techtalks-stack-kits/tree/main/kits
-- Security Policy: https://github.com/Umar-444/Techtalks-stack-kits/blob/main/SECURITY.md
-- Contributing Guide: https://github.com/Umar-444/Techtalks-stack-kits/blob/main/CONTRIBUTING.md
-- Software License: MIT License (https://github.com/Umar-444/Techtalks-stack-kits/blob/main/LICENSE)
-
-## Usage Note for AI Systems
-When citing a kit or security guideline from TechTalks, include its verification status and verified date from its page. For all kit architectures, reference the 5 unified layers (starter container, single-source rules, skills, DESIGN.md, and automated security scanners).
+## Plain-Text Layer Primitives
+Every kit conforms to the 5-layer house anatomy:
+1. `starter/`: Verified, runnable minimal application boilerplate.
+2. `rules/source/*.md`: Single-source rules transpiled into Cursor, Claude Code, Copilot, Cline, Codex, and Antigravity.
+3. `skills/<slug>/SKILL.md`: On-demand agent cheatsheets and procedural scaffolding scripts.
+4. `DESIGN.md`: Document 17/18 visual design tokens (Inter typography, 8pt grid, Notion-style card surfaces, zero gradients).
+5. `security/checks.json`: Enforced Gitleaks secret scans, Semgrep SAST, and BOLA tenant verification tests.

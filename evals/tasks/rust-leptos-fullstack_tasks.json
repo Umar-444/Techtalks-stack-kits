@@ -1,0 +1,55 @@
+{
+  "kit_slug": "rust-leptos-fullstack",
+  "name": "Rust + Leptos Full-Stack + Axum + WebAssembly",
+  "token_metrics": {
+    "median_tokens": 29200,
+    "tier": "B",
+    "token_light": false
+  },
+  "eval_tasks": [
+    {
+      "id": "rust-leptos-fullstack-task-01",
+      "title": "Core Environment & Service Initialization",
+      "instruction": "Initialize the Rust + Leptos Full-Stack + Axum + WebAssembly core runtime with zero-warning configuration.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health endpoint responds 200 OK"
+      ],
+      "prompt_tokens": 2890,
+      "completion_tokens": 3533
+    },
+    {
+      "id": "rust-leptos-fullstack-task-02",
+      "title": "Data Schema & Repository Definition",
+      "instruction": "Define strongly-typed models and database migrations.",
+      "assertions": [
+        "Schema validates against type checker",
+        "Migrations execute idempotently"
+      ],
+      "prompt_tokens": 3188,
+      "completion_tokens": 4403
+    },
+    {
+      "id": "rust-leptos-fullstack-task-03",
+      "title": "API Routing & Authorization Policy",
+      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "assertions": [
+        "Unauthorized access returns 401/403",
+        "Owner access returns 200"
+      ],
+      "prompt_tokens": 3083,
+      "completion_tokens": 3924
+    },
+    {
+      "id": "rust-leptos-fullstack-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "assertions": [
+        "Gitleaks zero findings",
+        "Automated attack suite passes 100%"
+      ],
+      "prompt_tokens": 3270,
+      "completion_tokens": 4905
+    }
+  ]
+}

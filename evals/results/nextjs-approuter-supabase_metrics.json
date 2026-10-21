@@ -1,0 +1,33 @@
+{
+  "kit_slug": "nextjs-approuter-supabase",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 2,
+  "tasks": [
+    {
+      "id": "kit5-task-01",
+      "title": "Server Action Zod Validation",
+      "status": "PASS",
+      "prompt_tokens": 862,
+      "completion_tokens": 746,
+      "tokens_consumed": 1608
+    },
+    {
+      "id": "kit5-task-02",
+      "title": "Supabase Row-Level Security",
+      "status": "PASS",
+      "prompt_tokens": 862,
+      "completion_tokens": 770,
+      "tokens_consumed": 1632
+    }
+  ],
+  "median_task_tokens": 1620,
+  "median_tokens_to_complete_reference_build": 3240,
+  "efficiency_tier": "C",
+  "efficiency_note": "React 19 Server Components, SSR hydration, Supabase client",
+  "token_light": false
+}

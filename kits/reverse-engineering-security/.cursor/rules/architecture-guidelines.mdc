@@ -1,0 +1,10 @@
+---
+description: Architecture for Reverse Engineering & Security Audit Pack
+globs: *
+alwaysApply: true
+---
+
+# Architecture for Reverse Engineering & Security Audit Pack
+
+# Architecture
+Modular structure.

@@ -1,0 +1,55 @@
+{
+  "kit_slug": "ts-hono-bun-sqlite",
+  "name": "TypeScript + Hono + Bun + Drizzle + SQLite",
+  "token_metrics": {
+    "median_tokens": 18200,
+    "tier": "A",
+    "token_light": true
+  },
+  "eval_tasks": [
+    {
+      "id": "ts-hono-bun-sqlite-task-01",
+      "title": "Core Environment & Service Initialization",
+      "instruction": "Initialize the TypeScript + Hono + Bun + Drizzle + SQLite core runtime with zero-warning configuration.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health endpoint responds 200 OK"
+      ],
+      "prompt_tokens": 1801,
+      "completion_tokens": 2202
+    },
+    {
+      "id": "ts-hono-bun-sqlite-task-02",
+      "title": "Data Schema & Repository Definition",
+      "instruction": "Define strongly-typed models and database migrations.",
+      "assertions": [
+        "Schema validates against type checker",
+        "Migrations execute idempotently"
+      ],
+      "prompt_tokens": 1987,
+      "completion_tokens": 2744
+    },
+    {
+      "id": "ts-hono-bun-sqlite-task-03",
+      "title": "API Routing & Authorization Policy",
+      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "assertions": [
+        "Unauthorized access returns 401/403",
+        "Owner access returns 200"
+      ],
+      "prompt_tokens": 1921,
+      "completion_tokens": 2446
+    },
+    {
+      "id": "ts-hono-bun-sqlite-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "assertions": [
+        "Gitleaks zero findings",
+        "Automated attack suite passes 100%"
+      ],
+      "prompt_tokens": 2038,
+      "completion_tokens": 3057
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+schema_version: 1.0.0
+name: DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+slug: security-devsecops-ci
+version: 1.0.0
+status: stable
+updated_at: '2026-10-21'
+description: 'Stack-agnostic, drop-in GitHub Actions DevSecOps workflow pipeline:
+  automated Gitleaks secrets audit, Semgrep SAST, GitHub CodeQL, Aqua Trivy container/filesystem
+  CVE scanner, Syft CycloneDX SBOM generation, and Dependabot.'
+category: Security
+maintainer:
+  name: Umar Farooq
+  role: Senior Full-Stack & Security Engineer
+  url: https://itsumarfarooq.com
+  github: umar-444
+stack:
+  language:
+    name: YAML / Bash
+    version: '1.0'
+    registry: github.com/actions
+  framework:
+    name: GitHub Actions
+    version: v4
+    registry: github.com/actions
+  secrets_audit: Gitleaks 8+
+  sast_scanner: Semgrep OSS (OWASP Top 10 ruleset) + CodeQL
+  cve_scanner: Aqua Security Trivy
+  sbom_generator: Anchore Syft (SPDX & CycloneDX)
+  dependency_updates: Dependabot
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: security-devsecops-ci-core
+      path: skills/security-devsecops-ci-core/SKILL.md
+      description: Core operations and scaffolding skill for DevSecOps CI Pipeline
+        (Gitleaks, Semgrep, CodeQL, Trivy, SBOM).
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: true
+  median_eval_tokens: 8400
+  efficiency_tier: A+
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

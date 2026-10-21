@@ -1,0 +1,10 @@
+---
+description: Architecture for Flask + HTMX + SQLite
+globs: *
+alwaysApply: true
+---
+
+# Architecture for Flask + HTMX + SQLite
+
+# Architecture
+Modular structure.

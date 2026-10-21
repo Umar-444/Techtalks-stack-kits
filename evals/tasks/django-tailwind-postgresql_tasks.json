@@ -1,0 +1,51 @@
+{
+  "kit_slug": "django-tailwind-postgresql",
+  "name": "Django 5 + Tailwind CSS + PostgreSQL",
+  "token_metrics": {
+    "median_tokens": 24200,
+    "tier": "B",
+    "token_light": false
+  },
+  "eval_tasks": [
+    {
+      "id": "django-tailwind-postgresql-task-01",
+      "title": "Initialization & Environment Config",
+      "instruction": "Verify Django 5 + Tailwind CSS + PostgreSQL boots cleanly.",
+      "assertions": [
+        "Runtime boots with exit code 0"
+      ],
+      "prompt_tokens": 2395,
+      "completion_tokens": 2928
+    },
+    {
+      "id": "django-tailwind-postgresql-task-02",
+      "title": "Data Model & Schema",
+      "instruction": "Define models and persistence layers.",
+      "assertions": [
+        "Schema validates"
+      ],
+      "prompt_tokens": 2642,
+      "completion_tokens": 3649
+    },
+    {
+      "id": "django-tailwind-postgresql-task-03",
+      "title": "API Handlers & Security",
+      "instruction": "Expose endpoints with authorization.",
+      "assertions": [
+        "Auth enforced"
+      ],
+      "prompt_tokens": 2555,
+      "completion_tokens": 3252
+    },
+    {
+      "id": "django-tailwind-postgresql-task-04",
+      "title": "Automated Security Tests",
+      "instruction": "Run security audits and test suites.",
+      "assertions": [
+        "Zero leaks"
+      ],
+      "prompt_tokens": 2710,
+      "completion_tokens": 4065
+    }
+  ]
+}

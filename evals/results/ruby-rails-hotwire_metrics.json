@@ -1,0 +1,49 @@
+{
+  "kit_slug": "ruby-rails-hotwire",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "ruby-rails-hotwire-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 1405,
+      "completion_tokens": 1718,
+      "tokens_consumed": 3123
+    },
+    {
+      "id": "ruby-rails-hotwire-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 1550,
+      "completion_tokens": 2141,
+      "tokens_consumed": 3691
+    },
+    {
+      "id": "ruby-rails-hotwire-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 1499,
+      "completion_tokens": 1908,
+      "tokens_consumed": 3407
+    },
+    {
+      "id": "ruby-rails-hotwire-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 1590,
+      "completion_tokens": 2385,
+      "tokens_consumed": 3975
+    }
+  ],
+  "median_task_tokens": 3549,
+  "median_tokens_to_complete_reference_build": 14196,
+  "efficiency_tier": "A+",
+  "efficiency_note": "Convention over configuration; agent writes only business logic",
+  "token_light": true
+}

@@ -1,0 +1,10 @@
+---
+description: Security for RAG FastAPI + Qdrant + OpenAI
+globs: *
+alwaysApply: true
+---
+
+# Security for RAG FastAPI + Qdrant + OpenAI
+
+# Security
+Zero credential leaks.

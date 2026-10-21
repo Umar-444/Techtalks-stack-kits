@@ -1,0 +1,23 @@
+{
+  "kit_slug": "security-devsecops-ci",
+  "checks": [
+    {
+      "id": "sec-01",
+      "name": "Gitleaks Secret Audit",
+      "status": "enforced",
+      "tool": "gitleaks"
+    },
+    {
+      "id": "sec-02",
+      "name": "Semgrep SAST Policy",
+      "status": "enforced",
+      "tool": "semgrep"
+    },
+    {
+      "id": "sec-03",
+      "name": "OWASP API Top 10 Invariants",
+      "status": "verified",
+      "tool": "pytest/unit"
+    }
+  ]
+}

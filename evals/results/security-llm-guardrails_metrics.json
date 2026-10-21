@@ -1,0 +1,49 @@
+{
+  "kit_slug": "security-llm-guardrails",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "security-llm-guardrails-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 1742,
+      "completion_tokens": 2129,
+      "tokens_consumed": 3871
+    },
+    {
+      "id": "security-llm-guardrails-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 1921,
+      "completion_tokens": 2654,
+      "tokens_consumed": 4575
+    },
+    {
+      "id": "security-llm-guardrails-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 1858,
+      "completion_tokens": 2365,
+      "tokens_consumed": 4223
+    },
+    {
+      "id": "security-llm-guardrails-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 1971,
+      "completion_tokens": 2956,
+      "tokens_consumed": 4927
+    }
+  ],
+  "median_task_tokens": 4399,
+  "median_tokens_to_complete_reference_build": 17596,
+  "efficiency_tier": "A+",
+  "efficiency_note": "Pydantic AI schemas, focused gateway interceptors",
+  "token_light": true
+}

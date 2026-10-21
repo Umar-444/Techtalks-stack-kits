@@ -1,0 +1,49 @@
+{
+  "kit_slug": "rust-loco-sqlite",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "rust-loco-sqlite-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 1960,
+      "completion_tokens": 2395,
+      "tokens_consumed": 4355
+    },
+    {
+      "id": "rust-loco-sqlite-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 2162,
+      "completion_tokens": 2985,
+      "tokens_consumed": 5147
+    },
+    {
+      "id": "rust-loco-sqlite-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 2090,
+      "completion_tokens": 2661,
+      "tokens_consumed": 4751
+    },
+    {
+      "id": "rust-loco-sqlite-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 2217,
+      "completion_tokens": 3326,
+      "tokens_consumed": 5543
+    }
+  ],
+  "median_task_tokens": 4949,
+  "median_tokens_to_complete_reference_build": 19796,
+  "efficiency_tier": "A",
+  "efficiency_note": "Rails-style conventions in Rust, predictable generators",
+  "token_light": true
+}

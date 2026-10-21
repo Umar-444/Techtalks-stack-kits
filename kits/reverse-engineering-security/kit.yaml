@@ -1,0 +1,74 @@
+schema_version: 1.0.0
+name: Reverse Engineering & Security Audit Pack
+slug: reverse-engineering-security
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: 'Security auditing and reverse engineering suite: decompiler scripts,
+  AST static analyzers, and invariant validation harnesses.'
+category: Security
+maintainer:
+  name: Umar Farooq
+  role: Senior Security Researcher
+  url: https://itsumarfarooq.com
+  github: umar-444
+stack:
+  language:
+    name: Python
+    version: 3.12+
+    registry: pypi.org
+  framework:
+    name: Security Audit CLI
+    version: '1.0'
+    registry: pypi.org
+  ast_analysis: Tree-sitter / Semgrep
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: reverse-engineering-security-core
+      path: skills/reverse-engineering-security-core/SKILL.md
+      description: Core operations skill for Reverse Engineering & Security Audit
+        Pack.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: false
+  median_eval_tokens: 21000
+  efficiency_tier: A
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

@@ -1,0 +1,49 @@
+{
+  "kit_slug": "security-passkeys-auth",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "security-passkeys-auth-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 1673,
+      "completion_tokens": 2044,
+      "tokens_consumed": 3717
+    },
+    {
+      "id": "security-passkeys-auth-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 1845,
+      "completion_tokens": 2548,
+      "tokens_consumed": 4393
+    },
+    {
+      "id": "security-passkeys-auth-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 1784,
+      "completion_tokens": 2271,
+      "tokens_consumed": 4055
+    },
+    {
+      "id": "security-passkeys-auth-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 1892,
+      "completion_tokens": 2839,
+      "tokens_consumed": 4731
+    }
+  ],
+  "median_task_tokens": 4224,
+  "median_tokens_to_complete_reference_build": 16896,
+  "efficiency_tier": "A+",
+  "efficiency_note": "Modular WebAuthn TS ceremonies, minimal auth surface",
+  "token_light": true
+}

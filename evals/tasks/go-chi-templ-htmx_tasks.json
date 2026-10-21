@@ -1,0 +1,55 @@
+{
+  "kit_slug": "go-chi-templ-htmx",
+  "name": "Go + Chi + templ + HTMX + sqlc + PostgreSQL",
+  "token_metrics": {
+    "median_tokens": 16800,
+    "tier": "A+",
+    "token_light": true
+  },
+  "eval_tasks": [
+    {
+      "id": "go-chi-templ-htmx-task-01",
+      "title": "Core Environment & Service Initialization",
+      "instruction": "Initialize the Go + Chi + templ + HTMX + sqlc + PostgreSQL core runtime with zero-warning configuration.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health endpoint responds 200 OK"
+      ],
+      "prompt_tokens": 1663,
+      "completion_tokens": 2032
+    },
+    {
+      "id": "go-chi-templ-htmx-task-02",
+      "title": "Data Schema & Repository Definition",
+      "instruction": "Define strongly-typed models and database migrations.",
+      "assertions": [
+        "Schema validates against type checker",
+        "Migrations execute idempotently"
+      ],
+      "prompt_tokens": 1834,
+      "completion_tokens": 2533
+    },
+    {
+      "id": "go-chi-templ-htmx-task-03",
+      "title": "API Routing & Authorization Policy",
+      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "assertions": [
+        "Unauthorized access returns 401/403",
+        "Owner access returns 200"
+      ],
+      "prompt_tokens": 1774,
+      "completion_tokens": 2257
+    },
+    {
+      "id": "go-chi-templ-htmx-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "assertions": [
+        "Gitleaks zero findings",
+        "Automated attack suite passes 100%"
+      ],
+      "prompt_tokens": 1881,
+      "completion_tokens": 2822
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+schema_version: 1.0.0
+name: Go + Chi + templ + HTMX + sqlc + PostgreSQL
+slug: go-chi-templ-htmx
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: 'Minimalist flagship and token-light standard: Chi router (~1,000 LOC
+  on pure net/http, zero dependencies), templ for compile-time type-safe HTML, HTMX
+  2.0 reactive DOM boosts, and sqlc type-safe SQL codegen.'
+category: Go
+maintainer:
+  name: TechTalks Go Engineering Group
+  role: Systems & Web Architect
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Go
+    version: 1.23+
+    registry: golang.org
+  framework:
+    name: Chi
+    version: v5.1+
+    registry: github.com/go-chi/chi/v5
+  templating: templ (type-safe JSX for Go)
+  interactivity: HTMX 2.0+
+  database:
+    engine: PostgreSQL
+    version: 16+
+    features:
+    - sqlc compile-checked queries
+    - pgxpool
+  sql_tool: sqlc
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: go-chi-templ-htmx-core
+      path: skills/go-chi-templ-htmx-core/SKILL.md
+      description: Core operations and scaffolding skill for Go + Chi + templ + HTMX
+        + sqlc + PostgreSQL.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: true
+  median_eval_tokens: 16800
+  efficiency_tier: A+
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

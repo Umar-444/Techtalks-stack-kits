@@ -1,0 +1,49 @@
+{
+  "kit_slug": "rust-leptos-fullstack",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "rust-leptos-fullstack-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 2890,
+      "completion_tokens": 3533,
+      "tokens_consumed": 6423
+    },
+    {
+      "id": "rust-leptos-fullstack-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 3188,
+      "completion_tokens": 4403,
+      "tokens_consumed": 7591
+    },
+    {
+      "id": "rust-leptos-fullstack-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 3083,
+      "completion_tokens": 3924,
+      "tokens_consumed": 7007
+    },
+    {
+      "id": "rust-leptos-fullstack-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 3270,
+      "completion_tokens": 4905,
+      "tokens_consumed": 8175
+    }
+  ],
+  "median_task_tokens": 7299,
+  "median_tokens_to_complete_reference_build": 29196,
+  "efficiency_tier": "B",
+  "efficiency_note": "Full-stack Rust WASM signals + Axum server functions",
+  "token_light": false
+}

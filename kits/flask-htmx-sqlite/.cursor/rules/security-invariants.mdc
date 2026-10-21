@@ -1,0 +1,10 @@
+---
+description: Security for Flask + HTMX + SQLite
+globs: *
+alwaysApply: true
+---
+
+# Security for Flask + HTMX + SQLite
+
+# Security
+Zero credential leaks.

@@ -1,0 +1,6 @@
+rules:
+  - id: generic-injection-check
+    pattern: "$X.execute(... + ...)"
+    message: "Do not concatenate strings into query execution."
+    languages: [python, javascript, typescript, go, rust]
+    severity: ERROR

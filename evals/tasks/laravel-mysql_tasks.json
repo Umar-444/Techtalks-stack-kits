@@ -1,0 +1,51 @@
+{
+  "kit_slug": "laravel-mysql",
+  "name": "Laravel 12 + MySQL Dashboard",
+  "token_metrics": {
+    "median_tokens": 27500,
+    "tier": "B",
+    "token_light": false
+  },
+  "eval_tasks": [
+    {
+      "id": "laravel-mysql-task-01",
+      "title": "Initialization & Environment Config",
+      "instruction": "Verify Laravel 12 + MySQL Dashboard boots cleanly.",
+      "assertions": [
+        "Runtime boots with exit code 0"
+      ],
+      "prompt_tokens": 2722,
+      "completion_tokens": 3327
+    },
+    {
+      "id": "laravel-mysql-task-02",
+      "title": "Data Model & Schema",
+      "instruction": "Define models and persistence layers.",
+      "assertions": [
+        "Schema validates"
+      ],
+      "prompt_tokens": 3003,
+      "completion_tokens": 4147
+    },
+    {
+      "id": "laravel-mysql-task-03",
+      "title": "API Handlers & Security",
+      "instruction": "Expose endpoints with authorization.",
+      "assertions": [
+        "Auth enforced"
+      ],
+      "prompt_tokens": 2904,
+      "completion_tokens": 3696
+    },
+    {
+      "id": "laravel-mysql-task-04",
+      "title": "Automated Security Tests",
+      "instruction": "Run security audits and test suites.",
+      "assertions": [
+        "Zero leaks"
+      ],
+      "prompt_tokens": 3080,
+      "completion_tokens": 4620
+    }
+  ]
+}

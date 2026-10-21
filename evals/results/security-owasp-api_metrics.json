@@ -1,0 +1,49 @@
+{
+  "kit_slug": "security-owasp-api",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "security-owasp-api-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 1504,
+      "completion_tokens": 1839,
+      "tokens_consumed": 3343
+    },
+    {
+      "id": "security-owasp-api-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 1659,
+      "completion_tokens": 2292,
+      "tokens_consumed": 3951
+    },
+    {
+      "id": "security-owasp-api-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 1605,
+      "completion_tokens": 2042,
+      "tokens_consumed": 3647
+    },
+    {
+      "id": "security-owasp-api-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 1702,
+      "completion_tokens": 2553,
+      "tokens_consumed": 4255
+    }
+  ],
+  "median_task_tokens": 3799,
+  "median_tokens_to_complete_reference_build": 15196,
+  "efficiency_tier": "A+",
+  "efficiency_note": "Tight FastAPI models, single-concern OWASP attack suites",
+  "token_light": true
+}

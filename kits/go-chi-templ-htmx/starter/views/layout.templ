@@ -1,0 +1,26 @@
+package views
+
+templ Layout(title string) {
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>{ title }</title>
+        <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Inter", sans-serif; background: #FDFDFC; color: #12140F; margin: 0; padding: 2rem; }
+            .card { border: 1px solid #E6E6DF; border-radius: 8px; padding: 1.5rem; max-width: 600px; background: #FFFFFF; }
+            .btn { background: #E85D26; color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <h1>{ title }</h1>
+            <p>Go Chi + templ + HTMX token-light architecture.</p>
+            <button class="btn" hx-get="/health" hx-target="#status">Ping Server</button>
+            <div id="status" style="margin-top: 1rem; font-family: monospace;"></div>
+        </div>
+    </body>
+    </html>
+}

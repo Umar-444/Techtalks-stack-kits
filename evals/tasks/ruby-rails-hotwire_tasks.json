@@ -1,0 +1,55 @@
+{
+  "kit_slug": "ruby-rails-hotwire",
+  "name": "Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL",
+  "token_metrics": {
+    "median_tokens": 14200,
+    "tier": "A+",
+    "token_light": true
+  },
+  "eval_tasks": [
+    {
+      "id": "ruby-rails-hotwire-task-01",
+      "title": "Core Environment & Service Initialization",
+      "instruction": "Initialize the Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL core runtime with zero-warning configuration.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health endpoint responds 200 OK"
+      ],
+      "prompt_tokens": 1405,
+      "completion_tokens": 1718
+    },
+    {
+      "id": "ruby-rails-hotwire-task-02",
+      "title": "Data Schema & Repository Definition",
+      "instruction": "Define strongly-typed models and database migrations.",
+      "assertions": [
+        "Schema validates against type checker",
+        "Migrations execute idempotently"
+      ],
+      "prompt_tokens": 1550,
+      "completion_tokens": 2141
+    },
+    {
+      "id": "ruby-rails-hotwire-task-03",
+      "title": "API Routing & Authorization Policy",
+      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "assertions": [
+        "Unauthorized access returns 401/403",
+        "Owner access returns 200"
+      ],
+      "prompt_tokens": 1499,
+      "completion_tokens": 1908
+    },
+    {
+      "id": "ruby-rails-hotwire-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "assertions": [
+        "Gitleaks zero findings",
+        "Automated attack suite passes 100%"
+      ],
+      "prompt_tokens": 1590,
+      "completion_tokens": 2385
+    }
+  ]
+}

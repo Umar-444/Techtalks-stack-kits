@@ -1,0 +1,55 @@
+{
+  "kit_slug": "rag-llamaindex-pgvector",
+  "name": "LlamaIndex + PostgreSQL pgvector + FastAPI",
+  "token_metrics": {
+    "median_tokens": 23200,
+    "tier": "A",
+    "token_light": false
+  },
+  "eval_tasks": [
+    {
+      "id": "rag-llamaindex-pgvector-task-01",
+      "title": "Core Environment & Service Initialization",
+      "instruction": "Initialize the LlamaIndex + PostgreSQL pgvector + FastAPI core runtime with zero-warning configuration.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health endpoint responds 200 OK"
+      ],
+      "prompt_tokens": 2296,
+      "completion_tokens": 2807
+    },
+    {
+      "id": "rag-llamaindex-pgvector-task-02",
+      "title": "Data Schema & Repository Definition",
+      "instruction": "Define strongly-typed models and database migrations.",
+      "assertions": [
+        "Schema validates against type checker",
+        "Migrations execute idempotently"
+      ],
+      "prompt_tokens": 2533,
+      "completion_tokens": 3498
+    },
+    {
+      "id": "rag-llamaindex-pgvector-task-03",
+      "title": "API Routing & Authorization Policy",
+      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "assertions": [
+        "Unauthorized access returns 401/403",
+        "Owner access returns 200"
+      ],
+      "prompt_tokens": 2449,
+      "completion_tokens": 3118
+    },
+    {
+      "id": "rag-llamaindex-pgvector-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "assertions": [
+        "Gitleaks zero findings",
+        "Automated attack suite passes 100%"
+      ],
+      "prompt_tokens": 2598,
+      "completion_tokens": 3897
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+schema_version: 1.0.0
+name: Local Private RAG (Ollama + Chroma + FastAPI)
+slug: rag-local-private
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: '100% offline, zero API egress, zero cloud cost: local open-weights LLMs
+  via Ollama (Llama 3, Mistral, Qwen 2.5), local ChromaDB embeddings, fully PDPL and
+  NDA compliant for regulated GCC enterprises.'
+category: RAG
+maintainer:
+  name: TechTalks Enterprise & Gulf Compliance Team
+  role: Privacy & AI Infrastructure Engineer
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Python
+    version: 3.12+
+    registry: pypi.org
+  framework:
+    name: FastAPI
+    version: 0.115+
+    registry: pypi.org
+  llm_engine: 'Ollama (local models: Llama 3.2, Qwen 2.5)'
+  vector_store: ChromaDB (embedded SQLite / duckdb)
+  compliance: PDPL, Saudi NCA ECC, HIPAA, Airgapped Safe
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: rag-local-private-core
+      path: skills/rag-local-private-core/SKILL.md
+      description: Core operations and scaffolding skill for Local Private RAG (Ollama
+        + Chroma + FastAPI).
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: true
+  median_eval_tokens: 19500
+  efficiency_tier: A
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

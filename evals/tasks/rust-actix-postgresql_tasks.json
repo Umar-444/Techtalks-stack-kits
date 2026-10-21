@@ -1,0 +1,55 @@
+{
+  "kit_slug": "rust-actix-postgresql",
+  "name": "Rust + Actix Web + SeaORM + PostgreSQL",
+  "token_metrics": {
+    "median_tokens": 26800,
+    "tier": "B",
+    "token_light": false
+  },
+  "eval_tasks": [
+    {
+      "id": "rust-actix-postgresql-task-01",
+      "title": "Core Environment & Service Initialization",
+      "instruction": "Initialize the Rust + Actix Web + SeaORM + PostgreSQL core runtime with zero-warning configuration.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health endpoint responds 200 OK"
+      ],
+      "prompt_tokens": 2653,
+      "completion_tokens": 3242
+    },
+    {
+      "id": "rust-actix-postgresql-task-02",
+      "title": "Data Schema & Repository Definition",
+      "instruction": "Define strongly-typed models and database migrations.",
+      "assertions": [
+        "Schema validates against type checker",
+        "Migrations execute idempotently"
+      ],
+      "prompt_tokens": 2926,
+      "completion_tokens": 4041
+    },
+    {
+      "id": "rust-actix-postgresql-task-03",
+      "title": "API Routing & Authorization Policy",
+      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "assertions": [
+        "Unauthorized access returns 401/403",
+        "Owner access returns 200"
+      ],
+      "prompt_tokens": 2830,
+      "completion_tokens": 3601
+    },
+    {
+      "id": "rust-actix-postgresql-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "assertions": [
+        "Gitleaks zero findings",
+        "Automated attack suite passes 100%"
+      ],
+      "prompt_tokens": 3001,
+      "completion_tokens": 4502
+    }
+  ]
+}

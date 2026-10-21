@@ -1,0 +1,81 @@
+schema_version: 1.0.0
+name: Go + Gin + sqlc + PostgreSQL + Redis
+slug: go-gin-postgresql
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: 'The mainstream production Go API kit: 48% Go web adoption, Gin HTTP
+  engine with structured JSON middleware, sqlc queries, PostgreSQL 16+, and Redis
+  cache.'
+category: Go
+maintainer:
+  name: TechTalks Go Engineering Group
+  role: Go API Engineer
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Go
+    version: 1.23+
+    registry: golang.org
+  framework:
+    name: Gin
+    version: v1.10+
+    registry: github.com/gin-gonic/gin
+  database:
+    engine: PostgreSQL
+    version: 16+
+    features:
+    - sqlc parameterized queries
+  cache: Redis 7+
+  sql_engine: sqlc
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: go-gin-postgresql-core
+      path: skills/go-gin-postgresql-core/SKILL.md
+      description: Core operations and scaffolding skill for Go + Gin + sqlc + PostgreSQL
+        + Redis.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: false
+  median_eval_tokens: 21400
+  efficiency_tier: A
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

@@ -1,0 +1,5 @@
+langgraph>=0.2.20
+langchain-core>=0.3.0
+qdrant-client>=1.11.0
+ragas>=0.1.15
+fastapi>=0.115.0

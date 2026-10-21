@@ -1,0 +1,49 @@
+{
+  "kit_slug": "reverse-engineering-security",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "reverse-engineering-security-task-01",
+      "title": "Initialization & Environment Config",
+      "status": "PASS",
+      "prompt_tokens": 2079,
+      "completion_tokens": 2541,
+      "tokens_consumed": 4620
+    },
+    {
+      "id": "reverse-engineering-security-task-02",
+      "title": "Data Model & Schema",
+      "status": "PASS",
+      "prompt_tokens": 2293,
+      "completion_tokens": 3166,
+      "tokens_consumed": 5459
+    },
+    {
+      "id": "reverse-engineering-security-task-03",
+      "title": "API Handlers & Security",
+      "status": "PASS",
+      "prompt_tokens": 2217,
+      "completion_tokens": 2822,
+      "tokens_consumed": 5039
+    },
+    {
+      "id": "reverse-engineering-security-task-04",
+      "title": "Automated Security Tests",
+      "status": "PASS",
+      "prompt_tokens": 2352,
+      "completion_tokens": 3528,
+      "tokens_consumed": 5880
+    }
+  ],
+  "median_task_tokens": 5249,
+  "median_tokens_to_complete_reference_build": 20998,
+  "efficiency_tier": "A",
+  "efficiency_note": "Standard stack",
+  "token_light": false
+}

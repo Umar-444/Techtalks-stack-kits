@@ -1,0 +1,82 @@
+schema_version: 1.0.0
+name: Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL
+slug: elixir-phoenix-liveview
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: 'Ultra-compact real-time full-stack application in a single functional
+  language: Phoenix LiveView server-rendered state over WebSockets, Ecto changesets
+  with compile-checked queries, and BEAM fault-tolerant processes.'
+category: Token-Light
+maintainer:
+  name: TechTalks Distributed Systems Group
+  role: Elixir & BEAM Specialist
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Elixir
+    version: 1.17+
+    registry: hex.pm
+  framework:
+    name: Phoenix
+    version: 1.7+
+    registry: hex.pm
+  ui_engine: Phoenix LiveView 1.0+
+  database:
+    engine: PostgreSQL
+    version: 16+
+    features:
+    - Ecto changesets
+    - BEAM supervisor trees
+  token_light_metric: 19,400 median tokens
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: elixir-phoenix-liveview-core
+      path: skills/elixir-phoenix-liveview-core/SKILL.md
+      description: Core operations and scaffolding skill for Elixir + Phoenix 1.7+
+        + LiveView + Ecto + PostgreSQL.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: true
+  median_eval_tokens: 19400
+  efficiency_tier: A
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

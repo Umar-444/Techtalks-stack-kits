@@ -1,0 +1,49 @@
+{
+  "kit_slug": "go-chi-templ-htmx",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "go-chi-templ-htmx-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 1663,
+      "completion_tokens": 2032,
+      "tokens_consumed": 3695
+    },
+    {
+      "id": "go-chi-templ-htmx-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 1834,
+      "completion_tokens": 2533,
+      "tokens_consumed": 4367
+    },
+    {
+      "id": "go-chi-templ-htmx-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 1774,
+      "completion_tokens": 2257,
+      "tokens_consumed": 4031
+    },
+    {
+      "id": "go-chi-templ-htmx-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 1881,
+      "completion_tokens": 2822,
+      "tokens_consumed": 4703
+    }
+  ],
+  "median_task_tokens": 4199,
+  "median_tokens_to_complete_reference_build": 16796,
+  "efficiency_tier": "A+",
+  "efficiency_note": "Chi net/http stdlib, templ type-safe HTML, sqlc codegen",
+  "token_light": true
+}

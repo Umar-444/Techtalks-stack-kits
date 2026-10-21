@@ -1,0 +1,10 @@
+---
+description: Security for Agentic LangGraph + CrewAI + FastAPI
+globs: *
+alwaysApply: true
+---
+
+# Security for Agentic LangGraph + CrewAI + FastAPI
+
+# Security
+Zero credential leaks.

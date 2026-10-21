@@ -1,0 +1,82 @@
+schema_version: 1.0.0
+name: TypeScript + Hono + Bun + Drizzle + SQLite
+slug: ts-hono-bun-sqlite
+version: 1.0.0
+status: stable
+updated_at: '2026-10-21'
+description: 'The edge-minimal TypeScript stack: tiny API surface, zero build ceremony
+  with Bun, Hono typed RPC, Drizzle type-safe schema migrations, and single-file-friendly
+  microservices.'
+category: Token-Light
+maintainer:
+  name: TechTalks Edge & Minimalist Group
+  role: TypeScript Edge Architect
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: TypeScript
+    version: 5.6+
+    registry: npm
+  framework:
+    name: Hono
+    version: 4.6+
+    registry: npm
+  runtime: Bun 1.1+ (native SQLite & fast test runner)
+  orm: Drizzle ORM (schema migrations & typed queries)
+  database:
+    engine: SQLite / LibSQL
+    version: 3.45+
+    features:
+    - WAL mode
+  token_light_metric: 18,200 median tokens
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: ts-hono-bun-sqlite-core
+      path: skills/ts-hono-bun-sqlite-core/SKILL.md
+      description: Core operations and scaffolding skill for TypeScript + Hono + Bun
+        + Drizzle + SQLite.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: true
+  median_eval_tokens: 18200
+  efficiency_tier: A
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

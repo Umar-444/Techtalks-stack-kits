@@ -1,0 +1,55 @@
+{
+  "kit_slug": "security-llm-guardrails",
+  "name": "LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)",
+  "token_metrics": {
+    "median_tokens": 17600,
+    "tier": "A+",
+    "token_light": true
+  },
+  "eval_tasks": [
+    {
+      "id": "security-llm-guardrails-task-01",
+      "title": "Core Environment & Service Initialization",
+      "instruction": "Initialize the LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard) core runtime with zero-warning configuration.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health endpoint responds 200 OK"
+      ],
+      "prompt_tokens": 1742,
+      "completion_tokens": 2129
+    },
+    {
+      "id": "security-llm-guardrails-task-02",
+      "title": "Data Schema & Repository Definition",
+      "instruction": "Define strongly-typed models and database migrations.",
+      "assertions": [
+        "Schema validates against type checker",
+        "Migrations execute idempotently"
+      ],
+      "prompt_tokens": 1921,
+      "completion_tokens": 2654
+    },
+    {
+      "id": "security-llm-guardrails-task-03",
+      "title": "API Routing & Authorization Policy",
+      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "assertions": [
+        "Unauthorized access returns 401/403",
+        "Owner access returns 200"
+      ],
+      "prompt_tokens": 1858,
+      "completion_tokens": 2365
+    },
+    {
+      "id": "security-llm-guardrails-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "assertions": [
+        "Gitleaks zero findings",
+        "Automated attack suite passes 100%"
+      ],
+      "prompt_tokens": 1971,
+      "completion_tokens": 2956
+    }
+  ]
+}

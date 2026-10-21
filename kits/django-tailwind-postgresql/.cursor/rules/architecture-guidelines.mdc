@@ -1,0 +1,10 @@
+---
+description: Architecture for Django 5 + Tailwind CSS + PostgreSQL
+globs: *
+alwaysApply: true
+---
+
+# Architecture for Django 5 + Tailwind CSS + PostgreSQL
+
+# Architecture
+Modular structure.

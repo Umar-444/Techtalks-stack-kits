@@ -1,0 +1,78 @@
+schema_version: 1.0.0
+name: Django 5 + Tailwind CSS + PostgreSQL
+slug: django-tailwind-postgresql
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: Batteries-included full-stack Django 5 with Tailwind CSS design tokens,
+  Django auth, and PostgreSQL 16+.
+category: Python
+maintainer:
+  name: TechTalks Python Engineering Group
+  role: Django Platform Lead
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Python
+    version: 3.12+
+    registry: pypi.org
+  framework:
+    name: Django
+    version: 5.1+
+    registry: pypi.org
+  styling: Tailwind CSS
+  database:
+    engine: PostgreSQL
+    version: 16+
+    features:
+    - Django ORM
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: django-tailwind-postgresql-core
+      path: skills/django-tailwind-postgresql-core/SKILL.md
+      description: Core operations skill for Django 5 + Tailwind CSS + PostgreSQL.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: false
+  median_eval_tokens: 24200
+  efficiency_tier: B
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

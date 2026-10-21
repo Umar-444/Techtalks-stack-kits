@@ -1,0 +1,12 @@
+---
+description: Agent Coding Conventions for Haystack Pipelines + Weaviate + FastAPI (Hayhooks)
+globs: *
+alwaysApply: true
+---
+
+# Agent Coding Conventions for Haystack Pipelines + Weaviate + FastAPI (Hayhooks)
+
+# Agent Coding Conventions
+- Maintain clean, minimal code changes with zero extraneous comments.
+- Run typecheck and compile verification after every file modification.
+- Never introduce undocumented third-party libraries without explicit instructions.

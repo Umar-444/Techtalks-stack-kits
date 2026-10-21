@@ -1,0 +1,21 @@
+# Windsurf Rules — Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Architectural Standards for Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
+# Architecture Standards: Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
+
+## Security Invariants for Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
+# Security Invariants
+- Verify tenant boundary before reading or writing any persistent state.
+- Sanitize all external inputs using validated schemas.
+- Reject requests with missing or expired bearer tokens.
+
+## Agent Coding Conventions for Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
+# Agent Coding Conventions
+- Maintain clean, minimal code changes with zero extraneous comments.
+- Run typecheck and compile verification after every file modification.
+- Never introduce undocumented third-party libraries without explicit instructions.
+

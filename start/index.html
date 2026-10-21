@@ -216,35 +216,50 @@
           <h2 class="text-lg font-bold text-[#12140F] dark:text-white">Select Your Stack</h2>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3" id="stack-options">
-          <button type="button" data-stack="laravel-filament" class="wizard-btn active-opt text-left p-4 rounded-[8px] border border-[#E85D26] bg-[#FFF1E8] dark:bg-[#2A1E16] transition-all">
+          <button type="button" data-stack="ruby-rails-hotwire" class="wizard-btn active-opt text-left p-4 rounded-[8px] border border-[#E85D26] bg-[#FFF1E8] dark:bg-[#2A1E16] transition-all">
+            <span class="font-mono text-[11px] uppercase text-[#E85D26] font-semibold block mb-1">Kit #36 &bull; Token-Light (14,200 tokens)</span>
+            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">Rails 8 + Hotwire</span>
+            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">Ruby 3.3+, Turbo 8, Solid Cache/Queue</span>
+          </button>
+          <button type="button" data-stack="go-chi-templ-htmx" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
+            <span class="font-mono text-[11px] uppercase text-emerald-600 dark:text-emerald-400 font-semibold block mb-1">Kit #23 &bull; Token-Light (16,800 tokens)</span>
+            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">Go + Chi + templ + HTMX</span>
+            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">Go 1.23+, sqlc, PostgreSQL 16+</span>
+          </button>
+          <button type="button" data-stack="rust-axum-postgresql" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
+            <span class="font-mono text-[11px] uppercase text-[#B7791F] font-semibold block mb-1">Kit #19 &bull; Systems Rust (24,500 tokens)</span>
+            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">Rust + Axum + SQLx</span>
+            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">Rust 1.80+, Tokio, Compile-checked SQL</span>
+          </button>
+          <button type="button" data-stack="security-devsecops-ci" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
+            <span class="font-mono text-[11px] uppercase text-emerald-600 dark:text-emerald-400 font-semibold block mb-1">Kit #33 &bull; Security (8,400 tokens)</span>
+            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">DevSecOps CI Pipeline</span>
+            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">Gitleaks, Semgrep, CodeQL, Trivy, SBOM</span>
+          </button>
+          <button type="button" data-stack="security-owasp-api" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
+            <span class="font-mono text-[11px] uppercase text-emerald-600 dark:text-emerald-400 font-semibold block mb-1">Kit #32 &bull; Security (15,200 tokens)</span>
+            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">OWASP API + Pytest Attack</span>
+            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">FastAPI, BOLA defense, automated exploits</span>
+          </button>
+          <button type="button" data-stack="rag-llamaindex-pgvector" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
+            <span class="font-mono text-[11px] uppercase text-[#0E7C6B] font-semibold block mb-1">Kit #28 &bull; AI & RAG (23,200 tokens)</span>
+            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">LlamaIndex + pgvector</span>
+            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">PostgreSQL pgvector, FastAPI, Evals</span>
+          </button>
+          <button type="button" data-stack="rag-local-private" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
+            <span class="font-mono text-[11px] uppercase text-emerald-600 dark:text-emerald-400 font-semibold block mb-1">Kit #31 &bull; Airgapped RAG (19,500 tokens)</span>
+            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">Local Private RAG</span>
+            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">Ollama local models, ChromaDB, PDPL-safe</span>
+          </button>
+          <button type="button" data-stack="laravel-filament" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
             <span class="font-mono text-[11px] uppercase text-[#E85D26] font-semibold block mb-1">Kit #1 &bull; Ready</span>
             <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">Laravel + Filament</span>
             <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">PHP 8.4, PostgreSQL 16, Multi-Tenancy</span>
           </button>
-          <button type="button" data-stack="laravel-livewire" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
-            <span class="font-mono text-[11px] uppercase text-[#0E7C6B] font-semibold block mb-1">Kit #2 &bull; Ready</span>
-            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">Laravel + Livewire</span>
-            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">PHP 8.4, Alpine.js, PostgreSQL</span>
-          </button>
-          <button type="button" data-stack="laravel-mongodb" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
-            <span class="font-mono text-[11px] uppercase text-[#0E7C6B] font-semibold block mb-1">Kit #3 &bull; Ready</span>
-            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">Laravel + MongoDB</span>
-            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">MongoDB 7+, NoSQL Defenses</span>
-          </button>
           <button type="button" data-stack="nextjs-supabase" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
             <span class="font-mono text-[11px] uppercase text-[#0E7C6B] font-semibold block mb-1">Kit #4 &bull; Ready</span>
-            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">Next.js + Supabase</span>
-            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">React 19, Server Actions, RLS</span>
-          </button>
-          <button type="button" data-stack="django" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
-            <span class="font-mono text-[11px] uppercase text-[#B7791F] font-semibold block mb-1">Blueprint</span>
-            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">Django 5 + Tailwind</span>
-            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">Python 3.12, Celery, PostgreSQL</span>
-          </button>
-          <button type="button" data-stack="rag-fastapi" class="wizard-btn text-left p-4 rounded-[8px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#171A18] hover:border-[#CFCFC4] transition-all">
-            <span class="font-mono text-[11px] uppercase text-[#B7791F] font-semibold block mb-1">Blueprint</span>
-            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">Production RAG</span>
-            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">FastAPI, Qdrant, Tenant Vector Evals</span>
+            <span class="text-[14px] font-bold text-[#12140F] dark:text-white block">Next.js 15+ + Supabase</span>
+            <span class="text-xs text-[#5C6058] dark:text-[#A8ACA0] block mt-1">React 19 Server Components, SSR</span>
           </button>
         </div>
       </section>
@@ -466,14 +481,20 @@ Execute Gitleaks and Semgrep security checks before marking any task complete.
       scope: 'new'
     };
 
-    const stackNames = {
-      'laravel-filament': 'Kit #1 (Laravel 12 + Filament v3 + PostgreSQL 16)',
-      'laravel-livewire': 'Kit #2 (Laravel 12 + Livewire v3 + PostgreSQL 16)',
-      'laravel-mongodb': 'Kit #3 (Laravel 12 + MongoDB 7+)',
-      'nextjs-supabase': 'Kit #4 (Next.js 15+ + Supabase + React 19)',
-      'django': 'Django 5 + Tailwind + PostgreSQL Blueprint',
-      'rag-fastapi': 'Production RAG Stack (FastAPI + Qdrant)'
+        const stackNames = {
+      'ruby-rails-hotwire': 'Kit #36 (Ruby on Rails 8 + Hotwire Turbo + SQLite) [14,200 tokens]',
+      'go-chi-templ-htmx': 'Kit #23 (Go 1.23 + Chi + templ + HTMX + sqlc) [16,800 tokens]',
+      'rust-axum-postgresql': 'Kit #19 (Rust 1.80 + Axum + Tokio + SQLx) [24,500 tokens]',
+      'security-devsecops-ci': 'Kit #33 (DevSecOps CI Pipeline: Gitleaks + Semgrep + CodeQL + Trivy + SBOM) [8,400 tokens]',
+      'security-owasp-api': 'Kit #32 (OWASP API Security Top 10 Reference + Pytest Attack Suite) [15,200 tokens]',
+      'rag-llamaindex-pgvector': 'Kit #28 (LlamaIndex + PostgreSQL pgvector + FastAPI) [23,200 tokens]',
+      'rag-local-private': 'Kit #31 (Local Airgapped RAG: Ollama + ChromaDB) [19,500 tokens]',
+      'laravel-filament': 'Kit #1 (Laravel 12 + Filament v3 + PostgreSQL 16) [28,400 tokens]',
+      'laravel-livewire': 'Kit #2 (Laravel 12 + Livewire v4 + PostgreSQL 16) [29,800 tokens]',
+      'laravel-mongodb': 'Kit #3 (Laravel 12 + MongoDB 7+) [31,200 tokens]',
+      'nextjs-supabase': 'Kit #4 (Next.js 15+ + Supabase + React 19) [38,600 tokens]'
     };
+    state.stack = 'ruby-rails-hotwire';
 
     const agentRuleFiles = {
       'claude': 'CLAUDE.md',

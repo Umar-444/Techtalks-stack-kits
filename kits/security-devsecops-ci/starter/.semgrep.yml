@@ -1,0 +1,6 @@
+rules:
+  - id: generic-injection
+    pattern: "$X.execute(... + ...)"
+    message: "String concatenation into query."
+    languages: [python, javascript, php]
+    severity: ERROR

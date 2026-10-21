@@ -1,0 +1,17 @@
+{
+  "kit_slug": "flask-htmx-sqlite",
+  "checks": [
+    {
+      "id": "sec-01",
+      "name": "Gitleaks Secret Audit",
+      "status": "enforced",
+      "tool": "gitleaks"
+    },
+    {
+      "id": "sec-02",
+      "name": "Semgrep SAST Policy",
+      "status": "enforced",
+      "tool": "semgrep"
+    }
+  ]
+}

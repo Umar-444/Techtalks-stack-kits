@@ -1,0 +1,49 @@
+{
+  "kit_slug": "python-litestar-postgresql",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "python-litestar-postgresql-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 2187,
+      "completion_tokens": 2674,
+      "tokens_consumed": 4861
+    },
+    {
+      "id": "python-litestar-postgresql-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 2413,
+      "completion_tokens": 3332,
+      "tokens_consumed": 5745
+    },
+    {
+      "id": "python-litestar-postgresql-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 2333,
+      "completion_tokens": 2970,
+      "tokens_consumed": 5303
+    },
+    {
+      "id": "python-litestar-postgresql-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 2475,
+      "completion_tokens": 3712,
+      "tokens_consumed": 6187
+    }
+  ],
+  "median_task_tokens": 5524,
+  "median_tokens_to_complete_reference_build": 22096,
+  "efficiency_tier": "A",
+  "efficiency_note": "Modern ASGI, clean DI, first-class DTO typing",
+  "token_light": false
+}

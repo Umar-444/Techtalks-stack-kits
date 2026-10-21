@@ -1,0 +1,8 @@
+[extend]
+useDefault = true
+
+[whitelist]
+description = "Ignore tests"
+paths = [
+  '''tests/'''
+]

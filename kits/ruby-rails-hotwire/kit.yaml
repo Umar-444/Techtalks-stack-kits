@@ -1,0 +1,83 @@
+schema_version: 1.0.0
+name: Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
+slug: ruby-rails-hotwire
+version: 1.0.0
+status: stable
+updated_at: '2026-10-21'
+description: 'The lowest full-stack token footprint on the platform (14,200 median
+  build tokens): Rails 8 convention-over-configuration, Hotwire Turbo 8 reactive DOM
+  morphing, Stimulus micro-controllers, and Solid Cache/Solid Queue on SQLite or PostgreSQL.'
+category: Token-Light
+maintainer:
+  name: TechTalks Web Architecture Team
+  role: Rails & Token-Efficiency Specialist
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Ruby
+    version: 3.3+
+    registry: rubygems.org
+  framework:
+    name: Ruby on Rails
+    version: 8.0+
+    registry: rubygems.org
+  ui_engine: Hotwire Turbo 8 + Stimulus 3
+  database:
+    engine: SQLite / PostgreSQL
+    version: 3.45+
+    features:
+    - Solid Cache
+    - Solid Queue
+    - Solid Cable
+  token_light_metric: 14,200 median tokens (Lowest full-stack build)
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: ruby-rails-hotwire-core
+      path: skills/ruby-rails-hotwire-core/SKILL.md
+      description: Core operations and scaffolding skill for Ruby on Rails 8 + Hotwire
+        (Turbo + Stimulus) + SQLite/PostgreSQL.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: true
+  median_eval_tokens: 14200
+  efficiency_tier: A+
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

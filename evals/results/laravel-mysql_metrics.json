@@ -1,0 +1,49 @@
+{
+  "kit_slug": "laravel-mysql",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "laravel-mysql-task-01",
+      "title": "Initialization & Environment Config",
+      "status": "PASS",
+      "prompt_tokens": 2722,
+      "completion_tokens": 3327,
+      "tokens_consumed": 6049
+    },
+    {
+      "id": "laravel-mysql-task-02",
+      "title": "Data Model & Schema",
+      "status": "PASS",
+      "prompt_tokens": 3003,
+      "completion_tokens": 4147,
+      "tokens_consumed": 7150
+    },
+    {
+      "id": "laravel-mysql-task-03",
+      "title": "API Handlers & Security",
+      "status": "PASS",
+      "prompt_tokens": 2904,
+      "completion_tokens": 3696,
+      "tokens_consumed": 6600
+    },
+    {
+      "id": "laravel-mysql-task-04",
+      "title": "Automated Security Tests",
+      "status": "PASS",
+      "prompt_tokens": 3080,
+      "completion_tokens": 4620,
+      "tokens_consumed": 7700
+    }
+  ],
+  "median_task_tokens": 6875,
+  "median_tokens_to_complete_reference_build": 27499,
+  "efficiency_tier": "B",
+  "efficiency_note": "Classic Laravel 12 MySQL dashboard & Fortify auth",
+  "token_light": false
+}

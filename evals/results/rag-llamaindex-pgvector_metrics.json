@@ -1,0 +1,49 @@
+{
+  "kit_slug": "rag-llamaindex-pgvector",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "rag-llamaindex-pgvector-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 2296,
+      "completion_tokens": 2807,
+      "tokens_consumed": 5103
+    },
+    {
+      "id": "rag-llamaindex-pgvector-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 2533,
+      "completion_tokens": 3498,
+      "tokens_consumed": 6031
+    },
+    {
+      "id": "rag-llamaindex-pgvector-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 2449,
+      "completion_tokens": 3118,
+      "tokens_consumed": 5567
+    },
+    {
+      "id": "rag-llamaindex-pgvector-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 2598,
+      "completion_tokens": 3897,
+      "tokens_consumed": 6495
+    }
+  ],
+  "median_task_tokens": 5799,
+  "median_tokens_to_complete_reference_build": 23196,
+  "efficiency_tier": "A",
+  "efficiency_note": "Postgres pgvector without new vector DB infra, data-first RAG",
+  "token_light": false
+}

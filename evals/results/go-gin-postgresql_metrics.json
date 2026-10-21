@@ -1,0 +1,49 @@
+{
+  "kit_slug": "go-gin-postgresql",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "go-gin-postgresql-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 2118,
+      "completion_tokens": 2589,
+      "tokens_consumed": 4707
+    },
+    {
+      "id": "go-gin-postgresql-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 2336,
+      "completion_tokens": 3227,
+      "tokens_consumed": 5563
+    },
+    {
+      "id": "go-gin-postgresql-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 2259,
+      "completion_tokens": 2876,
+      "tokens_consumed": 5135
+    },
+    {
+      "id": "go-gin-postgresql-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 2396,
+      "completion_tokens": 3595,
+      "tokens_consumed": 5991
+    }
+  ],
+  "median_task_tokens": 5349,
+  "median_tokens_to_complete_reference_build": 21396,
+  "efficiency_tier": "A",
+  "efficiency_note": "Mainstream Go API, clean router & repository layout",
+  "token_light": false
+}

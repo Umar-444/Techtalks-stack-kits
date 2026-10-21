@@ -1,0 +1,82 @@
+schema_version: 1.0.0
+name: Python + Litestar + SQLAlchemy 2 + PostgreSQL + Redis
+slug: python-litestar-postgresql
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: 'The modern ASGI framework FastAPI users graduate to: clean layered dependency
+  injection, first-class DTOs, strict typing with msgspec and Pydantic v2, and SQLAlchemy
+  2.0 async sessions.'
+category: Python
+maintainer:
+  name: TechTalks Python Engineering Group
+  role: Python Backend Architect
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Python
+    version: 3.12+
+    registry: pypi.org
+  framework:
+    name: Litestar
+    version: 2.12+
+    registry: pypi.org
+  database:
+    engine: PostgreSQL
+    version: 16+
+    features:
+    - SQLAlchemy 2.0 async
+    - Alembic migrations
+  cache: Redis 7+
+  dto_engine: msgspec / Pydantic v2
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: python-litestar-postgresql-core
+      path: skills/python-litestar-postgresql-core/SKILL.md
+      description: Core operations and scaffolding skill for Python + Litestar + SQLAlchemy
+        2 + PostgreSQL + Redis.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: false
+  median_eval_tokens: 22100
+  efficiency_tier: A
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

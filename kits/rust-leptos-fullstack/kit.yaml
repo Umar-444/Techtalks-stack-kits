@@ -1,0 +1,77 @@
+schema_version: 1.0.0
+name: Rust + Leptos Full-Stack + Axum + WebAssembly
+slug: rust-leptos-fullstack
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: 'Full-stack Rust with reactive signals: Leptos SSR + WebAssembly hydration
+  on client, Axum server functions on backend, one language and type system across
+  the entire stack.'
+category: Rust
+maintainer:
+  name: TechTalks Rust Community Maintainers
+  role: WASM & Frontend Systems Engineer
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Rust
+    version: 1.80+
+    registry: crates.io
+  framework:
+    name: Leptos
+    version: 0.7+
+    registry: crates.io
+  backend: Axum 0.8+ server functions
+  frontend: WebAssembly (wasm-bindgen)
+  styling: Tailwind CSS + Document 17/18 tokens
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: rust-leptos-fullstack-core
+      path: skills/rust-leptos-fullstack-core/SKILL.md
+      description: Core operations and scaffolding skill for Rust + Leptos Full-Stack
+        + Axum + WebAssembly.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: false
+  median_eval_tokens: 29200
+  efficiency_tier: B
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

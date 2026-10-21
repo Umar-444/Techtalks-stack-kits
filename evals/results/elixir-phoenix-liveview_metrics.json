@@ -1,0 +1,49 @@
+{
+  "kit_slug": "elixir-phoenix-liveview",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "elixir-phoenix-liveview-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 1920,
+      "completion_tokens": 2347,
+      "tokens_consumed": 4267
+    },
+    {
+      "id": "elixir-phoenix-liveview-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 2118,
+      "completion_tokens": 2925,
+      "tokens_consumed": 5043
+    },
+    {
+      "id": "elixir-phoenix-liveview-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 2048,
+      "completion_tokens": 2607,
+      "tokens_consumed": 4655
+    },
+    {
+      "id": "elixir-phoenix-liveview-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 2172,
+      "completion_tokens": 3259,
+      "tokens_consumed": 5431
+    }
+  ],
+  "median_task_tokens": 4849,
+  "median_tokens_to_complete_reference_build": 19396,
+  "efficiency_tier": "A",
+  "efficiency_note": "Single language full-stack, LiveView server state",
+  "token_light": true
+}

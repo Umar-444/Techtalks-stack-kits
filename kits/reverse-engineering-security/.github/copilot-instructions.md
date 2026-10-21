@@ -1,0 +1,11 @@
+# GitHub Copilot Instructions for Reverse Engineering & Security Audit Pack
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Architecture for Reverse Engineering & Security Audit Pack
+# Architecture
+Modular structure.
+
+## Security for Reverse Engineering & Security Audit Pack
+# Security
+Zero credential leaks.
+

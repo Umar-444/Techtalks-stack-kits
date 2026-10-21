@@ -1,0 +1,33 @@
+{
+  "kit_slug": "laravel-mongodb",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 2,
+  "tasks": [
+    {
+      "id": "kit3-task-01",
+      "title": "MongoDB Model Inheritance",
+      "status": "PASS",
+      "prompt_tokens": 859,
+      "completion_tokens": 734,
+      "tokens_consumed": 1593
+    },
+    {
+      "id": "kit3-task-02",
+      "title": "NoSQL Injection Defense",
+      "status": "PASS",
+      "prompt_tokens": 861,
+      "completion_tokens": 758,
+      "tokens_consumed": 1619
+    }
+  ],
+  "median_task_tokens": 1606,
+  "median_tokens_to_complete_reference_build": 3212,
+  "efficiency_tier": "B",
+  "efficiency_note": "MongoDB ODM, hybrid relational-document schemas",
+  "token_light": false
+}

@@ -1,0 +1,33 @@
+{
+  "kit_slug": "laravel-livewire-postgresql",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 2,
+  "tasks": [
+    {
+      "id": "kit2-task-01",
+      "title": "Volt Single-File Component Scaffolding",
+      "status": "PASS",
+      "prompt_tokens": 861,
+      "completion_tokens": 734,
+      "tokens_consumed": 1595
+    },
+    {
+      "id": "kit2-task-02",
+      "title": "Livewire Property Locking",
+      "status": "PASS",
+      "prompt_tokens": 863,
+      "completion_tokens": 734,
+      "tokens_consumed": 1597
+    }
+  ],
+  "median_task_tokens": 1596,
+  "median_tokens_to_complete_reference_build": 3192,
+  "efficiency_tier": "B",
+  "efficiency_note": "Volt single-file components, Folio routing, Flux UI",
+  "token_light": false
+}

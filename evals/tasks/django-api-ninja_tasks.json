@@ -1,0 +1,55 @@
+{
+  "kit_slug": "django-api-ninja",
+  "name": "Django + Django Ninja + PostgreSQL + Celery",
+  "token_metrics": {
+    "median_tokens": 20500,
+    "tier": "A",
+    "token_light": false
+  },
+  "eval_tasks": [
+    {
+      "id": "django-api-ninja-task-01",
+      "title": "Core Environment & Service Initialization",
+      "instruction": "Initialize the Django + Django Ninja + PostgreSQL + Celery core runtime with zero-warning configuration.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health endpoint responds 200 OK"
+      ],
+      "prompt_tokens": 2029,
+      "completion_tokens": 2480
+    },
+    {
+      "id": "django-api-ninja-task-02",
+      "title": "Data Schema & Repository Definition",
+      "instruction": "Define strongly-typed models and database migrations.",
+      "assertions": [
+        "Schema validates against type checker",
+        "Migrations execute idempotently"
+      ],
+      "prompt_tokens": 2238,
+      "completion_tokens": 3091
+    },
+    {
+      "id": "django-api-ninja-task-03",
+      "title": "API Routing & Authorization Policy",
+      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "assertions": [
+        "Unauthorized access returns 401/403",
+        "Owner access returns 200"
+      ],
+      "prompt_tokens": 2164,
+      "completion_tokens": 2755
+    },
+    {
+      "id": "django-api-ninja-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "assertions": [
+        "Gitleaks zero findings",
+        "Automated attack suite passes 100%"
+      ],
+      "prompt_tokens": 2296,
+      "completion_tokens": 3444
+    }
+  ]
+}

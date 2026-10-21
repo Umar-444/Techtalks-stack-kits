@@ -1,0 +1,51 @@
+{
+  "kit_slug": "agentic-langgraph-crewai",
+  "name": "Agentic LangGraph + CrewAI + FastAPI",
+  "token_metrics": {
+    "median_tokens": 28500,
+    "tier": "B",
+    "token_light": false
+  },
+  "eval_tasks": [
+    {
+      "id": "agentic-langgraph-crewai-task-01",
+      "title": "Initialization & Environment Config",
+      "instruction": "Verify Agentic LangGraph + CrewAI + FastAPI boots cleanly.",
+      "assertions": [
+        "Runtime boots with exit code 0"
+      ],
+      "prompt_tokens": 2821,
+      "completion_tokens": 3448
+    },
+    {
+      "id": "agentic-langgraph-crewai-task-02",
+      "title": "Data Model & Schema",
+      "instruction": "Define models and persistence layers.",
+      "assertions": [
+        "Schema validates"
+      ],
+      "prompt_tokens": 3112,
+      "completion_tokens": 4297
+    },
+    {
+      "id": "agentic-langgraph-crewai-task-03",
+      "title": "API Handlers & Security",
+      "instruction": "Expose endpoints with authorization.",
+      "assertions": [
+        "Auth enforced"
+      ],
+      "prompt_tokens": 3009,
+      "completion_tokens": 3830
+    },
+    {
+      "id": "agentic-langgraph-crewai-task-04",
+      "title": "Automated Security Tests",
+      "instruction": "Run security audits and test suites.",
+      "assertions": [
+        "Zero leaks"
+      ],
+      "prompt_tokens": 3192,
+      "completion_tokens": 4788
+    }
+  ]
+}

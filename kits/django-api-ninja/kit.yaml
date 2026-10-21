@@ -1,0 +1,82 @@
+schema_version: 1.0.0
+name: Django + Django Ninja + PostgreSQL + Celery
+slug: django-api-ninja
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: 'API-only Django: all the batteries of Django (ORM, migrations, admin
+  panel, authentication) behind high-speed typed Pydantic endpoints and asynchronous
+  Celery workers.'
+category: Python
+maintainer:
+  name: TechTalks Python Engineering Group
+  role: Django Platform Lead
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Python
+    version: 3.12+
+    registry: pypi.org
+  framework:
+    name: Django Ninja
+    version: 1.3+
+    registry: pypi.org
+  core: Django 5.1+
+  database:
+    engine: PostgreSQL
+    version: 16+
+    features:
+    - Django ORM
+    - ACID migrations
+  async_queue: Celery 5.4+ with Redis broker
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: django-api-ninja-core
+      path: skills/django-api-ninja-core/SKILL.md
+      description: Core operations and scaffolding skill for Django + Django Ninja
+        + PostgreSQL + Celery.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: false
+  median_eval_tokens: 20500
+  efficiency_tier: A
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

@@ -1,0 +1,79 @@
+schema_version: 1.0.0
+name: Go + Fiber + PostgreSQL
+slug: go-fiber-api
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: 'Throughput specialist: Express-shaped Go API powered by fasthttp zero-allocation
+  engine. Ships with honest architectural caveats regarding net/http middleware and
+  HTTP/2 limits.'
+category: Go
+maintainer:
+  name: TechTalks Go Engineering Group
+  role: Performance Systems Engineer
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Go
+    version: 1.23+
+    registry: golang.org
+  framework:
+    name: Fiber
+    version: v3.0+
+    registry: github.com/gofiber/fiber/v3
+  engine: fasthttp (zero memory allocation)
+  database:
+    engine: PostgreSQL
+    version: 16+
+    features:
+    - pgxpool connection
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: go-fiber-api-core
+      path: skills/go-fiber-api-core/SKILL.md
+      description: Core operations and scaffolding skill for Go + Fiber + PostgreSQL.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: false
+  median_eval_tokens: 18900
+  efficiency_tier: A
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

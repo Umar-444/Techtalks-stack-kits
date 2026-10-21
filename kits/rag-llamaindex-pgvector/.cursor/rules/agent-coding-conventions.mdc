@@ -1,0 +1,12 @@
+---
+description: Agent Coding Conventions for LlamaIndex + PostgreSQL pgvector + FastAPI
+globs: *
+alwaysApply: true
+---
+
+# Agent Coding Conventions for LlamaIndex + PostgreSQL pgvector + FastAPI
+
+# Agent Coding Conventions
+- Maintain clean, minimal code changes with zero extraneous comments.
+- Run typecheck and compile verification after every file modification.
+- Never introduce undocumented third-party libraries without explicit instructions.

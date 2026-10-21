@@ -1,0 +1,51 @@
+{
+  "kit_slug": "flask-htmx-sqlite",
+  "name": "Flask + HTMX + SQLite",
+  "token_metrics": {
+    "median_tokens": 15900,
+    "tier": "A+",
+    "token_light": true
+  },
+  "eval_tasks": [
+    {
+      "id": "flask-htmx-sqlite-task-01",
+      "title": "Initialization & Environment Config",
+      "instruction": "Verify Flask + HTMX + SQLite boots cleanly.",
+      "assertions": [
+        "Runtime boots with exit code 0"
+      ],
+      "prompt_tokens": 1574,
+      "completion_tokens": 1923
+    },
+    {
+      "id": "flask-htmx-sqlite-task-02",
+      "title": "Data Model & Schema",
+      "instruction": "Define models and persistence layers.",
+      "assertions": [
+        "Schema validates"
+      ],
+      "prompt_tokens": 1736,
+      "completion_tokens": 2397
+    },
+    {
+      "id": "flask-htmx-sqlite-task-03",
+      "title": "API Handlers & Security",
+      "instruction": "Expose endpoints with authorization.",
+      "assertions": [
+        "Auth enforced"
+      ],
+      "prompt_tokens": 1679,
+      "completion_tokens": 2136
+    },
+    {
+      "id": "flask-htmx-sqlite-task-04",
+      "title": "Automated Security Tests",
+      "instruction": "Run security audits and test suites.",
+      "assertions": [
+        "Zero leaks"
+      ],
+      "prompt_tokens": 1780,
+      "completion_tokens": 2671
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "kit_slug": "python-litestar-postgresql",
+  "name": "Python + Litestar + SQLAlchemy 2 + PostgreSQL + Redis",
+  "token_metrics": {
+    "median_tokens": 22100,
+    "tier": "A",
+    "token_light": false
+  },
+  "eval_tasks": [
+    {
+      "id": "python-litestar-postgresql-task-01",
+      "title": "Core Environment & Service Initialization",
+      "instruction": "Initialize the Python + Litestar + SQLAlchemy 2 + PostgreSQL + Redis core runtime with zero-warning configuration.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health endpoint responds 200 OK"
+      ],
+      "prompt_tokens": 2187,
+      "completion_tokens": 2674
+    },
+    {
+      "id": "python-litestar-postgresql-task-02",
+      "title": "Data Schema & Repository Definition",
+      "instruction": "Define strongly-typed models and database migrations.",
+      "assertions": [
+        "Schema validates against type checker",
+        "Migrations execute idempotently"
+      ],
+      "prompt_tokens": 2413,
+      "completion_tokens": 3332
+    },
+    {
+      "id": "python-litestar-postgresql-task-03",
+      "title": "API Routing & Authorization Policy",
+      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "assertions": [
+        "Unauthorized access returns 401/403",
+        "Owner access returns 200"
+      ],
+      "prompt_tokens": 2333,
+      "completion_tokens": 2970
+    },
+    {
+      "id": "python-litestar-postgresql-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "assertions": [
+        "Gitleaks zero findings",
+        "Automated attack suite passes 100%"
+      ],
+      "prompt_tokens": 2475,
+      "completion_tokens": 3712
+    }
+  ]
+}

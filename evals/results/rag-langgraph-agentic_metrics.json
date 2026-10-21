@@ -1,0 +1,49 @@
+{
+  "kit_slug": "rag-langgraph-agentic",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "rag-langgraph-agentic-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 2752,
+      "completion_tokens": 3363,
+      "tokens_consumed": 6115
+    },
+    {
+      "id": "rag-langgraph-agentic-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 3035,
+      "completion_tokens": 4192,
+      "tokens_consumed": 7227
+    },
+    {
+      "id": "rag-langgraph-agentic-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 2935,
+      "completion_tokens": 3736,
+      "tokens_consumed": 6671
+    },
+    {
+      "id": "rag-langgraph-agentic-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 3113,
+      "completion_tokens": 4670,
+      "tokens_consumed": 7783
+    }
+  ],
+  "median_task_tokens": 6949,
+  "median_tokens_to_complete_reference_build": 27796,
+  "efficiency_tier": "B",
+  "efficiency_note": "Cyclic graph state machines, human-in-the-loop nodes",
+  "token_light": false
+}

@@ -1,0 +1,49 @@
+{
+  "kit_slug": "go-fiber-api",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "go-fiber-api-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 1871,
+      "completion_tokens": 2286,
+      "tokens_consumed": 4157
+    },
+    {
+      "id": "go-fiber-api-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 2063,
+      "completion_tokens": 2850,
+      "tokens_consumed": 4913
+    },
+    {
+      "id": "go-fiber-api-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 1995,
+      "completion_tokens": 2540,
+      "tokens_consumed": 4535
+    },
+    {
+      "id": "go-fiber-api-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 2116,
+      "completion_tokens": 3175,
+      "tokens_consumed": 5291
+    }
+  ],
+  "median_task_tokens": 4724,
+  "median_tokens_to_complete_reference_build": 18896,
+  "efficiency_tier": "A",
+  "efficiency_note": "Express-like Go ergonomics, compact fasthttp handlers",
+  "token_light": true
+}

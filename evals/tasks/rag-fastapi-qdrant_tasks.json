@@ -1,0 +1,51 @@
+{
+  "kit_slug": "rag-fastapi-qdrant",
+  "name": "RAG FastAPI + Qdrant + OpenAI",
+  "token_metrics": {
+    "median_tokens": 23500,
+    "tier": "A",
+    "token_light": false
+  },
+  "eval_tasks": [
+    {
+      "id": "rag-fastapi-qdrant-task-01",
+      "title": "Initialization & Environment Config",
+      "instruction": "Verify RAG FastAPI + Qdrant + OpenAI boots cleanly.",
+      "assertions": [
+        "Runtime boots with exit code 0"
+      ],
+      "prompt_tokens": 2326,
+      "completion_tokens": 2843
+    },
+    {
+      "id": "rag-fastapi-qdrant-task-02",
+      "title": "Data Model & Schema",
+      "instruction": "Define models and persistence layers.",
+      "assertions": [
+        "Schema validates"
+      ],
+      "prompt_tokens": 2566,
+      "completion_tokens": 3543
+    },
+    {
+      "id": "rag-fastapi-qdrant-task-03",
+      "title": "API Handlers & Security",
+      "instruction": "Expose endpoints with authorization.",
+      "assertions": [
+        "Auth enforced"
+      ],
+      "prompt_tokens": 2481,
+      "completion_tokens": 3158
+    },
+    {
+      "id": "rag-fastapi-qdrant-task-04",
+      "title": "Automated Security Tests",
+      "instruction": "Run security audits and test suites.",
+      "assertions": [
+        "Zero leaks"
+      ],
+      "prompt_tokens": 2632,
+      "completion_tokens": 3948
+    }
+  ]
+}

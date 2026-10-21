@@ -1,0 +1,49 @@
+{
+  "kit_slug": "ts-hono-bun-sqlite",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "ts-hono-bun-sqlite-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 1801,
+      "completion_tokens": 2202,
+      "tokens_consumed": 4003
+    },
+    {
+      "id": "ts-hono-bun-sqlite-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 1987,
+      "completion_tokens": 2744,
+      "tokens_consumed": 4731
+    },
+    {
+      "id": "ts-hono-bun-sqlite-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 1921,
+      "completion_tokens": 2446,
+      "tokens_consumed": 4367
+    },
+    {
+      "id": "ts-hono-bun-sqlite-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 2038,
+      "completion_tokens": 3057,
+      "tokens_consumed": 5095
+    }
+  ],
+  "median_task_tokens": 4549,
+  "median_tokens_to_complete_reference_build": 18196,
+  "efficiency_tier": "A",
+  "efficiency_note": "Zero-ceremony Bun, Hono typed RPC, Drizzle migrations",
+  "token_light": true
+}

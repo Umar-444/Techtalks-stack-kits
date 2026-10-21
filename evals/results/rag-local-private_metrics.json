@@ -1,0 +1,49 @@
+{
+  "kit_slug": "rag-local-private",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "rag-local-private-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 1930,
+      "completion_tokens": 2359,
+      "tokens_consumed": 4289
+    },
+    {
+      "id": "rag-local-private-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 2129,
+      "completion_tokens": 2940,
+      "tokens_consumed": 5069
+    },
+    {
+      "id": "rag-local-private-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 2059,
+      "completion_tokens": 2620,
+      "tokens_consumed": 4679
+    },
+    {
+      "id": "rag-local-private-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 2184,
+      "completion_tokens": 3276,
+      "tokens_consumed": 5460
+    }
+  ],
+  "median_task_tokens": 4874,
+  "median_tokens_to_complete_reference_build": 19497,
+  "efficiency_tier": "A",
+  "efficiency_note": "Ollama local API, self-contained ChromaDB collections",
+  "token_light": true
+}

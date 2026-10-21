@@ -1,0 +1,49 @@
+{
+  "kit_slug": "security-devsecops-ci",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "security-devsecops-ci-task-01",
+      "title": "Core Environment & Service Initialization",
+      "status": "PASS",
+      "prompt_tokens": 831,
+      "completion_tokens": 1016,
+      "tokens_consumed": 1847
+    },
+    {
+      "id": "security-devsecops-ci-task-02",
+      "title": "Data Schema & Repository Definition",
+      "status": "PASS",
+      "prompt_tokens": 917,
+      "completion_tokens": 1266,
+      "tokens_consumed": 2183
+    },
+    {
+      "id": "security-devsecops-ci-task-03",
+      "title": "API Routing & Authorization Policy",
+      "status": "PASS",
+      "prompt_tokens": 887,
+      "completion_tokens": 1128,
+      "tokens_consumed": 2015
+    },
+    {
+      "id": "security-devsecops-ci-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 940,
+      "completion_tokens": 1411,
+      "tokens_consumed": 2351
+    }
+  ],
+  "median_task_tokens": 2099,
+  "median_tokens_to_complete_reference_build": 8396,
+  "efficiency_tier": "A+",
+  "efficiency_note": "Declarative GitHub Actions workflows, zero app boilerplate",
+  "token_light": true
+}

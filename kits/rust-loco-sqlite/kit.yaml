@@ -1,0 +1,79 @@
+schema_version: 1.0.0
+name: Rust + Loco.rs + SeaORM + SQLite
+slug: rust-loco-sqlite
+version: 1.0.0
+status: blueprint
+updated_at: '2026-10-21'
+description: 'Rails-style convention-over-configuration for Rust: Loco.rs MVC architecture,
+  predictable generators, SeaORM migrations, and zero-ceremony SQLite storage.'
+category: Rust
+maintainer:
+  name: TechTalks Rust Community Maintainers
+  role: Loco Framework Engineer
+  url: https://techtalks.itsumarfarooq.com/kits/propose/
+  github: umar-444
+stack:
+  language:
+    name: Rust
+    version: 1.80+
+    registry: crates.io
+  framework:
+    name: Loco.rs
+    version: 0.13+
+    registry: crates.io
+  database:
+    engine: SQLite / PostgreSQL
+    version: 3.45+
+    features:
+    - SeaORM migrations
+  conventions: MVC generators, token-light agent ergonomics
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: rust-loco-sqlite-core
+      path: skills/rust-loco-sqlite-core/SKILL.md
+      description: Core operations and scaffolding skill for Rust + Loco.rs + SeaORM
+        + SQLite.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: true
+  median_eval_tokens: 19800
+  efficiency_tier: A
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

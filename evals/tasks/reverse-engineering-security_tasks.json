@@ -1,0 +1,51 @@
+{
+  "kit_slug": "reverse-engineering-security",
+  "name": "Reverse Engineering & Security Audit Pack",
+  "token_metrics": {
+    "median_tokens": 21000,
+    "tier": "A",
+    "token_light": false
+  },
+  "eval_tasks": [
+    {
+      "id": "reverse-engineering-security-task-01",
+      "title": "Initialization & Environment Config",
+      "instruction": "Verify Reverse Engineering & Security Audit Pack boots cleanly.",
+      "assertions": [
+        "Runtime boots with exit code 0"
+      ],
+      "prompt_tokens": 2079,
+      "completion_tokens": 2541
+    },
+    {
+      "id": "reverse-engineering-security-task-02",
+      "title": "Data Model & Schema",
+      "instruction": "Define models and persistence layers.",
+      "assertions": [
+        "Schema validates"
+      ],
+      "prompt_tokens": 2293,
+      "completion_tokens": 3166
+    },
+    {
+      "id": "reverse-engineering-security-task-03",
+      "title": "API Handlers & Security",
+      "instruction": "Expose endpoints with authorization.",
+      "assertions": [
+        "Auth enforced"
+      ],
+      "prompt_tokens": 2217,
+      "completion_tokens": 2822
+    },
+    {
+      "id": "reverse-engineering-security-task-04",
+      "title": "Automated Security Tests",
+      "instruction": "Run security audits and test suites.",
+      "assertions": [
+        "Zero leaks"
+      ],
+      "prompt_tokens": 2352,
+      "completion_tokens": 3528
+    }
+  ]
+}
