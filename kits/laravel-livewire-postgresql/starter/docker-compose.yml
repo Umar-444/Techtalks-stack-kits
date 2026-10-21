@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=livewire_db
+      - DB_USERNAME=app_user
+      - DB_PASSWORD=secret_postgres_password
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: livewire_db
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: secret_postgres_password
+    ports:
+      - "5432:5432"

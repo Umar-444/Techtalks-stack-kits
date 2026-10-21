@@ -1,0 +1,9 @@
+{
+    "name": "techtalks/laravel-mongodb-starter",
+    "type": "project",
+    "require": {
+        "php": "^8.4",
+        "laravel/framework": "^12.0",
+        "mongodb/laravel-mongodb": "^5.0 || ^4.0"
+    }
+}

@@ -5,7 +5,7 @@
     {
       "id": "kit3-task-01",
       "title": "MongoDB Model Inheritance",
-      "instruction": "Models must extend MongoDB\Laravel\Eloquent\Model.",
+      "instruction": "Models must extend MongoDB\\Laravel\\Eloquent\\Model.",
       "assertions": ["Extends MongoDB Eloquent base model"]
     },
     {

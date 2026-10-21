@@ -1,0 +1,28 @@
+rules:
+  - id: php-no-raw-sql-concat
+    patterns:
+      - pattern-either:
+          - pattern: DB::raw("..." . $VAR)
+          - pattern: DB::select("..." . $VAR)
+    message: "Raw SQL concatenation detected. Always use parameter bindings."
+    languages: [php]
+    severity: ERROR
+
+  - id: nosql-no-where-eval
+    patterns:
+      - pattern: $COLLECTION->where('$where', ...)
+    message: "Prohibited MongoDB $where JavaScript operator detected."
+    languages: [php]
+    severity: ERROR
+
+  - id: server-actions-no-unvalidated-mutation
+    patterns:
+      - pattern: |
+          'use server'
+          ...
+          export async function $ACTION($DATA) {
+            ...
+          }
+    message: "Ensure Server Action validates payload with Zod safeParse."
+    languages: [typescript, javascript]
+    severity: WARNING

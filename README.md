@@ -1,108 +1,133 @@
-# UmarTechTalks — techtalks.itsumarfarooq.com
+# TechTalks Stack Kits & Production Security Platform
 
-Official repository for **UmarTechTalks** (`techtalks.itsumarfarooq.com`), a modern static knowledge hub delivering production-grade engineering guides, web application security playbooks, and AI threat defense masterclasses.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![CI Status](https://img.shields.io/badge/CI-Passing-teal.svg)](https://github.com/Umar-444/Techtalks-stack-kits/actions)
+[![Kits Available](https://img.shields.io/badge/Stack%20Kits-4%20Complete%20|%206%20Blueprints-orange)](https://techtalks.itsumarfarooq.com/kits/)
+[![Dialects Supported](https://img.shields.io/badge/Agent%20Dialects-6%20Generated-gold)](https://techtalks.itsumarfarooq.com/kits/)
 
-- **Author:** Umar Farooq (Senior Full-Stack & Security Engineer)
-- **Portfolio & Brand:** [itsumarfarooq.com](https://itsumarfarooq.com)
-- **Email:** [contact@itsumarfarooq.com](mailto:contact@itsumarfarooq.com)
-- **Company:** [Worldwebtree.com](https://worldwebtree.com)
-- **Content Companion Repo:** [github.com/Umar-444/Techtalks-stack-kits](https://github.com/Umar-444/Techtalks-stack-kits)
-- **Socials:** [X (@umartechtalks)](https://x.com/umartechtalks) &bull; [LinkedIn](https://linkedin.com/in/umar444) &bull; [GitHub](https://github.com/umar-444)
+Official open-source repository for **TechTalks** ([techtalks.itsumarfarooq.com](https://techtalks.itsumarfarooq.com/)). A curated monorepo providing tested full-stack project setups pre-wired with AI agent rules, specialized skills, design system tokens, and non-negotiable security guardrails alongside enterprise web security masterclasses.
 
----
-
-## 1. Architecture & Performance Philosophy
-
-This website is engineered for speed, clean reading, and maximum cite-ability by both human developers and AI answer engines (ChatGPT, Perplexity, Claude, Gemini):
-
-- **Zero JS Frameworks:** Pure semantic HTML5 + vanilla JavaScript (`assets/js/main.js`, ~6 KB) for dark mode, code copying, prompt copying, checklist persistence, and FAQ accordions.
-- **Compiled Tailwind CSS:** Pre-compiled and minified into `assets/css/styles.css`. No bloated runtime CDNs. Total page weight under ~150 KB.
-- **Answer-Shaped Content:** Definition-first Quick Answer blocks, Threat Models, [INSECURE] vs [SECURE] code blocks, Prompt Templates, and structured FAQs.
-- **Machine Discovery (AEO):** `robots.txt` explicitly permitting AI crawlers, `llms.txt` summary file, `llms-full.txt` one-shot full text, and rich JSON-LD schemas (`TechArticle`, `Course`, `FAQPage`, `BreadcrumbList`).
+- **Author & Maintainer:** Umar Farooq (Senior Full-Stack & Security Engineer)
+- **Website:** [techtalks.itsumarfarooq.com](https://techtalks.itsumarfarooq.com/)
+- **Kits Hub:** [techtalks.itsumarfarooq.com/kits/](https://techtalks.itsumarfarooq.com/kits/)
+- **Security Masterclass:** [techtalks.itsumarfarooq.com/security/](https://techtalks.itsumarfarooq.com/security/)
+- **Interactive Checklist:** [techtalks.itsumarfarooq.com/security/laravel/checklist.html](https://techtalks.itsumarfarooq.com/security/laravel/checklist.html)
 
 ---
 
-## 2. Site Directory Structure
+## What is a Stack Kit?
 
+A **Stack Kit** is a complete, tested project foundation for one exact technology combination (e.g. Laravel + Filament + PostgreSQL). Unlike generic boilerplate repositories, every kit bundles the **5 Core Plain-Text Primitives**:
+
+1. **Starter Structure (`starter/`):** Clean, working application skeleton with multi-stage Docker Compose and `.env.example`.
+2. **Single-Source Rules (`rules/source/*.md`):** Numbered, topic-focused rules transpiled via `tools/transpiler.py` into native formats for **Cursor**, **Claude Code**, **Codex**, **GitHub Copilot**, **Google Antigravity**, and **Windsurf**.
+3. **Agent Skills (`skills/`):** Reusable workflows conforming to the Anthropics Agent Skills spec (e.g., Filament resource scaffolding, RLS policy authoring).
+4. **Design Tokens (`DESIGN.md`):** Concrete color tokens, typography scales, dark mode guidelines, and WCAG AA contrast standards.
+5. **Non-Negotiable Security (`SECURITY.md`):** Threat models, authorization enforcement on every resource, parameterized SQL, and automated Gitleaks/Semgrep scans.
+6. **Agent Build Steps (`steps/agent-build-steps.md`):** Numbered, sequential agent prompts with self-verification commands.
+
+---
+
+## Stack Kits Status Matrix
+
+| # | Kit Slug | Primary Stack | Status | Dialects Generated |
+|---|---|---|---|---|
+| **01** | `laravel-filament-postgresql` | PHP 8.4 • Laravel 12/13 • Filament 4/3 • PostgreSQL 16+ | **Ready to Clone** | 6 Dialects &check; |
+| **02** | `laravel-livewire-postgresql` | PHP 8.4 • Laravel 12 • Livewire 4 • Flux UI • Volt/Folio | **Ready to Clone** | 6 Dialects &check; |
+| **03** | `laravel-mongodb` | PHP 8.4 • Laravel 12 • MongoDB 7+ • Inertia/React | **Ready to Clone** (Pioneer) | 6 Dialects &check; |
+| **04** | `laravel-mysql` | PHP 8.4 • Laravel 12 • MySQL 8 • Larastan L8 • Pest Arch | Blueprint Spec | Catalog Page &check; |
+| **05** | `nextjs-approuter-supabase` | TypeScript 5 • Next.js 15 (Turbopack) • Supabase RLS • shadcn/ui | **Ready to Clone** | 6 Dialects &check; |
+| **06** | `django-tailwind-postgresql` | Python 3.12+ • Django 5 • django-tailwind • Celery | Blueprint Spec | Catalog Page &check; |
+| **07** | `flask-htmx-sqlite` | Python 3.12+ • Flask 3 • HTMX 2 • Alpine.js | Blueprint Spec | Catalog Page &check; |
+| **08** | `rag-fastapi-qdrant` | Python 3.12+ • FastAPI • Qdrant • LangChain / LlamaIndex | Blueprint Spec | Catalog Page &check; |
+| **09** | `agentic-langgraph-crewai` | Python 3.12+ • LangGraph • CrewAI • Docker Sandbox | Blueprint Spec | Catalog Page &check; |
+| **10** | `reverse-engineering-security` | Python 3.12+ • GhidraMCP • Radare2 • Semgrep AST | Blueprint Spec | Catalog Page &check; |
+
+---
+
+## Monorepo Structure
+
+```text
+.
+├── .github/                     # Issue forms, PR template, CI validation workflow
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug-report.yml
+│   │   └── new-kit-proposal.yml
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── workflows/validate-kits.yml
+├── assets/                      # Compiled CSS, JS filters, branding
+│   ├── css/styles.css
+│   └── js/kits-filter.js
+├── docs/                        # Community documentation & starter issues
+│   └── starter-issues.md
+├── evals/                       # Automated benchmark evaluation suite
+│   ├── runner.py
+│   ├── tasks/
+│   └── README.md
+├── kits/                        # The Stack Kits monorepo
+│   ├── index.html               # Public kits catalog with interactive search
+│   ├── laravel-filament-postgresql/
+│   ├── laravel-livewire-postgresql/
+│   ├── laravel-mongodb/
+│   └── nextjs-approuter-supabase/
+├── security/                    # Production Security Masterclass (22 lessons)
+│   ├── index.html               # Central security hub directory
+│   └── laravel/                 # Laravel & AI security track + interactive checklist
+├── templates/                   # Reusable starting templates for new kits
+│   ├── kit.yaml
+│   ├── AGENTS.md
+│   ├── DESIGN.md
+│   ├── SECURITY.md
+│   ├── SKILL.md
+│   └── README.md
+├── tools/                       # Multi-agent build and validation CLI tools
+│   ├── build_kit_pages.py       # Static kit detail page generator
+│   ├── transpiler.py            # Single-source rules transpiler (6 dialects)
+│   └── validate_manifest.py     # Kit manifest specification validator
+├── CHANGELOG.md                 # Release history
+├── CODE_OF_CONDUCT.md           # Community guidelines
+├── CONTRIBUTING.md              # Contributor onboarding & quality standards
+├── LICENSE                      # MIT License
+├── index.html                   # Platform homepage
+├── llms.txt                     # AI discovery & documentation index
+└── sitemap.xml                  # Search engine index
 ```
-techtalks-site/
-├── index.html                      # UmarTechTalks hub: hero, tracks, author bio, stats
-├── security/
-│   ├── index.html                  # Security Masterclass Hub: tracks & curriculum overview
-│   └── laravel/
-│       ├── index.html              # Track 05: Laravel AI Security landing & syllabus
-│       ├── checklist.html          # Interactive, printable 28-point security checklist
-│       ├── prompt-injection.html   # Lesson 1: Prompt injection boundary defense
-│       ├── llm-api-key-security.html # Lesson 2: API key protection & Redis token budgets
-│       ├── rag-tenant-isolation.html # Lesson 3: pgvector scoped multi-tenant retrieval
-│       ├── agent-tool-sandboxing.html # Lesson 4: Policy gates & Human-in-the-loop tools
-│       ├── pii-redaction.html      # Lesson 5: Reversible PII tokenization (Saudi PDPL)
-│       └── model-output-validation.html # Lesson 6: Second-order injection & JSON Schema
-├── assets/
-│   ├── css/styles.css              # Compiled, minified Tailwind CSS output
-│   ├── js/main.js                  # Vanilla JS for theme, copy buttons, checklists
-│   └── img/                        # Social preview card (1200x630) & brand assets
-├── src/
-│   └── input.css                   # Tailwind source with reusable @apply component classes
-├── tailwind.config.js              # Tailwind configuration & brand tokens
-├── package.json                    # Build script ("build:css")
-├── robots.txt                      # AI & search crawler directives
-├── sitemap.xml                     # Search engine sitemap
-├── llms.txt                        # AI search summary index
-├── llms-full.txt                   # Complete lessons concatenated for AI ingestion
-├── _headers                        # Cloudflare Pages security & cache headers
-├── _redirects                      # Cloudflare Pages clean redirect rules
-├── CNAME                           # Custom domain: techtalks.itsumarfarooq.com
-└── README.md
-```
 
 ---
 
-## 3. Local Development & Building CSS
+## Local Development & CLI Tooling
 
-To compile the Tailwind stylesheet:
-
+### 1. Validate All Kit Manifests
 ```bash
-# Install dependencies
+python tools/validate_manifest.py kits/laravel-filament-postgresql/kit.yaml
+```
+
+### 2. Transpile Rules into 6 Agent Formats
+```bash
+# Transpile single-source rules into Cursor, Claude, Codex, Copilot, Antigravity, Windsurf
+python tools/transpiler.py --kit kits/laravel-filament-postgresql
+
+# Verify zero rule drift (enforced in CI)
+python tools/transpiler.py --kit kits/laravel-filament-postgresql --check
+```
+
+### 3. Run Benchmark Evaluations
+```bash
+python evals/runner.py
+```
+
+### 4. Build Website CSS & Showcase Pages
+```bash
 npm install
-
-# Compile and minify CSS
 npm run build:css
-
-# Watch for changes during development
-npx tailwindcss -i ./src/input.css -o ./assets/css/styles.css --watch
+python tools/build_kit_pages.py
 ```
 
 ---
 
-## 4. Hosting & Deployment Guide
+## Contributing
+We welcome new kit proposals, skills, and rule improvements! Please review [CONTRIBUTING.md](CONTRIBUTING.md) and pick an issue labeled `good first issue` in [docs/starter-issues.md](docs/starter-issues.md).
 
-### Recommended: Cloudflare Pages
-
-1. Push this repository to GitHub (`techtalks-site`).
-2. Go to **dash.cloudflare.com** &rarr; **Workers & Pages** &rarr; **Create application** &rarr; **Pages** &rarr; **Connect to Git**.
-3. Build Configuration:
-   - **Framework preset:** `None`
-   - **Build command:** `npm run build:css` (or leave empty if committing compiled CSS)
-   - **Build output directory:** `/` (root directory)
-4. Go to **Custom domains** &rarr; **Set up a custom domain** &rarr; enter `techtalks.itsumarfarooq.com`.
-5. Add the following single DNS record in Namecheap (Advanced DNS for `itsumarfarooq.com`):
-   - **Type:** `CNAME`
-   - **Host:** `techtalks`
-   - **Value:** `techtalks-site.pages.dev` (the hostname Cloudflare provides)
-   - **TTL:** `Automatic`
-
-### Fallback: GitHub Pages
-
-1. In repository **Settings** &rarr; **Pages** &rarr; Deploy from branch `main` / `root`.
-2. The included `CNAME` file automatically binds `techtalks.itsumarfarooq.com`.
-3. Add the CNAME record in Namecheap pointing `techtalks` to `umar-444.github.io`.
-4. Tick **Enforce HTTPS** once the SSL certificate issues.
-
----
-
-## 5. Editorial Standards & Honesty Rules
-
-- **Entity Uniformity:** Umar Farooq is consistently presented as a Senior Full-Stack & Security Engineer with **5+ years** of production experience across all pages, bios, and structured schema markup.
-- **Accurate Claims:** Zero fabricated metrics or vanity metrics. All code examples are verified against modern PHP 8.4 and Laravel 13 standards.
-- **Independent Entity:** Clearly labeled: *"Not affiliated with Laravel or Taylor Otwell."*
+## License
+Open-source under the [MIT License](LICENSE). &copy; 2026 Umar Farooq.
+Not affiliated with Laravel LLC, Filament, Anthropic, or OpenAI.

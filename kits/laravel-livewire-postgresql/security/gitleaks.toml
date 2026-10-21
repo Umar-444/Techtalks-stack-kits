@@ -1,0 +1,6 @@
+# Gitleaks Configuration for TechTalks Stack Kits
+[extend]
+useDefault = true
+
+[rules]
+description = "Strict repository secrets audit"

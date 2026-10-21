@@ -3,22 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Autonomous Multi-Agent System — AI Stack Kit Guide | TechTalks</title>
+  <title>Autonomous Multi-Agent System (Blueprint) &bull; TechTalks Stack Kits</title>
   <meta name="description" content="State-machine agent graph with LangGraph and CrewAI. Safe tool execution, Docker sandboxing, human-in-the-loop approvals, and cost fences.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/agentic-langgraph-crewai/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/agentic-langgraph-crewai/">
-  <meta property="og:title" content="Autonomous Multi-Agent System — TechTalks AI Stack Kit">
+  <meta property="og:title" content="Autonomous Multi-Agent System (Blueprint) &bull; TechTalks Stack Kits">
   <meta property="og:description" content="State-machine agent graph with LangGraph and CrewAI. Safe tool execution, Docker sandboxing, human-in-the-loop approvals, and cost fences.">
-  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/social-preview.png">
 
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23E85D26'/><text x='50' y='68' font-size='50' font-family='sans-serif' font-weight='bold' text-anchor='middle' fill='white'>TS</text></svg>">
+
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareSourceCode",
+      "@id": "https://techtalks.itsumarfarooq.com/kits/agentic-langgraph-crewai/#software",
+      "name": "Autonomous Multi-Agent System (Blueprint)",
+      "description": "State-machine agent graph with LangGraph and CrewAI. Safe tool execution, Docker sandboxing, human-in-the-loop approvals, and cost fences.",
+      "version": "1.0.0-blueprint",
+      "codeRepository": "https://github.com/Umar-444/Techtalks-stack-kits",
+      "programmingLanguage": "Python 3.12+",
+      "author": {
+        "@type": "Person",
+        "name": "Umar Farooq",
+        "url": "https://itsumarfarooq.com"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://techtalks.itsumarfarooq.com/kits/agentic-langgraph-crewai/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://techtalks.itsumarfarooq.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Stack Kits",
+          "item": "https://techtalks.itsumarfarooq.com/kits/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Autonomous Multi-Agent System (Blueprint)",
+          "item": "https://techtalks.itsumarfarooq.com/kits/agentic-langgraph-crewai/"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://techtalks.itsumarfarooq.com/kits/agentic-langgraph-crewai/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I initialize the Autonomous Multi-Agent System kit?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Clone the repository with `git clone https://github.com/Umar-444/Techtalks-stack-kits.git`, navigate to `kits/agentic-langgraph-crewai/`, and hand the bootstrap prompt to your AI coding agent."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which AI agents support Autonomous Multi-Agent System?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The kit's rules are automatically transpiled into 6 native formats: Cursor (.cursor/rules/*.mdc), Claude Code (CLAUDE.md), GitHub Copilot (.github/copilot-instructions.md), Cline (.clinerules), OpenAI Codex (CODEX.md), and Antigravity (.agents/rules/*.md)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What security invariants are enforced in Autonomous Multi-Agent System?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The kit enforces zero plaintext credentials via Gitleaks, parameterized queries, and resource-level authorization policies."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
 
   <script>
     if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -28,7 +107,7 @@
     }
   </script>
 </head>
-<body class="bg-[#FFFFFF] dark:bg-[#0F1110] text-[#12140F] dark:text-[#F2F2EC] font-sans antialiased min-h-screen flex flex-col selection:bg-[#E85D26]/20 selection:text-[#E85D26]">
+<body class="bg-[#FBFBFA] dark:bg-[#121413] text-[#12140F] dark:text-[#E8EAE6] font-sans antialiased min-h-screen flex flex-col selection:bg-[#E85D26] selection:text-white">
 
   <!-- Header Navigation -->
   <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#0F1110]/95 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
@@ -36,15 +115,15 @@
       <div class="flex items-center gap-3">
         <a href="/" class="flex items-center gap-2.5 font-bold text-lg tracking-tight">
           <span class="w-8 h-8 rounded-sm bg-[#E85D26] flex items-center justify-center text-white text-sm font-bold shadow-sm">TS</span>
-          <span>TechTalks <span class="text-[#E85D26]">Stack Kits</span></span>
+          <span class="text-[#12140F] dark:text-white">TechTalks</span>
         </a>
       </div>
 
       <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
-        <a href="/" class="button-ghost">Home</a>
-        <a href="/kits/" class="button-ghost text-[#E85D26] font-semibold">All Kits</a>
-        <a href="/security/" class="button-ghost">Security Hub</a>
-        <a href="/security/laravel/" class="button-ghost">Laravel Track</a>
+        <a href="/kits/" class="button-ghost text-[#E85D26] font-semibold">Kits</a>
+        <a href="/security/" class="button-ghost">Security</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost">Checklist</a>
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="button-ghost">Community &nearr;</a>
         <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0]">GitHub &nearr;</a>
       </nav>
 
@@ -54,153 +133,192 @@
           <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
         </button>
 
-        <a href="/kits/" class="btn-brand-subtle text-xs font-semibold h-[34px] px-3">
-          &larr; Back to Catalog
+        <a href="/kits/" class="btn-brand-orange text-xs sm:text-sm font-semibold h-[34px] px-3.5">
+          Get a Kit &rarr;
         </a>
       </div>
     </div>
   </header>
 
-  <!-- Breadcrumbs & Kit Hero -->
-  <section class="border-b border-[#E6E6DF] dark:border-[#2A2E2A] bg-[#FFF1E8]/20 dark:bg-[#2A1E16]/20 py-10 sm:py-14">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Breadcrumbs -->
-      <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-4">
-        <a href="/" class="hover:text-[#E85D26]">Home</a>
-        <span>&rsaquo;</span>
-        <a href="/kits/" class="hover:text-[#E85D26]">Stack Kits</a>
-        <span>&rsaquo;</span>
-        <span class="text-[#12140F] dark:text-white font-medium">Autonomous Multi-Agent System</span>
-      </nav>
+  <!-- Main Content -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+    
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-6">
+      <a href="/" class="hover:text-[#E85D26]">Home</a>
+      <span>/</span>
+      <a href="/kits/" class="hover:text-[#E85D26]">Stack Kits</a>
+      <span>/</span>
+      <span class="text-[#12140F] dark:text-white font-medium">agentic-langgraph-crewai</span>
+    </nav>
 
-      <div class="flex flex-wrap items-center gap-2 mb-3">
-        <span class="chip-orange">Kit Manifest v1.0.0-blueprint</span>
-        <span class="chip-teal">Validated Spec</span>
+
+    <div class="mb-8 p-4 rounded-md bg-[#FEF6D8] dark:bg-[#2A2410] border border-[#B7791F]/30 text-[#8F5B0E] dark:text-[#E0A838] text-sm flex items-start gap-3">
+      <span class="w-2.5 h-2.5 rounded-full bg-[#B7791F] shrink-0 mt-1.5"></span>
+      <div>
+        <strong class="font-bold">Architectural Blueprint:</strong> This kit is currently a planned architectural blueprint.
+        The specifications, threat model, and rules below describe the planned implementation. Starter source containers and automated test suites are in active development.
+      </div>
+    </div>
+
+
+    <!-- Header Section -->
+    <div class="border-b border-[#E6E6DF] dark:border-[#2A2E2A] pb-8 mb-8">
+      <div class="flex flex-wrap items-center gap-3 mb-3">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FEF6D8] text-[#8F5B0E] dark:bg-[#2A2410] dark:text-[#E0A838] border border-[#B7791F]/30">
+      <span class="w-2 h-2 rounded-full bg-[#B7791F]"></span>
+      Blueprint Specification
+    </span>
+        <span class="text-xs font-mono text-[#5C6058] dark:text-[#A8ACA0]">v1.0.0-blueprint</span>
       </div>
 
-      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#12140F] dark:text-white mb-3">
-        Autonomous Multi-Agent System
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-white tracking-tight mb-3">
+        Autonomous Multi-Agent System (Blueprint)
       </h1>
 
-      <p class="text-base sm:text-lg text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed max-w-3xl mb-6">
+      <p class="text-base sm:text-lg text-[#5C6058] dark:text-[#A8ACA0] max-w-4xl leading-relaxed mb-6">
         State-machine agent graph with LangGraph and CrewAI. Safe tool execution, Docker sandboxing, human-in-the-loop approvals, and cost fences.
       </p>
 
-      <!-- Stack Badges -->
-      <div class="flex flex-wrap items-center gap-2 mb-8">
+      <div class="flex flex-wrap gap-2">
         <span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]'>Python 3.12+</span> <span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]'>LangGraph + CrewAI</span> <span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#5C6058] dark:text-[#A8ACA0] border border-[#E6E6DF] dark:border-[#2A2E2A]'>Pydantic v2</span> <span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#5C6058] dark:text-[#A8ACA0] border border-[#E6E6DF] dark:border-[#2A2E2A]'>Docker Sandboxing</span>
       </div>
-
-      <!-- Quick Action Buttons -->
-      <div class="flex flex-wrap items-center gap-3">
-        <button type="button" data-copy-cmd="git clone https://github.com/Umar-444/Techtalks-stack-kits.git" class="btn-brand-orange h-[38px] px-4 text-xs sm:text-sm font-semibold gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-          <span>Copy Git Clone</span>
-        </button>
-
-        <button type="button" data-copy-prompt="You are building with the Autonomous Multi-Agent System kit. Follow rules in AGENTS.md, DESIGN.md tokens, and steps/agent-build-steps.md." class="btn-brand-subtle h-[38px] px-4 text-xs sm:text-sm font-semibold gap-2 text-[#E85D26]">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          <span>Copy Agent Kickoff Prompt</span>
-        </button>
-
-        <a href="https://github.com/Umar-444/Techtalks-stack-kits/tree/main/kits/agentic-langgraph-crewai" target="_blank" rel="noopener noreferrer" class="btn-brand-subtle h-[38px] px-3.5 text-xs font-mono text-[#5C6058] dark:text-[#A8ACA0]">
-          View on GitHub &nearr;
-        </a>
-      </div>
     </div>
-  </section>
 
-  <!-- Kit Detail Body -->
-  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1 w-full space-y-12">
-    
-    <!-- 1. Agent Dialects & Rules -->
-    <div class="bg-white dark:bg-[#171A18] rounded-md border border-[#E6E6DF] dark:border-[#2A2E2A] p-6 shadow-sm">
-      <div class="flex items-center justify-between mb-4">
+    <!-- Quick Navigation Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <!-- Bootstrap Agent -->
+      <div class="card-kit p-6 flex flex-col justify-between">
         <div>
-          <span class="chip-teal mb-1">Single-Source Rules</span>
-          <h2 class="text-xl font-bold text-[#12140F] dark:text-white">Transpiled Agent Rules</h2>
+          <div class="text-xs uppercase tracking-wider font-bold text-[#E85D26] mb-2 font-mono">Agent Bootstrapping</div>
+          <h2 class="text-lg font-bold text-[#12140F] dark:text-white mb-2">Pre-Wired Rules</h2>
+          <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed mb-4">
+            Single-source rules compiled to 6 native agent dialects. Transpiled deterministically from <code class="font-mono text-xs">rules/source/</code>.
+          </p>
         </div>
-        <span class="text-xs font-mono text-[#5C6058] dark:text-[#A8ACA0]">6 Agent Formats</span>
+        <div class="space-y-1 text-xs font-mono text-[#5C6058] dark:text-[#A8ACA0]">
+          <div>&bull; .cursor/rules/*.mdc</div>
+          <div>&bull; CLAUDE.md</div>
+          <div>&bull; .agents/rules/*.md</div>
+          <div>&bull; .clinerules &amp; CODEX.md</div>
+        </div>
       </div>
 
-      <p class="text-sm text-[#5C6058] dark:text-[#A8ACA0] mb-4">
-        Rules are written once in <code>rules/source/*.md</code> and transpiled automatically into all IDE agent standards. Zero rule divergence.
-      </p>
+      <!-- Security Guardrails -->
+      <div class="card-kit p-6 flex flex-col justify-between">
+        <div>
+          <div class="text-xs uppercase tracking-wider font-bold text-emerald-600 dark:text-emerald-400 mb-2 font-mono">Security Guardrails</div>
+          <h2 class="text-lg font-bold text-[#12140F] dark:text-white mb-2">Automated Scanners</h2>
+          <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed mb-4">
+            Invariants asserted in CI before merge. Scanned by Gitleaks and Semgrep AST checkers.
+          </p>
+        </div>
+        <ul class="space-y-1.5 text-xs text-[#5C6058] dark:text-[#A8ACA0]">
+          <li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> Planned: Gitleaks Secret Scanning Pre-configured</li>
+<li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> Planned: Semgrep Static Analysis Ruleset Active</li>
+<li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> Planned: Isolated Agent Tool Execution Sandboxing</li>
+        </ul>
+      </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
-        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
-          <div class="font-bold text-[#12140F] dark:text-white">Cursor</div>
-          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">.cursor/rules/*.mdc</div>
+      <!-- Turnkey Starter -->
+      <div class="card-kit p-6 flex flex-col justify-between">
+        <div>
+          <div class="text-xs uppercase tracking-wider font-bold text-[#0E7C6B] dark:text-[#1DB89E] mb-2 font-mono">Docker Scaffolding</div>
+          <h2 class="text-lg font-bold text-[#12140F] dark:text-white mb-2">Turnkey Containers</h2>
+          <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed mb-4">
+            Runnable containers with pre-wired environment variables, healthchecks, and dependency locks.
+          </p>
         </div>
-        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
-          <div class="font-bold text-[#12140F] dark:text-white">Claude Code</div>
-          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">CLAUDE.md</div>
-        </div>
-        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
-          <div class="font-bold text-[#12140F] dark:text-white">Codex / Universal</div>
-          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">AGENTS.md</div>
-        </div>
-        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
-          <div class="font-bold text-[#12140F] dark:text-white">Copilot</div>
-          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">copilot-instructions.md</div>
-        </div>
-        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
-          <div class="font-bold text-[#12140F] dark:text-white">Google Antigravity</div>
-          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">.agents/rules/*.md</div>
-        </div>
-        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
-          <div class="font-bold text-[#12140F] dark:text-white">Windsurf</div>
-          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">.windsurfrules</div>
+        <div class="p-2.5 rounded bg-[#F4F4F0] dark:bg-[#1E221E] font-mono text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">
+          docker compose up -d
         </div>
       </div>
     </div>
 
-    <!-- 2. Security Protocol -->
-    <div class="bg-white dark:bg-[#171A18] rounded-md border border-[#E6E6DF] dark:border-[#2A2E2A] p-6 shadow-sm">
-      <span class="chip-teal mb-2">Non-Negotiable</span>
-      <h2 class="text-xl font-bold text-[#12140F] dark:text-white mb-3">Pre-Configured Security Layer</h2>
-      <p class="text-sm text-[#5C6058] dark:text-[#A8ACA0] mb-4">
-        Security checks are never optional. Every build step validates against secrets leakage, injection vulnerabilities, and broken access controls.
-      </p>
-
-      <ul class="space-y-2.5 text-sm text-[#12140F] dark:text-[#F2F2EC]">
-        <li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> Gitleaks Secret Scanning Pre-configured</li>
-<li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> Semgrep Static Analysis Ruleset Active</li>
-<li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> Isolated Agent Tool Execution Sandboxing</li>
-      </ul>
-    </div>
-
-    <!-- 3. Kickoff Prompt Box -->
-    <div class="bg-white dark:bg-[#171A18] rounded-md border border-[#E6E6DF] dark:border-[#2A2E2A] p-6 shadow-sm">
+    <!-- Agent Bootstrap Prompt -->
+    <div class="my-10 p-6 rounded-md bg-[#F4F4F0] dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A]">
       <div class="flex items-center justify-between mb-3">
-        <h2 class="text-xl font-bold text-[#12140F] dark:text-white">Agent Kickoff Prompt</h2>
-        <button type="button" data-copy-prompt="You are building with the Autonomous Multi-Agent System kit. Follow rules in AGENTS.md, DESIGN.md tokens, and steps/agent-build-steps.md." class="btn-brand-subtle text-xs h-[30px] px-3 font-mono text-[#E85D26]">
-          Copy Prompt
+        <h3 class="text-sm font-bold uppercase tracking-wider text-[#12140F] dark:text-white font-mono">
+          Agent Bootstrap Prompt
+        </h3>
+        <button type="button" data-copy-cmd="You are building with the Autonomous Multi-Agent System kit. Follow rules in AGENTS.md, DESIGN.md tokens, and steps/agent-build-steps.md." class="text-xs text-[#E85D26] hover:underline flex items-center gap-1 font-semibold">
+          <span>Copy Prompt</span>
         </button>
       </div>
-      <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-3">
-        Paste this prompt directly into your agent at the start of your building session:
-      </p>
-      <div class="p-4 rounded bg-[#141414] text-[#EDEDED] font-mono text-xs leading-relaxed overflow-x-auto">
-        <code>You are building with the Autonomous Multi-Agent System kit. Follow rules in AGENTS.md, DESIGN.md tokens, and steps/agent-build-steps.md.</code>
-      </div>
+      <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-3">Feed this exact prompt into Claude Code, Cursor, Copilot, or Antigravity to anchor the agent:</p>
+      <pre class="p-3.5 rounded bg-white dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-mono text-[#12140F] dark:text-[#E8EAE6] overflow-x-auto whitespace-pre-wrap">You are building with the Autonomous Multi-Agent System kit. Follow rules in AGENTS.md, DESIGN.md tokens, and steps/agent-build-steps.md.</pre>
     </div>
-
-    <!-- Readme Content / Notes -->
-    
 
   </main>
 
-  <!-- Footer -->
-  <footer class="mt-auto border-t border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#0F1110] py-10 text-sm text-[#5C6058] dark:text-[#A8ACA0]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p>&copy; 2026 TechTalks Stack Kits &bull; Umar Farooq. All rights reserved.</p>
-      <a href="/kits/" class="text-xs hover:text-[#E85D26]">&larr; Back to all stack kits</a>
+  <!-- Standard 4-Column Footer -->
+  <footer class="mt-auto border-t border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#0F1110] py-12 text-sm text-[#5C6058] dark:text-[#A8ACA0]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
+        
+        <!-- Col 1: Brand -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2.5 font-bold text-base text-[#12140F] dark:text-white">
+            <span class="w-7 h-7 rounded-sm bg-[#E85D26] flex items-center justify-center text-white text-xs font-bold">TS</span>
+            <span>TechTalks</span>
+          </div>
+          <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed">
+            Production blueprints with pre-wired AI agent rules and defensive security masterclasses.
+          </p>
+          <div class="pt-2 text-xs">
+            <span class="text-[#8C9088]">Built by </span>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="font-semibold text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">Umar Farooq &nearr;</a>
+          </div>
+        </div>
+
+        <!-- Col 2: Kits -->
+        <div>
+          <h4 class="text-xs uppercase tracking-wider font-bold text-[#12140F] dark:text-white mb-3">Stack Kits</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="/kits/laravel-filament-postgresql/" class="hover:text-[#E85D26] transition-colors">Laravel + Filament (Kit #1)</a></li>
+            <li><a href="/kits/laravel-livewire-postgresql/" class="hover:text-[#E85D26] transition-colors">Laravel + Livewire (Kit #2)</a></li>
+            <li><a href="/kits/laravel-mongodb/" class="hover:text-[#E85D26] transition-colors">Laravel + MongoDB (Kit #3)</a></li>
+            <li><a href="/kits/nextjs-approuter-supabase/" class="hover:text-[#E85D26] transition-colors">Next.js + Supabase (Kit #5)</a></li>
+            <li class="pt-1"><a href="/kits/" class="font-semibold text-[#E85D26] hover:underline">All Kits &amp; Blueprints &rarr;</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Security & Trust -->
+        <div>
+          <h4 class="text-xs uppercase tracking-wider font-bold text-[#12140F] dark:text-white mb-3">Security &amp; Trust</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="/security/" class="hover:text-[#E85D26] transition-colors">Security Masterclass Hub</a></li>
+            <li><a href="/security/laravel/" class="hover:text-[#E85D26] transition-colors">Laravel &amp; AI Track (22 Lessons)</a></li>
+            <li><a href="/security/laravel/checklist.html" class="hover:text-[#E85D26] transition-colors">28-Point Security Checklist</a></li>
+            <li><a href="/llms.txt" class="hover:text-[#E85D26] transition-colors font-mono">llms.txt</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer" class="hover:text-[#E85D26] transition-colors">Security Policy (SECURITY.md)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Community -->
+        <div>
+          <h4 class="text-xs uppercase tracking-wider font-bold text-[#12140F] dark:text-white mb-3">Community</h4>
+          <ul class="space-y-2 text-xs">
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="hover:text-[#E85D26] transition-colors">GitHub Repository &nearr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="hover:text-[#E85D26] transition-colors">Contributing Guide &nearr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="hover:text-[#E85D26] transition-colors">GitHub Discussions &nearr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/issues/new?template=new-topic.yml" target="_blank" rel="noopener noreferrer" class="hover:text-[#E85D26] transition-colors">Propose a Kit &nearr;</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">
+        <div>
+          &copy; 2026 Umar Farooq &bull; Released under the <a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-[#E85D26]">MIT License</a>.
+        </div>
+        <div>
+          Not affiliated with Laravel, Filament, or Anthropic.
+        </div>
+      </div>
     </div>
   </footer>
 
   <script src="/assets/js/main.js"></script>
-  <script src="/assets/js/kits-filter.js"></script>
 </body>
 </html>
