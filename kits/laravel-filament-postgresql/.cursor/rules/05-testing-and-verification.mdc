@@ -1,0 +1,21 @@
+---
+description: Unit, feature, and architectural boundary testing standards.
+globs: ['tests/**/*.php']
+alwaysApply: true
+---
+
+# Pest Testing & Architecture Assertions
+
+# 05 — Pest Testing & Architecture Assertions
+
+1. **Pest PHP Conventions:**
+   - Write tests using Pest's functional test syntax (`it('does something', function() { ... });`).
+   - Use strict assertions (`expect($val)->toBe(...)`).
+
+2. **Architecture Assertions (Arch Tests):**
+   - Assert that `App\Http\Controllers` does not depend on `Illuminate\Support\Facades\DB`.
+   - Assert that no debugging functions (`dd`, `dump`, `ray`, `var_dump`) remain in code.
+   - Assert that all models have proper type hints and fillable/guarded declarations.
+
+3. **Database Test Isolation:**
+   - Use `RefreshDatabase` or `LazilyRefreshDatabase` trait for database feature tests.

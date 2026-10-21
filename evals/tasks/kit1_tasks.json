@@ -1,0 +1,41 @@
+{
+  "kit_slug": "laravel-filament-postgresql",
+  "name": "Laravel 12/13 + Filament 4/3 + PostgreSQL",
+  "eval_tasks": [
+    {
+      "id": "kit1-task-01",
+      "title": "Filament Panel SPA Configuration",
+      "instruction": "Configure the admin panel provider with SPA mode and custom color palette tokens matching DESIGN.md.",
+      "assertions": [
+        "AdminPanelProvider.php contains ->spa()",
+        "Primary color mapped to #E85D26"
+      ]
+    },
+    {
+      "id": "kit1-task-02",
+      "title": "UUID Model & PostgreSQL Schema",
+      "instruction": "Ensure User model implements HasUuids trait and migration defines UUID primary key.",
+      "assertions": [
+        "User model uses HasUuids",
+        "Migration defines $table->uuid('id')->primary()"
+      ]
+    },
+    {
+      "id": "kit1-task-03",
+      "title": "BOLA Authorization Policy",
+      "instruction": "Every model mutation must verify user permissions via policy check.",
+      "assertions": [
+        "Policy denies unauthorized update/delete",
+        "Superadmin bypass configured in Gate::before"
+      ]
+    },
+    {
+      "id": "kit1-task-04",
+      "title": "Pest Architecture Test",
+      "instruction": "Enforce that controllers do not directly call DB facade.",
+      "assertions": [
+        "tests/ArchTest.php contains expect('App\\Http\\Controllers')->not->toUse('DB')"
+      ]
+    }
+  ]
+}

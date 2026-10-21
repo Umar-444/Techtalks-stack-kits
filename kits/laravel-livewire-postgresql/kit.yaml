@@ -1,0 +1,108 @@
+# TechTalks Stack Kit Manifest Spec
+schema_version: "1.0.0"
+
+name: "Laravel 12 + Livewire 4 + PostgreSQL"
+slug: "laravel-livewire-postgresql"
+version: "1.0.0"
+status: "stable"
+updated_at: "2026-10-21"
+
+description: "Reactive full-stack TALL stack kit featuring Livewire 4, Volt single-file components, Folio page routing, Flux UI design tokens, Fortify authentication, and PostgreSQL 16+."
+
+maintainer:
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
+stack:
+  language:
+    name: "PHP"
+    version: "^8.4"
+    registry: "packagist"
+  framework:
+    name: "Laravel"
+    version: "^12.0"
+    registry: "packagist"
+  ui_layer:
+    name: "Livewire 4 + Flux UI"
+    version: "^4.0"
+    type: "reactive-components"
+  database:
+    engine: "PostgreSQL"
+    version: ">=16.0"
+    features:
+      - "uuid-ossp"
+      - "jsonb"
+  cache_queue:
+    engine: "Redis"
+    version: ">=7.0"
+  auth_system:
+    type: "laravel-fortify"
+    features:
+      - "2FA WebAuthn"
+      - "Session Regeneration"
+
+layers:
+  starter:
+    path: "starter/"
+    type: "monolithic-app"
+  rules:
+    source_dir: "rules/source/"
+    generated_targets:
+      - "AGENTS.md"
+      - "CLAUDE.md"
+      - ".cursor/rules/*.mdc"
+      - ".github/copilot-instructions.md"
+      - ".agents/rules/*.md"
+      - ".windsurfrules"
+  skills:
+    dir: "skills/"
+    manifest:
+      - id: "flux-component"
+        path: "skills/flux-component/SKILL.md"
+        description: "Scaffold Flux UI reactive components with Volt single-file structure."
+  design:
+    path: "DESIGN.md"
+    theme_support:
+      - "light"
+      - "dark"
+    wcag_compliance: "AA"
+  security:
+    config_dir: "security/"
+    checks:
+      - "semgrep"
+      - "gitleaks"
+      - "rules-backdoor-check"
+  steps:
+    path: "steps/agent-build-steps.md"
+    total_steps: 8
+
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+    prompt_injection_boundary_nonces: true
+  badges:
+    - name: "Zero Plaintext Credentials"
+      status: "verified"
+    - name: "OWASP Top 10 Guardrails"
+      status: "verified"
+
+install:
+  clone_command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git --depth 1"
+  quickstart: "cd kits/laravel-livewire-postgresql && cp .env.example .env && composer install && php artisan migrate"
+
+agent_bootstrap_prompt: |
+  You are an expert engineer building with the TechTalks "laravel-livewire-postgresql" kit.
+  Adhere strictly to:
+  1. Livewire 4 and Volt single-file components.
+  2. Use #[Locked] attributes on all non-editable component properties.
+  3. Apply Flux UI tokens and maintain WCAG AA contrast.
+  4. Enforce Policy authorization on all Livewire mutations.

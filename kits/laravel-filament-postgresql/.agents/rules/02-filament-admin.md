@@ -1,0 +1,18 @@
+# Filament 4/3 Admin Panel Architecture
+
+# 02 — Filament 4/3 Admin Panel Architecture
+
+1. **Single-Page Application (SPA) Mode:**
+   - The Filament panel provider must be configured with `->spa()` for fluid Livewire client transitions.
+
+2. **Resource Organization & Navigation:**
+   - Structure navigation by business job functions, not database table names.
+   - Always define an icon (`heroicon-o-...`) and navigation sort order for every resource.
+
+3. **Table & Form Standards:**
+   - Tables must define searchable and sortable columns explicitly.
+   - Every form field must define client and server validation matching database constraints.
+   - Bulk actions must require confirmation modals explaining the impact of the action.
+
+4. **Authorization on Resources:**
+   - Every Filament Resource must bind to a model policy using `canViewAny()`, `canCreate()`, `canEdit()`, `canDelete()`.

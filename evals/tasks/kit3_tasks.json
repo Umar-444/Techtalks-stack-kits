@@ -1,0 +1,18 @@
+{
+  "kit_slug": "laravel-mongodb",
+  "name": "Laravel 12 + MongoDB (NoSQL)",
+  "eval_tasks": [
+    {
+      "id": "kit3-task-01",
+      "title": "MongoDB Model Inheritance",
+      "instruction": "Models must extend MongoDB\Laravel\Eloquent\Model.",
+      "assertions": ["Extends MongoDB Eloquent base model"]
+    },
+    {
+      "id": "kit3-task-02",
+      "title": "NoSQL Injection Defense",
+      "instruction": "Ensure raw $where operators are strictly prohibited.",
+      "assertions": ["Zero usage of $where operator in queries"]
+    }
+  ]
+}

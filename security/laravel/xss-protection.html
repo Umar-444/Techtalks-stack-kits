@@ -88,27 +88,28 @@
 }
   </script>
 </head>
-<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+<body class="bg-[#FFFFFF] dark:bg-[#0F1110] text-[#12140F] dark:text-[#F2F2EC] font-sans antialiased min-h-screen flex flex-col selection:bg-[#E85D26]/20 selection:text-[#E85D26]">
 
   <!-- Reading Progress Bar -->
   <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
-    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+    <div id="reading-progress-bar" class="h-full bg-[#E85D26] w-0 transition-all duration-75"></div>
   </div>
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#0F1110]/95 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
-        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
-        <span>Umar<span class="text-primary">TechTalks</span></span>
-      </a>
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg tracking-tight">
+          <span class="w-8 h-8 rounded-sm bg-[#E85D26] flex items-center justify-center text-white text-sm font-bold shadow-sm">TS</span>
+          <span>TechTalks <span class="text-[#E85D26]">Platform</span></span>
+        </a>
 
       <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
-        <a href="/" class="button-ghost ">Home</a>
-        <a href="/security/" class="button-ghost ">Security Hub</a>
-        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
-        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
-        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+        <a href="/" class="button-ghost">Home</a>
+        <a href="/kits/" class="button-ghost text-[#E85D26] font-semibold bg-[#FFF1E8]/60 dark:bg-[#2A1E16]/60">Stack Kits <span class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-[#E85D26] text-white font-mono">10</span></a>
+        <a href="/security/" class="button-ghost">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost">Checklist</a>
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0]">GitHub &nearr;</a>
       </nav>
 
       <div class="flex items-center gap-2.5">
@@ -117,7 +118,7 @@
           <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
         </button>
 
-        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="btn-brand-orange text-xs hidden sm:inline-flex gap-1.5 items-center">
           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           <span>Star on GitHub</span>
         </a>
@@ -127,12 +128,12 @@
 
   <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-primary transition-colors">Home</a>
+    <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-[#E85D26] transition-colors">Home</a>
       <span>/</span>
-      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <a href="/security/" class="hover:text-[#E85D26] transition-colors">Security Hub</a>
       <span>/</span>
-      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <a href="/security/laravel/" class="hover:text-[#E85D26] transition-colors">Laravel Track</a>
       <span>/</span>
       <span class="text-ink dark:text-white font-medium">XSS Protection</span>
     </nav>
@@ -140,13 +141,13 @@
     <!-- Lesson Header -->
     <div class="mb-8">
       <div class="flex flex-wrap items-center gap-2 mb-3">
-        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 03</span>
-        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 08</span>
+        <span class="chip-gold text-xs px-2.5 py-0.5">Track 03</span>
+        <span class="chip-teal text-xs px-2.5 py-0.5">Lesson 08</span>
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
         XSS Protection
       </h1>
-      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+      <div class="flex items-center gap-3 text-xs text-[#5C6058] dark:text-[#A8ACA0] mt-3">
         <span>Curated by Umar Farooq</span>
         <span>&bull;</span>
         <span>10 min read</span>
@@ -164,9 +165,9 @@
     <!-- Content -->
     <div class="lesson-content my-8">
       <h1>XSS Protection</h1>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">What is XSS?</h2>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Cross-Site Scripting (XSS) is a client-side code injection attack where an attacker executes malicious scripts in a victim's browser. XSS allows attackers to:</p>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">What is XSS?</h2>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Cross-Site Scripting (XSS) is a client-side code injection attack where an attacker executes malicious scripts in a victim's browser. XSS allows attackers to:</p>
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li><strong>Steal cookies and session tokens</strong></li>
 <li><strong>Deface websites</strong></li>
 <li><strong>Redirect users to malicious sites</strong></li>
@@ -175,18 +176,18 @@
 <li><strong>Spread malware and exploits</strong></li>
 </ul>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">XSS Attack Impact</h3>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li><strong>Session hijacking</strong> through cookie theft</li>
 <li><strong>Identity theft</strong> via credential harvesting</li>
 <li><strong>Data breach</strong> through keylogging</li>
 <li><strong>Website defacement</strong> and reputation damage</li>
 <li><strong>Malware distribution</strong> to site visitors</li>
 </ul>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Types of XSS Attacks</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Types of XSS Attacks</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Reflected XSS (Non-Persistent)</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Attack script is reflected back to the user in the response from the server.</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Attack script is reflected back to the user in the response from the server.</p>
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">How it works:</h4>
-<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<ol class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-decimal list-inside">
 <li>Attacker crafts malicious URL with script</li>
 <li>Victim clicks link or visits page</li>
 <li>Server reflects script in response</li>
@@ -195,7 +196,7 @@
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Example:</h4>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <span class="chip-orange font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-php">// VULNERABLE: Direct output of user input
@@ -207,9 +208,9 @@ echo &quot;&lt;h1&gt;Welcome, {$name}!&lt;/h1&gt;&quot;;
 </code></pre>
 </div>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. Stored XSS (Persistent)</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Attack script is permanently stored on the target server.</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Attack script is permanently stored on the target server.</p>
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">How it works:</h4>
-<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<ol class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-decimal list-inside">
 <li>Attacker submits malicious script to server</li>
 <li>Server stores script in database</li>
 <li>Victim views page with stored script</li>
@@ -219,7 +220,7 @@ echo &quot;&lt;h1&gt;Welcome, {$name}!&lt;/h1&gt;&quot;;
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Example:</h4>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <span class="chip-orange font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-php">// VULNERABLE: Storing user input without sanitization
@@ -234,9 +235,9 @@ foreach ($comments as $comment) {
 </code></pre>
 </div>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. DOM-based XSS</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Attack occurs in the Document Object Model, not in server response.</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Attack occurs in the Document Object Model, not in server response.</p>
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">How it works:</h4>
-<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<ol class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-decimal list-inside">
 <li>Client-side JavaScript processes user input</li>
 <li>Malicious script modifies DOM</li>
 <li>Browser executes injected script</li>
@@ -244,7 +245,7 @@ foreach ($comments as $comment) {
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Example:</h4>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <span class="chip-orange font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-javascript">// VULNERABLE: Direct DOM manipulation
@@ -254,9 +255,9 @@ document.getElementById('welcome').innerHTML = 'Welcome ' + name;
 // Attack URL: #&lt;script&gt;alert('XSS')&lt;/script&gt;
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">XSS Prevention Fundamentals</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">XSS Prevention Fundamentals</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Output Escaping</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]"><strong>Always escape output based on context</strong>. Different contexts require different escaping:</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]"><strong>Always escape output based on context</strong>. Different contexts require different escaping:</p>
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">HTML Context</h4>
 <div class="code-container my-6">
   <div class="code-header">
@@ -312,9 +313,9 @@ $url = filter_var($userInput, FILTER_VALIDATE_URL) ? $userInput : '#';
 echo &quot;&lt;a href='&quot; . htmlspecialchars($url, ENT_QUOTES, 'UTF-8') . &quot;'&gt;Link&lt;/a&gt;&quot;;
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">PHP Output Escaping Functions</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">PHP Output Escaping Functions</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">htmlspecialchars()</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">The primary function for escaping HTML content:</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">The primary function for escaping HTML content:</p>
 <div class="code-container my-6">
   <div class="code-header">
     <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
@@ -330,7 +331,7 @@ string htmlspecialchars(
 </code></pre>
 </div>
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Parameters:</h4>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li><strong>$string</strong>: The string to escape</li>
 <li><strong>$flags</strong>: Which characters to escape (ENT_QUOTES, ENT_NOQUOTES, etc.)</li>
 <li><strong>$encoding</strong>: Character encoding (UTF-8 recommended)</li>
@@ -358,7 +359,7 @@ echo '&lt;input value=&quot;' . htmlspecialchars($name, ENT_QUOTES) . '&quot;&gt
 </code></pre>
 </div>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">htmlentities()</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Similar to htmlspecialchars but converts all applicable characters to HTML entities:</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Similar to htmlspecialchars but converts all applicable characters to HTML entities:</p>
 <div class="code-container my-6">
   <div class="code-header">
     <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
@@ -404,8 +405,8 @@ function safeUrl($url) {
 }
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Content Security Policy (CSP)</h2>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">CSP is a security standard that helps prevent XSS by controlling which resources can be loaded and executed.</p>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Content Security Policy (CSP)</h2>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">CSP is a security standard that helps prevent XSS by controlling which resources can be loaded and executed.</p>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Basic CSP Header</h3>
 <div class="code-container my-6">
   <div class="code-header">
@@ -422,7 +423,7 @@ header(&quot;Content-Security-Policy: default-src 'self'&quot;);
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Comprehensive CSP</h3>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <span class="chip-orange font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-php">header(&quot;Content-Security-Policy: &quot;
@@ -457,7 +458,7 @@ header(&quot;Content-Security-Policy: script-src 'self' 'nonce-{$nonce}'&quot;);
 echo &quot;&lt;script nonce='{$nonce}'&gt;console.log('Safe inline script');&lt;/script&gt;&quot;;
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Input Validation and Sanitization</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Input Validation and Sanitization</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Input Validation (Defense in Depth)</h3>
 <div class="code-container my-6">
   <div class="code-header">
@@ -498,9 +499,9 @@ function sanitizeForDisplay($input) {
 }
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Laravel XSS Protection</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Laravel XSS Protection</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Blade Templating Engine</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Laravel's Blade engine automatically escapes output:</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Laravel's Blade engine automatically escapes output:</p>
 <div class="code-container my-6">
   <div class="code-header">
     <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
@@ -580,9 +581,9 @@ class XSSProtectionMiddleware
 }
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Advanced XSS Prevention Techniques</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Advanced XSS Prevention Techniques</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Template Engines</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Using dedicated template engines prevents XSS:</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Using dedicated template engines prevents XSS:</p>
 <div class="code-container my-6">
   <div class="code-header">
     <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
@@ -598,7 +599,7 @@ echo $twig-&gt;render('page.html', ['name' =&gt; $userInput]);
 </code></pre>
 </div>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. HTML Purifier</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Comprehensive HTML sanitization library:</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Comprehensive HTML sanitization library:</p>
 <div class="code-container my-6">
   <div class="code-header">
     <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
@@ -615,7 +616,7 @@ echo $cleanHtml; // Safe to display
 </code></pre>
 </div>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. Input Encoding Validation</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Ensure input encoding is valid:</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Ensure input encoding is valid:</p>
 <div class="code-container my-6">
   <div class="code-header">
     <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
@@ -637,11 +638,11 @@ echo $cleanHtml; // Safe to display
 }
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">XSS in Different Contexts</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">XSS in Different Contexts</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. JSON Responses</h3>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <span class="chip-orange font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-php">// VULNERABLE: Direct JSON output
@@ -656,7 +657,7 @@ echo json_encode(['message' =&gt; $message]);
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. XML Output</h3>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <span class="chip-orange font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-php">// VULNERABLE: Direct XML output
@@ -671,7 +672,7 @@ $xml = &quot;&lt;response&gt;&lt;message&gt;{$message}&lt;/message&gt;&lt;/respo
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. CSS Injection</h3>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <span class="chip-orange font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-php">// VULNERABLE: Direct CSS output
@@ -684,7 +685,7 @@ $color = in_array($color, $allowedColors) ? $color : 'white';
 echo &quot;&lt;style&gt;body { background-color: {$color}; }&lt;/style&gt;&quot;;
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">XSS Testing and Detection</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">XSS Testing and Detection</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Manual Testing</h3>
 <div class="code-container my-6">
   <div class="code-header">
@@ -700,7 +701,7 @@ echo &quot;&lt;style&gt;body { background-color: {$color}; }&lt;/style&gt;&quot;
 </code></pre>
 </div>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Automated Testing Tools</h3>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li><strong>OWASP ZAP</strong> - Web application security scanner</li>
 <li><strong>Burp Suite</strong> - Intercepting proxy with XSS detection</li>
 <li><strong>XSStrike</strong> - Advanced XSS detection suite</li>
@@ -751,7 +752,7 @@ class XSSProtectionTest extends PHPUnit_Framework_TestCase
 }
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Common XSS Mistakes</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Common XSS Mistakes</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. Incomplete Escaping</h3>
 <div class="code-container my-6">
   <div class="code-header">
@@ -808,7 +809,7 @@ echo $userData; // Database content can contain XSS if not properly validated
 echo htmlspecialchars($userData, ENT_QUOTES);
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Performance Considerations</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Performance Considerations</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Escaping Performance</h3>
 <div class="code-container my-6">
   <div class="code-header">
@@ -839,8 +840,8 @@ class EscapeCache
 }
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Summary: XSS Prevention Rules</h2>
-<ol class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-decimal list-inside">
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Summary: XSS Prevention Rules</h2>
+<ol class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-decimal list-inside">
 <li><strong>Escape all output</strong> - Use context-appropriate escaping functions</li>
 <li><strong>Validate all input</strong> - Use allow-lists and proper validation</li>
 <li><strong>Use Content Security Policy</strong> - Implement CSP headers</li>
@@ -852,20 +853,20 @@ class EscapeCache
 <li><strong>Monitor and log</strong> - Track XSS attempts and suspicious activity</li>
 <li><strong>Educate developers</strong> - XSS awareness is crucial for secure coding</li>
 </ol>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Next Steps</h2>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Now that you understand XSS protection, explore:</p>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Next Steps</h2>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Now that you understand XSS protection, explore:</p>
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li><strong><a href="/security/laravel/input-handling.html">Input Handling</a></strong> - Learn about input validation and sanitization</li>
 <li><strong><a href="/security/laravel/csrf-protection.html">CSRF Protection</a></strong> - Prevent cross-site request forgery</li>
 <li><strong><a href="/security/laravel/session-security.html">Session Security</a></strong> - Secure session management</li>
 </ul>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Remember: XSS is one of the most common web vulnerabilities. Always escape output and validate input to prevent XSS attacks!</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Remember: XSS is one of the most common web vulnerabilities. Always escape output and validate input to prevent XSS attacks!</p>
     </div>
 
     <!-- Ask AI Assistant Row -->
-    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div class="my-10 p-6 rounded-md border border-[#E6E6DF] dark:border-[#2A2E2A] bg-[#F4F4F0] dark:bg-[#171A18] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div>
-        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] mb-1">AI Assistant Shortcuts</div>
         <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
       </div>
       <div class="flex flex-wrap items-center gap-2">
@@ -882,34 +883,34 @@ class EscapeCache
     </div>
 
     <!-- Navigation -->
-    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
-      <div><a href="/security/laravel/sql-injection.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: SQL Injection Prevention</a></div>
-      <div><a href="/security/laravel/csrf-protection.html" class="button-primary text-xs flex items-center gap-1.5">Next: CSRF Protection &amp; SameSite Cookies &rarr;</a></div>
+    <div class="flex items-center justify-between border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-6 my-10">
+      <div><a href="/security/laravel/sql-injection.html" class="btn-brand-subtle text-xs flex items-center gap-1.5">&larr; Prev: SQL Injection Prevention</a></div>
+      <div><a href="/security/laravel/csrf-protection.html" class="btn-brand-orange text-xs flex items-center gap-1.5">Next: CSRF Protection &amp; SameSite Cookies &rarr;</a></div>
     </div>
 
     <!-- Author Card -->
-    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+    <div class="card-kit p-6 mt-12 bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] shadow-soft print:hidden">
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
         <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
           UF
         </div>
         <div>
           <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
-          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+          <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] mt-1 leading-relaxed max-w-2xl">
             Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
           </p>
           <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
-            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <a href="mailto:contact@itsumarfarooq.com" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">Email</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-[#E85D26] hover:underline">Portfolio</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">GitHub</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">X.com</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">LinkedIn</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">Company (Worldwebtree)</a>
           </div>
         </div>
       </div>
@@ -917,37 +918,30 @@ class EscapeCache
   </main>
 
   <!-- Footer -->
-  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
-        <div>
-          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
-            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
-            <span>Umar<span class="text-primary">TechTalks</span></span>
-          </a>
-          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
-            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
-          </p>
+  <footer class="mt-auto border-t border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#0F1110] py-12 text-sm text-[#5C6058] dark:text-[#A8ACA0]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
+        <div class="flex items-center gap-2.5 font-bold text-base text-[#12140F] dark:text-white">
+          <span class="w-7 h-7 rounded-sm bg-[#E85D26] flex items-center justify-center text-white text-xs font-bold">TS</span>
+          <span>TechTalks <span class="text-[#E85D26]">Platform</span></span>
         </div>
 
-        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
-          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
-          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
-          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
-          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
-          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
-          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        <div class="flex flex-wrap items-center gap-4 text-xs">
+          <a href="/" class="hover:text-[#E85D26] transition-colors">Home</a>
+          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
+          <a href="/kits/" class="hover:text-[#E85D26] transition-colors">Stack Kits (10)</a>
+          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
+          <a href="/security/" class="hover:text-[#E85D26] transition-colors">Security Hub</a>
+          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
+          <a href="/security/laravel/checklist.html" class="hover:text-[#E85D26] transition-colors">Checklist</a>
+          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="hover:text-[#E85D26] transition-colors">GitHub</a>
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">
         <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
-        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+        <p>Curated open-source project setups &amp; security playbooks for AI agents.</p>
       </div>
     </div>
   </footer>

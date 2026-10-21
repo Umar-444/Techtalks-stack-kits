@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flask + HTMX + Alpine.js — AI Stack Kit Guide | TechTalks</title>
+  <meta name="description" content="Lightweight hypermedia stack. Zero complex JS build tooling, partial HTML over the wire, and minimal memory overhead.">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/flask-htmx-sqlite/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/flask-htmx-sqlite/">
+  <meta property="og:title" content="Flask + HTMX + Alpine.js — TechTalks AI Stack Kit">
+  <meta property="og:description" content="Lightweight hypermedia stack. Zero complex JS build tooling, partial HTML over the wire, and minimal memory overhead.">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/social-preview.png">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+<body class="bg-[#FFFFFF] dark:bg-[#0F1110] text-[#12140F] dark:text-[#F2F2EC] font-sans antialiased min-h-screen flex flex-col selection:bg-[#E85D26]/20 selection:text-[#E85D26]">
+
+  <!-- Header Navigation -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#0F1110]/95 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2.5 font-bold text-lg tracking-tight">
+          <span class="w-8 h-8 rounded-sm bg-[#E85D26] flex items-center justify-center text-white text-sm font-bold shadow-sm">TS</span>
+          <span>TechTalks <span class="text-[#E85D26]">Stack Kits</span></span>
+        </a>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
+        <a href="/" class="button-ghost">Home</a>
+        <a href="/kits/" class="button-ghost text-[#E85D26] font-semibold">All Kits</a>
+        <a href="/security/" class="button-ghost">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost">Laravel Track</a>
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0]">GitHub &nearr;</a>
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" data-theme-toggle class="p-2 rounded-sm text-[#5C6058] hover:text-[#12140F] dark:text-[#A8ACA0] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors" aria-label="Toggle dark mode">
+          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+
+        <a href="/kits/" class="btn-brand-subtle text-xs font-semibold h-[34px] px-3">
+          &larr; Back to Catalog
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs & Kit Hero -->
+  <section class="border-b border-[#E6E6DF] dark:border-[#2A2E2A] bg-[#FFF1E8]/20 dark:bg-[#2A1E16]/20 py-10 sm:py-14">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumbs -->
+      <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-4">
+        <a href="/" class="hover:text-[#E85D26]">Home</a>
+        <span>&rsaquo;</span>
+        <a href="/kits/" class="hover:text-[#E85D26]">Stack Kits</a>
+        <span>&rsaquo;</span>
+        <span class="text-[#12140F] dark:text-white font-medium">Flask + HTMX + Alpine.js</span>
+      </nav>
+
+      <div class="flex flex-wrap items-center gap-2 mb-3">
+        <span class="chip-orange">Kit Manifest v1.0.0-blueprint</span>
+        <span class="chip-teal">Validated Spec</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#12140F] dark:text-white mb-3">
+        Flask + HTMX + Alpine.js
+      </h1>
+
+      <p class="text-base sm:text-lg text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed max-w-3xl mb-6">
+        Lightweight hypermedia stack. Zero complex JS build tooling, partial HTML over the wire, and minimal memory overhead.
+      </p>
+
+      <!-- Stack Badges -->
+      <div class="flex flex-wrap items-center gap-2 mb-8">
+        <span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]'>Python 3.12+</span> <span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]'>Flask 3</span> <span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]'>SQLite / PostgreSQL</span> <span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#5C6058] dark:text-[#A8ACA0] border border-[#E6E6DF] dark:border-[#2A2E2A]'>HTMX 2</span> <span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#5C6058] dark:text-[#A8ACA0] border border-[#E6E6DF] dark:border-[#2A2E2A]'>Alpine.js</span> <span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#5C6058] dark:text-[#A8ACA0] border border-[#E6E6DF] dark:border-[#2A2E2A]'>SQLAlchemy 2</span>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex flex-wrap items-center gap-3">
+        <button type="button" data-copy-cmd="git clone https://github.com/Umar-444/Techtalks-stack-kits.git" class="btn-brand-orange h-[38px] px-4 text-xs sm:text-sm font-semibold gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          <span>Copy Git Clone</span>
+        </button>
+
+        <button type="button" data-copy-prompt="You are building with the Flask + HTMX + Alpine.js kit. Follow rules in AGENTS.md, DESIGN.md tokens, and steps/agent-build-steps.md." class="btn-brand-subtle h-[38px] px-4 text-xs sm:text-sm font-semibold gap-2 text-[#E85D26]">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <span>Copy Agent Kickoff Prompt</span>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits/tree/main/kits/flask-htmx-sqlite" target="_blank" rel="noopener noreferrer" class="btn-brand-subtle h-[38px] px-3.5 text-xs font-mono text-[#5C6058] dark:text-[#A8ACA0]">
+          View on GitHub &nearr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Kit Detail Body -->
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1 w-full space-y-12">
+    
+    <!-- 1. Agent Dialects & Rules -->
+    <div class="bg-white dark:bg-[#171A18] rounded-md border border-[#E6E6DF] dark:border-[#2A2E2A] p-6 shadow-sm">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <span class="chip-teal mb-1">Single-Source Rules</span>
+          <h2 class="text-xl font-bold text-[#12140F] dark:text-white">Transpiled Agent Rules</h2>
+        </div>
+        <span class="text-xs font-mono text-[#5C6058] dark:text-[#A8ACA0]">6 Agent Formats</span>
+      </div>
+
+      <p class="text-sm text-[#5C6058] dark:text-[#A8ACA0] mb-4">
+        Rules are written once in <code>rules/source/*.md</code> and transpiled automatically into all IDE agent standards. Zero rule divergence.
+      </p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
+        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
+          <div class="font-bold text-[#12140F] dark:text-white">Cursor</div>
+          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">.cursor/rules/*.mdc</div>
+        </div>
+        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
+          <div class="font-bold text-[#12140F] dark:text-white">Claude Code</div>
+          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">CLAUDE.md</div>
+        </div>
+        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
+          <div class="font-bold text-[#12140F] dark:text-white">Codex / Universal</div>
+          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">AGENTS.md</div>
+        </div>
+        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
+          <div class="font-bold text-[#12140F] dark:text-white">Copilot</div>
+          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">copilot-instructions.md</div>
+        </div>
+        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
+          <div class="font-bold text-[#12140F] dark:text-white">Google Antigravity</div>
+          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">.agents/rules/*.md</div>
+        </div>
+        <div class="p-3 rounded bg-[#F4F4F0] dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A]">
+          <div class="font-bold text-[#12140F] dark:text-white">Windsurf</div>
+          <div class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0] mt-0.5">.windsurfrules</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Security Protocol -->
+    <div class="bg-white dark:bg-[#171A18] rounded-md border border-[#E6E6DF] dark:border-[#2A2E2A] p-6 shadow-sm">
+      <span class="chip-teal mb-2">Non-Negotiable</span>
+      <h2 class="text-xl font-bold text-[#12140F] dark:text-white mb-3">Pre-Configured Security Layer</h2>
+      <p class="text-sm text-[#5C6058] dark:text-[#A8ACA0] mb-4">
+        Security checks are never optional. Every build step validates against secrets leakage, injection vulnerabilities, and broken access controls.
+      </p>
+
+      <ul class="space-y-2.5 text-sm text-[#12140F] dark:text-[#F2F2EC]">
+        <li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> Gitleaks Secret Scanning Pre-configured</li>
+<li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> Semgrep Static Analysis Ruleset Active</li>
+<li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> Mandatory Authorization & RBAC on All Resources</li>
+      </ul>
+    </div>
+
+    <!-- 3. Kickoff Prompt Box -->
+    <div class="bg-white dark:bg-[#171A18] rounded-md border border-[#E6E6DF] dark:border-[#2A2E2A] p-6 shadow-sm">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-xl font-bold text-[#12140F] dark:text-white">Agent Kickoff Prompt</h2>
+        <button type="button" data-copy-prompt="You are building with the Flask + HTMX + Alpine.js kit. Follow rules in AGENTS.md, DESIGN.md tokens, and steps/agent-build-steps.md." class="btn-brand-subtle text-xs h-[30px] px-3 font-mono text-[#E85D26]">
+          Copy Prompt
+        </button>
+      </div>
+      <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-3">
+        Paste this prompt directly into your agent at the start of your building session:
+      </p>
+      <div class="p-4 rounded bg-[#141414] text-[#EDEDED] font-mono text-xs leading-relaxed overflow-x-auto">
+        <code>You are building with the Flask + HTMX + Alpine.js kit. Follow rules in AGENTS.md, DESIGN.md tokens, and steps/agent-build-steps.md.</code>
+      </div>
+    </div>
+
+    <!-- Readme Content / Notes -->
+    
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#0F1110] py-10 text-sm text-[#5C6058] dark:text-[#A8ACA0]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>&copy; 2026 TechTalks Stack Kits &bull; Umar Farooq. All rights reserved.</p>
+      <a href="/kits/" class="text-xs hover:text-[#E85D26]">&larr; Back to all stack kits</a>
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/kits-filter.js"></script>
+</body>
+</html>

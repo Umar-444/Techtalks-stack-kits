@@ -1,0 +1,49 @@
+name: "Bug Report"
+description: "Report an issue, broken starter, or rule drift in an existing kit"
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please report bugs or inaccuracies so we can maintain zero-drift reliability.
+  - type: input
+    id: affected-kit
+    attributes:
+      label: "Affected Kit"
+      description: "e.g., kits/laravel-filament-postgresql"
+      placeholder: "kits/<kit-slug>"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: "Description of the Bug"
+      description: "What failed? (e.g., outdated syntax, broken Docker container, missing policy)"
+    validations:
+      required: true
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: "Steps to Reproduce"
+      description: "Include exact terminal commands and errors encountered"
+      placeholder: |
+        1. Clone kit
+        2. Run docker compose up
+        3. Encountered error: ...
+    validations:
+      required: true
+  - type: dropdown
+    id: agent-dialect
+    attributes:
+      label: "Agent Dialect (if rule drift issue)"
+      options:
+        - "N/A - General Starter / Docker Issue"
+        - "Cursor (.cursor/rules)"
+        - "Claude Code (CLAUDE.md)"
+        - "Codex / Universal (AGENTS.md)"
+        - "GitHub Copilot (.github/copilot-instructions.md)"
+        - "Google Antigravity (.agents/rules)"
+        - "Windsurf (.windsurfrules)"
+    validations:
+      required: false

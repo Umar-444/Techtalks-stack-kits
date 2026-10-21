@@ -1,0 +1,56 @@
+name: "New Stack Kit Proposal"
+description: "Propose a new curated fullstack kit for AI agents"
+title: "[Proposal]: "
+labels: ["kit-proposal", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for proposing a new Stack Kit! Please fill out the details below.
+  - type: input
+    id: kit-name
+    attributes:
+      label: "Kit Name"
+      description: "e.g., SvelteKit + PocketBase + Tailwind"
+      placeholder: "Framework + Database + UI Layer"
+    validations:
+      required: true
+  - type: input
+    id: kit-slug
+    attributes:
+      label: "Proposed Directory Slug"
+      description: "Must be lowercase and hyphenated"
+      placeholder: "sveltekit-pocketbase"
+    validations:
+      required: true
+  - type: textarea
+    id: stack-components
+    attributes:
+      label: "Stack Components & Verified Versions"
+      description: "List languages, frameworks, databases, and key libraries with exact versions"
+      placeholder: |
+        - Language: TypeScript 5.5+
+        - Framework: SvelteKit 2
+        - Database: PocketBase 0.22+
+        - Styling: Tailwind CSS 3.4
+    validations:
+      required: true
+  - type: textarea
+    id: problem-and-gap
+    attributes:
+      label: "Target Use Case & Market Gap"
+      description: "Why is this combination valuable, and how does it prevent agent hallucination?"
+      placeholder: "Explains why existing starters are insufficient and what specific agent rules this kit will provide..."
+    validations:
+      required: true
+  - type: checkboxes
+    id: invariants
+    attributes:
+      label: "Commitment to Standards"
+      options:
+        - label: "I will provide all 6 layers (starter, rules, skills, DESIGN.md, SECURITY.md, steps)"
+          required: true
+        - label: "I will verify versions against official package registries"
+          required: true
+        - label: "I will run tools/validate_manifest.py and tools/transpiler.py --check"
+          required: true

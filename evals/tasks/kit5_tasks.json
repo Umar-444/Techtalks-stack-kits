@@ -1,0 +1,18 @@
+{
+  "kit_slug": "nextjs-approuter-supabase",
+  "name": "Next.js 15+ + Supabase + shadcn/ui",
+  "eval_tasks": [
+    {
+      "id": "kit5-task-01",
+      "title": "Server Action Zod Validation",
+      "instruction": "Every server action must parse inputs via Zod schema.",
+      "assertions": ["Zod safeParse() executed before mutation"]
+    },
+    {
+      "id": "kit5-task-02",
+      "title": "Supabase Row-Level Security",
+      "instruction": "Enable RLS on all tables and verify owner policies.",
+      "assertions": ["ENABLE ROW LEVEL SECURITY present in migrations"]
+    }
+  ]
+}

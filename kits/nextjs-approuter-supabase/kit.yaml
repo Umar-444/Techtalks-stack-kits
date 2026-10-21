@@ -1,0 +1,109 @@
+# TechTalks Stack Kit Manifest Spec
+schema_version: "1.0.0"
+
+name: "Next.js 15+ + Supabase + shadcn/ui"
+slug: "nextjs-approuter-supabase"
+version: "1.0.0"
+status: "stable"
+updated_at: "2026-10-21"
+
+description: "Production fullstack React 19 / Next.js 15 App Router kit featuring Server Actions with Zod validation, Supabase Row-Level Security (RLS), and shadcn/ui design system tokens."
+
+maintainer:
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
+stack:
+  language:
+    name: "TypeScript"
+    version: "^5.5"
+    registry: "npm"
+  framework:
+    name: "Next.js"
+    version: "^15.0"
+    registry: "npm"
+  ui_layer:
+    name: "shadcn/ui + Tailwind CSS"
+    version: "^3.4"
+    type: "component-library"
+  database:
+    engine: "Supabase / PostgreSQL"
+    version: ">=16.0"
+    features:
+      - "row-level-security"
+      - "realtime"
+      - "pgcrypto"
+  cache_queue:
+    engine: "Next.js Data Cache"
+    version: "App Router"
+  auth_system:
+    type: "supabase-auth"
+    features:
+      - "SSR Middleware Sessions"
+      - "PKCE OAuth"
+
+layers:
+  starter:
+    path: "starter/"
+    type: "monolithic-app"
+  rules:
+    source_dir: "rules/source/"
+    generated_targets:
+      - "AGENTS.md"
+      - "CLAUDE.md"
+      - ".cursor/rules/*.mdc"
+      - ".github/copilot-instructions.md"
+      - ".agents/rules/*.md"
+      - ".windsurfrules"
+  skills:
+    dir: "skills/"
+    manifest:
+      - id: "supabase-rls"
+        path: "skills/supabase-rls/SKILL.md"
+        description: "Generate and test Supabase Row-Level Security (RLS) policies."
+  design:
+    path: "DESIGN.md"
+    theme_support:
+      - "light"
+      - "dark"
+    wcag_compliance: "AA"
+  security:
+    config_dir: "security/"
+    checks:
+      - "semgrep"
+      - "gitleaks"
+      - "rules-backdoor-check"
+  steps:
+    path: "steps/agent-build-steps.md"
+    total_steps: 8
+
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+    prompt_injection_boundary_nonces: true
+  badges:
+    - name: "Zero Plaintext Credentials"
+      status: "verified"
+    - name: "OWASP Top 10 Guardrails"
+      status: "verified"
+
+install:
+  clone_command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git --depth 1"
+  quickstart: "cd kits/nextjs-approuter-supabase && cp .env.example .env.local && npm install && npm run dev"
+
+agent_bootstrap_prompt: |
+  You are an expert fullstack engineer building with the TechTalks "nextjs-approuter-supabase" kit.
+  Adhere strictly to:
+  1. Next.js 15 App Router and React Server Components (RSC) by default.
+  2. All Server Actions must validate payloads using Zod schemas.
+  3. Every database table must have Row-Level Security (RLS) enabled.
+  4. Never expose SUPABASE_SERVICE_ROLE_KEY to client components.

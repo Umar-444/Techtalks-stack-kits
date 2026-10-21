@@ -88,27 +88,28 @@
 }
   </script>
 </head>
-<body class="bg-surface text-ink dark:bg-dark-bg dark:text-dark-text min-h-screen flex flex-col font-sans transition-colors duration-150">
+<body class="bg-[#FFFFFF] dark:bg-[#0F1110] text-[#12140F] dark:text-[#F2F2EC] font-sans antialiased min-h-screen flex flex-col selection:bg-[#E85D26]/20 selection:text-[#E85D26]">
 
   <!-- Reading Progress Bar -->
   <div class="fixed top-0 left-0 w-full h-1 z-50 bg-surface-hairline dark:bg-dark-border">
-    <div id="reading-progress-bar" class="h-full bg-primary w-0 transition-all duration-75"></div>
+    <div id="reading-progress-bar" class="h-full bg-[#E85D26] w-0 transition-all duration-75"></div>
   </div>
 
   <!-- Header -->
-  <header class="sticky top-0 z-40 bg-white/95 dark:bg-dark-bg/95 backdrop-blur-md border-b border-surface-hairline dark:border-dark-border">
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#0F1110]/95 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2.5 font-bold text-lg text-ink dark:text-white tracking-tight">
-        <span class="w-8 h-8 rounded-sm bg-primary flex items-center justify-center text-white text-sm font-bold shadow-soft">UT</span>
-        <span>Umar<span class="text-primary">TechTalks</span></span>
-      </a>
+      <a href="/" class="flex items-center gap-2.5 font-bold text-lg tracking-tight">
+          <span class="w-8 h-8 rounded-sm bg-[#E85D26] flex items-center justify-center text-white text-sm font-bold shadow-sm">TS</span>
+          <span>TechTalks <span class="text-[#E85D26]">Platform</span></span>
+        </a>
 
       <nav class="hidden md:flex items-center gap-1 text-[15px] font-medium">
-        <a href="/" class="button-ghost ">Home</a>
-        <a href="/security/" class="button-ghost ">Security Hub</a>
-        <a href="/security/laravel/" class="button-ghost text-primary font-semibold">Laravel Track</a>
-        <a href="/security/laravel/checklist.html" class="button-ghost ">Checklist</a>
-        <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-ink-muted">Portfolio &nearr;</a>
+        <a href="/" class="button-ghost">Home</a>
+        <a href="/kits/" class="button-ghost text-[#E85D26] font-semibold bg-[#FFF1E8]/60 dark:bg-[#2A1E16]/60">Stack Kits <span class="ml-1 px-1.5 py-0.5 rounded text-[10px] bg-[#E85D26] text-white font-mono">10</span></a>
+        <a href="/security/" class="button-ghost">Security Hub</a>
+        <a href="/security/laravel/" class="button-ghost font-semibold">Laravel Track</a>
+        <a href="/security/laravel/checklist.html" class="button-ghost">Checklist</a>
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-ghost text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0]">GitHub &nearr;</a>
       </nav>
 
       <div class="flex items-center gap-2.5">
@@ -117,7 +118,7 @@
           <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
         </button>
 
-        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="button-primary text-xs hidden sm:inline-flex gap-1.5 items-center">
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="btn-brand-orange text-xs hidden sm:inline-flex gap-1.5 items-center">
           <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
           <span>Star on GitHub</span>
         </a>
@@ -127,12 +128,12 @@
 
   <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-10 w-full">
     <!-- Breadcrumb -->
-    <nav class="flex items-center gap-2 text-xs text-ink-secondary dark:text-dark-muted mb-8" aria-label="Breadcrumb">
-      <a href="/" class="hover:text-primary transition-colors">Home</a>
+    <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-[#E85D26] transition-colors">Home</a>
       <span>/</span>
-      <a href="/security/" class="hover:text-primary transition-colors">Security Hub</a>
+      <a href="/security/" class="hover:text-[#E85D26] transition-colors">Security Hub</a>
       <span>/</span>
-      <a href="/security/laravel/" class="hover:text-primary transition-colors">Laravel Track</a>
+      <a href="/security/laravel/" class="hover:text-[#E85D26] transition-colors">Laravel Track</a>
       <span>/</span>
       <span class="text-ink dark:text-white font-medium">API Security Basics — Laravel 13 / PHP 8.4</span>
     </nav>
@@ -140,13 +141,13 @@
     <!-- Lesson Header -->
     <div class="mb-8">
       <div class="flex flex-wrap items-center gap-2 mb-3">
-        <span class="chip-lavender text-xs px-2.5 py-0.5">Track 04</span>
-        <span class="chip-blue text-xs px-2.5 py-0.5">Lesson 11</span>
+        <span class="chip-gold text-xs px-2.5 py-0.5">Track 04</span>
+        <span class="chip-teal text-xs px-2.5 py-0.5">Lesson 11</span>
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-ink dark:text-white tracking-[-0.035em] leading-tight">
         API Security Basics — Laravel 13 / PHP 8.4
       </h1>
-      <div class="flex items-center gap-3 text-xs text-ink-muted mt-3">
+      <div class="flex items-center gap-3 text-xs text-[#5C6058] dark:text-[#A8ACA0] mt-3">
         <span>Curated by Umar Farooq</span>
         <span>&bull;</span>
         <span>20 min read</span>
@@ -165,104 +166,104 @@
     <div class="lesson-content my-8">
       <h1>API Security Basics — Laravel 13 / PHP 8.4</h1>
 <div class="callout callout-info my-4">
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]"><strong>Updated:</strong> October 2026 — Aligned with <strong>OWASP API Security Top 10 (2023 edition)</strong> and Laravel 13 / Sanctum 4.x.</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]"><strong>Updated:</strong> October 2026 — Aligned with <strong>OWASP API Security Top 10 (2023 edition)</strong> and Laravel 13 / Sanctum 4.x.</p>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Why API Security Matters</h2>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">APIs are the backbone of modern web applications, enabling communication between different systems, mobile apps, and third-party services. However, APIs are prime targets for attackers due to their:</p>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Why API Security Matters</h2>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">APIs are the backbone of modern web applications, enabling communication between different systems, mobile apps, and third-party services. However, APIs are prime targets for attackers due to their:</p>
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li><strong>Direct data access</strong> - APIs often provide direct access to sensitive data</li>
 <li><strong>High-value targets</strong> - APIs typically contain business logic and data</li>
 <li><strong>Public exposure</strong> - APIs are designed to be accessible from external sources</li>
 <li><strong>Complex attack surface</strong> - APIs handle various input formats and authentication methods</li>
 </ul>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">API Security Statistics (2025)</h3>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li><strong>95%</strong> of organizations experienced API security incidents in the past year</li>
 <li><strong>83%</strong> of web traffic is API-based</li>
 <li><strong>Over 50%</strong> of attacks now target APIs specifically (Cloudflare 2025 report)</li>
 <li><strong>Average cost</strong> of API data breach: $4.87 million (IBM 2025)</li>
 </ul>
 <hr />
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">[CRITICAL] OWASP API Security Top 10 — 2023 Edition</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">[CRITICAL] OWASP API Security Top 10 — 2023 Edition</h2>
 <div class="callout callout-info my-4">
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">The <strong>2019 list is outdated</strong>. Use the <strong>2023 edition</strong> for all security reviews.</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">The <strong>2019 list is outdated</strong>. Use the <strong>2023 edition</strong> for all security reviews.</p>
 </div>
-<div class="overflow-x-auto my-6 border border-surface-hairline dark:border-dark-border rounded-md shadow-soft"><table class="w-full text-left text-xs text-ink-secondary dark:text-dark-muted">
-<thead class="bg-surface-warm dark:bg-dark-surface text-ink dark:text-white font-semibold uppercase tracking-wider text-[11px] border-b border-surface-hairline dark:border-dark-border">
+<div class="overflow-x-auto my-6 border border-[#E6E6DF] dark:border-[#2A2E2A] rounded-md shadow-soft"><table class="w-full text-left text-xs text-[#5C6058] dark:text-[#A8ACA0]">
+<thead class="bg-[#F4F4F0] dark:bg-[#171A18] text-ink dark:text-white font-semibold uppercase tracking-wider text-[11px] border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
 <tr>
-<th class="px-4 py-3 border-b border-surface-hairline dark:border-dark-border">#</th>
-<th class="px-4 py-3 border-b border-surface-hairline dark:border-dark-border">Risk</th>
-<th class="px-4 py-3 border-b border-surface-hairline dark:border-dark-border">Description</th>
-<th class="px-4 py-3 border-b border-surface-hairline dark:border-dark-border">Laravel Mitigation</th>
+<th class="px-4 py-3 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">#</th>
+<th class="px-4 py-3 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">Risk</th>
+<th class="px-4 py-3 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">Description</th>
+<th class="px-4 py-3 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">Laravel Mitigation</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API1:2023</strong></td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Broken Object Level Authorization</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Accessing another user's data via ID manipulation</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Validate ownership in every controller action with <code>Policy</code></td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><strong>API1:2023</strong></td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Broken Object Level Authorization</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Accessing another user's data via ID manipulation</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Validate ownership in every controller action with <code>Policy</code></td>
 </tr>
 <tr>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API2:2023</strong></td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Broken Authentication</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Weak or missing authentication</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Use Sanctum 4.x / Passport — never roll custom token schemes</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><strong>API2:2023</strong></td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Broken Authentication</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Weak or missing authentication</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Use Sanctum 4.x / Passport — never roll custom token schemes</td>
 </tr>
 <tr>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API3:2023</strong></td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Broken Object Property Level Authorization</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Exposing internal fields via mass assignment</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Use <code>$fillable</code> strictly — <code>$guarded = []</code> is forbidden</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><strong>API3:2023</strong></td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Broken Object Property Level Authorization</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Exposing internal fields via mass assignment</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Use <code>$fillable</code> strictly — <code>$guarded = []</code> is forbidden</td>
 </tr>
 <tr>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API4:2023</strong></td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Unrestricted Resource Consumption</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">No rate limiting — DoS or abuse</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><code>RateLimiter::for()</code> with per-user and per-IP limits</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><strong>API4:2023</strong></td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Unrestricted Resource Consumption</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">No rate limiting — DoS or abuse</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><code>RateLimiter::for()</code> with per-user and per-IP limits</td>
 </tr>
 <tr>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API5:2023</strong></td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Broken Function Level Authorization</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Accessing admin functions without authorization</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Gates/Policies on every sensitive endpoint</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><strong>API5:2023</strong></td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Broken Function Level Authorization</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Accessing admin functions without authorization</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Gates/Policies on every sensitive endpoint</td>
 </tr>
 <tr>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API6:2023</strong></td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Unrestricted Access to Sensitive Business Flows</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Abusing multi-step flows (e.g., checkout, password reset)</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Multi-step flow protection + rate limiting on flows</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><strong>API6:2023</strong></td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Unrestricted Access to Sensitive Business Flows</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Abusing multi-step flows (e.g., checkout, password reset)</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Multi-step flow protection + rate limiting on flows</td>
 </tr>
 <tr>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API7:2023</strong></td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Server Side Request Forgery (SSRF)</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Making the server fetch internal URLs via user input</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Validate and allowlist all outbound URLs</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><strong>API7:2023</strong></td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Server Side Request Forgery (SSRF)</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Making the server fetch internal URLs via user input</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Validate and allowlist all outbound URLs</td>
 </tr>
 <tr>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API8:2023</strong></td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Security Misconfiguration</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Debug mode on, version headers exposed, CORS open</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><code>APP_DEBUG=false</code>, remove <code>X-Powered-By</code>, strict CORS</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><strong>API8:2023</strong></td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Security Misconfiguration</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Debug mode on, version headers exposed, CORS open</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><code>APP_DEBUG=false</code>, remove <code>X-Powered-By</code>, strict CORS</td>
 </tr>
 <tr>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API9:2023</strong></td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Improper Inventory Management</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Undocumented shadow APIs, old API versions running</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">API versioning, remove unused routes, document everything</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><strong>API9:2023</strong></td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Improper Inventory Management</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Undocumented shadow APIs, old API versions running</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">API versioning, remove unused routes, document everything</td>
 </tr>
 <tr>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60"><strong>API10:2023</strong></td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Unsafe Consumption of APIs</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Trusting third-party API responses without validation</td>
-<td class="px-4 py-3 border-b border-surface-hairline/60 dark:border-dark-border/60">Validate and sanitize all external API data</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60"><strong>API10:2023</strong></td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Unsafe Consumption of APIs</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Trusting third-party API responses without validation</td>
+<td class="px-4 py-3 border-b border-[#E6E6DF]/60 dark:border-[#2A2E2A]/60">Validate and sanitize all external API data</td>
 </tr>
 </tbody>
 </table></div>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">API1:2023 — Broken Object Level Authorization (Laravel Example)</h3>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <span class="chip-orange font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-php">&lt;?php
@@ -294,7 +295,7 @@ class InvoiceController extends Controller
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">API3:2023 — Broken Object Property Level Authorization (Laravel Example)</h3>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-coral font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
+    <span class="chip-orange font-bold text-[11px]">[INSECURE] Vulnerable Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-php">&lt;?php
@@ -350,7 +351,7 @@ RateLimiter::for('auth', function (Request $request) {
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">API7:2023 — SSRF Prevention (Laravel Example)</h3>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <span class="chip-teal font-bold text-[11px]">[SECURE] Hardened Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-php">&lt;?php
@@ -397,24 +398,24 @@ class ExternalApiService
 </code></pre>
 </div>
 <hr />
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">API Authentication Methods</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">API Authentication Methods</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">API Tokens</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">API tokens are the most common authentication method for APIs. They provide a way to identify and authorize API clients.</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">API tokens are the most common authentication method for APIs. They provide a way to identify and authorize API clients.</p>
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Types of API Tokens</h4>
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">1. <strong>Bearer Tokens</strong></h4>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li>Included in <code>Authorization: Bearer &lt;token&gt;</code> header</li>
 <li>Stateless - server doesn't maintain session state</li>
 <li>Most common for REST APIs</li>
 </ul>
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">2. <strong>API Keys</strong></h4>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li>Simple string identifiers passed in headers or query parameters</li>
 <li>Often used for public APIs with rate limiting</li>
 <li>Less secure than bearer tokens</li>
 </ul>
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">3. <strong>JWT Tokens</strong></h4>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li>JSON Web Tokens containing user information and claims</li>
 <li>Can be signed and encrypted</li>
 <li>Self-contained - no server-side storage needed</li>
@@ -422,7 +423,7 @@ class ExternalApiService
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Secure Token Implementation</h3>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <span class="chip-teal font-bold text-[11px]">[SECURE] Hardened Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-php">&lt;?php
@@ -551,7 +552,7 @@ class APITokenManager
 </code></pre>
 </div>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Sanctum API Tokens</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Laravel Sanctum provides a simple API token authentication system.</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Laravel Sanctum provides a simple API token authentication system.</p>
 <div class="code-container my-6">
   <div class="code-header">
     <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
@@ -607,10 +608,10 @@ class APIController extends Controller
 }
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Rate Limiting</h2>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Rate limiting prevents API abuse by limiting the number of requests a client can make in a given time period.</p>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Rate Limiting</h2>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Rate limiting prevents API abuse by limiting the number of requests a client can make in a given time period.</p>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Why Rate Limiting Matters</h3>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li><strong>Prevents DoS attacks</strong> - Limits resource consumption</li>
 <li><strong>Reduces scraping</strong> - Makes it harder to extract large amounts of data</li>
 <li><strong>Improves performance</strong> - Prevents server overload</li>
@@ -754,7 +755,7 @@ class SlidingWindowRateLimiter
 </code></pre>
 </div>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Laravel Rate Limiting</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Laravel provides built-in rate limiting through middleware.</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Laravel provides built-in rate limiting through middleware.</p>
 <div class="code-container my-6">
   <div class="code-header">
     <span class="font-mono text-xs text-[#A39E98]">PHP / Laravel Code</span>
@@ -874,13 +875,13 @@ class CustomRateLimiter
 }
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">JSON Input Handling</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">JSON Input Handling</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">JSON Parsing Security</h3>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">JSON input can contain malicious content or malformed data. Proper validation is crucial.</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">JSON input can contain malicious content or malformed data. Proper validation is crucial.</p>
 <h4 class="text-base font-semibold text-ink/90 dark:text-dark-text mt-6 mb-2">Safe JSON Decoding</h4>
 <div class="code-container my-6">
   <div class="code-header">
-    <span class="chip-emerald font-bold text-[11px]">[SECURE] Hardened Pattern</span>
+    <span class="chip-teal font-bold text-[11px]">[SECURE] Hardened Pattern</span>
     <button type="button" class="code-copy-btn">Copy</button>
   </div>
   <pre><code class="language-php">&lt;?php
@@ -1138,7 +1139,7 @@ class APIStoreUserRequest extends FormRequest
 }
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">API Security Middleware</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">API Security Middleware</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">Comprehensive API Security Middleware</h3>
 <div class="code-container my-6">
   <div class="code-header">
@@ -1369,57 +1370,57 @@ class APISecurityMiddleware
 }
 </code></pre>
 </div>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">API Security Best Practices</h2>
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">API Security Best Practices</h2>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">1. <strong>Use HTTPS Only</strong></h3>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li>Always require HTTPS for API endpoints</li>
 <li>Redirect HTTP requests to HTTPS</li>
 <li>Use HSTS headers</li>
 </ul>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">2. <strong>Implement Proper Authentication</strong></h3>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li>Use secure token-based authentication</li>
 <li>Implement token expiration and rotation</li>
 <li>Validate token permissions</li>
 </ul>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">3. <strong>Apply Rate Limiting</strong></h3>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li>Prevent abuse with appropriate limits</li>
 <li>Use different limits for different endpoints</li>
 <li>Implement gradual backoff</li>
 </ul>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">4. <strong>Validate All Input</strong></h3>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li>Validate JSON structure and content</li>
 <li>Sanitize input data</li>
 <li>Use schema validation</li>
 </ul>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">5. <strong>Implement Proper Error Handling</strong></h3>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li>Don't expose internal errors</li>
 <li>Use consistent error response format</li>
 <li>Log errors securely</li>
 </ul>
 <h3 class="text-xl font-bold text-ink dark:text-white mt-8 mb-3 tracking-tight">6. <strong>Monitor API Usage</strong></h3>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li>Log all API requests and responses</li>
 <li>Implement anomaly detection</li>
 <li>Set up alerts for suspicious activity</li>
 </ul>
-<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-surface-hairline dark:border-dark-border tracking-tight">Next Steps</h2>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Now that you understand API security basics, explore:</p>
-<ul class="space-y-2 my-4 text-[15px] text-ink-secondary dark:text-dark-muted list-disc list-inside">
+<h2 class="text-2xl font-bold text-ink dark:text-white mt-10 mb-4 pb-2 border-b border-[#E6E6DF] dark:border-[#2A2E2A] tracking-tight">Next Steps</h2>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Now that you understand API security basics, explore:</p>
+<ul class="space-y-2 my-4 text-[15px] text-[#5C6058] dark:text-[#A8ACA0] list-disc list-inside">
 <li><strong><a href="/security/laravel/secure-deployment.html">Secure Deployment</a></strong> - Production deployment security</li>
 <li><strong><a href="/security/laravel/password-handling.html">Authentication &amp; Password Handling</a></strong> - User authentication</li>
 <li><strong><a href="/security/laravel/api-security-basics.html">Rate Limiting</a></strong> - Advanced rate limiting techniques</li>
 </ul>
-<p class="text-ink-secondary dark:text-dark-muted leading-relaxed my-3.5 text-[15px]">Remember: APIs are high-value targets. Implement multiple layers of security to protect your API endpoints and data!</p>
+<p class="text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed my-3.5 text-[15px]">Remember: APIs are high-value targets. Implement multiple layers of security to protect your API endpoints and data!</p>
     </div>
 
     <!-- Ask AI Assistant Row -->
-    <div class="my-10 p-6 rounded-md border border-surface-hairline dark:border-dark-border bg-surface-warm dark:bg-dark-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+    <div class="my-10 p-6 rounded-md border border-[#E6E6DF] dark:border-[#2A2E2A] bg-[#F4F4F0] dark:bg-[#171A18] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div>
-        <div class="text-[11px] font-bold uppercase tracking-wider text-ink-muted mb-1">AI Assistant Shortcuts</div>
+        <div class="text-[11px] font-bold uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] mb-1">AI Assistant Shortcuts</div>
         <div class="text-sm font-semibold text-ink dark:text-white">Ask AI about this topic</div>
       </div>
       <div class="flex flex-wrap items-center gap-2">
@@ -1436,34 +1437,34 @@ class APISecurityMiddleware
     </div>
 
     <!-- Navigation -->
-    <div class="flex items-center justify-between border-t border-surface-hairline dark:border-dark-border pt-6 my-10">
-      <div><a href="/security/laravel/file-uploads.html" class="button-secondary text-xs flex items-center gap-1.5">&larr; Prev: Secure File Uploads</a></div>
-      <div><a href="/security/laravel/common-vulnerabilities.html" class="button-primary text-xs flex items-center gap-1.5">Next: Common API Exploits &amp; SSRF &rarr;</a></div>
+    <div class="flex items-center justify-between border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-6 my-10">
+      <div><a href="/security/laravel/file-uploads.html" class="btn-brand-subtle text-xs flex items-center gap-1.5">&larr; Prev: Secure File Uploads</a></div>
+      <div><a href="/security/laravel/common-vulnerabilities.html" class="btn-brand-orange text-xs flex items-center gap-1.5">Next: Common API Exploits &amp; SSRF &rarr;</a></div>
     </div>
 
     <!-- Author Card -->
-    <div class="card-standard p-6 mt-12 bg-white dark:bg-dark-card border border-surface-hairline dark:border-dark-border shadow-soft print:hidden">
+    <div class="card-kit p-6 mt-12 bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] shadow-soft print:hidden">
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
         <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
           UF
         </div>
         <div>
           <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
-          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1 leading-relaxed max-w-2xl">
+          <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] mt-1 leading-relaxed max-w-2xl">
             Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
           </p>
           <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
-            <a href="mailto:contact@itsumarfarooq.com" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Email</a>
+            <a href="mailto:contact@itsumarfarooq.com" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">Email</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Portfolio</a>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-[#E85D26] hover:underline">Portfolio</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">GitHub</a>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">GitHub</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">X.com</a>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">X.com</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">LinkedIn</a>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">LinkedIn</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-ink-secondary dark:text-dark-muted hover:text-primary transition-colors">Company (Worldwebtree)</a>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">Company (Worldwebtree)</a>
           </div>
         </div>
       </div>
@@ -1471,37 +1472,30 @@ class APISecurityMiddleware
   </main>
 
   <!-- Footer -->
-  <footer class="mt-auto border-t border-surface-hairline dark:border-dark-border bg-white dark:bg-dark-bg py-12 text-xs text-ink-secondary dark:text-dark-muted print:hidden">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-surface-hairline dark:border-dark-border">
-        <div>
-          <a href="/" class="flex items-center gap-2 font-bold text-sm text-ink dark:text-white">
-            <span class="w-6 h-6 rounded-xs bg-primary flex items-center justify-center text-white text-xs font-bold">UT</span>
-            <span>Umar<span class="text-primary">TechTalks</span></span>
-          </a>
-          <p class="text-xs text-ink-secondary dark:text-dark-muted mt-1.5 max-w-sm leading-relaxed">
-            Production web security, engineering standards, and AI defense masterclasses curated by Umar Farooq.
-          </p>
+  <footer class="mt-auto border-t border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#0F1110] py-12 text-sm text-[#5C6058] dark:text-[#A8ACA0]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
+        <div class="flex items-center gap-2.5 font-bold text-base text-[#12140F] dark:text-white">
+          <span class="w-7 h-7 rounded-sm bg-[#E85D26] flex items-center justify-center text-white text-xs font-bold">TS</span>
+          <span>TechTalks <span class="text-[#E85D26]">Platform</span></span>
         </div>
 
-        <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium">
-          <a href="mailto:contact@itsumarfarooq.com" class="hover:text-primary transition-colors">contact@itsumarfarooq.com</a>
-          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-          <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">itsumarfarooq.com</a>
-          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-          <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">@umartechtalks</a>
-          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-          <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">LinkedIn</a>
-          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-          <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">GitHub</a>
-          <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-          <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-colors">Worldwebtree.com</a>
+        <div class="flex flex-wrap items-center gap-4 text-xs">
+          <a href="/" class="hover:text-[#E85D26] transition-colors">Home</a>
+          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
+          <a href="/kits/" class="hover:text-[#E85D26] transition-colors">Stack Kits (10)</a>
+          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
+          <a href="/security/" class="hover:text-[#E85D26] transition-colors">Security Hub</a>
+          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
+          <a href="/security/laravel/checklist.html" class="hover:text-[#E85D26] transition-colors">Checklist</a>
+          <span class="text-[#E6E6DF] dark:text-[#2A2E2A]">&bull;</span>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="hover:text-[#E85D26] transition-colors">GitHub</a>
         </div>
       </div>
 
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-ink-muted">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">
         <p>&copy; 2026 Umar Farooq &bull; All rights reserved.</p>
-        <p>Independent security educational initiative. Not affiliated with Laravel LLC or Taylor Otwell.</p>
+        <p>Curated open-source project setups &amp; security playbooks for AI agents.</p>
       </div>
     </div>
   </footer>

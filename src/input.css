@@ -137,3 +137,85 @@
     box-shadow: none !important;
   }
 }
+
+
+/* TechTalks Stack Kits Design System Tokens & Components */
+:root {
+  --color-brand-orange: #E85D26;
+  --color-brand-orange-hover: #CF4D19;
+  --color-brand-orange-bg: #FFF1E8;
+  --color-brand-teal: #0E7C6B;
+  --color-brand-teal-hover: #095C4F;
+  --color-brand-teal-bg: #E6F4F1;
+  --color-brand-gold: #B7791F;
+  --color-brand-gold-bg: #FEF6D8;
+  --color-kit-bg: #FFFFFF;
+  --color-kit-bg2: #F4F4F0;
+  --color-kit-card: #FFFFFF;
+  --color-kit-line: #E6E6DF;
+  --color-kit-ink: #12140F;
+  --color-kit-muted: #5C6058;
+}
+
+.dark {
+  --color-brand-orange-bg: #2A1E16;
+  --color-brand-teal: #1DB89E;
+  --color-brand-teal-hover: #129B84;
+  --color-brand-teal-bg: #122A26;
+  --color-brand-gold: #D4952C;
+  --color-brand-gold-bg: #2A2410;
+  --color-kit-bg: #0F1110;
+  --color-kit-bg2: #171A18;
+  --color-kit-card: #171A18;
+  --color-kit-line: #2A2E2A;
+  --color-kit-ink: #F2F2EC;
+  --color-kit-muted: #A8ACA0;
+}
+
+@layer components {
+  /* Brand Action Buttons */
+  .btn-brand-orange {
+    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-4 h-[38px] text-[15px] bg-[#E85D26] text-white hover:bg-[#CF4D19] focus:outline-none focus:ring-2 focus:ring-[#E85D26] focus:ring-offset-2 active:bg-[#B33D14] select-none shadow-sm;
+  }
+
+  .btn-brand-teal {
+    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-4 h-[38px] text-[15px] bg-[#0E7C6B] text-white hover:bg-[#095C4F] dark:bg-[#129B84] dark:hover:bg-[#0E7C6B] focus:outline-none focus:ring-2 focus:ring-[#0E7C6B] focus:ring-offset-2 select-none shadow-sm;
+  }
+
+  .btn-brand-subtle {
+    @apply inline-flex items-center justify-center font-medium transition-all duration-150 rounded-sm px-3.5 h-[34px] text-[14px] bg-[#F4F4F0] dark:bg-[#171A18] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A] hover:border-[#E85D26]/40 dark:hover:border-[#E85D26]/40 hover:bg-white dark:hover:bg-[#202420] focus:outline-none select-none;
+  }
+
+  /* Kit Cards */
+  .card-kit {
+    @apply bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] rounded-md p-6 transition-all duration-200 relative overflow-hidden;
+    box-shadow: 0 1px 3px rgba(18, 20, 15, 0.04), 0 6px 16px rgba(18, 20, 15, 0.04);
+  }
+
+  .card-kit:hover {
+    @apply border-[#E85D26]/50 dark:border-[#E85D26]/60 -translate-y-0.5;
+    box-shadow: 0 4px 12px rgba(232, 93, 38, 0.08), 0 12px 32px rgba(18, 20, 15, 0.08);
+  }
+
+  /* Brand Chips & Badges */
+  .chip-orange {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FFF1E8] text-[#B33D14] dark:bg-[#2A1E16] dark:text-[#FF8D5C] border border-[#E85D26]/20;
+  }
+
+  .chip-teal {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#E6F4F1] text-[#0A584C] dark:bg-[#122A26] dark:text-[#3CD6BC] border border-[#0E7C6B]/20;
+  }
+
+  .chip-gold {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FEF6D8] text-[#7A4B00] dark:bg-[#2A2410] dark:text-[#F4BE5A] border border-[#B7791F]/20;
+  }
+
+  .chip-neutral {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#F4F4F0] text-[#5C6058] dark:bg-[#202420] dark:text-[#A8ACA0] border border-[#E6E6DF] dark:border-[#2A2E2A];
+  }
+
+  /* Stack Layer Anatomy Pill */
+  .layer-pill {
+    @apply inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[11px] font-mono border;
+  }
+}
