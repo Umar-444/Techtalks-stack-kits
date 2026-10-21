@@ -39,6 +39,12 @@ def generate():
 
     # 2. Main Hubs
     pages.append({
+        "url": f"{BASE_URL}/start/",
+        "file": "start/index.html",
+        "priority": "0.9",
+        "changefreq": "weekly"
+    })
+    pages.append({
         "url": f"{BASE_URL}/kits/",
         "file": "kits/index.html",
         "priority": "0.9",
