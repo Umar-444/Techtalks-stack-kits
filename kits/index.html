@@ -121,7 +121,7 @@
       <div class="flex items-center gap-3">
         
         <!-- Search Button (Ctrl K hint) -->
-        <button type="button" class="hidden sm:inline-flex items-center gap-2 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors" onclick="alert('Quick Search: Type to filter kits or press /kits/ to view catalogue.')">
+        <button type="button" class="hidden sm:inline-flex items-center gap-2 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors" id="search-palette-trigger" data-search-trigger aria-label="Search kits and documentation">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
@@ -633,7 +633,7 @@
         
 
         <!-- Kit Card: Flask + HTMX + SQLite -->
-        <article class="kit-card all eco-tokenlight status-blueprint card-kit flex flex-col justify-between" 
+        <article class="kit-card all eco-tokenlight eco-python status-blueprint card-kit flex flex-col justify-between" 
                  data-slug="flask-htmx-sqlite" 
                  data-category="Token-Light" 
                  data-tokens="15896"
@@ -828,16 +828,16 @@
         
 
         <!-- Kit Card: Laravel 13 + Filament 4 + PostgreSQL -->
-        <article class="kit-card all status-ready card-kit flex flex-col justify-between" 
+        <article class="kit-card all eco-laravel status-ready card-kit flex flex-col justify-between" 
                  data-slug="laravel-filament-postgresql" 
-                 data-category="General" 
+                 data-category="Laravel" 
                  data-tokens="6740"
                  data-status="ready"
                  data-tokenlight="false">
           <div>
             <div class="flex items-center justify-between gap-2 mb-3">
               <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]">
-                General
+                Laravel
               </span>
               <div class="flex items-center gap-1.5">
                 <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-500/20">
@@ -876,16 +876,16 @@
         
 
         <!-- Kit Card: Laravel 12 + Livewire 4 + PostgreSQL -->
-        <article class="kit-card all status-ready card-kit flex flex-col justify-between" 
+        <article class="kit-card all eco-laravel status-ready card-kit flex flex-col justify-between" 
                  data-slug="laravel-livewire-postgresql" 
-                 data-category="General" 
+                 data-category="Laravel" 
                  data-tokens="3192"
                  data-status="ready"
                  data-tokenlight="false">
           <div>
             <div class="flex items-center justify-between gap-2 mb-3">
               <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]">
-                General
+                Laravel
               </span>
               <div class="flex items-center gap-1.5">
                 <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-500/20">
@@ -924,16 +924,16 @@
         
 
         <!-- Kit Card: Laravel 12 + MongoDB (NoSQL) -->
-        <article class="kit-card all status-ready card-kit flex flex-col justify-between" 
+        <article class="kit-card all eco-laravel status-ready card-kit flex flex-col justify-between" 
                  data-slug="laravel-mongodb" 
-                 data-category="General" 
+                 data-category="Laravel" 
                  data-tokens="3212"
                  data-status="ready"
                  data-tokenlight="false">
           <div>
             <div class="flex items-center justify-between gap-2 mb-3">
               <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]">
-                General
+                Laravel
               </span>
               <div class="flex items-center gap-1.5">
                 <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-500/20">
@@ -1020,16 +1020,16 @@
         
 
         <!-- Kit Card: Next.js 15+ + Supabase + shadcn/ui -->
-        <article class="kit-card all status-ready card-kit flex flex-col justify-between" 
+        <article class="kit-card all eco-jsts status-ready card-kit flex flex-col justify-between" 
                  data-slug="nextjs-approuter-supabase" 
-                 data-category="General" 
+                 data-category="JS / TS" 
                  data-tokens="3240"
                  data-status="ready"
                  data-tokenlight="false">
           <div>
             <div class="flex items-center justify-between gap-2 mb-3">
               <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold tracking-wider uppercase bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]">
-                General
+                JS / TS
               </span>
               <div class="flex items-center gap-1.5">
                 <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-500/20">
@@ -1843,7 +1843,7 @@
         
 
         <!-- Kit Card: TypeScript + Hono + Bun + Drizzle + SQLite -->
-        <article class="kit-card all eco-tokenlight status-ready card-kit flex flex-col justify-between" 
+        <article class="kit-card all eco-tokenlight eco-jsts status-ready card-kit flex flex-col justify-between" 
                  data-slug="ts-hono-bun-sqlite" 
                  data-category="Token-Light" 
                  data-tokens="18196"

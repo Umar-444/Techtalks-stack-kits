@@ -5,6 +5,7 @@ name: "Laravel 12 + Livewire 4 + PostgreSQL"
 slug: "laravel-livewire-postgresql"
 version: "1.0.0"
 status: "stable"
+category: Laravel
 updated_at: "2026-10-21"
 
 description: "Reactive full-stack TALL stack kit featuring Livewire 4, Volt single-file components, Folio page routing, Flux UI design tokens, Fortify authentication, and PostgreSQL 16+."

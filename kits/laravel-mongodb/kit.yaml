@@ -5,6 +5,7 @@ name: "Laravel 12 + MongoDB (NoSQL)"
 slug: "laravel-mongodb"
 version: "1.0.0"
 status: "stable"
+category: Laravel
 updated_at: "2026-10-21"
 
 description: "Empty-market pioneer stack combining Laravel 12 with the official mongodb/laravel-mongodb package, embedded document relations, aggregation pipeline builders, and custom Inertia/React dashboard."

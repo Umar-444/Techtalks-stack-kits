@@ -9,6 +9,7 @@ name: "Laravel 13 + Filament 4 + PostgreSQL"
 slug: "laravel-filament-postgresql"
 version: "1.0.0"
 status: "stable" # stable | beta | in-progress | planned
+category: Laravel
 updated_at: "2026-10-21"
 
 # Plain, direct description (No hype, no buzzwords)
