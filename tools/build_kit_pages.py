@@ -185,7 +185,7 @@ def render_kit_page(kit_meta, kit_dir, readme_html=""):
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/{slug}/">
   <meta property="og:title" content="{display_name} &bull; TechTalks Stack Kits">
   <meta property="og:description" content="{desc}">
-  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/social-preview.png">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
   <!-- Fonts: Inter 400-800, JetBrains Mono, Newsreader italic (Document 17 Exact) -->
