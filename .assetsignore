@@ -1,0 +1,17 @@
+# Cloudflare Workers / Pages Static Assets Ignore
+node_modules/
+.git/
+.github/
+.agents/
+.cursor/
+evals/
+tools/
+src/
+templates/
+scratch/
+backup_original_repo/
+*.log
+*.py
+package.json
+package-lock.json
+requirements.txt
