@@ -1,0 +1,48 @@
+﻿---
+id: "02-chromadb-collections-and-persistence"
+title: "ChromaDB Collections & Local Persistence"
+description: "Standards for local ChromaDB persistent storage, collection namespacing, distance metric selection, and multi-tenant schema isolation."
+globs: ["**/*.py", "data/**"]
+alwaysApply: true
+---
+
+# 02 - ChromaDB Collections & Local Persistence
+
+## 1. Storage Architecture & PersistentClient
+- **Persistent Storage:** Initialize ChromaDB using `chromadb.PersistentClient(path=settings.chroma_persist_dir)`. Never rely on ephemeral in-memory storage for production knowledge bases.
+- **Embedded vs Client-Server:** Use embedded PersistentClient for single-node airgapped server deployments. For horizontally scaled worker pools, connect via `chromadb.HttpClient(host=..., port=...)`.
+- **Database Backend:** ChromaDB uses DuckDB/SQLite under the hood for metadata and an optimized HNSW library for vector retrieval. Ensure file permissions on `chroma_persist_dir` restrict access to user `10001:10001`.
+
+## 2. Collection Design & Distance Metrics
+- **Distance Function:** Always explicitly declare `metadata={"hnsw:space": "cosine"}` when creating collections:
+  ```python
+  collection = chroma_client.get_or_create_collection(
+      name=collection_name,
+      metadata={"hnsw:space": "cosine"}
+  )
+  ```
+  Cosine similarity yields bounded distances between 0.0 and 2.0 (where `score = 1.0 - distance`), making threshold filtering intuitive and predictable across embedding models.
+- **HNSW Parameters:** For enterprise collections exceeding 50,000 document chunks, tune HNSW parameters in collection metadata:
+  - `hnsw:construction_ef`: 100 (balance index build latency vs graph connectivity)
+  - `hnsw:M`: 16 (number of bidirectional links per graph node)
+  - `hnsw:search_ef`: 50 (query-time candidate expansion)
+
+## 3. Metadata Filtering & Tenant Isolation
+- **Tenant Segregation:** Enforce mandatory `tenant_id` on every document chunk during ingestion:
+  ```python
+  where_filter = {
+      "$and": [
+          {"tenant_id": {"$eq": tenant_id}},
+          {"classification": {"$in": allowed_classifications}}
+      ]
+  }
+  ```
+- **Operator Invariants:** Always use explicit Chroma operator dicts (`$eq`, `$ne`, `$in`, `$and`, `$or`). Never perform post-retrieval filtering in Python application memory—enforce filters at the vector index scan level to eliminate unauthorized cross-tenant data leaks.
+
+## 4. Document Deduplication & Idempotency
+- Generate chunk IDs using deterministic cryptographic hashing:
+  ```python
+  import hashlib
+  chunk_id = hashlib.sha256(f"{tenant_id}:{doc_id}:{chunk_index}".encode()).hexdigest()[:24]
+  ```
+  This guarantees that re-ingesting updated documents with identical content will perform an idempotent upsert rather than polluting the vector space with duplicate embeddings.

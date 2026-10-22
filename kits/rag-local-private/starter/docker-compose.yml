@@ -1,0 +1,39 @@
+﻿version: "3.8"
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: local_rag_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_models:/root/.ollama
+    environment:
+      - OLLAMA_KEEP_ALIVE=-1
+    restart: unless-stopped
+
+  rag-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: local_rag_fastapi
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=production
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - OLLAMA_MODEL=llama3.2:3b
+      - OLLAMA_EMBED_MODEL=nomic-embed-text
+      - CHROMA_PERSIST_DIR=/app/data/chromadb
+      - RESTRICT_OUTBOUND_EGRESS=true
+      - TEST_MODE=false
+    volumes:
+      - chroma_data:/app/data/chromadb
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+volumes:
+  ollama_models:
+  chroma_data:

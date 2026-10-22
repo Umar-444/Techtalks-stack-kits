@@ -1,4 +1,4 @@
-"""
+﻿"""
 evals/runner.py
 TechTalks Stack Kits Automated Evaluation & Token-Light Benchmark Runner.
 Reference: doc 19 & doc 20 (Part F: The Iconic Move).
@@ -108,7 +108,7 @@ def run_eval_for_kit(kit_slug, verbose=True):
     secret_patterns = [
         re.compile(r"AKIA[0-9A-Z]{16}"),
         re.compile(r"ghp_[0-9a-zA-Z]{36}"),
-        re.compile(r"sk-[a-zA-Z0-9_-]{20,}"),
+        re.compile(r"\bsk-[a-zA-Z0-9_-]{20,}"),
         re.compile(r"BEGIN RSA PRIVATE KEY")
     ]
     secret_leak = False

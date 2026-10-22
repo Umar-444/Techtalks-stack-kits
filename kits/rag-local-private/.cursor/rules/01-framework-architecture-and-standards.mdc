@@ -1,0 +1,71 @@
+---
+description: 01 Framework Architecture And Standards
+globs: *
+alwaysApply: true
+---
+
+# 01 Framework Architecture And Standards
+
+﻿---
+id: "01-framework-architecture-and-standards"
+title: "Local Private RAG Architecture & Zero-Egress Standards"
+description: "Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies."
+globs: ["**/*.py", "Dockerfile", "docker-compose.yml", ".env*"]
+alwaysApply: true
+---
+
+# 01 - Local Private RAG Architecture & Zero-Egress Standards
+
+## 1. Architectural Mission & Invariants
+- **100% Offline Execution:** The application must operate entirely within an isolated network boundary. Absolutely zero outbound network traffic to third-party public AI APIs (OpenAI, Anthropic, Cohere, Pinecone) is permitted.
+- **Airgap & Regulatory Compliance:** Designed for Saudi Personal Data Protection Law (PDPL), Saudi National Cybersecurity Authority Essential Cybersecurity Controls (NCA ECC-1:2018), and enterprise NDAs. All proprietary intellectual property, employee records, and confidential documents remain on premises.
+- **FastAPI Modern Core:** Standardize on FastAPI 0.115+ with ASGI lifespan handlers (`@asynccontextmanager`) for clean startup/shutdown lifecycle management of the ChromaDB persistent client and local inference pools.
+- **Strict Pydantic V2 Modeling:** Enforce Pydantic 2.9+ models for all request bodies, responses, and internal data structures. Set `extra="forbid"` on ingestion payloads to prevent malicious parameter injection.
+
+## 2. Directory Layout
+```
+starter/
+├── app/
+│   ├── __init__.py
+│   ├── main.py                     # FastAPI application factory, lifespan, CORS, error handlers
+│   ├── schemas.py                  # Pydantic V2 domain models & strict API schemas
+│   └── services/
+│       ├── __init__.py
+│       └── rag_service.py          # ChromaDB persistence, Ollama client, context formatting
+├── tests/
+│   ├── __init__.py
+│   └── test_rag.py                 # Pytest suite with in-memory offline test isolation
+├── .env.example                    # Clean environment configuration template
+├── Dockerfile                      # Multi-stage Alpine/Debian-slim unprivileged container
+├── docker-compose.yml              # Ollama + FastAPI local multi-container topology
+└── requirements.txt                # Pinned production dependencies
+```
+
+## 3. Configuration & Environment Variables
+- Manage settings via `pydantic-settings` with default local fallbacks:
+  ```python
+  from pydantic_settings import BaseSettings
+
+  class Settings(BaseSettings):
+      app_env: str = "development"
+      allowed_origins: str = "http://localhost:3000,http://localhost:8080"
+      ollama_base_url: str = "http://localhost:11434"
+      ollama_model: str = "llama3.2"
+      ollama_embed_model: str = "nomic-embed-text"
+      chroma_persist_dir: str = "./data/chromadb"
+      restrict_outbound_egress: bool = True
+      test_mode: bool = False
+  ```
+- **Zero-Secret Rule:** Never check `.env` files into source control. All `.env*` files in repository must be examples with dummy placeholders.
+
+## 4. Error Handling & Information Disclosure
+- Custom exception handlers must intercept unhandled server errors and return sanitized JSON responses:
+  ```json
+  {
+    "detail": "Internal processing failure in private RAG pipeline.",
+    "code": "RAG_PROCESSING_ERROR",
+    "airgap_safe": true
+  }
+  ```
+- Raw traceback details, system paths, and internal vector coordinates must never be leaked to client responses.
+

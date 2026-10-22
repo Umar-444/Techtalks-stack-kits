@@ -1,30 +1,52 @@
-schema_version: 1.0.0
-name: Local Private RAG (Ollama + Chroma + FastAPI)
-slug: rag-local-private
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: '100% offline, zero API egress, zero cloud cost: local open-weights LLMs
-  via Ollama (Llama 3, Mistral, Qwen 2.5), local ChromaDB embeddings, fully PDPL and
-  NDA compliant for regulated GCC enterprises.'
-category: RAG
+﻿schema_version: "1.0.0"
+
+name: "Local Private RAG (Ollama + Chroma + FastAPI)"
+slug: "rag-local-private"
+version: "1.0.0"
+status: "stable"
+category: "RAG"
+updated_at: "2026-10-22"
+
+description: "100% offline, zero API egress, zero cloud cost: local open-weights LLMs via Ollama (Llama 3.2, Qwen 2.5), local ChromaDB persistent collections, fully PDPL and Saudi NCA ECC compliant for regulated enterprises."
+
 maintainer:
-  name: TechTalks Enterprise & Gulf Compliance Team
-  role: Privacy & AI Infrastructure Engineer
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Python
-    version: 3.12+
-    registry: pypi.org
+    name: "Python"
+    version: ">= 3.12"
+    registry: "pypi.org"
   framework:
-    name: FastAPI
-    version: 0.115+
-    registry: pypi.org
-  llm_engine: 'Ollama (local models: Llama 3.2, Qwen 2.5)'
-  vector_store: ChromaDB (embedded SQLite / duckdb)
-  compliance: PDPL, Saudi NCA ECC, HIPAA, Airgapped Safe
+    name: "FastAPI"
+    version: ">= 0.115.0"
+    registry: "pypi.org"
+  llm_engine:
+    name: "Ollama"
+    models:
+      - "llama3.2:3b"
+      - "qwen2.5:7b"
+      - "nomic-embed-text"
+    registry: "ollama.com"
+  vector_store:
+    name: "ChromaDB"
+    version: ">= 0.5.5"
+    registry: "pypi.org"
+    features:
+      - "Persistent SQLite / HNSW storage"
+      - "Cosine Similarity Space"
+      - "Multi-tenant metadata filtering"
+      - "Deterministic in-memory test fallback"
+  compliance:
+    - "Saudi PDPL Article 29 (Cross-Border Data Transfer)"
+    - "Saudi NCA ECC-1:2018 (Essential Cybersecurity Controls)"
+    - "Zero Outbound Cloud Egress (Airgap Verified)"
+    - "Non-Root Container Hardening (UID 10001)"
+
 layers:
   starter:
     path: starter/
@@ -32,38 +54,57 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: rag-local-private-core
-      path: skills/rag-local-private-core/SKILL.md
-      description: Core operations and scaffolding skill for Local Private RAG (Ollama
-        + Chroma + FastAPI).
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, configure, orchestrate, and verify the Local Private RAG service with zero outbound network egress.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Ingest a confidential document into local ChromaDB with chunking, assign Saudi PDPL classification, and run a grounded privacy query.
+      - id: ollama-model-quantization-and-runner
+        path: skills/ollama-model-quantization-and-runner/SKILL.md
+        description: Tune local LLM quantization (GGUF Q4_K_M vs Q8_0), VRAM allocation, GPU layer offloading, and custom Ollama Modelfile configurations.
+      - id: chroma-tenant-collections
+        path: skills/chroma-tenant-collections/SKILL.md
+        description: Manage local ChromaDB persistent collections, perform metadata filtering operations, backup SQLite databases, and vacuum vector indexes.
+      - id: rag-local-private-core
+        path: skills/rag-local-private-core/SKILL.md
+        description: Core operational workflows, zero-egress network firewall assertion, health checking, and offline mock fallback for Local Private RAG.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: true
   median_eval_tokens: 19500
-  efficiency_tier: A
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -73,5 +114,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

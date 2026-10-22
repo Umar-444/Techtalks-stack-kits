@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-02-tenant-classification-retrieval",
+  "name": "Multi-Tenant Isolation & Clearance Filtering",
+  "difficulty": "intermediate",
+  "prompt": "Implement multi-tenant semantic search enforcing tenant_id boundary isolation and Saudi PDPL classification clearance filters at the ChromaDB index query level.",
+  "expected_files": [
+    "starter/app/main.py",
+    "starter/app/services/rag_service.py"
+  ],
+  "verification": {
+    "command": "python -m pytest starter/tests/test_rag.py -k test_cross_tenant_isolation",
+    "criteria": "Cross-tenant query returns exactly 0 sources and ungrounded refusal response"
+  }
+}

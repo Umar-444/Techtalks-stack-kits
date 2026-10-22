@@ -1,0 +1,15 @@
+﻿{
+  "task_id": "eval-01-offline-ingest-and-chroma",
+  "name": "Offline Ingestion, Chunking & ChromaDB Persistence",
+  "difficulty": "intermediate",
+  "prompt": "Implement the /api/v1/documents/ingest endpoint using local ChromaDB and Ollama. Chunk the document into overlapping units, generate dense vectors locally without third-party API calls, and persist chunks with tenant and classification metadata.",
+  "expected_files": [
+    "starter/app/main.py",
+    "starter/app/services/rag_service.py",
+    "starter/app/schemas.py"
+  ],
+  "verification": {
+    "command": "python -m pytest starter/tests/test_rag.py -k test_document_ingest",
+    "criteria": "Ingestion returns HTTP 201 with status 'ingested' and chunks_created >= 1"
+  }
+}

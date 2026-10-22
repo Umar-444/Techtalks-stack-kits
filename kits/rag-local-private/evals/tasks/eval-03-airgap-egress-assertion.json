@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-03-airgap-egress-assertion",
+  "name": "Zero-Egress Airgap & Delimited Context Defense",
+  "difficulty": "advanced",
+  "prompt": "Verify zero-outbound egress network controls and wrap retrieved context in explicit XML delimiter tags (<context>...</context>) to neutralize indirect prompt injections.",
+  "expected_files": [
+    "starter/app/main.py",
+    "starter/app/services/rag_service.py"
+  ],
+  "verification": {
+    "command": "python -m pytest starter/tests/test_rag.py -k test_healthz",
+    "criteria": "Health check reports airgap_safe=true and cloud_egress_blocked=true"
+  }
+}
