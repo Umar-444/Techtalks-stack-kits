@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-01-fulltext-search-scaffold",
+  "name": "MySQL Fulltext Search Scaffolding with Eloquent",
+  "difficulty": "intermediate",
+  "prompt": "Create an Article model scope that executes a native MySQL MATCH AGAINST query in BOOLEAN MODE over title and content columns. Verify that search results return matching articles ordered by relevance.",
+  "expected_files": [
+    "starter/app/Models/Article.php",
+    "starter/database/migrations/2026_10_22_000001_create_articles_table.php"
+  ],
+  "verification": {
+    "command": "php artisan test --filter=ArticleTest",
+    "criteria": "Full-text search queries execute without syntax errors and return matching records"
+  }
+}

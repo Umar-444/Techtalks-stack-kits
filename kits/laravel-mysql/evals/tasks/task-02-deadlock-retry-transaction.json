@@ -1,0 +1,13 @@
+{
+  "task_id": "eval-02-deadlock-retry-transaction",
+  "name": "Deadlock-Resilient Database Transactions with Pessimistic Locking",
+  "difficulty": "advanced",
+  "prompt": "Implement a transactional method in ArticleController that wraps mutations in DB::transaction with 5 retry attempts and acquires a pessimistic lock using lockForUpdate() to prevent concurrent race conditions.",
+  "expected_files": [
+    "starter/app/Http/Controllers/ArticleController.php"
+  ],
+  "verification": {
+    "command": "php artisan test --filter=ArticleTest",
+    "criteria": "Transactions execute with retry parameters and commit atomically"
+  }
+}

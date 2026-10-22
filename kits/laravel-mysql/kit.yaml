@@ -1,32 +1,42 @@
-schema_version: 1.0.0
-name: Laravel 12 + MySQL Dashboard
-slug: laravel-mysql
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: Classic Laravel 12 monolithic web application featuring MySQL 8+, Fortify
-  authentication, Blade templates, and responsive dashboard components.
-category: Laravel
+﻿schema_version: "1.0.0"
+
+name: "Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search)"
+slug: "laravel-mysql"
+version: "1.0.0"
+status: "stable"
+category: "Laravel"
+updated_at: "2026-10-22"
+
+description: "Production-grade Laravel 11/12 kit pairing modern Eloquent architecture with MySQL 8.4 LTS InnoDB, full-text search, deadlock resilience, and read/write splitting."
+
 maintainer:
-  name: Umar Farooq
-  role: Laravel Lead
-  url: https://itsumarfarooq.com
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: PHP
-    version: ^8.4
-    registry: packagist
+    name: "PHP"
+    version: ">= 8.3"
+    registry: "packagist"
   framework:
-    name: Laravel
-    version: ^12.0
-    registry: packagist
+    name: "Laravel"
+    version: "^11.0 || ^12.0"
+    registry: "packagist"
   database:
-    engine: MySQL
-    version: 8.0+
+    engine: "MySQL"
+    version: ">= 8.4"
     features:
-    - InnoDB
-    - ACID transactions
+      - "InnoDB"
+      - "Strict SQL Modes"
+      - "Full-Text Search"
+      - "Read/Write Splitting"
+  runtime:
+    name: "PHP-FPM"
+    version: ">= 8.3"
+
 layers:
   starter:
     path: starter/
@@ -34,37 +44,60 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: laravel-mysql-core
-      path: skills/laravel-mysql-core/SKILL.md
-      description: Core operations skill for Laravel 12 + MySQL Dashboard.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, configure, and verify the Laravel + MySQL 8.4 LTS stack with healthcheck probe.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Build the canonical first feature - Articles management module with InnoDB indexes, authorization policy, and tests.
+      - id: mysql-fulltext-search
+        path: skills/mysql-fulltext-search/SKILL.md
+        description: Implement high-performance MySQL InnoDB full-text search with MATCH AGAINST and Boolean mode.
+      - id: eloquent-index-optimization
+        path: skills/eloquent-index-optimization/SKILL.md
+        description: Optimize Eloquent queries and composite indexes against MySQL EXPLAIN queries.
+      - id: mysql-deadlock-resilience
+        path: skills/mysql-deadlock-resilience/SKILL.md
+        description: Configure deadlock-resilient database transactions with retry logic and lockForUpdate.
+      - id: laravel-mysql-core
+        path: skills/laravel-mysql-core/SKILL.md
+        description: Core configuration and operational workflows for Laravel with MySQL 8.4 LTS.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
-  token_light: false
-  median_eval_tokens: 27500
-  efficiency_tier: B
+  token_light: true
+  median_eval_tokens: 15800
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -74,5 +107,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

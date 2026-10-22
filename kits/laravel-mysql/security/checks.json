@@ -1,17 +1,99 @@
 {
-  "kit_slug": "laravel-mysql",
-  "checks": [
+  "kit": "laravel-mysql",
+  "version": "1.0.0",
+  "total_controls": 12,
+  "categories": [
     {
-      "id": "sec-01",
-      "name": "Gitleaks Secret Audit",
-      "status": "enforced",
-      "tool": "gitleaks"
+      "name": "Database & Query Injection Defenses",
+      "controls": [
+        {
+          "id": "SQL-01",
+          "name": "Strict PDO MySQL bind parameterization on all Eloquent and raw queries",
+          "status": "enforced",
+          "test": "starter/app/Models/Article.php"
+        },
+        {
+          "id": "SQL-02",
+          "name": "Strict MySQL SQL modes enabled (ONLY_FULL_GROUP_BY, STRICT_TRANS_TABLES)",
+          "status": "enforced",
+          "rule": "rules/source/02-mysql-innodb-and-schema-integrity.md"
+        },
+        {
+          "id": "SQL-03",
+          "name": "UTF8mb4 character set and utf8mb4_0900_ai_ci collation standard",
+          "status": "enforced",
+          "rule": "rules/source/02-mysql-innodb-and-schema-integrity.md"
+        }
+      ]
     },
     {
-      "id": "sec-02",
-      "name": "Semgrep SAST Policy",
-      "status": "enforced",
-      "tool": "semgrep"
+      "name": "Mass Assignment & Authorization Controls",
+      "controls": [
+        {
+          "id": "AUTH-01",
+          "name": "Explicit $fillable whitelist arrays on all Eloquent models",
+          "status": "enforced",
+          "test": "starter/app/Models/Article.php: $fillable"
+        },
+        {
+          "id": "AUTH-02",
+          "name": "Model-level authorization policies guarding CRUD mutations",
+          "status": "enforced",
+          "test": "starter/app/Policies/ArticlePolicy.php"
+        },
+        {
+          "id": "AUTH-03",
+          "name": "Form Request validation enforcing strict type and size constraints",
+          "status": "enforced",
+          "test": "starter/app/Http/Controllers/ArticleController.php"
+        }
+      ]
+    },
+    {
+      "name": "Concurrency, Deadlocks & Index Hardening",
+      "controls": [
+        {
+          "id": "CONC-01",
+          "name": "Deadlock-resilient transactions with retry loops (DB::transaction attempts: 5)",
+          "status": "enforced",
+          "test": "starter/app/Http/Controllers/ArticleController.php"
+        },
+        {
+          "id": "CONC-02",
+          "name": "Compound index coverage on filtered status and sorted created_at columns",
+          "status": "enforced",
+          "migration": "starter/database/migrations/2026_10_22_000001_create_articles_table.php"
+        },
+        {
+          "id": "CONC-03",
+          "name": "Cascade on delete foreign keys preventing orphaned database records",
+          "status": "enforced",
+          "migration": "starter/database/migrations/2026_10_22_000001_create_articles_table.php"
+        }
+      ]
+    },
+    {
+      "name": "Container & CI Supply Chain Hardening",
+      "controls": [
+        {
+          "id": "OPS-HLTH",
+          "name": "Liveness probe health endpoint (/healthz) returning HTTP 200 OK",
+          "status": "enforced",
+          "endpoint": "GET /healthz"
+        },
+        {
+          "id": "OPS-USER",
+          "name": "Non-root execution in multi-stage Alpine container (USER appuser)",
+          "status": "enforced",
+          "docker": "starter/Dockerfile: USER appuser"
+        },
+        {
+          "id": "CI-SCAN",
+          "name": "Gitleaks secret detection and Semgrep AST scanning in CI",
+          "status": "enforced",
+          "workflow": ".github/workflows/security.yml"
+        }
+      ]
     }
   ]
 }

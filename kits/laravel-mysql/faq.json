@@ -1,0 +1,58 @@
+[
+  {
+    "q": "Why is MySQL 8.4 LTS recommended over older MySQL 5.7 or 8.0 releases for Laravel?",
+    "a": "MySQL 8.4 is an official Long-Term Support (LTS) release providing enhanced optimizer performance, native full-text indexing improvements, atomic DDL operations, improved JSON functions, and modern default authentication (caching_sha2_password) with 5 years of active enterprise maintenance."
+  },
+  {
+    "q": "Why is utf8mb4_0900_ai_ci preferred over utf8mb4_unicode_ci?",
+    "a": "`utf8mb4_0900_ai_ci` is based on the modern Unicode 9.0 Collation Algorithm. It supports full 4-byte emoji and supplementary multilingual characters, provides accurate language-aware sorting, and executes significantly faster than legacy MySQL 5.7 collations."
+  },
+  {
+    "q": "How does this kit handle MySQL InnoDB deadlocks under high write concurrency?",
+    "a": "Critical database mutations are wrapped in `DB::transaction(callback, attempts: 5)`. If MySQL triggers Error 1213 (Deadlock detected), Laravel catches the DeadlockException, rolls back the failed transaction, and automatically retries execution up to 5 times with exponential backoff."
+  },
+  {
+    "q": "How does native MySQL Full-Text Search compare to external search engines like Meilisearch or Elasticsearch?",
+    "a": "MySQL Full-Text Search (`MATCH(title, content) AGAINST(? IN BOOLEAN MODE)`) operates directly inside your database without requiring external search server infrastructure, network synchronization pipelines, or extra hosting costs. It is ideal for catalog search across hundreds of thousands of records."
+  },
+  {
+    "q": "How do compound indexes prevent filesort and slow queries in MySQL?",
+    "a": "Compound indexes must follow the leftmost prefix rule: columns filtered by equality (`status = 'published'`) must precede columns used in range queries or sorting (`created_at DESC`). This allows MySQL to satisfy both the WHERE clause and ORDER BY directly from the index tree without a temporary table filesort."
+  },
+  {
+    "q": "How does read/write replica connection splitting work in Laravel?",
+    "a": "In `config/database.php`, you specify separate `read` and `write` host arrays. Laravel automatically routes SELECT queries to read replicas and INSERT/UPDATE/DELETE queries to the primary writer. Setting `'sticky' => true` ensures any subsequent reads within the same request lifecycle route to the write host to guarantee read-after-write consistency."
+  },
+  {
+    "q": "Why should Eloquent models always define $fillable rather than $guarded = []?",
+    "a": "Using `$guarded = []` disables mass-assignment protection globally. If a developer uses `Model::create($request->all())`, an attacker can inject privileged attributes like `is_admin: true` or `role: 'superadmin'`. An explicit `$fillable` whitelist ensures only approved fields can ever be mass-assigned."
+  },
+  {
+    "q": "What is the difference between pessimistic locking and optimistic locking in MySQL?",
+    "a": "Pessimistic locking (`lockForUpdate()`) instructs MySQL to lock the selected rows with an exclusive write lock until the transaction commits, preventing concurrent transactions from modifying them. Optimistic locking uses a version column and checks if the version changed before writing, aborting if a collision occurred."
+  },
+  {
+    "q": "How do generated virtual columns optimize JSON querying in MySQL 8?",
+    "a": "MySQL permits creating virtual columns extracted from JSON documents (`$table->string('domain')->virtualAs(\"SUBSTRING_INDEX(data->>'$.email', '@', -1)\")`) and indexing that virtual column. This gives index-backed search speed to schemaless JSON fields."
+  },
+  {
+    "q": "How does strict SQL mode prevent data truncation bugs in production?",
+    "a": "With `STRICT_TRANS_TABLES` enabled, MySQL immediately rejects queries attempting to insert strings longer than column limits or invalid dates with an error, rather than silently truncating data or substituting zero dates (`0000-00-00`)."
+  },
+  {
+    "q": "How is non-root execution configured in the Docker container?",
+    "a": "The multi-stage Alpine Dockerfile creates an unprivileged user and group (`appuser` with UID 10001) and sets `USER appuser`. This ensures compromised PHP worker processes cannot gain root access on the Docker host."
+  },
+  {
+    "q": "What is the benefit of cursor pagination over offset pagination in MySQL?",
+    "a": "Offset pagination (`OFFSET 100000`) forces MySQL to scan and discard 100,000 index rows before returning 20 records, degrading linearly as page numbers increase. Cursor pagination (`WHERE id > :last_id LIMIT 20`) uses direct B-Tree index seeks, maintaining constant microsecond speed on any page."
+  },
+  {
+    "q": "How does this kit prevent N+1 query performance degradation?",
+    "a": "Controllers always eager-load associations via `Article::with('user')`. Furthermore, strict lazy loading is enabled in local and testing environments via `Model::preventLazyLoading()`, causing an immediate exception if an un-eager-loaded relation is accessed."
+  },
+  {
+    "q": "What testing strategy is used to keep test suites fast with MySQL?",
+    "a": "Tests utilize `Illuminate\\Foundation\\Testing\\RefreshDatabase`. Rather than dropping and recreating tables on every test, Laravel runs tests inside an isolated database transaction and rolls back at the end of each test method, allowing hundreds of tests to complete in seconds."
+  }
+]

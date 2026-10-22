@@ -1,0 +1,43 @@
+---
+description: MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
+globs: "starter/app/**/*.php,starter/database/**/*.php,starter/routes/**/*.php"
+---
+
+---
+id: 02-mysql-innodb-and-schema-integrity
+title: MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
+globs: "starter/database/migrations/*.php,starter/config/database.php"
+alwaysApply: true
+---
+
+# MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
+
+## 1. Schema Defaults & Character Set Discipline
+- Standardize on MySQL 8.4 LTS InnoDB storage engine with strict SQL mode enabled.
+- All tables must explicitly use `utf8mb4` character set with `utf8mb4_0900_ai_ci` collation:
+  ```php
+  'charset' => 'utf8mb4',
+  'collation' => 'utf8mb4_0900_ai_ci',
+  'strict' => true,
+  'modes' => [
+      'ONLY_FULL_GROUP_BY',
+      'STRICT_TRANS_TABLES',
+      'NO_ZERO_IN_DATE',
+      'NO_ZERO_DATE',
+      'ERROR_FOR_DIVISION_BY_ZERO',
+      'NO_ENGINE_SUBSTITUTION',
+  ],
+  ```
+
+## 2. Foreign Key Integrity & Cascading
+- Every foreign key constraint must be explicitly indexed and specify delete behaviors:
+  ```php
+  $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+  ```
+- Prohibit orphaned records. Enforce foreign key checks at the database layer.
+
+## 3. Generated Columns & Functional Indexes
+- Leverage MySQL generated virtual or stored columns for indexing JSON properties:
+  `$table->string('email_domain')->virtualAs("SUBSTRING_INDEX(email, '@', -1)");`
+  `$table->index('email_domain');`
+

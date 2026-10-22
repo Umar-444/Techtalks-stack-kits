@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Laravel 12 + MySQL Dashboard (Blueprint) &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="Classic Laravel 12 monolithic web application featuring MySQL 8+, Fortify authentication, Blade templates, and responsive dashboard components.">
+  <title>Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search) &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Production-grade Laravel 11/12 kit pairing modern Eloquent architecture with MySQL 8.4 LTS InnoDB, full-text search, deadlock resilience, and read/write splitting.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/laravel-mysql/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/laravel-mysql/">
-  <meta property="og:title" content="Laravel 12 + MySQL Dashboard (Blueprint) &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="Classic Laravel 12 monolithic web application featuring MySQL 8+, Fortify authentication, Blade templates, and responsive dashboard components.">
+  <meta property="og:title" content="Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search) &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Production-grade Laravel 11/12 kit pairing modern Eloquent architecture with MySQL 8.4 LTS InnoDB, full-text search, deadlock resilience, and read/write splitting.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -36,98 +36,114 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What exactly is the Laravel 12 + MySQL Dashboard kit?",
+      "name": "Why is MySQL 8.4 LTS recommended over older MySQL 5.7 or 8.0 releases for Laravel?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+        "text": "MySQL 8.4 is an official Long-Term Support (LTS) release providing enhanced optimizer performance, native full-text indexing improvements, atomic DDL operations, improved JSON functions, and modern default authentication (caching_sha2_password) with 5 years of active enterprise maintenance."
       }
     },
     {
       "@type": "Question",
-      "name": "Which versions does it pin?",
+      "name": "Why is utf8mb4_0900_ai_ci preferred over utf8mb4_unicode_ci?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+        "text": "`utf8mb4_0900_ai_ci` is based on the modern Unicode 9.0 Collation Algorithm. It supports full 4-byte emoji and supplementary multilingual characters, provides accurate language-aware sorting, and executes significantly faster than legacy MySQL 5.7 collations."
       }
     },
     {
       "@type": "Question",
-      "name": "Which AI coding agents are supported?",
+      "name": "How does this kit handle MySQL InnoDB deadlocks under high write concurrency?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+        "text": "Critical database mutations are wrapped in `DB::transaction(callback, attempts: 5)`. If MySQL triggers Error 1213 (Deadlock detected), Laravel catches the DeadlockException, rolls back the failed transaction, and automatically retries execution up to 5 times with exponential backoff."
       }
     },
     {
       "@type": "Question",
-      "name": "What do I need installed before I start?",
+      "name": "How does native MySQL Full-Text Search compare to external search engines like Meilisearch or Elasticsearch?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+        "text": "MySQL Full-Text Search (`MATCH(title, content) AGAINST(? IN BOOLEAN MODE)`) operates directly inside your database without requiring external search server infrastructure, network synchronization pipelines, or extra hosting costs. It is ideal for catalog search across hundreds of thousands of records."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does installation take?",
+      "name": "How do compound indexes prevent filesort and slow queries in MySQL?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+        "text": "Compound indexes must follow the leftmost prefix rule: columns filtered by equality (`status = 'published'`) must precede columns used in range queries or sorting (`created_at DESC`). This allows MySQL to satisfy both the WHERE clause and ORDER BY directly from the index tree without a temporary table filesort."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the starter production-shaped or a demo?",
+      "name": "How does read/write replica connection splitting work in Laravel?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+        "text": "In `config/database.php`, you specify separate `read` and `write` host arrays. Laravel automatically routes SELECT queries to read replicas and INSERT/UPDATE/DELETE queries to the primary writer. Setting `'sticky' => true` ensures any subsequent reads within the same request lifecycle route to the write host to guarantee read-after-write consistency."
       }
     },
     {
       "@type": "Question",
-      "name": "How is security handled in this kit?",
+      "name": "Why should Eloquent models always define $fillable rather than $guarded = []?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+        "text": "Using `$guarded = []` disables mass-assignment protection globally. If a developer uses `Model::create($request->all())`, an attacker can inject privileged attributes like `is_admin: true` or `role: 'superadmin'`. An explicit `$fillable` whitelist ensures only approved fields can ever be mass-assigned."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the design?",
+      "name": "What is the difference between pessimistic locking and optimistic locking in MySQL?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+        "text": "Pessimistic locking (`lockForUpdate()`) instructs MySQL to lock the selected rows with an exclusive write lock until the transaction commits, preventing concurrent transactions from modifying them. Optimistic locking uses a version column and checks if the version changed before writing, aborting if a collision occurred."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I update when a new kit version releases?",
+      "name": "How do generated virtual columns optimize JSON querying in MySQL 8?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+        "text": "MySQL permits creating virtual columns extracted from JSON documents (`$table->string('domain')->virtualAs(\"SUBSTRING_INDEX(data->>'$.email', '@', -1)\")`) and indexing that virtual column. This gives index-backed search speed to schemaless JSON fields."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I use it for commercial and client work?",
+      "name": "How does strict SQL mode prevent data truncation bugs in production?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+        "text": "With `STRICT_TRANS_TABLES` enabled, MySQL immediately rejects queries attempting to insert strings longer than column limits or invalid dates with an error, rather than silently truncating data or substituting zero dates (`0000-00-00`)."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I contribute a fix or skill back?",
+      "name": "How is non-root execution configured in the Docker container?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+        "text": "The multi-stage Alpine Dockerfile creates an unprivileged user and group (`appuser` with UID 10001) and sets `USER appuser`. This ensures compromised PHP worker processes cannot gain root access on the Docker host."
       }
     },
     {
       "@type": "Question",
-      "name": "Where do I get help or report a problem?",
+      "name": "What is the benefit of cursor pagination over offset pagination in MySQL?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+        "text": "Offset pagination (`OFFSET 100000`) forces MySQL to scan and discard 100,000 index rows before returning 20 records, degrading linearly as page numbers increase. Cursor pagination (`WHERE id > :last_id LIMIT 20`) uses direct B-Tree index seeks, maintaining constant microsecond speed on any page."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does this kit prevent N+1 query performance degradation?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Controllers always eager-load associations via `Article::with('user')`. Furthermore, strict lazy loading is enabled in local and testing environments via `Model::preventLazyLoading()`, causing an immediate exception if an un-eager-loaded relation is accessed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What testing strategy is used to keep test suites fast with MySQL?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tests utilize `Illuminate\\Foundation\\Testing\\RefreshDatabase`. Rather than dropping and recreating tables on every test, Laravel runs tests inside an isolated database transaction and rolls back at the end of each test method, allowing hundreds of tests to complete in seconds."
       }
     }
   ]
@@ -201,27 +217,27 @@
       <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">laravel-mysql</span>
     </nav>
 
-<div class="mb-8 p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] border-l-[3px] border-l-[#B7791F] text-xs leading-relaxed flex items-start gap-3"><span class="font-mono font-bold text-[#B7791F] uppercase tracking-wider">Note:</span><div class="text-[#5C6058] dark:text-[#C4C4CC]">This kit is an architectural blueprint. Specifications, threat models, and multi-dialect rules are compiled. Starter containers are in active verification.</div></div>
+
 
     <!-- Kit Header Section -->
     <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="chip-status-blueprint"><span class="w-1.5 h-1.5 rounded-full bg-[#8E8E96]"></span>BLUEPRINT</span>
+        <span class="chip-status-ready"><span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>READY TO SHIP</span>
         <span class="text-xs font-mono text-[#8E8E96]">v1.0.0</span>
         <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>
         <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        Laravel 12 + MySQL Dashboard (Blueprint)
+        Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search)
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        Classic Laravel 12 monolithic web application featuring MySQL 8+, Fortify authentication, Blade templates, and responsive dashboard components.
+        Production-grade Laravel 11/12 kit pairing modern Eloquent architecture with MySQL 8.4 LTS InnoDB, full-text search, deadlock resilience, and read/write splitting.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'PHP', 'version': '^8.4', 'registry': 'packagist'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Laravel', 'version': '^12.0', 'registry': 'packagist'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'MySQL', 'version': '8.0+', 'features': ['InnoDB', 'ACID transactions']}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'PHP', 'version': '>= 8.3', 'registry': 'packagist'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Laravel', 'version': '^11.0 || ^12.0', 'registry': 'packagist'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'MySQL', 'version': '>= 8.4', 'features': ['InnoDB', 'Strict SQL Modes', 'Full-Text Search', 'Read/Write Splitting']}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -233,7 +249,7 @@
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
           </button>
         </div>
-        <button type="button" data-copy-cmd="You are building with the Laravel 12 + MySQL Dashboard kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
+        <button type="button" data-copy-cmd="You are building with the Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
           Copy Agent Bootstrap Prompt &rarr;
         </button>
       </div>
@@ -322,7 +338,7 @@
                 <span>Source: kits/laravel-mysql/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/laravel-mysql for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Laravel 12 + MySQL Dashboard (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search)
 - Primary Invariant: Zero plaintext credentials; parameterize all database queries.
 - Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
 - Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
@@ -334,7 +350,7 @@
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/laravel-mysql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Laravel 12 + MySQL Dashboard (Blueprint) Architecture Invariants
+description: Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search) Architecture Invariants
 globs: **/*
 ---
 - Enforce strict typing and error boundaries.
@@ -346,7 +362,7 @@ globs: **/*
                 <span>Source: kits/laravel-mysql/CODEX.md</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/laravel-mysql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Laravel 12 + MySQL Dashboard (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search)
 - Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
             </div>
 
@@ -355,7 +371,7 @@ globs: **/*
                 <span>Source: kits/laravel-mysql/.github/copilot-instructions.md</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/laravel-mysql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Laravel 12 + MySQL Dashboard (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search)
 - Never add unpinned external dependencies.</code></pre>
             </div>
 
@@ -364,7 +380,7 @@ globs: **/*
                 <span>Source: kits/laravel-mysql/.clinerules</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/laravel-mysql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Laravel 12 + MySQL Dashboard (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search)
 - Run tests in the sandboxed container environment.</code></pre>
             </div>
 
@@ -373,7 +389,7 @@ globs: **/*
                 <span>Source: kits/laravel-mysql/.agents/rules/</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/laravel-mysql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Laravel 12 + MySQL Dashboard (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search)
 - Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
             </div>
 
@@ -385,7 +401,12 @@ globs: **/*
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">laravel-mysql-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core skill for Laravel 12 + MySQL Dashboard</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">eloquent-index-optimization</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Compound index optimization, query execution plan analysis with EXPLAIN, and cursor pagination.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Guide for scaffolding a new resourceful feature with MySQL migrations, model, Form Request, Policy, and tests.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Clean install, database migration, automated test run, and health probe verification for Laravel MySQL kit.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">laravel-mysql-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core skill for Laravel 12 + MySQL Dashboard</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">mysql-deadlock-resilience</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Managing row-level locks, transaction retry loops, and connection pool timeouts in MySQL InnoDB.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">06</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">mysql-fulltext-search</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Configuring and querying MySQL full-text indexes with Boolean and Natural Language modes in Eloquent.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -601,21 +622,23 @@ docker compose up --build -d</pre>
     <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
     <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
   </div>
-  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
 </div>
 <div class="space-y-3">
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the Laravel 12 + MySQL Dashboard kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is MySQL 8.4 LTS recommended over older MySQL 5.7 or 8.0 releases for Laravel?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">MySQL 8.4 is an official Long-Term Support (LTS) release providing enhanced optimizer performance, native full-text indexing improvements, atomic DDL operations, improved JSON functions, and modern default authentication (caching_sha2_password) with 5 years of active enterprise maintenance.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is utf8mb4_0900_ai_ci preferred over utf8mb4_unicode_ci?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">`utf8mb4_0900_ai_ci` is based on the modern Unicode 9.0 Collation Algorithm. It supports full 4-byte emoji and supplementary multilingual characters, provides accurate language-aware sorting, and executes significantly faster than legacy MySQL 5.7 collations.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does this kit handle MySQL InnoDB deadlocks under high write concurrency?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Critical database mutations are wrapped in `DB::transaction(callback, attempts: 5)`. If MySQL triggers Error 1213 (Deadlock detected), Laravel catches the DeadlockException, rolls back the failed transaction, and automatically retries execution up to 5 times with exponential backoff.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does native MySQL Full-Text Search compare to external search engines like Meilisearch or Elasticsearch?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">MySQL Full-Text Search (`MATCH(title, content) AGAINST(? IN BOOLEAN MODE)`) operates directly inside your database without requiring external search server infrastructure, network synchronization pipelines, or extra hosting costs. It is ideal for catalog search across hundreds of thousands of records.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do compound indexes prevent filesort and slow queries in MySQL?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Compound indexes must follow the leftmost prefix rule: columns filtered by equality (`status = 'published'`) must precede columns used in range queries or sorting (`created_at DESC`). This allows MySQL to satisfy both the WHERE clause and ORDER BY directly from the index tree without a temporary table filesort.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does read/write replica connection splitting work in Laravel?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In `config/database.php`, you specify separate `read` and `write` host arrays. Laravel automatically routes SELECT queries to read replicas and INSERT/UPDATE/DELETE queries to the primary writer. Setting `'sticky' => true` ensures any subsequent reads within the same request lifecycle route to the write host to guarantee read-after-write consistency.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why should Eloquent models always define $fillable rather than $guarded = []?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Using `$guarded = []` disables mass-assignment protection globally. If a developer uses `Model::create($request->all())`, an attacker can inject privileged attributes like `is_admin: true` or `role: 'superadmin'`. An explicit `$fillable` whitelist ensures only approved fields can ever be mass-assigned.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the difference between pessimistic locking and optimistic locking in MySQL?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pessimistic locking (`lockForUpdate()`) instructs MySQL to lock the selected rows with an exclusive write lock until the transaction commits, preventing concurrent transactions from modifying them. Optimistic locking uses a version column and checks if the version changed before writing, aborting if a collision occurred.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do generated virtual columns optimize JSON querying in MySQL 8?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">MySQL permits creating virtual columns extracted from JSON documents (`$table->string('domain')->virtualAs("SUBSTRING_INDEX(data->>'$.email', '@', -1)")`) and indexing that virtual column. This gives index-backed search speed to schemaless JSON fields.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does strict SQL mode prevent data truncation bugs in production?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">With `STRICT_TRANS_TABLES` enabled, MySQL immediately rejects queries attempting to insert strings longer than column limits or invalid dates with an error, rather than silently truncating data or substituting zero dates (`0000-00-00`).</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is non-root execution configured in the Docker container?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The multi-stage Alpine Dockerfile creates an unprivileged user and group (`appuser` with UID 10001) and sets `USER appuser`. This ensures compromised PHP worker processes cannot gain root access on the Docker host.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the benefit of cursor pagination over offset pagination in MySQL?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Offset pagination (`OFFSET 100000`) forces MySQL to scan and discard 100,000 index rows before returning 20 records, degrading linearly as page numbers increase. Cursor pagination (`WHERE id > :last_id LIMIT 20`) uses direct B-Tree index seeks, maintaining constant microsecond speed on any page.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does this kit prevent N+1 query performance degradation?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Controllers always eager-load associations via `Article::with('user')`. Furthermore, strict lazy loading is enabled in local and testing environments via `Model::preventLazyLoading()`, causing an immediate exception if an un-eager-loaded relation is accessed.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What testing strategy is used to keep test suites fast with MySQL?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Tests utilize `Illuminate\Foundation\Testing\RefreshDatabase`. Rather than dropping and recreating tables on every test, Laravel runs tests inside an isolated database transaction and rolls back at the end of each test method, allowing hundreds of tests to complete in seconds.</p></details>
 </div>
       </section>
 
@@ -650,14 +673,14 @@ docker compose up --build -d</pre>
         <div class="p-6 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
           <div class="flex items-center justify-between mb-3">
             <div class="eyebrow-numbered text-[#e85d26]">AGENT BOOTSTRAP PROMPT</div>
-            <button type="button" data-copy-cmd="You are building with the Laravel 12 + MySQL Dashboard kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
+            <button type="button" data-copy-cmd="You are building with the Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
               <span>Copy Prompt</span>
             </button>
           </div>
           <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] mb-3">
             Paste this exact prompt into Claude Code, Cursor, Copilot, or Antigravity to anchor the agent in the kit's rules and invariants:
           </p>
-          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the Laravel 12 + MySQL Dashboard kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
+          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
         </div>
       </section>
 

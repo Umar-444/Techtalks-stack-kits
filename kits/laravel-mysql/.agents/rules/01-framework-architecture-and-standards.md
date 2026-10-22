@@ -1,0 +1,24 @@
+---
+id: 01-framework-architecture-and-standards
+title: Laravel Architecture, Service Boundaries, and Omakase Conventions
+globs: "starter/app/**/*.php,starter/routes/**/*.php"
+alwaysApply: true
+---
+
+# Laravel Architecture, Service Boundaries, and Omakase Conventions
+
+## 1. Directory Structure & Domain Separation
+- Adhere strictly to modern Laravel directory layout:
+  - `app/Models/`: Eloquent models defining schema casts, relationships, scopes, and fillable fields.
+  - `app/Http/Controllers/`: Resourceful controllers with skinny actions delegating to Form Requests and Policies.
+  - `app/Http/Requests/`: Dedicated Form Request classes encapsulating authorization and validation rules.
+  - `app/Policies/`: Granular authorization policies mapping directly to Eloquent models.
+  - `routes/`: Explicit web and API route declarations with route model binding.
+
+## 2. Request Validation & Mass Assignment Guarding
+- Never validate inside controller action methods directly. Always inject dedicated `FormRequest` classes.
+- Models must strictly define `$fillable` arrays. Never use unconstrained `$guarded = []`.
+
+## 3. Policy & Authorization Gates
+- Authorize resourceful actions via `$this->authorize('view', $article)` or route middleware `can:view,article`.
+- Keep controller actions minimal and return typed responses (JSON Resource or Blade view).

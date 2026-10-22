@@ -1,0 +1,13 @@
+{
+  "task_id": "eval-03-read-write-splitting-config",
+  "name": "MySQL Read/Write Replica Connection Splitting",
+  "difficulty": "advanced",
+  "prompt": "Configure database read/write replica routing in config/database.php with multiple read hosts and a sticky connection setting to guarantee read-after-write consistency.",
+  "expected_files": [
+    "starter/config/database.php"
+  ],
+  "verification": {
+    "command": "php artisan config:show database",
+    "criteria": "Configuration defines read array and write host with sticky enabled"
+  }
+}
