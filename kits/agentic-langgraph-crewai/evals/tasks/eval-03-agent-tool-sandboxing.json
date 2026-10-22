@@ -1,0 +1,11 @@
+﻿{
+  "id": "eval-03-agent-tool-sandboxing",
+  "title": "Agent Tool Sandboxing & Injection Defenses",
+  "instruction": "Verify tools enforce strict Pydantic input boundaries and reject unsanitized command injections.",
+  "assertions": [
+    "Tool inputs validate against Pydantic models",
+    "Raw shell command injection triggers validation error",
+    "Malicious prompt injection attempts are trapped before tool execution",
+    "Human-in-the-loop interrupts trigger on sensitive mutations"
+  ]
+}

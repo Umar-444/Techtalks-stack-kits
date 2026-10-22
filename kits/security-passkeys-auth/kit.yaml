@@ -1,31 +1,43 @@
-schema_version: 1.0.0
-name: Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
-slug: security-passkeys-auth
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Verified passwordless FIDO2 / WebAuthn Passkeys authentication implementation
-  in TypeScript: SimpleWebAuthn ceremonies, OAuth fallback, HttpOnly signed session
-  cookies, and strict session fixation defenses.'
-category: Security
+﻿schema_version: "1.0.0"
+
+name: "Passkeys WebAuthn + Hardened Auth Reference (TypeScript)"
+slug: "security-passkeys-auth"
+version: "1.0.0"
+status: "stable"
+updated_at: "2026-10-22"
+description: "Verified passwordless FIDO2 / WebAuthn Passkeys authentication implementation in TypeScript: SimpleWebAuthn ceremonies, OAuth fallback, HttpOnly signed session cookies, and strict session fixation defenses."
+category: "Security"
+
 maintainer:
-  name: TechTalks Security Group
-  role: Identity & Cryptography Engineer
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Identity & Cryptography Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: TypeScript
-    version: 5.6+
-    registry: npm
+    name: "TypeScript"
+    version: ">= 5.6"
+    registry: "npm"
   framework:
-    name: Hono
-    version: 4.6+
-    registry: npm
-  runtime: Node.js 22+ / Bun 1.1+
-  passkeys: '@simplewebauthn/server & @simplewebauthn/browser'
-  session_store: Redis with cryptographic token rotation
-  compliance: FIDO2 / WebAuthn Level 3
+    name: "Hono"
+    version: ">= 4.6"
+    registry: "npm"
+  runtime: "Node.js 22+ / Bun 1.1+"
+  passkeys:
+    name: "@simplewebauthn/server & @simplewebauthn/browser"
+    features:
+      - "Discoverable resident credentials (passkeys)"
+      - "Attestation and assertion verification"
+      - "Counter rollback cloning detection"
+  session_store:
+    name: "Cryptographic Token Rotation & Memory/Redis Store"
+    features:
+      - "Session fixation defense"
+      - "HttpOnly SameSite=Lax signed cookies"
+  compliance: "FIDO2 / WebAuthn Level 3"
+
 layers:
   starter:
     path: starter/
@@ -33,38 +45,57 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: security-passkeys-auth-core
-      path: skills/security-passkeys-auth-core/SKILL.md
-      description: Core operations and scaffolding skill for Passkeys WebAuthn + Hardened
-        Auth Reference (TypeScript).
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Comprehensive preflight verification, package installation, and ceremony test execution for TypeScript Passkeys WebAuthn.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Guide to adding multi-passkey management, credential renaming, and device metadata labeling.
+      - id: webauthn-registration-and-attestation
+        path: skills/webauthn-registration-and-attestation/SKILL.md
+        description: Configuring SimpleWebAuthn registration ceremonies, discoverable resident keys, and public key persistence.
+      - id: passkey-authentication-and-assertion
+        path: skills/passkey-authentication-and-assertion/SKILL.md
+        description: Implementing passwordless passkey login, assertion verification, and signature counter rollback protection.
+      - id: security-passkeys-auth-core
+        path: skills/security-passkeys-auth-core/SKILL.md
+        description: Core operational workflows, Relying Party parameters, challenge management, and Token-Light evaluation.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: true
   median_eval_tokens: 16900
-  efficiency_tier: A+
+  efficiency_tier: "A+"
+
 security:
   automated_scans:
     gitleaks: true
@@ -74,5 +105,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

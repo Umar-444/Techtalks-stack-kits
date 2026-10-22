@@ -1,0 +1,58 @@
+﻿[
+  {
+    "q": "When should I choose LangGraph versus CrewAI, and why pair them together?",
+    "a": "LangGraph excels at low-level deterministic state machines, cyclic loops, error recovery, and precise branch routing, while CrewAI excels at high-level autonomous agent personas, role-playing, and cooperative task delegation. Pairing them allows LangGraph to orchestrate macro workflows (review cycles, human approval gates) while CrewAI squads execute specialized micro tasks (deep research, multi-file code synthesis)."
+  },
+  {
+    "q": "How does LangGraph handle cyclic state machines and self-correcting agent loops?",
+    "a": "Unlike directed acyclic graphs (DAGs), LangGraph allows edges to route back to earlier nodes based on runtime conditions. For example, a CodeGenerator node transitions to a CodeReviewer node, which can route back to CodeGenerator if tests fail or security flaws are found, executing autonomous self-correction."
+  },
+  {
+    "q": "What prevents an agent cycle from looping infinitely and bankrupting the system?",
+    "a": "LangGraph enforces recursion limits (e.g. config={'recursion_limit': 25}). Additionally, our architecture tracks an explicit iteration_count in the graph state. Conditional routing functions check if iteration_count exceeds a safety threshold (e.g. 5 retries), force-routing the workflow to END or a Human-in-the-Loop approval node."
+  },
+  {
+    "q": "How do you maintain immutable state in LangGraph with TypedDict and reducers?",
+    "a": "State is defined as a TypedDict with operator annotations (e.g., messages: Annotated[List[str], add]). Nodes never mutate the incoming state object directly; instead, they return a dictionary containing only updated fields. LangGraph's reducer functions automatically apply changes, ensuring predictable snapshots and time-travel replay."
+  },
+  {
+    "q": "How does CrewAI handle role-based delegation without runaway recursive calls?",
+    "a": "In CrewAI, leaf worker agents are configured with allow_delegation=False, restricting delegation privileges strictly to orchestrator or manager personas. This prevents worker agents from passing tasks back and forth in an unbounded recursion loop."
+  },
+  {
+    "q": "How do you sandbox agent tool execution against prompt injection and arbitrary command execution?",
+    "a": "Every tool exposes an explicit Pydantic schema validating arguments. Tools never pass raw user or LLM strings into shell execution or raw SQL. Destructive operations execute in isolated, ephemeral Docker containers without host network egress."
+  },
+  {
+    "q": "What is Human-in-the-Loop (HITL) and how are interrupt checkpoints implemented?",
+    "a": "LangGraph supports compilation interrupts (e.g. interrupt_before=['deploy_code']). When the graph reaches this node, execution pauses, state is checkpointed to Redis, and an event is emitted to the user. Once an operator approves via the API, the graph resumes with the preserved state."
+  },
+  {
+    "q": "How does Redis provide checkpointing and time-travel debugging in LangGraph?",
+    "a": "With RedisSaver checkpointers, every step transition is persisted with a unique thread_id and checkpoint_id. If an agent crashes or an external API times out, execution resumes from the exact last saved node without repeating prior token-heavy completions."
+  },
+  {
+    "q": "How do you test multi-agent graphs deterministically in CI without incurring live LLM API bills?",
+    "a": "Tests in tests/test_graph.py use FakeListChatModel or deterministic function mocks to simulate LLM responses. This allows automated unit tests to verify cyclic routing, edge conditions, tool invocations, and state transformations in milliseconds with zero API costs."
+  },
+  {
+    "q": "What is the difference between sequential, hierarchical, and consensual multi-agent processes?",
+    "a": "Sequential executes tasks linearly where agent A's output feeds agent B. Hierarchical introduces a manager agent that autonomously assigns tasks and reviews submissions. Consensual requires multiple agents to independently deliberate and reach a majority agreement before committing changes."
+  },
+  {
+    "q": "How does the FastAPI gateway manage asynchronous agent job lifecycles and WebSockets streaming?",
+    "a": "FastAPI dispatches graph runs into background asyncio tasks, immediately returning a job_id. Clients track execution status via polling or connect to a WebSockets endpoint streaming token-by-token thought processes and intermediate node transitions in real time."
+  },
+  {
+    "q": "Why run Docker as non-root user USER 10001:10001?",
+    "a": "Autonomous agent systems run tool-augmented code and interact with system resources. Running as non-root user UID 10001 guarantees that even if an agent's code sandbox is breached, the attacker cannot compromise the underlying host system, passing enterprise Semgrep SAST scans."
+  },
+  {
+    "q": "How does this architecture maintain zero data retention and secret safety?",
+    "a": "API keys (OpenAI, Anthropic, Serper) are injected strictly via environment variables and never logged or exposed in client responses. Secret sanitizers scan state deltas before persisting to Redis."
+  },
+  {
+    "q": "How does this kit achieve Token-Light efficiency for AI developer pairing?",
+    "a": "By separating concerns cleanly across app/state.py, app/graph.py, and app/tools.py, an AI coding assistant can comprehend and modify the complete multi-agent workflow in fewer than 17,000 median tokens, avoiding bloated monolith configurations."
+  }
+]

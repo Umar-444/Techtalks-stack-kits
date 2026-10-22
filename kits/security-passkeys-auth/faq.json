@@ -1,0 +1,58 @@
+﻿[
+  {
+    "q": "What are Passkeys and how do they replace passwords?",
+    "a": "Passkeys are cryptographic credentials based on the FIDO2 / WebAuthn standard that replace shared secrets (passwords) with asymmetric public-key cryptography. A private key remains securely inside the user device enclave or password manager, while only the public key is shared with the server. Passkeys are immune to phishing, server credential leaks, and credential stuffing attacks."
+  },
+  {
+    "q": "What is the difference between WebAuthn, FIDO2, and Passkeys?",
+    "a": "FIDO2 is the overarching project comprising CTAP (Client to Authenticator Protocol) and WebAuthn. WebAuthn is the W3C standard JavaScript API allowing browsers to communicate with authenticators. 'Passkey' is the consumer-friendly term for a discoverable (resident) FIDO2 credential."
+  },
+  {
+    "q": "What is the difference between single-device and multi-device (synced) passkeys?",
+    "a": "Single-device passkeys are bound to a specific hardware security token (such as a YubiKey or Titan Key) and cannot be copied or backed up. Multi-device passkeys are end-to-end encrypted and synced across a user ecosystem (Apple iCloud Keychain, Google Password Manager, 1Password, Bitwarden), providing seamless cross-device availability."
+  },
+  {
+    "q": "How does the Relying Party ID (rpID) prevent phishing attacks?",
+    "a": "Browsers enforce that authenticators only release credentials matching the exact domain (rpID) loaded in the address bar. If an attacker tricks a user into visiting a fake domain (e.g. login-bank.com instead of bank.com), the browser will refuse to supply the passkey registered to bank.com, completely neutralizing phishing."
+  },
+  {
+    "q": "Why must expectedOrigin strictly match scheme, domain, and port?",
+    "a": "During registration and authentication, the client creates a clientDataJSON payload containing the exact origin where the ceremony occurred. The server checks that expectedOrigin matches the clientDataJSON origin byte-for-byte to prevent cross-origin injection and MITM relay attacks."
+  },
+  {
+    "q": "How does the registration ceremony bind public keys to a user account?",
+    "a": "The server sends registration options containing a random challenge, user ID, and username. The authenticator creates a new public/private keypair and signs the challenge. The server verifies the signature, verifies the challenge hasn't expired, and stores the public key and credential ID associated with the user ID in the database."
+  },
+  {
+    "q": "What is user verification (userVerification: 'preferred' | 'required')?",
+    "a": "User Verification (UV) confirms that the actual authorized person is operating the device (via biometrics like Face ID / Touch ID / Windows Hello, or device PIN). 'preferred' requests UV if supported by the authenticator without failing non-biometric keys, while 'required' strictly demands UV."
+  },
+  {
+    "q": "How does the signature counter protect against authenticator cloning?",
+    "a": "Dedicated hardware authenticators increment an internal signature counter with every assertion. If the server receives an assertion where newCounter <= storedCounter, it indicates that a clone or copy of the private key was used concurrently, triggering an immediate security freeze."
+  },
+  {
+    "q": "Why do synced passkeys (iCloud Keychain, Google Password Manager) often keep counter = 0?",
+    "a": "Because multi-device passkeys sync across phones, laptops, and tablets without a shared central clock or synchronized hardware counter, cloud providers often keep the signature counter at 0. SimpleWebAuthn detects this and only performs counter rollback verification when counter > 0."
+  },
+  {
+    "q": "What is session fixation and how does session rotation mitigate it?",
+    "a": "Session fixation occurs when an attacker forces a victim to authenticate using a known session identifier, allowing the attacker to hijack the authenticated session. The gateway destroys any pre-authentication challenge session and issues a completely new, cryptographically random session token post-authentication."
+  },
+  {
+    "q": "Why enforce HttpOnly; Secure; SameSite=Lax on session cookies?",
+    "a": "HttpOnly ensures client-side JavaScript cannot read the session cookie, eliminating XSS token theft. Secure ensures cookies are only transmitted over TLS. SameSite=Lax prevents the browser from sending cookies on cross-origin requests, defending against CSRF."
+  },
+  {
+    "q": "Why run Docker as non-root user USER 10001:10001?",
+    "a": "Running Node.js or Bun services as root inside a container grants root privileges if an execution escape vulnerability is exploited. Declaring USER 10001:10001 enforces principle of least privilege and satisfies enterprise compliance and Semgrep container scans."
+  },
+  {
+    "q": "How does this reference kit achieve Tier A+ token-light efficiency for AI agents?",
+    "a": "By using clean TypeScript and Hono with @simplewebauthn/server, the entire authentication flow is implemented in concise, type-checked code without sprawling boilerplate or heavy ORM scaffolding, allowing AI agents to evaluate and modify auth logic in under 17,000 tokens."
+  },
+  {
+    "q": "How do I test WebAuthn ceremonies in headless CI environments without physical biometrics?",
+    "a": "In automated CI pipelines, you use the Chrome DevTools Protocol (CDP) Virtual Authenticator environment (via Playwright or Puppeteer) or synthetic mock assertions that generate valid P-256 signatures, enabling 100% automated coverage without hardware interaction."
+  }
+]

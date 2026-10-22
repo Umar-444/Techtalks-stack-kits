@@ -1,30 +1,44 @@
-schema_version: 1.0.0
-name: Agentic LangGraph + CrewAI + FastAPI
-slug: agentic-langgraph-crewai
-version: 1.0.0
-status: stable
-updated_at: '2026-10-22'
-description: 'Production-ready multi-agent coordination architecture: LangGraph cyclic
-  state machines paired with CrewAI autonomous agent squads and high-throughput async
-  FastAPI endpoints.'
-category: AI & Multi-Agent Systems
-author: TechTalks AI Systems Engineering
+﻿schema_version: "1.0.0"
+
+name: "Agentic LangGraph + CrewAI + FastAPI"
+slug: "agentic-langgraph-crewai"
+version: "1.0.0"
+status: "stable"
+updated_at: "2026-10-22"
+description: "Production-ready multi-agent coordination architecture: LangGraph cyclic state machines paired with CrewAI autonomous agent squads and high-throughput async FastAPI endpoints."
+category: "AI & Multi-Agent Systems"
+
 maintainer:
-  name: TechTalks Engineering
-  role: Autonomous Systems Lead
-  url: https://techtalks.itsumarfarooq.com/kits/
-  github: Umar-444
+  name: "Umar Farooq"
+  role: "Senior AI Systems & Autonomous Agents Lead"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
-  language: Python 3.12+
-  framework: LangGraph 0.2+
-  multi_agent: CrewAI 0.70+
-  api: FastAPI 0.115+
-  state_backend: Redis 7 / MemorySaver
-  runtime: Docker (Rootless)
-  extra:
-  - Pydantic v2
-  - Pytest-Asyncio
-  - ChromaDB
+  language:
+    name: "Python"
+    version: ">= 3.12"
+    registry: "pypi.org"
+  framework:
+    name: "LangGraph"
+    version: ">= 0.2"
+    registry: "pypi.org"
+  multi_agent:
+    name: "CrewAI"
+    version: ">= 0.70"
+    registry: "pypi.org"
+  api:
+    name: "FastAPI"
+    version: ">= 0.115"
+    registry: "pypi.org"
+  state_backend:
+    name: "Redis 7 / MemorySaver"
+    features:
+      - "Time-travel checkpointing"
+      - "Immutable state transitions"
+      - "Bounded cycle recursion limit"
+
 layers:
   starter:
     path: starter/
@@ -32,48 +46,63 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - CODEX.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .clinerules
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: install-and-verify
-      path: skills/install-and-verify/SKILL.md
-      description: Install, orchestrate, and verify the Agentic LangGraph + CrewAI + FastAPI multi-agent stack.
-    - id: first-feature
-      path: skills/first-feature/SKILL.md
-      description: Implement the canonical first feature - multi-agent automated code review graph.
-    - id: langgraph-graph
-      path: skills/langgraph-graph/SKILL.md
-      description: Build cyclic and hierarchical LangGraph state machines with TypedDict and Redis persistence.
-    - id: crewai-orchestration
-      path: skills/crewai-orchestration/SKILL.md
-      description: Define autonomous CrewAI agents with scoped roles, tools, and sandboxed delegation.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, orchestrate, and verify the Agentic LangGraph + CrewAI + FastAPI multi-agent stack.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Implement the canonical first feature - multi-agent automated code review graph.
+      - id: langgraph-graph
+        path: skills/langgraph-graph/SKILL.md
+        description: Build cyclic and hierarchical LangGraph state machines with TypedDict and Redis persistence.
+      - id: crewai-orchestration
+        path: skills/crewai-orchestration/SKILL.md
+        description: Define autonomous CrewAI agents with scoped roles, tools, and sandboxed delegation.
+      - id: tool-sandboxing
+        path: skills/tool-sandboxing/SKILL.md
+        description: Secure agent tools with strict Pydantic schemas and non-root execution boundaries.
+      - id: eval-benchmark
+        path: skills/eval-benchmark/SKILL.md
+        description: Automated multi-agent benchmark evaluation and convergence scoring.
+      - id: agentic-langgraph-crewai-core
+        path: skills/agentic-langgraph-crewai-core/SKILL.md
+        description: Core operational workflows, cyclic graphs, agent squads, and Token-Light evaluation.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: true
   median_eval_tokens: 16800
-  efficiency_tier: A
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -84,12 +113,6 @@ security:
     strict_parameterized_queries: true
     authorization_on_every_resource: true
     sandboxed_tools: true
-agent_prompts:
-  kickoff: You are building a production multi-agent system using the Agentic LangGraph
-    + CrewAI + FastAPI kit. Adhere strictly to CLAUDE.md / .cursor/rules, immutable
-    state schemas in app/state.py, and steps/agent-build-steps.md. Never execute unvalidated
-    shell commands.
-  verify: Run pytest tests/ and verify that all graph cycles terminate within the
-    recursion limit and tool schemas validate cleanly.
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git && cd kits/agentic-langgraph-crewai
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

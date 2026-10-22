@@ -1,0 +1,11 @@
+﻿{
+  "id": "eval-02-registration-ceremony",
+  "title": "Passkey Registration & Attestation Verification",
+  "instruction": "Verify that SimpleWebAuthn registration response is validated against expected challenge and origin.",
+  "assertions": [
+    "Attestation signature verifies against public key",
+    "Tampered challenges fail verification with HTTP 400",
+    "Mismatched origin returns verification failure",
+    "Passkey credential ID is stored with initial counter"
+  ]
+}

@@ -1,0 +1,27 @@
+﻿---
+id: testing-verification-and-ci
+title: Testing, Verification & CI Invariants
+globs: "**/*.py"
+alwaysApply: true
+---
+# Testing Multi-Agent Systems, Evals & CI Pipelines
+
+## 1. Mocking LLMs in Graph Unit Tests
+- Unit tests must not incur live LLM API costs or fail due to model nondeterminism.
+- Use `FakeListChatModel` or deterministic function mocks to simulate LLM decision nodes:
+  ```python
+  from langchain_core.language_models import FakeListChatModel
+
+  mock_llm = FakeListChatModel(responses=["Approved", "Needs revision"])
+  ```
+
+## 2. Graph Termination Assertions
+- Assert that all state transitions cleanly reach the `END` state within expected iteration limits.
+- Assert that prompt injections into the initial task do not execute malicious shell commands.
+
+## 3. CI Quality Gates
+- Must pass:
+  1. `gitleaks detect --no-git` with 0 secrets.
+  2. `semgrep scan --config p/owasp-top-ten` with 0 findings.
+  3. `python tools/validate_manifest.py` verifying full physical layout.
+  4. `python tools/transpiler.py --check` guaranteeing zero dialect drift.

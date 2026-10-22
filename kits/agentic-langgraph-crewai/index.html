@@ -221,7 +221,7 @@
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>Python 3.12+</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>LangGraph 0.2+</span> <span class='chip'>Pydantic v2</span> <span class='chip'>Pytest-Asyncio</span> <span class='chip'>ChromaDB</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Python', 'version': '>= 3.12', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'LangGraph', 'version': '>= 0.2', 'registry': 'pypi.org'}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -233,7 +233,7 @@
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
           </button>
         </div>
-        <button type="button" data-copy-cmd="You are building a production multi-agent system using the Agentic LangGraph + CrewAI + FastAPI kit. Adhere strictly to CLAUDE.md / .cursor/rules, immutable state schemas in app/state.py, and steps/agent-build-steps.md. Never execute unvalidated shell commands." class="btn-primary-orange">
+        <button type="button" data-copy-cmd="You are building with the Agentic LangGraph + CrewAI + FastAPI kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
           Copy Agent Bootstrap Prompt &rarr;
         </button>
       </div>
@@ -656,14 +656,14 @@ docker compose up --build -d</pre>
         <div class="p-6 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
           <div class="flex items-center justify-between mb-3">
             <div class="eyebrow-numbered text-[#e85d26]">AGENT BOOTSTRAP PROMPT</div>
-            <button type="button" data-copy-cmd="You are building a production multi-agent system using the Agentic LangGraph + CrewAI + FastAPI kit. Adhere strictly to CLAUDE.md / .cursor/rules, immutable state schemas in app/state.py, and steps/agent-build-steps.md. Never execute unvalidated shell commands." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
+            <button type="button" data-copy-cmd="You are building with the Agentic LangGraph + CrewAI + FastAPI kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
               <span>Copy Prompt</span>
             </button>
           </div>
           <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] mb-3">
             Paste this exact prompt into Claude Code, Cursor, Copilot, or Antigravity to anchor the agent in the kit's rules and invariants:
           </p>
-          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building a production multi-agent system using the Agentic LangGraph + CrewAI + FastAPI kit. Adhere strictly to CLAUDE.md / .cursor/rules, immutable state schemas in app/state.py, and steps/agent-build-steps.md. Never execute unvalidated shell commands.</pre>
+          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the Agentic LangGraph + CrewAI + FastAPI kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
         </div>
       </section>
 

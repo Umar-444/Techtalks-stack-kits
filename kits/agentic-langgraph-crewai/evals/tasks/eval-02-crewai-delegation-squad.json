@@ -1,0 +1,11 @@
+﻿{
+  "id": "eval-02-crewai-delegation-squad",
+  "title": "CrewAI Autonomous Squad & Role Delegation",
+  "instruction": "Verify CrewAI agent squad coordinates with distinct roles (Researcher, Coder, Reviewer).",
+  "assertions": [
+    "Agents initialize with explicit roles and goals",
+    "Leaf worker agents forbid unauthorized recursive delegation",
+    "Process.sequential executes deterministic handoffs",
+    "Final synthesis payload validates against Pydantic schema"
+  ]
+}

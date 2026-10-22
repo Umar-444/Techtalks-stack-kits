@@ -1,0 +1,37 @@
+﻿services:
+  passkeys_auth:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: security_passkeys_auth_app
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - RP_NAME=TechTalks Verified Passkeys
+      - RP_ID=localhost
+      - EXPECTED_ORIGIN=http://localhost:8080
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080
+      - REDIS_URL=redis://redis:6379/0
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:8080/health', (r) => { if (r.statusCode !== 200) process.exit(1); })\""]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  redis:
+    image: redis:7-alpine
+    container_name: security_passkeys_redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
