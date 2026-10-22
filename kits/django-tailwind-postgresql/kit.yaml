@@ -1,33 +1,50 @@
-schema_version: 1.0.0
-name: Django 5 + Tailwind CSS + PostgreSQL
-slug: django-tailwind-postgresql
-version: 1.0.0
-status: stable
-updated_at: '2026-10-22'
-description: Batteries-included full-stack Django 5 with Tailwind CSS design tokens, Django auth, atomic PostgreSQL transactions, and pre-wired Docker Compose.
-category: Python
+﻿schema_version: "1.0.0"
+
+name: "Django 5 + Tailwind CSS + PostgreSQL"
+slug: "django-tailwind-postgresql"
+version: "1.0.0"
+status: "stable"
+category: "Python"
+updated_at: "2026-10-22"
+
+description: "Batteries-included full-stack Django 5 with Tailwind CSS design tokens, Django auth, atomic PostgreSQL transactions, and pre-wired Docker Compose."
+
 maintainer:
-  name: TechTalks Python Engineering Group
-  role: Django Platform Lead
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Python
-    version: 3.12+
-    registry: pypi.org
+    name: "Python"
+    version: "3.12+"
+    registry: "pypi.org"
   framework:
-    name: Django
-    version: 5.1+
-    registry: pypi.org
-  styling: Tailwind CSS 3.4+
+    name: "Django"
+    version: "5.1+"
+    registry: "pypi.org"
+  styling:
+    name: "Tailwind CSS"
+    version: "3.4+"
+    type: "utility-css"
   database:
-    engine: PostgreSQL
-    version: 16+
+    engine: "PostgreSQL"
+    version: "16+"
     features:
-    - Django ORM
-    - Atomic Transactions
-    - Psycopg 3 Pooling
+      - "Django ORM"
+      - "Atomic Transactions"
+      - "Psycopg 3 Pooling"
+      - "GIN Indexing"
+      - "JSONField"
+  cache_queue:
+    engine: "Redis"
+    version: ">=7.0"
+  runtime:
+    name: "Gunicorn / WhiteNoise"
+    version: ">=23.0"
+
 layers:
   starter:
     path: starter/
@@ -35,48 +52,63 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - CODEX.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .clinerules
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: install-and-verify
-      path: skills/install-and-verify/SKILL.md
-      description: Install, orchestrate, and verify the Django 5 + Tailwind CSS + PostgreSQL 16+ full-stack application.
-    - id: first-feature
-      path: skills/first-feature/SKILL.md
-      description: Build the canonical first feature - full CRUD task list module with Tailwind UI cards.
-    - id: django-tailwind-theme
-      path: skills/django-tailwind-theme/SKILL.md
-      description: Build, compile, and configure Tailwind CSS tokens, typography, and dark mode for Django templates.
-    - id: postgres-connection-pooling
-      path: skills/postgres-connection-pooling/SKILL.md
-      description: Configure PostgreSQL 16+ connection pooling, JSONB operations, and composite indexes in Django ORM.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, orchestrate, and verify the Django 5 + Tailwind CSS + PostgreSQL 16+ full-stack application.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Build the canonical first feature - full CRUD task list module with Tailwind UI cards.
+      - id: django-tailwind-theme
+        path: skills/django-tailwind-theme/SKILL.md
+        description: Build, compile, and configure Tailwind CSS tokens, typography, and dark mode for Django templates.
+      - id: postgres-connection-pooling
+        path: skills/postgres-connection-pooling/SKILL.md
+        description: Configure PostgreSQL 16+ connection pooling, JSONB operations, and composite indexes in Django ORM.
+      - id: django-model-form
+        path: skills/django-model-form/SKILL.md
+        description: Author accessible Django ModelForms with Tailwind CSS widget styling and server-side validation.
+      - id: django-security-audit
+        path: skills/django-security-audit/SKILL.md
+        description: Execute Django deployment security checks, CSRF validation, and OWASP compliance auditing.
+      - id: django-tailwind-postgresql-core
+        path: skills/django-tailwind-postgresql-core/SKILL.md
+        description: Core operational commands, migrations, and settings configurations for Django with Tailwind and PostgreSQL.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: true
   median_eval_tokens: 15800
-  efficiency_tier: A
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -86,5 +118,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

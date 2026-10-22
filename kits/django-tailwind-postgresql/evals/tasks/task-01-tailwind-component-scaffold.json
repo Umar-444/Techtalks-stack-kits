@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-01-tailwind-component-scaffold",
+  "name": "Scaffold Responsive Tailwind Component with Dark Mode",
+  "difficulty": "intermediate",
+  "prompt": "Create a reusable Tailwind CSS task card component within starter/templates/index.html that renders priority badges (emerald for low, amber for medium, rose for high) and completion checkboxes with dark mode variants. Ensure no raw inline styles are used.",
+  "expected_files": [
+    "starter/templates/base.html",
+    "starter/templates/index.html"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_views.py -k test_item_list_view",
+    "criteria": "Rendered HTML contains Tailwind semantic tokens and priority badges without raw inline style attributes"
+  }
+}

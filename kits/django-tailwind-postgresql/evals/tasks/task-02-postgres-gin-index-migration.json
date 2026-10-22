@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-02-postgres-gin-index-migration",
+  "name": "PostgreSQL GIN Indexing for JSONField Metadata",
+  "difficulty": "advanced",
+  "prompt": "Extend the Item model with a PostgreSQL JSONField named 'metadata' and register a django.contrib.postgres.indexes.GinIndex on the field. Generate and verify the Django migration ensuring zero-downtime execution.",
+  "expected_files": [
+    "starter/app/models.py",
+    "starter/app/migrations/"
+  ],
+  "verification": {
+    "command": "python starter/manage.py makemigrations --check --dry-run",
+    "criteria": "Django migration detects the GinIndex definition without schema validation errors"
+  }
+}

@@ -1,0 +1,58 @@
+﻿[
+  {
+    "question": "How does Tailwind CSS integrate into Django without requiring a full Node.js toolchain in production?",
+    "answer": "This kit supports two workflows: during development, you can use the official standalone Tailwind CSS CLI executable (or CDN script for fast prototyping). For production builds, the standalone CLI compiles your template utility classes into a single minified static file (`static/css/dist/styles.css`). When running `python manage.py collectstatic`, WhiteNoise bundles and content-hashes the pre-compiled CSS. The production Docker container requires zero Node.js or npm runtime dependencies, resulting in a lean, secure, and fast Python image."
+  },
+  {
+    "question": "Why does this kit use psycopg (version 3) instead of legacy psycopg2-binary?",
+    "answer": "Psycopg 3 is the modern, rewritten PostgreSQL adapter for Python. It provides native asynchronous query support, client-side and server-side connection pooling, binary query parameter protocol for enhanced throughput, and first-class support for PostgreSQL 16+ data types (including JSONB, native UUIDs, and network types). Unlike `psycopg2-binary`, which is explicitly discouraged by its maintainers for production use, `psycopg[c]` or `psycopg[binary]` provides rock-solid stability and eliminates thread safety pitfalls."
+  },
+  {
+    "question": "How do you configure PostgreSQL connection pooling in Django 5 with CONN_MAX_AGE and PgBouncer?",
+    "answer": "In `settings.py`, setting `CONN_MAX_AGE=600` instructs Django to persist database connections across multiple HTTP requests rather than establishing and terminating a new TCP handshake on every view invocation. When running under heavy traffic behind PgBouncer or AWS RDS Proxy, set `CONN_MAX_AGE=0` if PgBouncer is in transaction-pooling mode to avoid connection pinning, or keep persistent connections if PgBouncer operates in session mode. In Django 5.1+, you can also configure connection health checks via `CONN_HEALTH_CHECKS=True`."
+  },
+  {
+    "question": "How do you use transaction.atomic() to guarantee ACID transactional consistency across multi-step mutations?",
+    "answer": "Django wraps database operations in autocommit mode by default. For multi-model updates—such as creating an item, deducting inventory, and logging an audit trail—wrap the block in `with transaction.atomic():`. If any exception is raised within the context manager, PostgreSQL rolls back all queries executed within the block. You can also nest atomic blocks, which PostgreSQL implements using savepoints (`SAVEPOINT` and `ROLLBACK TO SAVEPOINT`). Never catch exceptions inside an atomic block without re-raising unless you explicitly handle the rollback."
+  },
+  {
+    "question": "How do you prevent Broken Object Level Authorization (BOLA/IDOR) in generic Django Class-Based Views?",
+    "answer": "Never rely solely on object primary keys passed in URL parameters (e.g., `path('items/<int:pk>/edit/', ...)`). In generic views like `UpdateView`, `DeleteView`, or `DetailView`, always override `get_queryset()` to filter by the authenticated user: `def get_queryset(self): return super().get_queryset().filter(user=self.request.user)`. If an attacker attempts to guess another user's item ID, Django will raise an `Http404` exception instead of leaking or updating unauthorized data."
+  },
+  {
+    "question": "How does CSRF protection work with Fetch API, AJAX calls, and HTMX requests in Django templates?",
+    "answer": "Django requires a valid CSRF token on all unsafe HTTP methods (`POST`, `PUT`, `PATCH`, `DELETE`). For standard HTML forms, include `{% csrf_token %}` inside the `<form>` tag. For HTMX or JavaScript Fetch requests, read the cookie value from `document.cookie` or embed the token in an HTML header attribute: `<body hx-headers='{\"X-CSRFToken\": \"{{ csrf_token }}\"}'>`. Django's `CsrfViewMiddleware` inspects the `X-CSRFToken` request header and validates it against the user session cookie."
+  },
+  {
+    "question": "What is the difference between select_related() and prefetch_related(), and how do you prevent N+1 query bottlenecks?",
+    "answer": "`select_related()` works on single-valued relationships (ForeignKey and OneToOneField) by performing a SQL `INNER JOIN` or `LEFT OUTER JOIN` in a single query. `prefetch_related()` works on multi-valued relationships (ManyToManyField and reverse ForeignKey) by executing two queries and performing Python-side join stitching using `WHERE id IN (...)`. Use `django-debug-toolbar` in development or assert query counts in tests (`with self.assertNumQueries(2):`) to ensure list views never perform N queries for N items."
+  },
+  {
+    "question": "When and how should PostgreSQL GinIndex be used on JSONField or full-text search columns in Django?",
+    "answer": "Standard B-tree indexes are optimized for scalar comparisons (`=`, `<`, `>`). When storing semi-structured metadata in a PostgreSQL `JSONField` or performing full-text search across text columns, create a `GinIndex` (Generalized Inverted Index) using `from django.contrib.postgres.indexes import GinIndex`. GIN indexes index every internal key and value component, enabling rapid `@>` (contains) and `has_key` queries on millions of rows in milliseconds."
+  },
+  {
+    "question": "Why should WhiteNoise with CompressedManifestStaticFilesStorage be used instead of serving static files through Python or Nginx alone?",
+    "answer": "WhiteNoise integrates directly into the WSGI/ASGI application pipeline, allowing your containerized Django app to be completely self-contained without needing an adjacent Nginx sidecar for static assets. `CompressedManifestStaticFilesStorage` creates unique MD5 content hashes for each filename (e.g. `styles.a8f9c2d1.css`) and generates pre-compressed Gzip and Brotli variants. Browsers can cache these hashed assets indefinitely (`Cache-Control: max-age=31536000, immutable`), guaranteeing instant loads and zero cache invalidation bugs."
+  },
+  {
+    "question": "How do you configure secure session and CSRF cookies for production HTTPS environments?",
+    "answer": "In your production settings or environment variables, enable: `SESSION_COOKIE_SECURE = True`, `CSRF_COOKIE_SECURE = True`, `SESSION_COOKIE_HTTPONLY = True`, `CSRF_COOKIE_HTTPONLY = False` (if JavaScript or HTMX needs to read it from the cookie), `SESSION_COOKIE_SAMESITE = 'Lax'`, and `CSRF_COOKIE_SAMESITE = 'Lax'`. These settings prevent cross-site request forgery via third-party origins, block session cookie extraction via XSS scripts, and enforce transmission strictly over encrypted TLS connections."
+  },
+  {
+    "question": "How do you run the Django container as a non-root unprivileged user for Linux container hardening?",
+    "answer": "Running containers as `root` (UID 0) presents a severe privilege-escalation security vulnerability. In our multi-stage `Dockerfile`, we create a dedicated system group and user (`addgroup -g 10001 appgroup && adduser -u 10001 -G appgroup -s /bin/sh -D appuser`) and set `USER 10001:10001`. All directories (`/app`, static files, and media directories) are chowned to this unprivileged user before the container drops root privileges."
+  },
+  {
+    "question": "How do you implement custom validation and clean methods in Django ModelForm with Tailwind CSS error styling?",
+    "answer": "In `app/forms.py`, define a `clean_<field>()` method for field-specific invariants or `clean()` for cross-field validation rules (e.g., ensuring end_date is after start_date). When a validation rule fails, raise `forms.ValidationError('Descriptive message')`. In your template, render `{% if form.field.errors %}` with Tailwind utility classes like `border-rose-500 text-rose-600 dark:text-rose-400 text-xs mt-1` to deliver immediate, accessible feedback to the user."
+  },
+  {
+    "question": "How does Django 5 handle PostgreSQL generated columns and composite primary keys?",
+    "answer": "Django 5.0+ introduced `GeneratedField`, allowing you to create database-computed columns backed natively by PostgreSQL `GENERATED ALWAYS AS (...) STORED`. This guarantees calculations (such as full name concatenation or tax calculations) are performed at the PostgreSQL storage engine level with zero ORM overhead. Furthermore, Django 5 supports composite primary keys and enhanced functional database constraints."
+  },
+  {
+    "question": "How do you configure and run Pytest with pytest-django, transactional database fixtures, and query count assertions?",
+    "answer": "Configure `pytest.ini` with `DJANGO_SETTINGS_MODULE = config.settings`. Use the `@pytest.mark.django_db` decorator to grant test functions isolated access to the test database. `pytest-django` creates a separate temporary PostgreSQL database and uses transaction rollbacks between tests for sub-second execution speeds. Use `django_assert_num_queries` or `django_assert_max_num_queries` fixtures to enforce query budgeting and prevent regression of N+1 query leaks."
+  }
+]

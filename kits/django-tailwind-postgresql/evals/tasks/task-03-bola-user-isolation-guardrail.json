@@ -1,0 +1,15 @@
+﻿{
+  "task_id": "eval-03-bola-user-isolation-guardrail",
+  "name": "BOLA / Multi-Tenant Query Isolation Guardrail",
+  "difficulty": "advanced",
+  "prompt": "Implement user ownership scoping on the Item model and ensure that ItemUpdateView and ItemDeleteView strictly override get_queryset() to filter by request.user. Verify that attempting to access another user's item raises a 404 Http404 rather than leaking data.",
+  "expected_files": [
+    "starter/app/models.py",
+    "starter/app/views.py",
+    "starter/tests/test_views.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_views.py",
+    "criteria": "Cross-user object mutations return 404 response codes and reject unauthenticated modification"
+  }
+}
