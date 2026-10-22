@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-03-ragas-groundedness-guardrail",
+  "name": "Ragas Faithfulness and Hallucination Guardrail",
+  "difficulty": "advanced",
+  "prompt": "Implement the /api/v1/rag/eval endpoint with Ragas groundedness evaluator. Assert that responses containing ungrounded external claims fail the hallucination check with groundedness < 0.85.",
+  "expected_files": [
+    "starter/app/evals.py",
+    "starter/app/main.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_agentic_rag.py -k test_ragas_evaluation_groundedness",
+    "criteria": "Grounded answer scores >= 0.85, hallucinated answer scores < 0.30"
+  }
+}

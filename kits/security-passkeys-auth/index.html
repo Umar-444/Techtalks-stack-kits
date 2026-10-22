@@ -312,69 +312,157 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-passkeys-auth/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/security-passkeys-auth/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/security-passkeys-auth for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Passkeys WebAuthn + Hardened Auth Reference (TypeScript) — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### 01 Webauthn Fido2 Architecture And Standards
+﻿---
+id: webauthn-fido2-architecture-and-standards
+title: WebAuthn FIDO2 Architecture &amp; Standards
+globs: &quot;**/*.ts&quot;
+alwaysApply: true
+---
+# WebAuthn FIDO2 Architecture &amp; Standards
+
+## 1. Relying Party (RP) Invariants
+- The Relying Party ID (`rpID`) must be a valid domain string matching the application origin host (e.g. `localhost` in local dev, `auth.example.com` or `example.com` in production).
+- The `expectedOrigin` must strictly match the scheme, domain, and port:
+  ```typescript
+  const rpID = process.env.RP_ID || &quot;localhost&quot;;
+  const rpName = &quot;TechTalks Passkeys Reference&quot;;
+  const expectedOrigin = process.env.EXPECTED_ORIGIN || &quot;http://localhost:8080&quot;;
+  ```
+- Subdomain relaxation is permitted (e.g. origin `https://app.example.com` may use `rpID = &quot;example.com&quot;`). Never permit IP addresses or wildcard domains.</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-passkeys-auth/.cursor/rules/*.mdc</span>
+                <span>Source: kits/security-passkeys-auth/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/security-passkeys-auth" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Passkeys WebAuthn + Hardened Auth Reference (TypeScript) Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: 01 Webauthn Fido2 Architecture And Standards
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# 01 Webauthn Fido2 Architecture And Standards
+
+﻿---
+id: webauthn-fido2-architecture-and-standards
+title: WebAuthn FIDO2 Architecture &amp; Standards
+globs: &quot;**/*.ts&quot;
+alwaysApply: true
+---
+# WebAuthn FIDO2 Architecture &amp; Standards
+
+## 1. Relying Party (RP) Invariants
+- The Relying Party ID (`rpID`) must be a valid domain string matching the application origin host (e.g. `localhost` in local dev, `auth.example.com` or `example.com` in production).
+- The `expectedOrigin` must strictly match the scheme, domain, and port:
+  ```typescript
+  const rpID = process.env.RP_ID || &quot;localhost&quot;;
+  const rpName = &quot;TechTalks Passkeys Reference&quot;;</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-passkeys-auth/CODEX.md</span>
+                <span>Source: kits/security-passkeys-auth/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/security-passkeys-auth" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: Passkeys WebAuthn (TypeScript)
+
+You are an expert identity &amp; cryptography engineer specializing in FIDO2 / WebAuthn Level 3 passkey authentication using TypeScript, Hono, and SimpleWebAuthn.
+
+## Architectural Directives
+1. **Relying Party Invariants**: Always match `rpID` to the application hostname and `expectedOrigin` to the exact scheme + host + port. Never allow wildcard origins.
+2. **Challenge Lifecycle**: Generate cryptographically random 32+ byte challenges. Expire within 120s. Delete immediately upon verification (one-time use).
+3. **Resident Keys (Passkeys)**: Set `residentKey: &quot;required&quot;` and `userVerification: &quot;preferred&quot;` in registration options for discoverable passkeys.
+4. **Counter Rollback Defenses**: In assertion verification, if the passkey counter is non-zero and does not increment, reject authentication to detect hardware cloning.
+5. **Session Fixation Prevention**: Always rotate the session identifier upon successful passkey authentication. Issue `HttpOnly; Secure; SameSite=Lax` session cookies.
+6. **Container Security**: Multi-stage rootless Docker container (`USER 10001:10001`).
+
+## Fast Shell Commands
+- Start Serv
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-passkeys-auth/.github/copilot-instructions.md</span>
+                <span>Source: kits/security-passkeys-auth/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/security-passkeys-auth" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## 01 Webauthn Fido2 Architecture And Standards
+﻿---
+id: webauthn-fido2-architecture-and-standards
+title: WebAuthn FIDO2 Architecture &amp; Standards
+globs: &quot;**/*.ts&quot;
+alwaysApply: true
+---
+# WebAuthn FIDO2 Architecture &amp; Standards
+
+## 1. Relying Party (RP) Invariants
+- The Relying Party ID (`rpID`) must be a valid domain string matching the application origin host (e.g. `localhost` in local dev, `auth.example.com` or `example.com` in production).
+- The `expectedOrigin` must strictly match the scheme, domain, and port:
+  ```typescript
+  const rpID = process.env.RP_ID || &quot;localhost&quot;;
+  const rpName = &quot;TechTalks Passkeys Reference&quot;;
+  const expectedOrigin = process.env.EXPECTED_ORIGIN || &quot;http://localhost:8080&quot;;
+  ```
+- Subdomain relaxation is permitted (e.g. origin `https://app.example.com` may use `rpID = &quot;example.com&quot;`). Never permit IP addresses or wildcard domains.
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-passkeys-auth/.clinerules</span>
+                <span>Source: kits/security-passkeys-auth/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/security-passkeys-auth" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
+- Follow architectural boundaries
+- Enforce strict security invariants</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-passkeys-auth/.agents/rules/</span>
+                <span>Source: kits/security-passkeys-auth/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/security-passkeys-auth" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Webauthn Fido2 Architecture And Standards
+
+﻿---
+id: webauthn-fido2-architecture-and-standards
+title: WebAuthn FIDO2 Architecture &amp; Standards
+globs: &quot;**/*.ts&quot;
+alwaysApply: true
+---
+# WebAuthn FIDO2 Architecture &amp; Standards
+
+## 1. Relying Party (RP) Invariants
+- The Relying Party ID (`rpID`) must be a valid domain string matching the application origin host (e.g. `localhost` in local dev, `auth.example.com` or `example.com` in production).
+- The `expectedOrigin` must strictly match the scheme, domain, and port:
+  ```typescript
+  const rpID = process.env.RP_ID || &quot;localhost&quot;;
+  const rpName = &quot;TechTalks Passkeys Reference&quot;;
+  const expectedOrigin = process.env.EXPECTED_ORIGIN || &quot;http://localhost:8080&quot;;
+  ```
+- Subdomain relaxation is permitted (e.g. origin `https://app.example.com` may use `rpID = &quot;example.com&quot;`). Never permit IP addresses or wildcard domains.
+
+## 2. Cryptographic Challenge Lifecycle
+- Challenges MUST be generated using cryptographically secure random bytes (min 32 bytes):</code></pre>
             </div>
 
           </div>

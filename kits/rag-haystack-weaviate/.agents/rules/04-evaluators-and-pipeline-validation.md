@@ -1,0 +1,10 @@
+# 04 Evaluators And Pipeline Validation
+
+# Evaluators and Pipeline Validation
+
+1. **Built-in Haystack Evaluators**: Integrate Haystack's native evaluation components (`FaithfulnessEvaluator`, `ContextRelevanceEvaluator`) to continuously validate pipeline outputs against source documents.
+2. **Groundedness SLA Gate**: Every generated response in automated benchmark suites must achieve a faithfulness score `>= 0.85`. Responses scoring below this threshold must trigger alerting or query reformulation.
+3. **Zero-Cost Heuristic Fallback**: Test suites and local CI jobs must utilize deterministic heuristic scoring fixtures that assess token overlap and claim inference without requiring external OpenAI API keys.
+4. **Latency Budget Assertion**: A standard RAG query cycle (hybrid retrieval + context assembly + generation) must complete within a p95 latency budget of `< 1500ms`.
+5. **Evaluation Metric Logging**: Log structured evaluation metrics (retrieval recall, context precision, generation latency) in JSON format for observability pipelines.
+

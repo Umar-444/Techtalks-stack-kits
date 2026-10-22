@@ -312,69 +312,113 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/reverse-engineering-security/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/reverse-engineering-security/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/reverse-engineering-security for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Reverse Engineering & Security Audit Pack (Blueprint)
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Reverse Engineering &amp; Security Audit Pack — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### Architecture for Reverse Engineering &amp; Security Audit Pack
+# Architecture
+Modular structure.
+
+### Security for Reverse Engineering &amp; Security Audit Pack
+# Security
+Zero credential leaks.
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/reverse-engineering-security/.cursor/rules/*.mdc</span>
+                <span>Source: kits/reverse-engineering-security/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/reverse-engineering-security" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Reverse Engineering & Security Audit Pack (Blueprint) Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: Architecture for Reverse Engineering &amp; Security Audit Pack
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# Architecture for Reverse Engineering &amp; Security Audit Pack
+
+# Architecture
+Modular structure.</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/reverse-engineering-security/CODEX.md</span>
+                <span>Source: kits/reverse-engineering-security/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/reverse-engineering-security" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Reverse Engineering & Security Audit Pack (Blueprint)
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Reverse Engineering &amp; Security Audit Pack — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [Architecture for Reverse Engineering &amp; Security Audit Pack](#architecture-guidelines)
+- [Security for Reverse Engineering &amp; Security Audit Pack](#security-invariants)
+
+---
+
+&lt;a id=&quot;architecture-guidelines&quot;&gt;&lt;/a&gt;
+## Architecture for Reverse Engineering &amp; Security Audit Pack
+
+# Architecture
+Modular structure.
+
+---
+
+&lt;a id=&quot;security-invariants&quot;&gt;&lt;/a&gt;
+## Security for Reverse Engineering &amp; Security Audit Pack
+
+# Security
+Zero credential leaks.</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/reverse-engineering-security/.github/copilot-instructions.md</span>
+                <span>Source: kits/reverse-engineering-security/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/reverse-engineering-security" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Reverse Engineering & Security Audit Pack (Blueprint)
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Reverse Engineering &amp; Security Audit Pack
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Architecture for Reverse Engineering &amp; Security Audit Pack
+# Architecture
+Modular structure.
+
+## Security for Reverse Engineering &amp; Security Audit Pack
+# Security
+Zero credential leaks.
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/reverse-engineering-security/.clinerules</span>
+                <span>Source: kits/reverse-engineering-security/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/reverse-engineering-security" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Reverse Engineering & Security Audit Pack (Blueprint)
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Reverse Engineering & Security Audit Pack (Blueprint)
+- Follow architectural boundaries
+- Enforce strict security invariants</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/reverse-engineering-security/.agents/rules/</span>
+                <span>Source: kits/reverse-engineering-security/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/reverse-engineering-security" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Reverse Engineering & Security Audit Pack (Blueprint)
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Architecture for Reverse Engineering &amp; Security Audit Pack
+
+# Architecture
+Modular structure.</code></pre>
             </div>
 
           </div>

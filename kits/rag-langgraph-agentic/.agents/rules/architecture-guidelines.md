@@ -1,6 +1,0 @@
-# Architectural Standards for LangGraph + LangChain + Qdrant + Ragas Evals
-
-# Architecture Standards: LangGraph + LangChain + Qdrant + Ragas Evals
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.

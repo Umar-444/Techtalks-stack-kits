@@ -312,69 +312,137 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/go-fiber-api/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/go-fiber-api/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/go-fiber-api for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Go + Fiber + PostgreSQL (Blueprint)
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Go + Fiber + PostgreSQL — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### Architectural Standards for Go + Fiber + PostgreSQL
+# Architecture Standards: Go + Fiber + PostgreSQL
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
+
+### Security Invariants for Go + Fiber + PostgreSQL
+# Security Invariants
+- Verify tenant boundary before reading or writing any persistent state.
+- Sanitize all external inputs using validated schemas.
+- Reject requests with missing or expired bearer tokens.
+
+### Agent Coding Conventions for Go + Fiber + PostgreSQL
+# Agent Coding Conventions
+- Maintain clean, minimal code changes with zero extraneous comments.
+- Run typecheck and compile verification after every file modification.
+- Never introduce undocumented third-party libraries without explicit instructions.
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/go-fiber-api/.cursor/rules/*.mdc</span>
+                <span>Source: kits/go-fiber-api/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/go-fiber-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Go + Fiber + PostgreSQL (Blueprint) Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: Agent Coding Conventions for Go + Fiber + PostgreSQL
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# Agent Coding Conventions for Go + Fiber + PostgreSQL
+
+# Agent Coding Conventions
+- Maintain clean, minimal code changes with zero extraneous comments.
+- Run typecheck and compile verification after every file modification.
+- Never introduce undocumented third-party libraries without explicit instructions.</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/go-fiber-api/CODEX.md</span>
+                <span>Source: kits/go-fiber-api/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/go-fiber-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Go + Fiber + PostgreSQL (Blueprint)
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Go + Fiber + PostgreSQL — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [Architectural Standards for Go + Fiber + PostgreSQL](#architecture-guidelines)
+- [Security Invariants for Go + Fiber + PostgreSQL](#security-invariants)
+- [Agent Coding Conventions for Go + Fiber + PostgreSQL](#agent-coding-conventions)
+
+---
+
+&lt;a id=&quot;architecture-guidelines&quot;&gt;&lt;/a&gt;
+## Architectural Standards for Go + Fiber + PostgreSQL
+
+# Architecture Standards: Go + Fiber + PostgreSQL
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
+
+---
+
+&lt;a id=&quot;security-invariants&quot;&gt;&lt;/a&gt;
+## Security Invariants for Go + Fiber + PostgreSQL</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/go-fiber-api/.github/copilot-instructions.md</span>
+                <span>Source: kits/go-fiber-api/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/go-fiber-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Go + Fiber + PostgreSQL (Blueprint)
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Go + Fiber + PostgreSQL
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Architectural Standards for Go + Fiber + PostgreSQL
+# Architecture Standards: Go + Fiber + PostgreSQL
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
+
+## Security Invariants for Go + Fiber + PostgreSQL
+# Security Invariants
+- Verify tenant boundary before reading or writing any persistent state.
+- Sanitize all external inputs using validated schemas.
+- Reject requests with missing or expired bearer tokens.
+
+## Agent Coding Conventions for Go + Fiber + PostgreSQL
+# Agent Coding Conventions
+- Maintain clean, minimal code changes with zero extraneous comments.
+- Run typecheck and compile verification after every file modification.
+- Never introduce undocumented third-party libraries without explicit instructions.
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/go-fiber-api/.clinerules</span>
+                <span>Source: kits/go-fiber-api/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/go-fiber-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Go + Fiber + PostgreSQL (Blueprint)
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Go + Fiber + PostgreSQL (Blueprint)
+- Follow architectural boundaries
+- Enforce strict security invariants</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/go-fiber-api/.agents/rules/</span>
+                <span>Source: kits/go-fiber-api/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/go-fiber-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Go + Fiber + PostgreSQL (Blueprint)
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Agent Coding Conventions for Go + Fiber + PostgreSQL
+
+# Agent Coding Conventions
+- Maintain clean, minimal code changes with zero extraneous comments.
+- Run typecheck and compile verification after every file modification.
+- Never introduce undocumented third-party libraries without explicit instructions.</code></pre>
             </div>
 
           </div>

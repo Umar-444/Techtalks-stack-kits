@@ -312,69 +312,184 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-fastapi-qdrant/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/rag-fastapi-qdrant/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/rag-fastapi-qdrant for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — RAG FastAPI + Qdrant + FastEmbed
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># RAG FastAPI + Qdrant + FastEmbed — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### 01 Framework Architecture And Standards
+﻿# Rule 1: FastAPI Architecture, Async Lifespan &amp; Dependency Injection
+
+## Context &amp; Principles
+- Build asynchronous, non-blocking APIs utilizing modern Python 3.12+ type annotations and Pydantic v2 schemas.
+- Manage long-lived stateful clients (such as QdrantClient and embedding models) through FastAPI&#x27;s `@asynccontextmanager` lifespan handler rather than deprecated startup/shutdown events.
+- Utilize FastAPI dependency injection (`Depends`) to provide request-scoped access to vector search services, embedding pipelines, and authorization contexts.
+
+## Standards
+1. **Lifespan Management**:
+   ```python
+   @asynccontextmanager
+   async def lifespan(app: FastAPI):
+       # Initialize Qdrant collection and warm up embedding pipeline
+       await qdrant_service.initialize()
+       yield
+       # Clean connection pools on shutdown
+       await qdrant_service.close()</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-fastapi-qdrant/.cursor/rules/*.mdc</span>
+                <span>Source: kits/rag-fastapi-qdrant/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/rag-fastapi-qdrant" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: RAG FastAPI + Qdrant + FastEmbed Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: 01 Framework Architecture And Standards
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# 01 Framework Architecture And Standards
+
+﻿# Rule 1: FastAPI Architecture, Async Lifespan &amp; Dependency Injection
+
+## Context &amp; Principles
+- Build asynchronous, non-blocking APIs utilizing modern Python 3.12+ type annotations and Pydantic v2 schemas.
+- Manage long-lived stateful clients (such as QdrantClient and embedding models) through FastAPI&#x27;s `@asynccontextmanager` lifespan handler rather than deprecated startup/shutdown events.
+- Utilize FastAPI dependency injection (`Depends`) to provide request-scoped access to vector search services, embedding pipelines, and authorization contexts.
+
+## Standards
+1. **Lifespan Management**:
+   ```python
+   @asynccontextmanager
+   async def lifespan(app: FastAPI):
+       # Initialize Qdrant collection and warm up embedding pipeline
+       await qdrant_service.initialize()</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-fastapi-qdrant/CODEX.md</span>
+                <span>Source: kits/rag-fastapi-qdrant/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rag-fastapi-qdrant" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for RAG FastAPI + Qdrant + FastEmbed
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# RAG FastAPI + Qdrant + FastEmbed - Agent Architecture &amp; Rules
+
+This project adheres to the TechTalks production standards for RAG applications using FastAPI, Qdrant vector database, and FastEmbed/OpenAI embeddings.
+
+# Rule 1: FastAPI Architecture, Async Lifespan &amp; Dependency Injection
+
+## Context &amp; Principles
+- Build asynchronous, non-blocking APIs utilizing modern Python 3.12+ type annotations and Pydantic v2 schemas.
+- Manage long-lived stateful clients (such as QdrantClient and embedding models) through FastAPI&#x27;s `@asynccontextmanager` lifespan handler rather than deprecated startup/shutdown events.
+- Utilize FastAPI dependency injection (`Depends`) to provide request-scoped access to vector search services, embedding pipelines, and authorization contexts.
+
+## Standards
+1. **Lifespan Management**:
+   ```python
+   @asynccontextmanager
+   async def lifespan(app: FastAPI):
+       # Initialize Qdrant collection and warm up embedding pipeline
+       await qdrant_service.initialize()
+       yield
+       # Clean connection pools on shutdown
+       await qdrant_service.close()
+   ```</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-fastapi-qdrant/.github/copilot-instructions.md</span>
+                <span>Source: kits/rag-fastapi-qdrant/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/rag-fastapi-qdrant" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for RAG FastAPI + Qdrant + FastEmbed
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for RAG FastAPI + Qdrant + FastEmbed
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## 01 Framework Architecture And Standards
+﻿# Rule 1: FastAPI Architecture, Async Lifespan &amp; Dependency Injection
+
+## Context &amp; Principles
+- Build asynchronous, non-blocking APIs utilizing modern Python 3.12+ type annotations and Pydantic v2 schemas.
+- Manage long-lived stateful clients (such as QdrantClient and embedding models) through FastAPI&#x27;s `@asynccontextmanager` lifespan handler rather than deprecated startup/shutdown events.
+- Utilize FastAPI dependency injection (`Depends`) to provide request-scoped access to vector search services, embedding pipelines, and authorization contexts.
+
+## Standards
+1. **Lifespan Management**:
+   ```python
+   @asynccontextmanager
+   async def lifespan(app: FastAPI):
+       # Initialize Qdrant collection and warm up embedding pipeline
+       await qdrant_service.initialize()
+       yield
+       # Clean connection pools on shutdown
+       await qdrant_service.close()
+   ```</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-fastapi-qdrant/.clinerules</span>
+                <span>Source: kits/rag-fastapi-qdrant/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/rag-fastapi-qdrant" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for RAG FastAPI + Qdrant + FastEmbed
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# RAG FastAPI + Qdrant + FastEmbed - Agent Architecture &amp; Rules
+
+This project adheres to the TechTalks production standards for RAG applications using FastAPI, Qdrant vector database, and FastEmbed/OpenAI embeddings.
+
+# Rule 1: FastAPI Architecture, Async Lifespan &amp; Dependency Injection
+
+## Context &amp; Principles
+- Build asynchronous, non-blocking APIs utilizing modern Python 3.12+ type annotations and Pydantic v2 schemas.
+- Manage long-lived stateful clients (such as QdrantClient and embedding models) through FastAPI&#x27;s `@asynccontextmanager` lifespan handler rather than deprecated startup/shutdown events.
+- Utilize FastAPI dependency injection (`Depends`) to provide request-scoped access to vector search services, embedding pipelines, and authorization contexts.
+
+## Standards
+1. **Lifespan Management**:
+   ```python
+   @asynccontextmanager
+   async def lifespan(app: FastAPI):
+       # Initialize Qdrant collection and warm up embedding pipeline
+       await qdrant_service.initialize()
+       yield
+       # Clean connection pools on shutdown
+       await qdrant_service.close()
+   ```</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-fastapi-qdrant/.agents/rules/</span>
+                <span>Source: kits/rag-fastapi-qdrant/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/rag-fastapi-qdrant" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for RAG FastAPI + Qdrant + FastEmbed
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
+
+﻿# Rule 1: FastAPI Architecture, Async Lifespan &amp; Dependency Injection
+
+## Context &amp; Principles
+- Build asynchronous, non-blocking APIs utilizing modern Python 3.12+ type annotations and Pydantic v2 schemas.
+- Manage long-lived stateful clients (such as QdrantClient and embedding models) through FastAPI&#x27;s `@asynccontextmanager` lifespan handler rather than deprecated startup/shutdown events.
+- Utilize FastAPI dependency injection (`Depends`) to provide request-scoped access to vector search services, embedding pipelines, and authorization contexts.
+
+## Standards
+1. **Lifespan Management**:
+   ```python
+   @asynccontextmanager
+   async def lifespan(app: FastAPI):
+       # Initialize Qdrant collection and warm up embedding pipeline
+       await qdrant_service.initialize()
+       yield
+       # Clean connection pools on shutdown
+       await qdrant_service.close()
+   ```
+2. **Schema Invariants**: All request and response payloads must subclass `pydantic.BaseModel` with strict type annotations, field descriptions, and input constraints (`Field(min_length=1, max_length=10000)`).
+3. **Structured Error Handling**: Raise `fastapi.HTTPException` wi
+...</code></pre>
             </div>
 
           </div>

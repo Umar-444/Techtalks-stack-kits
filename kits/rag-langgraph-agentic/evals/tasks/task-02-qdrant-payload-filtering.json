@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-02-qdrant-payload-filtering",
+  "name": "Qdrant Multi-Tenant Payload Filtering",
+  "difficulty": "intermediate",
+  "prompt": "Enforce strict tenant payload isolation in QdrantVectorService. Queries with tenant_id 'tenant-alpha' must never return document embeddings associated with 'tenant-beta'.",
+  "expected_files": [
+    "starter/app/vector_store.py",
+    "starter/app/schemas.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_agentic_rag.py -k test_qdrant_vector_service_and_tenant_isolation",
+    "criteria": "Cross-tenant search returns exactly 0 records"
+  }
+}

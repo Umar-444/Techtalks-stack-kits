@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-02-weaviate-hybrid-search",
+  "name": "Weaviate Hybrid BM25 and Vector Search with Multi-Tenancy",
+  "difficulty": "intermediate",
+  "prompt": "Configure Weaviate hybrid search with alpha=0.65 combining sparse keyword and dense semantic scores. Enforce tenant isolation so tenant-corp never receives tenant-finance data.",
+  "expected_files": [
+    "starter/app/weaviate_service.py",
+    "starter/app/schemas.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_haystack_rag.py -k test_weaviate_hybrid_search_and_tenant_isolation",
+    "criteria": "Hybrid search succeeds and cross-tenant query returns 0 results"
+  }
+}

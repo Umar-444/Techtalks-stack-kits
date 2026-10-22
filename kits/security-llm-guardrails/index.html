@@ -312,69 +312,155 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-llm-guardrails/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/security-llm-guardrails/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/security-llm-guardrails for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># LLM Guardrails &amp; AI Gateway (Pydantic AI + Llama Guard) — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### 01 Gateway Architecture And Standards
+﻿---
+id: gateway-architecture-and-standards
+title: Gateway Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# AI Security Gateway Architecture &amp; Standards
+
+## 1. Async Gateway Pipeline
+- All LLM interactions must route through the AI Security Gateway before hitting upstream providers (OpenAI, Anthropic, Bedrock, Ollama):
+  ```
+  Client Request -&gt; [1. Auth &amp; Tenant] -&gt; [2. Budget &amp; Rate Limit] -&gt; [3. PII Redaction] -&gt; [4. Prompt Injection Screen] -&gt; Upstream LLM -&gt; [5. Output Schema &amp; Safety Guard] -&gt; [6. PII Deanonymization] -&gt; Client Response
+  ```
+- The gateway must operate with strict latency budgets: input guardrail checks must complete in `&lt; 50ms`.
+- Never use blocking synchronous HTTP calls in the pipeline; use `httpx.AsyncClient` with connection pooling and timeouts:
+  ```python
+  client = httpx.AsyncClient(timeout=httpx.Timeout(connect=5.0, read=30.0, write=5.0, pool=10.0))</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-llm-guardrails/.cursor/rules/*.mdc</span>
+                <span>Source: kits/security-llm-guardrails/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/security-llm-guardrails" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard) Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: 01 Gateway Architecture And Standards
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# 01 Gateway Architecture And Standards
+
+﻿---
+id: gateway-architecture-and-standards
+title: Gateway Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# AI Security Gateway Architecture &amp; Standards
+
+## 1. Async Gateway Pipeline
+- All LLM interactions must route through the AI Security Gateway before hitting upstream providers (OpenAI, Anthropic, Bedrock, Ollama):
+  ```
+  Client Request -&gt; [1. Auth &amp; Tenant] -&gt; [2. Budget &amp; Rate Limit] -&gt; [3. PII Redaction] -&gt; [4. Prompt Injection Screen] -&gt; Upstream LLM -&gt; [5. Output Schema &amp; Safety Guard] -&gt; [6. PII Deanonymization] -&gt; Client Response
+  ```
+- The gateway must operate with strict latency budgets: input guardrail checks must complete in `&lt; 50ms`.</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-llm-guardrails/CODEX.md</span>
+                <span>Source: kits/security-llm-guardrails/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/security-llm-guardrails" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: LLM Guardrails &amp; AI Gateway
+
+You are an expert AI security engineer specializing in production AI gateways, prompt injection screening, automated PII redaction, token/dollar rate limiting, and Pydantic AI structured output validation.
+
+## Architectural Directives
+1. **Pipeline Execution**: Route all client LLM traffic through:
+   `Auth -&gt; Budget Check -&gt; PII Anonymization -&gt; Prompt Injection Heuristics -&gt; Upstream Proxy -&gt; Pydantic AI Output Validation -&gt; Deanonymization -&gt; Client`.
+2. **Deterministic &amp; Latency Bound**: All input security filters must complete in `&lt; 50ms`. Use compiled regex and singleton Presidio engines.
+3. **Prompt Boundary Tagging**: Never concatenate user text directly into system prompts. Enclose inputs in randomized XML tags (`&lt;user_input_...&gt;`) and instruct the model to treat contents strictly as passive data.
+4. **Canary Leakage Defense**: Embed a randomized canary token in system prompts. If detected in output, abort with HTTP 422 immediately.
+5. **Denial of Wallet Protection**: Enforce token limits (`max_tokens`) and dollar quotas per tenant via Redis sliding window rate limiting.
+6. **Container Invariants**: 
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-llm-guardrails/.github/copilot-instructions.md</span>
+                <span>Source: kits/security-llm-guardrails/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/security-llm-guardrails" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for LLM Guardrails &amp; AI Gateway (Pydantic AI + Llama Guard)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## 01 Gateway Architecture And Standards
+﻿---
+id: gateway-architecture-and-standards
+title: Gateway Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# AI Security Gateway Architecture &amp; Standards
+
+## 1. Async Gateway Pipeline
+- All LLM interactions must route through the AI Security Gateway before hitting upstream providers (OpenAI, Anthropic, Bedrock, Ollama):
+  ```
+  Client Request -&gt; [1. Auth &amp; Tenant] -&gt; [2. Budget &amp; Rate Limit] -&gt; [3. PII Redaction] -&gt; [4. Prompt Injection Screen] -&gt; Upstream LLM -&gt; [5. Output Schema &amp; Safety Guard] -&gt; [6. PII Deanonymization] -&gt; Client Response
+  ```
+- The gateway must operate with strict latency budgets: input guardrail checks must complete in `&lt; 50ms`.
+- Never use blocking synchronous HTTP calls in the pipeline; use `httpx.AsyncClient` with connection pooling and timeouts:
+  ```python
+  client = httpx.AsyncClient(timeout=httpx.Timeout(connect=5.0, read=30.0, write=5.0, pool=10.0))
+  ```</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-llm-guardrails/.clinerules</span>
+                <span>Source: kits/security-llm-guardrails/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/security-llm-guardrails" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)
+- Follow architectural boundaries
+- Enforce strict security invariants</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-llm-guardrails/.agents/rules/</span>
+                <span>Source: kits/security-llm-guardrails/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/security-llm-guardrails" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Gateway Architecture And Standards
+
+﻿---
+id: gateway-architecture-and-standards
+title: Gateway Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# AI Security Gateway Architecture &amp; Standards
+
+## 1. Async Gateway Pipeline
+- All LLM interactions must route through the AI Security Gateway before hitting upstream providers (OpenAI, Anthropic, Bedrock, Ollama):
+  ```
+  Client Request -&gt; [1. Auth &amp; Tenant] -&gt; [2. Budget &amp; Rate Limit] -&gt; [3. PII Redaction] -&gt; [4. Prompt Injection Screen] -&gt; Upstream LLM -&gt; [5. Output Schema &amp; Safety Guard] -&gt; [6. PII Deanonymization] -&gt; Client Response
+  ```
+- The gateway must operate with strict latency budgets: input guardrail checks must complete in `&lt; 50ms`.
+- Never use blocking synchronous HTTP calls in the pipeline; use `httpx.AsyncClient` with connection pooling and timeouts:
+  ```python
+  client = httpx.AsyncClient(timeout=httpx.Timeout(connect=5.0, read=30.0, write=5.0, pool=10.0))
+  ```
+
+## 2. Stateless Processing &amp; Zero Data Retention (ZDR)</code></pre>
             </div>
 
           </div>

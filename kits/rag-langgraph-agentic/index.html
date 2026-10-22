@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LangGraph + LangChain + Qdrant + Ragas Evals (Blueprint) &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="Agentic RAG with cyclical state graph execution: agent decides dynamically when to retrieve, when to re-write queries, and when to invoke human-in-the-loop review with Ragas groundedness evals.">
+  <title>LangGraph + LangChain + Qdrant + Ragas Evals &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Production-ready Agentic RAG with cyclical state machine: dynamic query reformulation, multi-tenant Qdrant vector payload filtering, and Ragas groundedness hallucination evals.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/rag-langgraph-agentic/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/rag-langgraph-agentic/">
-  <meta property="og:title" content="LangGraph + LangChain + Qdrant + Ragas Evals (Blueprint) &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="Agentic RAG with cyclical state graph execution: agent decides dynamically when to retrieve, when to re-write queries, and when to invoke human-in-the-loop review with Ragas groundedness evals.">
+  <meta property="og:title" content="LangGraph + LangChain + Qdrant + Ragas Evals &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Production-ready Agentic RAG with cyclical state machine: dynamic query reformulation, multi-tenant Qdrant vector payload filtering, and Ragas groundedness hallucination evals.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -36,98 +36,114 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What exactly is the LangGraph + LangChain + Qdrant + Ragas Evals kit?",
+      "name": "Why choose LangGraph over linear RAG pipelines for enterprise retrieval?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+        "text": "Linear RAG chains assume that the initial user query always retrieves the right documents in a single pass. In reality, complex queries often retrieve irrelevant or ambiguous context, leading to hallucinations. LangGraph introduces a cyclic state machine: an agent can evaluate retrieved documents, reformulate the search query, perform additional retrieval passes, and verify output groundedness before returning a response."
       }
     },
     {
       "@type": "Question",
-      "name": "Which versions does it pin?",
+      "name": "How does LangGraph handle cyclic execution loops and prevent infinite query rewriting?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+        "text": "Every cycle increments an explicit `iterations` counter in the `AgentState`. The conditional edge functions inspect both document quality and iteration count against `max_iterations` (default: 3). Once the recursion ceiling is reached, the graph deterministically branches to fallback synthesis rather than continuing to loop."
       }
     },
     {
       "@type": "Question",
-      "name": "Which AI coding agents are supported?",
+      "name": "How does Qdrant payload filtering enforce multi-tenant isolation in RAG applications?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+        "text": "Qdrant stores document payloads as structured JSON alongside dense vector embeddings. During vector search, Qdrant evaluates metadata filter conditions (e.g. `Must(FieldCondition(key='tenant_id', match=MatchValue(value=tenant_id)))`) at the HNSW segment level before vector distance calculation, mathematically preventing cross-tenant data leakage."
       }
     },
     {
       "@type": "Question",
-      "name": "What do I need installed before I start?",
+      "name": "What is the difference between Ragas faithfulness and answer relevancy metrics?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+        "text": "Faithfulness (groundedness) measures whether every claim made in the generated answer can be inferred directly from the provided source documents (evaluating hallucination). Answer relevancy measures whether the answer actually addresses the user's initial question regardless of document accuracy (evaluating off-topic divergence)."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does installation take?",
+      "name": "How does the document grading node determine whether retrieved documents are relevant?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+        "text": "The document grading node evaluates semantic similarity scores and key entity overlaps between the query and chunk contents. Documents falling below the relevance score threshold are discarded from the state, triggering query reformulation if no sufficiently relevant documents remain."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the starter production-shaped or a demo?",
+      "name": "How is human-in-the-loop review integrated into LangGraph state graphs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+        "text": "LangGraph supports human-in-the-loop approval via persistent checkpointers (such as `MemorySaver` or Postgres checkpointer) using `interrupt_before=['human_review']`. When the state reaches the interrupt node, execution suspends until an operator or reviewer reviews the generated synthesis and submits an approval payload via API."
       }
     },
     {
       "@type": "Question",
-      "name": "How is security handled in this kit?",
+      "name": "What embedding models and distance metrics are recommended for Qdrant vector collections?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+        "text": "For multilingual dense embeddings, BAAI/bge-m3 (1024 dims) or OpenAI text-embedding-3-small (1536 dims) paired with Cosine similarity distance are industry standards. Qdrant HNSW indexing performs optimal graph traversal on normalized cosine embeddings with minimal memory footprint."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the design?",
+      "name": "How does the rewrite_query node reformulate questions to improve semantic retrieval?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+        "text": "The `rewrite_query` node strips conversational filler words ('can you please tell me about'), resolves coreferences ('what about its latency?'), and converts user questions into keyword-dense, semantic search queries optimized for vector similarity search."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I update when a new kit version releases?",
+      "name": "How can I run Ragas evaluations in CI without incurring external LLM API costs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+        "text": "In CI and automated test environments, our starter provides a deterministic heuristic evaluation engine based on claim extraction and token overlap ratios. This verifies the evaluation contract and thresholds in milliseconds with zero network egress or API charges."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I use it for commercial and client work?",
+      "name": "How do you scale Qdrant when indexing millions of document chunks?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+        "text": "Qdrant scales horizontally using collection sharding and distributed consensus via Raft. For high-volume production, configure scalar quantization (SQ) or product quantization (PQ) to compress vector RAM requirements by up to 4x while maintaining >95% search recall."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I contribute a fix or skill back?",
+      "name": "What security guardrails prevent prompt injection from retrieved external documents?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+        "text": "Retrieved documents are treated as untrusted user inputs. The generator wraps document chunks in strict XML delimiting tags (`<context>...</context>`) and uses system prompts instructing the model never to follow instructions contained within document chunks."
       }
     },
     {
       "@type": "Question",
-      "name": "Where do I get help or report a problem?",
+      "name": "Why run FastAPI with rootless Docker (UID 10001) instead of default root?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+        "text": "Running containers as root violates the principle of least privilege. In the event of a container escape vulnerability or remote code execution, a non-root process UID 10001 lacks host superuser privileges, preventing host takeover and satisfying strict enterprise compliance standards."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the LangGraph checkpointer maintain conversation history across multiple turns?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "LangGraph checkpointers save serialized snapshots of the state graph keyed by `thread_id`. Subsequent requests passing the same `thread_id` resume execution with the accumulated conversation history, document citations, and iteration logs intact."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can LangGraph state machines integrate with external tool APIs (e.g. calculators, SQL agents)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. LangGraph provides `ToolNode` which seamlessly binds LangChain tools. An agent node inspects the state, emits tool call requests (e.g. `query_sql_database` or `fetch_stock_price`), and the graph routes to `ToolNode` before returning execution to the generator."
       }
     }
   ]
@@ -201,27 +217,27 @@
       <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">rag-langgraph-agentic</span>
     </nav>
 
-<div class="mb-8 p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] border-l-[3px] border-l-[#B7791F] text-xs leading-relaxed flex items-start gap-3"><span class="font-mono font-bold text-[#B7791F] uppercase tracking-wider">Note:</span><div class="text-[#5C6058] dark:text-[#C4C4CC]">This kit is an architectural blueprint. Specifications, threat models, and multi-dialect rules are compiled. Starter containers are in active verification.</div></div>
+
 
     <!-- Kit Header Section -->
     <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="chip-status-blueprint"><span class="w-1.5 h-1.5 rounded-full bg-[#8E8E96]"></span>BLUEPRINT</span>
+        <span class="chip-status-ready"><span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>READY TO SHIP</span>
         <span class="text-xs font-mono text-[#8E8E96]">v1.0.0</span>
         <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>
         <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        LangGraph + LangChain + Qdrant + Ragas Evals (Blueprint)
+        LangGraph + LangChain + Qdrant + Ragas Evals
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        Agentic RAG with cyclical state graph execution: agent decides dynamically when to retrieve, when to re-write queries, and when to invoke human-in-the-loop review with Ragas groundedness evals.
+        Production-ready Agentic RAG with cyclical state machine: dynamic query reformulation, multi-tenant Qdrant vector payload filtering, and Ragas groundedness hallucination evals.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Python', 'version': '3.12+', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'LangGraph', 'version': '0.2+', 'registry': 'pypi.org'}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Python', 'version': '>= 3.12', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'LangGraph', 'version': '>= 0.2', 'registry': 'pypi.org'}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -312,69 +328,157 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-langgraph-agentic/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/rag-langgraph-agentic/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/rag-langgraph-agentic for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — LangGraph + LangChain + Qdrant + Ragas Evals (Blueprint)
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># LangGraph + LangChain + Qdrant + Ragas Evals — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### 01 Framework Architecture And Standards
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# Agentic RAG Architecture &amp; LangGraph State Standards
+
+## 1. Cyclical State Machine for Retrieval-Augmented Generation
+- Classical RAG is a static linear pipeline: `Query -&gt; Embed -&gt; Retrieve -&gt; Generate`.
+- Agentic RAG introduces dynamic decision-making nodes:
+  - `retrieve`: Query Qdrant for semantic matches.
+  - `grade_documents`: Evaluates retrieved chunk relevance to the user question.
+  - `decide_to_generate`: If documents are irrelevant, transition to `rewrite_query`; otherwise transition to `generate`.
+  - `rewrite_query`: Transform and clarify user input for better vector search convergence.
+  - `generate`: Synthesize answers using verified grounded context.
+  - `grade_generation`: Check for hallucinations; if ungrounded, loop back.</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-langgraph-agentic/.cursor/rules/*.mdc</span>
+                <span>Source: kits/rag-langgraph-agentic/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/rag-langgraph-agentic" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: LangGraph + LangChain + Qdrant + Ragas Evals (Blueprint) Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: 01 Framework Architecture And Standards
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# 01 Framework Architecture And Standards
+
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# Agentic RAG Architecture &amp; LangGraph State Standards
+
+## 1. Cyclical State Machine for Retrieval-Augmented Generation
+- Classical RAG is a static linear pipeline: `Query -&gt; Embed -&gt; Retrieve -&gt; Generate`.
+- Agentic RAG introduces dynamic decision-making nodes:
+  - `retrieve`: Query Qdrant for semantic matches.
+  - `grade_documents`: Evaluates retrieved chunk relevance to the user question.
+  - `decide_to_generate`: If documents are irrelevant, transition to `rewrite_query`; otherwise transition to `generate`.</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-langgraph-agentic/CODEX.md</span>
+                <span>Source: kits/rag-langgraph-agentic/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rag-langgraph-agentic" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for LangGraph + LangChain + Qdrant + Ragas Evals (Blueprint)
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: Agentic RAG (LangGraph + Qdrant)
+
+You are an expert AI systems engineer specializing in cyclical Agentic RAG using LangGraph 0.2, LangChain, Qdrant vector database, and Ragas evaluation metrics.
+
+## Architectural Directives
+1. **Cyclic Control Flow**: Implement Self-RAG cycles: `retrieve -&gt; grade_documents -&gt; [rewrite_query -&gt; retrieve] / [generate -&gt; grade_generation] -&gt; END`.
+2. **State Immutability**: Define state as a `TypedDict`. Nodes must never mutate state in place; return dict deltas.
+3. **Recursion Limit**: Enforce bounded execution: `config={&quot;recursion_limit&quot;: 15}` and track `iteration_count`.
+4. **Qdrant Isolation**: All vector queries must enforce payload filters matching `tenant_id` and score thresholds (`score_threshold=0.65`).
+5. **Groundedness Verification**: Grade output against retrieved chunks to eliminate hallucinations before returning answers.
+6. **Container Security**: Multi-stage rootless Docker container (`USER 10001:10001`).
+
+## Fast Shell Commands
+- Start Service: `uvicorn app.main:app --host 0.0.0.0 --port 8080 --reload`
+- Run Tests: `pytest -v tests/`</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-langgraph-agentic/.github/copilot-instructions.md</span>
+                <span>Source: kits/rag-langgraph-agentic/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/rag-langgraph-agentic" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for LangGraph + LangChain + Qdrant + Ragas Evals (Blueprint)
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for LangGraph + LangChain + Qdrant + Ragas Evals
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## 01 Framework Architecture And Standards
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# Agentic RAG Architecture &amp; LangGraph State Standards
+
+## 1. Cyclical State Machine for Retrieval-Augmented Generation
+- Classical RAG is a static linear pipeline: `Query -&gt; Embed -&gt; Retrieve -&gt; Generate`.
+- Agentic RAG introduces dynamic decision-making nodes:
+  - `retrieve`: Query Qdrant for semantic matches.
+  - `grade_documents`: Evaluates retrieved chunk relevance to the user question.
+  - `decide_to_generate`: If documents are irrelevant, transition to `rewrite_query`; otherwise transition to `generate`.
+  - `rewrite_query`: Transform and clarify user input for better vector search convergence.
+  - `generate`: Synthesize answers using verified grounded context.
+  - `grade_generation`: Check for hallucinations; if ungrounded, loop back.
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-langgraph-agentic/.clinerules</span>
+                <span>Source: kits/rag-langgraph-agentic/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/rag-langgraph-agentic" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for LangGraph + LangChain + Qdrant + Ragas Evals (Blueprint)
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for LangGraph + LangChain + Qdrant + Ragas Evals
+- Follow architectural boundaries
+- Enforce strict security invariants</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-langgraph-agentic/.agents/rules/</span>
+                <span>Source: kits/rag-langgraph-agentic/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/rag-langgraph-agentic" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for LangGraph + LangChain + Qdrant + Ragas Evals (Blueprint)
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
+
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# Agentic RAG Architecture &amp; LangGraph State Standards
+
+## 1. Cyclical State Machine for Retrieval-Augmented Generation
+- Classical RAG is a static linear pipeline: `Query -&gt; Embed -&gt; Retrieve -&gt; Generate`.
+- Agentic RAG introduces dynamic decision-making nodes:
+  - `retrieve`: Query Qdrant for semantic matches.
+  - `grade_documents`: Evaluates retrieved chunk relevance to the user question.
+  - `decide_to_generate`: If documents are irrelevant, transition to `rewrite_query`; otherwise transition to `generate`.
+  - `rewrite_query`: Transform and clarify user input for better vector search convergence.
+  - `generate`: Synthesize answers using verified grounded context.
+  - `grade_generation`: Check for hallucinations; if ungrounded, loop back.
+
+## 2. Immutable State Schema
+- Define state using `TypedDict` with explicit field semantics:</code></pre>
             </div>
 
           </div>
@@ -385,7 +489,11 @@ globs: **/*
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">rag-langgraph-agentic-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for LangGraph + LangChain + Qdrant + Ragas Evals</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Guide to adding a custom query rewriter node, web search fallback, or domain classifier to the LangGraph state machine.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Comprehensive preflight verification, virtual environment setup, and test runner execution for LangGraph + Qdrant Agentic RAG.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">qdrant-payload-and-filtering</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Managing Qdrant vector collections, Cosine distance indexing, payload filtering, and tenant security boundaries.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">rag-langgraph-agentic-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core operational workflows, cyclic graphs, Qdrant payload indexing, and Token-Light evaluation for LangGraph + LangChain + Qdrant + Ragas.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">ragas-evaluation-pipeline</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Comprehensive workflow for measuring groundedness, context precision, and faithfulness in Agentic LangGraph pipelines using Ragas.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -601,21 +709,23 @@ docker compose up --build -d</pre>
     <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
     <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
   </div>
-  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
 </div>
 <div class="space-y-3">
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the LangGraph + LangChain + Qdrant + Ragas Evals kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why choose LangGraph over linear RAG pipelines for enterprise retrieval?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Linear RAG chains assume that the initial user query always retrieves the right documents in a single pass. In reality, complex queries often retrieve irrelevant or ambiguous context, leading to hallucinations. LangGraph introduces a cyclic state machine: an agent can evaluate retrieved documents, reformulate the search query, perform additional retrieval passes, and verify output groundedness before returning a response.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does LangGraph handle cyclic execution loops and prevent infinite query rewriting?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Every cycle increments an explicit `iterations` counter in the `AgentState`. The conditional edge functions inspect both document quality and iteration count against `max_iterations` (default: 3). Once the recursion ceiling is reached, the graph deterministically branches to fallback synthesis rather than continuing to loop.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Qdrant payload filtering enforce multi-tenant isolation in RAG applications?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Qdrant stores document payloads as structured JSON alongside dense vector embeddings. During vector search, Qdrant evaluates metadata filter conditions (e.g. `Must(FieldCondition(key='tenant_id', match=MatchValue(value=tenant_id)))`) at the HNSW segment level before vector distance calculation, mathematically preventing cross-tenant data leakage.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the difference between Ragas faithfulness and answer relevancy metrics?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Faithfulness (groundedness) measures whether every claim made in the generated answer can be inferred directly from the provided source documents (evaluating hallucination). Answer relevancy measures whether the answer actually addresses the user's initial question regardless of document accuracy (evaluating off-topic divergence).</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the document grading node determine whether retrieved documents are relevant?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The document grading node evaluates semantic similarity scores and key entity overlaps between the query and chunk contents. Documents falling below the relevance score threshold are discarded from the state, triggering query reformulation if no sufficiently relevant documents remain.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is human-in-the-loop review integrated into LangGraph state graphs?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">LangGraph supports human-in-the-loop approval via persistent checkpointers (such as `MemorySaver` or Postgres checkpointer) using `interrupt_before=['human_review']`. When the state reaches the interrupt node, execution suspends until an operator or reviewer reviews the generated synthesis and submits an approval payload via API.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What embedding models and distance metrics are recommended for Qdrant vector collections?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">For multilingual dense embeddings, BAAI/bge-m3 (1024 dims) or OpenAI text-embedding-3-small (1536 dims) paired with Cosine similarity distance are industry standards. Qdrant HNSW indexing performs optimal graph traversal on normalized cosine embeddings with minimal memory footprint.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the rewrite_query node reformulate questions to improve semantic retrieval?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The `rewrite_query` node strips conversational filler words ('can you please tell me about'), resolves coreferences ('what about its latency?'), and converts user questions into keyword-dense, semantic search queries optimized for vector similarity search.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How can I run Ragas evaluations in CI without incurring external LLM API costs?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In CI and automated test environments, our starter provides a deterministic heuristic evaluation engine based on claim extraction and token overlap ratios. This verifies the evaluation contract and thresholds in milliseconds with zero network egress or API charges.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do you scale Qdrant when indexing millions of document chunks?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Qdrant scales horizontally using collection sharding and distributed consensus via Raft. For high-volume production, configure scalar quantization (SQ) or product quantization (PQ) to compress vector RAM requirements by up to 4x while maintaining >95% search recall.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What security guardrails prevent prompt injection from retrieved external documents?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Retrieved documents are treated as untrusted user inputs. The generator wraps document chunks in strict XML delimiting tags (`<context>...</context>`) and uses system prompts instructing the model never to follow instructions contained within document chunks.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why run FastAPI with rootless Docker (UID 10001) instead of default root?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Running containers as root violates the principle of least privilege. In the event of a container escape vulnerability or remote code execution, a non-root process UID 10001 lacks host superuser privileges, preventing host takeover and satisfying strict enterprise compliance standards.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the LangGraph checkpointer maintain conversation history across multiple turns?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">LangGraph checkpointers save serialized snapshots of the state graph keyed by `thread_id`. Subsequent requests passing the same `thread_id` resume execution with the accumulated conversation history, document citations, and iteration logs intact.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can LangGraph state machines integrate with external tool APIs (e.g. calculators, SQL agents)?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. LangGraph provides `ToolNode` which seamlessly binds LangChain tools. An agent node inspects the state, emits tool call requests (e.g. `query_sql_database` or `fetch_stock_price`), and the graph routes to `ToolNode` before returning execution to the generator.</p></details>
 </div>
       </section>
 

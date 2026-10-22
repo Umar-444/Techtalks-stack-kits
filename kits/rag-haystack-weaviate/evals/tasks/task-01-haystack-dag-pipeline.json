@@ -1,0 +1,15 @@
+{
+  "task_id": "eval-01-haystack-dag-pipeline",
+  "name": "Haystack 2.5 Explicit Component DAG Execution",
+  "difficulty": "intermediate",
+  "prompt": "Assemble and run an explicit Haystack DAG pipeline connecting Weaviate hybrid retrieval, prompt building, and text generation. Assert that the pipeline returns complete answers and execution latency.",
+  "expected_files": [
+    "starter/app/pipeline.py",
+    "starter/app/main.py",
+    "starter/app/schemas.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_haystack_rag.py -k test_haystack_pipeline_query",
+    "criteria": "Pipeline returns response with non-empty retrieved_chunks and HTTP 200"
+  }
+}

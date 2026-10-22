@@ -1,69 +1,106 @@
-schema_version: 1.0.0
-name: LangGraph + LangChain + Qdrant + Ragas Evals
-slug: rag-langgraph-agentic
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Agentic RAG with cyclical state graph execution: agent decides dynamically
-  when to retrieve, when to re-write queries, and when to invoke human-in-the-loop
-  review with Ragas groundedness evals.'
-category: RAG
+schema_version: "1.0.0"
+
+name: "LangGraph + LangChain + Qdrant + Ragas Evals"
+slug: "rag-langgraph-agentic"
+version: "1.0.0"
+status: "stable"
+updated_at: "2026-10-22"
+description: "Production-ready Agentic RAG with cyclical state machine: dynamic query reformulation, multi-tenant Qdrant vector payload filtering, and Ragas groundedness hallucination evals."
+category: "RAG & Multi-Agent Systems"
+
 maintainer:
-  name: TechTalks AI Engineering Group
-  role: Agentic Systems Engineer
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior AI Systems & Agentic RAG Architect"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Python
-    version: 3.12+
-    registry: pypi.org
+    name: "Python"
+    version: ">= 3.12"
+    registry: "pypi.org"
   framework:
-    name: LangGraph
-    version: 0.2+
-    registry: pypi.org
-  orchestration: LangChain Core
-  vector_store: Qdrant
-  evals: Ragas groundedness & context precision
+    name: "LangGraph"
+    version: ">= 0.2"
+    registry: "pypi.org"
+  orchestration:
+    name: "LangChain Core"
+    version: ">= 0.3"
+    registry: "pypi.org"
+  vector_store:
+    name: "Qdrant"
+    version: ">= 1.11"
+    features:
+      - "HNSW dense vector indexing"
+      - "Multi-tenant payload filtering"
+      - "In-memory fast deterministic fallback"
+  evals:
+    name: "Ragas"
+    version: ">= 0.1"
+    features:
+      - "Groundedness / Faithfulness scoring"
+      - "Context precision evaluation"
+      - "Automated query rewrite triggers"
+
 layers:
   starter:
     path: starter/
-    type: starter-scaffold
+    type: production-scaffold
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: rag-langgraph-agentic-core
-      path: skills/rag-langgraph-agentic-core/SKILL.md
-      description: Core operations and scaffolding skill for LangGraph + LangChain
-        + Qdrant + Ragas Evals.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Preflight environment setup, Qdrant connectivity verification, and test execution.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Implement the canonical first feature - custom query rewriting node in LangGraph.
+      - id: qdrant-payload-and-filtering
+        path: skills/qdrant-payload-and-filtering/SKILL.md
+        description: Configure multi-tenant payload indexing and filter queries in Qdrant.
+      - id: ragas-evaluation-pipeline
+        path: skills/ragas-evaluation-pipeline/SKILL.md
+        description: Measure groundedness, context precision, and faithfulness in LangGraph cycles using Ragas.
+      - id: rag-langgraph-agentic-core
+        path: skills/rag-langgraph-agentic-core/SKILL.md
+        description: Core operational workflows, cyclic graphs, Qdrant payload indexing, and Token-Light evaluation.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: false
   median_eval_tokens: 27800
-  efficiency_tier: B
+  efficiency_tier: "B"
+
 security:
   automated_scans:
     gitleaks: true
@@ -73,5 +110,7 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+    multi_tenant_payload_isolation: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

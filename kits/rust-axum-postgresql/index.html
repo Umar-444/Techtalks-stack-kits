@@ -328,69 +328,173 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rust-axum-postgresql/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/rust-axum-postgresql/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/rust-axum-postgresql for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Rust + Axum + PostgreSQL (SQLx)
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rust + Axum + PostgreSQL (SQLx) — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### Architectural Standards for Rust + Axum + Tokio + SQLx + PostgreSQL
+# Architecture Standards: Rust + Axum + Tokio + SQLx + PostgreSQL
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
+
+### Axum Routing, Handlers, and State Extraction Architecture
+# Axum Routing, Handlers, and State Extraction Architecture
+
+## 1. Modular Router Design
+- Structure routers hierarchically using `Router::new().nest(&quot;/api/v1&quot;, api_routes)`.
+- Handlers must be pure asynchronous functions accepting type-safe extractors:
+  `async fn handler(State(pool): State&lt;PgPool&gt;, Json(payload): Json&lt;CreateRequest&gt;) -&gt; Result&lt;Json&lt;Response&gt;, AppError&gt;`
+- Place extractors in correct order: body extractors (`Json`, `Form`) must be the final argument.
+
+## 2. Shared State Management
+- Share thread-safe dependencies (database pools, caches, config) via `Router::with_state(app_state)`.
+- Use shallow-cloneable ha
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rust-axum-postgresql/.cursor/rules/*.mdc</span>
+                <span>Source: kits/rust-axum-postgresql/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/rust-axum-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Rust + Axum + PostgreSQL (SQLx) Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: Axum Routing, Handlers, and State Extraction Architecture
+globs: starter/src/**/*.rs
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# Axum Routing, Handlers, and State Extraction Architecture
+
+# Axum Routing, Handlers, and State Extraction Architecture
+
+## 1. Modular Router Design
+- Structure routers hierarchically using `Router::new().nest(&quot;/api/v1&quot;, api_routes)`.
+- Handlers must be pure asynchronous functions accepting type-safe extractors:
+  `async fn handler(State(pool): State&lt;PgPool&gt;, Json(payload): Json&lt;CreateRequest&gt;) -&gt; Result&lt;Json&lt;Response&gt;, AppError&gt;`
+- Place extractors in correct order: body extractors (`Json`, `Form`) must be the final argument.
+
+## 2. Shared State Management
+- Share thread-safe dependencies (database pools, caches, config) via `Router::with_state(app_state)`.
+- Use shallow-cloneable handles (such as `PgPool` or `Arc&lt;AppState&gt;`).
+- Never lock async execution blocks with synchronous mutexes (`std::sync::Mutex`); use `tokio::sync::Mutex` or lock-free channels.
+
+## 3. Idiomatic Error Handling</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rust-axum-postgresql/CODEX.md</span>
+                <span>Source: kits/rust-axum-postgresql/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rust-axum-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Rust + Axum + PostgreSQL (SQLx)
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for Rust + Axum + PostgreSQL Stack Kit
+
+## Stack Overview
+- Language: Rust 1.81+ (Edition 2021)
+- Framework: Axum 0.8+
+- Runtime: Tokio 1.40+ (Multi-threaded async)
+- Database: PostgreSQL 16+ via SQLx 0.8+ (Compile-time verified queries)
+- Middleware: Tower-HTTP 0.6+ (CORS, Trace, Timeout, Compression)
+- Security: #![deny(unsafe_code)], cargo-audit, non-root Alpine container
+
+## Mandatory Rules
+1. Zero unparameterized SQL queries. Always use SQLx query macros with bind parameters ($1, $2).
+2. All handlers must return Result&lt;Json&lt;T&gt;, AppError&gt; with explicit error status codes.
+3. Apply Tower-HTTP layers for timeout (15s), CORS, and Tracing on all API routes.
+4. Bound connection pools using PgPoolOptions with explicit max_connections and timeouts.
+5. In-memory integration tests must use oneshot requests to verify status codes and payloads.</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rust-axum-postgresql/.github/copilot-instructions.md</span>
+                <span>Source: kits/rust-axum-postgresql/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/rust-axum-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Rust + Axum + PostgreSQL (SQLx)
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Rust + Axum + PostgreSQL (SQLx)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Architectural Standards for Rust + Axum + Tokio + SQLx + PostgreSQL
+# Architecture Standards: Rust + Axum + Tokio + SQLx + PostgreSQL
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
+
+## Axum Routing, Handlers, and State Extraction Architecture
+# Axum Routing, Handlers, and State Extraction Architecture
+
+## 1. Modular Router Design
+- Structure routers hierarchically using `Router::new().nest(&quot;/api/v1&quot;, api_routes)`.
+- Handlers must be pure asynchronous functions accepting type-safe extractors:
+  `async fn handler(State(pool): State&lt;PgPool&gt;, Json(payload): Json&lt;CreateRequest&gt;) -&gt; Result&lt;Json&lt;Response&gt;, AppError&gt;`
+- Place extractors in correct order: body extractors (`Json`, `Form`) must be the final argument.
+
+## 2. Shared State Management
+- Share thread-safe dependencies (database pools, caches, config) via `Router::with_state(app_state)`.
+- Use shallow-cloneable handles (such as `PgPool` or `Arc&lt;AppState&gt;`).
+- Never 
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rust-axum-postgresql/.clinerules</span>
+                <span>Source: kits/rust-axum-postgresql/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/rust-axum-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Rust + Axum + PostgreSQL (SQLx)
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for Rust + Axum + PostgreSQL Stack Kit
+
+## Stack Overview
+- Language: Rust 1.81+ (Edition 2021)
+- Framework: Axum 0.8+
+- Runtime: Tokio 1.40+ (Multi-threaded async)
+- Database: PostgreSQL 16+ via SQLx 0.8+ (Compile-time verified queries)
+- Middleware: Tower-HTTP 0.6+ (CORS, Trace, Timeout, Compression)
+- Security: #![deny(unsafe_code)], cargo-audit, non-root Alpine container
+
+## Mandatory Rules
+1. Zero unparameterized SQL queries. Always use SQLx query macros with bind parameters ($1, $2).
+2. All handlers must return Result&lt;Json&lt;T&gt;, AppError&gt; with explicit error status codes.
+3. Apply Tower-HTTP layers for timeout (15s), CORS, and Tracing on all API routes.
+4. Bound connection pools using PgPoolOptions with explicit max_connections and timeouts.
+5. In-memory integration tests must use oneshot requests to verify status codes and payloads.</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rust-axum-postgresql/.agents/rules/</span>
+                <span>Source: kits/rust-axum-postgresql/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/rust-axum-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Rust + Axum + PostgreSQL (SQLx)
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Axum Routing, Handlers, and State Extraction Architecture
+
+# Axum Routing, Handlers, and State Extraction Architecture
+
+## 1. Modular Router Design
+- Structure routers hierarchically using `Router::new().nest(&quot;/api/v1&quot;, api_routes)`.
+- Handlers must be pure asynchronous functions accepting type-safe extractors:
+  `async fn handler(State(pool): State&lt;PgPool&gt;, Json(payload): Json&lt;CreateRequest&gt;) -&gt; Result&lt;Json&lt;Response&gt;, AppError&gt;`
+- Place extractors in correct order: body extractors (`Json`, `Form`) must be the final argument.
+
+## 2. Shared State Management
+- Share thread-safe dependencies (database pools, caches, config) via `Router::with_state(app_state)`.
+- Use shallow-cloneable handles (such as `PgPool` or `Arc&lt;AppState&gt;`).
+- Never lock async execution blocks with synchronous mutexes (`std::sync::Mutex`); use `tokio::sync::Mutex` or lock-free channels.
+
+## 3. Idiomatic Error Handling
+- Use a unified `AppError` enum implementing `IntoResponse`:
+  ```rust
+  pub enum AppError {
+      Database(sqlx::Error),
+      NotFound(String),
+      Validation(String),</code></pre>
             </div>
 
           </div>

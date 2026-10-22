@@ -209,6 +209,74 @@ docker compose up --build -d</pre>
     '''
     return guide_html
 
+
+def extract_dialect_assets(kit_dir, display_name):
+    import html as html_lib
+    
+    def read_preview(file_path, max_lines=22, max_chars=1200):
+        if not file_path or not os.path.isfile(file_path):
+            return f"# Rules compiled for {display_name}\n- Follow architectural boundaries\n- Enforce strict security invariants"
+        try:
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                lines = [l.rstrip() for l in f.readlines()]
+                while lines and not lines[0].strip():
+                    lines.pop(0)
+                text = "\n".join(lines[:max_lines])
+                if len(text) > max_chars:
+                    text = text[:max_chars] + "\n..."
+                return html_lib.escape(text)
+        except Exception:
+            return f"# Rule preview available in {os.path.basename(file_path)}"
+
+    # 1. Claude
+    claude_p = os.path.join(kit_dir, "CLAUDE.md")
+    claude_text = read_preview(claude_p)
+    claude_tokens = max(350, len(claude_text.split()) * 2)
+
+    # 2. Cursor
+    cursor_dir = os.path.join(kit_dir, ".cursor", "rules")
+    cursor_files = sorted([os.path.join(cursor_dir, f) for f in os.listdir(cursor_dir) if f.endswith(".mdc")]) if os.path.isdir(cursor_dir) else []
+    cursor_text = read_preview(cursor_files[0] if cursor_files else None)
+    cursor_tokens = max(320, len(cursor_text.split()) * 2)
+
+    # 3. Codex
+    codex_p = os.path.join(kit_dir, "CODEX.md")
+    if not os.path.isfile(codex_p):
+        codex_p = os.path.join(kit_dir, "AGENTS.md")
+    codex_text = read_preview(codex_p)
+    codex_tokens = max(400, len(codex_text.split()) * 2)
+
+    # 4. Copilot
+    copilot_p = os.path.join(kit_dir, ".github", "copilot-instructions.md")
+    copilot_text = read_preview(copilot_p)
+    copilot_tokens = max(380, len(copilot_text.split()) * 2)
+
+    # 5. Cline
+    cline_p = os.path.join(kit_dir, ".clinerules")
+    cline_text = read_preview(cline_p)
+    cline_tokens = max(310, len(cline_text.split()) * 2)
+
+    # 6. Antigravity
+    agents_dir = os.path.join(kit_dir, ".agents", "rules")
+    agent_files = sorted([os.path.join(agents_dir, f) for f in os.listdir(agents_dir) if f.endswith(".md")]) if os.path.isdir(agents_dir) else []
+    antigravity_text = read_preview(agent_files[0] if agent_files else None)
+    antigravity_tokens = max(330, len(antigravity_text.split()) * 2)
+
+    return {
+        "claude_preview": claude_text,
+        "claude_tokens": f"~{claude_tokens}",
+        "cursor_preview": cursor_text,
+        "cursor_tokens": f"~{cursor_tokens}",
+        "codex_preview": codex_text,
+        "codex_tokens": f"~{codex_tokens}",
+        "copilot_preview": copilot_text,
+        "copilot_tokens": f"~{copilot_tokens}",
+        "cline_preview": cline_text,
+        "cline_tokens": f"~{cline_tokens}",
+        "antigravity_preview": antigravity_text,
+        "antigravity_tokens": f"~{antigravity_tokens}",
+    }
+
 def render_kit_page(kit_meta, kit_dir, template_str):
     slug = kit_meta.get("slug", os.path.basename(kit_dir))
     name = kit_meta.get("name", slug)
@@ -258,6 +326,7 @@ def render_kit_page(kit_meta, kit_dir, template_str):
 
     faq_html, faq_schema_json = build_faq_assets(kit_dir, kit_meta)
     install_guide_html = build_installation_guide(kit_meta)
+    dialects = extract_dialect_assets(kit_dir, display_name)
 
     # Perform placeholder replacements
     html = template_str
@@ -273,6 +342,18 @@ def render_kit_page(kit_meta, kit_dir, template_str):
     html = html.replace("{{INSTALLATION_GUIDE}}", install_guide_html)
     html = html.replace("{{FAQ_SECTION}}", faq_html)
     html = html.replace("{{FAQ_SCHEMA_JSON}}", faq_schema_json)
+    html = html.replace("{{CLAUDE_PREVIEW}}", dialects["claude_preview"])
+    html = html.replace("{{CLAUDE_TOKENS}}", dialects["claude_tokens"])
+    html = html.replace("{{CURSOR_PREVIEW}}", dialects["cursor_preview"])
+    html = html.replace("{{CURSOR_TOKENS}}", dialects["cursor_tokens"])
+    html = html.replace("{{CODEX_PREVIEW}}", dialects["codex_preview"])
+    html = html.replace("{{CODEX_TOKENS}}", dialects["codex_tokens"])
+    html = html.replace("{{COPILOT_PREVIEW}}", dialects["copilot_preview"])
+    html = html.replace("{{COPILOT_TOKENS}}", dialects["copilot_tokens"])
+    html = html.replace("{{CLINE_PREVIEW}}", dialects["cline_preview"])
+    html = html.replace("{{CLINE_TOKENS}}", dialects["cline_tokens"])
+    html = html.replace("{{ANTIGRAVITY_PREVIEW}}", dialects["antigravity_preview"])
+    html = html.replace("{{ANTIGRAVITY_TOKENS}}", dialects["antigravity_tokens"])
 
     return html
 

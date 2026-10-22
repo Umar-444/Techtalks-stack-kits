@@ -328,69 +328,156 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/nextjs-approuter-supabase/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/nextjs-approuter-supabase/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/nextjs-approuter-supabase for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Next.js 15+ + Supabase + shadcn/ui
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Next.js 15+ + Supabase + shadcn/ui — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### 01 Nextjs App Router Architecture
+# Rule 1: Next.js 15 App Router &amp; React 19 Architecture
+
+## Context &amp; Principles
+- All components in the `app/` directory are React Server Components (RSC) by default.
+- Minimize client-side bundle size: only add `&#x27;use client&#x27;` at the leaves of the component tree for interactive hooks (`useState`, `useEffect`, `useFormStatus`).
+- Keep data fetching on the server using direct Supabase server client calls inside Server Components.
+
+## Standards
+1. **Directory Structure**: Group route segments into `src/app/(auth)/`, `src/app/(dashboard)/`, and shared components into `src/components/`.
+2. **Streaming &amp; Suspense**: Wrap asynchronous data-fetching Server Components in `&lt;Suspense fallback={&lt;Skeleton /&gt;}&gt;` to enable incremental page streaming.
+3. **Metadata &amp; SEO**: Export static or dynamic `generateMetadata()` from `page.tsx` or `layout.tsx` for search engine indexing and Open Graph cards.
+4. **Layout Hygiene**: Avoid fetching dynamic user data in
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/nextjs-approuter-supabase/.cursor/rules/*.mdc</span>
+                <span>Source: kits/nextjs-approuter-supabase/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/nextjs-approuter-supabase" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Next.js 15+ + Supabase + shadcn/ui Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: 01 Nextjs App Router Architecture
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# 01 Nextjs App Router Architecture
+
+# Rule 1: Next.js 15 App Router &amp; React 19 Architecture
+
+## Context &amp; Principles
+- All components in the `app/` directory are React Server Components (RSC) by default.
+- Minimize client-side bundle size: only add `&#x27;use client&#x27;` at the leaves of the component tree for interactive hooks (`useState`, `useEffect`, `useFormStatus`).
+- Keep data fetching on the server using direct Supabase server client calls inside Server Components.
+
+## Standards
+1. **Directory Structure**: Group route segments into `src/app/(auth)/`, `src/app/(dashboard)/`, and shared components into `src/components/`.
+2. **Streaming &amp; Suspense**: Wrap asynchronous data-fetching Server Components in `&lt;Suspense fallback={&lt;Skeleton /&gt;}&gt;` to enable incremental page streaming.
+3. **Metadata &amp; SEO**: Export static or dynamic `generateMetadata()` from `page.tsx` or `layout.tsx` for search engine indexing and Open Graph cards.
+4. **Layout Hygiene**: Avoid fetching dynamic user data in global root layouts unless strictly necessary to preserve static route caching.
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/nextjs-approuter-supabase/CODEX.md</span>
+                <span>Source: kits/nextjs-approuter-supabase/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/nextjs-approuter-supabase" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Next.js 15+ + Supabase + shadcn/ui
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Next.js 15+ + Supabase + shadcn/ui - Agent Architecture &amp; Rules
+
+This project adheres to the TechTalks production standards for Next.js 15 App Router, React 19, Supabase RLS, and TypeScript.
+
+# Rule 1: Next.js 15 App Router &amp; React 19 Architecture
+
+## Context &amp; Principles
+- All components in the `app/` directory are React Server Components (RSC) by default.
+- Minimize client-side bundle size: only add `&#x27;use client&#x27;` at the leaves of the component tree for interactive hooks (`useState`, `useEffect`, `useFormStatus`).
+- Keep data fetching on the server using direct Supabase server client calls inside Server Components.
+
+## Standards
+1. **Directory Structure**: Group route segments into `src/app/(auth)/`, `src/app/(dashboard)/`, and shared components into `src/components/`.
+2. **Streaming &amp; Suspense**: Wrap asynchronous data-fetching Server Components in `&lt;Suspense fallback={&lt;Skeleton /&gt;}&gt;` to enable incremental page streaming.
+3. **Metadata &amp; SEO**: Export static or dynamic `generateMetadata()` from `page.tsx` or `layout.tsx` for search engine indexing and Open Graph cards.
+4. **Layout Hygiene**: Avoid fetching dynamic user data in global root layouts unless strictly necessary to p
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/nextjs-approuter-supabase/.github/copilot-instructions.md</span>
+                <span>Source: kits/nextjs-approuter-supabase/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/nextjs-approuter-supabase" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Next.js 15+ + Supabase + shadcn/ui
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Next.js 15+ + Supabase + shadcn/ui
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## 01 Nextjs App Router Architecture
+# Rule 1: Next.js 15 App Router &amp; React 19 Architecture
+
+## Context &amp; Principles
+- All components in the `app/` directory are React Server Components (RSC) by default.
+- Minimize client-side bundle size: only add `&#x27;use client&#x27;` at the leaves of the component tree for interactive hooks (`useState`, `useEffect`, `useFormStatus`).
+- Keep data fetching on the server using direct Supabase server client calls inside Server Components.
+
+## Standards
+1. **Directory Structure**: Group route segments into `src/app/(auth)/`, `src/app/(dashboard)/`, and shared components into `src/components/`.
+2. **Streaming &amp; Suspense**: Wrap asynchronous data-fetching Server Components in `&lt;Suspense fallback={&lt;Skeleton /&gt;}&gt;` to enable incremental page streaming.
+3. **Metadata &amp; SEO**: Export static or dynamic `generateMetadata()` from `page.tsx` or `layout.tsx` for search engine indexing and Open Graph cards.
+4. **Layout Hygiene**: Avoid fetching dynamic user data in global root layouts unless strictly necessary to pr
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/nextjs-approuter-supabase/.clinerules</span>
+                <span>Source: kits/nextjs-approuter-supabase/.clinerules &bull; Token footprint: ~342 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/nextjs-approuter-supabase" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Next.js 15+ + Supabase + shadcn/ui
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Next.js 15+ + Supabase + shadcn/ui - Agent Architecture &amp; Rules
+
+This project adheres to the TechTalks production standards for Next.js 15 App Router, React 19, Supabase RLS, and TypeScript.
+
+# Rule 1: Next.js 15 App Router &amp; React 19 Architecture
+
+## Context &amp; Principles
+- All components in the `app/` directory are React Server Components (RSC) by default.
+- Minimize client-side bundle size: only add `&#x27;use client&#x27;` at the leaves of the component tree for interactive hooks (`useState`, `useEffect`, `useFormStatus`).
+- Keep data fetching on the server using direct Supabase server client calls inside Server Components.
+
+## Standards
+1. **Directory Structure**: Group route segments into `src/app/(auth)/`, `src/app/(dashboard)/`, and shared components into `src/components/`.
+2. **Streaming &amp; Suspense**: Wrap asynchronous data-fetching Server Components in `&lt;Suspense fallback={&lt;Skeleton /&gt;}&gt;` to enable incremental page streaming.
+3. **Metadata &amp; SEO**: Export static or dynamic `generateMetadata()` from `page.tsx` or `layout.tsx` for search engine indexing and Open Graph cards.
+4. **Layout Hygiene**: Avoid fetching dynamic user data in global root layouts unless strictly necessary to p
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/nextjs-approuter-supabase/.agents/rules/</span>
+                <span>Source: kits/nextjs-approuter-supabase/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/nextjs-approuter-supabase" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Next.js 15+ + Supabase + shadcn/ui
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Nextjs App Router Architecture
+
+# Rule 1: Next.js 15 App Router &amp; React 19 Architecture
+
+## Context &amp; Principles
+- All components in the `app/` directory are React Server Components (RSC) by default.
+- Minimize client-side bundle size: only add `&#x27;use client&#x27;` at the leaves of the component tree for interactive hooks (`useState`, `useEffect`, `useFormStatus`).
+- Keep data fetching on the server using direct Supabase server client calls inside Server Components.
+
+## Standards
+1. **Directory Structure**: Group route segments into `src/app/(auth)/`, `src/app/(dashboard)/`, and shared components into `src/components/`.
+2. **Streaming &amp; Suspense**: Wrap asynchronous data-fetching Server Components in `&lt;Suspense fallback={&lt;Skeleton /&gt;}&gt;` to enable incremental page streaming.
+3. **Metadata &amp; SEO**: Export static or dynamic `generateMetadata()` from `page.tsx` or `layout.tsx` for search engine indexing and Open Graph cards.
+4. **Layout Hygiene**: Avoid fetching dynamic user data in global root layouts unless strictly necessary to preserve static route caching.
+</code></pre>
             </div>
 
           </div>

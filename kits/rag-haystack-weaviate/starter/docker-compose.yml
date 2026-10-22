@@ -1,0 +1,44 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rag-haystack-weaviate-app
+    ports:
+      - "8080:8080"
+    environment:
+      - APP_ENV=development
+      - PORT=8080
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080
+      - WEAVIATE_URL=http://weaviate:8085
+      - WEAVIATE_GRPC_PORT=50051
+      - HYBRID_SEARCH_ALPHA=0.65
+    depends_on:
+      weaviate:
+        condition: service_healthy
+    restart: unless-stopped
+
+  weaviate:
+    image: semitechnologies/weaviate:1.27.0
+    container_name: rag-haystack-weaviate-db
+    ports:
+      - "8085:8080"
+      - "50051:50051"
+    environment:
+      - QUERY_DEFAULTS_LIMIT=20
+      - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true
+      - PERSISTENCE_DATA_PATH=/var/lib/weaviate
+      - DEFAULT_VECTORIZER_MODULE=none
+      - CLUSTER_HOSTNAME=node1
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:8080/v1/.well-known/ready || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  weaviate_data:
+    driver: local

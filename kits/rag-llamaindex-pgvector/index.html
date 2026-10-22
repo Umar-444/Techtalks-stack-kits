@@ -312,69 +312,183 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-llamaindex-pgvector/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/rag-llamaindex-pgvector/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/rag-llamaindex-pgvector for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — LlamaIndex + PostgreSQL pgvector + FastAPI
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># LlamaIndex + PostgreSQL pgvector + FastAPI — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### 01 Framework Architecture And Standards
+﻿---
+id: 01-framework-architecture-and-standards
+title: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan
+globs: &quot;*&quot;
+alwaysApply: true
+---
+# Rule 1: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan
+
+## Context &amp; Principles
+- Pair FastAPI 0.115+ with LlamaIndex 0.11+ using global `Settings` configuration rather than legacy `ServiceContext`.
+- Manage persistent database connection pools and embedding models via FastAPI&#x27;s `@asynccontextmanager` lifespan handler.
+- Expose typed asynchronous REST endpoints backed by Pydantic v2 schemas and structured exception handlers.
+
+## Standards
+1. **Global LlamaIndex Configuration**:
+   ```python
+   from llama_index.core import Settings</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-llamaindex-pgvector/.cursor/rules/*.mdc</span>
+                <span>Source: kits/rag-llamaindex-pgvector/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/rag-llamaindex-pgvector" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: LlamaIndex + PostgreSQL pgvector + FastAPI Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: 01 Framework Architecture And Standards
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# 01 Framework Architecture And Standards
+
+﻿---
+id: 01-framework-architecture-and-standards
+title: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan
+globs: &quot;*&quot;
+alwaysApply: true
+---
+# Rule 1: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan
+
+## Context &amp; Principles
+- Pair FastAPI 0.115+ with LlamaIndex 0.11+ using global `Settings` configuration rather than legacy `ServiceContext`.
+- Manage persistent database connection pools and embedding models via FastAPI&#x27;s `@asynccontextmanager` lifespan handler.
+- Expose typed asynchronous REST endpoints backed by Pydantic v2 schemas and structured exception handlers.
+
+## Standards</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-llamaindex-pgvector/CODEX.md</span>
+                <span>Source: kits/rag-llamaindex-pgvector/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rag-llamaindex-pgvector" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for LlamaIndex + PostgreSQL pgvector + FastAPI
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># LlamaIndex + PostgreSQL pgvector + FastAPI — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Pgvector Schema And Hnsw Indexing](#02-pgvector-schema-and-hnsw-indexing)
+- [03 Ingestion Chunking And Metadata](#03-ingestion-chunking-and-metadata)
+- [04 Retrieval Query Engine And Reranking](#04-retrieval-query-engine-and-reranking)
+- [05 Evaluation Security And Testing](#05-evaluation-security-and-testing)
+
+---
+
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
+
+﻿---
+id: 01-framework-architecture-and-standards
+title: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan
+globs: &quot;*&quot;
+alwaysApply: true
+---
+# Rule 1: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-llamaindex-pgvector/.github/copilot-instructions.md</span>
+                <span>Source: kits/rag-llamaindex-pgvector/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/rag-llamaindex-pgvector" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for LlamaIndex + PostgreSQL pgvector + FastAPI
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for LlamaIndex + PostgreSQL pgvector + FastAPI
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## 01 Framework Architecture And Standards
+﻿---
+id: 01-framework-architecture-and-standards
+title: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan
+globs: &quot;*&quot;
+alwaysApply: true
+---
+# Rule 1: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan
+
+## Context &amp; Principles
+- Pair FastAPI 0.115+ with LlamaIndex 0.11+ using global `Settings` configuration rather than legacy `ServiceContext`.
+- Manage persistent database connection pools and embedding models via FastAPI&#x27;s `@asynccontextmanager` lifespan handler.
+- Expose typed asynchronous REST endpoints backed by Pydantic v2 schemas and structured exception handlers.
+
+## Standards
+1. **Global LlamaIndex Configuration**:
+   ```python
+   from llama_index.core import Settings
+   from llama_index.embeddings.fastembed import FastEmbedEmbedding</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-llamaindex-pgvector/.clinerules</span>
+                <span>Source: kits/rag-llamaindex-pgvector/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/rag-llamaindex-pgvector" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for LlamaIndex + PostgreSQL pgvector + FastAPI
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># LlamaIndex + PostgreSQL pgvector + FastAPI — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### 01 Framework Architecture And Standards
+﻿---
+id: 01-framework-architecture-and-standards
+title: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan
+globs: &quot;*&quot;
+alwaysApply: true
+---
+# Rule 1: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan
+
+## Context &amp; Principles
+- Pair FastAPI 0.115+ with LlamaIndex 0.11+ using global `Settings` configuration rather than legacy `ServiceContext`.
+- Manage persistent database connection pools and embedding models via FastAPI&#x27;s `@asynccontextmanager` lifespan handler.
+- Expose typed asynchronous REST endpoints backed by Pydantic v2 schemas and structured exception handlers.
+
+## Standards
+1. **Global LlamaIndex Configuration**:
+   ```python
+   from llama_index.core import Settings</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-llamaindex-pgvector/.agents/rules/</span>
+                <span>Source: kits/rag-llamaindex-pgvector/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/rag-llamaindex-pgvector" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for LlamaIndex + PostgreSQL pgvector + FastAPI
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
+
+﻿---
+id: 01-framework-architecture-and-standards
+title: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan
+globs: &quot;*&quot;
+alwaysApply: true
+---
+# Rule 1: FastAPI Architecture, LlamaIndex Settings &amp; Async Lifespan
+
+## Context &amp; Principles
+- Pair FastAPI 0.115+ with LlamaIndex 0.11+ using global `Settings` configuration rather than legacy `ServiceContext`.
+- Manage persistent database connection pools and embedding models via FastAPI&#x27;s `@asynccontextmanager` lifespan handler.
+- Expose typed asynchronous REST endpoints backed by Pydantic v2 schemas and structured exception handlers.
+
+## Standards
+1. **Global LlamaIndex Configuration**:
+   ```python
+   from llama_index.core import Settings
+   from llama_index.embeddings.fastembed import FastEmbedEmbedding
+
+   Settings.embed_model = FastEmbedEmbedding(model_name=&quot;BAAI/bge-small-en-v1.5&quot;)</code></pre>
             </div>
 
           </div>

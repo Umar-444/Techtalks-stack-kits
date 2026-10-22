@@ -1,0 +1,15 @@
+{
+  "task_id": "eval-01-adaptive-rag-cycle",
+  "name": "LangGraph Cyclic State Machine Execution",
+  "difficulty": "intermediate",
+  "prompt": "Implement the cyclical LangGraph state machine with retrieve, grade_documents, rewrite_query, and generate nodes. Verify that queries requiring refinement loop through rewrite_query up to max_iterations.",
+  "expected_files": [
+    "starter/app/graph.py",
+    "starter/app/state.py",
+    "starter/app/main.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_agentic_rag.py -k test_agentic_rag_full_cycle",
+    "criteria": "Graph executes cycle and produces response with status == 'completed'"
+  }
+}

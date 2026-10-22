@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-03-faithfulness-evaluator",
+  "name": "Haystack Faithfulness and Hallucination Guardrail",
+  "difficulty": "advanced",
+  "prompt": "Implement the /api/v1/rag/eval endpoint with FaithfulnessEvaluator. Assert that grounded responses score >= 0.85 and ungrounded responses score < 0.30.",
+  "expected_files": [
+    "starter/app/pipeline.py",
+    "starter/app/main.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_haystack_rag.py -k test_faithfulness_evaluator",
+    "criteria": "Grounded response passes score >= 0.85, ungrounded fails < 0.30"
+  }
+}

@@ -328,69 +328,166 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/ruby-rails-hotwire/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/ruby-rails-hotwire/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/ruby-rails-hotwire for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### Architectural Standards for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
+# Architecture Standards: Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
+
+### Rails 8 Architecture and Solid Stack Standards
+# Rails 8 Architecture and Solid Stack Standards
+
+## 1. Directory Structure &amp; Omakase Patterns
+- Adhere strictly to default Rails 8 directory layout:
+  - `app/models/`: Domain models inheriting from `ApplicationRecord`, containing business validations and associations.
+  - `app/controllers/`: Resourceful controllers inheriting from `ApplicationController`.
+  - `app/views/`: Semantic HTML templates using Turbo Frames and Turbo Stream formats.
+  - `app/javascript/controllers/`: Lightweight Stimulus controllers for client-side progressive enhancement.
+  - `c
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/ruby-rails-hotwire/.cursor/rules/*.mdc</span>
+                <span>Source: kits/ruby-rails-hotwire/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/ruby-rails-hotwire" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: Rails 8 Architecture and Solid Stack Standards
+globs: app/**/*.rb,config/**/*.rb,Gemfile
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# Rails 8 Architecture and Solid Stack Standards
+
+# Rails 8 Architecture and Solid Stack Standards
+
+## 1. Directory Structure &amp; Omakase Patterns
+- Adhere strictly to default Rails 8 directory layout:
+  - `app/models/`: Domain models inheriting from `ApplicationRecord`, containing business validations and associations.
+  - `app/controllers/`: Resourceful controllers inheriting from `ApplicationController`.
+  - `app/views/`: Semantic HTML templates using Turbo Frames and Turbo Stream formats.
+  - `app/javascript/controllers/`: Lightweight Stimulus controllers for client-side progressive enhancement.
+  - `config/`: Application configuration, environment settings, and routes.
+  - `db/migrate/`: Immutable schema migrations.
+
+## 2. Rails 8 Solid Suite Conventions
+- Leverage native Solid Stack gems for zero-external-dependency infrastructure:
+  - **Solid Cache**: Database-backed caching adapter replacing Redis for key-value stores.</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/ruby-rails-hotwire/CODEX.md</span>
+                <span>Source: kits/ruby-rails-hotwire/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/ruby-rails-hotwire" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for Ruby on Rails 8 + Hotwire Stack Kit
+
+## Stack Overview
+- Language: Ruby 3.3.6+
+- Framework: Ruby on Rails 8.0.0+
+- Front-End: Hotwire (Turbo 8 + Stimulus 3)
+- Solid Stack: Solid Cache, Solid Queue, Solid Cable
+- Database: SQLite 3.45+ (Development/Single-node) / PostgreSQL 16.4+ (Multi-node Production)
+- Security: Brakeman, Strong Parameters, HttpOnly Cookies, CSRF verification
+
+## Mandatory Rules
+1. Maintain omakase Rails 8 architecture: RESTful controllers, domain logic in models, progressive enhancement via Stimulus.
+2. Use Turbo Streams and Turbo 8 morphing for dynamic UI updates without client-side SPA frameworks.
+3. Strict Strong Parameters on all mutating controller actions. Never call `params.permit!`.
+4. Zero Brakeman warnings: Run `brakeman -q -z` before deploying or validating changes.
+5. All database operations must be indexed and protected against N+1 queries.</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/ruby-rails-hotwire/.github/copilot-instructions.md</span>
+                <span>Source: kits/ruby-rails-hotwire/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/ruby-rails-hotwire" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Architectural Standards for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
+# Architecture Standards: Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
+
+## Rails 8 Architecture and Solid Stack Standards
+# Rails 8 Architecture and Solid Stack Standards
+
+## 1. Directory Structure &amp; Omakase Patterns
+- Adhere strictly to default Rails 8 directory layout:
+  - `app/models/`: Domain models inheriting from `ApplicationRecord`, containing business validations and associations.
+  - `app/controllers/`: Resourceful controllers inheriting from `ApplicationController`.
+  - `app/views/`: Semantic HTML templates using Turbo Frames and Turbo Stream formats.
+  - `app/javascript/controllers/`: Lightweight Stimulus controllers for client-side progressive enhancement.
+  - `config/`: Application configuration, environment setti
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/ruby-rails-hotwire/.clinerules</span>
+                <span>Source: kits/ruby-rails-hotwire/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/ruby-rails-hotwire" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for Ruby on Rails 8 + Hotwire Stack Kit
+
+## Stack Overview
+- Language: Ruby 3.3.6+
+- Framework: Ruby on Rails 8.0.0+
+- Front-End: Hotwire (Turbo 8 + Stimulus 3)
+- Solid Stack: Solid Cache, Solid Queue, Solid Cable
+- Database: SQLite 3.45+ (Development/Single-node) / PostgreSQL 16.4+ (Multi-node Production)
+- Security: Brakeman, Strong Parameters, HttpOnly Cookies, CSRF verification
+
+## Mandatory Rules
+1. Maintain omakase Rails 8 architecture: RESTful controllers, domain logic in models, progressive enhancement via Stimulus.
+2. Use Turbo Streams and Turbo 8 morphing for dynamic UI updates without client-side SPA frameworks.
+3. Strict Strong Parameters on all mutating controller actions. Never call `params.permit!`.
+4. Zero Brakeman warnings: Run `brakeman -q -z` before deploying or validating changes.
+5. All database operations must be indexed and protected against N+1 queries.</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/ruby-rails-hotwire/.agents/rules/</span>
+                <span>Source: kits/ruby-rails-hotwire/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/ruby-rails-hotwire" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rails 8 Architecture and Solid Stack Standards
+
+# Rails 8 Architecture and Solid Stack Standards
+
+## 1. Directory Structure &amp; Omakase Patterns
+- Adhere strictly to default Rails 8 directory layout:
+  - `app/models/`: Domain models inheriting from `ApplicationRecord`, containing business validations and associations.
+  - `app/controllers/`: Resourceful controllers inheriting from `ApplicationController`.
+  - `app/views/`: Semantic HTML templates using Turbo Frames and Turbo Stream formats.
+  - `app/javascript/controllers/`: Lightweight Stimulus controllers for client-side progressive enhancement.
+  - `config/`: Application configuration, environment settings, and routes.
+  - `db/migrate/`: Immutable schema migrations.
+
+## 2. Rails 8 Solid Suite Conventions
+- Leverage native Solid Stack gems for zero-external-dependency infrastructure:
+  - **Solid Cache**: Database-backed caching adapter replacing Redis for key-value stores.
+  - **Solid Queue**: Database-backed active job queuing system with concurrent worker execution.
+  - **Solid Cable**: Database-backed WebSockets connection hub powering ActionCable and Turbo Streams.
+- Do NOT introduce external Redis or Sidekiq dependencies unl
+...</code></pre>
             </div>
 
           </div>

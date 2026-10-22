@@ -328,69 +328,165 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-devsecops-ci/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/security-devsecops-ci/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/security-devsecops-ci for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions) — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### Architectural Standards for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+# Architecture Standards: DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
+
+### DevSecOps CI Pipeline Architecture and Gating Standards
+# DevSecOps CI Pipeline Architecture and Gating Standards
+
+## 1. Pipeline Stages &amp; Execution Flow
+- Security pipelines execute across four synchronized stages:
+  1. **Pre-Flight Secret Audit**: Detect plaintext credentials and tokens before running build steps (`gitleaks`).
+  2. **Static Application Security Testing (SAST)**: AST-based vulnerability analysis with zero compiler dependence (`semgrep`).
+  3. **Software Composition Analysis (SCA) &amp; Container Scanning**: Filesystem package and base image CVE audits (`trivy`).
+  4. **Supply Chain &amp; Prov
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-devsecops-ci/.cursor/rules/*.mdc</span>
+                <span>Source: kits/security-devsecops-ci/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/security-devsecops-ci" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions) Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: DevSecOps CI Pipeline Architecture and Gating Standards
+globs: .github/workflows/*.yml,scripts/**/*.py,scripts/**/*.sh
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# DevSecOps CI Pipeline Architecture and Gating Standards
+
+# DevSecOps CI Pipeline Architecture and Gating Standards
+
+## 1. Pipeline Stages &amp; Execution Flow
+- Security pipelines execute across four synchronized stages:
+  1. **Pre-Flight Secret Audit**: Detect plaintext credentials and tokens before running build steps (`gitleaks`).
+  2. **Static Application Security Testing (SAST)**: AST-based vulnerability analysis with zero compiler dependence (`semgrep`).
+  3. **Software Composition Analysis (SCA) &amp; Container Scanning**: Filesystem package and base image CVE audits (`trivy`).
+  4. **Supply Chain &amp; Provenance**: Software Bill of Materials generation (`syft`) and cryptographic image signing (`cosign`).
+
+## 2. Gating &amp; Severity Thresholds
+- **Blocking Gates (Exit Code 1)**: Any `CRITICAL` or `HIGH` severity finding with a known fix halts pull request merges.
+- **Advisory Warnings**: Medium and low findings are logged as annotations in the GitHub Security tab without blocking developer velocity.
+- Suppressions must be temporar
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-devsecops-ci/CODEX.md</span>
+                <span>Source: kits/security-devsecops-ci/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/security-devsecops-ci" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for DevSecOps CI/CD Stack Kit
+
+## Stack Overview
+- Pipeline Engine: GitHub Actions v4
+- Secret Scanner: Gitleaks 8+
+- SAST Scanner: Semgrep OSS (OWASP Top 10 + Custom Rules)
+- Container &amp; Vulnerability Scanner: Aqua Security Trivy
+- SBOM Generator: Anchore Syft (SPDX 2.3 &amp; CycloneDX 1.5)
+- Image Signing: Sigstore Cosign (SLSA Provenance)
+- Local Runner: Cross-platform Python/Bash local security pipeline
+
+## Mandatory Rules
+1. Zero plaintext secrets in code or git history. Enforce Gitleaks pre-commit and in CI.
+2. SAST rules in `.semgrep.yml` must use AST pattern matching. Prohibit raw regex for code analysis.
+3. Containers must execute under unprivileged non-root users and pin immutable image digests.
+4. Block CI merges on CRITICAL and HIGH severity CVEs with available upstream patches.
+5. All security tools must emit SARIF 2.1.0 formatted reports for GitHub Code Scanning integration.</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-devsecops-ci/.github/copilot-instructions.md</span>
+                <span>Source: kits/security-devsecops-ci/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/security-devsecops-ci" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Architectural Standards for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+# Architecture Standards: DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
+
+## DevSecOps CI Pipeline Architecture and Gating Standards
+# DevSecOps CI Pipeline Architecture and Gating Standards
+
+## 1. Pipeline Stages &amp; Execution Flow
+- Security pipelines execute across four synchronized stages:
+  1. **Pre-Flight Secret Audit**: Detect plaintext credentials and tokens before running build steps (`gitleaks`).
+  2. **Static Application Security Testing (SAST)**: AST-based vulnerability analysis with zero compiler dependence (`semgrep`).
+  3. **Software Composition Analysis (SCA) &amp; Container Scanning**: Filesystem package and base image CVE audits (`trivy`).
+  4. **Supply Chain &amp; Provenance**: Software Bill of Materials generation (`syf
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-devsecops-ci/.clinerules</span>
+                <span>Source: kits/security-devsecops-ci/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/security-devsecops-ci" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for DevSecOps CI/CD Stack Kit
+
+## Stack Overview
+- Pipeline Engine: GitHub Actions v4
+- Secret Scanner: Gitleaks 8+
+- SAST Scanner: Semgrep OSS (OWASP Top 10 + Custom Rules)
+- Container &amp; Vulnerability Scanner: Aqua Security Trivy
+- SBOM Generator: Anchore Syft (SPDX 2.3 &amp; CycloneDX 1.5)
+- Image Signing: Sigstore Cosign (SLSA Provenance)
+- Local Runner: Cross-platform Python/Bash local security pipeline
+
+## Mandatory Rules
+1. Zero plaintext secrets in code or git history. Enforce Gitleaks pre-commit and in CI.
+2. SAST rules in `.semgrep.yml` must use AST pattern matching. Prohibit raw regex for code analysis.
+3. Containers must execute under unprivileged non-root users and pin immutable image digests.
+4. Block CI merges on CRITICAL and HIGH severity CVEs with available upstream patches.
+5. All security tools must emit SARIF 2.1.0 formatted reports for GitHub Code Scanning integration.</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-devsecops-ci/.agents/rules/</span>
+                <span>Source: kits/security-devsecops-ci/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/security-devsecops-ci" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># DevSecOps CI Pipeline Architecture and Gating Standards
+
+# DevSecOps CI Pipeline Architecture and Gating Standards
+
+## 1. Pipeline Stages &amp; Execution Flow
+- Security pipelines execute across four synchronized stages:
+  1. **Pre-Flight Secret Audit**: Detect plaintext credentials and tokens before running build steps (`gitleaks`).
+  2. **Static Application Security Testing (SAST)**: AST-based vulnerability analysis with zero compiler dependence (`semgrep`).
+  3. **Software Composition Analysis (SCA) &amp; Container Scanning**: Filesystem package and base image CVE audits (`trivy`).
+  4. **Supply Chain &amp; Provenance**: Software Bill of Materials generation (`syft`) and cryptographic image signing (`cosign`).
+
+## 2. Gating &amp; Severity Thresholds
+- **Blocking Gates (Exit Code 1)**: Any `CRITICAL` or `HIGH` severity finding with a known fix halts pull request merges.
+- **Advisory Warnings**: Medium and low findings are logged as annotations in the GitHub Security tab without blocking developer velocity.
+- Suppressions must be temporary and documented with expiration timestamps in `.trivyignore` or `.gitleaksignore`.
+
+## 3. SARIF Standardization
+- All scanners must emit Static Analysis Resul
+...</code></pre>
             </div>
 
           </div>

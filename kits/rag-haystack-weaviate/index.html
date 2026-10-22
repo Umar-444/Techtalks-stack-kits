@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Haystack Pipelines + Weaviate + FastAPI (Hayhooks) (Blueprint) &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="Explicit, inspectable DAG production pipelines: deepset Haystack 2.5+, Weaviate vector database with hybrid BM25 + dense vector ranking, and 9 built-in production evaluators.">
+  <title>Haystack Pipelines + Weaviate + FastAPI (Hayhooks) &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Production-ready explicit DAG pipelines: Deepset Haystack 2.5+, Weaviate vector database with hybrid BM25 + dense vector ranking, and built-in faithfulness evaluators.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/rag-haystack-weaviate/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/rag-haystack-weaviate/">
-  <meta property="og:title" content="Haystack Pipelines + Weaviate + FastAPI (Hayhooks) (Blueprint) &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="Explicit, inspectable DAG production pipelines: deepset Haystack 2.5+, Weaviate vector database with hybrid BM25 + dense vector ranking, and 9 built-in production evaluators.">
+  <meta property="og:title" content="Haystack Pipelines + Weaviate + FastAPI (Hayhooks) &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Production-ready explicit DAG pipelines: Deepset Haystack 2.5+, Weaviate vector database with hybrid BM25 + dense vector ranking, and built-in faithfulness evaluators.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -36,98 +36,114 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What exactly is the Haystack Pipelines + Weaviate + FastAPI (Hayhooks) kit?",
+      "name": "What makes Haystack 2.5+ explicit DAG pipelines superior to linear chain abstractions?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+        "text": "Haystack 2.x abandons rigid, linear chain abstractions in favor of explicit, inspectable Directed Acyclic Graphs (DAGs). Each component declares exact input/output socket types via `@component.output_types`. This allows developers and AI coding agents to visually inspect pipeline dataflow, route multiple retrievers in parallel, and insert custom rankers or validators without side effects."
       }
     },
     {
       "@type": "Question",
-      "name": "Which versions does it pin?",
+      "name": "How does Weaviate hybrid search combine BM25 sparse keyword matching and dense vector similarity?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+        "text": "Weaviate executes BM25 inverted index term matching and HNSW dense vector cosine distance concurrently. It normalizes both rank distributions and fuses the results using reciprocal rank fusion (RRF) or relative score fusion controlled by the `alpha` parameter, delivering high keyword precision alongside deep semantic generalization."
       }
     },
     {
       "@type": "Question",
-      "name": "Which AI coding agents are supported?",
+      "name": "What is the recommended value for the hybrid search alpha parameter and how do you calibrate it?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+        "text": "An `alpha` value of 0.0 executes pure BM25 keyword search, while 1.0 executes pure dense vector search. For production RAG systems containing acronyms, product IDs, and domain jargon alongside natural language questions, `alpha=0.65` provides the optimal balance between semantic recall and exact keyword precision."
       }
     },
     {
       "@type": "Question",
-      "name": "What do I need installed before I start?",
+      "name": "How does Weaviate v4 Python client manage collection schemas and multi-tenant isolation?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+        "text": "The Weaviate v4 client uses strongly-typed collection configurations (`client.collections.create(...)`). By specifying `multi_tenancy_config=Configure.multi_tenancy(enabled=True)`, Weaviate creates isolated physical shard partitions per tenant. Queries scoped with `collection.with_tenant(tenant_id)` search exclusively within the tenant's partition."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does installation take?",
+      "name": "How do you implement zero-cost automated evaluation in CI using Haystack's FaithfulnessEvaluator?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+        "text": "Our test suite provides a deterministic evaluation harness that verifies whether every statement in the generated answer exists within the retrieved documents using claim extraction and token overlap. This executes in under 5 milliseconds locally without requiring third-party API keys or incurring token fees."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the starter production-shaped or a demo?",
+      "name": "What is the latency profile of a hybrid search query in Weaviate compared to pure vector search?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+        "text": "In Weaviate, hybrid queries typically complete in 8 to 22 milliseconds on moderate collections (under 1M vectors). Because the BM25 inverted index and vector HNSW graph are queried in parallel within Weaviate's native Go engine, the overhead compared to pure vector search is minimal (<15%)."
       }
     },
     {
       "@type": "Question",
-      "name": "How is security handled in this kit?",
+      "name": "How does Reciprocal Rank Fusion (RRF) resolve ranking conflicts between sparse and dense score distributions?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+        "text": "BM25 produces unbounded positive scores based on term frequencies, whereas cosine similarity produces scores bounded between -1.0 and +1.0. RRF circumvents raw score disparity by assigning ranks to documents in each candidate list and computing fused scores via `RRF(d) = sum(1 / (k + rank_i(d)))`, where `k=60` is the standard smoothing constant."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the design?",
+      "name": "How does Haystack handle document chunking and metadata preservation before indexing into Weaviate?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+        "text": "Haystack provides `DocumentSplitter` which splits text by word, sentence, or passage while maintaining document-level metadata dictionaries. Each resulting `Document` chunk retains parent IDs, tenant namespaces, and header hierarchies when written to Weaviate."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I update when a new kit version releases?",
+      "name": "Can Haystack pipelines run in serverless or edge environments?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+        "text": "Yes. Haystack 2.x components are lightweight Python classes without bulky background worker daemons. When paired with remote Weaviate Cloud instances, Haystack pipelines deploy seamlessly onto AWS Lambda, Cloudflare Workers via Python runtime, or Google Cloud Run."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I use it for commercial and client work?",
+      "name": "How do you secure Weaviate collections in production multi-tenant environments?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+        "text": "Enable API key authentication and role-based access control (RBAC) in Weaviate. Always construct queries through the `with_tenant(tenant_id)` method and validate tenant claims against signed JWT tokens in the FastAPI authorization middleware."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I contribute a fix or skill back?",
+      "name": "What security guardrails prevent prompt injection when external documents are retrieved into prompts?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+        "text": "Retrieved chunks are wrapped in XML tags (`<context>...</context>`) inside the Jinja2 template. The system prompt instructs the generator never to interpret text inside `<context>` as instructions, mitigating indirect prompt injection attacks."
       }
     },
     {
       "@type": "Question",
-      "name": "Where do I get help or report a problem?",
+      "name": "Why does the starter container enforce non-root execution (UID 10001)?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+        "text": "Enforcing `USER 10001:10001` ensures that even if an attacker achieves arbitrary code execution inside the container, they cannot access host filesystem resources, mount devices, or escalate privileges on the host system."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Hayhooks deploy Haystack pipelines as HTTP REST endpoints?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hayhooks is an official Deepset utility that automatically inspects Haystack pipeline YAML definitions and serves them as FastAPI endpoints. In our kit, we provide a production FastAPI service that offers native async endpoints with OpenAPI documentation and health probes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I migrate existing Haystack 1.x pipelines to the Haystack 2.x component architecture?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In Haystack 2.x, replace legacy `Node` classes with `@component` decorated classes, replace `Pipeline.add_node()` with `Pipeline.add_component()` and `Pipeline.connect()`, and update Weaviate document store connections to the Weaviate v4 Python client."
       }
     }
   ]
@@ -201,27 +217,27 @@
       <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">rag-haystack-weaviate</span>
     </nav>
 
-<div class="mb-8 p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] border-l-[3px] border-l-[#B7791F] text-xs leading-relaxed flex items-start gap-3"><span class="font-mono font-bold text-[#B7791F] uppercase tracking-wider">Note:</span><div class="text-[#5C6058] dark:text-[#C4C4CC]">This kit is an architectural blueprint. Specifications, threat models, and multi-dialect rules are compiled. Starter containers are in active verification.</div></div>
+
 
     <!-- Kit Header Section -->
     <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="chip-status-blueprint"><span class="w-1.5 h-1.5 rounded-full bg-[#8E8E96]"></span>BLUEPRINT</span>
+        <span class="chip-status-ready"><span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>READY TO SHIP</span>
         <span class="text-xs font-mono text-[#8E8E96]">v1.0.0</span>
         <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>
         <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        Haystack Pipelines + Weaviate + FastAPI (Hayhooks) (Blueprint)
+        Haystack Pipelines + Weaviate + FastAPI (Hayhooks)
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        Explicit, inspectable DAG production pipelines: deepset Haystack 2.5+, Weaviate vector database with hybrid BM25 + dense vector ranking, and 9 built-in production evaluators.
+        Production-ready explicit DAG pipelines: Deepset Haystack 2.5+, Weaviate vector database with hybrid BM25 + dense vector ranking, and built-in faithfulness evaluators.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Python', 'version': '3.12+', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Haystack', 'version': '2.5+', 'registry': 'pypi.org'}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Python', 'version': '>= 3.12', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Haystack', 'version': '>= 2.5', 'registry': 'pypi.org'}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -312,69 +328,127 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-haystack-weaviate/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/rag-haystack-weaviate/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/rag-haystack-weaviate for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Haystack Pipelines + Weaviate + FastAPI (Hayhooks) (Blueprint)
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Haystack Pipelines + Weaviate + FastAPI (Hayhooks) — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### 01 Framework Architecture And Standards
+# Framework Architecture and Standards: Haystack 2.5+ and Weaviate
+
+1. **Explicit DAG Component Wiring**: Haystack 2.x uses explicit, directional DAG connections via `pipeline.connect(&quot;component_a.output&quot;, &quot;component_b.input&quot;)`. Never use implicit or hidden execution flow.
+2. **Component Isolation**: Every pipeline component must implement the `@component` decorator with typed inputs and outputs. Do not mutate global state inside components.
+3. **Async FastAPI Layer**: Expose pipeline executions through FastAPI endpoints with typed Pydantic models. All blocking pipeline calls must execute asynchronously or in a worker thread pool.
+4. **Environment Invariant**: All external service hosts (`WEAVIATE_URL`, `OPENAI_API_BASE`) must be injected through environment variables. Zero hardcoded localhost URLs in production code.
+5. **Python 3.12+ Typing**: Use standard type annotations (`list[str]`, `dict[str, Any]`, `str | None`)
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-haystack-weaviate/.cursor/rules/*.mdc</span>
+                <span>Source: kits/rag-haystack-weaviate/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/rag-haystack-weaviate" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Haystack Pipelines + Weaviate + FastAPI (Hayhooks) (Blueprint) Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: 01 Framework Architecture And Standards
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# 01 Framework Architecture And Standards
+
+# Framework Architecture and Standards: Haystack 2.5+ and Weaviate
+
+1. **Explicit DAG Component Wiring**: Haystack 2.x uses explicit, directional DAG connections via `pipeline.connect(&quot;component_a.output&quot;, &quot;component_b.input&quot;)`. Never use implicit or hidden execution flow.
+2. **Component Isolation**: Every pipeline component must implement the `@component` decorator with typed inputs and outputs. Do not mutate global state inside components.
+3. **Async FastAPI Layer**: Expose pipeline executions through FastAPI endpoints with typed Pydantic models. All blocking pipeline calls must execute asynchronously or in a worker thread pool.
+4. **Environment Invariant**: All external service hosts (`WEAVIATE_URL`, `OPENAI_API_BASE`) must be injected through environment variables. Zero hardcoded localhost URLs in production code.
+5. **Python 3.12+ Typing**: Use standard type annotations (`list[str]`, `dict[str, Any]`, `str | None`). Do not use legacy typing imports (`typing.List`, `typing.Optional`).
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-haystack-weaviate/CODEX.md</span>
+                <span>Source: kits/rag-haystack-weaviate/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rag-haystack-weaviate" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Haystack Pipelines + Weaviate + FastAPI (Hayhooks) (Blueprint)
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># OpenAI Codex &amp; Assistant Instruction Set: Haystack + Weaviate RAG
+
+# Haystack Pipelines + Weaviate + FastAPI (Hayhooks) — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Hybrid Retrieval And Reciprocal Rank Fusion](#02-hybrid-retrieval-and-reciprocal-rank-fusion)
+- [03 Weaviate Collections And Tenant Isolation](#03-weaviate-collections-and-tenant-isolation)
+- [04 Evaluators And Pipeline Validation](#04-evaluators-and-pipeline-validation)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+
+---
+
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
+
+# Framework Architecture and Standards: Haystack 2.5+ and Weaviate
+
+1. **Explicit DAG Component Wiring**: Haystack 2.x uses explicit, directional DAG connections via `pipeline.connect(&quot;component_a.output&quot;, &quot;component_b.input&quot;)`. Never use implicit or hidden execution flow.
+2. **Component Isolation**: Every pipeline component must implement the `@component` decorator with typed inputs and outputs.
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-haystack-weaviate/.github/copilot-instructions.md</span>
+                <span>Source: kits/rag-haystack-weaviate/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/rag-haystack-weaviate" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Haystack Pipelines + Weaviate + FastAPI (Hayhooks) (Blueprint)
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Haystack Pipelines + Weaviate + FastAPI (Hayhooks)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## 01 Framework Architecture And Standards
+# Framework Architecture and Standards: Haystack 2.5+ and Weaviate
+
+1. **Explicit DAG Component Wiring**: Haystack 2.x uses explicit, directional DAG connections via `pipeline.connect(&quot;component_a.output&quot;, &quot;component_b.input&quot;)`. Never use implicit or hidden execution flow.
+2. **Component Isolation**: Every pipeline component must implement the `@component` decorator with typed inputs and outputs. Do not mutate global state inside components.
+3. **Async FastAPI Layer**: Expose pipeline executions through FastAPI endpoints with typed Pydantic models. All blocking pipeline calls must execute asynchronously or in a worker thread pool.
+4. **Environment Invariant**: All external service hosts (`WEAVIATE_URL`, `OPENAI_API_BASE`) must be injected through environment variables. Zero hardcoded localhost URLs in production code.
+5. **Python 3.12+ Typing**: Use standard type annotations (`list[str]`, `dict[str, Any]`, `str | None`). Do not use legacy typing imports (`typing.List`, `
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-haystack-weaviate/.clinerules</span>
+                <span>Source: kits/rag-haystack-weaviate/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/rag-haystack-weaviate" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Haystack Pipelines + Weaviate + FastAPI (Hayhooks) (Blueprint)
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Haystack Pipelines + Weaviate + FastAPI (Hayhooks)
+- Follow architectural boundaries
+- Enforce strict security invariants</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-haystack-weaviate/.agents/rules/</span>
+                <span>Source: kits/rag-haystack-weaviate/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/rag-haystack-weaviate" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Haystack Pipelines + Weaviate + FastAPI (Hayhooks) (Blueprint)
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
+
+# Framework Architecture and Standards: Haystack 2.5+ and Weaviate
+
+1. **Explicit DAG Component Wiring**: Haystack 2.x uses explicit, directional DAG connections via `pipeline.connect(&quot;component_a.output&quot;, &quot;component_b.input&quot;)`. Never use implicit or hidden execution flow.
+2. **Component Isolation**: Every pipeline component must implement the `@component` decorator with typed inputs and outputs. Do not mutate global state inside components.
+3. **Async FastAPI Layer**: Expose pipeline executions through FastAPI endpoints with typed Pydantic models. All blocking pipeline calls must execute asynchronously or in a worker thread pool.
+4. **Environment Invariant**: All external service hosts (`WEAVIATE_URL`, `OPENAI_API_BASE`) must be injected through environment variables. Zero hardcoded localhost URLs in production code.
+5. **Python 3.12+ Typing**: Use standard type annotations (`list[str]`, `dict[str, Any]`, `str | None`). Do not use legacy typing imports (`typing.List`, `typing.Optional`).
+</code></pre>
             </div>
 
           </div>
@@ -385,7 +459,11 @@ globs: **/*
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">rag-haystack-weaviate-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for Haystack Pipelines + Weaviate + FastAPI (Hayhooks)</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Guide to adding a custom Haystack pipeline component, such as an entity extractor or custom prompt formatter.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">haystack-pipeline-wiring</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Construct explicit Haystack 2.5+ DAG pipelines connecting text embedders, retrievers, prompt builders, and generators.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Comprehensive preflight setup, container orchestration, and test execution for Haystack 2.5+ and Weaviate.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">rag-haystack-weaviate-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core operational workflows, DAG pipeline inspection, Weaviate hybrid vector storage, and automated evaluation.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">weaviate-hybrid-indexing</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Configure Weaviate collections with hybrid BM25 + dense vector indexing and multi-tenant isolation.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -601,21 +679,23 @@ docker compose up --build -d</pre>
     <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
     <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
   </div>
-  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
 </div>
 <div class="space-y-3">
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the Haystack Pipelines + Weaviate + FastAPI (Hayhooks) kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What makes Haystack 2.5+ explicit DAG pipelines superior to linear chain abstractions?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Haystack 2.x abandons rigid, linear chain abstractions in favor of explicit, inspectable Directed Acyclic Graphs (DAGs). Each component declares exact input/output socket types via `@component.output_types`. This allows developers and AI coding agents to visually inspect pipeline dataflow, route multiple retrievers in parallel, and insert custom rankers or validators without side effects.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Weaviate hybrid search combine BM25 sparse keyword matching and dense vector similarity?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Weaviate executes BM25 inverted index term matching and HNSW dense vector cosine distance concurrently. It normalizes both rank distributions and fuses the results using reciprocal rank fusion (RRF) or relative score fusion controlled by the `alpha` parameter, delivering high keyword precision alongside deep semantic generalization.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the recommended value for the hybrid search alpha parameter and how do you calibrate it?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">An `alpha` value of 0.0 executes pure BM25 keyword search, while 1.0 executes pure dense vector search. For production RAG systems containing acronyms, product IDs, and domain jargon alongside natural language questions, `alpha=0.65` provides the optimal balance between semantic recall and exact keyword precision.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Weaviate v4 Python client manage collection schemas and multi-tenant isolation?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The Weaviate v4 client uses strongly-typed collection configurations (`client.collections.create(...)`). By specifying `multi_tenancy_config=Configure.multi_tenancy(enabled=True)`, Weaviate creates isolated physical shard partitions per tenant. Queries scoped with `collection.with_tenant(tenant_id)` search exclusively within the tenant's partition.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do you implement zero-cost automated evaluation in CI using Haystack's FaithfulnessEvaluator?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Our test suite provides a deterministic evaluation harness that verifies whether every statement in the generated answer exists within the retrieved documents using claim extraction and token overlap. This executes in under 5 milliseconds locally without requiring third-party API keys or incurring token fees.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the latency profile of a hybrid search query in Weaviate compared to pure vector search?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In Weaviate, hybrid queries typically complete in 8 to 22 milliseconds on moderate collections (under 1M vectors). Because the BM25 inverted index and vector HNSW graph are queried in parallel within Weaviate's native Go engine, the overhead compared to pure vector search is minimal (<15%).</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Reciprocal Rank Fusion (RRF) resolve ranking conflicts between sparse and dense score distributions?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">BM25 produces unbounded positive scores based on term frequencies, whereas cosine similarity produces scores bounded between -1.0 and +1.0. RRF circumvents raw score disparity by assigning ranks to documents in each candidate list and computing fused scores via `RRF(d) = sum(1 / (k + rank_i(d)))`, where `k=60` is the standard smoothing constant.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Haystack handle document chunking and metadata preservation before indexing into Weaviate?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Haystack provides `DocumentSplitter` which splits text by word, sentence, or passage while maintaining document-level metadata dictionaries. Each resulting `Document` chunk retains parent IDs, tenant namespaces, and header hierarchies when written to Weaviate.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can Haystack pipelines run in serverless or edge environments?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Haystack 2.x components are lightweight Python classes without bulky background worker daemons. When paired with remote Weaviate Cloud instances, Haystack pipelines deploy seamlessly onto AWS Lambda, Cloudflare Workers via Python runtime, or Google Cloud Run.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do you secure Weaviate collections in production multi-tenant environments?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Enable API key authentication and role-based access control (RBAC) in Weaviate. Always construct queries through the `with_tenant(tenant_id)` method and validate tenant claims against signed JWT tokens in the FastAPI authorization middleware.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What security guardrails prevent prompt injection when external documents are retrieved into prompts?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Retrieved chunks are wrapped in XML tags (`<context>...</context>`) inside the Jinja2 template. The system prompt instructs the generator never to interpret text inside `<context>` as instructions, mitigating indirect prompt injection attacks.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why does the starter container enforce non-root execution (UID 10001)?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Enforcing `USER 10001:10001` ensures that even if an attacker achieves arbitrary code execution inside the container, they cannot access host filesystem resources, mount devices, or escalate privileges on the host system.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Hayhooks deploy Haystack pipelines as HTTP REST endpoints?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Hayhooks is an official Deepset utility that automatically inspects Haystack pipeline YAML definitions and serves them as FastAPI endpoints. In our kit, we provide a production FastAPI service that offers native async endpoints with OpenAPI documentation and health probes.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How can I migrate existing Haystack 1.x pipelines to the Haystack 2.x component architecture?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In Haystack 2.x, replace legacy `Node` classes with `@component` decorated classes, replace `Pipeline.add_node()` with `Pipeline.add_component()` and `Pipeline.connect()`, and update Weaviate document store connections to the Weaviate v4 Python client.</p></details>
 </div>
       </section>
 

@@ -1,0 +1,25 @@
+# 05 Testing Verification And Ci
+
+﻿---
+id: testing-verification-and-ci
+title: Testing, Verification & CI Invariants
+globs: "**/*.py"
+alwaysApply: true
+---
+# Testing Protocols, Mock LLMs & CI Quality Gates
+
+## 1. Deterministic Graph Testing
+- Unit tests must mock external LLM calls to verify graph topology, conditional branching, and termination guarantees in `< 1.0s` without API dependencies.
+- Verify that a sequence of low-relevance documents triggers `rewrite_query` and that high-relevance triggers `generate`.
+
+## 2. Container Security & Non-Root User
+- Multi-stage `Dockerfile` executing as `USER 10001:10001`.
+- Health probes verify FastAPI and Qdrant network connectivity.
+
+## 3. Automated CI Scans
+- Must pass:
+  1. `gitleaks detect --no-git` with 0 secret leaks.
+  2. `semgrep scan --config p/owasp-top-ten` with 0 blocking SAST findings.
+  3. `python tools/validate_manifest.py` verifying full physical layout.
+  4. `python tools/transpiler.py --check` guaranteeing zero dialect drift.
+

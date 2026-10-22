@@ -312,69 +312,171 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/agentic-langgraph-crewai/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/agentic-langgraph-crewai/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/agentic-langgraph-crewai for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Agentic LangGraph + CrewAI + FastAPI
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Agentic LangGraph + CrewAI + FastAPI — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### 01 Framework Architecture And Standards
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# Python 3.12, Strict Typing and FastAPI Async Standards
+
+## 1. Async Pipeline &amp; Dependency Injection
+- Target Python 3.12+ with strict typing across all functions, state transitions, and tool signatures.
+- Use Pydantic v2 schemas (`BaseModel`) for all API requests, responses, and tool arguments.
+- Expose FastAPI endpoints as `async def` with explicit `response_model`, status codes, and error models.
+- Structure dependencies using FastAPI `Depends()` for state stores, session managers, and agent squad injection:
+  ```python
+  from fastapi import FastAPI, Depends
+  from pydantic import BaseModel
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/agentic-langgraph-crewai/.cursor/rules/*.mdc</span>
+                <span>Source: kits/agentic-langgraph-crewai/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/agentic-langgraph-crewai" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Agentic LangGraph + CrewAI + FastAPI Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: 01 Framework Architecture And Standards
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# 01 Framework Architecture And Standards
+
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# Python 3.12, Strict Typing and FastAPI Async Standards
+
+## 1. Async Pipeline &amp; Dependency Injection
+- Target Python 3.12+ with strict typing across all functions, state transitions, and tool signatures.
+- Use Pydantic v2 schemas (`BaseModel`) for all API requests, responses, and tool arguments.
+- Expose FastAPI endpoints as `async def` with explicit `response_model`, status codes, and error models.
+- Structure dependencies using FastAPI `Depends()` for state stores, session managers, and agent squad injection:
+  ```python</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/agentic-langgraph-crewai/CODEX.md</span>
+                <span>Source: kits/agentic-langgraph-crewai/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/agentic-langgraph-crewai" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Agentic LangGraph + CrewAI + FastAPI
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># CLAUDE.md ? Agentic LangGraph + CrewAI + FastAPI
+
+You are pair programming on an enterprise-grade multi-agent AI system.
+
+## Primary Invariants
+1. **LangGraph State**: Never mutate state in-place; always return updated TypedDict partials from nodes.
+2. **CrewAI Squads**: Define explicit roles, goals, and backstories. Keep tools sandboxed with Pydantic schemas.
+3. **Security**: Never execute unvalidated shell commands. Use Gitleaks for secret scanning and Semgrep for AST checks.
+4. **FastAPI**: Write async endpoints with explicit Pydantic v2
+esponse_model definitions.
+
+## Key Commands
+- Run API server: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+- Run test suite: pytest tests/ -v
+- Run security scans: gitleaks detect --source .
+- Docker compose up: docker compose up -d</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/agentic-langgraph-crewai/.github/copilot-instructions.md</span>
+                <span>Source: kits/agentic-langgraph-crewai/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/agentic-langgraph-crewai" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Agentic LangGraph + CrewAI + FastAPI
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Agentic LangGraph + CrewAI + FastAPI
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## 01 Framework Architecture And Standards
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# Python 3.12, Strict Typing and FastAPI Async Standards
+
+## 1. Async Pipeline &amp; Dependency Injection
+- Target Python 3.12+ with strict typing across all functions, state transitions, and tool signatures.
+- Use Pydantic v2 schemas (`BaseModel`) for all API requests, responses, and tool arguments.
+- Expose FastAPI endpoints as `async def` with explicit `response_model`, status codes, and error models.
+- Structure dependencies using FastAPI `Depends()` for state stores, session managers, and agent squad injection:
+  ```python
+  from fastapi import FastAPI, Depends
+  from pydantic import BaseModel
+
+  class WorkflowRequest(BaseModel):</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/agentic-langgraph-crewai/.clinerules</span>
+                <span>Source: kits/agentic-langgraph-crewai/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/agentic-langgraph-crewai" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Agentic LangGraph + CrewAI + FastAPI
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># CLAUDE.md ? Agentic LangGraph + CrewAI + FastAPI
+
+You are pair programming on an enterprise-grade multi-agent AI system.
+
+## Primary Invariants
+1. **LangGraph State**: Never mutate state in-place; always return updated TypedDict partials from nodes.
+2. **CrewAI Squads**: Define explicit roles, goals, and backstories. Keep tools sandboxed with Pydantic schemas.
+3. **Security**: Never execute unvalidated shell commands. Use Gitleaks for secret scanning and Semgrep for AST checks.
+4. **FastAPI**: Write async endpoints with explicit Pydantic v2
+esponse_model definitions.
+
+## Key Commands
+- Run API server: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+- Run test suite: pytest tests/ -v
+- Run security scans: gitleaks detect --source .
+- Docker compose up: docker compose up -d</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/agentic-langgraph-crewai/.agents/rules/</span>
+                <span>Source: kits/agentic-langgraph-crewai/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/agentic-langgraph-crewai" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Agentic LangGraph + CrewAI + FastAPI
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
+
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true
+---
+# Python 3.12, Strict Typing and FastAPI Async Standards
+
+## 1. Async Pipeline &amp; Dependency Injection
+- Target Python 3.12+ with strict typing across all functions, state transitions, and tool signatures.
+- Use Pydantic v2 schemas (`BaseModel`) for all API requests, responses, and tool arguments.
+- Expose FastAPI endpoints as `async def` with explicit `response_model`, status codes, and error models.
+- Structure dependencies using FastAPI `Depends()` for state stores, session managers, and agent squad injection:
+  ```python
+  from fastapi import FastAPI, Depends
+  from pydantic import BaseModel
+
+  class WorkflowRequest(BaseModel):
+      task: str
+      tenant_id: str = &quot;default-tenant&quot;</code></pre>
             </div>
 
           </div>

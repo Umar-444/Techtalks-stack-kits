@@ -1,0 +1,58 @@
+[
+  {
+    "q": "Why choose LangGraph over linear RAG pipelines for enterprise retrieval?",
+    "a": "Linear RAG chains assume that the initial user query always retrieves the right documents in a single pass. In reality, complex queries often retrieve irrelevant or ambiguous context, leading to hallucinations. LangGraph introduces a cyclic state machine: an agent can evaluate retrieved documents, reformulate the search query, perform additional retrieval passes, and verify output groundedness before returning a response."
+  },
+  {
+    "q": "How does LangGraph handle cyclic execution loops and prevent infinite query rewriting?",
+    "a": "Every cycle increments an explicit `iterations` counter in the `AgentState`. The conditional edge functions inspect both document quality and iteration count against `max_iterations` (default: 3). Once the recursion ceiling is reached, the graph deterministically branches to fallback synthesis rather than continuing to loop."
+  },
+  {
+    "q": "How does Qdrant payload filtering enforce multi-tenant isolation in RAG applications?",
+    "a": "Qdrant stores document payloads as structured JSON alongside dense vector embeddings. During vector search, Qdrant evaluates metadata filter conditions (e.g. `Must(FieldCondition(key='tenant_id', match=MatchValue(value=tenant_id)))`) at the HNSW segment level before vector distance calculation, mathematically preventing cross-tenant data leakage."
+  },
+  {
+    "q": "What is the difference between Ragas faithfulness and answer relevancy metrics?",
+    "a": "Faithfulness (groundedness) measures whether every claim made in the generated answer can be inferred directly from the provided source documents (evaluating hallucination). Answer relevancy measures whether the answer actually addresses the user's initial question regardless of document accuracy (evaluating off-topic divergence)."
+  },
+  {
+    "q": "How does the document grading node determine whether retrieved documents are relevant?",
+    "a": "The document grading node evaluates semantic similarity scores and key entity overlaps between the query and chunk contents. Documents falling below the relevance score threshold are discarded from the state, triggering query reformulation if no sufficiently relevant documents remain."
+  },
+  {
+    "q": "How is human-in-the-loop review integrated into LangGraph state graphs?",
+    "a": "LangGraph supports human-in-the-loop approval via persistent checkpointers (such as `MemorySaver` or Postgres checkpointer) using `interrupt_before=['human_review']`. When the state reaches the interrupt node, execution suspends until an operator or reviewer reviews the generated synthesis and submits an approval payload via API."
+  },
+  {
+    "q": "What embedding models and distance metrics are recommended for Qdrant vector collections?",
+    "a": "For multilingual dense embeddings, BAAI/bge-m3 (1024 dims) or OpenAI text-embedding-3-small (1536 dims) paired with Cosine similarity distance are industry standards. Qdrant HNSW indexing performs optimal graph traversal on normalized cosine embeddings with minimal memory footprint."
+  },
+  {
+    "q": "How does the rewrite_query node reformulate questions to improve semantic retrieval?",
+    "a": "The `rewrite_query` node strips conversational filler words ('can you please tell me about'), resolves coreferences ('what about its latency?'), and converts user questions into keyword-dense, semantic search queries optimized for vector similarity search."
+  },
+  {
+    "q": "How can I run Ragas evaluations in CI without incurring external LLM API costs?",
+    "a": "In CI and automated test environments, our starter provides a deterministic heuristic evaluation engine based on claim extraction and token overlap ratios. This verifies the evaluation contract and thresholds in milliseconds with zero network egress or API charges."
+  },
+  {
+    "q": "How do you scale Qdrant when indexing millions of document chunks?",
+    "a": "Qdrant scales horizontally using collection sharding and distributed consensus via Raft. For high-volume production, configure scalar quantization (SQ) or product quantization (PQ) to compress vector RAM requirements by up to 4x while maintaining >95% search recall."
+  },
+  {
+    "q": "What security guardrails prevent prompt injection from retrieved external documents?",
+    "a": "Retrieved documents are treated as untrusted user inputs. The generator wraps document chunks in strict XML delimiting tags (`<context>...</context>`) and uses system prompts instructing the model never to follow instructions contained within document chunks."
+  },
+  {
+    "q": "Why run FastAPI with rootless Docker (UID 10001) instead of default root?",
+    "a": "Running containers as root violates the principle of least privilege. In the event of a container escape vulnerability or remote code execution, a non-root process UID 10001 lacks host superuser privileges, preventing host takeover and satisfying strict enterprise compliance standards."
+  },
+  {
+    "q": "How does the LangGraph checkpointer maintain conversation history across multiple turns?",
+    "a": "LangGraph checkpointers save serialized snapshots of the state graph keyed by `thread_id`. Subsequent requests passing the same `thread_id` resume execution with the accumulated conversation history, document citations, and iteration logs intact."
+  },
+  {
+    "q": "Can LangGraph state machines integrate with external tool APIs (e.g. calculators, SQL agents)?",
+    "a": "Yes. LangGraph provides `ToolNode` which seamlessly binds LangChain tools. An agent node inspects the state, emits tool call requests (e.g. `query_sql_database` or `fetch_stock_price`), and the graph routes to `ToolNode` before returning execution to the generator."
+  }
+]

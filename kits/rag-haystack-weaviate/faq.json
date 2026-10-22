@@ -1,0 +1,58 @@
+[
+  {
+    "q": "What makes Haystack 2.5+ explicit DAG pipelines superior to linear chain abstractions?",
+    "a": "Haystack 2.x abandons rigid, linear chain abstractions in favor of explicit, inspectable Directed Acyclic Graphs (DAGs). Each component declares exact input/output socket types via `@component.output_types`. This allows developers and AI coding agents to visually inspect pipeline dataflow, route multiple retrievers in parallel, and insert custom rankers or validators without side effects."
+  },
+  {
+    "q": "How does Weaviate hybrid search combine BM25 sparse keyword matching and dense vector similarity?",
+    "a": "Weaviate executes BM25 inverted index term matching and HNSW dense vector cosine distance concurrently. It normalizes both rank distributions and fuses the results using reciprocal rank fusion (RRF) or relative score fusion controlled by the `alpha` parameter, delivering high keyword precision alongside deep semantic generalization."
+  },
+  {
+    "q": "What is the recommended value for the hybrid search alpha parameter and how do you calibrate it?",
+    "a": "An `alpha` value of 0.0 executes pure BM25 keyword search, while 1.0 executes pure dense vector search. For production RAG systems containing acronyms, product IDs, and domain jargon alongside natural language questions, `alpha=0.65` provides the optimal balance between semantic recall and exact keyword precision."
+  },
+  {
+    "q": "How does Weaviate v4 Python client manage collection schemas and multi-tenant isolation?",
+    "a": "The Weaviate v4 client uses strongly-typed collection configurations (`client.collections.create(...)`). By specifying `multi_tenancy_config=Configure.multi_tenancy(enabled=True)`, Weaviate creates isolated physical shard partitions per tenant. Queries scoped with `collection.with_tenant(tenant_id)` search exclusively within the tenant's partition."
+  },
+  {
+    "q": "How do you implement zero-cost automated evaluation in CI using Haystack's FaithfulnessEvaluator?",
+    "a": "Our test suite provides a deterministic evaluation harness that verifies whether every statement in the generated answer exists within the retrieved documents using claim extraction and token overlap. This executes in under 5 milliseconds locally without requiring third-party API keys or incurring token fees."
+  },
+  {
+    "q": "What is the latency profile of a hybrid search query in Weaviate compared to pure vector search?",
+    "a": "In Weaviate, hybrid queries typically complete in 8 to 22 milliseconds on moderate collections (under 1M vectors). Because the BM25 inverted index and vector HNSW graph are queried in parallel within Weaviate's native Go engine, the overhead compared to pure vector search is minimal (<15%)."
+  },
+  {
+    "q": "How does Reciprocal Rank Fusion (RRF) resolve ranking conflicts between sparse and dense score distributions?",
+    "a": "BM25 produces unbounded positive scores based on term frequencies, whereas cosine similarity produces scores bounded between -1.0 and +1.0. RRF circumvents raw score disparity by assigning ranks to documents in each candidate list and computing fused scores via `RRF(d) = sum(1 / (k + rank_i(d)))`, where `k=60` is the standard smoothing constant."
+  },
+  {
+    "q": "How does Haystack handle document chunking and metadata preservation before indexing into Weaviate?",
+    "a": "Haystack provides `DocumentSplitter` which splits text by word, sentence, or passage while maintaining document-level metadata dictionaries. Each resulting `Document` chunk retains parent IDs, tenant namespaces, and header hierarchies when written to Weaviate."
+  },
+  {
+    "q": "Can Haystack pipelines run in serverless or edge environments?",
+    "a": "Yes. Haystack 2.x components are lightweight Python classes without bulky background worker daemons. When paired with remote Weaviate Cloud instances, Haystack pipelines deploy seamlessly onto AWS Lambda, Cloudflare Workers via Python runtime, or Google Cloud Run."
+  },
+  {
+    "q": "How do you secure Weaviate collections in production multi-tenant environments?",
+    "a": "Enable API key authentication and role-based access control (RBAC) in Weaviate. Always construct queries through the `with_tenant(tenant_id)` method and validate tenant claims against signed JWT tokens in the FastAPI authorization middleware."
+  },
+  {
+    "q": "What security guardrails prevent prompt injection when external documents are retrieved into prompts?",
+    "a": "Retrieved chunks are wrapped in XML tags (`<context>...</context>`) inside the Jinja2 template. The system prompt instructs the generator never to interpret text inside `<context>` as instructions, mitigating indirect prompt injection attacks."
+  },
+  {
+    "q": "Why does the starter container enforce non-root execution (UID 10001)?",
+    "a": "Enforcing `USER 10001:10001` ensures that even if an attacker achieves arbitrary code execution inside the container, they cannot access host filesystem resources, mount devices, or escalate privileges on the host system."
+  },
+  {
+    "q": "How does Hayhooks deploy Haystack pipelines as HTTP REST endpoints?",
+    "a": "Hayhooks is an official Deepset utility that automatically inspects Haystack pipeline YAML definitions and serves them as FastAPI endpoints. In our kit, we provide a production FastAPI service that offers native async endpoints with OpenAPI documentation and health probes."
+  },
+  {
+    "q": "How can I migrate existing Haystack 1.x pipelines to the Haystack 2.x component architecture?",
+    "a": "In Haystack 2.x, replace legacy `Node` classes with `@component` decorated classes, replace `Pipeline.add_node()` with `Pipeline.add_component()` and `Pipeline.connect()`, and update Weaviate document store connections to the Weaviate v4 Python client."
+  }
+]

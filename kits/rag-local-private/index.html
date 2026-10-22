@@ -312,69 +312,170 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-local-private/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/rag-local-private/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/rag-local-private for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Local Private RAG (Ollama + Chroma + FastAPI)
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Local Private RAG (Ollama + Chroma + FastAPI) — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### 01 Framework Architecture And Standards
+﻿---
+id: &quot;01-framework-architecture-and-standards&quot;
+title: &quot;Local Private RAG Architecture &amp; Zero-Egress Standards&quot;
+description: &quot;Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies.&quot;
+globs: [&quot;**/*.py&quot;, &quot;Dockerfile&quot;, &quot;docker-compose.yml&quot;, &quot;.env*&quot;]
+alwaysApply: true
+---
+
+# 01 - Local Private RAG Architecture &amp; Zero-Egress Standards
+
+## 1. Architectural Mission &amp; Invariants
+- **100% Offline Execution:** The application must operate entirely within an isolated network boundary. Absolutely zero outbound network traffic to third-party public AI APIs (OpenAI, Anthropic, Cohere, Pinecone) is permitted.
+- **Airgap &amp; Regulatory Compliance:** Designed for Saudi Personal Data Protection Law (PDPL), Saudi National Cybersecurity Authority Essential Cybersecurity Controls (NCA ECC-1:2018), and enterprise NDAs. All proprietary intellectual property, employee records, a
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-local-private/.cursor/rules/*.mdc</span>
+                <span>Source: kits/rag-local-private/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/rag-local-private" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Local Private RAG (Ollama + Chroma + FastAPI) Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: 01 Framework Architecture And Standards
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# 01 Framework Architecture And Standards
+
+﻿---
+id: &quot;01-framework-architecture-and-standards&quot;
+title: &quot;Local Private RAG Architecture &amp; Zero-Egress Standards&quot;
+description: &quot;Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies.&quot;
+globs: [&quot;**/*.py&quot;, &quot;Dockerfile&quot;, &quot;docker-compose.yml&quot;, &quot;.env*&quot;]
+alwaysApply: true
+---
+
+# 01 - Local Private RAG Architecture &amp; Zero-Egress Standards
+
+## 1. Architectural Mission &amp; Invariants
+- **100% Offline Execution:** The application must operate entirely within an isolated network boundary. Absolutely zero outbound network traffic to third-party public AI APIs (OpenAI, Anthropic, Cohere, Pinecone) is permitted.
+- **Airgap &amp; Regulatory Compliance:** Designed for Saudi Personal Data Protection Law (PDPL), Saudi National Cybersecurity Authority Essential Cybersecurity Controls (NCA ECC-1:2018), and enterprise NDAs. All proprietary intellectual property, employee records, and confidential documents remain on premises.
+- **FastAPI Modern Core:** Standardize on FastAPI 0.115+ with ASGI lifespan handlers
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-local-private/CODEX.md</span>
+                <span>Source: kits/rag-local-private/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rag-local-private" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Local Private RAG (Ollama + Chroma + FastAPI)
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Local Private RAG (Ollama + Chroma + FastAPI) — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Chromadb Collections And Persistence](#02-chromadb-collections-and-persistence)
+- [03 Ollama Engine And Model Management](#03-ollama-engine-and-model-management)
+- [04 Private Ingestion Chunking And Classification](#04-private-ingestion-chunking-and-classification)
+- [05 Evaluation Airgap Security And Testing](#05-evaluation-airgap-security-and-testing)
+
+---
+
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
+
+﻿---
+id: &quot;01-framework-architecture-and-standards&quot;
+title: &quot;Local Private RAG Architecture &amp; Zero-Egress Standards&quot;
+description: &quot;Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies.&quot;
+globs: [&quot;**/*.py&quot;, &quot;Dockerfile&quot;, &quot;docker-compose.yml&quot;, &quot;.env*&quot;]
+alwaysApply: true
+---</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-local-private/.github/copilot-instructions.md</span>
+                <span>Source: kits/rag-local-private/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/rag-local-private" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Local Private RAG (Ollama + Chroma + FastAPI)
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Local Private RAG (Ollama + Chroma + FastAPI)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## 01 Framework Architecture And Standards
+﻿---
+id: &quot;01-framework-architecture-and-standards&quot;
+title: &quot;Local Private RAG Architecture &amp; Zero-Egress Standards&quot;
+description: &quot;Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies.&quot;
+globs: [&quot;**/*.py&quot;, &quot;Dockerfile&quot;, &quot;docker-compose.yml&quot;, &quot;.env*&quot;]
+alwaysApply: true
+---
+
+# 01 - Local Private RAG Architecture &amp; Zero-Egress Standards
+
+## 1. Architectural Mission &amp; Invariants
+- **100% Offline Execution:** The application must operate entirely within an isolated network boundary. Absolutely zero outbound network traffic to third-party public AI APIs (OpenAI, Anthropic, Cohere, Pinecone) is permitted.
+- **Airgap &amp; Regulatory Compliance:** Designed for Saudi Personal Data Protection Law (PDPL), Saudi National Cybersecurity Authority Essential Cybersecurity Controls (NCA ECC-1:2018), and enterprise NDAs. All proprietary intellectual property, employee records, and confidential documents remain on premises.
+- **Fa
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-local-private/.clinerules</span>
+                <span>Source: kits/rag-local-private/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/rag-local-private" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Local Private RAG (Ollama + Chroma + FastAPI)
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Windsurf Rules — Local Private RAG (Ollama + Chroma + FastAPI)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## 01 Framework Architecture And Standards
+﻿---
+id: &quot;01-framework-architecture-and-standards&quot;
+title: &quot;Local Private RAG Architecture &amp; Zero-Egress Standards&quot;
+description: &quot;Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies.&quot;
+globs: [&quot;**/*.py&quot;, &quot;Dockerfile&quot;, &quot;docker-compose.yml&quot;, &quot;.env*&quot;]
+alwaysApply: true
+---
+
+# 01 - Local Private RAG Architecture &amp; Zero-Egress Standards
+
+## 1. Architectural Mission &amp; Invariants
+- **100% Offline Execution:** The application must operate entirely within an isolated network boundary. Absolutely zero outbound network traffic to third-party public AI APIs (OpenAI, Anthropic, Cohere, Pinecone) is permitted.
+- **Airgap &amp; Regulatory Compliance:** Designed for Saudi Personal Data Protection Law (PDPL), Saudi National Cybersecurity Authority Essential Cybersecurity Controls (NCA ECC-1:2018), and enterprise NDAs. All proprietary intellectual property, employee records, and confidential documents remain on premises.
+- **FastAPI Modern Co
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/rag-local-private/.agents/rules/</span>
+                <span>Source: kits/rag-local-private/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/rag-local-private" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Local Private RAG (Ollama + Chroma + FastAPI)
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
+
+﻿---
+id: &quot;01-framework-architecture-and-standards&quot;
+title: &quot;Local Private RAG Architecture &amp; Zero-Egress Standards&quot;
+description: &quot;Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies.&quot;
+globs: [&quot;**/*.py&quot;, &quot;Dockerfile&quot;, &quot;docker-compose.yml&quot;, &quot;.env*&quot;]
+alwaysApply: true
+---
+
+# 01 - Local Private RAG Architecture &amp; Zero-Egress Standards
+
+## 1. Architectural Mission &amp; Invariants
+- **100% Offline Execution:** The application must operate entirely within an isolated network boundary. Absolutely zero outbound network traffic to third-party public AI APIs (OpenAI, Anthropic, Cohere, Pinecone) is permitted.
+- **Airgap &amp; Regulatory Compliance:** Designed for Saudi Personal Data Protection Law (PDPL), Saudi National Cybersecurity Authority Essential Cybersecurity Controls (NCA ECC-1:2018), and enterprise NDAs. All proprietary intellectual property, employee records, and confidential documents remain on premises.
+- **FastAPI Modern Core:** Standardize on FastAPI 0.115+ with ASGI lifespan handlers (`@asynccontextmanager`) for clean startup/shutdown lifecycle management of the ChromaDB
+...</code></pre>
             </div>
 
           </div>

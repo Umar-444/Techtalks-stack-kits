@@ -1,0 +1,10 @@
+# 02 Hybrid Retrieval And Reciprocal Rank Fusion
+
+# Hybrid Retrieval and Reciprocal Rank Fusion
+
+1. **Hybrid Search Composition**: Combine dense vector similarity with BM25 sparse keyword matching using Weaviate's native hybrid search operator.
+2. **Alpha Parameter Calibration**: Set `alpha` between `0.0` (pure BM25 sparse) and `1.0` (pure vector dense). The production baseline must default to `alpha=0.65` for balanced semantic domain recall.
+3. **Score Normalization and Thresholding**: Apply reciprocal rank fusion (RRF) to merge candidate lists from sparse and dense channels. Reject document candidates whose fused score falls below `0.40`.
+4. **Query Preprocessing**: Sanitize incoming query text to strip prompt injection tags and excessive wildcard syntax before submitting to Weaviate hybrid search.
+5. **Result Limit Boundaries**: Hard-limit retrieved chunk count to `top_k=5` in the retriever component to prevent context window bloat and excessive LLM token consumption.
+

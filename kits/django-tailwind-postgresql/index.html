@@ -312,69 +312,175 @@
               Cline (.clinerules)
             </button>
             <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
-              Antigravity (SKILL.md)
+              Antigravity (.agents/rules)
             </button>
           </div>
 
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/django-tailwind-postgresql/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
+                <span>Source: kits/django-tailwind-postgresql/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/django-tailwind-postgresql for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Django 5 + Tailwind CSS + PostgreSQL
-- Primary Invariant: Zero plaintext credentials; parameterize all database queries.
-- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Django 5 + Tailwind CSS + PostgreSQL — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### Architecture for Django 5 + Tailwind CSS + PostgreSQL
+# Architecture
+Modular structure.
+
+### 01 Framework Conventions
+# Rule 1: Django 5 Framework Conventions &amp; Architecture
+
+## Context &amp; Principles
+- Follow the classic Django MTV (Model-Template-View) pattern with clean separation of domain concerns.
+- Use Python 3.12+ type hints across models, forms, and view functions.
+- Keep business logic encapsulated in domain managers or service layers, keeping views lean and focused on HTTP request/response orchestration.
+
+## Standards
+1. **App Structure**: Modularize features into dedicated apps inside `app/` or app root (e.g. `items`, `accounts`).
+2. **Settings**: Never hardcode credentials. Load configuration via `environ` or `python-decouple` from `.env`.
+3. **URL Namespacing**: Always register `app_name` in app `urls.py` and use `reverse()` or `{% url &#x27;app_name:view_name&#x27; %}` in templates.
+4. **Static Files**: Serve assets via WhiteNoise in production with storage hash caching
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/django-tailwind-postgresql/.cursor/rules/*.mdc</span>
+                <span>Source: kits/django-tailwind-postgresql/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/django-tailwind-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Django 5 + Tailwind CSS + PostgreSQL Architecture Invariants
-globs: **/*
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: 01 Framework Conventions
+globs: *
+alwaysApply: true
 ---
-- Enforce strict typing and error boundaries.
-- Run static analysis via configured CI scanners.</code></pre>
+
+# 01 Framework Conventions
+
+# Rule 1: Django 5 Framework Conventions &amp; Architecture
+
+## Context &amp; Principles
+- Follow the classic Django MTV (Model-Template-View) pattern with clean separation of domain concerns.
+- Use Python 3.12+ type hints across models, forms, and view functions.
+- Keep business logic encapsulated in domain managers or service layers, keeping views lean and focused on HTTP request/response orchestration.
+
+## Standards
+1. **App Structure**: Modularize features into dedicated apps inside `app/` or app root (e.g. `items`, `accounts`).
+2. **Settings**: Never hardcode credentials. Load configuration via `environ` or `python-decouple` from `.env`.
+3. **URL Namespacing**: Always register `app_name` in app `urls.py` and use `reverse()` or `{% url &#x27;app_name:view_name&#x27; %}` in templates.
+4. **Static Files**: Serve assets via WhiteNoise in production with storage hash caching (`CompressedManifestStaticFilesStorage`).
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/django-tailwind-postgresql/CODEX.md</span>
+                <span>Source: kits/django-tailwind-postgresql/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/django-tailwind-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Django 5 + Tailwind CSS + PostgreSQL
-- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Django 5 + Tailwind CSS + PostgreSQL - Agent Architecture &amp; Rules
+
+This project adheres to the TechTalks production standards for Django 5, Tailwind CSS, and PostgreSQL 16+.
+
+# Rule 1: Django 5 Framework Conventions &amp; Architecture
+
+## Context &amp; Principles
+- Follow the classic Django MTV (Model-Template-View) pattern with clean separation of domain concerns.
+- Use Python 3.12+ type hints across models, forms, and view functions.
+- Keep business logic encapsulated in domain managers or service layers, keeping views lean and focused on HTTP request/response orchestration.
+
+## Standards
+1. **App Structure**: Modularize features into dedicated apps inside `app/` or app root (e.g. `items`, `accounts`).
+2. **Settings**: Never hardcode credentials. Load configuration via `environ` or `python-decouple` from `.env`.
+3. **URL Namespacing**: Always register `app_name` in app `urls.py` and use `reverse()` or `{% url &#x27;app_name:view_name&#x27; %}` in templates.
+4. **Static Files**: Serve assets via WhiteNoise in production with storage hash caching (`CompressedManifestStaticFilesStorage`).
+
+# Rule 2: Tailwind CSS Design System &amp; Template Standards
+
+## Context &amp; Principles
+- Use Tailwind CSS 3.4+ uti
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/django-tailwind-postgresql/.github/copilot-instructions.md</span>
+                <span>Source: kits/django-tailwind-postgresql/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/django-tailwind-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Django 5 + Tailwind CSS + PostgreSQL
-- Never add unpinned external dependencies.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Django 5 + Tailwind CSS + PostgreSQL
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Architecture for Django 5 + Tailwind CSS + PostgreSQL
+# Architecture
+Modular structure.
+
+## 01 Framework Conventions
+# Rule 1: Django 5 Framework Conventions &amp; Architecture
+
+## Context &amp; Principles
+- Follow the classic Django MTV (Model-Template-View) pattern with clean separation of domain concerns.
+- Use Python 3.12+ type hints across models, forms, and view functions.
+- Keep business logic encapsulated in domain managers or service layers, keeping views lean and focused on HTTP request/response orchestration.
+
+## Standards
+1. **App Structure**: Modularize features into dedicated apps inside `app/` or app root (e.g. `items`, `accounts`).
+2. **Settings**: Never hardcode credentials. Load configuration via `environ` or `python-decouple` from `.env`.
+3. **URL Namespacing**: Always register `app_name` in app `urls.py` and use `reverse()` or `{% url &#x27;app_name:view_name&#x27; %}` in templates.
+4. **Static Files**: Serve assets via WhiteNoise in production with storage hash caching (`CompressedManifestStaticFilesStorage`).
+
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/django-tailwind-postgresql/.clinerules</span>
+                <span>Source: kits/django-tailwind-postgresql/.clinerules &bull; Token footprint: ~346 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/django-tailwind-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Django 5 + Tailwind CSS + PostgreSQL
-- Run tests in the sandboxed container environment.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Django 5 + Tailwind CSS + PostgreSQL - Agent Architecture &amp; Rules
+
+This project adheres to the TechTalks production standards for Django 5, Tailwind CSS, and PostgreSQL 16+.
+
+# Rule 1: Django 5 Framework Conventions &amp; Architecture
+
+## Context &amp; Principles
+- Follow the classic Django MTV (Model-Template-View) pattern with clean separation of domain concerns.
+- Use Python 3.12+ type hints across models, forms, and view functions.
+- Keep business logic encapsulated in domain managers or service layers, keeping views lean and focused on HTTP request/response orchestration.
+
+## Standards
+1. **App Structure**: Modularize features into dedicated apps inside `app/` or app root (e.g. `items`, `accounts`).
+2. **Settings**: Never hardcode credentials. Load configuration via `environ` or `python-decouple` from `.env`.
+3. **URL Namespacing**: Always register `app_name` in app `urls.py` and use `reverse()` or `{% url &#x27;app_name:view_name&#x27; %}` in templates.
+4. **Static Files**: Serve assets via WhiteNoise in production with storage hash caching (`CompressedManifestStaticFilesStorage`).
+
+# Rule 2: Tailwind CSS Design System &amp; Template Standards
+
+## Context &amp; Principles
+- Use Tailwind CSS 3.4+ uti
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/django-tailwind-postgresql/.agents/rules/</span>
+                <span>Source: kits/django-tailwind-postgresql/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/django-tailwind-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Django 5 + Tailwind CSS + PostgreSQL
-- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Conventions
+
+# Rule 1: Django 5 Framework Conventions &amp; Architecture
+
+## Context &amp; Principles
+- Follow the classic Django MTV (Model-Template-View) pattern with clean separation of domain concerns.
+- Use Python 3.12+ type hints across models, forms, and view functions.
+- Keep business logic encapsulated in domain managers or service layers, keeping views lean and focused on HTTP request/response orchestration.
+
+## Standards
+1. **App Structure**: Modularize features into dedicated apps inside `app/` or app root (e.g. `items`, `accounts`).
+2. **Settings**: Never hardcode credentials. Load configuration via `environ` or `python-decouple` from `.env`.
+3. **URL Namespacing**: Always register `app_name` in app `urls.py` and use `reverse()` or `{% url &#x27;app_name:view_name&#x27; %}` in templates.
+4. **Static Files**: Serve assets via WhiteNoise in production with storage hash caching (`CompressedManifestStaticFilesStorage`).
+</code></pre>
             </div>
 
           </div>

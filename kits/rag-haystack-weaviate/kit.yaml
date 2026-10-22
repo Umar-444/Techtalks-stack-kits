@@ -1,69 +1,99 @@
-schema_version: 1.0.0
-name: Haystack Pipelines + Weaviate + FastAPI (Hayhooks)
-slug: rag-haystack-weaviate
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Explicit, inspectable DAG production pipelines: deepset Haystack 2.5+,
-  Weaviate vector database with hybrid BM25 + dense vector ranking, and 9 built-in
-  production evaluators.'
-category: RAG
+schema_version: "1.0.0"
+
+name: "Haystack Pipelines + Weaviate + FastAPI (Hayhooks)"
+slug: "rag-haystack-weaviate"
+version: "1.0.0"
+status: "stable"
+updated_at: "2026-10-22"
+description: "Production-ready explicit DAG pipelines: Deepset Haystack 2.5+, Weaviate vector database with hybrid BM25 + dense vector ranking, and built-in faithfulness evaluators."
+category: "RAG & Knowledge Systems"
+
 maintainer:
-  name: TechTalks AI Engineering Group
-  role: Search & Enterprise RAG Lead
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior AI Systems & Enterprise Search Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Python
-    version: 3.12+
-    registry: pypi.org
+    name: "Python"
+    version: ">= 3.12"
+    registry: "pypi.org"
   framework:
-    name: Haystack
-    version: 2.5+
-    registry: pypi.org
-  vector_store: Weaviate (hybrid search)
-  serving: Hayhooks / FastAPI
-  evals: Haystack built-in DocumentRelevanceEvaluator
+    name: "Haystack"
+    version: ">= 2.5"
+    registry: "pypi.org"
+  vector_store:
+    name: "Weaviate"
+    version: ">= 1.27"
+    features:
+      - "Hybrid search (BM25 sparse + dense vectors)"
+      - "Reciprocal rank fusion (RRF)"
+      - "Multi-tenant physical shard isolation"
+  api:
+    name: "FastAPI"
+    version: ">= 0.115"
+    registry: "pypi.org"
+
 layers:
   starter:
     path: starter/
-    type: starter-scaffold
+    type: production-scaffold
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: rag-haystack-weaviate-core
-      path: skills/rag-haystack-weaviate-core/SKILL.md
-      description: Core operations and scaffolding skill for Haystack Pipelines +
-        Weaviate + FastAPI (Hayhooks).
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Preflight environment setup, Weaviate connectivity verification, and test execution.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Implement the canonical first feature - custom query sanitizer component in Haystack DAG.
+      - id: weaviate-hybrid-indexing
+        path: skills/weaviate-hybrid-indexing/SKILL.md
+        description: Configure Weaviate collections with hybrid BM25 + dense vector indexing and multi-tenancy.
+      - id: haystack-pipeline-wiring
+        path: skills/haystack-pipeline-wiring/SKILL.md
+        description: Construct explicit Haystack 2.5+ DAG pipelines connecting components.
+      - id: rag-haystack-weaviate-core
+        path: skills/rag-haystack-weaviate-core/SKILL.md
+        description: Core operational workflows, DAG pipeline inspection, Weaviate hybrid vector storage, and automated evaluation.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: false
   median_eval_tokens: 25600
-  efficiency_tier: B
+  efficiency_tier: "B"
+
 security:
   automated_scans:
     gitleaks: true
@@ -73,5 +103,7 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+    hybrid_search_alpha_calibrated: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"
