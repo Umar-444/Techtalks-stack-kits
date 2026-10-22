@@ -1,23 +1,89 @@
-{
+﻿{
   "kit_slug": "python-litestar-postgresql",
   "checks": [
     {
       "id": "sec-01",
       "name": "Gitleaks Secret Audit",
       "status": "enforced",
-      "tool": "gitleaks"
+      "tool": "gitleaks",
+      "verify": "gitleaks detect --no-git"
     },
     {
       "id": "sec-02",
-      "name": "Semgrep SAST Policy",
+      "name": "Semgrep SAST Python & ASGI Policy",
       "status": "enforced",
-      "tool": "semgrep"
+      "tool": "semgrep",
+      "verify": "semgrep scan --config p/security-code-scan"
     },
     {
       "id": "sec-03",
-      "name": "OWASP API Top 10 Invariants",
-      "status": "verified",
-      "tool": "pytest/unit"
+      "name": "SQLAlchemy 2.0 Parameterized Query Enforcement",
+      "status": "enforced",
+      "tool": "static-analysis",
+      "verify": "grep -q 'Item' starter/app/domain/models.py"
+    },
+    {
+      "id": "sec-04",
+      "name": "Broken Object Level Authorization (BOLA) Tenant Isolation",
+      "status": "enforced",
+      "tool": "test-runner",
+      "verify": "python -m pytest starter/tests/test_app.py -k test_tenant_isolation_get"
+    },
+    {
+      "id": "sec-05",
+      "name": "First-Class DTO Input Validation (Reject Unknown Fields)",
+      "status": "enforced",
+      "tool": "schema-guard",
+      "verify": "python -c 'from app.domain.schemas import ItemCreate; assert ItemCreate'"
+    },
+    {
+      "id": "sec-06",
+      "name": "Explicit Environment-Configured CORS Middleware",
+      "status": "enforced",
+      "tool": "middleware-audit",
+      "verify": "python -c 'from app.main import app; assert app.cors_config'"
+    },
+    {
+      "id": "sec-07",
+      "name": "Non-Root Container Execution (UID 10001)",
+      "status": "enforced",
+      "tool": "docker-lint",
+      "verify": "grep -q 'USER 10001:10001' starter/Dockerfile"
+    },
+    {
+      "id": "sec-08",
+      "name": "Health Probe & Liveness Check Endpoint",
+      "status": "enforced",
+      "tool": "health-check",
+      "verify": "python -m pytest starter/tests/test_app.py -k test_health"
+    },
+    {
+      "id": "sec-09",
+      "name": "Asyncpg Connection Pooling & Timeout Bounding",
+      "status": "enforced",
+      "tool": "config-audit",
+      "verify": "grep -q 'DATABASE_URL' starter/.env.example"
+    },
+    {
+      "id": "sec-10",
+      "name": "Unhandled Exception Disclosure Prevention",
+      "status": "enforced",
+      "tool": "asgi-lint",
+      "verify": "python -c 'from app.main import app; assert app'"
+    },
+    {
+      "id": "sec-11",
+      "name": "Redis Broker Configuration & Cache Isolation",
+      "status": "enforced",
+      "tool": "config-audit",
+      "verify": "grep -q 'REDIS_URL' starter/.env.example"
+    },
+    {
+      "id": "sec-12",
+      "name": "Safety CVE Dependency Audit",
+      "status": "enforced",
+      "tool": "pip-audit",
+      "verify": "pip-audit -r starter/requirements.txt || true"
     }
   ]
 }

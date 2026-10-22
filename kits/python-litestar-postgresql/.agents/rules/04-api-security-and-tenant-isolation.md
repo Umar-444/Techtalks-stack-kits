@@ -1,0 +1,58 @@
+# 04 Api Security And Tenant Isolation
+
+﻿---
+id: "04-api-security-and-tenant-isolation"
+title: "API Security, Guard Middleware & Tenant Isolation"
+description: "Security invariants covering authentication middleware, BOLA/IDOR protection, rate limiting, and CORS configuration in Litestar."
+globs: ["**/main.py", "**/controllers/*.py"]
+alwaysApply: true
+---
+
+# 04 - API Security, Guard Middleware & Tenant Isolation
+
+## 1. Authentication & Route Guards
+- Implement token authentication using Litestar's `AbstractAuthenticationMiddleware`:
+  ```python
+  from litestar.middleware.authentication import AbstractAuthenticationMiddleware, AuthenticationResult
+  from litestar.connection import ASGIConnection
+
+  class JWTAuthenticationMiddleware(AbstractAuthenticationMiddleware):
+      async def authenticate_request(self, connection: ASGIConnection) -> AuthenticationResult:
+          token = connection.headers.get("Authorization")
+          if not token or not token.startswith("Bearer "):
+              raise NotAuthorizedException("Missing or malformed Authorization header")
+          user = await verify_jwt_token(token[7:])
+          return AuthenticationResult(user=user, auth=token)
+  ```
+- Protect routes with declarative guards:
+  ```python
+  def admin_guard(connection: ASGIConnection, _) -> None:
+      if not connection.user or not connection.user.is_admin:
+          raise PermissionDeniedException("Administrator clearance required")
+  ```
+
+## 2. BOLA / IDOR Tenant Isolation Invariants
+- Enforce tenant isolation at the query execution level. Every lookup must verify the record matches both the requested ID and the authenticated tenant:
+  ```python
+  stmt = select(Item).where(Item.id == item_id, Item.tenant_id == connection.user.tenant_id)
+  item = (await session.execute(stmt)).scalar_one_or_none()
+  if item is None:
+      raise NotFoundException("Item not found or access denied")
+  ```
+
+## 3. Explicit CORS Middleware (Zero Wildcards)
+- Never use wildcard CORS `allow_origins=["*"]`. Always configure explicit origins from environment variables:
+  ```python
+  from litestar.config.cors import CORSConfig
+
+  cors_config = CORSConfig(
+      allow_origins=[o.strip() for o in settings.allowed_origins.split(",") if o.strip()],
+      allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allow_headers=["*"],
+      allow_credentials=True,
+  )
+  ```
+
+## 4. Rate Limiting & Denial of Service Defense
+- Integrate Litestar's `RateLimitConfig` targeting sensitive login and mutation endpoints to prevent brute-force attacks and resource starvation.
+

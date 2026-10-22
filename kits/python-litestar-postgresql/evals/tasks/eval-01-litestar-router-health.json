@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-01-litestar-router-health",
+  "name": "Litestar ASGI Setup & Health Check Invariant",
+  "difficulty": "beginner",
+  "prompt": "Initialize the Litestar application factory with explicit CORS configuration and expose the /health endpoint returning JSON status.",
+  "expected_files": [
+    "starter/app/main.py",
+    "starter/tests/test_app.py"
+  ],
+  "verification": {
+    "command": "python -m pytest starter/tests/test_app.py -k test_health",
+    "criteria": "Health endpoint returns HTTP 200 with status ok and framework litestar"
+  }
+}

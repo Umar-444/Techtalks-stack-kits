@@ -1,0 +1,15 @@
+﻿{
+  "task_id": "eval-02-dto-item-crud",
+  "name": "First-Class DTO Validation & CRUD Operations",
+  "difficulty": "intermediate",
+  "prompt": "Define msgspec and Pydantic schemas (ItemCreate, ItemResponse), wire POST /api/v1/items with strict field validation, and list active items.",
+  "expected_files": [
+    "starter/app/domain/schemas.py",
+    "starter/app/main.py",
+    "starter/tests/test_app.py"
+  ],
+  "verification": {
+    "command": "python -m pytest starter/tests/test_app.py -k test_create_and_list_items",
+    "criteria": "Item creation returns HTTP 201 and listing filters by tenant"
+  }
+}

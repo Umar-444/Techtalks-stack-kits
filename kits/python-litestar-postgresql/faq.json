@@ -1,0 +1,58 @@
+﻿[
+  {
+    "question": "Why is Litestar considered 'the modern ASGI framework FastAPI users graduate to'?",
+    "answer": "Litestar was designed from the ground up to solve structural architectural challenges in large Python codebases. While FastAPI relies on global dependencies, runtime reflection, and Starlette routing hacks, Litestar provides layered dependency injection (controller, router, and application scopes), first-class Data Transfer Objects (DTOs), native msgspec serialization, and strict typing without monkey-patching. It delivers superior performance, cleaner modularity, and enterprise maintainability."
+  },
+  {
+    "question": "How does Litestar's dependency injection (DI) system compare to FastAPI's Depends()?",
+    "answer": "In FastAPI, `Depends()` must be repeated in every single endpoint function signature, leading to cluttered code and duplicated declaration. In Litestar, dependencies are declared hierarchically using `Provide()` on controllers, routers, or the root application. A dependency declared at the controller level is automatically available to all handler methods within that controller without repeating dependency annotations."
+  },
+  {
+    "question": "What is first-class DTO support in Litestar, and how does it prevent manual data mapping?",
+    "answer": "Litestar's DTO (Data Transfer Object) system allows you to bind database models (such as SQLAlchemy or msgspec structs) directly to route handlers while automatically generating separate input and output validation schemas. Using `SQLAlchemyDTOConfig(exclude={'id', 'secret_key'})`, you can mask sensitive fields, validate request bodies, and serialize responses without writing repetitive boilerplate schemas for every entity."
+  },
+  {
+    "question": "How does msgspec integration in Litestar accelerate serialization and deserialization speeds?",
+    "answer": "msgspec is an ultra-fast serialization library written in C and optimized for JSON, MessagePack, and YAML. It performs schema validation during decoding in a single pass without intermediary Python object allocations. Litestar uses msgspec as its native serialization engine, allowing it to parse and encode JSON payloads up to 10x faster than standard library `json` or Pydantic v1."
+  },
+  {
+    "question": "How does SQLAlchemy 2.0 with asyncpg handle asynchronous database sessions in Litestar?",
+    "answer": "SQLAlchemy 2.0's `AsyncSession` interfaces directly with `asyncpg`, Python's fastest PostgreSQL driver. In Litestar, an `async_sessionmaker` is configured inside a dependency provider. When a request arrives, Litestar yields a fresh `AsyncSession`, executes queries asynchronously without blocking the ASGI event loop, and automatically commits or rolls back the transaction before closing the session upon request completion."
+  },
+  {
+    "question": "How do you prevent SQL injection when executing database queries in SQLAlchemy 2.0?",
+    "answer": "Always construct queries using SQLAlchemy 2.0 typed expressions (`select(Item).where(Item.id == item_id)`). SQLAlchemy compiles these expressions into protocol-level parameterized SQL queries (`$1, $2`), transmitting query strings and parameter values out-of-band to PostgreSQL. Never interpolate raw user input into SQL strings using Python f-strings or string concatenation."
+  },
+  {
+    "question": "How do you implement multi-tenant isolation and Broken Object Level Authorization (BOLA) defense?",
+    "answer": "Enforce tenant boundaries inside every database query. When retrieving, updating, or deleting records, always include the tenant ID: `select(Item).where(Item.id == item_id, Item.tenant_id == connection.user.tenant_id)`. If the query returns `None`, raise an immediate `NotFoundException`. This ensures users cannot access or tamper with data belonging to other organizations."
+  },
+  {
+    "question": "How does Litestar generate interactive OpenAPI 3.1 documentation, and how do you customize Swagger?",
+    "answer": "Litestar automatically analyzes route handler signatures, return types, and DTO definitions to compile a compliant OpenAPI 3.1 schema. You can customize Swagger UI, Redoc, or Stoplight Elements by configuring `OpenAPIConfig(title='...', version='1.0.0', render_plugins=[SwaggerRenderPlugin()])` in the application factory. Interactive documentation is served at `/schema/swagger` without external dependencies."
+  },
+  {
+    "question": "How do you configure Redis connection pooling and distributed caching in Litestar?",
+    "answer": "Instantiate `redis.asyncio.ConnectionPool.from_url(settings.redis_url, max_connections=20)` and integrate it via Litestar's Redis store plugins. Redis provides high-performance distributed caching for expensive query results, user session storage, and rate-limiting counters across horizontally scaled worker instances."
+  },
+  {
+    "question": "How do you run automated tests with AsyncTestClient and pytest-asyncio without a live PostgreSQL instance?",
+    "answer": "Use `litestar.testing.AsyncTestClient(app=app)`. In test mode, override the database session dependency with an in-memory SQLite engine (`sqlite+aiosqlite:///:memory:`) or an in-memory repository mock. This executes the entire HTTP routing, middleware validation, and serialization pipeline in process memory in single-digit milliseconds per test without external database containers."
+  },
+  {
+    "question": "How does Litestar handle rate limiting and denial-of-service (DoS) protection?",
+    "answer": "Litestar includes built-in rate-limiting middleware (`RateLimitConfig`). You can configure request quotas per IP address or authenticated user (e.g., 100 requests per minute) with customizable response headers (`Retry-After`). For distributed deployments, rate-limiting state is persisted to Redis to maintain synchronized counters across all API pods."
+  },
+  {
+    "question": "Why does the production Dockerfile compile in a multi-stage builder and execute as UID 10001?",
+    "answer": "The multi-stage build installs Python wheels and build headers in a temporary builder stage and copies only pre-compiled packages into the final `python:3.12-slim` image. Running as `USER 10001:10001` ensures the container has zero root privileges on the host system, eliminating privilege escalation vulnerabilities and satisfying OWASP and Semgrep container security policies."
+  },
+  {
+    "question": "How does Litestar configure CORS safely without wildcard origins?",
+    "answer": "Configure Litestar's `CORSConfig(allow_origins=[...])` by parsing explicit trusted origins from the `ALLOWED_ORIGINS` environment variable (e.g., `http://localhost:3000,http://localhost:8080`). Never use wildcard `allow_origins=['*']` when `allow_credentials=True`, as this allows malicious third-party websites to extract authenticated session cookies via cross-origin requests."
+  },
+  {
+    "question": "What are the memory and throughput advantages of Litestar compared to standard Django or Flask?",
+    "answer": "A compiled Litestar application running on Uvicorn typically idles at ~40-60MB of RAM and handles 15,000 to 25,000 requests per second per core on standard benchmarks. In contrast, traditional synchronous Django or Flask processes consume 120-200MB of RAM per worker and saturate at 2,000 to 4,000 requests per second due to synchronous WSGI thread blocking."
+  }
+]

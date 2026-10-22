@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-03-tenant-isolation-guard",
+  "name": "Multi-Tenant Isolation & BOLA Defense",
+  "difficulty": "advanced",
+  "prompt": "Enforce tenant boundary isolation on item retrieval, verifying that cross-tenant access returns 404 Not Found without leaking data.",
+  "expected_files": [
+    "starter/app/main.py",
+    "starter/app/services/item_service.py"
+  ],
+  "verification": {
+    "command": "python -m pytest starter/tests/test_app.py -k test_tenant_isolation_get",
+    "criteria": "Cross-tenant request returns HTTP 404 and matching tenant returns HTTP 200"
+  }
+}

@@ -1,35 +1,46 @@
-schema_version: 1.0.0
-name: Python + Litestar + SQLAlchemy 2 + PostgreSQL + Redis
-slug: python-litestar-postgresql
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'The modern ASGI framework FastAPI users graduate to: clean layered dependency
-  injection, first-class DTOs, strict typing with msgspec and Pydantic v2, and SQLAlchemy
-  2.0 async sessions.'
-category: Python
+﻿schema_version: "1.0.0"
+
+name: "Python + Litestar + SQLAlchemy 2 + PostgreSQL + Redis"
+slug: "python-litestar-postgresql"
+version: "1.0.0"
+status: "stable"
+category: "Python"
+updated_at: "2026-10-22"
+
+description: "The modern ASGI framework FastAPI users graduate to: clean layered dependency injection, first-class DTOs, strict typing with msgspec and Pydantic v2, and SQLAlchemy 2.0 async sessions."
+
 maintainer:
-  name: TechTalks Python Engineering Group
-  role: Python Backend Architect
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Python Architect"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Python
-    version: 3.12+
-    registry: pypi.org
+    name: "Python"
+    version: ">= 3.12"
+    registry: "pypi.org"
   framework:
-    name: Litestar
-    version: 2.12+
-    registry: pypi.org
+    name: "Litestar"
+    version: ">= 2.12.0"
+    registry: "pypi.org"
   database:
-    engine: PostgreSQL
-    version: 16+
-    features:
-    - SQLAlchemy 2.0 async
-    - Alembic migrations
-  cache: Redis 7+
-  dto_engine: msgspec / Pydantic v2
+    engine: "PostgreSQL"
+    version: ">= 16.0"
+    orm: "SQLAlchemy 2.0 async"
+    driver: "asyncpg"
+  cache:
+    engine: "Redis"
+    version: ">= 7.0"
+  dto_engine: "msgspec / Pydantic v2"
+  runtime: "Docker (Rootless UID 10001)"
+  features:
+    - "Clean layered dependency injection (Provide)"
+    - "First-class SQLAlchemyDTO & msgspec Structs"
+    - "SQLAlchemy 2.0 async session lifecycle"
+    - "Auto-generated OpenAPI 3.1 & Swagger docs"
+
 layers:
   starter:
     path: starter/
@@ -37,38 +48,57 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: python-litestar-postgresql-core
-      path: skills/python-litestar-postgresql-core/SKILL.md
-      description: Core operations and scaffolding skill for Python + Litestar + SQLAlchemy
-        2 + PostgreSQL + Redis.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install dependencies, run Docker Compose for PostgreSQL & Redis, execute Alembic migrations, and verify the Litestar service.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Scaffold a complete end-to-end CRUD feature with SQLAlchemy 2.0 async model, msgspec DTO schema, domain service, and Litestar Controller.
+      - id: litestar-dto-and-msgspec
+        path: skills/litestar-dto-and-msgspec/SKILL.md
+        description: Master Litestar's first-class DTO system, SQLAlchemyDTO reflection, field masking, and msgspec high-speed struct serialization.
+      - id: sqlalchemy-async-migrations
+        path: skills/sqlalchemy-async-migrations/SKILL.md
+        description: Configure SQLAlchemy 2.0 asyncpg connection pools, write bidirectional Alembic migrations, and optimize queries with composite indexes.
+      - id: python-litestar-postgresql-core
+        path: skills/python-litestar-postgresql-core/SKILL.md
+        description: Core operational workflows, Litestar application lifecycle management, Redis caching, and Token-Light evaluation.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: false
   median_eval_tokens: 22100
-  efficiency_tier: A
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -78,5 +108,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"
