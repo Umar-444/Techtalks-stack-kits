@@ -1,0 +1,58 @@
+[
+  {
+    "q": "Why choose Fiber over net/http or Gin for high-throughput microservices?",
+    "a": "Fiber is built atop fasthttp, which is engineered from the ground up for zero memory allocation during HTTP request handling. By recycling byte buffers and bypassing Go standard library reflect/text parsing overhead, Fiber achieves exceptionally high request throughput (often 2x to 5x higher RPS than standard library net/http) and sub-millisecond p99 response times on high-concurrency workloads."
+  },
+  {
+    "q": "How does the fasthttp zero-allocation engine achieve higher throughput and lower p99 latency?",
+    "a": "fasthttp eliminates Go runtime garbage collection pressure by pre-allocating memory pools for request headers, connection sockets, and URI buffers. Rather than allocating fresh heap objects on every incoming HTTP request, fasthttp reuses existing buffers, keeping GC pause durations negligible even under hundreds of thousands of concurrent requests."
+  },
+  {
+    "q": "What is the biggest architectural hazard when working with fasthttp and how do you prevent buffer reuse bugs?",
+    "a": "Because fasthttp recycles request buffers immediately after a handler returns, retaining references to `c.Params()`, `c.Query()`, or `c.Body()` inside asynchronous goroutines or long-lived data caches leads to silent memory corruption and data races. You must always copy strings and byte slices using `strings.Clone(str)` or `utils.CopyString()` before crossing concurrency boundaries."
+  },
+  {
+    "q": "When should you use strings.Clone or utils.CopyString in Fiber handlers?",
+    "a": "Whenever a string extracted from the request context (URL path parameter, query parameter, or JSON body string) will be stored in an in-memory cache, pushed onto a channel, or referenced inside a separate background goroutine. Standard synchronous handler code that computes a response and returns immediately does not require explicit copying."
+  },
+  {
+    "q": "How does Fiber manage PostgreSQL connection pooling via pgx/v5?",
+    "a": "The service initializes a `*pgxpool.Pool` during application startup, configured with maximum and minimum pool boundaries matching the container's CPU allocation. Each database query borrows a connection from the pool and releases it automatically, executing parameterized SQL statements directly over PostgreSQL's binary protocol."
+  },
+  {
+    "q": "Can Fiber integrate with standard net/http middleware like otelhttp or prometheus?",
+    "a": "Because Fiber is built on `fasthttp` rather than `net/http.Handler`, standard library middleware cannot be plugged in directly. However, Fiber provides the `adaptor` package (`fiber/middleware/adaptor`) which bridges standard `http.Handler` functions into Fiber handlers with minimal conversion overhead."
+  },
+  {
+    "q": "How does Fiber graceful shutdown work to prevent dropping in-flight client requests?",
+    "a": "The application listens for OS termination signals (`SIGINT`, `SIGTERM`) on a dedicated channel. Upon signal reception, `app.ShutdownWithContext(ctx)` is invoked with a 10-second deadline. Fiber immediately stops accepting incoming connections while allowing active requests to finish processing cleanly."
+  },
+  {
+    "q": "What security headers does Fiber's helmet middleware enforce by default?",
+    "a": "Fiber's helmet middleware sets standard defense-in-depth security headers: `X-Content-Type-Options: nosniff` (prevents MIME sniffing), `X-Frame-Options: DENY` (clickjacking mitigation), `X-XSS-Protection: 1; mode=block`, and customizable Content Security Policy (CSP) directives."
+  },
+  {
+    "q": "Why must CORS allowed origins be parsed from environment variables rather than using wildcards?",
+    "a": "Configuring `AllowOrigins = \"*\"` exposes internal authenticated APIs to cross-site request forgery and data exfiltration from arbitrary origins. By reading `ALLOWED_ORIGINS` from environment variables, production deployments restrict browser access exclusively to trusted frontend domains."
+  },
+  {
+    "q": "Why should containerized Fiber services execute as non-root user UID 10001?",
+    "a": "Executing binaries as root inside containers violates the principle of least privilege. In the event of a container escape vulnerability or remote code execution, an unprivileged process UID 10001 lacks host superuser privileges, preventing host compromise."
+  },
+  {
+    "q": "How do you test Fiber applications without binding to live TCP network ports?",
+    "a": "Fiber provides the `app.Test(req, timeoutMs)` test helper. It passes standard `*http.Request` instances directly through Fiber's routing and middleware pipeline in-memory, returning an `*http.Response` without opening network sockets, making test execution virtually instantaneous."
+  },
+  {
+    "q": "What are the memory limits and BodyLimit configuration guidelines for Fiber APIs?",
+    "a": "By default, Fiber limits request bodies to 4MB (`BodyLimit: 4 * 1024 * 1024`). Setting an explicit `BodyLimit` prevents denial-of-service attacks where malicious clients stream gigantic payloads to exhaust server memory."
+  },
+  {
+    "q": "How does Fiber's built-in rate limiter protect microservices against denial-of-service?",
+    "a": "Fiber's native `limiter` middleware tracks requests per client IP within a configurable sliding window (e.g. 100 requests per minute). Requests exceeding the quota are immediately rejected with HTTP 429 Too Many Requests before reaching expensive database queries."
+  },
+  {
+    "q": "How can AI coding agents safely write high-concurrency Fiber endpoints without data races?",
+    "a": "By following the single-source rules transpiled into `.cursor/rules` and `CLAUDE.md`, agents automatically apply `strings.Clone` when handling background jobs, validate bodies using strongly typed structs, and test with `go test -race`."
+  }
+]

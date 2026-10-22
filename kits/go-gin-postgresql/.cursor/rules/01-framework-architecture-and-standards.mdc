@@ -1,0 +1,16 @@
+---
+description: 01 Framework Architecture And Standards
+globs: *
+alwaysApply: true
+---
+
+# 01 Framework Architecture And Standards
+
+# Framework Architecture and Standards: Go, Gin, and SQLC
+
+1. **Idiomatic Layered Architecture**: Structure code strictly into `cmd/`, `internal/handler/`, `internal/service/`, and `internal/repository/`. Never leak raw database queries into HTTP handlers.
+2. **Gin Router Organization**: Group routes under `/api/v1` with explicit middleware chains (`gin.Recovery()`, structured logger, CORS, and request timeout).
+3. **Structured JSON Responses**: Standardize all JSON payloads using envelope types (`data`, `error`, `meta`). Never return unstructured raw string error messages.
+4. **Graceful Shutdown**: Implement standard `os/signal` listening for `SIGINT` and `SIGTERM`, invoking `http.Server.Shutdown(ctx)` with a 10-second timeout to flush in-flight requests.
+5. **Strict Environment Injection**: Bind all configuration (PostgreSQL DSN, Redis URL, server port, CORS origins) via environment variables using strongly-typed configuration structs.
+

@@ -1,0 +1,16 @@
+---
+description: 04 Api Security And Input Validation
+globs: *
+alwaysApply: true
+---
+
+# 04 Api Security And Input Validation
+
+# API Security and Input Validation
+
+1. **Strict CORS Whitelist**: Parse allowed CORS origins strictly from the `ALLOWED_ORIGINS` environment variable. Never configure `AllowAllOrigins = true` or `*` wildcards.
+2. **Request Validation**: Use `go-playground/validator/v10` tags (`binding:"required,min=3,email"`) on all request DTO structs. Reject malformed payloads with HTTP 422 Unprocessable Entity.
+3. **Non-Root Container Execution**: Compile multi-stage Dockerfiles that copy stripped Go binaries into minimal Alpine or scratch runners executing as `USER 10001:10001`.
+4. **Security Headers Middleware**: Apply standard defense-in-depth headers: `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `X-XSS-Protection: 1; mode=block`.
+5. **No Secret Invariants**: Zero passwords, tokens, or private keys in source code. Enforced via automated Gitleaks CI audits.
+

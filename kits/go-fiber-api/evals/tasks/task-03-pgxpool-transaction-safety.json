@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-03-pgxpool-transaction-safety",
+  "name": "pgxpool Connection Lifecycle & Parameterized SQL",
+  "difficulty": "advanced",
+  "prompt": "Verify PostgreSQL connection pooling with jackc/pgx/v5 using parameterized queries ($1, $2) and strict CORS preflight checks.",
+  "expected_files": [
+    "starter/main.go",
+    "starter/main_test.go"
+  ],
+  "verification": {
+    "command": "go test -v -run TestCORSPolicy starter/...",
+    "criteria": "CORS preflight passes with HTTP 204 and exact origin header"
+  }
+}

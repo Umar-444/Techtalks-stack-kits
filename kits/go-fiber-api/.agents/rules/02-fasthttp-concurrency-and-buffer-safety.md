@@ -1,0 +1,10 @@
+# 02 Fasthttp Concurrency And Buffer Safety
+
+# Fasthttp Concurrency and Buffer Safety
+
+1. **Zero-Allocation Buffer Reuse**: Fasthttp reuses byte buffers across sequential requests to achieve zero memory allocation. Never retain raw byte slices or string references returned by `c.Params()`, `c.Query()`, or `c.Body()` outside the handler goroutine.
+2. **Mandatory String Copying**: When dispatching background goroutines or storing values beyond the handler lifecycle, you must explicitly copy strings using `utils.CopyString(c.Params("id"))` or `string([]byte(c.Body()))`.
+3. **Context Lifecycle**: Do not pass `*fiber.Ctx` into background goroutines. Extract primitive parameters or construct a detached `context.Context` before launching async tasks.
+4. **Memory Profiling**: Monitor heap allocations via `pprof` under load tests to verify that buffer pooling is not bypassed by unintended string escaping.
+5. **Payload Size Constraints**: Configure `fiber.Config{BodyLimit: 4 * 1024 * 1024}` (4MB default) to prevent memory exhaustion from oversized request bodies.
+

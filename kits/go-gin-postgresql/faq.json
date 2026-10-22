@@ -1,0 +1,58 @@
+[
+  {
+    "q": "Why does Gin remain the dominant Go HTTP framework with ~48% web market adoption?",
+    "a": "Gin offers the ideal balance of developer ergonomics, high performance, and an extensive ecosystem. Powered by a custom Radix-tree router, it processes requests with minimal memory allocations while providing battle-tested middleware (recovery, logging, CORS, authentication) that enterprise teams rely on for mission-critical microservices."
+  },
+  {
+    "q": "What are the key advantages of using sqlc over traditional reflection-based ORMs like GORM?",
+    "a": "Unlike ORMs that construct queries at runtime using string concatenation and heavy reflection, sqlc compiles standard SQL files into type-safe, idiomatic Go structs at build time. This ensures compile-time syntax verification, eliminates ORM N+1 query surprises, maximizes raw PostgreSQL query performance, and guarantees 100% parameterization against SQL injection."
+  },
+  {
+    "q": "How does pgx/v5 connection pooling improve throughput and query efficiency compared to database/sql?",
+    "a": "jackc/pgx/v5 communicates directly with PostgreSQL's binary frontend/backend protocol, bypassing standard library text marshaling overhead. Its `pgxpool` provides connection health checks, statement caching, binary parameter encoding, and native support for PostgreSQL types such as JSONB, UUID, and arrays."
+  },
+  {
+    "q": "How do you implement the cache-aside pattern with Redis in a Go service?",
+    "a": "When handling a read request, the service first queries Redis using a namespaced key (`entity:id`). If a cache hit occurs, the payload is unmarshaled into the domain model. On cache miss, the data is fetched from PostgreSQL via sqlc, written to Redis with an explicit TTL (e.g. 15 minutes), and returned to the caller. Redis network interruptions degrade gracefully to direct database queries."
+  },
+  {
+    "q": "How is graceful shutdown implemented in Gin to prevent dropped connections during deployments?",
+    "a": "The application listens for OS termination signals (`SIGINT`, `SIGTERM`) on a dedicated channel. Upon signal reception, `srv.Shutdown(ctx)` is invoked with a 10-second timeout. The server ceases accepting new HTTP connections while allowing active in-flight requests and background goroutines to complete gracefully."
+  },
+  {
+    "q": "How does Gin's custom validation middleware integrate with go-playground/validator?",
+    "a": "Gin integrates `go-playground/validator/v10` directly into its request binding lifecycle. Struct fields annotated with `binding:\"required,email,min=3\"` are validated during `c.ShouldBindJSON(&req)`. Any validation failure automatically returns structured field errors and an HTTP 422 Unprocessable Entity code."
+  },
+  {
+    "q": "What security precautions are necessary when configuring CORS in Gin APIs?",
+    "a": "Never configure `AllowAllOrigins = true` or reflection-based wildcards. The CORS middleware must read `ALLOWED_ORIGINS` from environment variables, parse the comma-delimited host list, and perform exact origin matching before setting `Access-Control-Allow-Origin`."
+  },
+  {
+    "q": "Why should containerized Go applications execute as an unprivileged user (UID 10001)?",
+    "a": "Executing binaries as root inside containers exposes the host system to privilege escalation risks in the event of container breakouts. By compiling statically via `CGO_ENABLED=0` and running under `USER 10001:10001` on minimal Alpine or scratch images, the attack surface is reduced to the bare minimum."
+  },
+  {
+    "q": "How do you structure large Go microservices using the internal/ package layout?",
+    "a": "The Go compiler enforces that packages under `internal/` cannot be imported by external modules. Placing handlers (`internal/handler`), business services (`internal/service`), and database repositories (`internal/repository` / `internal/db`) within `internal/` ensures clean architectural boundaries and prevents unwanted external coupling."
+  },
+  {
+    "q": "How does sqlc guarantee zero runtime SQL injection vulnerabilities?",
+    "a": "sqlc parses raw SQL using the actual PostgreSQL parser (via libpg_query). It converts all query placeholders into parameterized positional parameters (`$1`, `$2`), preventing any direct interpolation of untrusted user input into query strings."
+  },
+  {
+    "q": "How do you handle database migrations safely in production Go deployments?",
+    "a": "Use a dedicated migration tool like `golang-migrate/migrate` or `pressly/goose` with sequential, numbered SQL files. In CI/CD pipelines, run migrations in a pre-deployment step before rolling out updated container images, ensuring zero-downtime backwards-compatible schema transitions."
+  },
+  {
+    "q": "What is the memory footprint and latency overhead of Gin compared to standard library net/http?",
+    "a": "Gin adds negligible latency overhead (<15 microseconds per request) compared to `net/http` stdlib, while providing router parameters, middleware chaining, and JSON rendering. A stripped Gin binary consumes under 15MB of RAM in baseline idle state."
+  },
+  {
+    "q": "How does Redis sliding window rate limiting protect public API endpoints?",
+    "a": "Redis sliding window rate limiting records request timestamps into a Redis sorted set (`ZADD ratelimit:ip now`). Queries prune entries older than the window (`ZREMRANGEBYSCORE`) and count the remaining elements (`ZCARD`). If the count exceeds the threshold, the request is rejected with HTTP 429 Too Many Requests."
+  },
+  {
+    "q": "How can AI coding agents automatically scaffold new entities with sqlc and Gin?",
+    "a": "By executing the `first-feature` skill, agents define the PostgreSQL table in `db/schema.sql`, author typed queries in `db/queries/`, run `sqlc generate`, and scaffold the corresponding Gin HTTP handler adhering to the repository interface."
+  }
+]

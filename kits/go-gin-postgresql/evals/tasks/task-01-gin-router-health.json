@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-01-gin-router-health",
+  "name": "Gin Router Initialization & Health Probe",
+  "difficulty": "intermediate",
+  "prompt": "Configure Gin router with recovery, CORS middleware strictly reading ALLOWED_ORIGINS, and expose the /health endpoint returning JSON status.",
+  "expected_files": [
+    "starter/main.go",
+    "starter/main_test.go"
+  ],
+  "verification": {
+    "command": "go test -v -run TestHealthEndpoint starter/...",
+    "criteria": "TestHealthEndpoint passes and returns HTTP 200 with framework == 'gin'"
+  }
+}

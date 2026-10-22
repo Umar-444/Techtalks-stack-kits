@@ -1,0 +1,38 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go-fiber-api-app
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080
+      - DATABASE_URL=postgres://postgres:postgres@postgres:5432/fiber_db?sslmode=disable
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: go-fiber-api-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=fiber_db
+    volumes:
+      - fiber_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  fiber_pg_data:
+    driver: local

@@ -1,6 +1,0 @@
-# Architectural Standards for Go + Gin + sqlc + PostgreSQL + Redis
-
-# Architecture Standards: Go + Gin + sqlc + PostgreSQL + Redis
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.

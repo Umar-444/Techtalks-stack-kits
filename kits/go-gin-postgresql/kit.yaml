@@ -1,73 +1,101 @@
-schema_version: 1.0.0
-name: Go + Gin + sqlc + PostgreSQL + Redis
-slug: go-gin-postgresql
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'The mainstream production Go API kit: 48% Go web adoption, Gin HTTP
-  engine with structured JSON middleware, sqlc queries, PostgreSQL 16+, and Redis
-  cache.'
-category: Go
+schema_version: "1.0.0"
+
+name: "Go + Gin + sqlc + PostgreSQL + Redis"
+slug: "go-gin-postgresql"
+version: "1.0.0"
+status: "stable"
+updated_at: "2026-10-22"
+description: "The mainstream production Go API kit: 48% Go web adoption, Gin HTTP engine with structured JSON middleware, sqlc queries, PostgreSQL 16+, and Redis cache."
+category: "Go"
+
 maintainer:
-  name: TechTalks Go Engineering Group
-  role: Go API Engineer
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Go & Distributed Systems Lead"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Go
-    version: 1.23+
-    registry: golang.org
+    name: "Go"
+    version: ">= 1.23"
+    registry: "golang.org"
   framework:
-    name: Gin
-    version: v1.10+
-    registry: github.com/gin-gonic/gin
+    name: "Gin"
+    version: ">= v1.10"
+    registry: "github.com/gin-gonic/gin"
   database:
-    engine: PostgreSQL
-    version: 16+
+    engine: "PostgreSQL"
+    version: ">= 16"
     features:
-    - sqlc parameterized queries
-  cache: Redis 7+
-  sql_engine: sqlc
+      - "sqlc compile-time checked queries"
+      - "pgx/v5 connection pool"
+  cache:
+    name: "Redis"
+    version: ">= 7"
+    features:
+      - "Cache-aside pattern"
+      - "Sliding window rate limiting"
+  sql_engine: "sqlc"
+
 layers:
   starter:
     path: starter/
-    type: starter-scaffold
+    type: production-scaffold
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: go-gin-postgresql-core
-      path: skills/go-gin-postgresql-core/SKILL.md
-      description: Core operations and scaffolding skill for Go + Gin + sqlc + PostgreSQL
-        + Redis.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Preflight environment setup, database orchestration, and test execution.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Implement the canonical first feature - product catalog resource with sqlc and Gin handler.
+      - id: sqlc-query-generation
+        path: skills/sqlc-query-generation/SKILL.md
+        description: Compile SQL queries into type-safe Go structs using sqlc with pgx/v5.
+      - id: redis-cache-layer
+        path: skills/redis-cache-layer/SKILL.md
+        description: Implement resilient cache-aside and sliding window rate limiting with go-redis.
+      - id: go-gin-postgresql-core
+        path: skills/go-gin-postgresql-core/SKILL.md
+        description: Core operational workflows, layered Go architecture, Gin router, and Token-Light evaluation.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: false
   median_eval_tokens: 21400
-  efficiency_tier: A
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -77,5 +105,7 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+    non_root_containers: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

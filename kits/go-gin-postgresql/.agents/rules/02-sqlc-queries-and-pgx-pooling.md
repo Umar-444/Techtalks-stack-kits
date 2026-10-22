@@ -1,0 +1,10 @@
+# 02 Sqlc Queries And Pgx Pooling
+
+# SQLC Queries and PostgreSQL Connection Pooling
+
+1. **SQLC Type Safety**: Author all database interactions in standard SQL files (`queries/*.sql`). Generate type-safe Go structs and queries via `sqlc generate`. Never use runtime reflection ORMs for critical query paths.
+2. **Strict Parameterized Queries**: Every dynamic query value must be parameterized (`$1`, `$2`). Dynamic string interpolation or `fmt.Sprintf` query assembly is strictly prohibited.
+3. **PGX Connection Pooling**: Manage PostgreSQL connections using `jackc/pgx/v5/pgxpool`. Set `MaxConns` (default: 25), `MinConns` (default: 5), and `MaxConnLifetime` (default: 1 hour) tuned for containerized deployment.
+4. **Context Propagation**: Always pass `context.Context` (derived from `gin.Context.Request.Context()`) down through service and repository layers to ensure database query cancellation on client disconnects.
+5. **Database Transaction Boundaries**: Encapsulate multi-table operations within explicit `pgx.Tx` transactions using a callback runner that guarantees rollback on error.
+

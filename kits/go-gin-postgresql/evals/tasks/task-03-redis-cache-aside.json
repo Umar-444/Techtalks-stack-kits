@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-03-redis-cache-aside",
+  "name": "Redis Cache-Aside and Sliding Window Rate Limiting",
+  "difficulty": "advanced",
+  "prompt": "Implement cache-aside logic with explicit TTL and sliding window rate limiting. Fall back gracefully to database on Redis connection interruption.",
+  "expected_files": [
+    "starter/main.go",
+    "starter/main_test.go"
+  ],
+  "verification": {
+    "command": "go test -v -run TestCORSPolicy starter/...",
+    "criteria": "Security and rate limiting headers verified without regressions"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-02-sqlc-parameterized-queries",
+  "name": "sqlc Parameterized Queries & PostgreSQL pgxpool",
+  "difficulty": "intermediate",
+  "prompt": "Implement type-safe sqlc queries using numbered parameters ($1, $2) and verify connection pooling with jackc/pgx/v5.",
+  "expected_files": [
+    "starter/main.go",
+    "starter/main_test.go"
+  ],
+  "verification": {
+    "command": "go test -v -run TestUsersEndpoint starter/...",
+    "criteria": "User list and create endpoints pass with status 200 and 201"
+  }
+}

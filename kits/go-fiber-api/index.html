@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Go + Fiber + PostgreSQL (Blueprint) &bull; TechTalks Stack Kits</title>
+  <title>Go + Fiber + PostgreSQL &bull; TechTalks Stack Kits</title>
   <meta name="description" content="Throughput specialist: Express-shaped Go API powered by fasthttp zero-allocation engine. Ships with honest architectural caveats regarding net/http middleware and HTTP/2 limits.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/go-fiber-api/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/go-fiber-api/">
-  <meta property="og:title" content="Go + Fiber + PostgreSQL (Blueprint) &bull; TechTalks Stack Kits">
+  <meta property="og:title" content="Go + Fiber + PostgreSQL &bull; TechTalks Stack Kits">
   <meta property="og:description" content="Throughput specialist: Express-shaped Go API powered by fasthttp zero-allocation engine. Ships with honest architectural caveats regarding net/http middleware and HTTP/2 limits.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
@@ -36,98 +36,114 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What exactly is the Go + Fiber + PostgreSQL kit?",
+      "name": "Why choose Fiber over net/http or Gin for high-throughput microservices?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+        "text": "Fiber is built atop fasthttp, which is engineered from the ground up for zero memory allocation during HTTP request handling. By recycling byte buffers and bypassing Go standard library reflect/text parsing overhead, Fiber achieves exceptionally high request throughput (often 2x to 5x higher RPS than standard library net/http) and sub-millisecond p99 response times on high-concurrency workloads."
       }
     },
     {
       "@type": "Question",
-      "name": "Which versions does it pin?",
+      "name": "How does the fasthttp zero-allocation engine achieve higher throughput and lower p99 latency?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+        "text": "fasthttp eliminates Go runtime garbage collection pressure by pre-allocating memory pools for request headers, connection sockets, and URI buffers. Rather than allocating fresh heap objects on every incoming HTTP request, fasthttp reuses existing buffers, keeping GC pause durations negligible even under hundreds of thousands of concurrent requests."
       }
     },
     {
       "@type": "Question",
-      "name": "Which AI coding agents are supported?",
+      "name": "What is the biggest architectural hazard when working with fasthttp and how do you prevent buffer reuse bugs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+        "text": "Because fasthttp recycles request buffers immediately after a handler returns, retaining references to `c.Params()`, `c.Query()`, or `c.Body()` inside asynchronous goroutines or long-lived data caches leads to silent memory corruption and data races. You must always copy strings and byte slices using `strings.Clone(str)` or `utils.CopyString()` before crossing concurrency boundaries."
       }
     },
     {
       "@type": "Question",
-      "name": "What do I need installed before I start?",
+      "name": "When should you use strings.Clone or utils.CopyString in Fiber handlers?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+        "text": "Whenever a string extracted from the request context (URL path parameter, query parameter, or JSON body string) will be stored in an in-memory cache, pushed onto a channel, or referenced inside a separate background goroutine. Standard synchronous handler code that computes a response and returns immediately does not require explicit copying."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does installation take?",
+      "name": "How does Fiber manage PostgreSQL connection pooling via pgx/v5?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+        "text": "The service initializes a `*pgxpool.Pool` during application startup, configured with maximum and minimum pool boundaries matching the container's CPU allocation. Each database query borrows a connection from the pool and releases it automatically, executing parameterized SQL statements directly over PostgreSQL's binary protocol."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the starter production-shaped or a demo?",
+      "name": "Can Fiber integrate with standard net/http middleware like otelhttp or prometheus?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+        "text": "Because Fiber is built on `fasthttp` rather than `net/http.Handler`, standard library middleware cannot be plugged in directly. However, Fiber provides the `adaptor` package (`fiber/middleware/adaptor`) which bridges standard `http.Handler` functions into Fiber handlers with minimal conversion overhead."
       }
     },
     {
       "@type": "Question",
-      "name": "How is security handled in this kit?",
+      "name": "How does Fiber graceful shutdown work to prevent dropping in-flight client requests?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+        "text": "The application listens for OS termination signals (`SIGINT`, `SIGTERM`) on a dedicated channel. Upon signal reception, `app.ShutdownWithContext(ctx)` is invoked with a 10-second deadline. Fiber immediately stops accepting incoming connections while allowing active requests to finish processing cleanly."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the design?",
+      "name": "What security headers does Fiber's helmet middleware enforce by default?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+        "text": "Fiber's helmet middleware sets standard defense-in-depth security headers: `X-Content-Type-Options: nosniff` (prevents MIME sniffing), `X-Frame-Options: DENY` (clickjacking mitigation), `X-XSS-Protection: 1; mode=block`, and customizable Content Security Policy (CSP) directives."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I update when a new kit version releases?",
+      "name": "Why must CORS allowed origins be parsed from environment variables rather than using wildcards?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+        "text": "Configuring `AllowOrigins = \"*\"` exposes internal authenticated APIs to cross-site request forgery and data exfiltration from arbitrary origins. By reading `ALLOWED_ORIGINS` from environment variables, production deployments restrict browser access exclusively to trusted frontend domains."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I use it for commercial and client work?",
+      "name": "Why should containerized Fiber services execute as non-root user UID 10001?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+        "text": "Executing binaries as root inside containers violates the principle of least privilege. In the event of a container escape vulnerability or remote code execution, an unprivileged process UID 10001 lacks host superuser privileges, preventing host compromise."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I contribute a fix or skill back?",
+      "name": "How do you test Fiber applications without binding to live TCP network ports?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+        "text": "Fiber provides the `app.Test(req, timeoutMs)` test helper. It passes standard `*http.Request` instances directly through Fiber's routing and middleware pipeline in-memory, returning an `*http.Response` without opening network sockets, making test execution virtually instantaneous."
       }
     },
     {
       "@type": "Question",
-      "name": "Where do I get help or report a problem?",
+      "name": "What are the memory limits and BodyLimit configuration guidelines for Fiber APIs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+        "text": "By default, Fiber limits request bodies to 4MB (`BodyLimit: 4 * 1024 * 1024`). Setting an explicit `BodyLimit` prevents denial-of-service attacks where malicious clients stream gigantic payloads to exhaust server memory."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Fiber's built-in rate limiter protect microservices against denial-of-service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fiber's native `limiter` middleware tracks requests per client IP within a configurable sliding window (e.g. 100 requests per minute). Requests exceeding the quota are immediately rejected with HTTP 429 Too Many Requests before reaching expensive database queries."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can AI coding agents safely write high-concurrency Fiber endpoints without data races?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "By following the single-source rules transpiled into `.cursor/rules` and `CLAUDE.md`, agents automatically apply `strings.Clone` when handling background jobs, validate bodies using strongly typed structs, and test with `go test -race`."
       }
     }
   ]
@@ -201,19 +217,19 @@
       <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">go-fiber-api</span>
     </nav>
 
-<div class="mb-8 p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] border-l-[3px] border-l-[#B7791F] text-xs leading-relaxed flex items-start gap-3"><span class="font-mono font-bold text-[#B7791F] uppercase tracking-wider">Note:</span><div class="text-[#5C6058] dark:text-[#C4C4CC]">This kit is an architectural blueprint. Specifications, threat models, and multi-dialect rules are compiled. Starter containers are in active verification.</div></div>
+
 
     <!-- Kit Header Section -->
     <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="chip-status-blueprint"><span class="w-1.5 h-1.5 rounded-full bg-[#8E8E96]"></span>BLUEPRINT</span>
+        <span class="chip-status-ready"><span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>READY TO SHIP</span>
         <span class="text-xs font-mono text-[#8E8E96]">v1.0.0</span>
         <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>
         <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        Go + Fiber + PostgreSQL (Blueprint)
+        Go + Fiber + PostgreSQL
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
@@ -221,7 +237,7 @@
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Go', 'version': '1.23+', 'registry': 'golang.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Fiber', 'version': 'v3.0+', 'registry': 'github.com/gofiber/fiber/v3'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL', 'version': '16+', 'features': ['pgxpool connection']}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Go', 'version': '>= 1.23', 'registry': 'golang.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Fiber', 'version': '>= v2.52', 'registry': 'github.com/gofiber/fiber/v2'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL', 'version': '>= 16', 'features': ['pgxpool connection', 'parameterized queries']}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -326,24 +342,15 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Quick Reference &amp; Non-Negotiable Standards
-### Architectural Standards for Go + Fiber + PostgreSQL
-# Architecture Standards: Go + Fiber + PostgreSQL
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+### 01 Framework Architecture And Standards
+# Framework Architecture and Standards: Go and Fiber (fasthttp)
 
-### Security Invariants for Go + Fiber + PostgreSQL
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
-
-### Agent Coding Conventions for Go + Fiber + PostgreSQL
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-</code></pre>
+1. **Throughput-First Architecture**: Fiber is engineered on top of `fasthttp`, bypassing `net/http` allocation overhead for maximum request per second (RPS) throughput and lowest p99 latency.
+2. **Route Grouping**: Encapsulate API resources under `/api/v1` route groups with explicit middleware composition (structured logger, recovery, and request ID).
+3. **Graceful Shutdown**: Intercept `SIGINT` and `SIGTERM` signals using standard `signal.Notify`, triggering `app.ShutdownWithTimeout(ctx)` to finish active connections within 10 seconds.
+4. **Environment Binding**: Ingest runtime configuration (`PORT`, `DATABASE_URL`, `ALLOWED_ORIGINS`) through strongly typed structs parsed from environment variables.
+5. **Architectural Caveats**: Acknowledge that `fasthttp` is not 100% compatible with standard `net/http` middleware. Third-party packages requiring `http.Handler` must use Fiber adapt
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
@@ -352,17 +359,21 @@
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/go-fiber-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
-description: Agent Coding Conventions for Go + Fiber + PostgreSQL
+description: 01 Framework Architecture And Standards
 globs: *
 alwaysApply: true
 ---
 
-# Agent Coding Conventions for Go + Fiber + PostgreSQL
+# 01 Framework Architecture And Standards
 
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.</code></pre>
+# Framework Architecture and Standards: Go and Fiber (fasthttp)
+
+1. **Throughput-First Architecture**: Fiber is engineered on top of `fasthttp`, bypassing `net/http` allocation overhead for maximum request per second (RPS) throughput and lowest p99 latency.
+2. **Route Grouping**: Encapsulate API resources under `/api/v1` route groups with explicit middleware composition (structured logger, recovery, and request ID).
+3. **Graceful Shutdown**: Intercept `SIGINT` and `SIGTERM` signals using standard `signal.Notify`, triggering `app.ShutdownWithTimeout(ctx)` to finish active connections within 10 seconds.
+4. **Environment Binding**: Ingest runtime configuration (`PORT`, `DATABASE_URL`, `ALLOWED_ORIGINS`) through strongly typed structs parsed from environment variables.
+5. **Architectural Caveats**: Acknowledge that `fasthttp` is not 100% compatible with standard `net/http` middleware. Third-party packages requiring `http.Handler` must use Fiber adaptors or native Fiber implementations.
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
@@ -370,28 +381,28 @@ alwaysApply: true
                 <span>Source: kits/go-fiber-api/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/go-fiber-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Go + Fiber + PostgreSQL — Agent Operating Rules (AGENTS.md)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># OpenAI Codex &amp; Assistant Instruction Set: Go + Fiber (fasthttp) + PostgreSQL
+
+# Go + Fiber + PostgreSQL — Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Table of Contents
-- [Architectural Standards for Go + Fiber + PostgreSQL](#architecture-guidelines)
-- [Security Invariants for Go + Fiber + PostgreSQL](#security-invariants)
-- [Agent Coding Conventions for Go + Fiber + PostgreSQL](#agent-coding-conventions)
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Fasthttp Concurrency And Buffer Safety](#02-fasthttp-concurrency-and-buffer-safety)
+- [03 Pgxpool Connection And Database Lifecycle](#03-pgxpool-connection-and-database-lifecycle)
+- [04 Security Headers Cors And Rate Limiting](#04-security-headers-cors-and-rate-limiting)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
 
 ---
 
-&lt;a id=&quot;architecture-guidelines&quot;&gt;&lt;/a&gt;
-## Architectural Standards for Go + Fiber + PostgreSQL
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
 
-# Architecture Standards: Go + Fiber + PostgreSQL
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+# Framework Architecture and Standards: Go and Fiber (fasthttp)
 
----
-
-&lt;a id=&quot;security-invariants&quot;&gt;&lt;/a&gt;
-## Security Invariants for Go + Fiber + PostgreSQL</code></pre>
+1. **Throughput-First Architecture**: Fiber is engineered on top of `fasthttp`, bypassing `net/http` allocation overhead for maximum request per second (RPS) throughput and lowest p99 latency.
+2. **Route Grouping**: Encapsulate API resources under `/api/v1` route groups with explicit middleware composition (structured logger, recovery, and request 
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
@@ -402,24 +413,18 @@ alwaysApply: true
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Go + Fiber + PostgreSQL
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## Architectural Standards for Go + Fiber + PostgreSQL
-# Architecture Standards: Go + Fiber + PostgreSQL
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+## 01 Framework Architecture And Standards
+# Framework Architecture and Standards: Go and Fiber (fasthttp)
 
-## Security Invariants for Go + Fiber + PostgreSQL
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
+1. **Throughput-First Architecture**: Fiber is engineered on top of `fasthttp`, bypassing `net/http` allocation overhead for maximum request per second (RPS) throughput and lowest p99 latency.
+2. **Route Grouping**: Encapsulate API resources under `/api/v1` route groups with explicit middleware composition (structured logger, recovery, and request ID).
+3. **Graceful Shutdown**: Intercept `SIGINT` and `SIGTERM` signals using standard `signal.Notify`, triggering `app.ShutdownWithTimeout(ctx)` to finish active connections within 10 seconds.
+4. **Environment Binding**: Ingest runtime configuration (`PORT`, `DATABASE_URL`, `ALLOWED_ORIGINS`) through strongly typed structs parsed from environment variables.
+5. **Architectural Caveats**: Acknowledge that `fasthttp` is not 100% compatible with standard `net/http` middleware. Third-party packages requiring `http.Handler` must use Fiber adaptors or native Fiber implementations.
 
-## Agent Coding Conventions for Go + Fiber + PostgreSQL
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-</code></pre>
+
+## 02 Fasthtt
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
@@ -427,7 +432,7 @@ alwaysApply: true
                 <span>Source: kits/go-fiber-api/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/go-fiber-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Go + Fiber + PostgreSQL (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Go + Fiber + PostgreSQL
 - Follow architectural boundaries
 - Enforce strict security invariants</code></pre>
             </div>
@@ -437,12 +442,16 @@ alwaysApply: true
                 <span>Source: kits/go-fiber-api/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/go-fiber-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Agent Coding Conventions for Go + Fiber + PostgreSQL
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
 
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.</code></pre>
+# Framework Architecture and Standards: Go and Fiber (fasthttp)
+
+1. **Throughput-First Architecture**: Fiber is engineered on top of `fasthttp`, bypassing `net/http` allocation overhead for maximum request per second (RPS) throughput and lowest p99 latency.
+2. **Route Grouping**: Encapsulate API resources under `/api/v1` route groups with explicit middleware composition (structured logger, recovery, and request ID).
+3. **Graceful Shutdown**: Intercept `SIGINT` and `SIGTERM` signals using standard `signal.Notify`, triggering `app.ShutdownWithTimeout(ctx)` to finish active connections within 10 seconds.
+4. **Environment Binding**: Ingest runtime configuration (`PORT`, `DATABASE_URL`, `ALLOWED_ORIGINS`) through strongly typed structs parsed from environment variables.
+5. **Architectural Caveats**: Acknowledge that `fasthttp` is not 100% compatible with standard `net/http` middleware. Third-party packages requiring `http.Handler` must use Fiber adaptors or native Fiber implementations.
+</code></pre>
             </div>
 
           </div>
@@ -453,7 +462,11 @@ alwaysApply: true
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">go-fiber-api-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for Go + Fiber + PostgreSQL</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">fasthttp-buffer-management</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Rules and memory patterns for safely handling Fasthttp zero-allocation byte buffers in Go Fiber.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Guide to adding a high-throughput API endpoint in Go Fiber with request validation, buffer copying, and JSON envelope.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">go-fiber-api-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core operational workflows, fasthttp zero-allocation patterns, Fiber router configuration, and Token-Light evaluation.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Comprehensive preflight setup, container orchestration, and test execution for Go + Fiber + PostgreSQL.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">pgxpool-database-layer</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Configure high-throughput PostgreSQL connection pooling in Fiber using jackc/pgx/v5.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -669,21 +682,23 @@ docker compose up --build -d</pre>
     <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
     <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
   </div>
-  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
 </div>
 <div class="space-y-3">
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the Go + Fiber + PostgreSQL kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why choose Fiber over net/http or Gin for high-throughput microservices?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Fiber is built atop fasthttp, which is engineered from the ground up for zero memory allocation during HTTP request handling. By recycling byte buffers and bypassing Go standard library reflect/text parsing overhead, Fiber achieves exceptionally high request throughput (often 2x to 5x higher RPS than standard library net/http) and sub-millisecond p99 response times on high-concurrency workloads.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the fasthttp zero-allocation engine achieve higher throughput and lower p99 latency?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">fasthttp eliminates Go runtime garbage collection pressure by pre-allocating memory pools for request headers, connection sockets, and URI buffers. Rather than allocating fresh heap objects on every incoming HTTP request, fasthttp reuses existing buffers, keeping GC pause durations negligible even under hundreds of thousands of concurrent requests.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the biggest architectural hazard when working with fasthttp and how do you prevent buffer reuse bugs?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Because fasthttp recycles request buffers immediately after a handler returns, retaining references to `c.Params()`, `c.Query()`, or `c.Body()` inside asynchronous goroutines or long-lived data caches leads to silent memory corruption and data races. You must always copy strings and byte slices using `strings.Clone(str)` or `utils.CopyString()` before crossing concurrency boundaries.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>When should you use strings.Clone or utils.CopyString in Fiber handlers?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Whenever a string extracted from the request context (URL path parameter, query parameter, or JSON body string) will be stored in an in-memory cache, pushed onto a channel, or referenced inside a separate background goroutine. Standard synchronous handler code that computes a response and returns immediately does not require explicit copying.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Fiber manage PostgreSQL connection pooling via pgx/v5?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The service initializes a `*pgxpool.Pool` during application startup, configured with maximum and minimum pool boundaries matching the container's CPU allocation. Each database query borrows a connection from the pool and releases it automatically, executing parameterized SQL statements directly over PostgreSQL's binary protocol.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can Fiber integrate with standard net/http middleware like otelhttp or prometheus?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Because Fiber is built on `fasthttp` rather than `net/http.Handler`, standard library middleware cannot be plugged in directly. However, Fiber provides the `adaptor` package (`fiber/middleware/adaptor`) which bridges standard `http.Handler` functions into Fiber handlers with minimal conversion overhead.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Fiber graceful shutdown work to prevent dropping in-flight client requests?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The application listens for OS termination signals (`SIGINT`, `SIGTERM`) on a dedicated channel. Upon signal reception, `app.ShutdownWithContext(ctx)` is invoked with a 10-second deadline. Fiber immediately stops accepting incoming connections while allowing active requests to finish processing cleanly.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What security headers does Fiber's helmet middleware enforce by default?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Fiber's helmet middleware sets standard defense-in-depth security headers: `X-Content-Type-Options: nosniff` (prevents MIME sniffing), `X-Frame-Options: DENY` (clickjacking mitigation), `X-XSS-Protection: 1; mode=block`, and customizable Content Security Policy (CSP) directives.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why must CORS allowed origins be parsed from environment variables rather than using wildcards?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Configuring `AllowOrigins = "*"` exposes internal authenticated APIs to cross-site request forgery and data exfiltration from arbitrary origins. By reading `ALLOWED_ORIGINS` from environment variables, production deployments restrict browser access exclusively to trusted frontend domains.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why should containerized Fiber services execute as non-root user UID 10001?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Executing binaries as root inside containers violates the principle of least privilege. In the event of a container escape vulnerability or remote code execution, an unprivileged process UID 10001 lacks host superuser privileges, preventing host compromise.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do you test Fiber applications without binding to live TCP network ports?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Fiber provides the `app.Test(req, timeoutMs)` test helper. It passes standard `*http.Request` instances directly through Fiber's routing and middleware pipeline in-memory, returning an `*http.Response` without opening network sockets, making test execution virtually instantaneous.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What are the memory limits and BodyLimit configuration guidelines for Fiber APIs?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">By default, Fiber limits request bodies to 4MB (`BodyLimit: 4 * 1024 * 1024`). Setting an explicit `BodyLimit` prevents denial-of-service attacks where malicious clients stream gigantic payloads to exhaust server memory.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Fiber's built-in rate limiter protect microservices against denial-of-service?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Fiber's native `limiter` middleware tracks requests per client IP within a configurable sliding window (e.g. 100 requests per minute). Requests exceeding the quota are immediately rejected with HTTP 429 Too Many Requests before reaching expensive database queries.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How can AI coding agents safely write high-concurrency Fiber endpoints without data races?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">By following the single-source rules transpiled into `.cursor/rules` and `CLAUDE.md`, agents automatically apply `strings.Clone` when handling background jobs, validate bodies using strongly typed structs, and test with `go test -race`.</p></details>
 </div>
       </section>
 

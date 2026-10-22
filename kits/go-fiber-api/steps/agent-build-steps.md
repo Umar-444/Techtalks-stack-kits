@@ -1,8 +1,49 @@
-# Agent Step-by-Step Build Order: Go + Fiber + PostgreSQL
+# Agent Build Steps: Go + Fiber + PostgreSQL
 
-1. **Step 1: Environment Setup:** Verify toolchains and configure dependencies.
-2. **Step 2: Schema Definition:** Define database schemas, migrations, and model types.
-3. **Step 3: Service Logic:** Implement business domain services with strong typing.
-4. **Step 4: API & Routing:** Expose typed HTTP / RPC handlers with input validation.
-5. **Step 5: Security Enforcement:** Apply authentication, authorization, and rate limiting.
-6. **Step 6: Evaluation & Testing:** Run unit, integration, and security assertion tests.
+Follow these 6 steps to scaffold, execute, and verify the Go + Fiber production API:
+
+## Step 1: Environment Initialization & Preflight
+Initialize Go module dependencies and environment configuration:
+```bash
+cp starter/.env.example starter/.env
+cd starter
+go mod download
+```
+Verification:
+```bash
+go version
+```
+
+## Step 2: PostgreSQL Container Orchestration
+Start PostgreSQL backing database service:
+```bash
+docker compose up -d postgres
+```
+
+## Step 3: Fiber Router & Middleware Assembly
+Configure the Fiber application with recovery, logger, and strict CORS whitelist:
+```bash
+go test -v -run TestHealthEndpoint ./...
+```
+
+## Step 4: Fasthttp Buffer Safety Verification
+Verify buffer safety and race detection on ingestion routes:
+```bash
+go test -v -race -run TestBenchAndRecordsEndpoints ./...
+```
+
+## Step 5: Application Service Launch
+Start the HTTP API service with graceful shutdown handling:
+```bash
+go run main.go
+```
+Verification:
+```bash
+curl -f http://localhost:8080/health
+```
+
+## Step 6: Automated Security & Regression Suite
+Run full test suite and verify compliance across all 12 security checks:
+```bash
+go test -v -race ./...
+```

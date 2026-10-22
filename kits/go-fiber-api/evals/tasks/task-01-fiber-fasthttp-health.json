@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-01-fiber-fasthttp-health",
+  "name": "Fiber fasthttp App Initialization & Health Probe",
+  "difficulty": "intermediate",
+  "prompt": "Initialize Fiber application with recovery, CORS whitelist parsed from ALLOWED_ORIGINS, and expose /health returning JSON status.",
+  "expected_files": [
+    "starter/main.go",
+    "starter/main_test.go"
+  ],
+  "verification": {
+    "command": "go test -v -run TestHealthEndpoint starter/...",
+    "criteria": "TestHealthEndpoint passes and returns HTTP 200 with framework == 'fiber'"
+  }
+}

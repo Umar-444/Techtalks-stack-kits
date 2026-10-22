@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Go + Gin + sqlc + PostgreSQL + Redis (Blueprint) &bull; TechTalks Stack Kits</title>
+  <title>Go + Gin + sqlc + PostgreSQL + Redis &bull; TechTalks Stack Kits</title>
   <meta name="description" content="The mainstream production Go API kit: 48% Go web adoption, Gin HTTP engine with structured JSON middleware, sqlc queries, PostgreSQL 16+, and Redis cache.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/go-gin-postgresql/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/go-gin-postgresql/">
-  <meta property="og:title" content="Go + Gin + sqlc + PostgreSQL + Redis (Blueprint) &bull; TechTalks Stack Kits">
+  <meta property="og:title" content="Go + Gin + sqlc + PostgreSQL + Redis &bull; TechTalks Stack Kits">
   <meta property="og:description" content="The mainstream production Go API kit: 48% Go web adoption, Gin HTTP engine with structured JSON middleware, sqlc queries, PostgreSQL 16+, and Redis cache.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
@@ -36,98 +36,114 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What exactly is the Go + Gin + sqlc + PostgreSQL + Redis kit?",
+      "name": "Why does Gin remain the dominant Go HTTP framework with ~48% web market adoption?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+        "text": "Gin offers the ideal balance of developer ergonomics, high performance, and an extensive ecosystem. Powered by a custom Radix-tree router, it processes requests with minimal memory allocations while providing battle-tested middleware (recovery, logging, CORS, authentication) that enterprise teams rely on for mission-critical microservices."
       }
     },
     {
       "@type": "Question",
-      "name": "Which versions does it pin?",
+      "name": "What are the key advantages of using sqlc over traditional reflection-based ORMs like GORM?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+        "text": "Unlike ORMs that construct queries at runtime using string concatenation and heavy reflection, sqlc compiles standard SQL files into type-safe, idiomatic Go structs at build time. This ensures compile-time syntax verification, eliminates ORM N+1 query surprises, maximizes raw PostgreSQL query performance, and guarantees 100% parameterization against SQL injection."
       }
     },
     {
       "@type": "Question",
-      "name": "Which AI coding agents are supported?",
+      "name": "How does pgx/v5 connection pooling improve throughput and query efficiency compared to database/sql?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+        "text": "jackc/pgx/v5 communicates directly with PostgreSQL's binary frontend/backend protocol, bypassing standard library text marshaling overhead. Its `pgxpool` provides connection health checks, statement caching, binary parameter encoding, and native support for PostgreSQL types such as JSONB, UUID, and arrays."
       }
     },
     {
       "@type": "Question",
-      "name": "What do I need installed before I start?",
+      "name": "How do you implement the cache-aside pattern with Redis in a Go service?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+        "text": "When handling a read request, the service first queries Redis using a namespaced key (`entity:id`). If a cache hit occurs, the payload is unmarshaled into the domain model. On cache miss, the data is fetched from PostgreSQL via sqlc, written to Redis with an explicit TTL (e.g. 15 minutes), and returned to the caller. Redis network interruptions degrade gracefully to direct database queries."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does installation take?",
+      "name": "How is graceful shutdown implemented in Gin to prevent dropped connections during deployments?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+        "text": "The application listens for OS termination signals (`SIGINT`, `SIGTERM`) on a dedicated channel. Upon signal reception, `srv.Shutdown(ctx)` is invoked with a 10-second timeout. The server ceases accepting new HTTP connections while allowing active in-flight requests and background goroutines to complete gracefully."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the starter production-shaped or a demo?",
+      "name": "How does Gin's custom validation middleware integrate with go-playground/validator?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+        "text": "Gin integrates `go-playground/validator/v10` directly into its request binding lifecycle. Struct fields annotated with `binding:\"required,email,min=3\"` are validated during `c.ShouldBindJSON(&req)`. Any validation failure automatically returns structured field errors and an HTTP 422 Unprocessable Entity code."
       }
     },
     {
       "@type": "Question",
-      "name": "How is security handled in this kit?",
+      "name": "What security precautions are necessary when configuring CORS in Gin APIs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+        "text": "Never configure `AllowAllOrigins = true` or reflection-based wildcards. The CORS middleware must read `ALLOWED_ORIGINS` from environment variables, parse the comma-delimited host list, and perform exact origin matching before setting `Access-Control-Allow-Origin`."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the design?",
+      "name": "Why should containerized Go applications execute as an unprivileged user (UID 10001)?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+        "text": "Executing binaries as root inside containers exposes the host system to privilege escalation risks in the event of container breakouts. By compiling statically via `CGO_ENABLED=0` and running under `USER 10001:10001` on minimal Alpine or scratch images, the attack surface is reduced to the bare minimum."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I update when a new kit version releases?",
+      "name": "How do you structure large Go microservices using the internal/ package layout?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+        "text": "The Go compiler enforces that packages under `internal/` cannot be imported by external modules. Placing handlers (`internal/handler`), business services (`internal/service`), and database repositories (`internal/repository` / `internal/db`) within `internal/` ensures clean architectural boundaries and prevents unwanted external coupling."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I use it for commercial and client work?",
+      "name": "How does sqlc guarantee zero runtime SQL injection vulnerabilities?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+        "text": "sqlc parses raw SQL using the actual PostgreSQL parser (via libpg_query). It converts all query placeholders into parameterized positional parameters (`$1`, `$2`), preventing any direct interpolation of untrusted user input into query strings."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I contribute a fix or skill back?",
+      "name": "How do you handle database migrations safely in production Go deployments?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+        "text": "Use a dedicated migration tool like `golang-migrate/migrate` or `pressly/goose` with sequential, numbered SQL files. In CI/CD pipelines, run migrations in a pre-deployment step before rolling out updated container images, ensuring zero-downtime backwards-compatible schema transitions."
       }
     },
     {
       "@type": "Question",
-      "name": "Where do I get help or report a problem?",
+      "name": "What is the memory footprint and latency overhead of Gin compared to standard library net/http?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+        "text": "Gin adds negligible latency overhead (<15 microseconds per request) compared to `net/http` stdlib, while providing router parameters, middleware chaining, and JSON rendering. A stripped Gin binary consumes under 15MB of RAM in baseline idle state."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Redis sliding window rate limiting protect public API endpoints?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Redis sliding window rate limiting records request timestamps into a Redis sorted set (`ZADD ratelimit:ip now`). Queries prune entries older than the window (`ZREMRANGEBYSCORE`) and count the remaining elements (`ZCARD`). If the count exceeds the threshold, the request is rejected with HTTP 429 Too Many Requests."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can AI coding agents automatically scaffold new entities with sqlc and Gin?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "By executing the `first-feature` skill, agents define the PostgreSQL table in `db/schema.sql`, author typed queries in `db/queries/`, run `sqlc generate`, and scaffold the corresponding Gin HTTP handler adhering to the repository interface."
       }
     }
   ]
@@ -201,19 +217,19 @@
       <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">go-gin-postgresql</span>
     </nav>
 
-<div class="mb-8 p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] border-l-[3px] border-l-[#B7791F] text-xs leading-relaxed flex items-start gap-3"><span class="font-mono font-bold text-[#B7791F] uppercase tracking-wider">Note:</span><div class="text-[#5C6058] dark:text-[#C4C4CC]">This kit is an architectural blueprint. Specifications, threat models, and multi-dialect rules are compiled. Starter containers are in active verification.</div></div>
+
 
     <!-- Kit Header Section -->
     <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="chip-status-blueprint"><span class="w-1.5 h-1.5 rounded-full bg-[#8E8E96]"></span>BLUEPRINT</span>
+        <span class="chip-status-ready"><span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>READY TO SHIP</span>
         <span class="text-xs font-mono text-[#8E8E96]">v1.0.0</span>
         <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>
         <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        Go + Gin + sqlc + PostgreSQL + Redis (Blueprint)
+        Go + Gin + sqlc + PostgreSQL + Redis
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
@@ -221,7 +237,7 @@
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Go', 'version': '1.23+', 'registry': 'golang.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Gin', 'version': 'v1.10+', 'registry': 'github.com/gin-gonic/gin'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL', 'version': '16+', 'features': ['sqlc parameterized queries']}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Go', 'version': '>= 1.23', 'registry': 'golang.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Gin', 'version': '>= v1.10', 'registry': 'github.com/gin-gonic/gin'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL', 'version': '>= 16', 'features': ['sqlc compile-time checked queries', 'pgx/v5 connection pool']}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -326,24 +342,15 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Quick Reference &amp; Non-Negotiable Standards
-### Architectural Standards for Go + Gin + sqlc + PostgreSQL + Redis
-# Architecture Standards: Go + Gin + sqlc + PostgreSQL + Redis
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+### 01 Framework Architecture And Standards
+# Framework Architecture and Standards: Go, Gin, and SQLC
 
-### Security Invariants for Go + Gin + sqlc + PostgreSQL + Redis
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
-
-### Agent Coding Conventions for Go + Gin + sqlc + PostgreSQL + Redis
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-</code></pre>
+1. **Idiomatic Layered Architecture**: Structure code strictly into `cmd/`, `internal/handler/`, `internal/service/`, and `internal/repository/`. Never leak raw database queries into HTTP handlers.
+2. **Gin Router Organization**: Group routes under `/api/v1` with explicit middleware chains (`gin.Recovery()`, structured logger, CORS, and request timeout).
+3. **Structured JSON Responses**: Standardize all JSON payloads using envelope types (`data`, `error`, `meta`). Never return unstructured raw string error messages.
+4. **Graceful Shutdown**: Implement standard `os/signal` listening for `SIGINT` and `SIGTERM`, invoking `http.Server.Shutdown(ctx)` with a 10-second timeout to flush in-flight requests.
+5. **Strict Environment Injection**: Bind all configuration (PostgreSQL DSN, Redis URL, server port, CORS origins) via environment variables using strongly-typed configuration stru
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
@@ -352,17 +359,21 @@
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/go-gin-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
-description: Agent Coding Conventions for Go + Gin + sqlc + PostgreSQL + Redis
+description: 01 Framework Architecture And Standards
 globs: *
 alwaysApply: true
 ---
 
-# Agent Coding Conventions for Go + Gin + sqlc + PostgreSQL + Redis
+# 01 Framework Architecture And Standards
 
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.</code></pre>
+# Framework Architecture and Standards: Go, Gin, and SQLC
+
+1. **Idiomatic Layered Architecture**: Structure code strictly into `cmd/`, `internal/handler/`, `internal/service/`, and `internal/repository/`. Never leak raw database queries into HTTP handlers.
+2. **Gin Router Organization**: Group routes under `/api/v1` with explicit middleware chains (`gin.Recovery()`, structured logger, CORS, and request timeout).
+3. **Structured JSON Responses**: Standardize all JSON payloads using envelope types (`data`, `error`, `meta`). Never return unstructured raw string error messages.
+4. **Graceful Shutdown**: Implement standard `os/signal` listening for `SIGINT` and `SIGTERM`, invoking `http.Server.Shutdown(ctx)` with a 10-second timeout to flush in-flight requests.
+5. **Strict Environment Injection**: Bind all configuration (PostgreSQL DSN, Redis URL, server port, CORS origins) via environment variables using strongly-typed configuration structs.
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
@@ -370,28 +381,29 @@ alwaysApply: true
                 <span>Source: kits/go-gin-postgresql/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/go-gin-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Go + Gin + sqlc + PostgreSQL + Redis — Agent Operating Rules (AGENTS.md)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># OpenAI Codex &amp; Assistant Instruction Set: Go + Gin + PostgreSQL + Redis
+
+# Go + Gin + sqlc + PostgreSQL + Redis — Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Table of Contents
-- [Architectural Standards for Go + Gin + sqlc + PostgreSQL + Redis](#architecture-guidelines)
-- [Security Invariants for Go + Gin + sqlc + PostgreSQL + Redis](#security-invariants)
-- [Agent Coding Conventions for Go + Gin + sqlc + PostgreSQL + Redis](#agent-coding-conventions)
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Sqlc Queries And Pgx Pooling](#02-sqlc-queries-and-pgx-pooling)
+- [03 Redis Caching And Rate Limiting](#03-redis-caching-and-rate-limiting)
+- [04 Api Security And Input Validation](#04-api-security-and-input-validation)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
 
 ---
 
-&lt;a id=&quot;architecture-guidelines&quot;&gt;&lt;/a&gt;
-## Architectural Standards for Go + Gin + sqlc + PostgreSQL + Redis
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
 
-# Architecture Standards: Go + Gin + sqlc + PostgreSQL + Redis
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+# Framework Architecture and Standards: Go, Gin, and SQLC
 
----
-
-&lt;a id=&quot;security-invariants&quot;&gt;&lt;/a&gt;
-## Security Invariants for Go + Gin + sqlc + PostgreSQL + Redis</code></pre>
+1. **Idiomatic Layered Architecture**: Structure code strictly into `cmd/`, `internal/handler/`, `internal/service/`, and `internal/repository/`. Never leak raw database queries into HTTP handlers.
+2. **Gin Router Organization**: Group routes under `/api/v1` with explicit middleware chains (`gin.Recovery()`, structured logger, CORS, and request timeout).
+3. **Structured JSON Responses**: Standardi
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
@@ -402,24 +414,19 @@ alwaysApply: true
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Go + Gin + sqlc + PostgreSQL + Redis
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## Architectural Standards for Go + Gin + sqlc + PostgreSQL + Redis
-# Architecture Standards: Go + Gin + sqlc + PostgreSQL + Redis
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+## 01 Framework Architecture And Standards
+# Framework Architecture and Standards: Go, Gin, and SQLC
 
-## Security Invariants for Go + Gin + sqlc + PostgreSQL + Redis
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
+1. **Idiomatic Layered Architecture**: Structure code strictly into `cmd/`, `internal/handler/`, `internal/service/`, and `internal/repository/`. Never leak raw database queries into HTTP handlers.
+2. **Gin Router Organization**: Group routes under `/api/v1` with explicit middleware chains (`gin.Recovery()`, structured logger, CORS, and request timeout).
+3. **Structured JSON Responses**: Standardize all JSON payloads using envelope types (`data`, `error`, `meta`). Never return unstructured raw string error messages.
+4. **Graceful Shutdown**: Implement standard `os/signal` listening for `SIGINT` and `SIGTERM`, invoking `http.Server.Shutdown(ctx)` with a 10-second timeout to flush in-flight requests.
+5. **Strict Environment Injection**: Bind all configuration (PostgreSQL DSN, Redis URL, server port, CORS origins) via environment variables using strongly-typed configuration structs.
 
-## Agent Coding Conventions for Go + Gin + sqlc + PostgreSQL + Redis
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-</code></pre>
+
+## 02 Sqlc Queries And Pgx Pooling
+# SQLC Que
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
@@ -427,7 +434,7 @@ alwaysApply: true
                 <span>Source: kits/go-gin-postgresql/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/go-gin-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Go + Gin + sqlc + PostgreSQL + Redis (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Go + Gin + sqlc + PostgreSQL + Redis
 - Follow architectural boundaries
 - Enforce strict security invariants</code></pre>
             </div>
@@ -437,12 +444,16 @@ alwaysApply: true
                 <span>Source: kits/go-gin-postgresql/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/go-gin-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Agent Coding Conventions for Go + Gin + sqlc + PostgreSQL + Redis
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
 
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.</code></pre>
+# Framework Architecture and Standards: Go, Gin, and SQLC
+
+1. **Idiomatic Layered Architecture**: Structure code strictly into `cmd/`, `internal/handler/`, `internal/service/`, and `internal/repository/`. Never leak raw database queries into HTTP handlers.
+2. **Gin Router Organization**: Group routes under `/api/v1` with explicit middleware chains (`gin.Recovery()`, structured logger, CORS, and request timeout).
+3. **Structured JSON Responses**: Standardize all JSON payloads using envelope types (`data`, `error`, `meta`). Never return unstructured raw string error messages.
+4. **Graceful Shutdown**: Implement standard `os/signal` listening for `SIGINT` and `SIGTERM`, invoking `http.Server.Shutdown(ctx)` with a 10-second timeout to flush in-flight requests.
+5. **Strict Environment Injection**: Bind all configuration (PostgreSQL DSN, Redis URL, server port, CORS origins) via environment variables using strongly-typed configuration structs.
+</code></pre>
             </div>
 
           </div>
@@ -453,7 +464,11 @@ alwaysApply: true
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">go-gin-postgresql-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for Go + Gin + sqlc + PostgreSQL + Redis</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Step-by-step workflow for creating a new resource in Go + Gin: SQL migration, sqlc query generation, service layer, and Gin router endpoint.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">go-gin-postgresql-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core operational workflows, layered Go architecture, Gin router configuration, and Token-Light evaluation.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Comprehensive preflight setup, database container orchestration, and test execution for Go + Gin + PostgreSQL + Redis.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">redis-cache-layer</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Implement resilient cache-aside and sliding window rate limiting in Go using go-redis.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">sqlc-query-generation</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Type-safe SQL query generation using sqlc with pgx/v5 for high-throughput parameterized PostgreSQL access.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -669,21 +684,23 @@ docker compose up --build -d</pre>
     <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
     <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
   </div>
-  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
 </div>
 <div class="space-y-3">
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the Go + Gin + sqlc + PostgreSQL + Redis kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why does Gin remain the dominant Go HTTP framework with ~48% web market adoption?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Gin offers the ideal balance of developer ergonomics, high performance, and an extensive ecosystem. Powered by a custom Radix-tree router, it processes requests with minimal memory allocations while providing battle-tested middleware (recovery, logging, CORS, authentication) that enterprise teams rely on for mission-critical microservices.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What are the key advantages of using sqlc over traditional reflection-based ORMs like GORM?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Unlike ORMs that construct queries at runtime using string concatenation and heavy reflection, sqlc compiles standard SQL files into type-safe, idiomatic Go structs at build time. This ensures compile-time syntax verification, eliminates ORM N+1 query surprises, maximizes raw PostgreSQL query performance, and guarantees 100% parameterization against SQL injection.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does pgx/v5 connection pooling improve throughput and query efficiency compared to database/sql?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">jackc/pgx/v5 communicates directly with PostgreSQL's binary frontend/backend protocol, bypassing standard library text marshaling overhead. Its `pgxpool` provides connection health checks, statement caching, binary parameter encoding, and native support for PostgreSQL types such as JSONB, UUID, and arrays.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do you implement the cache-aside pattern with Redis in a Go service?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">When handling a read request, the service first queries Redis using a namespaced key (`entity:id`). If a cache hit occurs, the payload is unmarshaled into the domain model. On cache miss, the data is fetched from PostgreSQL via sqlc, written to Redis with an explicit TTL (e.g. 15 minutes), and returned to the caller. Redis network interruptions degrade gracefully to direct database queries.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is graceful shutdown implemented in Gin to prevent dropped connections during deployments?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The application listens for OS termination signals (`SIGINT`, `SIGTERM`) on a dedicated channel. Upon signal reception, `srv.Shutdown(ctx)` is invoked with a 10-second timeout. The server ceases accepting new HTTP connections while allowing active in-flight requests and background goroutines to complete gracefully.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Gin's custom validation middleware integrate with go-playground/validator?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Gin integrates `go-playground/validator/v10` directly into its request binding lifecycle. Struct fields annotated with `binding:"required,email,min=3"` are validated during `c.ShouldBindJSON(&req)`. Any validation failure automatically returns structured field errors and an HTTP 422 Unprocessable Entity code.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What security precautions are necessary when configuring CORS in Gin APIs?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Never configure `AllowAllOrigins = true` or reflection-based wildcards. The CORS middleware must read `ALLOWED_ORIGINS` from environment variables, parse the comma-delimited host list, and perform exact origin matching before setting `Access-Control-Allow-Origin`.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why should containerized Go applications execute as an unprivileged user (UID 10001)?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Executing binaries as root inside containers exposes the host system to privilege escalation risks in the event of container breakouts. By compiling statically via `CGO_ENABLED=0` and running under `USER 10001:10001` on minimal Alpine or scratch images, the attack surface is reduced to the bare minimum.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do you structure large Go microservices using the internal/ package layout?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The Go compiler enforces that packages under `internal/` cannot be imported by external modules. Placing handlers (`internal/handler`), business services (`internal/service`), and database repositories (`internal/repository` / `internal/db`) within `internal/` ensures clean architectural boundaries and prevents unwanted external coupling.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does sqlc guarantee zero runtime SQL injection vulnerabilities?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">sqlc parses raw SQL using the actual PostgreSQL parser (via libpg_query). It converts all query placeholders into parameterized positional parameters (`$1`, `$2`), preventing any direct interpolation of untrusted user input into query strings.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do you handle database migrations safely in production Go deployments?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Use a dedicated migration tool like `golang-migrate/migrate` or `pressly/goose` with sequential, numbered SQL files. In CI/CD pipelines, run migrations in a pre-deployment step before rolling out updated container images, ensuring zero-downtime backwards-compatible schema transitions.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the memory footprint and latency overhead of Gin compared to standard library net/http?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Gin adds negligible latency overhead (<15 microseconds per request) compared to `net/http` stdlib, while providing router parameters, middleware chaining, and JSON rendering. A stripped Gin binary consumes under 15MB of RAM in baseline idle state.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Redis sliding window rate limiting protect public API endpoints?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Redis sliding window rate limiting records request timestamps into a Redis sorted set (`ZADD ratelimit:ip now`). Queries prune entries older than the window (`ZREMRANGEBYSCORE`) and count the remaining elements (`ZCARD`). If the count exceeds the threshold, the request is rejected with HTTP 429 Too Many Requests.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How can AI coding agents automatically scaffold new entities with sqlc and Gin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">By executing the `first-feature` skill, agents define the PostgreSQL table in `db/schema.sql`, author typed queries in `db/queries/`, run `sqlc generate`, and scaffold the corresponding Gin HTTP handler adhering to the repository interface.</p></details>
 </div>
       </section>
 

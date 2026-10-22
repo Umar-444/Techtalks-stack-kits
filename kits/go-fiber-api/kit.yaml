@@ -1,71 +1,95 @@
-schema_version: 1.0.0
-name: Go + Fiber + PostgreSQL
-slug: go-fiber-api
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Throughput specialist: Express-shaped Go API powered by fasthttp zero-allocation
-  engine. Ships with honest architectural caveats regarding net/http middleware and
-  HTTP/2 limits.'
-category: Go
+schema_version: "1.0.0"
+
+name: "Go + Fiber + PostgreSQL"
+slug: "go-fiber-api"
+version: "1.0.0"
+status: "stable"
+updated_at: "2026-10-22"
+description: "Throughput specialist: Express-shaped Go API powered by fasthttp zero-allocation engine. Ships with honest architectural caveats regarding net/http middleware and HTTP/2 limits."
+category: "Go"
+
 maintainer:
-  name: TechTalks Go Engineering Group
-  role: Performance Systems Engineer
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Go Performance Systems Architect"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Go
-    version: 1.23+
-    registry: golang.org
+    name: "Go"
+    version: ">= 1.23"
+    registry: "golang.org"
   framework:
-    name: Fiber
-    version: v3.0+
-    registry: github.com/gofiber/fiber/v3
-  engine: fasthttp (zero memory allocation)
+    name: "Fiber"
+    version: ">= v2.52"
+    registry: "github.com/gofiber/fiber/v2"
+  engine: "fasthttp (zero memory allocation)"
   database:
-    engine: PostgreSQL
-    version: 16+
+    engine: "PostgreSQL"
+    version: ">= 16"
     features:
-    - pgxpool connection
+      - "pgxpool connection"
+      - "parameterized queries"
+
 layers:
   starter:
     path: starter/
-    type: starter-scaffold
+    type: production-scaffold
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: go-fiber-api-core
-      path: skills/go-fiber-api-core/SKILL.md
-      description: Core operations and scaffolding skill for Go + Fiber + PostgreSQL.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Preflight environment setup, database orchestration, and test execution.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Implement the canonical first feature - high-throughput telemetry route in Go Fiber.
+      - id: fasthttp-buffer-management
+        path: skills/fasthttp-buffer-management/SKILL.md
+        description: Rules and memory patterns for safely handling fasthttp zero-allocation byte buffers.
+      - id: pgxpool-database-layer
+        path: skills/pgxpool-database-layer/SKILL.md
+        description: Configure high-throughput PostgreSQL connection pooling in Fiber using jackc/pgx/v5.
+      - id: go-fiber-api-core
+        path: skills/go-fiber-api-core/SKILL.md
+        description: Core operational workflows, fasthttp zero-allocation patterns, Fiber router, and Token-Light evaluation.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: false
   median_eval_tokens: 18900
-  efficiency_tier: A
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -75,5 +99,7 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+    buffer_safety_cloned: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

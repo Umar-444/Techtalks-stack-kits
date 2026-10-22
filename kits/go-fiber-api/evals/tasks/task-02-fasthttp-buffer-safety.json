@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-02-fasthttp-buffer-safety",
+  "name": "Fasthttp Zero-Allocation Buffer Safety & Memory Isolation",
+  "difficulty": "intermediate",
+  "prompt": "Enforce explicit string cloning on request parameters before passing into asynchronous background operations or long-lived data models.",
+  "expected_files": [
+    "starter/main.go",
+    "starter/main_test.go"
+  ],
+  "verification": {
+    "command": "go test -v -race -run TestBenchAndRecordsEndpoints starter/...",
+    "criteria": "Record ingestion passes with HTTP 201 with zero data race detections"
+  }
+}
