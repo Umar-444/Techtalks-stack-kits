@@ -1,0 +1,17 @@
+---
+description: "BOLA/IDOR Defense, Model Policies, and Rate Limiting"
+globs: ["app/Policies/**/*.php", "app/Http/Controllers/**/*.php", "app/Providers/*ServiceProvider.php"]
+---
+
+# Rule 04: BOLA Defense & Rate Limiting
+
+- Every controller action with route model binding must invoke `$this->authorize('<action>', $model)`.
+- Never trust client-supplied IDs without verifying ownership against `auth()->id()`.
+- Model policies must strictly compare tenant ownership:
+  ```php
+  public function update(User $user, Project $project): bool {
+      return $user->id === $project->user_id;
+  }
+  ```
+- Apply rate limiting middleware (`throttle:api`) to all API routes.
+- Prevent Cross-Site Scripting (XSS) and SQL Injection by using prepared statements and Form Request rules.

@@ -1,0 +1,55 @@
+{
+  "kit_slug": "laravel-api-sanctum",
+  "name": "Laravel 12/13 + Sanctum REST API + Spatie Query Builder",
+  "token_metrics": {
+    "median_tokens": 15800,
+    "tier": "A",
+    "token_light": true
+  },
+  "eval_tasks": [
+    {
+      "id": "laravel-api-sanctum-task-01",
+      "title": "Initialization & Environment Config",
+      "instruction": "Verify Laravel 12/13 REST API + Sanctum boots cleanly with rootless Docker isolation.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health check responds 200 OK"
+      ],
+      "prompt_tokens": 2700,
+      "completion_tokens": 1900
+    },
+    {
+      "id": "laravel-api-sanctum-task-02",
+      "title": "Data Model & Schema",
+      "instruction": "Define User and Project models with personal_access_tokens and foreign key integrity.",
+      "assertions": [
+        "Schema validates",
+        "Personal access tokens table migration ready"
+      ],
+      "prompt_tokens": 2900,
+      "completion_tokens": 2200
+    },
+    {
+      "id": "laravel-api-sanctum-task-03",
+      "title": "API Handlers & Security",
+      "instruction": "Implement AuthController and ProjectController with Spatie Query Builder filtering and strict BOLA authorization.",
+      "assertions": [
+        "Sanctum token generation succeeds",
+        "Spatie QueryBuilder whitelist enforced"
+      ],
+      "prompt_tokens": 3100,
+      "completion_tokens": 2400
+    },
+    {
+      "id": "laravel-api-sanctum-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Execute Pest/PHPUnit tests verifying BOLA defense, token abilities, and rate limiting.",
+      "assertions": [
+        "Unauthorized tenant access returns 403 Forbidden",
+        "Throttle middleware caps excessive requests"
+      ],
+      "prompt_tokens": 3000,
+      "completion_tokens": 2300
+    }
+  ]
+}

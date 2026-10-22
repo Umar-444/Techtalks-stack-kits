@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_api_app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    environment:
+      APP_ENV: local
+      APP_KEY: base64:dGVzdGtleTEyMzQ1Njc4OWFiY2RlZmdoaWprbG1ub3BxcnM=
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: laravel_api
+      DB_USERNAME: api_user
+      DB_PASSWORD: api_secret_password
+    depends_on:
+      - db
+      - redis
+    ports:
+      - "8000:8000"
+
+  db:
+    image: mysql:8.4
+    container_name: laravel_api_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: laravel_api
+      MYSQL_USER: api_user
+      MYSQL_PASSWORD: api_secret_password
+      MYSQL_ROOT_PASSWORD: root_secret_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: laravel_api_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+volumes:
+  mysql_data:

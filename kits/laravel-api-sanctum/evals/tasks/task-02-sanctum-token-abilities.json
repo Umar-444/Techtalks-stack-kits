@@ -1,0 +1,21 @@
+{
+  "id": "laravel-api-sanctum-task-02",
+  "name": "Sanctum Token Abilities & Spatie Query Builder",
+  "category": "Authentication & Querying",
+  "description": "Verify personal access token generation, ability scopes, and Spatie query builder filtering.",
+  "assertions": [
+    {
+      "type": "file_exists",
+      "path": "starter/app/Http/Controllers/Api/AuthController.php"
+    },
+    {
+      "type": "file_exists",
+      "path": "starter/app/Http/Controllers/Api/ProjectController.php"
+    },
+    {
+      "type": "contains",
+      "path": "starter/app/Http/Controllers/Api/ProjectController.php",
+      "content": "QueryBuilder::for"
+    }
+  ]
+}

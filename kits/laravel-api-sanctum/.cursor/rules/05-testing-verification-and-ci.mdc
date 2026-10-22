@@ -1,0 +1,19 @@
+---
+description: Automated Testing for Sanctum APIs and Security Invariants
+globs: ['tests/Feature/**/*.php', 'tests/Unit/**/*.php']
+alwaysApply: true
+---
+
+# 05 Testing Verification And Ci
+
+# Rule 05: Testing, Verification, and CI
+
+- All API endpoints must have corresponding feature tests in `tests/Feature/`.
+- Test token authorization states:
+  - Unauthenticated access returns `401`.
+  - Token with missing ability returns `403`.
+  - Token with valid ability returns expected `200` or `201`.
+- Explicitly test BOLA prevention:
+  - User A must receive `403 Forbidden` when attempting to read or update User B's resource.
+- Verify Spatie Query Builder filtering logic with assertion tests.
+- Verify rate limiting by asserting `429 Too Many Requests` after threshold requests.

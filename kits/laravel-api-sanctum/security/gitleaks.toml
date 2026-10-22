@@ -1,0 +1,8 @@
+[extend]
+useDefault = true
+
+[[rules]]
+id = "sanctum-plain-token-leak"
+description = "Detected hardcoded plaintext Sanctum bearer token"
+regex = '''(?i)(bearer\s+[0-9a-zA-Z|]{40,}|sanctum_token\s*=\s*['"][0-9a-zA-Z|]{40,}['"])'''
+tags = ["token", "sanctum", "credentials"]

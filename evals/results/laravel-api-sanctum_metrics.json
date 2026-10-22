@@ -1,0 +1,49 @@
+{
+  "kit_slug": "laravel-api-sanctum",
+  "status": "PASS",
+  "all_checks_passed": true,
+  "manifest_valid": true,
+  "transpiler_zero_drift": true,
+  "dialects_complete": true,
+  "secret_leak_free": true,
+  "task_count": 4,
+  "tasks": [
+    {
+      "id": "laravel-api-sanctum-task-01",
+      "title": "Initialization & Environment Config",
+      "status": "PASS",
+      "prompt_tokens": 2700,
+      "completion_tokens": 1900,
+      "tokens_consumed": 4600
+    },
+    {
+      "id": "laravel-api-sanctum-task-02",
+      "title": "Data Model & Schema",
+      "status": "PASS",
+      "prompt_tokens": 2900,
+      "completion_tokens": 2200,
+      "tokens_consumed": 5100
+    },
+    {
+      "id": "laravel-api-sanctum-task-03",
+      "title": "API Handlers & Security",
+      "status": "PASS",
+      "prompt_tokens": 3100,
+      "completion_tokens": 2400,
+      "tokens_consumed": 5500
+    },
+    {
+      "id": "laravel-api-sanctum-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "status": "PASS",
+      "prompt_tokens": 3000,
+      "completion_tokens": 2300,
+      "tokens_consumed": 5300
+    }
+  ],
+  "median_task_tokens": 5200,
+  "median_tokens_to_complete_reference_build": 20500,
+  "efficiency_tier": "A",
+  "efficiency_note": "Laravel 12/13 REST API, Sanctum token abilities, Spatie Query Builder, strict BOLA policies",
+  "token_light": true
+}

@@ -1,0 +1,137 @@
+schema_version: 1.0.0
+name: Laravel 12/13 + Sanctum REST API + Spatie Query Builder
+slug: laravel-api-sanctum
+version: 1.0.0
+status: stable
+category: Laravel
+updated_at: '2026-10-22'
+description: Hardened REST API starter combining Laravel 12/13, Laravel Sanctum token
+  authentication with ability scoping, Spatie Query Builder for advanced filtering/sorting,
+  strict BOLA/IDOR policy authorization, rate-limiting throttle middleware, and rootless
+  container isolation.
+maintainer:
+  name: Umar Farooq
+  role: Senior Full-Stack & Security Engineer
+  url: https://itsumarfarooq.com
+  github: umar-444
+  email: contact@itsumarfarooq.com
+stack:
+  language:
+    name: PHP
+    version: ^8.3 || ^8.4
+    registry: packagist
+  framework:
+    name: Laravel
+    version: ^11.0 || ^12.0 || ^13.0
+    registry: packagist
+  auth_layer:
+    name: Laravel Sanctum
+    version: ^4.0
+    features:
+    - Personal Access Tokens (PAT)
+    - Ability-scoped permissions
+    - Token expiration and revocation
+    - Zero-session stateless API authentication
+  query_layer:
+    name: Spatie Query Builder
+    version: ^5.8 || ^6.0
+    features:
+    - Allowed Filters
+    - Allowed Sorts
+    - Allowed Includes
+    - Cursor and LengthAware Pagination
+  database:
+    engine: MySQL
+    version: '>= 8.4 LTS'
+    features:
+    - InnoDB ACID Transactions
+    - utf8mb4_0900_ai_ci collation
+    - Foreign key integrity constraints
+  cache_queue:
+    engine: Redis
+    version: '>= 7.2'
+    features:
+    - API Rate Limiting Throttling (throttle:60,1)
+    - Token revoke cache invalidation
+layers:
+  starter:
+    path: starter/
+    type: pre-wired-container
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - CODEX.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .clinerules
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: laravel-api-sanctum-core
+      path: skills/laravel-api-sanctum-core/SKILL.md
+      description: Core overview of Laravel 12/13 Sanctum REST API architecture, routing,
+        and configuration.
+    - id: install-and-verify
+      path: skills/install-and-verify/SKILL.md
+      description: Step-by-step procedures to install dependencies, run migrations,
+        and verify API test suite.
+    - id: first-feature
+      path: skills/first-feature/SKILL.md
+      description: Guide for implementing a new RESTful endpoint with Form Request,
+        Resource, Policy, and Test.
+    - id: sanctum-token-management
+      path: skills/sanctum-token-management/SKILL.md
+      description: Procedures for issuing tokens, scoping abilities, managing expiration,
+        and token revocation.
+    - id: spatie-query-builder
+      path: skills/spatie-query-builder/SKILL.md
+      description: Patterns for advanced filtering, sorting, relation inclusion, and
+        pagination using Spatie Query Builder.
+    - id: api-security-and-policies
+      path: skills/api-security-and-policies/SKILL.md
+      description: Techniques for eliminating BOLA/IDOR vulnerabilities, applying
+        rate limits, and securing CORS.
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
+security:
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+    rootless_container_enforced: true
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+install:
+  prerequisites:
+  - PHP >= 8.3 with ext-pdo, ext-mbstring, ext-openssl, ext-curl
+  - Composer >= 2.7
+  - Docker & Docker Compose (optional for local containerized run)
+  commands:
+  - composer install
+  - cp .env.example .env
+  - php artisan key:generate
+  - php artisan migrate
+  - php artisan test

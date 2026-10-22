@@ -1,0 +1,26 @@
+rules:
+  - id: laravel-unprotected-api-route
+    patterns:
+      - pattern-inside: |
+          Route::prefix('api')->group(function() { ... });
+      - pattern-not-inside: |
+          Route::middleware(['auth:sanctum', ...])->group(function() { ... });
+      - pattern: Route::$METHOD($PATH, $ACTION);
+    message: "API route declared outside auth:sanctum middleware group."
+    languages: [php]
+    severity: ERROR
+
+  - id: laravel-missing-bola-authorization
+    patterns:
+      - pattern: |
+          public function update(..., $MODEL) {
+            ...
+          }
+      - pattern-not: |
+          public function update(..., $MODEL) {
+            $this->authorize(...);
+            ...
+          }
+    message: "Controller update action does not invoke $this->authorize() to prevent BOLA."
+    languages: [php]
+    severity: WARNING

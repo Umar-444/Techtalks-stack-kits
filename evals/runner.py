@@ -44,6 +44,7 @@ TOKEN_BENCHMARK_PROFILES = {
     "rust-actix-postgresql": {"median_build": 26800, "tier": "B", "reason": "High-performance Actix actors, SeaORM entities"},
     "rag-langgraph-agentic": {"median_build": 27800, "tier": "B", "reason": "Cyclic graph state machines, human-in-the-loop nodes"},
     "mcp-tools-kit": {"median_build": 14800, "tier": "A+", "reason": "Model Context Protocol stdio/SSE server, Zod schemas, zero-ceremony tool definitions"},
+    "laravel-api-sanctum": {"median_build": 15800, "tier": "A", "reason": "Laravel 12/13 REST API, Sanctum token abilities, Spatie Query Builder, strict BOLA policies"},
     "nextjs-prisma-postgresql": {"median_build": 16800, "tier": "A", "reason": "Next.js 15 App Router, React 19 Server Actions with Zod, and Prisma ORM migrations"},
     "laravel-ai-features": {"median_build": 16400, "tier": "A", "reason": "Structured LLM output generation, PostgreSQL pgvector embeddings, and RAG Q&A"},
     "laravel-filament-mysql": {"median_build": 16100, "tier": "A", "reason": "Filament 4 admin panel, MySQL 8.4 full-text search, and Pest architecture suites"},

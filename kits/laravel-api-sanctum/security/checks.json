@@ -1,0 +1,118 @@
+{
+  "version": "1.0.0",
+  "kit": "laravel-api-sanctum",
+  "checks": [
+    {
+      "id": "SEC-SANCTUM-001",
+      "name": "Stateless Sanctum Authentication Enforcement",
+      "severity": "CRITICAL",
+      "category": "Authentication",
+      "description": "All /api/v1/ routes (except /auth/login) must require auth:sanctum middleware.",
+      "remediation": "Wrap protected routes in Route::middleware('auth:sanctum')->group(...)."
+    },
+    {
+      "id": "SEC-SANCTUM-002",
+      "name": "BOLA / IDOR Model Policy Authorization",
+      "severity": "CRITICAL",
+      "category": "Authorization",
+      "description": "Controller actions with route model binding must call $this->authorize('action', $model).",
+      "remediation": "Invoke $this->authorize('view', $project) in show, update, destroy actions."
+    },
+    {
+      "id": "SEC-SANCTUM-003",
+      "name": "Tenant Isolation in Query Lists",
+      "severity": "CRITICAL",
+      "category": "Data Access",
+      "description": "Index queries must filter by auth()->id() or tenant relationship.",
+      "remediation": "Scope query builder with QueryBuilder::for(auth()->user()->projects())."
+    },
+    {
+      "id": "SEC-SANCTUM-004",
+      "name": "Granular Token Ability Scopes",
+      "severity": "HIGH",
+      "category": "Authorization",
+      "description": "Mutating endpoints must enforce token abilities via ability middleware.",
+      "remediation": "Add middleware('ability:projects:write') to POST/PUT/DELETE routes."
+    },
+    {
+      "id": "SEC-SANCTUM-005",
+      "name": "Token Expiration Configuration",
+      "severity": "HIGH",
+      "category": "Authentication",
+      "description": "Sanctum personal access tokens must have explicit expiration configured.",
+      "remediation": "Set Sanctum::tokensExpireIn(now()->addDays(7)) in AuthServiceProvider."
+    },
+    {
+      "id": "SEC-SANCTUM-006",
+      "name": "API Rate Limiting Throttle Middleware",
+      "severity": "HIGH",
+      "category": "Availability",
+      "description": "API endpoints must apply throttle:60,1 to prevent brute force and denial of service.",
+      "remediation": "Apply throttle:api or throttle:60,1 in routes/api.php."
+    },
+    {
+      "id": "SEC-SANCTUM-007",
+      "name": "Strict Eloquent API Resource Serialization",
+      "severity": "MEDIUM",
+      "category": "Data Exposure",
+      "description": "Controllers must return API Resources rather than raw Eloquent models to prevent password/token leaks.",
+      "remediation": "Wrap model responses in ProjectResource::make($project) or ProjectResource::collection($projects)."
+    },
+    {
+      "id": "SEC-SANCTUM-008",
+      "name": "Spatie Allowed Filters Whitelist",
+      "severity": "MEDIUM",
+      "category": "SQL Injection / DoS",
+      "description": "Spatie QueryBuilder must explicitly whitelist allowedFilters and allowedSorts to prevent arbitrary column filtering.",
+      "remediation": "Declare ->allowedFilters(['status', 'title']) and ->allowedSorts(['created_at', 'title'])."
+    },
+    {
+      "id": "SEC-SANCTUM-009",
+      "name": "Rootless Dockerfile Execution",
+      "severity": "HIGH",
+      "category": "Container Security",
+      "description": "Container process must execute as unprivileged user 10001:10001.",
+      "remediation": "Include USER 10001:10001 in Dockerfile."
+    },
+    {
+      "id": "SEC-SANCTUM-010",
+      "name": "No Secret Tokens in Source Code or VCS",
+      "severity": "CRITICAL",
+      "category": "Secret Management",
+      "description": "Source code and git history must not contain unencrypted API keys or token hashes.",
+      "remediation": "Store all secrets in .env and add .env to .gitignore."
+    },
+    {
+      "id": "SEC-SANCTUM-011",
+      "name": "Strict CORS Configuration",
+      "severity": "HIGH",
+      "category": "Network Security",
+      "description": "CORS must restrict allowed origins and not use wildcard '*' with credentials.",
+      "remediation": "Configure config/cors.php with explicit allowed_origins from APP_URL."
+    },
+    {
+      "id": "SEC-SANCTUM-012",
+      "name": "Form Request Validation with Typed Rules",
+      "severity": "MEDIUM",
+      "category": "Input Validation",
+      "description": "All mutating requests must be validated through custom FormRequest classes.",
+      "remediation": "Inject StoreProjectRequest and UpdateProjectRequest instead of Request."
+    },
+    {
+      "id": "SEC-SANCTUM-013",
+      "name": "CSRF Disabled on Stateless API Routes",
+      "severity": "LOW",
+      "category": "Architecture",
+      "description": "Stateless API routes must not use CSRF cookies; Bearer tokens provide intrinsic CSRF immunity.",
+      "remediation": "Exclude /api/* routes from VerifyCsrfToken middleware."
+    },
+    {
+      "id": "SEC-SANCTUM-014",
+      "name": "Database Transaction Wrapping for Compound Writes",
+      "severity": "MEDIUM",
+      "category": "Data Integrity",
+      "description": "Operations updating multiple tables must execute inside DB::transaction().",
+      "remediation": "Wrap multi-table mutations in DB::transaction(fn() => ...)."
+    }
+  ]
+}

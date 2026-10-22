@@ -1,0 +1,25 @@
+{
+  "id": "laravel-api-sanctum-task-01",
+  "name": "API Scaffolding & Sanctum Configuration",
+  "category": "Architecture & Environment",
+  "description": "Verify composer dependencies, environment configuration, and Sanctum migration readiness.",
+  "assertions": [
+    {
+      "type": "file_exists",
+      "path": "starter/composer.json"
+    },
+    {
+      "type": "file_exists",
+      "path": "starter/.env.example"
+    },
+    {
+      "type": "file_exists",
+      "path": "starter/Dockerfile"
+    },
+    {
+      "type": "contains",
+      "path": "starter/Dockerfile",
+      "content": "USER 10001:10001"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "laravel-api-sanctum-task-03",
+  "name": "BOLA Policy Enforcement & Rate Limiting Test",
+  "category": "Security & Authorization",
+  "description": "Verify strict model policy authorization preventing IDOR access across tenant boundaries.",
+  "assertions": [
+    {
+      "type": "file_exists",
+      "path": "starter/app/Policies/ProjectPolicy.php"
+    },
+    {
+      "type": "contains",
+      "path": "starter/app/Policies/ProjectPolicy.php",
+      "content": "$user->id === $project->user_id"
+    },
+    {
+      "type": "file_exists",
+      "path": "starter/tests/Feature/ProjectApiTest.php"
+    }
+  ]
+}

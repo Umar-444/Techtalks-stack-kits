@@ -1,0 +1,58 @@
+[
+  {
+    "question": "What is Laravel Sanctum and how does it differ from Laravel Passport?",
+    "answer": "Laravel Sanctum provides a lightweight, token-based authentication system optimized for SPAs, mobile applications, and simple token-based APIs. Unlike Laravel Passport, which is a full OAuth2 server implementation (with Authorization Code, Client Credentials, and Refresh tokens), Sanctum uses SHA-256 hashed personal access tokens without the cryptographic overhead and complexity of OAuth2."
+  },
+  {
+    "question": "How do token ability scopes work in Laravel Sanctum?",
+    "answer": "When issuing a personal access token via `$user->createToken('token-name', ['projects:read', 'projects:write'])`, you attach an array of granular abilities. In routes or controllers, you verify abilities using the `ability` or `abilities` middleware (`middleware('ability:projects:write')`) or programmatically via `$request->user()->tokenCan('projects:write')`."
+  },
+  {
+    "question": "How does this kit prevent Broken Object Level Authorization (BOLA / IDOR)?",
+    "answer": "BOLA prevention is implemented at two layers: (1) Query Layer: `Project::where('user_id', auth()->id())` automatically scopes all collection queries to the authenticated tenant. (2) Policy Layer: Every show, update, and delete action invokes `$this->authorize('action', $project)`, where `ProjectPolicy` strictly asserts `$user->id === $project->user_id`."
+  },
+  {
+    "question": "How do I configure token expiration in Laravel Sanctum?",
+    "answer": "In `config/sanctum.php`, set `'expiration' => 10080` (value in minutes, e.g., 7 days). Alternatively, call `Sanctum::tokensExpireIn(now()->addDays(7))` inside the `boot()` method of `AuthServiceProvider`. Expired tokens are automatically rejected during token authentication."
+  },
+  {
+    "question": "How do I revoke a Sanctum token during logout?",
+    "answer": "To revoke the token currently being used by the client, call `$request->user()->currentAccessToken()->delete()`. To log out across all devices and invalidate all active tokens, call `$request->user()->tokens()->delete()`."
+  },
+  {
+    "question": "What is Spatie Query Builder and what advantages does it offer?",
+    "answer": "Spatie Laravel Query Builder enables zero-boilerplate HTTP query parameter handling for Eloquent models. It provides declarative whitelists for allowed filters (`?filter[status]=active`), allowed sorts (`?sort=-created_at`), and allowed eager loaded relations (`?include=user,tags`), preventing arbitrary column exposure or query injection."
+  },
+  {
+    "question": "How do I implement custom scope filtering with Spatie Query Builder?",
+    "answer": "You can add an `AllowedFilter::scope('search')` to your QueryBuilder pipeline. This maps `?filter[search]=keyword` directly to the `scopeSearch($query, $keyword)` local scope on your Eloquent model."
+  },
+  {
+    "question": "Why should I use Eloquent API Resources instead of returning models directly?",
+    "answer": "Returning raw Eloquent models directly serializes internal database fields, potentially exposing password hashes, internal foreign keys, soft delete timestamps, or sensitive tenant flags. Eloquent API Resources act as an explicit data transformation boundary, ensuring only declared attributes are exposed to the client."
+  },
+  {
+    "question": "How does rate limiting work on API routes?",
+    "answer": "Rate limiting is configured using Laravel's `RateLimiter::for('api', ...)` in `AppServiceProvider`. By default, it allows 60 requests per minute keyed by authenticated user ID (or client IP for unauthenticated routes). When exceeded, Laravel returns a `429 Too Many Requests` HTTP status code."
+  },
+  {
+    "question": "Is CSRF protection required for mobile or third-party API clients using Bearer tokens?",
+    "answer": "No. CSRF vulnerabilities require browsers to automatically attach ambient authentication credentials (like session cookies). When using Sanctum Bearer tokens sent in the `Authorization: Bearer <token>` HTTP header, ambient credential attachment is impossible, so CSRF tokens are not required."
+  },
+  {
+    "question": "How do I secure CORS configuration in config/cors.php?",
+    "answer": "Never configure `'allowed_origins' => ['*']` while setting `'supports_credentials' => true`. Instead, set `'allowed_origins'` to read from the environment (`explode(',', env('ALLOWED_ORIGINS', 'http://localhost:3000'))`) and restrict `'allowed_headers'` and `'allowed_methods'` to necessary values."
+  },
+  {
+    "question": "How does rootless containerization protect the host system in production?",
+    "answer": "The kit's `Dockerfile` specifies `USER 10001:10001`. If an attacker discovers a Remote Code Execution vulnerability in a dependency, the spawned shell has no root privileges, cannot modify system binaries, cannot bind to privileged ports (<1024), and cannot escape to the host container runtime."
+  },
+  {
+    "question": "How should database transactions be utilized in API controllers?",
+    "answer": "Operations that mutate multiple database tables or combine record creation with audit logging must be wrapped inside `DB::transaction(function() { ... })`. This guarantees ACID atomicity: if any step fails, all prior modifications are rolled back."
+  },
+  {
+    "question": "How do I write automated tests for Sanctum token abilities?",
+    "answer": "In PHPUnit/Pest, use `Sanctum::actingAs($user, ['projects:read'])` to simulate an authenticated request with specific abilities. Then assert that accessing a write route (`POST /api/v1/projects`) returns `403 Forbidden` while reading returns `200 OK`."
+  }
+]
