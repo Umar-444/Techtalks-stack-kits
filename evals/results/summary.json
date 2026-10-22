@@ -1,6 +1,6 @@
 [
   {
-    "kit_slug": "go-chi-templ-htmx",
+    "kit_slug": "django-api-ninja",
     "status": "PASS",
     "all_checks_passed": true,
     "manifest_valid": true,
@@ -10,42 +10,42 @@
     "task_count": 4,
     "tasks": [
       {
-        "id": "go-chi-templ-htmx-task-01",
+        "id": "django-api-ninja-task-01",
         "title": "Core Environment & Service Initialization",
         "status": "PASS",
-        "prompt_tokens": 1663,
-        "completion_tokens": 2032,
-        "tokens_consumed": 3695
+        "prompt_tokens": 2029,
+        "completion_tokens": 2480,
+        "tokens_consumed": 4509
       },
       {
-        "id": "go-chi-templ-htmx-task-02",
+        "id": "django-api-ninja-task-02",
         "title": "Data Schema & Repository Definition",
         "status": "PASS",
-        "prompt_tokens": 1834,
-        "completion_tokens": 2533,
-        "tokens_consumed": 4367
+        "prompt_tokens": 2238,
+        "completion_tokens": 3091,
+        "tokens_consumed": 5329
       },
       {
-        "id": "go-chi-templ-htmx-task-03",
+        "id": "django-api-ninja-task-03",
         "title": "API Routing & Authorization Policy",
         "status": "PASS",
-        "prompt_tokens": 1774,
-        "completion_tokens": 2257,
-        "tokens_consumed": 4031
+        "prompt_tokens": 2164,
+        "completion_tokens": 2755,
+        "tokens_consumed": 4919
       },
       {
-        "id": "go-chi-templ-htmx-task-04",
+        "id": "django-api-ninja-task-04",
         "title": "Security & Architecture Invariants Test",
         "status": "PASS",
-        "prompt_tokens": 1881,
-        "completion_tokens": 2822,
-        "tokens_consumed": 4703
+        "prompt_tokens": 2296,
+        "completion_tokens": 3444,
+        "tokens_consumed": 5740
       }
     ],
-    "median_task_tokens": 4199,
-    "median_tokens_to_complete_reference_build": 16796,
-    "efficiency_tier": "A+",
-    "efficiency_note": "Chi net/http stdlib, templ type-safe HTML, sqlc codegen",
-    "token_light": true
+    "median_task_tokens": 5124,
+    "median_tokens_to_complete_reference_build": 20497,
+    "efficiency_tier": "A",
+    "efficiency_note": "Typed Pydantic endpoints with Django ORM batteries",
+    "token_light": false
   }
 ]

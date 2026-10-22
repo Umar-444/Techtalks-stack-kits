@@ -1,0 +1,58 @@
+﻿[
+  {
+    "question": "Why choose Django Ninja over Django REST Framework (DRF) for modern Python APIs?",
+    "answer": "Django Ninja is an API-first framework designed around modern Python type hints and Pydantic v2. Unlike DRF, which relies on heavy class-based views and reflection-heavy serializers, Django Ninja executes up to 2-3x faster, produces automatic OpenAPI 3.1 interactive Swagger documentation, and reduces boilerplate code by over 50%. You retain the full power of Django ORM, authentication, and database migrations without DRF's complexity."
+  },
+  {
+    "question": "How does Django Ninja leverage Pydantic v2 for high-throughput request validation and serialization?",
+    "answer": "Django Ninja integrates directly with Pydantic v2 (`pydantic-core`), which is implemented in Rust. Request JSON payloads and URL parameters are validated against declared Pydantic schemas at compiled speeds before hitting view handlers. If validation fails, Django Ninja returns standardized 422 Unprocessable Entity responses with detailed error locations without invoking Python bytecode reflection."
+  },
+  {
+    "question": "How does Django Ninja generate OpenAPI 3.1 and Swagger UI documentation automatically?",
+    "answer": "Because every endpoint declares explicit type annotations and Pydantic schemas for request bodies, path parameters, query parameters, and response models, Django Ninja inspects these type hints at startup to compile a complete OpenAPI 3.1 schema. This is served natively at `/api/openapi.json` and rendered via interactive Swagger UI at `/api/docs` with zero manual schema annotations."
+  },
+  {
+    "question": "How do you prevent N+1 query bottlenecks in Django ORM when returning nested Pydantic schemas?",
+    "answer": "When serializing related models in nested Pydantic schemas, Django will issue a separate SQL query per row unless relations are eagerly loaded. Always use `select_related()` for single-valued relationships (`ForeignKey`, `OneToOne`) to perform SQL `JOIN`s, and `prefetch_related()` for multi-valued relationships (`ManyToManyField`, reverse `ForeignKey`) to batch-fetch records in a single secondary query."
+  },
+  {
+    "question": "How do you configure Celery 5.4 with Redis for asynchronous background tasks in Django Ninja?",
+    "answer": "Initialize Celery in `config/celery.py` using `app.config_from_object('django.conf:settings', namespace='CELERY')` and `app.autodiscover_tasks()`. In view handlers, trigger tasks via `.delay(*args, **kwargs)` inside a `transaction.on_commit()` callback. This ensures the background worker only picks up the task after database rows have been successfully committed to PostgreSQL."
+  },
+  {
+    "question": "Why must Celery task serialization be restricted to JSON rather than Python pickle?",
+    "answer": "The Python `pickle` serializer deserializes arbitrary Python objects, allowing attackers who gain access to the Redis message broker to inject malicious payloads leading to immediate Remote Code Execution (RCE). Enforcing `CELERY_ACCEPT_CONTENT = ['json']` and `CELERY_TASK_SERIALIZER = 'json'` restricts message payloads to primitive data types, completely mitigating deserialization exploits."
+  },
+  {
+    "question": "How does Django Ninja handle authentication using HttpBearer, API keys, or Django sessions?",
+    "answer": "Django Ninja provides native security classes in `ninja.security`. Inherit from `HttpBearer` or `APIKeyHeader` and implement the `authenticate(request, token)` method. Return an authenticated `User` object on success or `None` on failure. Attach the auth instance to routers (`router = Router(auth=JWTAuth())`) or individual endpoints (`@api.get('/me', auth=JWTAuth())`), and access the user via `request.auth`."
+  },
+  {
+    "question": "How do you implement multi-tenant query isolation and Broken Object Level Authorization (BOLA) defense?",
+    "answer": "Never retrieve models using naked primary keys (`Project.objects.get(id=project_id)`). Always scope queries by the authenticated user's organization or tenant ID: `Project.objects.get(id=project_id, tenant_id=request.auth.tenant_id)`. If no record matches both parameters, return an immediate 404 or 403 response, preventing unauthorized access across tenant boundaries."
+  },
+  {
+    "question": "Can you mix synchronous and asynchronous (async def) endpoint handlers in Django Ninja?",
+    "answer": "Yes. Django Ninja natively supports both `def` and `async def` view handlers. For CPU-bound or traditional Django ORM queries, synchronous `def` views run in threadpools managed by ASGI/WSGI servers. For I/O-bound tasks (such as calling external HTTP APIs via `httpx` or streaming responses), define `async def` handlers to achieve high concurrent connection throughput."
+  },
+  {
+    "question": "How does Django Ninja compare to FastAPI, and when should you choose one over the other?",
+    "answer": "FastAPI is a standalone microframework requiring separate libraries for ORM (SQLAlchemy/SQLModel), migrations (Alembic), authentication, and admin interfaces. Django Ninja provides FastAPI-style developer ergonomics and speed while retaining Django's built-in batteries: transactional migrations, rich admin panel, robust authentication, and battle-tested ORM. Choose Django Ninja for rapid full-scale application development."
+  },
+  {
+    "question": "How do you configure rootless Docker containers running Django with unprivileged user UID 10001?",
+    "answer": "In your multi-stage Dockerfile, create an unprivileged system user (`RUN groupadd -g 10001 appgroup && useradd -u 10001 -g appgroup -s /bin/sh appuser`), copy installed dependencies and code with `--chown=10001:10001`, and switch context with `USER 10001:10001`. This prevents container breakout attacks and satisfies enterprise security compliance policies."
+  },
+  {
+    "question": "How do you run automated tests for Django Ninja APIs using TestClient and pytest-django?",
+    "answer": "Instantiate `client = TestClient(api)` directly from your `NinjaAPI` instance. Use `@pytest.mark.django_db` on test functions to provide transactional database isolation. `TestClient` executes API requests in process memory without spinning up a live network socket, allowing hundreds of integration test assertions to run in under 2 seconds."
+  },
+  {
+    "question": "How do you configure database connection pooling and persistent connections in Django with PostgreSQL?",
+    "answer": "In Django 5.1+, configure `CONN_MAX_AGE=600` (10 minutes) in `DATABASES['default']` to reuse existing database connections across sequential HTTP requests. For high-concurrency production deployments with thousands of requests per second, deploy PgBouncer in front of PostgreSQL in transaction pooling mode or use `psycopg3` connection poolers."
+  },
+  {
+    "question": "How does Django Ninja achieve token-light efficiency for AI pair programmers and agentic systems?",
+    "answer": "Django Ninja eliminates redundant serializer classes, viewsets, and configuration glue code. An agent only needs to define a Pydantic schema and a Python function with type hints to produce a complete, validated, documented endpoint. This reduces prompt and completion token overhead to ~20,500 tokens (Efficiency Tier: A), allowing AI agents to generate robust features in a single iteration."
+  }
+]

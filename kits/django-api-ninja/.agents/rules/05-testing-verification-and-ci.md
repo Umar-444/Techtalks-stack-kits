@@ -1,0 +1,49 @@
+# 05 Testing Verification And Ci
+
+﻿---
+id: "05-testing-verification-and-ci"
+title: "Testing, Container Hardening & Token Benchmark"
+description: "Testing standards using Ninja TestClient, pytest-django, rootless Docker execution (UID 10001), and token-light efficiency verification."
+globs: ["tests/**/*.py", "Dockerfile", "evals/**"]
+alwaysApply: true
+---
+
+# 05 - Testing, Container Hardening & Token Benchmark
+
+## 1. Fast Automated Testing with TestClient
+- Test Django Ninja endpoints using `ninja.testing.TestClient`:
+  ```python
+  import pytest
+  from ninja.testing import TestClient
+  from config.api import api
+  from app.models import Project
+
+  client = TestClient(api)
+
+  def test_health():
+      res = client.get("/health")
+      assert res.status_code == 200
+      assert res.json()["status"] == "healthy"
+
+  @pytest.mark.django_db
+  def test_project_crud():
+      res = client.post("/projects/", json={"name": "API Audit", "slug": "api-audit"})
+      assert res.status_code == 201
+      assert res.json()["slug"] == "api-audit"
+  ```
+- Fast execution invariant: Tests must complete within 2 seconds using an in-memory SQLite test database.
+
+## 2. Container Hardening & Rootless Execution
+- Docker containers must execute as an unprivileged user (`USER 10001:10001`):
+  ```dockerfile
+  RUN groupadd -g 10001 appgroup && \
+      useradd -u 10001 -g appgroup -s /bin/sh -m appuser
+  USER 10001:10001
+  ```
+- Set `ALLOWED_HOSTS` dynamically from environment variables, avoiding insecure wildcards in production.
+
+## 3. Token Benchmark & Efficiency Tier
+- Benchmark verification: Run `python evals/runner.py --kit django-api-ninja`.
+- Target token consumption: ~20,500 tokens (Efficiency Tier: **A**).
+- Justification: Django ORM migrations and admin panel batteries combined with typed Pydantic endpoints minimize agent implementation tokens.
+

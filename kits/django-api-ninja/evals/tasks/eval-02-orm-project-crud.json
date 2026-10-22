@@ -1,0 +1,16 @@
+﻿{
+  "task_id": "eval-02-orm-project-crud",
+  "name": "Django ORM Model & Typed Ninja CRUD Operations",
+  "difficulty": "intermediate",
+  "prompt": "Define the Project ORM model with database indexing, create Pydantic schemas (ProjectIn, ProjectOut), and wire CRUD endpoints with input validation.",
+  "expected_files": [
+    "starter/app/models.py",
+    "starter/app/schemas.py",
+    "starter/app/api.py",
+    "starter/tests/test_api.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_api.py -k test_create_and_list_project",
+    "criteria": "Project creation returns HTTP 201 and listing returns active records"
+  }
+}

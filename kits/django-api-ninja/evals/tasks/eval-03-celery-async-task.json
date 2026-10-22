@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-03-celery-async-task",
+  "name": "Celery Async Worker Task & Redis Broker Integration",
+  "difficulty": "advanced",
+  "prompt": "Configure Celery 5.4 application in config/celery.py with Redis broker, define an asynchronous task with JSON serialization, and trigger after database transaction commit.",
+  "expected_files": [
+    "starter/config/celery.py",
+    "starter/config/settings.py"
+  ],
+  "verification": {
+    "command": "python -c 'from config.celery import app; assert app.main == \"config\"'",
+    "criteria": "Celery application loads configuration with JSON serialization"
+  }
+}

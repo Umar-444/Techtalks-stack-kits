@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-01-ninja-router-health",
+  "name": "NinjaAPI Routing & System Health Endpoint",
+  "difficulty": "beginner",
+  "prompt": "Initialize the root NinjaAPI instance in config/api.py, mount domain routers, and expose the /health endpoint returning JSON status.",
+  "expected_files": [
+    "starter/config/api.py",
+    "starter/tests/test_api.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_api.py -k test_health",
+    "criteria": "Health endpoint returns HTTP 200 with status healthy"
+  }
+}

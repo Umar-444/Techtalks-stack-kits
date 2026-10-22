@@ -1,79 +1,107 @@
-schema_version: 1.0.0
-name: Django + Django Ninja + PostgreSQL + Celery
-slug: django-api-ninja
-version: 1.0.0
-status: stable
-updated_at: '2026-10-22'
-description: 'High-throughput API-only Django: full power of Django ORM, migrations,
-  and authentication behind typed Pydantic endpoints, OpenAPI 3.1, and async Celery
-  background workers.'
-category: Python Full-Stack & APIs
-author: TechTalks Python Engineering Group
+﻿schema_version: "1.0.0"
+
+name: "Django + Django Ninja + PostgreSQL + Celery"
+slug: "django-api-ninja"
+version: "1.0.0"
+status: "stable"
+category: "Python Full-Stack & APIs"
+updated_at: "2026-10-22"
+
+description: "High-throughput API-only Django: full power of Django ORM, migrations, and authentication behind typed Pydantic endpoints, OpenAPI 3.1, and async Celery background workers."
+
 maintainer:
-  name: TechTalks Engineering
-  role: Django Platform Lead
-  url: https://techtalks.itsumarfarooq.com/kits/
-  github: Umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Systems Architect"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
-  language: Python 3.12+
-  framework: Django Ninja 1.3+
-  core: Django 5.1+
-  database: PostgreSQL 16+
-  async_queue: Celery 5.4+ with Redis 7
-  runtime: Docker (Rootless)
-  extra:
-  - Pydantic v2
-  - Pytest-Django
-  - Psycopg3
+  language:
+    name: "Python"
+    version: ">= 3.12"
+    registry: "pypi.org"
+  framework:
+    name: "Django Ninja"
+    version: ">= 1.3.0"
+    registry: "pypi.org"
+  core:
+    name: "Django"
+    version: ">= 5.1.0"
+    registry: "pypi.org"
+  database:
+    engine: "PostgreSQL"
+    version: ">= 16.0"
+    driver: "psycopg3"
+  async_queue:
+    engine: "Celery"
+    version: ">= 5.4.0"
+    broker: "Redis 7"
+  runtime: "Docker (Rootless UID 10001)"
+  features:
+    - "Pydantic v2 validation core"
+    - "Auto-generated OpenAPI 3.1 / Swagger docs"
+    - "Select/prefetch related N+1 query protection"
+    - "JSON task payload serialization"
+
 layers:
   starter:
     path: starter/
-    type: production-scaffold
+    type: starter-scaffold
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - CODEX.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .clinerules
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: install-and-verify
-      path: skills/install-and-verify/SKILL.md
-      description: Install, orchestrate, and verify the Django 5 + Django Ninja + PostgreSQL + Celery API stack.
-    - id: first-feature
-      path: skills/first-feature/SKILL.md
-      description: Build the canonical first API resource with CRUD endpoints, authentication, and Celery async notification.
-    - id: ninja-router
-      path: skills/ninja-router/SKILL.md
-      description: Scaffold Django Ninja API routers, Pydantic request/response schemas, and OpenAPI docs.
-    - id: django-orm-migration
-      path: skills/django-orm-migration/SKILL.md
-      description: Create PostgreSQL models, write reversible migrations, and optimize queries with select_related.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, orchestrate, and verify the Django 5 + Django Ninja + PostgreSQL + Celery API stack.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Build the canonical first API resource with CRUD endpoints, authentication, and Celery async notification.
+      - id: ninja-router
+        path: skills/ninja-router/SKILL.md
+        description: Scaffold Django Ninja API routers, Pydantic request/response schemas, and OpenAPI docs.
+      - id: django-orm-migration
+        path: skills/django-orm-migration/SKILL.md
+        description: Create PostgreSQL models, write reversible migrations, and optimize queries with select_related.
+      - id: django-api-ninja-core
+        path: skills/django-api-ninja-core/SKILL.md
+        description: Core operations, Celery worker management, Redis caching, and token benchmark evaluation.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: true
-  median_eval_tokens: 15400
-  efficiency_tier: A
+  median_eval_tokens: 20500
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -83,12 +111,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
-    sandboxed_tools: true
-agent_prompts:
-  kickoff: You are building a high-throughput API with Django 5.1 + Django Ninja +
-    PostgreSQL + Celery. Follow rules in CLAUDE.md / .cursor/rules, Pydantic v2 schemas
-    in app/schemas.py, and steps/agent-build-steps.md.
-  verify: Run pytest tests/ -v and assert all endpoints return valid Pydantic response
-    models with zero database queries outside transactions.
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git && cd kits/django-api-ninja
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"
