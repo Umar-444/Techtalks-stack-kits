@@ -1,0 +1,10 @@
+# 02 Leptos Server Functions And Axum Integration
+
+﻿# Leptos Server Functions and Axum Integration
+
+1. **Type-Safe RPC via Server Functions**: Define backend endpoints using Leptos `#[server(Prefix, "/api")]` macros. Server functions act as ordinary async Rust functions on the client while compiling to Axum HTTP handlers on the server.
+2. **Server Context Dependency Injection**: Access database connections, cache clients, and configuration within server functions using `leptos_axum::extract()` or `use_context::<AppState>()`.
+3. **Strict Input Sanitization**: Validate all server function arguments using the `validator` crate or manual invariant checks prior to database interactions. Reject malformed payloads immediately with typed `ServerFnError`.
+4. **Serialization Safety**: Configure server function payloads with Serde JSON or Postcard serialization. Never transmit raw sensitive internal records (e.g. password hashes, database connection strings) across the server function boundary.
+5. **Streaming Server-Side Rendering (SSR)**: Wrap asynchronous data loaders in `<Suspense>` components. Enable HTTP response streaming in Axum to dispatch early HTML headers and skeletons while async server functions resolve.
+

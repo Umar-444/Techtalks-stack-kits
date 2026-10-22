@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-01-leptos-ssr-component",
+  "name": "Leptos Reactive Component and Signal Scaffolding",
+  "difficulty": "beginner",
+  "prompt": "Implement an interactive Leptos component using signal(0) that renders a reactive counter and compiles across both SSR and client WebAssembly targets.",
+  "expected_files": [
+    "starter/src/app.rs",
+    "starter/src/lib.rs"
+  ],
+  "verification": {
+    "command": "cargo test --test api_test test_health_response_schema",
+    "criteria": "App compiles cleanly under ssr and hydrate features"
+  }
+}

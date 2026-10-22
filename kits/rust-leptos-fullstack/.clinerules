@@ -1,0 +1,16 @@
+﻿# Assistant Guidelines for Rust + Leptos Full-Stack + Axum + WebAssembly Stack Kit
+
+## Stack Overview
+- Language: Rust 1.80+ (Edition 2021)
+- Frontend Framework: Leptos 0.7+ (Fine-grained reactive signals, zero-VDOM)
+- Backend Engine: Axum 0.8+ (Server functions RPC, SSR streaming, Tokio async)
+- Hydration: WebAssembly via wasm-bindgen
+- Styling: Tailwind CSS & modern design tokens
+- Security: #![deny(unsafe_code)], CSP wasm directives, strict CORS, non-root Alpine container (USER 10001:10001)
+
+## Mandatory Rules
+1. Zero unsafe code. Use idiomatic Rust across both server and client.
+2. Partition server-only logic and dependencies using #[cfg(feature = "ssr")].
+3. Expose backend mutations through type-safe Leptos #[server] functions with input validation.
+4. Wrap async data fetching in create_resource and <Suspense> boundaries to avoid hydration blocking.
+5. Deploy strict CSP response headers permitting wasm-unsafe-eval while forbidding inline unauthorized scripts.

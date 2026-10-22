@@ -1,0 +1,58 @@
+﻿[
+  {
+    "q": "What is Leptos and how does full-stack Rust revolutionize web application development?",
+    "a": "Leptos is an isomorphic Rust web framework that allows developers to write both backend web servers and frontend browser UIs in Rust. By sharing data structures, validation rules, and business logic between Axum on the server and WebAssembly in the browser, developers eliminate API serialization discrepancies and achieve true end-to-end type safety without TypeScript transpilation."
+  },
+  {
+    "q": "How does Leptos achieve superior frontend performance without a Virtual DOM?",
+    "a": "Unlike frameworks like React that diff entire Virtual DOM trees on every state change, Leptos utilizes fine-grained reactive signals (inspired by SolidJS). When a signal changes, only the specific DOM node linked directly to that signal's closure is updated in the browser. This eliminates tree diffing overhead and results in near-vanilla JavaScript DOM manipulation speeds."
+  },
+  {
+    "q": "How does WebAssembly client hydration work in a Leptos SSR application?",
+    "a": "When a user visits a Leptos application, the Axum server immediately renders and returns static HTML for instant First Contentful Paint (FCP). Concurrently, the browser downloads and compiles the compiled `.wasm` binary. Once compiled, `leptos::mount::hydrate_body` attaches reactive event listeners and signals to the existing DOM nodes without re-rendering the page from scratch."
+  },
+  {
+    "q": "What are Leptos `#[server]` functions and how do they eliminate manual API scaffolding?",
+    "a": "Server functions defined with `#[server(MyFunc, \"/api\")]` look like normal async Rust functions. When compiled for the client (`hydrate`), Leptos automatically generates an HTTP POST client that serializes parameters. When compiled for the server (`ssr`), Leptos registers an Axum endpoint that deserializes the request, executes database queries, and returns serialized responses."
+  },
+  {
+    "q": "How does Cargo feature gating prevent server database credentials from leaking into client WASM?",
+    "a": "By partitioning dependencies using Cargo features (`ssr` vs `hydrate`), server-only crates (such as PostgreSQL drivers, AWS SDKs, and private keys) are only linked when compiling the server binary. If client code attempts to import a server-only module without the `ssr` feature, compilation fails, making credential leaks to client WebAssembly impossible."
+  },
+  {
+    "q": "What compiler flags and tools are essential for minimizing WebAssembly binary size?",
+    "a": "In `Cargo.toml`, configure the release profile with `opt-level = \"z\"`, `lto = true`, `codegen-units = 1`, and `panic = \"abort\"`. In CI/CD pipelines, execute the Binaryen `wasm-opt -Oz` utility on the output `.wasm` file to strip unused symbols, prune AST branches, and achieve typical gzipped bundle sizes under 150 KB."
+  },
+  {
+    "q": "How do `<Suspense>` components enable streaming HTML server-side rendering?",
+    "a": "When wrapping asynchronous data resources in `<Suspense fallback=...>`, the Axum server streams the surrounding HTML shell and fallback loading skeleton to the browser immediately over an open HTTP connection. As soon as server-side async queries resolve, Leptos streams out the rendered component HTML and a tiny inline script that swaps the placeholder with real content."
+  },
+  {
+    "q": "How must Content Security Policy (CSP) be configured for WebAssembly applications?",
+    "a": "Modern browsers require explicit CSP authorization to compile WebAssembly modules. Axum response headers must include `script-src 'self' 'wasm-unsafe-eval'` (or WebAssembly module hashes under CSP Level 3) while keeping `object-src 'none'` and disabling unauthorized inline JavaScript, preventing XSS attacks while permitting WASM execution."
+  },
+  {
+    "q": "How does this kit enforce strict CORS security on server functions?",
+    "a": "The Axum server middleware parses allowed origins from the `ALLOWED_ORIGINS` environment variable (e.g. `http://localhost:3000,https://app.example.com`). Permissive wildcard origins (`*`) are strictly prohibited, ensuring unauthorized third-party origins cannot invoke backend server functions on behalf of authenticated users."
+  },
+  {
+    "q": "How does Leptos handle client-side routing and page transitions?",
+    "a": "Leptos provides `<Router>` and `<A>` components that intercept browser click events. Instead of triggering a full browser page refresh, the client-side router updates the URL via the HTML5 History API and swaps only the active route's component branch in WebAssembly, preserving global signal states and audio/video playback."
+  },
+  {
+    "q": "What is the `<ActionForm>` component and how does it support Progressive Enhancement?",
+    "a": "The `<ActionForm>` component enhances HTML `<form>` elements. When WebAssembly is fully loaded, form submissions are intercepted and dispatched asynchronously via `fetch` without page reload. If WebAssembly fails to load or JavaScript is disabled, the form submits as a standard HTTP POST to the Axum backend, guaranteeing accessibility."
+  },
+  {
+    "q": "How do you test Leptos applications across server and client boundaries?",
+    "a": "Axum server functions and SSR routes are tested using standard Tokio `#[tokio::test]` suites with `axum::test` harnesses. Client-side component reactivity, signal dependencies, and DOM event dispatching are verified in headless browser environments using `wasm-bindgen-test`."
+  },
+  {
+    "q": "How is non-root execution configured in the multi-stage Docker container?",
+    "a": "The multi-stage `Dockerfile` compiles the binary in a `rust:1.81-alpine` builder environment and copies only the static server binary into a minimal `alpine:3.20` image. It provisions an unprivileged user and group (`addgroup -g 10001 appgroup && adduser -u 10001 appuser`) and specifies `USER 10001:10001`, eliminating root container vulnerabilities."
+  },
+  {
+    "q": "What unique advantages does Leptos provide for client-side compute workloads?",
+    "a": "For applications requiring heavy client-side computation—such as data visualization, cryptography, image processing, simulation, or complex offline caching—Rust compiles to native WebAssembly bytecode, running up to 10-20x faster than equivalent JavaScript algorithms with deterministic memory consumption."
+  }
+]

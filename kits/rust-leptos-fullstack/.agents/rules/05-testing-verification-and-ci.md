@@ -1,0 +1,10 @@
+# 05 Testing Verification And Ci
+
+﻿# Testing, Verification, and CI Standards
+
+1. **Axum Server Integration Testing**: Verify SSR routes, server functions, and health probes using `axum::test` harnesses and standard Tokio test runners.
+2. **WebAssembly Headless Testing**: Author client component interaction tests using `wasm-bindgen-test` to verify signal propagation and DOM event handlers inside headless browser environments.
+3. **Health and Readiness Probes**: Expose `/healthz` returning HTTP 200 and machine-readable service status for container healthchecks.
+4. **Supply Chain Security**: Enforce `cargo audit` in CI to detect vulnerabilities in dependencies and verify license compliance with `cargo deny`.
+5. **Transpiler Zero-Drift**: Validate that all 6 agent dialects match source rules using `python tools/transpiler.py --check` in continuous integration.
+

@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-02-server-function-rpc",
+  "name": "Leptos Server Function RPC and Axum State Extraction",
+  "difficulty": "intermediate",
+  "prompt": "Implement a type-safe Leptos #[server] function returning serialized records with input bounds validation and error handling via ServerFnError.",
+  "expected_files": [
+    "starter/src/app.rs",
+    "starter/src/main.rs"
+  ],
+  "verification": {
+    "command": "cargo check --features ssr",
+    "criteria": "Server function registers cleanly with Axum router with zero compiler warnings"
+  }
+}

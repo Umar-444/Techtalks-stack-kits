@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-03-pubsub-realtime-broadcast",
+  "name": "Phoenix PubSub Broadcast and LiveView Stream Push",
+  "difficulty": "intermediate",
+  "prompt": "Implement a real-time PubSub broadcast in the domain context that emits {:item_created, item} and handle it inside the LiveView via handle_info/2 using stream_insert/3.",
+  "expected_files": [
+    "starter/lib/demo/items.ex",
+    "starter/lib/demo_web/live/item_live/index.ex"
+  ],
+  "verification": {
+    "command": "mix compile",
+    "criteria": "PubSub subscription and stream_insert handle_info pattern compile cleanly"
+  }
+}

@@ -1,23 +1,99 @@
-{
-  "kit_slug": "rust-leptos-fullstack",
-  "checks": [
+﻿{
+  "kit": "rust-leptos-fullstack",
+  "version": "1.0.0",
+  "total_controls": 12,
+  "categories": [
     {
-      "id": "sec-01",
-      "name": "Gitleaks Secret Audit",
-      "status": "enforced",
-      "tool": "gitleaks"
+      "name": "Memory Safety & Zero-Trust Rust Compiler Defenses",
+      "controls": [
+        {
+          "id": "RUST-LEPTOS-01",
+          "name": "Zero unsafe code policy enforced via #![deny(unsafe_code)]",
+          "status": "enforced",
+          "rule": "rules/source/01-framework-architecture-and-standards.md"
+        },
+        {
+          "id": "RUST-LEPTOS-02",
+          "name": "Strict Serde JSON deserialization with input length bounds",
+          "status": "enforced",
+          "test": "starter/src/app.rs"
+        },
+        {
+          "id": "RUST-LEPTOS-03",
+          "name": "Feature-gated dependency partitioning preventing server code leakage to client WASM",
+          "status": "enforced",
+          "rule": "rules/source/01-framework-architecture-and-standards.md"
+        }
+      ]
     },
     {
-      "id": "sec-02",
-      "name": "Semgrep SAST Policy",
-      "status": "enforced",
-      "tool": "semgrep"
+      "name": "WebAssembly Security & Content Protection",
+      "controls": [
+        {
+          "id": "WASM-LEPTOS-01",
+          "name": "Strict Content Security Policy permitting scoped WebAssembly execution",
+          "status": "enforced",
+          "rule": "rules/source/04-security-invariants-and-content-security.md"
+        },
+        {
+          "id": "WASM-LEPTOS-02",
+          "name": "Client hydration sanity checks preventing DOM cross-site injection",
+          "status": "enforced",
+          "rule": "rules/source/03-wasm-client-hydration-and-reactivity.md"
+        },
+        {
+          "id": "WASM-LEPTOS-03",
+          "name": "WASM binary optimization (wasm-opt) stripping debug metadata",
+          "status": "enforced",
+          "rule": "rules/source/03-wasm-client-hydration-and-reactivity.md"
+        }
+      ]
     },
     {
-      "id": "sec-03",
-      "name": "OWASP API Top 10 Invariants",
-      "status": "verified",
-      "tool": "pytest/unit"
+      "name": "Server-Side Execution & Network Hardening",
+      "controls": [
+        {
+          "id": "NET-LEPTOS-01",
+          "name": "Strict CORS origin whitelist parsed from ALLOWED_ORIGINS (no wildcard *)",
+          "status": "enforced",
+          "rule": "rules/source/04-security-invariants-and-content-security.md"
+        },
+        {
+          "id": "NET-LEPTOS-02",
+          "name": "Server function authorization and input validation barriers",
+          "status": "enforced",
+          "rule": "rules/source/02-leptos-server-functions-and-axum-integration.md"
+        },
+        {
+          "id": "NET-LEPTOS-03",
+          "name": "Server request body size limits preventing memory exhaustion DoS",
+          "status": "enforced",
+          "rule": "rules/source/04-security-invariants-and-content-security.md"
+        }
+      ]
+    },
+    {
+      "name": "Container & Supply Chain Hardening",
+      "controls": [
+        {
+          "id": "OPS-LEPTOS-01",
+          "name": "Liveness probe health endpoint (/healthz) returning HTTP 200 OK",
+          "status": "enforced",
+          "endpoint": "GET /healthz"
+        },
+        {
+          "id": "OPS-LEPTOS-02",
+          "name": "Non-root execution inside multi-stage Alpine container (USER 10001:10001)",
+          "status": "enforced",
+          "docker": "starter/Dockerfile: USER 10001:10001"
+        },
+        {
+          "id": "OPS-LEPTOS-03",
+          "name": "Gitleaks secret detection and cargo-audit dependency scanning in CI",
+          "status": "enforced",
+          "workflow": ".github/workflows/security.yml"
+        }
+      ]
     }
   ]
 }

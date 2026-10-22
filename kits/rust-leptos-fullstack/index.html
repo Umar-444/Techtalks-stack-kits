@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rust + Leptos Full-Stack + Axum + WebAssembly (Blueprint) &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="Full-stack Rust with reactive signals: Leptos SSR + WebAssembly hydration on client, Axum server functions on backend, one language and type system across the entire stack.">
+  <title>Rust + Leptos Full-Stack + Axum + WebAssembly &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Production-grade isomorphic full-stack Rust web application using Leptos 0.7 fine-grained reactivity, Axum 0.8 server functions RPC, and client-side WebAssembly hydration.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/rust-leptos-fullstack/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/rust-leptos-fullstack/">
-  <meta property="og:title" content="Rust + Leptos Full-Stack + Axum + WebAssembly (Blueprint) &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="Full-stack Rust with reactive signals: Leptos SSR + WebAssembly hydration on client, Axum server functions on backend, one language and type system across the entire stack.">
+  <meta property="og:title" content="Rust + Leptos Full-Stack + Axum + WebAssembly &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Production-grade isomorphic full-stack Rust web application using Leptos 0.7 fine-grained reactivity, Axum 0.8 server functions RPC, and client-side WebAssembly hydration.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -201,27 +201,27 @@
       <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">rust-leptos-fullstack</span>
     </nav>
 
-<div class="mb-8 p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] border-l-[3px] border-l-[#B7791F] text-xs leading-relaxed flex items-start gap-3"><span class="font-mono font-bold text-[#B7791F] uppercase tracking-wider">Note:</span><div class="text-[#5C6058] dark:text-[#C4C4CC]">This kit is an architectural blueprint. Specifications, threat models, and multi-dialect rules are compiled. Starter containers are in active verification.</div></div>
+
 
     <!-- Kit Header Section -->
     <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="chip-status-blueprint"><span class="w-1.5 h-1.5 rounded-full bg-[#8E8E96]"></span>BLUEPRINT</span>
+        <span class="chip-status-ready"><span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>READY TO SHIP</span>
         <span class="text-xs font-mono text-[#8E8E96]">v1.0.0</span>
         <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>
         <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        Rust + Leptos Full-Stack + Axum + WebAssembly (Blueprint)
+        Rust + Leptos Full-Stack + Axum + WebAssembly
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        Full-stack Rust with reactive signals: Leptos SSR + WebAssembly hydration on client, Axum server functions on backend, one language and type system across the entire stack.
+        Production-grade isomorphic full-stack Rust web application using Leptos 0.7 fine-grained reactivity, Axum 0.8 server functions RPC, and client-side WebAssembly hydration.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Rust', 'version': '1.80+', 'registry': 'crates.io'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Leptos', 'version': '0.7+', 'registry': 'crates.io'}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Rust', 'version': '>= 1.80.0', 'registry': 'crates.io'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Leptos', 'version': '^0.7', 'registry': 'crates.io'}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -326,24 +326,14 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Quick Reference &amp; Non-Negotiable Standards
-### Architectural Standards for Rust + Leptos Full-Stack + Axum + WebAssembly
-# Architecture Standards: Rust + Leptos Full-Stack + Axum + WebAssembly
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+### 01 Framework Architecture And Standards
+﻿# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
 
-### Security Invariants for Rust + Leptos Full-Stack + Axum + WebAssembly
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
-
-### Agent Coding Conventions for Rust + Leptos Full-Stack + Axum + WebAssembly
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-</code></pre>
+1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
+2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = &quot;ssr&quot;)]` to avoid bloating the client WASM bundle.
+3. **Fine-Grained Reactive Signals**: Structure UI state using fine-grained signals (`create_signal`, `create_memo`, `create_resource`). Avoid monolithic state objects; mutate only individual DOM nodes connected to updated signals without Virtual DOM diffing.
+4. **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
@@ -352,17 +342,21 @@
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/rust-leptos-fullstack" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
-description: Agent Coding Conventions for Rust + Leptos Full-Stack + Axum + WebAssembly
+description: 01 Framework Architecture And Standards
 globs: *
 alwaysApply: true
 ---
 
-# Agent Coding Conventions for Rust + Leptos Full-Stack + Axum + WebAssembly
+# 01 Framework Architecture And Standards
 
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.</code></pre>
+﻿# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
+
+1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
+2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = &quot;ssr&quot;)]` to avoid bloating the client WASM bundle.
+3. **Fine-Grained Reactive Signals**: Structure UI state using fine-grained signals (`create_signal`, `create_memo`, `create_resource`). Avoid monolithic state objects; mutate only individual DOM nodes connected to updated signals without Virtual DOM diffing.
+4. **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide `src/main.rs` as the Axum SSR server entrypoint and `src/lib.rs` as the `wasm_bindgen` client hydration hook.
+5. **No Unsafe Code
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
@@ -370,28 +364,28 @@ alwaysApply: true
                 <span>Source: kits/rust-leptos-fullstack/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rust-leptos-fullstack" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rust + Leptos Full-Stack + Axum + WebAssembly — Agent Operating Rules (AGENTS.md)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: Rust + Leptos Full-Stack + Axum + WebAssembly
+
+# Rust + Leptos Full-Stack + Axum + WebAssembly â€” Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Table of Contents
-- [Architectural Standards for Rust + Leptos Full-Stack + Axum + WebAssembly](#architecture-guidelines)
-- [Security Invariants for Rust + Leptos Full-Stack + Axum + WebAssembly](#security-invariants)
-- [Agent Coding Conventions for Rust + Leptos Full-Stack + Axum + WebAssembly](#agent-coding-conventions)
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Leptos Server Functions And Axum Integration](#02-leptos-server-functions-and-axum-integration)
+- [03 Wasm Client Hydration And Reactivity](#03-wasm-client-hydration-and-reactivity)
+- [04 Security Invariants And Content Security](#04-security-invariants-and-content-security)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
 
 ---
 
-&lt;a id=&quot;architecture-guidelines&quot;&gt;&lt;/a&gt;
-## Architectural Standards for Rust + Leptos Full-Stack + Axum + WebAssembly
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
 
-# Architecture Standards: Rust + Leptos Full-Stack + Axum + WebAssembly
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+ï»؟# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
 
----
-
-&lt;a id=&quot;security-invariants&quot;&gt;&lt;/a&gt;
-## Security Invariants for Rust + Leptos Full-Stack + Axum + WebAssembly</code></pre>
+1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
+2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` 
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
@@ -402,24 +396,14 @@ alwaysApply: true
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Rust + Leptos Full-Stack + Axum + WebAssembly
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## Architectural Standards for Rust + Leptos Full-Stack + Axum + WebAssembly
-# Architecture Standards: Rust + Leptos Full-Stack + Axum + WebAssembly
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+## 01 Framework Architecture And Standards
+﻿# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
 
-## Security Invariants for Rust + Leptos Full-Stack + Axum + WebAssembly
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
-
-## Agent Coding Conventions for Rust + Leptos Full-Stack + Axum + WebAssembly
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-</code></pre>
+1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
+2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = &quot;ssr&quot;)]` to avoid bloating the client WASM bundle.
+3. **Fine-Grained Reactive Signals**: Structure UI state using fine-grained signals (`create_signal`, `create_memo`, `create_resource`). Avoid monolithic state objects; mutate only individual DOM nodes connected to updated signals without Virtual DOM diffing.
+4. **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide `src/main.rs` as the Axum SSR server entrypoint and
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
@@ -427,9 +411,22 @@ alwaysApply: true
                 <span>Source: kits/rust-leptos-fullstack/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/rust-leptos-fullstack" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Rust + Leptos Full-Stack + Axum + WebAssembly (Blueprint)
-- Follow architectural boundaries
-- Enforce strict security invariants</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# Assistant Guidelines for Rust + Leptos Full-Stack + Axum + WebAssembly Stack Kit
+
+## Stack Overview
+- Language: Rust 1.80+ (Edition 2021)
+- Frontend Framework: Leptos 0.7+ (Fine-grained reactive signals, zero-VDOM)
+- Backend Engine: Axum 0.8+ (Server functions RPC, SSR streaming, Tokio async)
+- Hydration: WebAssembly via wasm-bindgen
+- Styling: Tailwind CSS &amp; modern design tokens
+- Security: #![deny(unsafe_code)], CSP wasm directives, strict CORS, non-root Alpine container (USER 10001:10001)
+
+## Mandatory Rules
+1. Zero unsafe code. Use idiomatic Rust across both server and client.
+2. Partition server-only logic and dependencies using #[cfg(feature = &quot;ssr&quot;)].
+3. Expose backend mutations through type-safe Leptos #[server] functions with input validation.
+4. Wrap async data fetching in create_resource and &lt;Suspense&gt; boundaries to avoid hydration blocking.
+5. Deploy strict CSP response headers permitting wasm-unsafe-eval while forbidding inline unauthorized scripts.</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
@@ -437,12 +434,16 @@ alwaysApply: true
                 <span>Source: kits/rust-leptos-fullstack/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/rust-leptos-fullstack" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Agent Coding Conventions for Rust + Leptos Full-Stack + Axum + WebAssembly
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
 
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.</code></pre>
+﻿# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
+
+1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
+2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = &quot;ssr&quot;)]` to avoid bloating the client WASM bundle.
+3. **Fine-Grained Reactive Signals**: Structure UI state using fine-grained signals (`create_signal`, `create_memo`, `create_resource`). Avoid monolithic state objects; mutate only individual DOM nodes connected to updated signals without Virtual DOM diffing.
+4. **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide `src/main.rs` as the Axum SSR server entrypoint and `src/lib.rs` as the `wasm_bindgen` client hydration hook.
+5. **No Unsafe Code Policy**: Enforce `#[deny(unsafe_code)]` crate-wide to ensure memory safety, concurrency
+...</code></pre>
             </div>
 
           </div>
@@ -453,7 +454,11 @@ alwaysApply: true
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">rust-leptos-fullstack-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for Rust + Leptos Full-Stack + Axum + WebAssembly</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Author an interactive reactive Leptos component with fine-grained signals, server action forms, and Axum RPC.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Install cargo-leptos build tool, compile the full-stack Leptos project, and verify the /healthz endpoint.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">leptos-server-functions</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Build type-safe server functions that seamlessly bridge client WASM to server Axum services.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">rust-leptos-fullstack-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core operations, isomorphic project layout, Cargo feature gating, and rootless Docker deployment.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">wasm-hydration-optimization</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Optimize WebAssembly binary size, implement code-splitting, and configure streaming SSR response buffering.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 

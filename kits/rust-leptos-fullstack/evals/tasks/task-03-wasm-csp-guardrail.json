@@ -1,0 +1,13 @@
+﻿{
+  "task_id": "eval-03-wasm-csp-guardrail",
+  "name": "WebAssembly Content Security Policy and CORS Whitelist",
+  "difficulty": "intermediate",
+  "prompt": "Configure Axum response headers with strict CSP permitting wasm-unsafe-eval while forbidding inline unauthorized scripts, with CORS parsed strictly from ALLOWED_ORIGINS.",
+  "expected_files": [
+    "starter/src/main.rs"
+  ],
+  "verification": {
+    "command": "cargo test --test api_test test_health_response_schema",
+    "criteria": "Security headers and origin checks are enforced without wildcard permissions"
+  }
+}

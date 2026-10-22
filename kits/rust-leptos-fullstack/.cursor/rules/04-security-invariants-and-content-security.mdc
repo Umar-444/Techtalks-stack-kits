@@ -1,0 +1,16 @@
+---
+description: 04 Security Invariants And Content Security
+globs: *
+alwaysApply: true
+---
+
+# 04 Security Invariants And Content Security
+
+﻿# Security Invariants, Content Security Policy, and CORS
+
+1. **Strict WebAssembly Content Security Policy**: Deploy strict CSP response headers via Axum middleware (`default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'`). Prevent script injection while allowing WASM module compilation.
+2. **Server Function Authorization**: Protect sensitive server functions with session or bearer token verification extracted from Axum request headers. Never rely on client-side routing guards alone for data authorization.
+3. **CORS Origin Filtering**: Whitelist allowed API origins strictly from the `ALLOWED_ORIGINS` environment variable in the Axum HTTP layer; reject permissive wildcard origins (`*`).
+4. **Non-Root Container Hardening**: Build statically linked release server binaries and package into minimal Alpine Linux runtime containers executing as unprivileged user `USER 10001:10001`.
+5. **Denial-of-Service Defense**: Apply Axum request body limits (`DefaultBodyLimit::max(262_144)`) and timeout middleware to guard server function endpoints against memory exhaustion and Slowloris attacks.
+

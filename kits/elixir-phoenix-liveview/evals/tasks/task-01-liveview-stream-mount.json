@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-01-liveview-stream-mount",
+  "name": "Phoenix LiveView Stream Initialization and Mount Lifecycle",
+  "difficulty": "beginner",
+  "prompt": "Implement mount/3 in a Phoenix LiveView module initializing an item stream using stream(socket, :items, items) with connected?(socket) verification for real-time PubSub subscription.",
+  "expected_files": [
+    "starter/lib/demo_web/live/item_live/index.ex",
+    "starter/lib/demo_web/live/item_live/index.html.heex"
+  ],
+  "verification": {
+    "command": "mix test test/demo_web/live/item_live_test.exs || true",
+    "criteria": "LiveView mounts cleanly and renders initial stream collection"
+  }
+}

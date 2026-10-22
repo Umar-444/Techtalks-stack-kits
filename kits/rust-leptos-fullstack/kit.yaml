@@ -1,30 +1,42 @@
-schema_version: 1.0.0
-name: Rust + Leptos Full-Stack + Axum + WebAssembly
-slug: rust-leptos-fullstack
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Full-stack Rust with reactive signals: Leptos SSR + WebAssembly hydration
-  on client, Axum server functions on backend, one language and type system across
-  the entire stack.'
-category: Rust
+﻿schema_version: "1.0.0"
+
+name: "Rust + Leptos Full-Stack + Axum + WebAssembly"
+slug: "rust-leptos-fullstack"
+version: "1.0.0"
+status: "stable"
+category: "frontend"
+updated_at: "2026-10-22"
+
+description: "Production-grade isomorphic full-stack Rust web application using Leptos 0.7 fine-grained reactivity, Axum 0.8 server functions RPC, and client-side WebAssembly hydration."
+
 maintainer:
-  name: TechTalks Rust Community Maintainers
-  role: WASM & Frontend Systems Engineer
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Systems Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Rust
-    version: 1.80+
-    registry: crates.io
+    name: "Rust"
+    version: ">= 1.80.0"
+    registry: "crates.io"
   framework:
-    name: Leptos
-    version: 0.7+
-    registry: crates.io
-  backend: Axum 0.8+ server functions
-  frontend: WebAssembly (wasm-bindgen)
-  styling: Tailwind CSS + Document 17/18 tokens
+    name: "Leptos"
+    version: "^0.7"
+    registry: "crates.io"
+  backend:
+    engine: "Axum"
+    version: "^0.8"
+    features:
+      - "Server functions RPC"
+      - "Streaming HTML Server-Side Rendering"
+  frontend:
+    engine: "WebAssembly"
+    target: "wasm32-unknown-unknown"
+    bindings: "wasm-bindgen"
+  styling: "Tailwind CSS"
+
 layers:
   starter:
     path: starter/
@@ -32,38 +44,57 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: rust-leptos-fullstack-core
-      path: skills/rust-leptos-fullstack-core/SKILL.md
-      description: Core operations and scaffolding skill for Rust + Leptos Full-Stack
-        + Axum + WebAssembly.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install and orchestrate cargo-leptos, WebAssembly targets, and health check verification.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Author an interactive reactive Leptos component with fine-grained signals and server action forms.
+      - id: leptos-server-functions
+        path: skills/leptos-server-functions/SKILL.md
+        description: Build type-safe server functions that seamlessly bridge client WASM to server Axum services.
+      - id: wasm-hydration-optimization
+        path: skills/wasm-hydration-optimization/SKILL.md
+        description: Optimize WebAssembly binary size, implement code-splitting, and configure streaming SSR response buffering.
+      - id: rust-leptos-fullstack-core
+        path: skills/rust-leptos-fullstack-core/SKILL.md
+        description: Core operations, isomorphic project layout, Cargo feature gating, and rootless Docker deployment.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: false
-  median_eval_tokens: 29200
-  efficiency_tier: B
+  median_eval_tokens: 29196
+  efficiency_tier: "B"
+
 security:
   automated_scans:
     gitleaks: true
@@ -73,5 +104,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

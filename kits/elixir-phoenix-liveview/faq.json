@@ -1,0 +1,58 @@
+﻿[
+  {
+    "q": "Why is Phoenix LiveView considered one of the most productive real-time full-stack architectures?",
+    "a": "Phoenix LiveView eliminates the traditional frontend/backend divide. Instead of building REST or GraphQL APIs, writing client-side state stores in JavaScript, and managing serialization, developers build reactive, server-rendered UIs entirely in Elixir. State resides exclusively on the server, and tiny DOM diffs are sent over WebSockets in binary format."
+  },
+  {
+    "q": "How does LiveView communicate DOM updates to the browser without writing client JavaScript?",
+    "a": "On initial page load, LiveView renders standard static HTML for instant First Contentful Paint. It then establishes a persistent WebSocket connection via a tiny 30 KB client script. When user events trigger state mutations on the server, Phoenix computes structural HTML diffs (sending only the changed dynamic values, not entire HTML templates) and patches the browser DOM seamlessly."
+  },
+  {
+    "q": "How do LiveView Streams (`stream/3` and `stream_insert/3`) optimize server memory for large collections?",
+    "a": "Prior to LiveView 0.18+, storing large lists in socket assigns required keeping all collection items in server RAM. With LiveView Streams, the server sends items to the client DOM once and immediately discards them from server process memory. Subsequent inserts, updates, and deletes are executed via targeted stream operations without holding large datasets in RAM."
+  },
+  {
+    "q": "How does the BEAM virtual machine (OTP) guarantee fault tolerance and high concurrency?",
+    "a": "The BEAM virtual machine runs millions of lightweight, isolated Erlang processes with preemptive scheduling and per-process garbage collection. Each connected LiveView user runs in their own isolated process. If an unhandled exception crashes one user's process, the OTP supervisor restarts it in milliseconds without affecting any other connected user."
+  },
+  {
+    "q": "How does `Phoenix.PubSub` enable real-time collaborative features across server clusters?",
+    "a": "Phoenix PubSub provides high-performance, distributed pub/sub messaging built directly into the Phoenix framework. When a record changes, calling `Phoenix.PubSub.broadcast(Demo.PubSub, \"items\", {:item_created, item})` broadcasts the event to all subscribed LiveView processes across any number of clustered nodes without needing external Redis brokers."
+  },
+  {
+    "q": "How do Ecto Changesets eliminate mass-assignment and SQL injection vulnerabilities?",
+    "a": "Ecto separates database schemas from mutation validation. The `cast/3` function acts as an explicit parameter whitelist, stripping any unauthorized fields submitted by clients. Validation rules (`validate_required`, `validate_length`, `validate_format`) run before queries are built, and Postgrex executes all queries with parameterized bind values (`$1`, `$2`), eliminating SQL injection."
+  },
+  {
+    "q": "Why does `mount/3` execute twice in Phoenix LiveView and how should it be handled?",
+    "a": "LiveView executes `mount/3` twice: first during the initial HTTP GET request to generate SEO-friendly static HTML, and second when the browser establishes the stateful WebSocket connection. To prevent duplicate database queries or duplicate PubSub subscriptions, wrap subscriptions in `if connected?(socket), do: Phoenix.PubSub.subscribe(...)`."
+  },
+  {
+    "q": "How is Cross-Site Request Forgery (CSRF) prevented across WebSocket connections in LiveView?",
+    "a": "Phoenix injects a cryptographically signed CSRF meta tag into the HTML layout (`get_csrf_token()`). When the client WebSocket initiates its connection, it sends this token in the connection params. Phoenix verifies the CSRF token during the WebSocket handshake before allowing the socket process to spawn."
+  },
+  {
+    "q": "How does Phoenix LiveView handle temporary network disconnects and reconnects?",
+    "a": "When a client loses network connectivity, the LiveView JavaScript client automatically applies a disconnected visual state and begins exponential backoff reconnection attempts. Once connectivity is restored, the client reconnects, re-establishes the socket, mounts a fresh LiveView process, and resynchronizes the UI automatically."
+  },
+  {
+    "q": "What role does Sobelow play in securing Phoenix applications?",
+    "a": "Sobelow is a specialized static analysis security tool designed specifically for Phoenix and Elixir. It inspects controllers, LiveViews, and router pipelines for common vulnerabilities such as cross-site scripting (XSS), SQL injection, directory traversal, insecure secrets, and improper CSRF configurations."
+  },
+  {
+    "q": "How is non-root execution configured in the multi-stage Docker container for Elixir?",
+    "a": "The multi-stage `Dockerfile` compiles the Elixir OTP release in a `hexpm/elixir:1.17-alpine` builder image. The resulting standalone release (including the minimal Erlang runtime) is copied into a clean `alpine:3.20` image. The container creates an unprivileged user (`appuser` with UID 10001) and sets `USER 10001:10001` for secure rootless execution."
+  },
+  {
+    "q": "How does ExUnit test LiveView components without headless browser overhead?",
+    "a": "Phoenix provides `Phoenix.LiveViewTest`, allowing developers to test full interactive LiveView lifecycles directly within Elixir. Tests can render views, simulate user clicks (`render_click`), fill out forms (`render_change`), and assert on rendered HTML without launching Chrome, Selenium, or Playwright, running in milliseconds."
+  },
+  {
+    "q": "How does the HEEx template engine guarantee compile-time HTML validation and XSS escaping?",
+    "a": "HEEx (HTML+Embedded Elixir) parses HTML at compile time, rejecting unclosed tags, malformed attributes, and invalid nesting before code runs. Dynamic expressions inside `{...}` are automatically HTML-escaped by default, preventing reflected and stored XSS vulnerabilities."
+  },
+  {
+    "q": "How does WebSocket origin validation (`check_origin`) safeguard LiveView endpoints?",
+    "a": "In `config/runtime.exs`, the Endpoint configures `check_origin: allowed_origins`. This instructs the Cowboy/Bandit HTTP server to inspect the `Origin` header during WebSocket connection handshakes, rejecting Cross-Site WebSocket Hijacking (CSWSH) attempts from unauthorized third-party origins."
+  }
+]

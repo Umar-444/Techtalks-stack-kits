@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-02-ecto-changeset-validation",
+  "name": "Ecto Schema Definition and Validated Changeset Constraints",
+  "difficulty": "intermediate",
+  "prompt": "Define an Ecto schema with cast/3, validate_required/2, and validate_length/3 constraints, ensuring safe parameter filtering without mass-assignment vulnerabilities.",
+  "expected_files": [
+    "starter/lib/demo/items/item.ex",
+    "starter/priv/repo/migrations/20261022000001_create_items.exs"
+  ],
+  "verification": {
+    "command": "mix compile",
+    "criteria": "Changeset compiles with zero warnings and enforces database constraints"
+  }
+}

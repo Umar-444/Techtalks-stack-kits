@@ -1,33 +1,41 @@
-schema_version: 1.0.0
-name: Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL
-slug: elixir-phoenix-liveview
-version: 1.0.0
-status: stable
-updated_at: '2026-10-22'
-description: Ultra-compact real-time full-stack application in a single functional language with Phoenix LiveView 1.0+ server-rendered state over WebSockets, Ecto changesets with compile-checked queries, and BEAM fault-tolerant processes.
-category: Token-Light
+﻿schema_version: "1.0.0"
+
+name: "Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL"
+slug: "elixir-phoenix-liveview"
+version: "1.0.0"
+status: "stable"
+category: "backend"
+updated_at: "2026-10-22"
+
+description: "Ultra-compact real-time full-stack application in a single functional language with Phoenix LiveView 1.0+ server-rendered state over WebSockets, Ecto changesets with compile-checked queries, and BEAM fault-tolerant processes."
+
 maintainer:
-  name: TechTalks Distributed Systems Group
-  role: Elixir & BEAM Specialist
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Distributed Systems & Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Elixir
-    version: 1.17+
-    registry: hex.pm
+    name: "Elixir"
+    version: ">= 1.17.0"
+    registry: "hex.pm"
   framework:
-    name: Phoenix
-    version: 1.7+
-    registry: hex.pm
-  ui_engine: Phoenix LiveView 1.0+
+    name: "Phoenix"
+    version: "^1.7"
+    registry: "hex.pm"
+  ui_engine: "Phoenix LiveView 1.0+"
   database:
-    engine: PostgreSQL
-    version: 16+
+    engine: "PostgreSQL"
+    version: ">= 16.0"
     features:
-    - Ecto changesets
-    - BEAM supervisor trees
-    - Phoenix PubSub
+      - "Ecto changesets with parameter filtering"
+      - "BEAM OTP supervisor trees"
+      - "Distributed Phoenix PubSub"
+  runtime:
+    name: "BEAM (Erlang/OTP 27+)"
+
 layers:
   starter:
     path: starter/
@@ -35,48 +43,63 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - CODEX.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .clinerules
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: install-and-verify
-      path: skills/install-and-verify/SKILL.md
-      description: Install, orchestrate, and verify the Elixir + Phoenix 1.7+ LiveView + Ecto + PostgreSQL stack.
-    - id: first-feature
-      path: skills/first-feature/SKILL.md
-      description: Build the canonical first feature - real-time live synchronized stream list with PubSub broadcast.
-    - id: liveview-component
-      path: skills/liveview-component/SKILL.md
-      description: Build and test Phoenix LiveView components using streams for memory-efficient real-time updates.
-    - id: ecto-migration-changeset
-      path: skills/ecto-migration-changeset/SKILL.md
-      description: Create Ecto schemas, validated changesets with compile-checked query constraints, and reversible migrations.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, orchestrate, and verify the Elixir + Phoenix 1.7+ LiveView + Ecto + PostgreSQL stack.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Build the canonical first feature - real-time live synchronized stream list with PubSub broadcast.
+      - id: liveview-component
+        path: skills/liveview-component/SKILL.md
+        description: Build and test Phoenix LiveView components using streams for memory-efficient real-time updates.
+      - id: ecto-migration-changeset
+        path: skills/ecto-migration-changeset/SKILL.md
+        description: Create Ecto schemas, validated changesets with compile-checked query constraints, and reversible migrations.
+      - id: phoenix-pubsub-realtime
+        path: skills/phoenix-pubsub-realtime/SKILL.md
+        description: Implement multi-node real-time PubSub broadcasts across LiveView processes.
+      - id: exunit-liveview-test
+        path: skills/exunit-liveview-test/SKILL.md
+        description: Author fast, headless LiveView integration tests using Phoenix.LiveViewTest.
+      - id: elixir-phoenix-liveview-core
+        path: skills/elixir-phoenix-liveview-core/SKILL.md
+        description: Core operational workflows, Mix build targets, OTP supervisor configuration, and container deployment.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: true
-  median_eval_tokens: 16400
-  efficiency_tier: A
+  median_eval_tokens: 19396
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -86,5 +109,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

@@ -1,0 +1,10 @@
+# 01 Framework Architecture And Standards
+
+﻿# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
+
+1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
+2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = "ssr")]` to avoid bloating the client WASM bundle.
+3. **Fine-Grained Reactive Signals**: Structure UI state using fine-grained signals (`create_signal`, `create_memo`, `create_resource`). Avoid monolithic state objects; mutate only individual DOM nodes connected to updated signals without Virtual DOM diffing.
+4. **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide `src/main.rs` as the Axum SSR server entrypoint and `src/lib.rs` as the `wasm_bindgen` client hydration hook.
+5. **No Unsafe Code Policy**: Enforce `#[deny(unsafe_code)]` crate-wide to ensure memory safety, concurrency guarantees, and crash prevention across both server Tokio tasks and browser WebAssembly threads.
+
