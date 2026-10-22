@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laravel 12/13 + AI Features (LLM Orchestration, Embeddings & RAG) &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Production-ready enterprise Laravel kit for building generative AI applications. Features structured LLM outputs, function/tool calling, PostgreSQL pgvector embeddings, semantic search, prompt injection defense, and asynchronous queue workers.">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/laravel-ai-features/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/laravel-ai-features/">
+  <meta property="og:title" content="Laravel 12/13 + AI Features (LLM Orchestration, Embeddings & RAG) &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Production-ready enterprise Laravel kit for building generative AI applications. Features structured LLM outputs, function/tool calling, PostgreSQL pgvector embeddings, semantic search, prompt injection defense, and asynchronous queue workers.">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E85D26'><path d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/></svg>">
+
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does PostgreSQL pgvector integrate with Eloquent in this Laravel kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The kit defines an Eloquent model Document using a custom VectorCast attribute and a dedicated scopeCosineSimilarity() query builder method using the <=> operator, enabling native vector distance calculations in Eloquent without raw string concatenation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are structured outputs guaranteed from LLMs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The AiService utilizes JSON Schema definitions passed to the model's response_format parameter. The returned payload is then validated against typed PHP DTOs using Laravel's Validator before returning to the caller."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What defenses are in place against Prompt Injection and Jailbreaks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Input prompts are scanned against known adversarial patterns (instruction overrides, system prompt leak attempts, character smuggling), enclosed in explicit XML delimiters (<user_query>...</user_query>), and verified with canary token leak detection."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can this kit run fully offline without third-party LLM APIs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The kit provides a MockAiProvider for offline development and testing, and includes configuration bridges to connect directly to local Ollama or vLLM instances via standard OpenAI-compatible endpoints."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What embedding dimensions and vector index types are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The default migration configures vector(1536) for OpenAI text-embedding-3-small, indexed with an HNSW (Hierarchical Navigable Small World) index for sub-millisecond nearest neighbor retrieval."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does asynchronous document ingestion and embedding work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Large text documents are chunked and dispatched to Redis-backed Laravel Queues via ProcessDocumentEmbedding jobs, preventing HTTP request timeouts during embedding generation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is multi-tenant isolation enforced in semantic vector searches?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every vector query incorporates an explicit WHERE tenant_id = ? constraint within the Eloquent query scope, ensuring users can never retrieve vector embeddings belonging to other organizations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the kit support Server-Sent Events (SSE) for streaming AI responses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The AiChatController exposes a streaming route using response()->stream() that flushes token chunks to the client with text/event-stream headers in real time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the token consumption benchmark tier for this kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The kit is benchmarked at Tier A (16,400 median build tokens) due to clean separation of AI service interfaces and reusable Eloquent pgvector scopes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are API rate limits and token budgets enforced?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Laravel Redis rate limiters enforce sliding-window quotas per user ID, restricting both total requests per minute and cumulative daily completion token usage."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What PHP extensions are required for pgvector and AI workloads?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Dockerfile packages pdo_pgsql, mbstring, intl, bcmath, opcache, and phpredis, running strictly as non-root UID 10001:10001."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are Pest architectural tests configured for AI services?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pest ArchTest asserts that all AI services declare strict types, implement dedicated contracts, and avoid any hardcoded API credentials or raw debug calls."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does function/tool calling work in this kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tools are defined as standard PHP classes implementing an AiToolInterface with name, description, and jsonSchema() methods. The AiService automatically formats these into OpenAI tools declarations and dispatches matching calls."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What automated security scans run in CI for this kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GitHub Actions executes Gitleaks for secret detection, Semgrep with OWASP Top 10 rules, and manifest schema validation before any production deployment."
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body class="bg-white dark:bg-[#0A0A0B] text-[#12140F] dark:text-[#F4F4F5] font-sans antialiased min-h-screen flex flex-col selection:bg-[#FFF1E8] selection:text-[#e85d26]">
+
+  <!-- Master Navbar -->
+  <header class="sticky top-0 z-50 h-[60px] bg-white/90 dark:bg-[#0A0A0B]/90 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#26262C] transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+      
+      <!-- Left: Logo & Wordmark -->
+      <div class="flex items-center gap-8">
+        <a href="../../" class="flex items-center gap-2.5 group select-none" aria-label="TechTalks Stack Kits Home">
+          <div class="w-[30px] h-[30px] rounded-[6px] bg-[#e85d26] flex items-center justify-center text-white font-bold text-xs shadow-none">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="flex items-baseline">
+            <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F4F4F5] group-hover:text-[#e85d26] transition-colors">TechTalks</span>
+            <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] font-semibold ml-2">STACK KITS</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-[14px]" aria-label="Main Navigation">
+          <a href="../../kits/" class="text-[#12140F] dark:text-[#F4F4F5] font-semibold border-b-2 border-[#e85d26] pb-[1px] transition-colors">Kits</a>
+          <a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">How It Works</a>
+          <a href="../../blog/" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">Blog</a>
+          <a href="../../security/" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">Standards</a>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors inline-flex items-center gap-1">
+            <span>Community</span>
+            <span class="text-xs">&nearr;</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Right: Search, GitHub, Theme, Primary CTA -->
+      <div class="flex items-center gap-3">
+        <button type="button" class="hidden sm:inline-flex items-center gap-2 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#26262C] text-xs text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors" data-search-trigger aria-label="Search">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <span>Search</span>
+          <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[#F4F4F0] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">Ctrl K</kbd>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#26262C] text-xs font-mono text-[#12140F] dark:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span class="text-xs font-semibold">Star</span>
+        </a>
+
+        <button id="theme-toggle" type="button" aria-label="Toggle theme" class="w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+
+        <a href="../../kits/" class="hidden sm:inline-flex items-center justify-center h-[36px] px-3.5 rounded-[6px] text-[13px] font-semibold bg-[#12140F] text-white hover:bg-[#2A2E2C] dark:bg-white dark:text-[#0A0A0B] dark:hover:bg-[#E4E4E7] transition-all">
+          Browse Kits
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Kit Detail View -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+    
+    <!-- Breadcrumbs -->
+    <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#8E8E96] mb-6">
+      <a href="/" class="hover:text-[#e85d26]">Home</a>
+      <span>/</span>
+      <a href="/kits/" class="hover:text-[#e85d26]">Stack Kits</a>
+      <span>/</span>
+      <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">laravel-ai-features</span>
+    </nav>
+
+
+
+    <!-- Kit Header Section -->
+    <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">
+      <div class="flex flex-wrap items-center gap-3 mb-3">
+        <span class="chip-status-ready"><span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>READY TO SHIP</span>
+        <span class="text-xs font-mono text-[#8E8E96]">v1.0.0</span>
+        <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>
+        <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
+        Laravel 12/13 + AI Features (LLM Orchestration, Embeddings & RAG)
+      </h1>
+
+      <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
+        Production-ready enterprise Laravel kit for building generative AI applications. Features structured LLM outputs, function/tool calling, PostgreSQL pgvector embeddings, semantic search, prompt injection defense, and asynchronous queue workers.
+      </p>
+
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'PHP', 'version': '^8.3 || ^8.4', 'registry': 'packagist'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Laravel', 'version': '^11.0 || ^12.0 || ^13.0', 'registry': 'packagist'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL', 'version': '>= 16.0', 'features': ['pgvector Extension', 'vector(1536) Dimension', 'HNSW Cosine Distance Index', 'Zero-Downtime Migrations']}</span>
+      </div>
+
+      <!-- Quick Action Bar -->
+      <div class="flex flex-wrap items-center gap-3">
+        <div class="inline-flex items-center gap-2 px-3 py-2 rounded-[6px] bg-[#000000] border border-[#26262C] font-mono text-xs text-[#F4F4F5]">
+          <span class="text-[#8E8E96]">$</span>
+          <span>git clone https://github.com/Umar-444/Techtalks-stack-kits.git</span>
+          <button type="button" data-copy-cmd="git clone https://github.com/Umar-444/Techtalks-stack-kits.git" class="ml-2 text-[#8E8E96] hover:text-[#e85d26] transition-colors" title="Copy command">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          </button>
+        </div>
+        <button type="button" data-copy-cmd="You are building with the Laravel 12/13 + AI Features (LLM Orchestration, Embeddings & RAG) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
+          Copy Agent Bootstrap Prompt &rarr;
+        </button>
+      </div>
+    </div>
+
+    <!-- Numbered Layers (doc21 Spec) -->
+    <div class="space-y-12">
+
+      <!-- 01 / STARTER & ARCHITECTURE -->
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <div class="eyebrow-numbered text-[#e85d26]">01 / STARTER &amp; ARCHITECTURE</div>
+          <code class="font-mono text-xs text-[#8E8E96]">docker compose up -d</code>
+        </div>
+        <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
+          <div class="directory-row bg-[#F7F7F3] dark:bg-[#1A1A1E] font-semibold text-[11px] font-mono text-[#8E8E96] uppercase tracking-wider">
+            <span>File / Subsystem</span>
+            <span>Architecture Role</span>
+            <span>Status</span>
+          </div>
+          <div class="directory-row">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#8E8E96]">01</span>
+              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">docker-compose.yml</span>
+            </div>
+            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Rootless isolated application &amp; database runtime</span>
+            <span class="font-mono text-[10.5px] text-[#e85d26]">PRE-WIRED</span>
+          </div>
+          <div class="directory-row">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#8E8E96]">02</span>
+              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">starter/app/</span>
+            </div>
+            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Model layer, authorization policies, admin resources</span>
+            <span class="font-mono text-[10.5px] text-[#e85d26]">RBAC ENFORCED</span>
+          </div>
+          <div class="directory-row">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#8E8E96]">03</span>
+              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">starter/tests/</span>
+            </div>
+            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Pest / PHPUnit architectural and feature test suite</span>
+            <span class="font-mono text-[10.5px] text-[#e85d26]">AUTOMATED</span>
+          </div>
+          <div class="directory-row">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#8E8E96]">04</span>
+              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">.env.example</span>
+            </div>
+            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Zero plaintext secrets, strict dummy placeholders</span>
+            <span class="font-mono text-[10.5px] text-[#e85d26]">GITLEAKS READY</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 / RULES (6 NATIVE AGENT DIALECTS) -->
+      <section>
+        <div class="eyebrow-numbered text-[#e85d26] mb-4">02 / NATIVE RULES (6 DIALECTS)</div>
+        <div data-tabs-container class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
+          
+          <!-- Tabs -->
+          <div class="flex items-center overflow-x-auto border-b border-[#E6E6DF] dark:border-[#26262C] bg-[#F7F7F3] dark:bg-[#1A1A1E] px-2 pt-2 gap-1">
+            <button type="button" data-tab-target="tab-claude" class="px-4 py-2 font-mono text-xs border-b-2 border-[#e85d26] text-[#12140F] dark:text-white font-semibold bg-white dark:bg-[#131316] rounded-t-[4px] transition-colors focus:outline-none">
+              Claude Code (CLAUDE.md)
+            </button>
+            <button type="button" data-tab-target="tab-cursor" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
+              Cursor (.cursor/rules)
+            </button>
+            <button type="button" data-tab-target="tab-codex" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
+              OpenAI Codex (CODEX.md)
+            </button>
+            <button type="button" data-tab-target="tab-copilot" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
+              Copilot (instructions.md)
+            </button>
+            <button type="button" data-tab-target="tab-cline" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
+              Cline (.clinerules)
+            </button>
+            <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">
+              Antigravity (.agents/rules)
+            </button>
+          </div>
+
+          <div class="p-4">
+            <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
+              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
+                <span>Source: kits/laravel-ai-features/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
+                <button type="button" data-copy-cmd="Read CLAUDE.md in kits/laravel-ai-features for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
+              </div>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Laravel 12/13 + AI Features (LLM Orchestration, Embeddings &amp; RAG) — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Quick Reference &amp; Non-Negotiable Standards
+### Framework and AI Architecture Conventions
+&gt; Architecture standards for Laravel 12/13 AI integrations.
+
+# Framework and AI Architecture Conventions
+
+## 1. Strict Typing and Contracts
+- Always declare `declare(strict_types=1);` at the top of every PHP file.
+- Code against abstract contracts (`AiServiceInterface`, `EmbeddingServiceInterface`) to enable swapping providers and mock testing.
+- Return explicit types and typed DTOs from all service methods.
+
+## 2. Directory Layout
+- **AI Services**: `app/Services/Ai/` (LLM communication, prompt builders, tool executors).
+- **Embeddings**: `app/Services/Embeddings/` (text chunking, vector generation).
+- **DTOs**: `app/DTOs/` (typed request and response structures).
+- **Jobs**: `app/Jobs/` (asynchronous embedding generation and index updates).
+
+## 3. Never-List
+- Never make synchronous LLM API calls during user-facing write mutations; dispatch to Redis queues.</code></pre>
+            </div>
+
+            <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
+              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
+                <span>Source: kits/laravel-ai-features/.cursor/rules/*.mdc &bull; Token footprint: ~320 tokens</span>
+                <button type="button" data-copy-cmd="Read .cursor/rules in kits/laravel-ai-features" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
+              </div>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
+description: Architecture standards for Laravel 12/13 AI integrations.
+globs: [&#x27;app/**/*.php&#x27;, &#x27;config/**/*.php&#x27;]
+alwaysApply: true
+---
+
+# Framework and AI Architecture Conventions
+
+# Framework and AI Architecture Conventions
+
+## 1. Strict Typing and Contracts
+- Always declare `declare(strict_types=1);` at the top of every PHP file.
+- Code against abstract contracts (`AiServiceInterface`, `EmbeddingServiceInterface`) to enable swapping providers and mock testing.
+- Return explicit types and typed DTOs from all service methods.
+
+## 2. Directory Layout
+- **AI Services**: `app/Services/Ai/` (LLM communication, prompt builders, tool executors).
+- **Embeddings**: `app/Services/Embeddings/` (text chunking, vector generation).
+- **DTOs**: `app/DTOs/` (typed request and response structures).
+- **Jobs**: `app/Jobs/` (asynchronous embedding generation and index updates).
+
+## 3. Never-List</code></pre>
+            </div>
+
+            <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
+              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
+                <span>Source: kits/laravel-ai-features/CODEX.md &bull; Token footprint: ~400 tokens</span>
+                <button type="button" data-copy-cmd="Read CODEX.md in kits/laravel-ai-features" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
+              </div>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Laravel 12/13 + AI Features (LLM Orchestration, Embeddings &amp; RAG) — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [Framework and AI Architecture Conventions](#01-framework-and-ai-conventions)
+- [Structured Output and Tool Calling Standards](#02-llm-structured-output-and-tools)
+- [pgvector Embeddings and RAG Architecture](#03-pgvector-embeddings-and-rag)
+- [AI Security Guardrails and Sanitization](#04-security-guardrails-and-sanitization)
+- [Testing Verification and CI Standards](#05-testing-verification-and-ci)
+
+---
+
+&lt;a id=&quot;01-framework-and-ai-conventions&quot;&gt;&lt;/a&gt;
+## Framework and AI Architecture Conventions
+
+# Framework and AI Architecture Conventions
+
+## 1. Strict Typing and Contracts
+- Always declare `declare(strict_types=1);` at the top of every PHP file.
+- Code against abstract contracts (`AiServiceInterface`, `EmbeddingServiceInterface`) to enable swapping providers and mock testing.
+- Return explicit types and typed DTOs from all service methods.
+</code></pre>
+            </div>
+
+            <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
+              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
+                <span>Source: kits/laravel-ai-features/.github/copilot-instructions.md &bull; Token footprint: ~380 tokens</span>
+                <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/laravel-ai-features" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
+              </div>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Laravel 12/13 + AI Features (LLM Orchestration, Embeddings &amp; RAG)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Framework and AI Architecture Conventions
+# Framework and AI Architecture Conventions
+
+## 1. Strict Typing and Contracts
+- Always declare `declare(strict_types=1);` at the top of every PHP file.
+- Code against abstract contracts (`AiServiceInterface`, `EmbeddingServiceInterface`) to enable swapping providers and mock testing.
+- Return explicit types and typed DTOs from all service methods.
+
+## 2. Directory Layout
+- **AI Services**: `app/Services/Ai/` (LLM communication, prompt builders, tool executors).
+- **Embeddings**: `app/Services/Embeddings/` (text chunking, vector generation).
+- **DTOs**: `app/DTOs/` (typed request and response structures).
+- **Jobs**: `app/Jobs/` (asynchronous embedding generation and index updates).
+
+## 3. Never-List
+- Never make synchronous LLM API calls during user-facing write mutations; dispatch to Redis queues.
+- Never hardcode model names or API credentials in service code; read from `config/ai.php`.
+- Never trust raw LLM output without validating against a typed s
+...</code></pre>
+            </div>
+
+            <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
+              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
+                <span>Source: kits/laravel-ai-features/.clinerules &bull; Token footprint: ~310 tokens</span>
+                <button type="button" data-copy-cmd="Read .clinerules in kits/laravel-ai-features" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
+              </div>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Laravel 12/13 + AI Features (LLM Orchestration, Embeddings &amp; RAG) — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [Framework and AI Architecture Conventions](#01-framework-and-ai-conventions)
+- [Structured Output and Tool Calling Standards](#02-llm-structured-output-and-tools)
+- [pgvector Embeddings and RAG Architecture](#03-pgvector-embeddings-and-rag)
+- [AI Security Guardrails and Sanitization](#04-security-guardrails-and-sanitization)
+- [Testing Verification and CI Standards](#05-testing-verification-and-ci)
+
+---
+
+&lt;a id=&quot;01-framework-and-ai-conventions&quot;&gt;&lt;/a&gt;
+## Framework and AI Architecture Conventions
+
+# Framework and AI Architecture Conventions
+
+## 1. Strict Typing and Contracts
+- Always declare `declare(strict_types=1);` at the top of every PHP file.
+- Code against abstract contracts (`AiServiceInterface`, `EmbeddingServiceInterface`) to enable swapping providers and mock testing.
+- Return explicit types and typed DTOs from all service methods.
+</code></pre>
+            </div>
+
+            <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
+              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
+                <span>Source: kits/laravel-ai-features/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
+                <button type="button" data-copy-cmd="Read .agents/rules in kits/laravel-ai-features" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
+              </div>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Framework and AI Architecture Conventions
+
+# Framework and AI Architecture Conventions
+
+## 1. Strict Typing and Contracts
+- Always declare `declare(strict_types=1);` at the top of every PHP file.
+- Code against abstract contracts (`AiServiceInterface`, `EmbeddingServiceInterface`) to enable swapping providers and mock testing.
+- Return explicit types and typed DTOs from all service methods.
+
+## 2. Directory Layout
+- **AI Services**: `app/Services/Ai/` (LLM communication, prompt builders, tool executors).
+- **Embeddings**: `app/Services/Embeddings/` (text chunking, vector generation).
+- **DTOs**: `app/DTOs/` (typed request and response structures).
+- **Jobs**: `app/Jobs/` (asynchronous embedding generation and index updates).
+
+## 3. Never-List
+- Never make synchronous LLM API calls during user-facing write mutations; dispatch to Redis queues.
+- Never hardcode model names or API credentials in service code; read from `config/ai.php`.
+- Never trust raw LLM output without validating against a typed schema.</code></pre>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 / SKILLS & WORKFLOWS -->
+      <section>
+        <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
+        <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Build the canonical Semantic Document Search & RAG Q&A module with pgvector embeddings and structured LLM synthesis.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Install, configure, and verify the Laravel 12/13 + AI Features + pgvector stack with healthchecks.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">laravel-ai-features-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core configuration, mock LLM testing, and Horizon asynchronous embedding queue management.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">llm-structured-output</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Orchestrate LLMs with strict JSON Schema output enforcement, fallback retries, and typed DTO parsing.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">pgvector-semantic-search</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Generate document embeddings, configure PostgreSQL HNSW indexes, and execute cosine similarity queries.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">06</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">prompt-injection-defense</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Implement multi-layered prompt injection screening, delimiter bounding, and canary token leak detectors.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+        </div>
+      </section>
+
+      <!-- 04 / DESIGN SYSTEM TOKENS -->
+      <section>
+        <div class="eyebrow-numbered text-[#e85d26] mb-4">04 / DESIGN TOKENS &amp; COMPONENTS</div>
+        <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th>Design Token</th>
+                <th>Specification</th>
+                <th>Standard Enforcement</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-mono font-bold text-[#e85d26]">color.brand</td>
+                <td class="font-mono text-xs">#e85d26 (Orange status accent)</td>
+                <td>Status lights, active tabs, focus rings, primary CTA</td>
+              </tr>
+              <tr>
+                <td class="font-mono font-bold">color.surface.dark</td>
+                <td class="font-mono text-xs">#0A0A0B (Base) &bull; #131316 (Raised) &bull; #26262C (Hairline)</td>
+                <td>Dark-first showcase theme, hairline borders, no shadows</td>
+              </tr>
+              <tr>
+                <td class="font-mono font-bold">font.family.ui</td>
+                <td class="font-mono text-xs">Instrument Sans (14px base, tight scale)</td>
+                <td>Small and dense dashboard typography, zero AI slop</td>
+              </tr>
+              <tr>
+                <td class="font-mono font-bold">focus.ring</td>
+                <td class="font-mono text-xs">2px #e85d26 outline, 2px offset</td>
+                <td>Universal high-visibility focus ring, WCAG 2.2 AA compliant</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 05 / SECURITY SCANS & CI GATES -->
+      <section>
+        <div class="eyebrow-numbered text-[#e85d26] mb-4">05 / SECURITY SCANS &amp; CI GATES</div>
+        <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
+          <div class="directory-row">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#8E8E96]">01</span>
+              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">Gitleaks Secret Scanning</span>
+            </div>
+            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Scans commits, branches, and PRs for API keys &amp; tokens</span>
+            <span class="font-mono text-[10.5px] text-[#e85d26]">&check; ACTIVE</span>
+          </div>
+          <div class="directory-row">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#8E8E96]">02</span>
+              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">Semgrep AST Security Rules</span>
+            </div>
+            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Detects SQLi, CSRF omission, insecure deserialization</span>
+            <span class="font-mono text-[10.5px] text-[#e85d26]">&check; ACTIVE</span>
+          </div>
+          <div class="directory-row">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#8E8E96]">03</span>
+              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">OWASP Automated Test Suite</span>
+            </div>
+            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Functional tests validating session fixation &amp; XSS filtering</span>
+            <span class="font-mono text-[10.5px] text-[#e85d26]">&check; ACTIVE</span>
+          </div>
+          <div class="directory-row">
+            <div class="flex items-center gap-3">
+              <span class="font-mono text-xs text-[#8E8E96]">04</span>
+              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">Static Type Checking</span>
+            </div>
+            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">PHPStan Level 8 / Strict TypeScript compilation</span>
+            <span class="font-mono text-[10.5px] text-[#e85d26]">&check; ACTIVE</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 / STEP-BY-STEP PROCEDURE -->
+      <section>
+        <div class="eyebrow-numbered text-[#e85d26] mb-4">06 / STEP-BY-STEP PROCEDURE</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-5 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316]">
+            <span class="font-mono text-2xl font-bold text-[#e85d26] block mb-2">01</span>
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-1">Clone and Inspect</h4>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">
+              Clone repository, navigate to <code class="font-mono text-xs">kits/laravel-ai-features</code>, and start container services via docker compose.
+            </p>
+          </div>
+          <div class="p-5 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316]">
+            <span class="font-mono text-2xl font-bold text-[#e85d26] block mb-2">02</span>
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-1">Anchor AI Agent</h4>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">
+              Feed the Agent Bootstrap Prompt into Claude Code, Cursor, Codex, or Copilot. Agent consumes native rules and skills.
+            </p>
+          </div>
+          <div class="p-5 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316]">
+            <span class="font-mono text-2xl font-bold text-[#e85d26] block mb-2">03</span>
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-1">Verify Security Gates</h4>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">
+              Run automated CI evaluation. Security scanners assert zero vulnerabilities before merging features to production.
+            </p>
+          </div>
+        </div>
+      </section>
+
+            <!-- Section 3: Installation Guide -->
+      <section id="installation-guide">
+
+        <div class="mb-4 flex items-center justify-between">
+          <div>
+            <div class="eyebrow-numbered text-[#e85d26]">SECTION 3 &bull; INSTALLATION GUIDE</div>
+            <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">7-Part Installation &amp; Setup Standard</h3>
+          </div>
+          <span class="font-mono text-xs text-emerald-500 font-semibold">&check; VERIFIED INSTALL</span>
+        </div>
+
+        <div class="space-y-6">
+          <!-- 1. Prerequisites Table -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 1. Prerequisites Table
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs font-mono">
+                <thead>
+                  <tr class="border-b border-[#E6E6DF] dark:border-[#26262C] text-[#8E8E96]">
+                    <th class="pb-2">Tool</th>
+                    <th class="pb-2">Minimum Version</th>
+                    <th class="pb-2">Check Command</th>
+                    <th class="pb-2">Where to Get</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#E6E6DF] dark:divide-[#26262C] text-[#12140F] dark:text-[#F4F4F5]">
+                  <tr><td class="py-2">Docker Engine</td><td>24.0+</td><td>docker --version</td><td><a href="https://docker.com" target="_blank" class="text-[#e85d26] underline">docker.com</a></td></tr>
+                  <tr><td class="py-2">Docker Compose</td><td>v2.20+</td><td>docker compose version</td><td>Bundled with Docker</td></tr>
+                  <tr><td class="py-2">Git</td><td>2.40+</td><td>git --version</td><td><a href="https://git-scm.com" target="_blank" class="text-[#e85d26] underline">git-scm.com</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. Quickstart -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 2. Quickstart Execution
+            </h4>
+            <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+cd Techtalks-stack-kits/kits/laravel-ai-features/starter
+cp .env.example .env
+docker compose up --build -d</pre>
+          </div>
+
+          <!-- 3. Per-Agent Setup -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 3. Multi-Agent Rule Placement
+            </h4>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Claude Code</div>
+                <div class="text-[11px] text-[#8E8E96]">CLAUDE.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cursor</div>
+                <div class="text-[11px] text-[#8E8E96]">.cursor/rules/*.mdc</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Codex</div>
+                <div class="text-[11px] text-[#8E8E96]">CODEX.md / AGENTS.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Copilot</div>
+                <div class="text-[11px] text-[#8E8E96]">copilot-instructions.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cline</div>
+                <div class="text-[11px] text-[#8E8E96]">.clinerules</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Antigravity</div>
+                <div class="text-[11px] text-[#8E8E96]">.agents/rules/*.md</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Verification Probes -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 4. Post-Install Verification Probes
+            </h4>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>curl -s http://localhost:8000/healthz</span>
+                <span class="text-emerald-500 font-bold">&check; HTTP 200 OK</span>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>docker compose ps</span>
+                <span class="text-emerald-500 font-bold">&check; ALL SERVICES UP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </section>
+
+      <!-- Section 4: Frequently Asked Questions (FAQ) -->
+      <section id="faq">
+<div class="mb-4 flex items-center justify-between">
+  <div>
+    <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
+    <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
+  </div>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
+</div>
+<div class="space-y-3">
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does PostgreSQL pgvector integrate with Eloquent in this Laravel kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The kit defines an Eloquent model Document using a custom VectorCast attribute and a dedicated scopeCosineSimilarity() query builder method using the <=> operator, enabling native vector distance calculations in Eloquent without raw string concatenation.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How are structured outputs guaranteed from LLMs?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The AiService utilizes JSON Schema definitions passed to the model's response_format parameter. The returned payload is then validated against typed PHP DTOs using Laravel's Validator before returning to the caller.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What defenses are in place against Prompt Injection and Jailbreaks?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Input prompts are scanned against known adversarial patterns (instruction overrides, system prompt leak attempts, character smuggling), enclosed in explicit XML delimiters (<user_query>...</user_query>), and verified with canary token leak detection.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can this kit run fully offline without third-party LLM APIs?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The kit provides a MockAiProvider for offline development and testing, and includes configuration bridges to connect directly to local Ollama or vLLM instances via standard OpenAI-compatible endpoints.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What embedding dimensions and vector index types are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The default migration configures vector(1536) for OpenAI text-embedding-3-small, indexed with an HNSW (Hierarchical Navigable Small World) index for sub-millisecond nearest neighbor retrieval.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does asynchronous document ingestion and embedding work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Large text documents are chunked and dispatched to Redis-backed Laravel Queues via ProcessDocumentEmbedding jobs, preventing HTTP request timeouts during embedding generation.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is multi-tenant isolation enforced in semantic vector searches?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Every vector query incorporates an explicit WHERE tenant_id = ? constraint within the Eloquent query scope, ensuring users can never retrieve vector embeddings belonging to other organizations.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Does the kit support Server-Sent Events (SSE) for streaming AI responses?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The AiChatController exposes a streaming route using response()->stream() that flushes token chunks to the client with text/event-stream headers in real time.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the token consumption benchmark tier for this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The kit is benchmarked at Tier A (16,400 median build tokens) due to clean separation of AI service interfaces and reusable Eloquent pgvector scopes.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How are API rate limits and token budgets enforced?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Laravel Redis rate limiters enforce sliding-window quotas per user ID, restricting both total requests per minute and cumulative daily completion token usage.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What PHP extensions are required for pgvector and AI workloads?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The Dockerfile packages pdo_pgsql, mbstring, intl, bcmath, opcache, and phpredis, running strictly as non-root UID 10001:10001.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How are Pest architectural tests configured for AI services?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pest ArchTest asserts that all AI services declare strict types, implement dedicated contracts, and avoid any hardcoded API credentials or raw debug calls.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does function/tool calling work in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Tools are defined as standard PHP classes implementing an AiToolInterface with name, description, and jsonSchema() methods. The AiService automatically formats these into OpenAI tools declarations and dispatches matching calls.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What automated security scans run in CI for this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">GitHub Actions executes Gitleaks for secret detection, Semgrep with OWASP Top 10 rules, and manifest schema validation before any production deployment.</p></details>
+</div>
+      </section>
+
+<!-- Real Terminal Eval Transcript Block -->
+      <section>
+        <div class="rounded-[8px] bg-[#000000] border border-[#26262C] shadow-2xl overflow-hidden text-left">
+          <div class="flex items-center justify-between px-4 py-2 bg-[#131316] border-b border-[#26262C]">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#26262C]"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#26262C]"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#26262C]"></span>
+              <span class="font-mono text-xs text-[#8E8E96] ml-2">eval-transcript &bull; laravel-ai-features</span>
+            </div>
+            <span class="font-mono text-[10px] uppercase tracking-wider text-[#e85d26] font-semibold bg-[#20150F] px-2 py-0.5 rounded border border-[#e85d26]/30">GATES PASSED</span>
+          </div>
+          <div class="p-4 font-mono text-xs leading-relaxed text-[#F4F4F5] overflow-x-auto">
+            <div class="text-[#8E8E96] mb-1">$ aautomated test suite --kit laravel-ai-features</div>
+            <div class="text-emerald-400">&check; 01-manifest-integrity ............. PASS</div>
+            <div class="text-emerald-400">&check; 02-agent-dialects .................. PASS (6/6 compiled)</div>
+            <div class="text-emerald-400">&check; 03-skills-sandbox .................. PASS (Sandboxed tools)</div>
+            <div class="text-emerald-400">&check; 04-owasp-scanners .................. PASS (0 vulnerabilities)</div>
+            <div class="text-emerald-400">&check; 05-runtime-smoke ................... PASS (HTTP 200 OK)</div>
+            <div class="mt-2 pt-2 border-t border-[#26262C] text-[#8E8E96] text-[11px]">
+              Ready for immediate agent execution with zero configuration.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Agent Bootstrap Prompt Card -->
+      <section>
+        <div class="p-6 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+          <div class="flex items-center justify-between mb-3">
+            <div class="eyebrow-numbered text-[#e85d26]">AGENT BOOTSTRAP PROMPT</div>
+            <button type="button" data-copy-cmd="You are building with the Laravel 12/13 + AI Features (LLM Orchestration, Embeddings & RAG) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
+              <span>Copy Prompt</span>
+            </button>
+          </div>
+          <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] mb-3">
+            Paste this exact prompt into Claude Code, Cursor, Copilot, or Antigravity to anchor the agent in the kit's rules and invariants:
+          </p>
+          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the Laravel 12/13 + AI Features (LLM Orchestration, Embeddings & RAG) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
+        </div>
+      </section>
+
+    </div>
+
+  </main>
+
+  <!-- Master Footer -->
+  <footer class="bg-[#F7F7F3] dark:bg-[#0A0A0B] border-t border-[#E6E6DF] dark:border-[#26262C] pt-16 pb-12 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- 4 Columns Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#E6E6DF] dark:border-[#26262C]">
+        
+        <!-- Column 1: Brand -->
+        <div class="md:col-span-5 space-y-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-[28px] h-[28px] rounded-[6px] bg-[#e85d26] flex items-center justify-center text-white text-xs font-bold shrink-0">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div class="flex items-baseline">
+              <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F4F4F5]">TechTalks</span>
+              <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] font-semibold ml-2">STACK KITS</span>
+            </div>
+          </div>
+          <p class="text-[14px] text-[#5C6058] dark:text-[#C4C4CC] leading-[1.6] max-w-sm">
+            Complete stack kits for AI coding agents: starter code, rules, skills, design tokens and security checks in one clone.
+          </p>
+
+          <div class="pt-2 text-xs text-[#5C6058] dark:text-[#8E8E96]">
+            By Umar Farooq &bull; <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-[#12140F] dark:text-white font-medium hover:text-[#e85d26] underline transition-colors">itsumarfarooq.com &nearr;</a>
+          </div>
+        </div>
+
+        <!-- Column 2: Kits -->
+        <div class="md:col-span-2 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Kits
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="../../kits/laravel-filament-postgresql/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Filament</a></li>
+            <li><a href="../../kits/laravel-livewire-postgresql/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Livewire</a></li>
+            <li><a href="../../kits/laravel-mongodb/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + MongoDB</a></li>
+            <li><a href="../../kits/nextjs-approuter-supabase/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Next.js + Supabase</a></li>
+            <li><a href="../../kits/" class="font-medium text-[#12140F] dark:text-white hover:text-[#e85d26] transition-colors">All 30 Kits &rarr;</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Resources -->
+        <div class="md:col-span-2 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Resources
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="../../blog/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Blog</a></li>
+            <li><a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">How It Works</a></li>
+            <li><a href="../../security/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Security Standards</a></li>
+            <li><a href="../../sitemap.xml" class="font-mono text-xs text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white transition-colors">sitemap.xml</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Community -->
+        <div class="md:col-span-3 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Community
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">GitHub Repository &nearr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Discussions &nearr;</a></li>
+            <li><a href="https://itsumarfarooq.com#contact" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Contact Maintainer &nearr;</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="pt-8 flex flex-col md:flex-row items-center justify-between text-[13px] text-[#5C6058] dark:text-[#8E8E96] gap-4">
+        <div>
+          &copy; 2026 Umar Farooq &bull; TechTalks Stack Kits &bull; <a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-[#12140F] dark:hover:text-white">MIT License</a>
+        </div>
+        <div>
+          Open-source stack kits for AI coding agents.
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "id": "task-01-ai-service-scaffold",
+  "title": "AI Service Scaffold & Health Check",
+  "instruction": "Verify AI service provider, health endpoints, and pgvector connectivity.",
+  "assertions": [
+    "Route /api/health returns HTTP 200",
+    "AiService initializes with typed contracts"
+  ],
+  "prompt_tokens": 3300,
+  "completion_tokens": 2200
+}

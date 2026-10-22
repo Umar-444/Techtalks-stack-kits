@@ -1,0 +1,6 @@
+rules:
+  - id: avoid-raw-vector-interpolation
+    pattern: DB::raw("... <=> ..." . $VAR)
+    message: "Avoid concatenating raw vector coordinates into DB::raw(). Use parameterized bindings."
+    languages: [php]
+    severity: ERROR

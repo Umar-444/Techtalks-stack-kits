@@ -1,0 +1,70 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai_features_app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_KEY: base64:e48N5G+m4vG5xH7iP/0nE49bS4T7X2p1l4g8B7Z+9mQ=
+      DB_CONNECTION: pgsql
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_DATABASE: laravel_ai
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres_secret_password
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      AI_PROVIDER: mock
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - ai_net
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: ai_features_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: laravel_ai
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_secret_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgvector_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d laravel_ai"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - ai_net
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: ai_features_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - ai_net
+
+volumes:
+  pgvector_data:
+
+networks:
+  ai_net:
+    driver: bridge

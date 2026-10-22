@@ -1,0 +1,90 @@
+{
+  "kit_slug": "laravel-ai-features",
+  "updated_at": "2026-10-22",
+  "checks": [
+    {
+      "id": "SEC-01",
+      "name": "Zero Plaintext Credentials",
+      "status": "PASS",
+      "description": "LLM API keys enforced via environment variables."
+    },
+    {
+      "id": "SEC-02",
+      "name": "Rootless Container Isolation",
+      "status": "PASS",
+      "description": "Dockerfile specifies non-root USER 10001:10001."
+    },
+    {
+      "id": "SEC-03",
+      "name": "Prompt Injection Screening",
+      "status": "PASS",
+      "description": "Regex heuristics and delimiter encapsulation on user inputs."
+    },
+    {
+      "id": "SEC-04",
+      "name": "Parameterized Vector Queries",
+      "status": "PASS",
+      "description": "pgvector <=> operator executed via parameterized bindings."
+    },
+    {
+      "id": "SEC-05",
+      "name": "Multi-Tenant Vector Isolation",
+      "status": "PASS",
+      "description": "Strict tenant_id scoping on all semantic search queries."
+    },
+    {
+      "id": "SEC-06",
+      "name": "Token Budget & Rate Limiting",
+      "status": "PASS",
+      "description": "Redis sliding-window rate limiters prevent denial-of-wallet."
+    },
+    {
+      "id": "SEC-07",
+      "name": "JSON Schema Output Validation",
+      "status": "PASS",
+      "description": "Structured outputs validated against typed PHP DTO schemas."
+    },
+    {
+      "id": "SEC-08",
+      "name": "Egress Domain Allowlisting",
+      "status": "PASS",
+      "description": "Outbound HTTP calls restricted to approved LLM endpoints."
+    },
+    {
+      "id": "SEC-09",
+      "name": "Canary Token Leak Defense",
+      "status": "PASS",
+      "description": "Synthetic canary validation prevents system prompt exfiltration."
+    },
+    {
+      "id": "SEC-10",
+      "name": "CSRF & SSE Authentication",
+      "status": "PASS",
+      "description": "Streaming endpoints require valid session or Bearer token."
+    },
+    {
+      "id": "SEC-11",
+      "name": "XSS Output Escaping on AI Content",
+      "status": "PASS",
+      "description": "AI responses escaped prior to frontend rendering."
+    },
+    {
+      "id": "SEC-12",
+      "name": "Queue Poison Message Handling",
+      "status": "PASS",
+      "description": "Embedding jobs configured with maxTries=3 and dead-letter queue."
+    },
+    {
+      "id": "SEC-13",
+      "name": "SAST Semgrep OSS Scan",
+      "status": "PASS",
+      "description": "0 blocking findings on OWASP Top 10 ruleset."
+    },
+    {
+      "id": "SEC-14",
+      "name": "Gitleaks Secret Scan",
+      "status": "PASS",
+      "description": "0 leaked tokens or keys detected."
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "q": "How does PostgreSQL pgvector integrate with Eloquent in this Laravel kit?",
+    "a": "The kit defines an Eloquent model Document using a custom VectorCast attribute and a dedicated scopeCosineSimilarity() query builder method using the <=> operator, enabling native vector distance calculations in Eloquent without raw string concatenation."
+  },
+  {
+    "q": "How are structured outputs guaranteed from LLMs?",
+    "a": "The AiService utilizes JSON Schema definitions passed to the model's response_format parameter. The returned payload is then validated against typed PHP DTOs using Laravel's Validator before returning to the caller."
+  },
+  {
+    "q": "What defenses are in place against Prompt Injection and Jailbreaks?",
+    "a": "Input prompts are scanned against known adversarial patterns (instruction overrides, system prompt leak attempts, character smuggling), enclosed in explicit XML delimiters (<user_query>...</user_query>), and verified with canary token leak detection."
+  },
+  {
+    "q": "Can this kit run fully offline without third-party LLM APIs?",
+    "a": "Yes. The kit provides a MockAiProvider for offline development and testing, and includes configuration bridges to connect directly to local Ollama or vLLM instances via standard OpenAI-compatible endpoints."
+  },
+  {
+    "q": "What embedding dimensions and vector index types are supported?",
+    "a": "The default migration configures vector(1536) for OpenAI text-embedding-3-small, indexed with an HNSW (Hierarchical Navigable Small World) index for sub-millisecond nearest neighbor retrieval."
+  },
+  {
+    "q": "How does asynchronous document ingestion and embedding work?",
+    "a": "Large text documents are chunked and dispatched to Redis-backed Laravel Queues via ProcessDocumentEmbedding jobs, preventing HTTP request timeouts during embedding generation."
+  },
+  {
+    "q": "How is multi-tenant isolation enforced in semantic vector searches?",
+    "a": "Every vector query incorporates an explicit WHERE tenant_id = ? constraint within the Eloquent query scope, ensuring users can never retrieve vector embeddings belonging to other organizations."
+  },
+  {
+    "q": "Does the kit support Server-Sent Events (SSE) for streaming AI responses?",
+    "a": "Yes. The AiChatController exposes a streaming route using response()->stream() that flushes token chunks to the client with text/event-stream headers in real time."
+  },
+  {
+    "q": "What is the token consumption benchmark tier for this kit?",
+    "a": "The kit is benchmarked at Tier A (16,400 median build tokens) due to clean separation of AI service interfaces and reusable Eloquent pgvector scopes."
+  },
+  {
+    "q": "How are API rate limits and token budgets enforced?",
+    "a": "Laravel Redis rate limiters enforce sliding-window quotas per user ID, restricting both total requests per minute and cumulative daily completion token usage."
+  },
+  {
+    "q": "What PHP extensions are required for pgvector and AI workloads?",
+    "a": "The Dockerfile packages pdo_pgsql, mbstring, intl, bcmath, opcache, and phpredis, running strictly as non-root UID 10001:10001."
+  },
+  {
+    "q": "How are Pest architectural tests configured for AI services?",
+    "a": "Pest ArchTest asserts that all AI services declare strict types, implement dedicated contracts, and avoid any hardcoded API credentials or raw debug calls."
+  },
+  {
+    "q": "How does function/tool calling work in this kit?",
+    "a": "Tools are defined as standard PHP classes implementing an AiToolInterface with name, description, and jsonSchema() methods. The AiService automatically formats these into OpenAI tools declarations and dispatches matching calls."
+  },
+  {
+    "q": "What automated security scans run in CI for this kit?",
+    "a": "GitHub Actions executes Gitleaks for secret detection, Semgrep with OWASP Top 10 rules, and manifest schema validation before any production deployment."
+  }
+]

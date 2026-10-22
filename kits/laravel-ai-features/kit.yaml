@@ -1,0 +1,124 @@
+schema_version: "1.0.0"
+
+name: "Laravel 12/13 + AI Features (LLM Orchestration, Embeddings & RAG)"
+slug: "laravel-ai-features"
+version: "1.0.0"
+status: "stable"
+category: "Laravel"
+updated_at: "2026-10-22"
+
+description: "Production-ready enterprise Laravel kit for building generative AI applications. Features structured LLM outputs, function/tool calling, PostgreSQL pgvector embeddings, semantic search, prompt injection defense, and asynchronous queue workers."
+
+maintainer:
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
+stack:
+  language:
+    name: "PHP"
+    version: "^8.3 || ^8.4"
+    registry: "packagist"
+  framework:
+    name: "Laravel"
+    version: "^11.0 || ^12.0 || ^13.0"
+    registry: "packagist"
+  ai_sdk:
+    name: "OpenAI PHP / Laravel HTTP"
+    features:
+      - "Structured Outputs (JSON Schema)"
+      - "Function Calling & Tools"
+      - "Streaming SSE Responses"
+      - "Prompt Injection Screening"
+  database:
+    engine: "PostgreSQL"
+    version: ">= 16.0"
+    features:
+      - "pgvector Extension"
+      - "vector(1536) Dimension"
+      - "HNSW Cosine Distance Index"
+      - "Zero-Downtime Migrations"
+  cache_queue:
+    engine: "Redis"
+    version: ">= 7.2"
+  runtime:
+    name: "PHP-FPM"
+    version: ">= 8.3"
+
+layers:
+  starter:
+    path: starter/
+    type: pre-wired-container
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, configure, and verify the Laravel 12/13 + AI Features + pgvector stack with healthchecks.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Build the canonical Semantic Document Search & RAG Q&A module with pgvector embeddings and structured LLM synthesis.
+      - id: llm-structured-output
+        path: skills/llm-structured-output/SKILL.md
+        description: Orchestrate LLMs with strict JSON Schema output enforcement, fallback retries, and typed DTO parsing.
+      - id: pgvector-semantic-search
+        path: skills/pgvector-semantic-search/SKILL.md
+        description: Generate document embeddings, configure PostgreSQL HNSW indexes, and execute cosine similarity queries.
+      - id: prompt-injection-defense
+        path: skills/prompt-injection-defense/SKILL.md
+        description: Implement multi-layered prompt injection screening, delimiter bounding, and canary token leak detectors.
+      - id: laravel-ai-features-core
+        path: skills/laravel-ai-features-core/SKILL.md
+        description: Core configuration, mock LLM testing, and Horizon asynchronous embedding queue management.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
+  design:
+    path: DESIGN.md
+    theme_support:
+      - light
+      - dark
+    wcag_compliance: "AA"
+  security:
+    config_dir: security/
+    checks:
+      - gitleaks
+      - semgrep
+      - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+
+token_metrics:
+  token_light: true
+  median_eval_tokens: 16400
+  efficiency_tier: "A"
+
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    prompt_injection_screening: true
+    authorization_on_every_resource: true
+    rootless_container_enforced: true
+
+install:
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

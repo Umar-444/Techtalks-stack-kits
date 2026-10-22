@@ -1,0 +1,11 @@
+{
+  "id": "task-03-prompt-injection-guardrail",
+  "title": "Prompt Injection Screening Guardrail",
+  "instruction": "Assert that adversarial jailbreak patterns are intercepted with SecurityException.",
+  "assertions": [
+    "Screening detects system override instructions",
+    "Clean inputs return bounded XML tags"
+  ],
+  "prompt_tokens": 3400,
+  "completion_tokens": 2300
+}

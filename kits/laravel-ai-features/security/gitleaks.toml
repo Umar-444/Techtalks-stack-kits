@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowed placeholder test tokens"
+regexes = [
+  '''(?i)mock-ai-test-key''',
+  '''(?i)eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'''
+]

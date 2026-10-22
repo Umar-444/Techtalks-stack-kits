@@ -1,0 +1,55 @@
+{
+  "kit_slug": "laravel-ai-features",
+  "name": "Laravel 12/13 + AI Features",
+  "token_metrics": {
+    "median_tokens": 16400,
+    "tier": "A",
+    "token_light": true
+  },
+  "eval_tasks": [
+    {
+      "id": "laravel-ai-features-task-01",
+      "title": "Initialization & Environment Config",
+      "instruction": "Verify Laravel 12/13 + AI Features boots cleanly.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health check responds 200 OK"
+      ],
+      "prompt_tokens": 2900,
+      "completion_tokens": 2100
+    },
+    {
+      "id": "laravel-ai-features-task-02",
+      "title": "Data Model & Schema",
+      "instruction": "Define pgvector embeddings schema and models.",
+      "assertions": [
+        "Schema validates",
+        "Vector column declared"
+      ],
+      "prompt_tokens": 3100,
+      "completion_tokens": 2300
+    },
+    {
+      "id": "laravel-ai-features-task-03",
+      "title": "API Handlers & Security",
+      "instruction": "Expose endpoints with prompt injection guardrails.",
+      "assertions": [
+        "Auth enforced",
+        "Prompt injection blocked"
+      ],
+      "prompt_tokens": 3000,
+      "completion_tokens": 2200
+    },
+    {
+      "id": "laravel-ai-features-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Execute Pest architecture assertions and security scans.",
+      "assertions": [
+        "Arch test passes with 0 violations",
+        "Zero secrets detected"
+      ],
+      "prompt_tokens": 3100,
+      "completion_tokens": 2400
+    }
+  ]
+}

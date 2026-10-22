@@ -1,0 +1,11 @@
+{
+  "id": "task-02-pgvector-similarity-search",
+  "title": "PostgreSQL pgvector Cosine Search",
+  "instruction": "Verify cosine similarity retrieval over 1536-dim vector embeddings.",
+  "assertions": [
+    "HNSW index on embedding vector(1536) created",
+    "Cosine similarity search returns ranked results"
+  ],
+  "prompt_tokens": 3500,
+  "completion_tokens": 2400
+}

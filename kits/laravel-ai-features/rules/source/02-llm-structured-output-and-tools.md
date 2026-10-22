@@ -1,0 +1,19 @@
+---
+id: 02-llm-structured-output-and-tools
+title: Structured Output and Tool Calling Standards
+description: Enforcing JSON Schema guarantees and safe tool execution.
+globs: ["app/Services/Ai/**/*.php", "app/DTOs/**/*.php"]
+alwaysApply: true
+---
+
+# Structured Output and Tool Calling Standards
+
+## 1. JSON Schema Enforcement
+- Always pass explicit JSON schemas using `response_format` or structured output APIs.
+- Validate parsed JSON using Laravel `Validator::make($data, $rules)->validate()`.
+- Implement fallback retry mechanisms if the model returns malformed JSON.
+
+## 2. Tool / Function Calling Protocol
+- Implement each tool as an isolated class implementing `AiToolInterface`.
+- Verify user authorization inside tool execution methods before mutating state.
+- Sanitize tool arguments to prevent argument injection attacks.
