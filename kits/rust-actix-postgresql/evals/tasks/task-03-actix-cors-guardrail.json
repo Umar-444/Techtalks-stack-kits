@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-03-actix-cors-guardrail",
+  "name": "Actix CORS Origin Guardrail and Header Enforcement",
+  "difficulty": "intermediate",
+  "prompt": "Configure Actix CORS middleware to parse allowed origins strictly from the ALLOWED_ORIGINS environment variable. Reject permissive wildcard (*) origins on authenticated routes and verify validation error handling.",
+  "expected_files": [
+    "starter/src/lib.rs",
+    "starter/src/main.rs"
+  ],
+  "verification": {
+    "command": "cargo test --test api_test test_validation_error_on_empty_title",
+    "criteria": "CORS headers are correctly applied from whitelist without wildcard exposure"
+  }
+}

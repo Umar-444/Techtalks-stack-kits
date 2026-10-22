@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-02-seaorm-parameterized-queries",
+  "name": "SeaORM Parameterized Queries and ActiveModel Insert",
+  "difficulty": "intermediate",
+  "prompt": "Implement an entity insertion and query function using SeaORM ActiveModel, ensuring all queries use parameterized statements without SQL string concatenation, with bounded connection pooling.",
+  "expected_files": [
+    "starter/src/handlers.rs",
+    "starter/src/dtos.rs"
+  ],
+  "verification": {
+    "command": "cargo check",
+    "criteria": "Compiles with zero warnings, uses ActiveModelTrait, and avoids raw string interpolation"
+  }
+}

@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-01-loco-mvc-scaffold",
+  "name": "Loco.rs MVC Controller and AppHooks Scaffolding",
+  "difficulty": "beginner",
+  "prompt": "Implement a Loco.rs controller with Routes::new() and register it inside AppHooks::routes in src/app.rs, returning a strongly typed HealthResponse JSON envelope.",
+  "expected_files": [
+    "starter/src/controllers/health.rs",
+    "starter/src/app.rs"
+  ],
+  "verification": {
+    "command": "cargo test --test api_test test_health_response_schema",
+    "criteria": "Routes compile cleanly and health response matches JSON schema"
+  }
+}

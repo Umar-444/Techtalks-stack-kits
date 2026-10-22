@@ -1,0 +1,15 @@
+﻿{
+  "task_id": "eval-01-actix-http-health",
+  "name": "Actix Web Health Check Endpoint and AppState Scaffolding",
+  "difficulty": "beginner",
+  "prompt": "Implement a health check handler in Actix Web that extracts shared AppState via web::Data and returns a typed JSON payload with status, application name, version, and runtime identifier.",
+  "expected_files": [
+    "starter/src/handlers.rs",
+    "starter/src/state.rs",
+    "starter/src/lib.rs"
+  ],
+  "verification": {
+    "command": "cargo test --test api_test test_healthz_endpoint",
+    "criteria": "Handler responds with HTTP 200 and matches HealthResponse struct schema"
+  }
+}

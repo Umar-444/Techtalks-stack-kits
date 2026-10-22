@@ -1,0 +1,16 @@
+﻿# Assistant Guidelines for Rust + Actix Web + SeaORM + PostgreSQL Stack Kit
+
+## Stack Overview
+- Language: Rust 1.80+ (Edition 2021)
+- Framework: Actix Web 4.9+ (Actor-based multi-threaded web engine)
+- Database ORM: SeaORM 1.1+ (Async dynamic ORM with Tokio runtime)
+- Database: PostgreSQL 16+ (Bounded connection pooling via ConnectOptions)
+- Serialization & Validation: Serde 1.0, Serde JSON 1.0, Validator 0.18
+- Security: #![deny(unsafe_code)], strict CORS whitelist, non-root Alpine container (USER 10001:10001)
+
+## Mandatory Rules
+1. Zero unparameterized SQL queries. All database access must use SeaORM query builders and active models.
+2. All route handlers must return Result<impl Responder, AppError> with strongly-typed JSON responses.
+3. Apply actix_cors::Cors strictly whitelist-validated from ALLOWED_ORIGINS; reject wildcard origins.
+4. Bound SeaORM connection pool limits (max_connections=25, min_connections=5, acquire_timeout=3s).
+5. Catch database and internal errors within AppError, logging details internally with tracing and masking server errors with HTTP 500.

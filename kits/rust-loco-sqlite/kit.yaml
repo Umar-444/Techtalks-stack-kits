@@ -1,32 +1,41 @@
-schema_version: 1.0.0
-name: Rust + Loco.rs + SeaORM + SQLite
-slug: rust-loco-sqlite
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Rails-style convention-over-configuration for Rust: Loco.rs MVC architecture,
-  predictable generators, SeaORM migrations, and zero-ceremony SQLite storage.'
-category: Rust
+﻿schema_version: "1.0.0"
+
+name: "Rust + Loco.rs + SeaORM + SQLite"
+slug: "rust-loco-sqlite"
+version: "1.0.0"
+status: "stable"
+category: "backend"
+updated_at: "2026-10-22"
+
+description: "Production-grade convention-over-configuration web service using Loco.rs 0.13 (Rails for Rust), Axum HTTP engine, SeaORM dynamic migrations, and zero-lock SQLite WAL storage."
+
 maintainer:
-  name: TechTalks Rust Community Maintainers
-  role: Loco Framework Engineer
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Systems Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Rust
-    version: 1.80+
-    registry: crates.io
+    name: "Rust"
+    version: ">= 1.80.0"
+    registry: "crates.io"
   framework:
-    name: Loco.rs
-    version: 0.13+
-    registry: crates.io
+    name: "Loco.rs"
+    version: "^0.13"
+    registry: "crates.io"
   database:
-    engine: SQLite / PostgreSQL
-    version: 3.45+
+    engine: "SQLite"
+    version: ">= 3.45.0"
     features:
-    - SeaORM migrations
-  conventions: MVC generators, token-light agent ergonomics
+      - "Write-Ahead Logging (WAL mode)"
+      - "SeaORM migrations & ActiveModel"
+      - "Zero-ceremony embedded file storage"
+  runtime:
+    name: "Tokio (Axum Engine)"
+    version: ">= 1.40"
+
 layers:
   starter:
     path: starter/
@@ -34,38 +43,57 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: rust-loco-sqlite-core
-      path: skills/rust-loco-sqlite-core/SKILL.md
-      description: Core operations and scaffolding skill for Rust + Loco.rs + SeaORM
-        + SQLite.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install and orchestrate Loco CLI, SQLite WAL mode, and health check verification.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Scaffold new model, migration, and controller using Loco generators and SeaORM ActiveModel.
+      - id: sqlite-wal-optimization
+        path: skills/sqlite-wal-optimization/SKILL.md
+        description: Configure SQLite Write-Ahead Logging (WAL), busy timeout, and memory pragmas for zero-lock concurrency.
+      - id: loco-controller-generation
+        path: skills/loco-controller-generation/SKILL.md
+        description: Author Loco controllers with Axum extractors, strongly typed JSON views, and error envelopes.
+      - id: rust-loco-sqlite-core
+        path: skills/rust-loco-sqlite-core/SKILL.md
+        description: Core operations, MVC generators, SQLite storage persistence, and Docker deployment workflows.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: true
   median_eval_tokens: 19800
-  efficiency_tier: A
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -75,5 +103,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

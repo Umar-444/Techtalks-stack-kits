@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-02-sqlite-wal-concurrency",
+  "name": "SQLite WAL Mode Configuration and SeaORM ActiveModel Safety",
+  "difficulty": "intermediate",
+  "prompt": "Configure SQLite database connection string with WAL mode (_journal_mode=WAL) and busy timeout (_busy_timeout=5000). Ensure entity mutations use SeaORM ActiveModel without unparameterized raw SQL.",
+  "expected_files": [
+    "starter/config/development.yaml",
+    "starter/src/models/mod.rs"
+  ],
+  "verification": {
+    "command": "cargo check",
+    "criteria": "Config defines WAL parameters and models derive SeaORM entity traits"
+  }
+}

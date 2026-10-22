@@ -1,0 +1,10 @@
+# 05 Testing Verification And Ci
+
+﻿# Testing, Verification, and CI Standards
+
+1. **Actix Web Integration Harness**: Test API handlers using `actix_web::test` utilities (`test::init_service`, `test::TestRequest`, `test::call_service`, and `test::read_body_json`) for fast, true-to-runtime verification.
+2. **SeaORM Mock Database Testing**: Use SeaORM's `MockDatabase` backend to verify entity CRUD and transaction logic in isolated unit tests without requiring a running PostgreSQL server.
+3. **Health and Readiness Endpoints**: Expose `/healthz` and `/health` endpoints returning HTTP 200 and machine-readable service status for Kubernetes and Docker container healthchecks.
+4. **Automated Supply Chain Audits**: Enforce `cargo audit` in CI pipelines to prevent known vulnerable dependencies from reaching production builds.
+5. **Transpiler Zero-Drift**: Run `python tools/transpiler.py --check` in continuous integration to verify that all 6 agent dialects match source rules with zero drift.
+

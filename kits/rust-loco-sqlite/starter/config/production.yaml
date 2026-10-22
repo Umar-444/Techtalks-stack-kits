@@ -1,0 +1,17 @@
+﻿server:
+  port: 5150
+  binding: 0.0.0.0
+  host: http://localhost
+database:
+  uri: sqlite://storage/db.sqlite?mode=rwc&_journal_mode=WAL&_busy_timeout=5000&_synchronous=NORMAL
+  enable_logging: false
+  min_connections: 2
+  max_connections: 20
+  auto_migrate: true
+logger:
+  level: warn
+  format: json
+cors:
+  enable: true
+  allow_origins:
+    - https://app.example.com

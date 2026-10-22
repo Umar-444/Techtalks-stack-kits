@@ -1,0 +1,10 @@
+# 01 Framework Architecture And Standards
+
+﻿# Framework Architecture and Standards: Rust, Actix Web, and SeaORM
+
+1. **Actor Model and Multi-Threaded Workers**: Actix Web spawns dedicated worker threads (defaulting to the host CPU core count) each running their own single-threaded Tokio event loop. Application factory closures passed to `HttpServer::new` must be `Send + Clone + 'static`.
+2. **Layered Domain Separation**: Structure source code into modular layers: `main.rs` (server bootstrapping and pool lifecycle), `handlers.rs` (HTTP request decoding and response presentation), `entities/` (SeaORM active models and schema bindings), `errors.rs` (unified error handling enum), and `state.rs` (shared application state). Never embed raw SQL or business transactions directly inside router declarations.
+3. **Structured Configuration via Environment**: Load configuration via `dotenvy::dotenv()` and parse strongly-typed environment structs using `serde`. Support `DATABASE_URL`, `PORT`, `HOST`, `WORKER_THREADS`, and `ALLOWED_ORIGINS` with safe fallback defaults for local development.
+4. **Graceful Shutdown and Signal Trapping**: Configure Actix Web HTTP server shutdown with proper signal traps for `SIGINT` and `SIGTERM`. Ensure in-flight HTTP requests complete and SeaORM connection pools gracefully flush before the process exits.
+5. **No Unsafe Code Policy**: Enforce `#[deny(unsafe_code)]` at the crate root to guarantee memory safety, data-race freedom, and thread safety across all Actix worker threads.
+

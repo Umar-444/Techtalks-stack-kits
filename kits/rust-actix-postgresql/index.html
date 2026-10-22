@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rust + Actix Web + SeaORM + PostgreSQL (Blueprint) &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="High-throughput API champion: Actix Web actor-based multi-threaded engine paired with SeaORM dynamic async ORM and PostgreSQL.">
+  <title>Rust + Actix Web + SeaORM + PostgreSQL &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Production-grade asynchronous Rust web service using Actix Web 4.9 multi-threaded actor architecture, SeaORM 1.1 dynamic async ORM, and PostgreSQL 16+ connection pooling.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/rust-actix-postgresql/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/rust-actix-postgresql/">
-  <meta property="og:title" content="Rust + Actix Web + SeaORM + PostgreSQL (Blueprint) &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="High-throughput API champion: Actix Web actor-based multi-threaded engine paired with SeaORM dynamic async ORM and PostgreSQL.">
+  <meta property="og:title" content="Rust + Actix Web + SeaORM + PostgreSQL &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Production-grade asynchronous Rust web service using Actix Web 4.9 multi-threaded actor architecture, SeaORM 1.1 dynamic async ORM, and PostgreSQL 16+ connection pooling.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -201,27 +201,27 @@
       <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">rust-actix-postgresql</span>
     </nav>
 
-<div class="mb-8 p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] border-l-[3px] border-l-[#B7791F] text-xs leading-relaxed flex items-start gap-3"><span class="font-mono font-bold text-[#B7791F] uppercase tracking-wider">Note:</span><div class="text-[#5C6058] dark:text-[#C4C4CC]">This kit is an architectural blueprint. Specifications, threat models, and multi-dialect rules are compiled. Starter containers are in active verification.</div></div>
+
 
     <!-- Kit Header Section -->
     <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="chip-status-blueprint"><span class="w-1.5 h-1.5 rounded-full bg-[#8E8E96]"></span>BLUEPRINT</span>
+        <span class="chip-status-ready"><span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>READY TO SHIP</span>
         <span class="text-xs font-mono text-[#8E8E96]">v1.0.0</span>
         <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>
         <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        Rust + Actix Web + SeaORM + PostgreSQL (Blueprint)
+        Rust + Actix Web + SeaORM + PostgreSQL
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        High-throughput API champion: Actix Web actor-based multi-threaded engine paired with SeaORM dynamic async ORM and PostgreSQL.
+        Production-grade asynchronous Rust web service using Actix Web 4.9 multi-threaded actor architecture, SeaORM 1.1 dynamic async ORM, and PostgreSQL 16+ connection pooling.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Rust', 'version': '1.80+', 'registry': 'crates.io'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Actix Web', 'version': '4.9+', 'registry': 'crates.io'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL', 'version': '16+', 'features': ['SeaORM migrations', 'ActiveModel traits']}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Rust', 'version': '>= 1.80.0', 'registry': 'crates.io'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Actix Web', 'version': '^4.9', 'registry': 'crates.io'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL', 'version': '>= 16.0', 'features': ['SeaORM ActiveModel dynamic ORM', 'Bounded connection pooling via ConnectOptions', 'Declarative SeaORM migrations']}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -326,24 +326,13 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Quick Reference &amp; Non-Negotiable Standards
-### Architectural Standards for Rust + Actix Web + SeaORM + PostgreSQL
-# Architecture Standards: Rust + Actix Web + SeaORM + PostgreSQL
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+### 01 Framework Architecture And Standards
+﻿# Framework Architecture and Standards: Rust, Actix Web, and SeaORM
 
-### Security Invariants for Rust + Actix Web + SeaORM + PostgreSQL
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
-
-### Agent Coding Conventions for Rust + Actix Web + SeaORM + PostgreSQL
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-</code></pre>
+1. **Actor Model and Multi-Threaded Workers**: Actix Web spawns dedicated worker threads (defaulting to the host CPU core count) each running their own single-threaded Tokio event loop. Application factory closures passed to `HttpServer::new` must be `Send + Clone + &#x27;static`.
+2. **Layered Domain Separation**: Structure source code into modular layers: `main.rs` (server bootstrapping and pool lifecycle), `handlers.rs` (HTTP request decoding and response presentation), `entities/` (SeaORM active models and schema bindings), `errors.rs` (unified error handling enum), and `state.rs` (shared application state). Never embed raw SQL or business transactions directly inside router declarations.
+3. **Structured Configuration via Environment**: Load configuration via `dotenvy::dotenv()` and parse strongly-typed environment structs using `serde`. Support `DATABASE_URL`, `PO
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
@@ -352,17 +341,20 @@
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/rust-actix-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
-description: Agent Coding Conventions for Rust + Actix Web + SeaORM + PostgreSQL
+description: 01 Framework Architecture And Standards
 globs: *
 alwaysApply: true
 ---
 
-# Agent Coding Conventions for Rust + Actix Web + SeaORM + PostgreSQL
+# 01 Framework Architecture And Standards
 
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.</code></pre>
+﻿# Framework Architecture and Standards: Rust, Actix Web, and SeaORM
+
+1. **Actor Model and Multi-Threaded Workers**: Actix Web spawns dedicated worker threads (defaulting to the host CPU core count) each running their own single-threaded Tokio event loop. Application factory closures passed to `HttpServer::new` must be `Send + Clone + &#x27;static`.
+2. **Layered Domain Separation**: Structure source code into modular layers: `main.rs` (server bootstrapping and pool lifecycle), `handlers.rs` (HTTP request decoding and response presentation), `entities/` (SeaORM active models and schema bindings), `errors.rs` (unified error handling enum), and `state.rs` (shared application state). Never embed raw SQL or business transactions directly inside router declarations.
+3. **Structured Configuration via Environment**: Load configuration via `dotenvy::dotenv()` and parse strongly-typed environment structs using `serde`. Support `DATABASE_URL`, `PORT`, `HOST`, `WORKER_THREADS`, and `ALLOWED_ORIGINS` with safe fallback defaults for local development.
+4. **Graceful Shutd
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
@@ -370,28 +362,28 @@ alwaysApply: true
                 <span>Source: kits/rust-actix-postgresql/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rust-actix-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rust + Actix Web + SeaORM + PostgreSQL — Agent Operating Rules (AGENTS.md)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: Rust + Actix Web + SeaORM + PostgreSQL
+
+# Rust + Actix Web + SeaORM + PostgreSQL â€” Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Table of Contents
-- [Architectural Standards for Rust + Actix Web + SeaORM + PostgreSQL](#architecture-guidelines)
-- [Security Invariants for Rust + Actix Web + SeaORM + PostgreSQL](#security-invariants)
-- [Agent Coding Conventions for Rust + Actix Web + SeaORM + PostgreSQL](#agent-coding-conventions)
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Seaorm Entities And Postgresql Pooling](#02-seaorm-entities-and-postgresql-pooling)
+- [03 Api Routing And Error Handling](#03-api-routing-and-error-handling)
+- [04 Security Invariants And Input Validation](#04-security-invariants-and-input-validation)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
 
 ---
 
-&lt;a id=&quot;architecture-guidelines&quot;&gt;&lt;/a&gt;
-## Architectural Standards for Rust + Actix Web + SeaORM + PostgreSQL
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
 
-# Architecture Standards: Rust + Actix Web + SeaORM + PostgreSQL
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+ï»؟# Framework Architecture and Standards: Rust, Actix Web, and SeaORM
 
----
-
-&lt;a id=&quot;security-invariants&quot;&gt;&lt;/a&gt;
-## Security Invariants for Rust + Actix Web + SeaORM + PostgreSQL</code></pre>
+1. **Actor Model and Multi-Threaded Workers**: Actix Web spawns dedicated worker threads (defaulting to the host CPU core count) each running their own single-threaded Tokio event loop. Application factory closures passed to `HttpServer::new` must be `Send + Clone + &#x27;static`.
+2. **Layered Domain Separation**: Structure source code into mod
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
@@ -402,24 +394,13 @@ alwaysApply: true
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Rust + Actix Web + SeaORM + PostgreSQL
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## Architectural Standards for Rust + Actix Web + SeaORM + PostgreSQL
-# Architecture Standards: Rust + Actix Web + SeaORM + PostgreSQL
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+## 01 Framework Architecture And Standards
+﻿# Framework Architecture and Standards: Rust, Actix Web, and SeaORM
 
-## Security Invariants for Rust + Actix Web + SeaORM + PostgreSQL
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
-
-## Agent Coding Conventions for Rust + Actix Web + SeaORM + PostgreSQL
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-</code></pre>
+1. **Actor Model and Multi-Threaded Workers**: Actix Web spawns dedicated worker threads (defaulting to the host CPU core count) each running their own single-threaded Tokio event loop. Application factory closures passed to `HttpServer::new` must be `Send + Clone + &#x27;static`.
+2. **Layered Domain Separation**: Structure source code into modular layers: `main.rs` (server bootstrapping and pool lifecycle), `handlers.rs` (HTTP request decoding and response presentation), `entities/` (SeaORM active models and schema bindings), `errors.rs` (unified error handling enum), and `state.rs` (shared application state). Never embed raw SQL or business transactions directly inside router declarations.
+3. **Structured Configuration via Environment**: Load configuration via `dotenvy::dotenv()` and parse strongly-typed environment structs using `serde`. Support `DATABASE_URL`, `PORT`, `HOST`, `WORKER_THREADS`, and `ALLOWED_ORIGINS`
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
@@ -427,9 +408,22 @@ alwaysApply: true
                 <span>Source: kits/rust-actix-postgresql/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/rust-actix-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Rust + Actix Web + SeaORM + PostgreSQL (Blueprint)
-- Follow architectural boundaries
-- Enforce strict security invariants</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# Assistant Guidelines for Rust + Actix Web + SeaORM + PostgreSQL Stack Kit
+
+## Stack Overview
+- Language: Rust 1.80+ (Edition 2021)
+- Framework: Actix Web 4.9+ (Actor-based multi-threaded web engine)
+- Database ORM: SeaORM 1.1+ (Async dynamic ORM with Tokio runtime)
+- Database: PostgreSQL 16+ (Bounded connection pooling via ConnectOptions)
+- Serialization &amp; Validation: Serde 1.0, Serde JSON 1.0, Validator 0.18
+- Security: #![deny(unsafe_code)], strict CORS whitelist, non-root Alpine container (USER 10001:10001)
+
+## Mandatory Rules
+1. Zero unparameterized SQL queries. All database access must use SeaORM query builders and active models.
+2. All route handlers must return Result&lt;impl Responder, AppError&gt; with strongly-typed JSON responses.
+3. Apply actix_cors::Cors strictly whitelist-validated from ALLOWED_ORIGINS; reject wildcard origins.
+4. Bound SeaORM connection pool limits (max_connections=25, min_connections=5, acquire_timeout=3s).
+5. Catch database and internal errors within AppError, logging details internally with tracing and masking server errors with HTTP 500.</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
@@ -437,12 +431,15 @@ alwaysApply: true
                 <span>Source: kits/rust-actix-postgresql/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/rust-actix-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Agent Coding Conventions for Rust + Actix Web + SeaORM + PostgreSQL
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
 
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.</code></pre>
+﻿# Framework Architecture and Standards: Rust, Actix Web, and SeaORM
+
+1. **Actor Model and Multi-Threaded Workers**: Actix Web spawns dedicated worker threads (defaulting to the host CPU core count) each running their own single-threaded Tokio event loop. Application factory closures passed to `HttpServer::new` must be `Send + Clone + &#x27;static`.
+2. **Layered Domain Separation**: Structure source code into modular layers: `main.rs` (server bootstrapping and pool lifecycle), `handlers.rs` (HTTP request decoding and response presentation), `entities/` (SeaORM active models and schema bindings), `errors.rs` (unified error handling enum), and `state.rs` (shared application state). Never embed raw SQL or business transactions directly inside router declarations.
+3. **Structured Configuration via Environment**: Load configuration via `dotenvy::dotenv()` and parse strongly-typed environment structs using `serde`. Support `DATABASE_URL`, `PORT`, `HOST`, `WORKER_THREADS`, and `ALLOWED_ORIGINS` with safe fallback defaults for local development.
+4. **Graceful Shutdown and Signal Trapping**: Configure Actix Web HTTP server shutdown with proper signal tr
+...</code></pre>
             </div>
 
           </div>
@@ -453,7 +450,11 @@ alwaysApply: true
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">rust-actix-postgresql-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for Rust + Actix Web + SeaORM + PostgreSQL</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">actix-worker-thread-tuning</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Tune Actix Web worker threads, Tokio threadpool allocations, and SeaORM connection limits for peak throughput.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffold a new domain entity with SeaORM ActiveModel, input validation DTO, and Actix Web CRUD handlers.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Bootstrap local dependencies, start PostgreSQL container, run migrations, and verify the /healthz endpoint.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">rust-actix-postgresql-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core architectural patterns, project structure, error handling, Docker builds, and testing workflows.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">seaorm-database-migrations</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Author, execute, and verify SeaORM database migrations with PostgreSQL schema safety.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 

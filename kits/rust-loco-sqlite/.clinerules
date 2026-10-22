@@ -1,0 +1,15 @@
+﻿# Assistant Guidelines for Rust + Loco.rs + SeaORM + SQLite Stack Kit
+
+## Stack Overview
+- Language: Rust 1.80+ (Edition 2021)
+- Framework: Loco.rs 0.13+ (Rails-like convention-over-configuration MVC built on Axum)
+- Database ORM: SeaORM 1.1+ (Async dynamic ORM with ActiveModel traits)
+- Storage: SQLite 3.45+ (Configured with WAL mode and busy_timeout=5000)
+- Security: #![deny(unsafe_code)], JWT authentication, strict CORS whitelist, non-root Alpine container (USER 10001:10001)
+
+## Mandatory Rules
+1. Zero unparameterized SQL queries. All SQLite access must use SeaORM ActiveModel and query filters.
+2. Structure controllers under src/controllers/ implementing Routes::new().
+3. Configure SQLite WAL mode (PRAGMA journal_mode = WAL) to eliminate concurrency locks.
+4. Protect private routes with Loco JWT authentication and validate request DTOs using the validator crate.
+5. In-memory integration tests must use loco_rs::testing harnesses with isolated test schemas.

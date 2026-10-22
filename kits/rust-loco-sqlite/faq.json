@@ -1,0 +1,58 @@
+﻿[
+  {
+    "q": "Why is Loco.rs often referred to as the 'Ruby on Rails of Rust'?",
+    "a": "Loco.rs brings the proven convention-over-configuration paradigm of Rails, Django, and Laravel into the Rust ecosystem. Instead of stitching together disparate crates for routing, database access, background jobs, mailers, and authentication, Loco provides a cohesive, batteries-included architecture built on top of industry-standard Axum and SeaORM, with powerful CLI scaffolding tools."
+  },
+  {
+    "q": "How does Loco integrate Axum and SeaORM under the hood?",
+    "a": "Loco uses Axum as its HTTP router and Tokio as its async runtime, providing microsecond request dispatching and zero-copy JSON parsing. For data persistence, Loco integrates SeaORM with automated migration runners, ActiveModel schema generation, and support for SQLite, PostgreSQL, and MySQL through uniform configuration files."
+  },
+  {
+    "q": "Why is SQLite with WAL mode a compelling choice for production web services?",
+    "a": "Modern SQLite embedded in a Rust binary eliminates network latency (0ms query dispatch), external server management, and separate database container costs. With NVMe storage and WAL mode, SQLite can comfortably serve tens of thousands of requests per second, making it ideal for edge microservices, internal tools, SaaS MVPs, and self-hosted products."
+  },
+  {
+    "q": "How does Write-Ahead Logging (WAL) resolve SQLite's classic 'database is locked' errors?",
+    "a": "In traditional rollback journal mode, writing to SQLite acquires an exclusive file lock that blocks all incoming readers. In WAL mode, SQLite appends mutations to a separate `-wal` file while readers continue reading snapshots from the main database file without blocking. Readers never block writers, and writers never block readers."
+  },
+  {
+    "q": "What specific SQLite pragmas are enabled in this stack kit?",
+    "a": "The connection URI injects `_journal_mode=WAL` (for non-blocking concurrency), `_busy_timeout=5000` (instructing SQLite to wait up to 5 seconds to acquire a write lock before failing, eliminating spurious lock errors), and `_synchronous=NORMAL` (providing safe durability with higher write throughput)."
+  },
+  {
+    "q": "How do Loco CLI generators speed up feature development?",
+    "a": "Running `cargo loco generate scaffold item title:string description:string` generates the complete stack in seconds: the SeaORM entity, migration file, REST controller with CRUD endpoints, JSON presentation views, and automated integration test templates, adhering to consistent project conventions."
+  },
+  {
+    "q": "How does Loco manage environment configuration across development, test, and production?",
+    "a": "Loco utilizes environment-specific YAML files located in `config/` (e.g. `development.yaml`, `production.yaml`). Values can interpolate environment variables using Tera templating syntax (`{{ get_env(name=\"DATABASE_URL\", default=\"sqlite://storage/db.sqlite\") }}`), ensuring zero plaintext credentials in version control."
+  },
+  {
+    "q": "How does built-in JWT authentication work in Loco?",
+    "a": "Loco includes native JWT token generation and validation middleware. Controllers can inject `auth::JWT` extractors into handler signatures. The extractor automatically decodes the `Authorization: Bearer <token>` header, verifies the cryptographic signature against the configured secret, and injects the authenticated `User` model into request context."
+  },
+  {
+    "q": "How does this kit configure CORS to prevent cross-origin vulnerabilities?",
+    "a": "Loco's configuration file defines `cors.allow_origins` as an explicit array of trusted domains (e.g. `http://localhost:3000`, `https://app.example.com`). Wildcard origins (`*`) are disabled, ensuring browsers reject untrusted cross-origin requests and protecting session credentials."
+  },
+  {
+    "q": "Why does Loco decouple presentation views in `src/views/` from database models in `src/models/`?",
+    "a": "Directly serializing database entities often leaks internal database IDs, foreign key hashes, or audit timestamps. By mapping models to dedicated view structs in `src/views/`, developers maintain strict control over API contract schemas, preventing unintentional information disclosure."
+  },
+  {
+    "q": "How are database migrations executed and rolled back in Loco?",
+    "a": "Migrations are authored in Rust using SeaQuery inside the `migration/` crate. Developers apply pending migrations with `cargo loco db migrate` or revert the last migration with `cargo loco db rollback`. In production, Loco can automatically run pending migrations during container startup via `database.auto_migrate: true`."
+  },
+  {
+    "q": "How does in-memory testing work with SQLite in Loco?",
+    "a": "In `config/test.yaml`, the database URI is set to `sqlite::memory:`. Every test run creates a fresh, isolated database in RAM that executes migrations instantly and runs test suites concurrently without filesystem cleanup or cross-test interference."
+  },
+  {
+    "q": "How is SQLite data persisted safely in non-root Docker containers?",
+    "a": "The `Dockerfile` creates a dedicated `/app/storage` directory owned by unprivileged user `10001:10001`. A Docker volume (`sqlite_data:/app/storage`) is mounted to this path. Because the SQLite database file resides inside the mounted volume with correct file ownership, data persists across container restarts without permission errors."
+  },
+  {
+    "q": "When should an application transition from SQLite to PostgreSQL in Loco?",
+    "a": "Because Loco uses SeaORM, switching from SQLite to PostgreSQL requires only updating the `database.uri` connection string in `config/production.yaml` from `sqlite://...` to `postgres://...` and re-running migrations. Teams can start on SQLite for simplicity and seamlessly scale to PostgreSQL when horizontal multi-node clustering is required."
+  }
+]

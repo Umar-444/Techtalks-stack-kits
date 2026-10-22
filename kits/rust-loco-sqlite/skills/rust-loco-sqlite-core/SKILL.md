@@ -1,12 +1,38 @@
----
+﻿---
 name: rust-loco-sqlite-core
-description: Scaffolding and execution skill for Rust + Loco.rs + SeaORM + SQLite
+description: Core operations, MVC generators, SQLite storage persistence, and Docker deployment workflows.
 ---
 
-# Rust + Loco.rs + SeaORM + SQLite Core Skill
+# Core Operations: Rust + Loco.rs + SeaORM + SQLite
 
-## Workflow
-1. Initialize environment from `starter/`.
-2. Inspect `DESIGN.md` for visual token specifications.
-3. Apply single-source rules from `rules/source/`.
-4. Validate build correctness using `evals/runner.py --kit rust-loco-sqlite`.
+## Stack Highlights
+- **Loco.rs 0.13+**: The Rails of Rust—conventions, generators, background workers, and mailers.
+- **Axum Web Engine**: Underlying lightning-fast Tokio async HTTP router.
+- **SeaORM 1.1+**: Type-safe dynamic ORM and declarative migrations.
+- **SQLite 3.45+**: Zero-ceremony serverless embedded database tuned with WAL mode.
+
+## Project Structure
+```text
+starter/
+├── config/
+│   ├── development.yaml
+│   ├── test.yaml
+│   └── production.yaml
+├── migration/
+│   └── src/
+├── src/
+│   ├── app.rs          # Application lifecycle and route registration
+│   ├── main.rs         # Loco CLI entrypoint
+│   ├── controllers/    # HTTP route handlers
+│   ├── models/         # SeaORM models and entities
+│   └── views/          # JSON response presenters
+├── Cargo.toml
+├── Dockerfile
+└── tests/
+```
+
+## Essential CLI Commands
+- Start dev server: `cargo loco start`
+- Run database migrations: `cargo loco db migrate`
+- Check routing table: `cargo loco routes`
+- Run test suite: `cargo test`

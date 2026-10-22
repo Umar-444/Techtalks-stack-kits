@@ -1,0 +1,58 @@
+﻿[
+  {
+    "q": "Why is Actix Web consistently ranked among the fastest web frameworks in the world?",
+    "a": "Actix Web achieves world-class throughput through its multi-threaded actor architecture. Unlike typical async frameworks that run all tasks on a shared work-stealing threadpool, Actix spawns independent worker threads—each hosting its own single-threaded Tokio event loop and application state instance. This eliminates lock contention across cores and maximizes CPU L1/L2 cache locality."
+  },
+  {
+    "q": "How does SeaORM provide compile-time safety and dynamic query building compared to SQLx?",
+    "a": "While SQLx requires a live PostgreSQL instance or offline metadata files to compile raw SQL, SeaORM uses declarative Rust entity macros and type-safe query builders. It generates strongly-typed ActiveModel structs where fields, column types, and relational foreign keys are checked by the Rust compiler, while still allowing dynamic query composition at runtime without SQL injection risks."
+  },
+  {
+    "q": "How does Actix Web instantiate application state across worker threads?",
+    "a": "The factory closure passed to `HttpServer::new(move || App::new().app_data(state.clone()))` is executed once for each worker thread. Wrapping shared resources in `web::Data<AppState>` wraps the inner data in an `Arc`, ensuring zero-cost pointer sharing across threads while giving each worker an efficient thread-local handle."
+  },
+  {
+    "q": "How should PostgreSQL connection pools be sized in high-concurrency Actix services?",
+    "a": "Configure `sea_orm::ConnectOptions` with `max_connections(25)`, `min_connections(5)`, `connect_timeout(5s)`, and `acquire_timeout(3s)`. In Actix, a good sizing heuristic is `(worker_threads * 3) + 5`, ensuring sufficient available connections during peak traffic bursts without exhausting PostgreSQL backend connection slots."
+  },
+  {
+    "q": "How does this kit eliminate SQL injection vulnerabilities?",
+    "a": "SeaORM translates all ActiveModel operations and query filters (`Column::Title.contains(...)`, `Column::Id.eq(...)`) into parameterized SQL queries with bound placeholders (`$1`, `$2`). Raw string interpolation (`format!(\"SELECT * FROM items WHERE title = '{}'\", title)`) is prohibited by lint invariants and CI scans."
+  },
+  {
+    "q": "How does the custom `ResponseError` implementation prevent sensitive data disclosure?",
+    "a": "Internal database errors (`sea_orm::DbErr`) and filesystem I/O errors are mapped to variants within `AppError`. In the `error_response` method, detailed database error messages are logged internally via `tracing::error!()` while a safe, generic message (`A database error occurred`) with HTTP 500 is returned to the client, preventing table schemas, column names, or connection strings from leaking."
+  },
+  {
+    "q": "How does this kit enforce strict CORS security without wildcard exposure?",
+    "a": "The `configure_cors` helper parses comma-separated domains directly from the `ALLOWED_ORIGINS` environment variable (e.g. `http://localhost:3000,https://app.example.com`). Wildcards (`allow_any_origin()`) are never used, preventing cross-origin credentials hijacking and satisfying strict Semgrep SAST policies."
+  },
+  {
+    "q": "Why is setting a JSON payload limit essential for preventing Denial-of-Service attacks?",
+    "a": "By default, unbounded HTTP request buffering allows malicious actors to send massive streams of data, causing server memory exhaustion (OOM). Actix Web's `web::JsonConfig::default().limit(262_144)` restricts incoming JSON payloads to 256 KB, immediately terminating oversized requests with HTTP 413 Payload Too Large before allocating memory."
+  },
+  {
+    "q": "How does input validation work using the `validator` crate in Actix Web handlers?",
+    "a": "Request DTOs derive `validator::Validate` with declarative field attributes (e.g. `#[validate(length(min = 1, max = 150))]`). Handlers execute `body.validate()` immediately upon entry. If validation fails, errors are mapped to `AppError::ValidationError`, returning an HTTP 400 Bad Request with field-specific feedback."
+  },
+  {
+    "q": "What is the recommended migration strategy for SeaORM in production environments?",
+    "a": "SeaORM separates migrations into an isolated `migration/` crate. During deployment, migrations can be executed programmatically on server startup using `Migrator::up(&db, None).await` or executed as a pre-deploy Kubernetes init-container via `sea-orm-cli migrate up`. This guarantees schema consistency prior to handling user traffic."
+  },
+  {
+    "q": "How do you test Actix Web handlers without a live PostgreSQL database?",
+    "a": "SeaORM provides a `MockDatabase::new(DatabaseBackend::Postgres)` builder that allows mocking query results, row counts, and transaction responses directly in memory. Unit tests can initialize this mock backend and pass it into `AppState`, verifying full HTTP handler pipelines via `actix_web::test` without database dependencies."
+  },
+  {
+    "q": "How is non-root execution configured in the multi-stage Docker container?",
+    "a": "The multi-stage `Dockerfile` compiles the binary in a `rust:1.81-alpine` builder environment and copies only the static executable into a minimal `alpine:3.20` image. It provisions an unprivileged user and group (`addgroup -g 10001 appgroup && adduser -u 10001 appuser`) and specifies `USER 10001:10001`, mitigating container escape risks."
+  },
+  {
+    "q": "How does Actix Web handle graceful shutdown on SIGINT and SIGTERM signals?",
+    "a": "When Actix Web receives a termination signal, it stops accepting new incoming TCP connections on its bound sockets, signals all active worker threads to finish processing in-flight requests within a grace period (default 30 seconds), flushes buffers, and terminates cleanly without abruptly dropping client connections."
+  },
+  {
+    "q": "What is the role of `num_cpus::get()` in Actix Web worker configuration?",
+    "a": "By default, `HttpServer::workers` allocates one worker thread per logical CPU core detected by `num_cpus`. In containerized environments with CPU quotas (e.g. Kubernetes `cpu: 2`), worker counts should be configured explicitly to match allocated container quotas, avoiding thread thrashing and excessive context switching."
+  }
+]

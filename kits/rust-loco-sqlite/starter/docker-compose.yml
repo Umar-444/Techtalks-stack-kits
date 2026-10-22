@@ -1,0 +1,20 @@
+﻿version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5150:5150"
+    environment:
+      - DATABASE_URL=sqlite:///app/storage/db.sqlite?mode=rwc&_journal_mode=WAL&_busy_timeout=5000
+      - PORT=5150
+      - LOCO_ENV=production
+      - RUST_LOG=info
+    volumes:
+      - sqlite_data:/app/storage
+    restart: unless-stopped
+
+volumes:
+  sqlite_data:

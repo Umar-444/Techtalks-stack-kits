@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-03-loco-jwt-auth-guard",
+  "name": "Loco Input Validation and CORS Whitelist Guardrails",
+  "difficulty": "intermediate",
+  "prompt": "Implement validator derive macro on request DTOs with minimum and maximum string bounds. Verify that invalid parameters return HTTP 400 and CORS origins are strictly parsed from ALLOWED_ORIGINS.",
+  "expected_files": [
+    "starter/src/controllers/items.rs",
+    "starter/config/development.yaml"
+  ],
+  "verification": {
+    "command": "cargo test --test api_test test_item_validation",
+    "criteria": "Validation constraints pass on valid input and reject empty titles"
+  }
+}

@@ -1,34 +1,41 @@
-schema_version: 1.0.0
-name: Rust + Actix Web + SeaORM + PostgreSQL
-slug: rust-actix-postgresql
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'High-throughput API champion: Actix Web actor-based multi-threaded engine
-  paired with SeaORM dynamic async ORM and PostgreSQL.'
-category: Rust
+﻿schema_version: "1.0.0"
+
+name: "Rust + Actix Web + SeaORM + PostgreSQL"
+slug: "rust-actix-postgresql"
+version: "1.0.0"
+status: "stable"
+category: "backend"
+updated_at: "2026-10-22"
+
+description: "Production-grade asynchronous Rust web service using Actix Web 4.9 multi-threaded actor architecture, SeaORM 1.1 dynamic async ORM, and PostgreSQL 16+ connection pooling."
+
 maintainer:
-  name: TechTalks Rust Community Maintainers
-  role: High-Performance Systems Engineer
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Systems Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Rust
-    version: 1.80+
-    registry: crates.io
+    name: "Rust"
+    version: ">= 1.80.0"
+    registry: "crates.io"
   framework:
-    name: Actix Web
-    version: 4.9+
-    registry: crates.io
+    name: "Actix Web"
+    version: "^4.9"
+    registry: "crates.io"
   database:
-    engine: PostgreSQL
-    version: 16+
+    engine: "PostgreSQL"
+    version: ">= 16.0"
     features:
-    - SeaORM migrations
-    - ActiveModel traits
-  orm: SeaORM 1.1+
-  runtime: Actix runtime (Tokio-backed)
+      - "SeaORM ActiveModel dynamic ORM"
+      - "Bounded connection pooling via ConnectOptions"
+      - "Declarative SeaORM migrations"
+  runtime:
+    name: "Tokio (Actix Runtime)"
+    version: ">= 1.40"
+
 layers:
   starter:
     path: starter/
@@ -36,38 +43,57 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: rust-actix-postgresql-core
-      path: skills/rust-actix-postgresql-core/SKILL.md
-      description: Core operations and scaffolding skill for Rust + Actix Web + SeaORM
-        + PostgreSQL.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install and orchestrate Actix Web, SeaORM, and PostgreSQL 16.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Scaffold new domain entity with SeaORM ActiveModel and Actix Web CRUD handlers.
+      - id: seaorm-database-migrations
+        path: skills/seaorm-database-migrations/SKILL.md
+        description: Author, execute, and verify SeaORM database migrations with PostgreSQL schema safety.
+      - id: actix-worker-thread-tuning
+        path: skills/actix-worker-thread-tuning/SKILL.md
+        description: Tune Actix Web worker threads, Tokio threadpool allocations, and SeaORM connection limits.
+      - id: rust-actix-postgresql-core
+        path: skills/rust-actix-postgresql-core/SKILL.md
+        description: Core architectural patterns, project structure, error handling, Docker builds, and testing workflows.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: false
-  median_eval_tokens: 26800
-  efficiency_tier: B
+  median_eval_tokens: 26796
+  efficiency_tier: "B"
+
 security:
   automated_scans:
     gitleaks: true
@@ -77,5 +103,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"
