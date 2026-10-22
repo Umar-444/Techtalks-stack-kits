@@ -1,4 +1,4 @@
-﻿import argparse
+import argparse
 import os
 import sys
 from analyzers.ast_analyzer import audit_file

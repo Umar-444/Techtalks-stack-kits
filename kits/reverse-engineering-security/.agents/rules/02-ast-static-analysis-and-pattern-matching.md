@@ -1,6 +1,6 @@
 # 02 Ast Static Analysis And Pattern Matching
 
-﻿# AST Static Analysis and Semantic Pattern Matching
+# AST Static Analysis and Semantic Pattern Matching
 
 1. **Python AST NodeVisitor Pattern**: Author code vulnerability analyzers by subclassing `ast.NodeVisitor`. Traverse code syntax trees to locate dangerous functions, unsafe sinks, and insecure coding anti-patterns without executing untrusted code.
 2. **Dangerous Sink Detection**: Enforce checks that flag invocations of dangerous dynamic evaluation functions (`eval`, `exec`, `subprocess.Popen(..., shell=True)`, `os.system`) where arguments are not static literals.

@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-03-celery-async-task",
   "name": "Celery Async Worker Task & Redis Broker Integration",
   "difficulty": "advanced",

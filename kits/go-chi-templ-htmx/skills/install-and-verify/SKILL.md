@@ -1,4 +1,4 @@
-﻿---
+---
 name: "install-and-verify"
 description: "Install, compile, configure, and verify the Go + Chi + templ + HTMX + sqlc + PostgreSQL service."
 ---

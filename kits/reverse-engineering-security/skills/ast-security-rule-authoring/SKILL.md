@@ -1,4 +1,4 @@
-﻿---
+---
 name: ast-security-rule-authoring
 description: Deep dive into writing semantic AST visitors for dangerous functions (eval, exec, subprocess, yaml.load).
 ---

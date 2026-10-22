@@ -1,4 +1,4 @@
-﻿---
+---
 id: framework-architecture-and-standards
 title: Framework Architecture & Standards
 globs: "**/*.py"

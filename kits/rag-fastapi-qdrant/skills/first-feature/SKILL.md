@@ -1,4 +1,4 @@
-﻿---
+---
 name: first-feature
 description: Ingest a knowledge document, generate dense vector embeddings, index into Qdrant, and perform grounded semantic search with score thresholding and citations.
 ---

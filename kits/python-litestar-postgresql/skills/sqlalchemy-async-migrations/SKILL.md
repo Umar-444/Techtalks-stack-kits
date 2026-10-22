@@ -1,4 +1,4 @@
-﻿---
+---
 name: "sqlalchemy-async-migrations"
 description: "Configure SQLAlchemy 2.0 asyncpg connection pools, write bidirectional Alembic migrations, and optimize queries with composite indexes."
 ---

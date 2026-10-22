@@ -1,4 +1,4 @@
-﻿# Verification Log: Rust + Leptos Full-Stack + Axum + WebAssembly
+# Verification Log: Rust + Leptos Full-Stack + Axum + WebAssembly
 
 - **Verification Date**: 2026-10-22
 - **Tested Environment**: Rust 1.81.0, Leptos 0.7.0, Axum 0.8.0, WebAssembly wasm32-unknown-unknown, Tokio 1.40

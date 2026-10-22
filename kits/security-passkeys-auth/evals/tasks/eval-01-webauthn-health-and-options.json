@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "eval-01-webauthn-health-and-options",
   "title": "Passkeys Server Initialization & Challenge Generation",
   "instruction": "Verify that Hono boots with FIDO2 / WebAuthn Level 3 compliance and generates valid cryptographic challenges.",

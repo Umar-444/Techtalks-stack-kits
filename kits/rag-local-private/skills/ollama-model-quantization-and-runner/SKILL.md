@@ -1,4 +1,4 @@
-﻿---
+---
 name: "ollama-model-quantization-and-runner"
 description: "Tune local LLM quantization (GGUF Q4_K_M vs Q8_0), VRAM allocation, GPU layer offloading, and custom Ollama Modelfile configurations."
 ---

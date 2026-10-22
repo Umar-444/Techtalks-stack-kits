@@ -3,7 +3,7 @@
 
 ## Quick Reference & Non-Negotiable Standards
 ### 01 Framework Architecture And Standards
-﻿# Framework Architecture and Standards: Security Audit & Analysis Pack
+# Framework Architecture and Standards: Security Audit & Analysis Pack
 
 1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` (SARIF and JSON report generators).
 2. **Strict Typing and Python 3.12+ Standards**: Use modern Python type hints (`dataclass`, `typing.Protocol`, pipe unions `X | Y`). Validate analyzer configurations using Pydantic or dataclasses with zero reliance on untyped dictionaries.
@@ -13,7 +13,7 @@
 
 
 ### 02 Ast Static Analysis And Pattern Matching
-﻿# AST Static Analysis and Semantic Pattern Matching
+# AST Static Analysis and Semantic Pattern Matching
 
 1. **Python AST NodeVisitor Pattern**: Author code vulnerability analyzers by subclassing `ast.NodeVisitor`. Traverse code syntax trees to locate dangerous functions, unsafe sinks, and insecure coding anti-patterns without executing untrusted code.
 2. **Dangerous Sink Detection**: Enforce checks that flag invocations of dangerous dynamic evaluation functions (`eval`, `exec`, `subprocess.Popen(..., shell=True)`, `os.system`) where arguments are not static literals.
@@ -23,7 +23,7 @@
 
 
 ### 03 Binary Hardening And Exploit Mitigation Verification
-﻿# Binary Hardening and Exploit Mitigation Verification
+# Binary Hardening and Exploit Mitigation Verification
 
 1. **Defensive Binary Flag Inspection**: Verify compiled executable headers (ELF and PE) to ensure modern compiler security protections are enabled. Parse headers safely using pure-Python structural readers without executing target binaries.
 2. **ELF Exploit Mitigation Invariants**: Check Linux ELF binaries for mandatory mitigations:
@@ -37,7 +37,7 @@
 
 
 ### 04 Software Supply Chain And Sbom Validation
-﻿# Software Supply Chain and SBOM Validation
+# Software Supply Chain and SBOM Validation
 
 1. **CycloneDX and SPDX Parsing**: Ingest and validate Software Bill of Materials (SBOM) documents in CycloneDX 1.5+ and SPDX 2.3+ JSON formats to maintain complete inventory of software dependencies.
 2. **Cryptographic Hash Pinning**: Verify that all package dependencies declared in requirements, lockfiles, or SBOMs have associated SHA-256 integrity hashes to prevent dependency substitution and supply-chain tampering.
@@ -47,7 +47,7 @@
 
 
 ### 05 Testing Verification And Ci
-﻿# Testing, Verification, and CI Security Standards
+# Testing, Verification, and CI Security Standards
 
 1. **Pytest Regression Test Suite**: Maintain a comprehensive test suite in `tests/test_audit.py` with synthetic test files containing known secure and insecure code patterns to ensure 100% detector accuracy and zero regressions.
 2. **Zero False Positive Threshold**: Rigorously tune analyzer rules to avoid developer alert fatigue. Every reported finding must have a confidence rating (`HIGH`, `MEDIUM`, `LOW`) and actionable remediation steps.

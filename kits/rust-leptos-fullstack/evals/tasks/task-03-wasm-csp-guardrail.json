@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-03-wasm-csp-guardrail",
   "name": "WebAssembly Content Security Policy and CORS Whitelist",
   "difficulty": "intermediate",

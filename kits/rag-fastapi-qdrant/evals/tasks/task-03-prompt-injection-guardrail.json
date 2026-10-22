@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-03-prompt-injection-guardrail",
   "name": "Prompt Injection Mitigation and Delimited Context Formatting",
   "difficulty": "advanced",

@@ -1,4 +1,4 @@
-﻿---
+---
 name: "go-chi-templ-htmx-core"
 description: "Core operational workflows, Chi router middleware management, graceful shutdown, health probes, and Token-Light evaluation."
 ---

@@ -1,4 +1,4 @@
-﻿# RAG FastAPI + Qdrant + FastEmbed - Agent Architecture & Rules
+# RAG FastAPI + Qdrant + FastEmbed - Agent Architecture & Rules
 
 This project adheres to the TechTalks production standards for RAG applications using FastAPI, Qdrant vector database, and FastEmbed/OpenAI embeddings.
 

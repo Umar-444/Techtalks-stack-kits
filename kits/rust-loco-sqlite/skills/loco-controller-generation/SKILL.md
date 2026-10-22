@@ -1,4 +1,4 @@
-﻿---
+---
 name: loco-controller-generation
 description: Author Loco controllers with Axum extractors, strongly typed JSON views, and error envelopes.
 ---

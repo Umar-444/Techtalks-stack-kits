@@ -1,4 +1,4 @@
-﻿import os
+import os
 from flask import Flask
 from flask_wtf.csrf import CSRFProtect
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "eval-01-langgraph-cyclic-workflow",
   "title": "LangGraph State Machine Cyclic Execution & Termination",
   "instruction": "Verify that cyclic LangGraph state machine converges and terminates at END within recursion limits.",

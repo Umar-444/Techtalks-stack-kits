@@ -1,4 +1,4 @@
-﻿---
+---
 id: "01-framework-architecture-and-standards"
 title: "Local Private RAG Architecture & Zero-Egress Standards"
 description: "Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies."

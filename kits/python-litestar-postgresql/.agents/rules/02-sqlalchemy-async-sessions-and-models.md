@@ -1,12 +1,4 @@
-# 02 Sqlalchemy Async Sessions And Models
-
-﻿---
-id: "02-sqlalchemy-async-sessions-and-models"
-title: "SQLAlchemy 2.0 Async Sessions & Database Invariants"
-description: "Database persistence standards for asyncpg connection pooling, SQLAlchemy 2.0 DeclarativeBase, explicit indexing, and Alembic migrations."
-globs: ["**/models.py", "**/migrations/*.py", "alembic.ini"]
-alwaysApply: true
----
+# SQLAlchemy 2.0 Async Sessions & Database Invariants
 
 # 02 - SQLAlchemy 2.0 Async Sessions & Database Invariants
 
@@ -62,4 +54,3 @@ alwaysApply: true
 ## 4. Reversible Alembic Migrations
 - Keep all database schema changes tracked inside versioned Alembic migrations.
 - Verify migrations run bidirectionally: `alembic upgrade head` followed by `alembic downgrade -1`.
-

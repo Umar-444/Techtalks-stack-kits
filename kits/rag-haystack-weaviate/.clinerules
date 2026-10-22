@@ -1,0 +1,37 @@
+# Assistant Guidelines for Rag Haystack Weaviate Stack Kit
+
+# Haystack Pipelines + Weaviate + FastAPI (Hayhooks) — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Hybrid Retrieval And Reciprocal Rank Fusion](#02-hybrid-retrieval-and-reciprocal-rank-fusion)
+- [03 Weaviate Collections And Tenant Isolation](#03-weaviate-collections-and-tenant-isolation)
+- [04 Evaluators And Pipeline Validation](#04-evaluators-and-pipeline-validation)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+
+---
+
+<a id="01-framework-architecture-and-standards"></a>
+## 01 Framework Architecture And Standards
+
+# Framework Architecture and Standards: Haystack 2.5+ and Weaviate
+
+1. **Explicit DAG Component Wiring**: Haystack 2.x uses explicit, directional DAG connections via `pipeline.connect("component_a.output", "component_b.input")`. Never use implicit or hidden execution flow.
+2. **Component Isolation**: Every pipeline component must implement the `@component` decorator with typed inputs and outputs. Do not mutate global state inside components.
+3. **Async FastAPI Layer**: Expose pipeline executions through FastAPI endpoints with typed Pydantic models. All blocking pipeline calls must execute asynchronously or in a worker thread pool.
+4. **Environment Invariant**: All external service hosts (`WEAVIATE_URL`, `OPENAI_API_BASE`) must be injected through environment variables. Zero hardcoded localhost URLs in production code.
+5. **Python 3.12+ Typing**: Use standard type annotations (`list[str]`, `dict[str, Any]`, `str | None`). Do not use legacy typing imports (`typing.List`, `typing.Optional`).
+
+
+---
+
+<a id="02-hybrid-retrieval-and-reciprocal-rank-fusion"></a>
+## 02 Hybrid Retrieval And Reciprocal Rank Fusion
+
+# Hybrid Retrieval and Reciprocal Rank Fusion
+
+1. **Hybrid Search Composition**: Combine dense vector similarity with BM25 sparse keyword matching using Weaviate's native hybrid search operator.
+2. **Alpha Parameter Calibration**: Set `alpha` between `0.0` (pure BM25 sparse) and `1.0` (pure vector dense). The production baseline must default to `alpha=0.65` for balanced semantic domain recall.
+3. **Score Normalization and Thresholding**: Apply reciprocal rank fusion (RRF) to merge candidate lists from sparse and dense channels. Reject document candidates whose fused score falls below `0.40`.
+4. **Query Preprocessing**: Sanitize incoming query text to strip prompt injection tags and excessive wildcard syntax before submitting to Weaviate hybrid search.

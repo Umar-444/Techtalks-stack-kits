@@ -1,4 +1,4 @@
-﻿# OpenAI Codex & Assistant Instruction Set: Rust + Leptos Full-Stack + Axum + WebAssembly
+# OpenAI Codex & Assistant Instruction Set: Rust + Leptos Full-Stack + Axum + WebAssembly
 
 # Rust + Leptos Full-Stack + Axum + WebAssembly â€” Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.

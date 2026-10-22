@@ -1,18 +1,10 @@
 ---
-description: 01 Framework Architecture And Standards
-globs: *
+description: Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies.
+globs: ['**/*.py', 'Dockerfile', 'docker-compose.yml', '.env*']
 alwaysApply: true
 ---
 
-# 01 Framework Architecture And Standards
-
-﻿---
-id: "01-framework-architecture-and-standards"
-title: "Local Private RAG Architecture & Zero-Egress Standards"
-description: "Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies."
-globs: ["**/*.py", "Dockerfile", "docker-compose.yml", ".env*"]
-alwaysApply: true
----
+# Local Private RAG Architecture & Zero-Egress Standards
 
 # 01 - Local Private RAG Architecture & Zero-Egress Standards
 
@@ -68,4 +60,3 @@ starter/
   }
   ```
 - Raw traceback details, system paths, and internal vector coordinates must never be leaked to client responses.
-

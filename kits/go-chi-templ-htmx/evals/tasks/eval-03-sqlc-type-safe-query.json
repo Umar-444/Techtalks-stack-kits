@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-03-sqlc-type-safe-query",
   "name": "sqlc Compile-Checked Queries & Parameterized Safety",
   "difficulty": "advanced",

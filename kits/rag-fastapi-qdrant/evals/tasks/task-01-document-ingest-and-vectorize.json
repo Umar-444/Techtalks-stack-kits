@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-01-document-ingest-and-vectorize",
   "name": "Document Ingestion and Vector Generation Pipeline",
   "difficulty": "intermediate",

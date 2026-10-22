@@ -36,98 +36,114 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What exactly is the Reverse Engineering & Security Audit Pack kit?",
+      "name": "What is the primary objective of the Reverse Engineering & Security Audit Pack?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+        "text": "This kit provides a strictly defensive, automated security auditing and structural analysis suite. It combines Python AST static code analysis, compiled binary exploit mitigation verification (checksec), Software Bill of Materials (SBOM) validation, and OASIS SARIF reporting to audit applications for vulnerabilities before deployment."
       }
     },
     {
       "@type": "Question",
-      "name": "Which versions does it pin?",
+      "name": "Why is AST (Abstract Syntax Tree) analysis vastly superior to regex-based vulnerability scanning?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+        "text": "Regex scanning looks only for raw text patterns, leading to frequent false positives (such as matching function names inside comments or string literals) and false negatives (missing multi-line function calls). AST parsing reconstructs the true semantic syntax tree of the code, allowing analyzers to evaluate actual call arguments, variable scopes, and execution contexts accurately."
       }
     },
     {
       "@type": "Question",
-      "name": "Which AI coding agents are supported?",
+      "name": "What dangerous execution sinks are detected by this AST analyzer?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+        "text": "The AST analyzer flags invocations of `eval()`, `exec()`, and `subprocess` functions called with `shell=True`. These sinks permit arbitrary code execution or command injection if supplied with unvalidated user input. The analyzer provides exact file paths, line numbers, and code snippets for immediate remediation."
       }
     },
     {
       "@type": "Question",
-      "name": "What do I need installed before I start?",
+      "name": "How does the analyzer detect SQL injection vulnerabilities in database queries?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+        "text": "The AST visitor inspects arguments passed to database execution methods (`execute()`, `raw()`, `raw_query()`). It flags any argument constructed using Python f-strings (`JoinedStr`), string formatting (`%` or `.format()`), or binary string addition (`BinOp`), ensuring queries utilize strict parameterized placeholders."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does installation take?",
+      "name": "What are compiled binary exploit mitigations and why must they be audited?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+        "text": "Modern operating systems provide kernel and compiler-level mitigations to neutralize memory corruption vulnerabilities. Even when source code contains latent memory bugs, mitigations like NX/DEP, ASLR, and Stack Canaries prevent attackers from executing arbitrary payload code or predicting memory layout."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the starter production-shaped or a demo?",
+      "name": "How does checksec verify Position Independent Executables (PIE/ASLR)?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+        "text": "The binary analyzer inspects the ELF header `e_type` field. A standard non-PIE executable has `e_type = 2` (`ET_EXEC`), which loads at fixed virtual memory addresses. A hardened binary has `e_type = 3` (`ET_DYN`), instructing the Linux kernel dynamic loader to randomize the binary's base memory address on every execution."
       }
     },
     {
       "@type": "Question",
-      "name": "How is security handled in this kit?",
+      "name": "How does Non-Executable Stack (NX/DEP) prevent buffer overflow exploitation?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+        "text": "NX (No-Execute) or DEP (Data Execution Prevention) marks stack and heap memory pages as non-executable. The binary checker inspects the `GNU_STACK` program header segment. If flags permit execution (`RWE`), the analyzer flags a critical vulnerability and recommends compiling with `-Wl,-z,noexecstack`."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the design?",
+      "name": "What compiler flags should developers use to remediate missing binary mitigations?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+        "text": "For GCC and Clang: enable Stack Canaries via `-fstack-protector-strong`, enable full ASLR via `-fPIE -pie`, enforce Read-Only Relocations via `-Wl,-z,relro,-z,now`, mark stack non-executable via `-Wl,-z,noexecstack`, and enable libc function bounds checking via `-D_FORTIFY_SOURCE=2 -O2`."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I update when a new kit version releases?",
+      "name": "What is OASIS SARIF and why is it essential for enterprise security pipelines?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+        "text": "SARIF (Static Analysis Results Interchange Format) is an OASIS standard JSON specification for static analysis tool output. By outputting SARIF 2.1.0, results seamlessly upload into GitHub Code Scanning alerts, GitLab Security Dashboards, and security aggregators like DefectDojo without custom parser scripts."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I use it for commercial and client work?",
+      "name": "How does the CLI integrate into GitHub Actions workflows for automated pull request gating?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+        "text": "In GitHub Actions, run `python cli.py scan --path src/ --format sarif --out results.sarif`, followed by the official `github/codeql-action/upload-sarif@v3` action. Findings appear directly inline on PR code diffs with severity badges and line annotations."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I contribute a fix or skill back?",
+      "name": "How does the kit validate Software Bill of Materials (SBOM) documents?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+        "text": "The analyzer parses CycloneDX and SPDX SBOM JSON files, verifying that declared dependencies have pinned cryptographic SHA-256 integrity hashes, checking packages against OSV vulnerability feeds, and verifying license compliance against organizational whitelists."
       }
     },
     {
       "@type": "Question",
-      "name": "Where do I get help or report a problem?",
+      "name": "Why does this tool use pure-Python structural inspection instead of executing binaries?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+        "text": "Executing untrusted binaries or running heavyweight disassemblers in automated CI pipelines introduces security risks and excessive CPU overhead. The pure-Python structural reader parses ELF and PE header bytes directly in memory with read-only file handles, completing audits in under 10 milliseconds."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the CLI enforce automated security gating in CI/CD pipelines?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "When running in CI pipelines, the CLI returns exit code `0` if zero high-severity issues are found, and exits with code `1` if any `HIGH` severity finding (such as unparameterized SQL or `eval` usage) is detected, automatically blocking pipeline progression."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is the security audit tool itself protected against supply chain vulnerabilities?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The containerized tool executes as an unprivileged user (`USER 10001:10001`) in an Alpine Linux environment. All Python dependencies are pinned with exact versions, and the tool codebase is scanned with `gitleaks` and `semgrep` on every commit."
       }
     }
   ]
@@ -327,12 +343,12 @@
 
 ## Quick Reference &amp; Non-Negotiable Standards
 ### 01 Framework Architecture And Standards
-﻿# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
+# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
 
 1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` (SARIF and JSON report generators).
 2. **Strict Typing and Python 3.12+ Standards**: Use modern Python type hints (`dataclass`, `typing.Protocol`, pipe unions `X | Y`). Validate analyzer configurations using Pydantic or dataclasses with zero reliance on untyped dictionaries.
 3. **Deterministic Scan Execution**: Analyzers must operate deterministically without side effects. Scanners must read files in read-only mode (`O_RDONLY`), calculate SHA-256 hashes of targets, and generate reproducible vulnerability findings.
-4. **Standard SARIF 2.1.0 Export**: Standardize all security findin
+4. **Standard SARIF 2.1.0 Export**: Standardize all security finding
 ...</code></pre>
             </div>
 
@@ -349,12 +365,12 @@ alwaysApply: true
 
 # 01 Framework Architecture And Standards
 
-﻿# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
+# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
 
 1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` (SARIF and JSON report generators).
 2. **Strict Typing and Python 3.12+ Standards**: Use modern Python type hints (`dataclass`, `typing.Protocol`, pipe unions `X | Y`). Validate analyzer configurations using Pydantic or dataclasses with zero reliance on untyped dictionaries.
 3. **Deterministic Scan Execution**: Analyzers must operate deterministically without side effects. Scanners must read files in read-only mode (`O_RDONLY`), calculate SHA-256 hashes of targets, and generate reproducible vulnerability findings.
-4. **Standard SARIF 2.1.0 Export**: Standardize all security findings into OASIS SARIF (Static Analysis Results Interchange Format) JSON format, enabling direct ingestion into GitHub Code Scann
+4. **Standard SARIF 2.1.0 Export**: Standardize all security findings into OASIS SARIF (Static Analysis Results Interchange Format) JSON format, enabling direct ingestion into GitHub Code Scanni
 ...</code></pre>
             </div>
 
@@ -363,7 +379,7 @@ alwaysApply: true
                 <span>Source: kits/reverse-engineering-security/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/reverse-engineering-security" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: Reverse Engineering &amp; Security Audit Pack
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># OpenAI Codex &amp; Assistant Instruction Set: Reverse Engineering &amp; Security Audit Pack
 
 # Reverse Engineering &amp; Security Audit Pack â€” Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
@@ -382,7 +398,7 @@ alwaysApply: true
 
 ï»؟# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
 
-1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` 
+1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` (
 ...</code></pre>
             </div>
 
@@ -395,12 +411,12 @@ alwaysApply: true
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## 01 Framework Architecture And Standards
-﻿# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
+# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
 
 1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` (SARIF and JSON report generators).
 2. **Strict Typing and Python 3.12+ Standards**: Use modern Python type hints (`dataclass`, `typing.Protocol`, pipe unions `X | Y`). Validate analyzer configurations using Pydantic or dataclasses with zero reliance on untyped dictionaries.
 3. **Deterministic Scan Execution**: Analyzers must operate deterministically without side effects. Scanners must read files in read-only mode (`O_RDONLY`), calculate SHA-256 hashes of targets, and generate reproducible vulnerability findings.
-4. **Standard SARIF 2.1.0 Export**: Standardize all security findings into OASIS SARIF (Static Analysis Results Interch
+4. **Standard SARIF 2.1.0 Export**: Standardize all security findings into OASIS SARIF (Static Analysis Results Intercha
 ...</code></pre>
             </div>
 
@@ -432,13 +448,13 @@ alwaysApply: true
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
 
-﻿# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
+# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
 
 1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` (SARIF and JSON report generators).
 2. **Strict Typing and Python 3.12+ Standards**: Use modern Python type hints (`dataclass`, `typing.Protocol`, pipe unions `X | Y`). Validate analyzer configurations using Pydantic or dataclasses with zero reliance on untyped dictionaries.
 3. **Deterministic Scan Execution**: Analyzers must operate deterministically without side effects. Scanners must read files in read-only mode (`O_RDONLY`), calculate SHA-256 hashes of targets, and generate reproducible vulnerability findings.
 4. **Standard SARIF 2.1.0 Export**: Standardize all security findings into OASIS SARIF (Static Analysis Results Interchange Format) JSON format, enabling direct ingestion into GitHub Code Scanning, GitLab Security Dashboard, and DefectDojo.
-5. **No External Attack Code**: All tools
+5. **No External Attack Code**: All tools 
 ...</code></pre>
             </div>
 
@@ -670,21 +686,23 @@ docker compose up --build -d</pre>
     <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
     <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
   </div>
-  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
 </div>
 <div class="space-y-3">
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the Reverse Engineering & Security Audit Pack kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the primary objective of the Reverse Engineering & Security Audit Pack?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">This kit provides a strictly defensive, automated security auditing and structural analysis suite. It combines Python AST static code analysis, compiled binary exploit mitigation verification (checksec), Software Bill of Materials (SBOM) validation, and OASIS SARIF reporting to audit applications for vulnerabilities before deployment.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is AST (Abstract Syntax Tree) analysis vastly superior to regex-based vulnerability scanning?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Regex scanning looks only for raw text patterns, leading to frequent false positives (such as matching function names inside comments or string literals) and false negatives (missing multi-line function calls). AST parsing reconstructs the true semantic syntax tree of the code, allowing analyzers to evaluate actual call arguments, variable scopes, and execution contexts accurately.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What dangerous execution sinks are detected by this AST analyzer?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The AST analyzer flags invocations of `eval()`, `exec()`, and `subprocess` functions called with `shell=True`. These sinks permit arbitrary code execution or command injection if supplied with unvalidated user input. The analyzer provides exact file paths, line numbers, and code snippets for immediate remediation.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the analyzer detect SQL injection vulnerabilities in database queries?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The AST visitor inspects arguments passed to database execution methods (`execute()`, `raw()`, `raw_query()`). It flags any argument constructed using Python f-strings (`JoinedStr`), string formatting (`%` or `.format()`), or binary string addition (`BinOp`), ensuring queries utilize strict parameterized placeholders.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What are compiled binary exploit mitigations and why must they be audited?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Modern operating systems provide kernel and compiler-level mitigations to neutralize memory corruption vulnerabilities. Even when source code contains latent memory bugs, mitigations like NX/DEP, ASLR, and Stack Canaries prevent attackers from executing arbitrary payload code or predicting memory layout.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does checksec verify Position Independent Executables (PIE/ASLR)?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The binary analyzer inspects the ELF header `e_type` field. A standard non-PIE executable has `e_type = 2` (`ET_EXEC`), which loads at fixed virtual memory addresses. A hardened binary has `e_type = 3` (`ET_DYN`), instructing the Linux kernel dynamic loader to randomize the binary's base memory address on every execution.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Non-Executable Stack (NX/DEP) prevent buffer overflow exploitation?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">NX (No-Execute) or DEP (Data Execution Prevention) marks stack and heap memory pages as non-executable. The binary checker inspects the `GNU_STACK` program header segment. If flags permit execution (`RWE`), the analyzer flags a critical vulnerability and recommends compiling with `-Wl,-z,noexecstack`.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What compiler flags should developers use to remediate missing binary mitigations?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">For GCC and Clang: enable Stack Canaries via `-fstack-protector-strong`, enable full ASLR via `-fPIE -pie`, enforce Read-Only Relocations via `-Wl,-z,relro,-z,now`, mark stack non-executable via `-Wl,-z,noexecstack`, and enable libc function bounds checking via `-D_FORTIFY_SOURCE=2 -O2`.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is OASIS SARIF and why is it essential for enterprise security pipelines?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">SARIF (Static Analysis Results Interchange Format) is an OASIS standard JSON specification for static analysis tool output. By outputting SARIF 2.1.0, results seamlessly upload into GitHub Code Scanning alerts, GitLab Security Dashboards, and security aggregators like DefectDojo without custom parser scripts.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the CLI integrate into GitHub Actions workflows for automated pull request gating?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In GitHub Actions, run `python cli.py scan --path src/ --format sarif --out results.sarif`, followed by the official `github/codeql-action/upload-sarif@v3` action. Findings appear directly inline on PR code diffs with severity badges and line annotations.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the kit validate Software Bill of Materials (SBOM) documents?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The analyzer parses CycloneDX and SPDX SBOM JSON files, verifying that declared dependencies have pinned cryptographic SHA-256 integrity hashes, checking packages against OSV vulnerability feeds, and verifying license compliance against organizational whitelists.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why does this tool use pure-Python structural inspection instead of executing binaries?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Executing untrusted binaries or running heavyweight disassemblers in automated CI pipelines introduces security risks and excessive CPU overhead. The pure-Python structural reader parses ELF and PE header bytes directly in memory with read-only file handles, completing audits in under 10 milliseconds.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the CLI enforce automated security gating in CI/CD pipelines?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">When running in CI pipelines, the CLI returns exit code `0` if zero high-severity issues are found, and exits with code `1` if any `HIGH` severity finding (such as unparameterized SQL or `eval` usage) is detected, automatically blocking pipeline progression.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is the security audit tool itself protected against supply chain vulnerabilities?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The containerized tool executes as an unprivileged user (`USER 10001:10001`) in an Alpine Linux environment. All Python dependencies are pinned with exact versions, and the tool codebase is scanned with `gitleaks` and `semgrep` on every commit.</p></details>
 </div>
       </section>
 

@@ -1,4 +1,4 @@
-﻿---
+---
 name: "rag-local-private-core"
 description: "Core operational workflows, zero-egress network firewall assertion, health checking, and offline mock fallback for Local Private RAG."
 ---

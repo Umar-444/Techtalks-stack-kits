@@ -1,4 +1,4 @@
-﻿# Verification Log: Rust + Loco.rs + SeaORM + SQLite
+# Verification Log: Rust + Loco.rs + SeaORM + SQLite
 
 - **Verification Date**: 2026-10-22
 - **Tested Environment**: Rust 1.81.0, Loco.rs 0.13.0, SeaORM 1.1.0, SQLite 3.45.1, Tokio 1.40

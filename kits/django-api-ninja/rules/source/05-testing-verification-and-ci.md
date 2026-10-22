@@ -1,4 +1,4 @@
-﻿---
+---
 id: "05-testing-verification-and-ci"
 title: "Testing, Container Hardening & Token Benchmark"
 description: "Testing standards using Ninja TestClient, pytest-django, rootless Docker execution (UID 10001), and token-light efficiency verification."

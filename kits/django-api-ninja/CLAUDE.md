@@ -2,14 +2,8 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Quick Reference & Non-Negotiable Standards
-### 01 Framework Architecture And Standards
-﻿---
-id: "01-framework-architecture-and-standards"
-title: "Django 5 & Django Ninja Framework Architecture"
-description: "Architectural standards for high-throughput typed APIs using Django 5.1, Django Ninja 1.3, Pydantic v2 schemas, and modular domain routers."
-globs: ["**/*.py", "manage.py", "Dockerfile", "docker-compose.yml"]
-alwaysApply: true
----
+### Django 5 & Django Ninja Framework Architecture
+> Architectural standards for high-throughput typed APIs using Django 5.1, Django Ninja 1.3, Pydantic v2 schemas, and modular domain routers.
 
 # 01 - Django 5 & Django Ninja Framework Architecture
 
@@ -59,15 +53,8 @@ starter/
 - Always mount sub-routers with explicit URL prefixes (`/projects`, `/auth`, `/tasks`).
 - Never write untyped function-based views for API endpoints; all public interfaces must pass through `NinjaAPI` routers with explicit Pydantic request and response schemas.
 
-
-### 02 Orm Models And Query Optimization
-﻿---
-id: "02-orm-models-and-query-optimization"
-title: "Django ORM Invariants & Query Optimization"
-description: "Database standards for PostgreSQL models, N+1 query prevention with select_related/prefetch_related, explicit indexing, and tenant isolation."
-globs: ["**/models.py", "**/migrations/*.py"]
-alwaysApply: true
----
+### Django ORM Invariants & Query Optimization
+> Database standards for PostgreSQL models, N+1 query prevention with select_related/prefetch_related, explicit indexing, and tenant isolation.
 
 # 02 - Django ORM Invariants & Query Optimization
 
@@ -115,15 +102,8 @@ alwaysApply: true
 - All Django migrations committed to source control must be fully reversible (`migrations.RunPython(forward_fn, reverse_fn)`).
 - Never drop a column or rename a table in a single migration. Use a two-phase rollout to maintain backward compatibility during zero-downtime rolling deployments.
 
-
-### 03 Pydantic Schemas And Serialization
-﻿---
-id: "03-pydantic-schemas-and-serialization"
-title: "Pydantic v2 Schemas & Serialization Standards"
-description: "Validation rules for Django Ninja Schema models, request payload bounds, response filtering, and custom error formatting."
-globs: ["**/schemas.py", "**/api.py"]
-alwaysApply: true
----
+### Pydantic v2 Schemas & Serialization Standards
+> Validation rules for Django Ninja Schema models, request payload bounds, response filtering, and custom error formatting.
 
 # 03 - Pydantic v2 Schemas & Serialization Standards
 
@@ -171,15 +151,8 @@ alwaysApply: true
       )
   ```
 
-
-### 04 Authentication Security And Celery
-﻿---
-id: "04-authentication-security-and-celery"
-title: "Authentication, API Security & Celery Task Queue"
-description: "Security standards for Bearer token authentication, API keys, Celery 5.4 async background worker orchestration, and Redis broker settings."
-globs: ["**/api.py", "**/celery.py", "**/settings.py"]
-alwaysApply: true
----
+### Authentication, API Security & Celery Task Queue
+> Security standards for Bearer token authentication, API keys, Celery 5.4 async background worker orchestration, and Redis broker settings.
 
 # 04 - Authentication, API Security & Celery Task Queue
 
@@ -233,15 +206,8 @@ alwaysApply: true
   ```
 - Never allow `pickle` serialization in Celery, as it enables arbitrary remote code execution (RCE) if Redis is compromised.
 
-
-### 05 Testing Verification And Ci
-﻿---
-id: "05-testing-verification-and-ci"
-title: "Testing, Container Hardening & Token Benchmark"
-description: "Testing standards using Ninja TestClient, pytest-django, rootless Docker execution (UID 10001), and token-light efficiency verification."
-globs: ["tests/**/*.py", "Dockerfile", "evals/**"]
-alwaysApply: true
----
+### Testing, Container Hardening & Token Benchmark
+> Testing standards using Ninja TestClient, pytest-django, rootless Docker execution (UID 10001), and token-light efficiency verification.
 
 # 05 - Testing, Container Hardening & Token Benchmark
 
@@ -281,5 +247,4 @@ alwaysApply: true
 - Benchmark verification: Run `python evals/runner.py --kit django-api-ninja`.
 - Target token consumption: ~20,500 tokens (Efficiency Tier: **A**).
 - Justification: Django ORM migrations and admin panel batteries combined with typed Pydantic endpoints minimize agent implementation tokens.
-
 

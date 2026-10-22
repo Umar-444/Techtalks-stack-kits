@@ -1,13 +1,7 @@
 # GitHub Copilot Instructions for LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## 01 Gateway Architecture And Standards
-﻿---
-id: gateway-architecture-and-standards
-title: Gateway Architecture & Standards
-globs: "**/*.py"
-alwaysApply: true
----
+## Gateway Architecture & Standards
 # AI Security Gateway Architecture & Standards
 
 ## 1. Async Gateway Pipeline
@@ -29,14 +23,7 @@ alwaysApply: true
 ## 3. Graceful Fallbacks & Circuit Breaking
 - If an upstream safety classifier or secondary LLM guardrail service times out, fail closed on high-risk enterprise endpoints (throw HTTP 503 Service Unavailable) or fallback to deterministic regex/heuristic scanners.
 
-
-## 02 Prompt Injection And Jailbreak Defenses
-﻿---
-id: prompt-injection-and-jailbreak-defenses
-title: Prompt Injection & Jailbreak Defenses
-globs: "**/*.py"
-alwaysApply: true
----
+## Prompt Injection & Jailbreak Defenses
 # Prompt Injection & Jailbreak Screening Invariants
 
 ## 1. Dual-Layer Defense Invariant
@@ -60,14 +47,7 @@ alwaysApply: true
   ```
 - Inspect every model output before returning to the client. If the model response contains `canary_token`, trigger immediate security alert, abort response with HTTP 422, and log a critical prompt extraction incident.
 
-
-## 03 Automated Pii Redaction And Presidio
-﻿---
-id: automated-pii-redaction-and-presidio
-title: Automated PII Redaction & Presidio Pipeline
-globs: "**/*.py"
-alwaysApply: true
----
+## Automated PII Redaction & Presidio Pipeline
 # PII Screening, Anonymization & Reversible Masking
 
 ## 1. Supported Entity Types & Strict Detection
@@ -94,14 +74,7 @@ alwaysApply: true
 - Avoid re-instantiating heavy Presidio or Spacy NLP pipelines per request.
 - Initialize `AnalyzerEngine` and `AnonymizerEngine` once as singletons during FastAPI startup lifespan.
 
-
-## 04 Budget Caps And Rate Limiting
-﻿---
-id: budget-caps-and-rate-limiting
-title: Budget Caps & Rate Limiting
-globs: "**/*.py"
-alwaysApply: true
----
+## Budget Caps & Rate Limiting
 # Token Bucket Rate Limiting, Dollar Quotas & DoW Mitigation
 
 ## 1. Denial of Wallet (DoW) Defenses
@@ -134,14 +107,7 @@ alwaysApply: true
 - When a tenant reaches 90% of their dollar quota: send warning header `X-AI-Quota-Warning: 90% consumed`.
 - When quota is reached (100%): block immediately with HTTP 402 Payment Required or HTTP 429 Too Many Requests.
 
-
-## 05 Pydantic Ai Output Validation And Testing
-﻿---
-id: pydantic-ai-output-validation-and-testing
-title: Pydantic AI Output Validation & Testing
-globs: "**/*.py"
-alwaysApply: true
----
+## Pydantic AI Output Validation & Testing
 # Pydantic AI Structured Output Validation & Automated Adversarial Testing
 
 ## 1. Pydantic AI Schema Enforcement
@@ -174,5 +140,4 @@ alwaysApply: true
   2. `semgrep scan --config p/owasp-top-ten` with zero blocking SAST errors.
   3. `python tools/validate_manifest.py` verifying full physical layout.
   4. `python tools/transpiler.py --check` guaranteeing zero dialect drift.
-
 

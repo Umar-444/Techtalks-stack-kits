@@ -1,4 +1,4 @@
-﻿pub mod items {
+pub mod items {
     use sea_orm::entity::prelude::*;
     use serde::{Deserialize, Serialize};
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "eval-02-htmx-partial-render-swap",
   "title": "HTMX Dual-Rendering & Partial DOM Swapping",
   "instruction": "Verify that standard GET returns full HTML document whereas HX-Request returns partial fragment.",

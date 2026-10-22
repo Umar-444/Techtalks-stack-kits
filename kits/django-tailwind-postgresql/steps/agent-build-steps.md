@@ -1,4 +1,4 @@
-﻿# Agent Build Steps: Django 5 + Tailwind CSS + PostgreSQL 16+
+# Agent Build Steps: Django 5 + Tailwind CSS + PostgreSQL 16+
 
 Execute the following sequential steps to build, orchestrate, verify, and test the full-stack Django 5 + Tailwind + PostgreSQL kit. Every step includes an explicit verification command and expected output.
 

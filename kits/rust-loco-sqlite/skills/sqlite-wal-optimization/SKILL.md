@@ -1,4 +1,4 @@
-﻿---
+---
 name: sqlite-wal-optimization
 description: Configure SQLite Write-Ahead Logging (WAL), busy timeout, and memory pragmas for zero-lock concurrency.
 ---

@@ -1,4 +1,4 @@
-﻿---
+---
 id: testing-verification-and-ci
 title: Testing, Verification & CI Invariants
 globs: "**/*.py"

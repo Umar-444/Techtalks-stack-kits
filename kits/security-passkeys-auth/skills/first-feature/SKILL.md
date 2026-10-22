@@ -1,4 +1,4 @@
-﻿---
+---
 name: first-feature
 description: Guide to adding multi-passkey management, credential renaming, and device metadata labeling.
 ---

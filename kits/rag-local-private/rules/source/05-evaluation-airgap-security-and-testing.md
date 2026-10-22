@@ -1,4 +1,4 @@
-﻿---
+---
 id: "05-evaluation-airgap-security-and-testing"
 title: "Offline Evaluation, Airgap Security & Testing"
 description: "Verification of zero-egress network policies, non-root container security, offline faithfulness scoring, and automated test suites."

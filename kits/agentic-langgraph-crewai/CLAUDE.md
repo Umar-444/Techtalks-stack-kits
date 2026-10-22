@@ -2,13 +2,7 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Quick Reference & Non-Negotiable Standards
-### 01 Framework Architecture And Standards
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture & Standards
-globs: "**/*.py"
-alwaysApply: true
----
+### Framework Architecture & Standards
 # Python 3.12, Strict Typing and FastAPI Async Standards
 
 ## 1. Async Pipeline & Dependency Injection
@@ -30,14 +24,7 @@ alwaysApply: true
 - FastAPI workers remain stateless while LangGraph checkpoints cyclic execution state into Redis or MemorySaver.
 - Never store in-memory execution state in global variables.
 
-
-### 02 Langgraph State Machine And Cycles
-﻿---
-id: langgraph-state-machine-and-cycles
-title: LangGraph State Machine & Cyclic Graph Control
-globs: "**/*.py"
-alwaysApply: true
----
+### LangGraph State Machine & Cyclic Graph Control
 # LangGraph State Graph & Cyclic Loop Engineering
 
 ## 1. Immutable State Definitions
@@ -63,14 +50,7 @@ alwaysApply: true
   ```
 - Conditional edges must inspect `iteration_count` and force-route to `END` if maximum threshold is reached, preventing infinite agent spend loops.
 
-
-### 03 Crewai Delegation And Agent Squads
-﻿---
-id: crewai-delegation-and-agent-squads
-title: CrewAI Delegation & Agent Squads
-globs: "**/*.py"
-alwaysApply: true
----
+### CrewAI Delegation & Agent Squads
 # CrewAI Autonomous Squads & Role-Based Delegation
 
 ## 1. Agent Role Specification
@@ -84,14 +64,7 @@ alwaysApply: true
 - Use `Process.sequential` for deterministic step-by-step handoffs or `Process.hierarchical` with a designated manager agent.
 - Bind short-term memory and entity memory to Redis or vector stores with scoped tenant IDs.
 
-
-### 04 Security Tool Sandboxing And Guardrails
-﻿---
-id: security-tool-sandboxing-and-guardrails
-title: Security, Tool Sandboxing & Guardrails
-globs: "**/*.py"
-alwaysApply: true
----
+### Security, Tool Sandboxing & Guardrails
 # Agent Tool Sandboxing, Authorization & Prompt Isolation
 
 ## 1. Strict Tool Input Validation
@@ -115,14 +88,7 @@ alwaysApply: true
   graph.compile(checkpointer=checkpointer, interrupt_before=["execute_deployment"])
   ```
 
-
-### 05 Testing Verification And Ci
-﻿---
-id: testing-verification-and-ci
-title: Testing, Verification & CI Invariants
-globs: "**/*.py"
-alwaysApply: true
----
+### Testing, Verification & CI Invariants
 # Testing Multi-Agent Systems, Evals & CI Pipelines
 
 ## 1. Mocking LLMs in Graph Unit Tests
@@ -144,5 +110,4 @@ alwaysApply: true
   2. `semgrep scan --config p/owasp-top-ten` with 0 findings.
   3. `python tools/validate_manifest.py` verifying full physical layout.
   4. `python tools/transpiler.py --check` guaranteeing zero dialect drift.
-
 

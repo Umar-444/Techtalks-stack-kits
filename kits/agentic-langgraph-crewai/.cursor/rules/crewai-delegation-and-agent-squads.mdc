@@ -1,0 +1,20 @@
+---
+description: CrewAI Delegation & Agent Squads
+globs: **/*.py
+alwaysApply: true
+---
+
+# CrewAI Delegation & Agent Squads
+
+# CrewAI Autonomous Squads & Role-Based Delegation
+
+## 1. Agent Role Specification
+- Define agents with distinct, unambiguous responsibilities, backstories, and goals:
+  - `Researcher`: Explores documentation, queries tools, retrieves factual data.
+  - `Coder`: Generates syntax-checked implementations.
+  - `Reviewer / QA`: Validates code against security invariants and edge cases.
+- Explicitly declare `allow_delegation=False` on leaf worker agents to prevent uncontrolled recursive delegation chains.
+
+## 2. Process Orchestration & Memory
+- Use `Process.sequential` for deterministic step-by-step handoffs or `Process.hierarchical` with a designated manager agent.
+- Bind short-term memory and entity memory to Redis or vector stores with scoped tenant IDs.

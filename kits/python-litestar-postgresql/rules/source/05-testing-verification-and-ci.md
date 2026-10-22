@@ -1,4 +1,4 @@
-﻿---
+---
 id: "05-testing-verification-and-ci"
 title: "Testing, Container Hardening & Token Benchmark"
 description: "Testing standards using AsyncTestClient, pytest-asyncio, in-memory SQLite isolation, and rootless Docker execution (UID 10001)."

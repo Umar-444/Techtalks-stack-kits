@@ -1,4 +1,4 @@
-﻿---
+---
 name: reverse-engineering-security-core
 description: Core operations, SARIF export, CLI flags, GitHub Actions CI integration, and audit workflows.
 ---

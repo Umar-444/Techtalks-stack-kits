@@ -6,7 +6,7 @@ alwaysApply: true
 
 # 03 Wasm Client Hydration And Reactivity
 
-﻿# WebAssembly Client Hydration and Reactivity
+# WebAssembly Client Hydration and Reactivity
 
 1. **Client Hydration Lifecycle**: Hydrate server-rendered HTML into an active reactive application via `leptos::mount_to_body` inside `src/lib.rs`. Ensure client signal initializers match server SSR rendered states to avoid hydration mismatches.
 2. **Suspense and Resource Boundaries**: Wrap asynchronous queries in `create_resource` paired with `<Suspense fallback=...>`. This renders accessible fallback loading states during WASM initialization and dynamic fetches.

@@ -1,4 +1,4 @@
-﻿use axum::{response::Json, routing::get, Router};
+use axum::{response::Json, routing::get, Router};
 use rust_leptos_fullstack_starter::app::{App, HealthResponse};
 use std::env;
 

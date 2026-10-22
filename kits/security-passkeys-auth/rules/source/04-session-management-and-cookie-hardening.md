@@ -1,4 +1,4 @@
-﻿---
+---
 id: session-management-and-cookie-hardening
 title: Session Management & Cookie Hardening
 globs: "**/*.ts"

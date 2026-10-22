@@ -1,12 +1,4 @@
-# 02 Orm Models And Query Optimization
-
-﻿---
-id: "02-orm-models-and-query-optimization"
-title: "Django ORM Invariants & Query Optimization"
-description: "Database standards for PostgreSQL models, N+1 query prevention with select_related/prefetch_related, explicit indexing, and tenant isolation."
-globs: ["**/models.py", "**/migrations/*.py"]
-alwaysApply: true
----
+# Django ORM Invariants & Query Optimization
 
 # 02 - Django ORM Invariants & Query Optimization
 
@@ -53,4 +45,3 @@ alwaysApply: true
 ## 4. Reversible, Backward-Compatible Migrations
 - All Django migrations committed to source control must be fully reversible (`migrations.RunPython(forward_fn, reverse_fn)`).
 - Never drop a column or rename a table in a single migration. Use a two-phase rollout to maintain backward compatibility during zero-downtime rolling deployments.
-

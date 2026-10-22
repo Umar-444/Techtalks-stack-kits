@@ -1,4 +1,4 @@
-﻿---
+---
 id: "04-api-security-and-tenant-isolation"
 title: "API Security, Guard Middleware & Tenant Isolation"
 description: "Security invariants covering authentication middleware, BOLA/IDOR protection, rate limiting, and CORS configuration in Litestar."

@@ -1,4 +1,4 @@
-﻿---
+---
 name: install-and-verify
 description: Complete preflight verification, virtual environment setup, and automated adversarial test suite execution for LLM Guardrails & AI Gateway.
 ---

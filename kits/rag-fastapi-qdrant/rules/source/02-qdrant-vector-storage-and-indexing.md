@@ -1,4 +1,4 @@
-﻿# Rule 2: Qdrant Vector Storage, Collections & HNSW Indexing
+# Rule 2: Qdrant Vector Storage, Collections & HNSW Indexing
 
 ## Context & Principles
 - Qdrant manages dense high-dimensional vectors with customizable distance metrics and Hierarchical Navigable Small World (HNSW) graph indexing.

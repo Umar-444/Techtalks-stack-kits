@@ -1,4 +1,4 @@
-﻿---
+---
 id: 04-retrieval-query-engine-and-reranking
 title: Vector Retrieval, Metadata Filtering & Response Synthesis
 globs: "*"

@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-03-actix-cors-guardrail",
   "name": "Actix CORS Origin Guardrail and Header Enforcement",
   "difficulty": "intermediate",

@@ -1,4 +1,4 @@
-﻿---
+---
 id: prompt-injection-and-jailbreak-defenses
 title: Prompt Injection & Jailbreak Defenses
 globs: "**/*.py"

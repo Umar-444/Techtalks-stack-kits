@@ -1,4 +1,4 @@
-﻿---
+---
 name: seaorm-database-migrations
 description: Author, execute, and verify SeaORM database migrations with PostgreSQL schema safety.
 ---

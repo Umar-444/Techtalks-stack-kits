@@ -1,4 +1,4 @@
-﻿---
+---
 id: langgraph-state-machine-and-cycles
 title: LangGraph State Machine & Cyclic Graph Control
 globs: "**/*.py"

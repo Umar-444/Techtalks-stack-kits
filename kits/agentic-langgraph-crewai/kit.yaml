@@ -1,4 +1,4 @@
-﻿schema_version: "1.0.0"
+schema_version: "1.0.0"
 
 name: "Agentic LangGraph + CrewAI + FastAPI"
 slug: "agentic-langgraph-crewai"

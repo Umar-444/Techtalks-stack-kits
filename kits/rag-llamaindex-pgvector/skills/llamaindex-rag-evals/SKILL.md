@@ -1,4 +1,4 @@
-﻿---
+---
 name: llamaindex-rag-evals
 description: Execute automated Faithfulness and Relevancy evaluations on LlamaIndex RAG pipeline query responses.
 ---

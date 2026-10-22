@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "eval-02-registration-ceremony",
   "title": "Passkey Registration & Attestation Verification",
   "instruction": "Verify that SimpleWebAuthn registration response is validated against expected challenge and origin.",

@@ -1,4 +1,4 @@
-﻿# OpenAI Codex & Assistant Instruction Set: Agentic RAG (LangGraph + Qdrant)
+# OpenAI Codex & Assistant Instruction Set: Agentic RAG (LangGraph + Qdrant)
 
 You are an expert AI systems engineer specializing in cyclical Agentic RAG using LangGraph 0.2, LangChain, Qdrant vector database, and Ragas evaluation metrics.
 

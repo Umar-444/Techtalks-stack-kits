@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "q": "Why is Actix Web consistently ranked among the fastest web frameworks in the world?",
     "a": "Actix Web achieves world-class throughput through its multi-threaded actor architecture. Unlike typical async frameworks that run all tasks on a shared work-stealing threadpool, Actix spawns independent worker threads—each hosting its own single-threaded Tokio event loop and application state instance. This eliminates lock contention across cores and maximizes CPU L1/L2 cache locality."

@@ -1,4 +1,4 @@
-﻿---
+---
 id: "04-private-ingestion-chunking-and-classification"
 title: "Private Ingestion, Semantic Chunking & Data Classification"
 description: "Ingestion pipeline standards, text chunking heuristics, Saudi PDPL security classification tagging, and indirect prompt injection boundaries."

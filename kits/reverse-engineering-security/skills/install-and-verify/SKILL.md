@@ -1,4 +1,4 @@
-﻿---
+---
 name: install-and-verify
 description: Install dependencies, run the audit CLI against sample test files, and verify the SARIF reporting engine.
 ---

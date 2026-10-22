@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-02-server-function-rpc",
   "name": "Leptos Server Function RPC and Axum State Extraction",
   "difficulty": "intermediate",

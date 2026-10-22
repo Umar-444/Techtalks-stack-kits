@@ -1,4 +1,4 @@
-﻿---
+---
 name: "sqlc-database-migrations"
 description: "Maintain PostgreSQL schema definitions, manage sqlc codegen configuration, tune pgxpool parameters, and enforce strict compile-checked queries."
 ---

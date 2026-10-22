@@ -1,4 +1,4 @@
-﻿# Verification Guide: Local Private RAG (Ollama + Chroma + FastAPI)
+# Verification Guide: Local Private RAG (Ollama + Chroma + FastAPI)
 
 Follow this 6-phase verification guide to confirm that the Local Private RAG service is functioning cleanly with zero egress, deterministic retrieval, and complete regulatory compliance.
 

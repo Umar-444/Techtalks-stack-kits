@@ -1,4 +1,4 @@
-﻿---
+---
 name: first-feature
 description: Scaffold a new domain entity with SeaORM ActiveModel, input validation DTO, and Actix Web CRUD handlers.
 ---

@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "q": "When should I choose LangGraph versus CrewAI, and why pair them together?",
     "a": "LangGraph excels at low-level deterministic state machines, cyclic loops, error recovery, and precise branch routing, while CrewAI excels at high-level autonomous agent personas, role-playing, and cooperative task delegation. Pairing them allows LangGraph to orchestrate macro workflows (review cycles, human approval gates) while CrewAI squads execute specialized micro tasks (deep research, multi-file code synthesis)."

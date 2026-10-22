@@ -36,98 +36,114 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What exactly is the LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard) kit?",
+      "name": "What is an AI Security Gateway and why not connect directly to foundation LLM APIs?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+        "text": "Directly querying upstream LLMs leaves applications exposed to prompt injection attacks, accidental PII leaks, unstructured hallucinated outputs, and runaway API bills (Denial of Wallet). An AI Security Gateway acts as an enterprise-grade reverse proxy enforcing security policies, rate limits, PII masking, and schema validation before and after every model invocation."
       }
     },
     {
       "@type": "Question",
-      "name": "Which versions does it pin?",
+      "name": "How does the gateway intercept direct prompt injections and DAN-style jailbreaks?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+        "text": "The gateway deploys a dual-layer defense. First, a high-speed (<5ms) deterministic regex scanner catches known jailbreak signatures ('ignore previous instructions', 'DAN mode', 'system override'). Second, compact classifier models evaluate the semantic intent against safety taxonomies to block evasion attempts before the prompt is forwarded to the main LLM."
       }
     },
     {
       "@type": "Question",
-      "name": "Which AI coding agents are supported?",
+      "name": "What is delimiter sandboxing and how does it prevent instruction hijacking?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+        "text": "Instead of naively interpolating untrusted user input into raw system prompt strings, the gateway wraps user text in dynamically generated XML boundary tags (e.g. <user_input_a1b2c3d4>). The system prompt instructs the foundation model to treat everything inside the tag strictly as inert data to process, neutralizing attempts to override system instructions."
       }
     },
     {
       "@type": "Question",
-      "name": "What do I need installed before I start?",
+      "name": "How does canary token verification prevent system prompt leakage?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+        "text": "The gateway embeds a cryptographically random canary token (e.g., CANARY_7f3e8a...) into the system prompt. Before streaming or returning the model completion to the client, the gateway scans the response. If the canary token is detected, it indicates the model was tricked into exfiltrating internal instructions, triggering an immediate HTTP 422 block and security alert."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does installation take?",
+      "name": "How does automated PII anonymization work without destroying model reasoning capabilities?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+        "text": "The gateway scans inputs for sensitive personal data (emails, phone numbers, SSNs, credit cards, API keys) and replaces each entity with a typed placeholder token (e.g. <EMAIL_1>, <PHONE_1>). Because the tokens maintain semantic structure, the foundation model can understand context and relationships without ever seeing real user credentials."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the starter production-shaped or a demo?",
+      "name": "What is reversible deanonymization and when should it be used versus permanent redaction?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+        "text": "In reversible deanonymization, the gateway holds an ephemeral in-memory map of placeholders to original values. When the model generates a response referencing <EMAIL_1>, the gateway swaps the real email back before returning the final text to authorized internal users. For untrusted third-party foundation models, permanent redaction is enforced."
       }
     },
     {
       "@type": "Question",
-      "name": "How is security handled in this kit?",
+      "name": "What is Denial of Wallet (DoW) and how does the gateway mitigate runaway API bills?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+        "text": "Denial of Wallet occurs when attackers or looping agent workflows trigger massive token generation, costing thousands of dollars in LLM API fees. The gateway prevents this by enforcing hard maximum input token caps, explicit max_tokens limits, Redis sliding window rate limits, and per-tenant monthly dollar spend quotas."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the design?",
+      "name": "How does Pydantic AI enforce structured output validation on nondeterministic models?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+        "text": "Pydantic AI binds strict Pydantic BaseModel schemas to LLM function calling or tool definitions. The gateway inspects the returned payload and validates all required fields, value ranges, and types. Responses that fail validation are rejected or automatically reprompted with the specific schema error."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I update when a new kit version releases?",
+      "name": "What happens when a model hallucinates invalid JSON or violates the required schema?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+        "text": "When output fails Pydantic validation, the gateway catches the ValidationError and can execute an automated retry passing the validation traceback back to the model for self-correction. If the model fails after maximum retries (typically 2), the gateway returns a clean HTTP 502 Bad Gateway error rather than corrupt downstream systems with invalid data."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I use it for commercial and client work?",
+      "name": "How does the gateway maintain low latency (<50ms guardrail overhead)?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+        "text": "High performance is achieved by compiling all regex patterns at startup, utilizing singleton NLP analyzer engines across requests, using async I/O with httpx connection pools, and running deterministic heuristic filters before calling heavier classifier models."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I contribute a fix or skill back?",
+      "name": "What is the MLCommons / Llama Guard AI Safety Taxonomy and how is it applied?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+        "text": "The MLCommons AI Safety Taxonomy categorizes AI hazards into specific hazard classes: violent crimes, non-violent crimes, sex-related crimes, child sexual exploitation, CBRN weapons, suicide/self-harm, cyberattacks, and privacy violations. The gateway maps incoming prompts and outgoing completions against these hazard categories to ensure regulatory compliance."
       }
     },
     {
       "@type": "Question",
-      "name": "Where do I get help or report a problem?",
+      "name": "Why run the container with non-root user USER 10001:10001?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+        "text": "Running as root inside containers creates severe privilege escalation risks in multi-tenant Kubernetes and Docker environments. Explicitly declaring USER 10001:10001 ensures processes operate with minimal operating system privileges, passing Semgrep container security scans and enterprise compliance audits."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does this architecture maintain Zero Data Retention (ZDR) compliance?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The gateway never logs, stores, or caches raw user prompts or unmasked PII into databases or persistent log files. Audit logs only record metadata (tenant ID, token counts, cost, classification verdict, and request latency), adhering to strict GDPR, HIPAA, and SOC2 confidentiality requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I test the gateway against adversarial jailbreak payloads in CI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The starter includes an automated test suite in tests/test_gateway.py containing benchmark jailbreak prompts, PII masking assertions, rate limiting saturation tests, and canary leak simulations. These execute via pytest in CI workflows with zero external API dependencies."
       }
     }
   ]
@@ -319,20 +335,14 @@
           <div class="p-4">
             <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
-                <span>Source: kits/security-llm-guardrails/CLAUDE.md &bull; Token footprint: ~350 tokens</span>
+                <span>Source: kits/security-llm-guardrails/CLAUDE.md &bull; Token footprint: ~354 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/security-llm-guardrails for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># LLM Guardrails &amp; AI Gateway (Pydantic AI + Llama Guard) — Claude Code Guidelines (CLAUDE.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Quick Reference &amp; Non-Negotiable Standards
-### 01 Gateway Architecture And Standards
-﻿---
-id: gateway-architecture-and-standards
-title: Gateway Architecture &amp; Standards
-globs: &quot;**/*.py&quot;
-alwaysApply: true
----
+### Gateway Architecture &amp; Standards
 # AI Security Gateway Architecture &amp; Standards
 
 ## 1. Async Gateway Pipeline
@@ -343,7 +353,12 @@ alwaysApply: true
 - The gateway must operate with strict latency budgets: input guardrail checks must complete in `&lt; 50ms`.
 - Never use blocking synchronous HTTP calls in the pipeline; use `httpx.AsyncClient` with connection pooling and timeouts:
   ```python
-  client = httpx.AsyncClient(timeout=httpx.Timeout(connect=5.0, read=30.0, write=5.0, pool=10.0))</code></pre>
+  client = httpx.AsyncClient(timeout=httpx.Timeout(connect=5.0, read=30.0, write=5.0, pool=10.0))
+  ```
+
+## 2. Stateless Processing &amp; Zero Data Retention (ZDR)
+- The gateway MUST NOT log, persist, or cache raw prompt contents or unmasked PII into
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
@@ -380,7 +395,7 @@ alwaysApply: true
                 <span>Source: kits/security-llm-guardrails/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/security-llm-guardrails" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: LLM Guardrails &amp; AI Gateway
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># OpenAI Codex &amp; Assistant Instruction Set: LLM Guardrails &amp; AI Gateway
 
 You are an expert AI security engineer specializing in production AI gateways, prompt injection screening, automated PII redaction, token/dollar rate limiting, and Pydantic AI structured output validation.
 
@@ -391,7 +406,7 @@ You are an expert AI security engineer specializing in production AI gateways, p
 3. **Prompt Boundary Tagging**: Never concatenate user text directly into system prompts. Enclose inputs in randomized XML tags (`&lt;user_input_...&gt;`) and instruct the model to treat contents strictly as passive data.
 4. **Canary Leakage Defense**: Embed a randomized canary token in system prompts. If detected in output, abort with HTTP 422 immediately.
 5. **Denial of Wallet Protection**: Enforce token limits (`max_tokens`) and dollar quotas per tenant via Redis sliding window rate limiting.
-6. **Container Invariants**: 
+6. **Container Invariants**: M
 ...</code></pre>
             </div>
 
@@ -403,13 +418,7 @@ You are an expert AI security engineer specializing in production AI gateways, p
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for LLM Guardrails &amp; AI Gateway (Pydantic AI + Llama Guard)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## 01 Gateway Architecture And Standards
-﻿---
-id: gateway-architecture-and-standards
-title: Gateway Architecture &amp; Standards
-globs: &quot;**/*.py&quot;
-alwaysApply: true
----
+## Gateway Architecture &amp; Standards
 # AI Security Gateway Architecture &amp; Standards
 
 ## 1. Async Gateway Pipeline
@@ -421,7 +430,12 @@ alwaysApply: true
 - Never use blocking synchronous HTTP calls in the pipeline; use `httpx.AsyncClient` with connection pooling and timeouts:
   ```python
   client = httpx.AsyncClient(timeout=httpx.Timeout(connect=5.0, read=30.0, write=5.0, pool=10.0))
-  ```</code></pre>
+  ```
+
+## 2. Stateless Processing &amp; Zero Data Retention (ZDR)
+- The gateway MUST NOT log, persist, or cache raw prompt contents or unmasked PII into permanent storage.
+- Audit logs should store only m
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
@@ -429,9 +443,28 @@ alwaysApply: true
                 <span>Source: kits/security-llm-guardrails/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/security-llm-guardrails" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)
-- Follow architectural boundaries
-- Enforce strict security invariants</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for Security Llm Guardrails Stack Kit
+
+# LLM Guardrails &amp; AI Gateway (Pydantic AI + Llama Guard) — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Gateway Architecture And Standards](#01-gateway-architecture-and-standards)
+- [02 Prompt Injection And Jailbreak Defenses](#02-prompt-injection-and-jailbreak-defenses)
+- [03 Automated Pii Redaction And Presidio](#03-automated-pii-redaction-and-presidio)
+- [04 Budget Caps And Rate Limiting](#04-budget-caps-and-rate-limiting)
+- [05 Pydantic Ai Output Validation And Testing](#05-pydantic-ai-output-validation-and-testing)
+
+---
+
+&lt;a id=&quot;01-gateway-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Gateway Architecture And Standards
+
+﻿---
+id: gateway-architecture-and-standards
+title: Gateway Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
@@ -691,21 +724,23 @@ docker compose up --build -d</pre>
     <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
     <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
   </div>
-  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
 </div>
 <div class="space-y-3">
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard) kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is an AI Security Gateway and why not connect directly to foundation LLM APIs?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Directly querying upstream LLMs leaves applications exposed to prompt injection attacks, accidental PII leaks, unstructured hallucinated outputs, and runaway API bills (Denial of Wallet). An AI Security Gateway acts as an enterprise-grade reverse proxy enforcing security policies, rate limits, PII masking, and schema validation before and after every model invocation.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the gateway intercept direct prompt injections and DAN-style jailbreaks?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The gateway deploys a dual-layer defense. First, a high-speed (<5ms) deterministic regex scanner catches known jailbreak signatures ('ignore previous instructions', 'DAN mode', 'system override'). Second, compact classifier models evaluate the semantic intent against safety taxonomies to block evasion attempts before the prompt is forwarded to the main LLM.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is delimiter sandboxing and how does it prevent instruction hijacking?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Instead of naively interpolating untrusted user input into raw system prompt strings, the gateway wraps user text in dynamically generated XML boundary tags (e.g. <user_input_a1b2c3d4>). The system prompt instructs the foundation model to treat everything inside the tag strictly as inert data to process, neutralizing attempts to override system instructions.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does canary token verification prevent system prompt leakage?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The gateway embeds a cryptographically random canary token (e.g., CANARY_7f3e8a...) into the system prompt. Before streaming or returning the model completion to the client, the gateway scans the response. If the canary token is detected, it indicates the model was tricked into exfiltrating internal instructions, triggering an immediate HTTP 422 block and security alert.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does automated PII anonymization work without destroying model reasoning capabilities?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The gateway scans inputs for sensitive personal data (emails, phone numbers, SSNs, credit cards, API keys) and replaces each entity with a typed placeholder token (e.g. <EMAIL_1>, <PHONE_1>). Because the tokens maintain semantic structure, the foundation model can understand context and relationships without ever seeing real user credentials.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is reversible deanonymization and when should it be used versus permanent redaction?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In reversible deanonymization, the gateway holds an ephemeral in-memory map of placeholders to original values. When the model generates a response referencing <EMAIL_1>, the gateway swaps the real email back before returning the final text to authorized internal users. For untrusted third-party foundation models, permanent redaction is enforced.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is Denial of Wallet (DoW) and how does the gateway mitigate runaway API bills?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Denial of Wallet occurs when attackers or looping agent workflows trigger massive token generation, costing thousands of dollars in LLM API fees. The gateway prevents this by enforcing hard maximum input token caps, explicit max_tokens limits, Redis sliding window rate limits, and per-tenant monthly dollar spend quotas.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Pydantic AI enforce structured output validation on nondeterministic models?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pydantic AI binds strict Pydantic BaseModel schemas to LLM function calling or tool definitions. The gateway inspects the returned payload and validates all required fields, value ranges, and types. Responses that fail validation are rejected or automatically reprompted with the specific schema error.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What happens when a model hallucinates invalid JSON or violates the required schema?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">When output fails Pydantic validation, the gateway catches the ValidationError and can execute an automated retry passing the validation traceback back to the model for self-correction. If the model fails after maximum retries (typically 2), the gateway returns a clean HTTP 502 Bad Gateway error rather than corrupt downstream systems with invalid data.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the gateway maintain low latency (<50ms guardrail overhead)?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">High performance is achieved by compiling all regex patterns at startup, utilizing singleton NLP analyzer engines across requests, using async I/O with httpx connection pools, and running deterministic heuristic filters before calling heavier classifier models.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the MLCommons / Llama Guard AI Safety Taxonomy and how is it applied?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The MLCommons AI Safety Taxonomy categorizes AI hazards into specific hazard classes: violent crimes, non-violent crimes, sex-related crimes, child sexual exploitation, CBRN weapons, suicide/self-harm, cyberattacks, and privacy violations. The gateway maps incoming prompts and outgoing completions against these hazard categories to ensure regulatory compliance.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why run the container with non-root user USER 10001:10001?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Running as root inside containers creates severe privilege escalation risks in multi-tenant Kubernetes and Docker environments. Explicitly declaring USER 10001:10001 ensures processes operate with minimal operating system privileges, passing Semgrep container security scans and enterprise compliance audits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does this architecture maintain Zero Data Retention (ZDR) compliance?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The gateway never logs, stores, or caches raw user prompts or unmasked PII into databases or persistent log files. Audit logs only record metadata (tenant ID, token counts, cost, classification verdict, and request latency), adhering to strict GDPR, HIPAA, and SOC2 confidentiality requirements.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I test the gateway against adversarial jailbreak payloads in CI?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter includes an automated test suite in tests/test_gateway.py containing benchmark jailbreak prompts, PII masking assertions, rate limiting saturation tests, and canary leak simulations. These execute via pytest in CI workflows with zero external API dependencies.</p></details>
 </div>
       </section>
 

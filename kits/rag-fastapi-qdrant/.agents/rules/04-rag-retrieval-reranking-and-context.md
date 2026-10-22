@@ -1,6 +1,6 @@
 # 04 Rag Retrieval Reranking And Context
 
-﻿# Rule 4: Vector Retrieval, Payload Filtering & Context Assembly
+# Rule 4: Vector Retrieval, Payload Filtering & Context Assembly
 
 ## Context & Principles
 - Retrieve relevant context with low latency using Qdrant vector search coupled with strict payload filtering for multi-tenant isolation.

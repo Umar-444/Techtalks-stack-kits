@@ -1,4 +1,4 @@
-﻿# Agent Build Steps: LlamaIndex + PostgreSQL pgvector + FastAPI
+# Agent Build Steps: LlamaIndex + PostgreSQL pgvector + FastAPI
 
 Execute the following sequential steps to build, orchestrate, verify, and test the LlamaIndex + PostgreSQL pgvector RAG service. Every step includes an explicit verification command and expected output.
 

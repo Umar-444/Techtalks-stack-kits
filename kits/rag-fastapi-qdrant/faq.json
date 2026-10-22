@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "question": "Why choose Qdrant over PostgreSQL pgvector or hosted SaaS vector databases for production RAG?",
     "answer": "Qdrant is a purpose-built vector search engine written in Rust. Unlike relational extensions like pgvector that build approximate indexes on top of generic database tables, Qdrant implements single-stage filtered HNSW graph traversal. It evaluates payload filters directly during graph exploration rather than pre-filtering (which ruins recall) or post-filtering (which wastes search budget). Additionally, Qdrant provides an embedded in-memory mode (`QdrantClient(':memory:')`) that lets you run full integration test suites locally and in CI/CD pipelines without spinning up external database infrastructure."

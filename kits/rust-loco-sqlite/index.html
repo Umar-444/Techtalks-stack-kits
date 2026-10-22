@@ -36,98 +36,114 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What exactly is the Rust + Loco.rs + SeaORM + SQLite kit?",
+      "name": "Why is Loco.rs often referred to as the 'Ruby on Rails of Rust'?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+        "text": "Loco.rs brings the proven convention-over-configuration paradigm of Rails, Django, and Laravel into the Rust ecosystem. Instead of stitching together disparate crates for routing, database access, background jobs, mailers, and authentication, Loco provides a cohesive, batteries-included architecture built on top of industry-standard Axum and SeaORM, with powerful CLI scaffolding tools."
       }
     },
     {
       "@type": "Question",
-      "name": "Which versions does it pin?",
+      "name": "How does Loco integrate Axum and SeaORM under the hood?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+        "text": "Loco uses Axum as its HTTP router and Tokio as its async runtime, providing microsecond request dispatching and zero-copy JSON parsing. For data persistence, Loco integrates SeaORM with automated migration runners, ActiveModel schema generation, and support for SQLite, PostgreSQL, and MySQL through uniform configuration files."
       }
     },
     {
       "@type": "Question",
-      "name": "Which AI coding agents are supported?",
+      "name": "Why is SQLite with WAL mode a compelling choice for production web services?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+        "text": "Modern SQLite embedded in a Rust binary eliminates network latency (0ms query dispatch), external server management, and separate database container costs. With NVMe storage and WAL mode, SQLite can comfortably serve tens of thousands of requests per second, making it ideal for edge microservices, internal tools, SaaS MVPs, and self-hosted products."
       }
     },
     {
       "@type": "Question",
-      "name": "What do I need installed before I start?",
+      "name": "How does Write-Ahead Logging (WAL) resolve SQLite's classic 'database is locked' errors?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+        "text": "In traditional rollback journal mode, writing to SQLite acquires an exclusive file lock that blocks all incoming readers. In WAL mode, SQLite appends mutations to a separate `-wal` file while readers continue reading snapshots from the main database file without blocking. Readers never block writers, and writers never block readers."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does installation take?",
+      "name": "What specific SQLite pragmas are enabled in this stack kit?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+        "text": "The connection URI injects `_journal_mode=WAL` (for non-blocking concurrency), `_busy_timeout=5000` (instructing SQLite to wait up to 5 seconds to acquire a write lock before failing, eliminating spurious lock errors), and `_synchronous=NORMAL` (providing safe durability with higher write throughput)."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the starter production-shaped or a demo?",
+      "name": "How do Loco CLI generators speed up feature development?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+        "text": "Running `cargo loco generate scaffold item title:string description:string` generates the complete stack in seconds: the SeaORM entity, migration file, REST controller with CRUD endpoints, JSON presentation views, and automated integration test templates, adhering to consistent project conventions."
       }
     },
     {
       "@type": "Question",
-      "name": "How is security handled in this kit?",
+      "name": "How does Loco manage environment configuration across development, test, and production?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+        "text": "Loco utilizes environment-specific YAML files located in `config/` (e.g. `development.yaml`, `production.yaml`). Values can interpolate environment variables using Tera templating syntax (`{{ get_env(name=\"DATABASE_URL\", default=\"sqlite://storage/db.sqlite\") }}`), ensuring zero plaintext credentials in version control."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the design?",
+      "name": "How does built-in JWT authentication work in Loco?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+        "text": "Loco includes native JWT token generation and validation middleware. Controllers can inject `auth::JWT` extractors into handler signatures. The extractor automatically decodes the `Authorization: Bearer <token>` header, verifies the cryptographic signature against the configured secret, and injects the authenticated `User` model into request context."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I update when a new kit version releases?",
+      "name": "How does this kit configure CORS to prevent cross-origin vulnerabilities?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+        "text": "Loco's configuration file defines `cors.allow_origins` as an explicit array of trusted domains (e.g. `http://localhost:3000`, `https://app.example.com`). Wildcard origins (`*`) are disabled, ensuring browsers reject untrusted cross-origin requests and protecting session credentials."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I use it for commercial and client work?",
+      "name": "Why does Loco decouple presentation views in `src/views/` from database models in `src/models/`?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+        "text": "Directly serializing database entities often leaks internal database IDs, foreign key hashes, or audit timestamps. By mapping models to dedicated view structs in `src/views/`, developers maintain strict control over API contract schemas, preventing unintentional information disclosure."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I contribute a fix or skill back?",
+      "name": "How are database migrations executed and rolled back in Loco?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+        "text": "Migrations are authored in Rust using SeaQuery inside the `migration/` crate. Developers apply pending migrations with `cargo loco db migrate` or revert the last migration with `cargo loco db rollback`. In production, Loco can automatically run pending migrations during container startup via `database.auto_migrate: true`."
       }
     },
     {
       "@type": "Question",
-      "name": "Where do I get help or report a problem?",
+      "name": "How does in-memory testing work with SQLite in Loco?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+        "text": "In `config/test.yaml`, the database URI is set to `sqlite::memory:`. Every test run creates a fresh, isolated database in RAM that executes migrations instantly and runs test suites concurrently without filesystem cleanup or cross-test interference."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is SQLite data persisted safely in non-root Docker containers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The `Dockerfile` creates a dedicated `/app/storage` directory owned by unprivileged user `10001:10001`. A Docker volume (`sqlite_data:/app/storage`) is mounted to this path. Because the SQLite database file resides inside the mounted volume with correct file ownership, data persists across container restarts without permission errors."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When should an application transition from SQLite to PostgreSQL in Loco?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because Loco uses SeaORM, switching from SQLite to PostgreSQL requires only updating the `database.uri` connection string in `config/production.yaml` from `sqlite://...` to `postgres://...` and re-running migrations. Teams can start on SQLite for simplicity and seamlessly scale to PostgreSQL when horizontal multi-node clustering is required."
       }
     }
   ]
@@ -327,11 +343,11 @@
 
 ## Quick Reference &amp; Non-Negotiable Standards
 ### 01 Framework Architecture And Standards
-﻿# Framework Architecture and Standards: Rust, Loco.rs, and SQLite
+# Framework Architecture and Standards: Rust, Loco.rs, and SQLite
 
 1. **Rails-Style MVC Architecture**: Loco.rs provides convention-over-configuration for Rust web services. Structure applications strictly into `src/app.rs` (lifecycle &amp; routing), `src/controllers/` (HTTP handlers), `src/models/` (SeaORM active models), `src/views/` (response serializations), and `config/` (environment configuration).
 2. **Underlying Axum and SeaORM Engine**: Leverage Loco&#x27;s native Axum HTTP engine and SeaORM database integration without reinventing routing or ORM primitives. Keep controller actions lightweight and push business logic into model traits.
-3. **Structured YAML Configuration**: Configure runtime environments declaratively in `config/development.yaml`, `config/test.yaml`, and `config/production.yaml`. Inject sensitive credentials (secrets, database URLs) via environment variable interpolation (`{{ get_env(name=&quot;DATABASE_URL&quot;, default=&quot;sqlite:
+3. **Structured YAML Configuration**: Configure runtime environments declaratively in `config/development.yaml`, `config/test.yaml`, and `config/production.yaml`. Inject sensitive credentials (secrets, database URLs) via environment variable interpolation (`{{ get_env(name=&quot;DATABASE_URL&quot;, default=&quot;sqlite:/
 ...</code></pre>
             </div>
 
@@ -348,12 +364,12 @@ alwaysApply: true
 
 # 01 Framework Architecture And Standards
 
-﻿# Framework Architecture and Standards: Rust, Loco.rs, and SQLite
+# Framework Architecture and Standards: Rust, Loco.rs, and SQLite
 
 1. **Rails-Style MVC Architecture**: Loco.rs provides convention-over-configuration for Rust web services. Structure applications strictly into `src/app.rs` (lifecycle &amp; routing), `src/controllers/` (HTTP handlers), `src/models/` (SeaORM active models), `src/views/` (response serializations), and `config/` (environment configuration).
 2. **Underlying Axum and SeaORM Engine**: Leverage Loco&#x27;s native Axum HTTP engine and SeaORM database integration without reinventing routing or ORM primitives. Keep controller actions lightweight and push business logic into model traits.
 3. **Structured YAML Configuration**: Configure runtime environments declaratively in `config/development.yaml`, `config/test.yaml`, and `config/production.yaml`. Inject sensitive credentials (secrets, database URLs) via environment variable interpolation (`{{ get_env(name=&quot;DATABASE_URL&quot;, default=&quot;sqlite://db.sqlite?mode=rwc&quot;) }}`).
-4. **Predictable Code Generation**: Use Loco CLI generators (`cargo loco generate model`
+4. **Predictable Code Generation**: Use Loco CLI generators (`cargo loco generate model`,
 ...</code></pre>
             </div>
 
@@ -362,7 +378,7 @@ alwaysApply: true
                 <span>Source: kits/rust-loco-sqlite/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rust-loco-sqlite" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: Rust + Loco.rs + SeaORM + SQLite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># OpenAI Codex &amp; Assistant Instruction Set: Rust + Loco.rs + SeaORM + SQLite
 
 # Rust + Loco.rs + SeaORM + SQLite â€” Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
@@ -382,7 +398,7 @@ alwaysApply: true
 ï»؟# Framework Architecture and Standards: Rust, Loco.rs, and SQLite
 
 1. **Rails-Style MVC Architecture**: Loco.rs provides convention-over-configuration for Rust web services. Structure applications strictly into `src/app.rs` (lifecycle &amp; routing), `src/controllers/` (HTTP handlers), `src/models/` (SeaORM active models), `src/views/` (response serializations), and `config/` (environment configuration).
-2. **Underlying Axum and SeaORM Engine**: Le
+2. **Underlying Axum and SeaORM Engine**: Lev
 ...</code></pre>
             </div>
 
@@ -395,12 +411,12 @@ alwaysApply: true
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## 01 Framework Architecture And Standards
-﻿# Framework Architecture and Standards: Rust, Loco.rs, and SQLite
+# Framework Architecture and Standards: Rust, Loco.rs, and SQLite
 
 1. **Rails-Style MVC Architecture**: Loco.rs provides convention-over-configuration for Rust web services. Structure applications strictly into `src/app.rs` (lifecycle &amp; routing), `src/controllers/` (HTTP handlers), `src/models/` (SeaORM active models), `src/views/` (response serializations), and `config/` (environment configuration).
 2. **Underlying Axum and SeaORM Engine**: Leverage Loco&#x27;s native Axum HTTP engine and SeaORM database integration without reinventing routing or ORM primitives. Keep controller actions lightweight and push business logic into model traits.
 3. **Structured YAML Configuration**: Configure runtime environments declaratively in `config/development.yaml`, `config/test.yaml`, and `config/production.yaml`. Inject sensitive credentials (secrets, database URLs) via environment variable interpolation (`{{ get_env(name=&quot;DATABASE_URL&quot;, default=&quot;sqlite://db.sqlite?mode=rwc&quot;) }}`).
-4. **Predictable Code G
+4. **Predictable Code Ge
 ...</code></pre>
             </div>
 
@@ -433,12 +449,12 @@ alwaysApply: true
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
 
-﻿# Framework Architecture and Standards: Rust, Loco.rs, and SQLite
+# Framework Architecture and Standards: Rust, Loco.rs, and SQLite
 
 1. **Rails-Style MVC Architecture**: Loco.rs provides convention-over-configuration for Rust web services. Structure applications strictly into `src/app.rs` (lifecycle &amp; routing), `src/controllers/` (HTTP handlers), `src/models/` (SeaORM active models), `src/views/` (response serializations), and `config/` (environment configuration).
 2. **Underlying Axum and SeaORM Engine**: Leverage Loco&#x27;s native Axum HTTP engine and SeaORM database integration without reinventing routing or ORM primitives. Keep controller actions lightweight and push business logic into model traits.
 3. **Structured YAML Configuration**: Configure runtime environments declaratively in `config/development.yaml`, `config/test.yaml`, and `config/production.yaml`. Inject sensitive credentials (secrets, database URLs) via environment variable interpolation (`{{ get_env(name=&quot;DATABASE_URL&quot;, default=&quot;sqlite://db.sqlite?mode=rwc&quot;) }}`).
-4. **Predictable Code Generation**: Use Loco CLI generators (`cargo loco generate model`, `cargo loco generate scaffold`) to establish consistent directory conventions, test fix
+4. **Predictable Code Generation**: Use Loco CLI generators (`cargo loco generate model`, `cargo loco generate scaffold`) to establish consistent directory conventions, test fixt
 ...</code></pre>
             </div>
 
@@ -670,21 +686,23 @@ docker compose up --build -d</pre>
     <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
     <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
   </div>
-  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
 </div>
 <div class="space-y-3">
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the Rust + Loco.rs + SeaORM + SQLite kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is Loco.rs often referred to as the 'Ruby on Rails of Rust'?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Loco.rs brings the proven convention-over-configuration paradigm of Rails, Django, and Laravel into the Rust ecosystem. Instead of stitching together disparate crates for routing, database access, background jobs, mailers, and authentication, Loco provides a cohesive, batteries-included architecture built on top of industry-standard Axum and SeaORM, with powerful CLI scaffolding tools.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Loco integrate Axum and SeaORM under the hood?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Loco uses Axum as its HTTP router and Tokio as its async runtime, providing microsecond request dispatching and zero-copy JSON parsing. For data persistence, Loco integrates SeaORM with automated migration runners, ActiveModel schema generation, and support for SQLite, PostgreSQL, and MySQL through uniform configuration files.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is SQLite with WAL mode a compelling choice for production web services?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Modern SQLite embedded in a Rust binary eliminates network latency (0ms query dispatch), external server management, and separate database container costs. With NVMe storage and WAL mode, SQLite can comfortably serve tens of thousands of requests per second, making it ideal for edge microservices, internal tools, SaaS MVPs, and self-hosted products.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Write-Ahead Logging (WAL) resolve SQLite's classic 'database is locked' errors?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In traditional rollback journal mode, writing to SQLite acquires an exclusive file lock that blocks all incoming readers. In WAL mode, SQLite appends mutations to a separate `-wal` file while readers continue reading snapshots from the main database file without blocking. Readers never block writers, and writers never block readers.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What specific SQLite pragmas are enabled in this stack kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The connection URI injects `_journal_mode=WAL` (for non-blocking concurrency), `_busy_timeout=5000` (instructing SQLite to wait up to 5 seconds to acquire a write lock before failing, eliminating spurious lock errors), and `_synchronous=NORMAL` (providing safe durability with higher write throughput).</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do Loco CLI generators speed up feature development?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Running `cargo loco generate scaffold item title:string description:string` generates the complete stack in seconds: the SeaORM entity, migration file, REST controller with CRUD endpoints, JSON presentation views, and automated integration test templates, adhering to consistent project conventions.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Loco manage environment configuration across development, test, and production?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Loco utilizes environment-specific YAML files located in `config/` (e.g. `development.yaml`, `production.yaml`). Values can interpolate environment variables using Tera templating syntax (`{{ get_env(name="DATABASE_URL", default="sqlite://storage/db.sqlite") }}`), ensuring zero plaintext credentials in version control.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does built-in JWT authentication work in Loco?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Loco includes native JWT token generation and validation middleware. Controllers can inject `auth::JWT` extractors into handler signatures. The extractor automatically decodes the `Authorization: Bearer <token>` header, verifies the cryptographic signature against the configured secret, and injects the authenticated `User` model into request context.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does this kit configure CORS to prevent cross-origin vulnerabilities?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Loco's configuration file defines `cors.allow_origins` as an explicit array of trusted domains (e.g. `http://localhost:3000`, `https://app.example.com`). Wildcard origins (`*`) are disabled, ensuring browsers reject untrusted cross-origin requests and protecting session credentials.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why does Loco decouple presentation views in `src/views/` from database models in `src/models/`?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Directly serializing database entities often leaks internal database IDs, foreign key hashes, or audit timestamps. By mapping models to dedicated view structs in `src/views/`, developers maintain strict control over API contract schemas, preventing unintentional information disclosure.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How are database migrations executed and rolled back in Loco?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Migrations are authored in Rust using SeaQuery inside the `migration/` crate. Developers apply pending migrations with `cargo loco db migrate` or revert the last migration with `cargo loco db rollback`. In production, Loco can automatically run pending migrations during container startup via `database.auto_migrate: true`.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does in-memory testing work with SQLite in Loco?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In `config/test.yaml`, the database URI is set to `sqlite::memory:`. Every test run creates a fresh, isolated database in RAM that executes migrations instantly and runs test suites concurrently without filesystem cleanup or cross-test interference.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is SQLite data persisted safely in non-root Docker containers?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The `Dockerfile` creates a dedicated `/app/storage` directory owned by unprivileged user `10001:10001`. A Docker volume (`sqlite_data:/app/storage`) is mounted to this path. Because the SQLite database file resides inside the mounted volume with correct file ownership, data persists across container restarts without permission errors.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>When should an application transition from SQLite to PostgreSQL in Loco?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Because Loco uses SeaORM, switching from SQLite to PostgreSQL requires only updating the `database.uri` connection string in `config/production.yaml` from `sqlite://...` to `postgres://...` and re-running migrations. Teams can start on SQLite for simplicity and seamlessly scale to PostgreSQL when horizontal multi-node clustering is required.</p></details>
 </div>
       </section>
 

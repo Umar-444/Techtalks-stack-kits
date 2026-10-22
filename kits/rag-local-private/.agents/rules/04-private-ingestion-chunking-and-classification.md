@@ -1,12 +1,4 @@
-# 04 Private Ingestion Chunking And Classification
-
-﻿---
-id: "04-private-ingestion-chunking-and-classification"
-title: "Private Ingestion, Semantic Chunking & Data Classification"
-description: "Ingestion pipeline standards, text chunking heuristics, Saudi PDPL security classification tagging, and indirect prompt injection boundaries."
-globs: ["**/*.py"]
-alwaysApply: true
----
+# Private Ingestion, Semantic Chunking & Data Classification
 
 # 04 - Private Ingestion, Semantic Chunking & Data Classification
 
@@ -43,4 +35,3 @@ Question: {user_query}
 Answer:"""
   ```
 - **Context Sanitization:** Strip nested XML tags (`</context>`, `<script>`, etc.) from retrieved text prior to prompt assembly.
-

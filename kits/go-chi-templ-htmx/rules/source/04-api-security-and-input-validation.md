@@ -1,4 +1,4 @@
-﻿---
+---
 id: "04-api-security-and-input-validation"
 title: "API Security & OWASP Defense in Go"
 description: "Security invariants covering input validation, parameterized SQL injection prevention, BOLA/IDOR protection, and CSRF defense in Chi & HTMX."

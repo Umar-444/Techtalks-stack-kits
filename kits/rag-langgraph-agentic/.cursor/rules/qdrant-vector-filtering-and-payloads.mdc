@@ -1,0 +1,39 @@
+---
+description: Qdrant Vector Filtering & Payload Isolation
+globs: **/*.py
+alwaysApply: true
+---
+
+# Qdrant Vector Filtering & Payload Isolation
+
+# Qdrant Vector Search & Multi-Tenant Payload Security
+
+## 1. Collection Configuration & Distance Metric
+- Collections must configure Cosine distance and HNSW graph parameters:
+  ```python
+  from qdrant_client.http import models
+
+  client.create_collection(
+      collection_name="knowledge_base",
+      vectors_config=models.VectorParams(size=384, distance=models.Distance.COSINE),
+      hnsw_config=models.HnswConfigDiff(m=16, ef_construct=100)
+  )
+  ```
+
+## 2. Strict Payload Filtering & Tenant Isolation
+- Every vector query MUST include payload filters enforcing multi-tenant isolation:
+  ```python
+  tenant_filter = models.Filter(
+      must=[
+          models.FieldCondition(key="tenant_id", match=models.MatchValue(value=tenant_id)),
+          models.FieldCondition(key="is_archived", match=models.MatchValue(value=False)),
+      ]
+  )
+  results = client.search(
+      collection_name="knowledge_base",
+      query_vector=embedded_query,
+      query_filter=tenant_filter,
+      limit=5,
+      score_threshold=0.65  # Drop low-similarity hallucination bait
+  )
+  ```

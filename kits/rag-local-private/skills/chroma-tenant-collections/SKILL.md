@@ -1,4 +1,4 @@
-﻿---
+---
 name: "chroma-tenant-collections"
 description: "Manage local ChromaDB persistent collections, perform metadata filtering operations, backup SQLite databases, and vacuum vector indexes."
 ---

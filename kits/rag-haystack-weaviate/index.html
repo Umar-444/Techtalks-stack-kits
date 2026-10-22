@@ -429,9 +429,28 @@ alwaysApply: true
                 <span>Source: kits/rag-haystack-weaviate/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/rag-haystack-weaviate" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Haystack Pipelines + Weaviate + FastAPI (Hayhooks)
-- Follow architectural boundaries
-- Enforce strict security invariants</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for Rag Haystack Weaviate Stack Kit
+
+# Haystack Pipelines + Weaviate + FastAPI (Hayhooks) — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Hybrid Retrieval And Reciprocal Rank Fusion](#02-hybrid-retrieval-and-reciprocal-rank-fusion)
+- [03 Weaviate Collections And Tenant Isolation](#03-weaviate-collections-and-tenant-isolation)
+- [04 Evaluators And Pipeline Validation](#04-evaluators-and-pipeline-validation)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+
+---
+
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
+
+# Framework Architecture and Standards: Haystack 2.5+ and Weaviate
+
+1. **Explicit DAG Component Wiring**: Haystack 2.x uses explicit, directional DAG connections via `pipeline.connect(&quot;component_a.output&quot;, &quot;component_b.input&quot;)`. Never use implicit or hidden execution flow.
+2. **Component Isolation**: Every pipeline component must implement the `@component` decorator with typed inputs and outputs. Do not m
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">

@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-02-postgres-gin-index-migration",
   "name": "PostgreSQL GIN Indexing for JSONField Metadata",
   "difficulty": "advanced",

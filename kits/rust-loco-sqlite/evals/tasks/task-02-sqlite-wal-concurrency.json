@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-02-sqlite-wal-concurrency",
   "name": "SQLite WAL Mode Configuration and SeaORM ActiveModel Safety",
   "difficulty": "intermediate",

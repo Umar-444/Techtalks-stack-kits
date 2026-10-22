@@ -1,4 +1,4 @@
-﻿---
+---
 id: "01-framework-architecture-and-standards"
 title: "Litestar Framework Architecture & Clean Dependency Injection"
 description: "Architectural standards for modern ASGI services using Litestar 2.12+, layered dependency injection with Provide, Controller routing, and OpenAPI configuration."

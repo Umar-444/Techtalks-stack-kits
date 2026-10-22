@@ -1,4 +1,4 @@
-﻿---
+---
 id: sqlite-wal-mode-and-concurrency
 title: SQLite WAL Mode & Concurrency Architecture
 globs: "**/*.{py,sql}"

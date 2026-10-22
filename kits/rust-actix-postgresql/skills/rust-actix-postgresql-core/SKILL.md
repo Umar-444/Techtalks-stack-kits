@@ -1,4 +1,4 @@
-﻿---
+---
 name: rust-actix-postgresql-core
 description: Core architectural patterns, project structure, error handling, Docker builds, and testing workflows.
 ---

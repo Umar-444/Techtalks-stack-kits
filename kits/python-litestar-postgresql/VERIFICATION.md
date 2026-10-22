@@ -1,4 +1,4 @@
-﻿# Verification Guide: Python + Litestar + SQLAlchemy 2 + PostgreSQL + Redis
+# Verification Guide: Python + Litestar + SQLAlchemy 2 + PostgreSQL + Redis
 
 Follow this 6-phase verification guide to confirm that the Litestar service is functioning cleanly with strict typing, clean DI, and complete security compliance.
 

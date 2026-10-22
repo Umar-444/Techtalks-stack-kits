@@ -1,4 +1,4 @@
-﻿use actix_web::{test, web, App};
+use actix_web::{test, web, App};
 use rust_actix_postgresql_starter::{
     configure_app,
     dtos::HealthResponse,

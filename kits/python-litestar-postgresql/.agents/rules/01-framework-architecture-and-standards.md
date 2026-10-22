@@ -1,12 +1,4 @@
-# 01 Framework Architecture And Standards
-
-﻿---
-id: "01-framework-architecture-and-standards"
-title: "Litestar Framework Architecture & Clean Dependency Injection"
-description: "Architectural standards for modern ASGI services using Litestar 2.12+, layered dependency injection with Provide, Controller routing, and OpenAPI configuration."
-globs: ["**/*.py", "Dockerfile", "docker-compose.yml"]
-alwaysApply: true
----
+# Litestar Framework Architecture & Clean Dependency Injection
 
 # 01 - Litestar Framework Architecture & Clean Dependency Injection
 
@@ -71,4 +63,3 @@ starter/
 ## 4. Error Handling & OpenAPI Configuration
 - Register centralized exception handlers via `exception_handlers` dictionary in `Litestar(exception_handlers={...})`.
 - Configure `OpenAPIConfig(title="...", version="1.0.0", render_plugins=[SwaggerRenderPlugin()])` to expose interactive API docs natively.
-

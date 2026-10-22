@@ -1,4 +1,4 @@
-﻿---
+---
 id: adaptive-retrieval-and-query-rewriting
 title: Adaptive Retrieval & Query Rewriting
 globs: "**/*.py"

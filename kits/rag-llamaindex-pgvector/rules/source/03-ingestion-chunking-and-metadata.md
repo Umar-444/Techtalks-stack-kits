@@ -1,4 +1,4 @@
-﻿---
+---
 id: 03-ingestion-chunking-and-metadata
 title: Document Ingestion, Semantic Chunking & Metadata Enrichment
 globs: "*"

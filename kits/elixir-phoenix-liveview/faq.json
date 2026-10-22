@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "q": "Why is Phoenix LiveView considered one of the most productive real-time full-stack architectures?",
     "a": "Phoenix LiveView eliminates the traditional frontend/backend divide. Instead of building REST or GraphQL APIs, writing client-side state stores in JavaScript, and managing serialization, developers build reactive, server-rendered UIs entirely in Elixir. State resides exclusively on the server, and tiny DOM diffs are sent over WebSockets in binary format."

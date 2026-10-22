@@ -1,4 +1,4 @@
-﻿export interface StoredPasskey {
+export interface StoredPasskey {
     id: string; // Base64URL string
     publicKey: Uint8Array;
     userId: string;

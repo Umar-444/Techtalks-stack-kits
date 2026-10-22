@@ -2,24 +2,16 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Table of Contents
-- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
-- [02 Templ Components And Htmx Reactivity](#02-templ-components-and-htmx-reactivity)
-- [03 Sqlc Queries And Pgx Pooling](#03-sqlc-queries-and-pgx-pooling)
-- [04 Api Security And Input Validation](#04-api-security-and-input-validation)
-- [05 Evaluation Testing And Benchmarking](#05-evaluation-testing-and-benchmarking)
+- [Go & Chi Architecture Standards](#01-framework-architecture-and-standards)
+- [templ Components & HTMX 2.0 Reactivity](#02-templ-components-and-htmx-reactivity)
+- [sqlc Type-Safe Queries & pgx Connection Pooling](#03-sqlc-queries-and-pgx-pooling)
+- [API Security & OWASP Defense in Go](#04-api-security-and-input-validation)
+- [Testing, Container Hardening & Token Benchmark](#05-evaluation-testing-and-benchmarking)
 
 ---
 
 <a id="01-framework-architecture-and-standards"></a>
-## 01 Framework Architecture And Standards
-
-﻿---
-id: "01-framework-architecture-and-standards"
-title: "Go & Chi Architecture Standards"
-description: "Architectural standards for lightweight Go services using the Chi router, standard net/http compatibility, middleware composition, and clean domain packages."
-globs: ["**/*.go", "go.mod", "Dockerfile", "docker-compose.yml"]
-alwaysApply: true
----
+## Go & Chi Architecture Standards
 
 # 01 - Go & Chi Architecture Standards
 
@@ -77,19 +69,10 @@ r.Use(middleware.Timeout(30 * time.Second))
 - Always set appropriate Content-Type before writing status codes (`w.Header().Set("Content-Type", "application/json")` or `text/html; charset=utf-8`).
 - Never leak raw SQL query errors or file paths in HTTP error responses. Log the underlying error with `middleware.GetReqID(r.Context())` and return an opaque message with the request correlation ID.
 
-
 ---
 
 <a id="02-templ-components-and-htmx-reactivity"></a>
-## 02 Templ Components And Htmx Reactivity
-
-﻿---
-id: "02-templ-components-and-htmx-reactivity"
-title: "templ Components & HTMX 2.0 Reactivity"
-description: "Patterns for type-safe compile-time JSX HTML rendering with templ, component layout composition, and hypermedia interactions with HTMX 2.0."
-globs: ["**/*.templ", "**/*.go"]
-alwaysApply: true
----
+## templ Components & HTMX 2.0 Reactivity
 
 # 02 - templ Components & HTMX 2.0 Reactivity
 
@@ -130,19 +113,10 @@ alwaysApply: true
 - `templ` automatically contextual-escapes all dynamic variables interpolated within HTML tags, attributes, and text nodes.
 - Never bypass escaping with `templ.Raw()` unless rendering trusted, pre-sanitized markdown from a cryptographically signed source.
 
-
 ---
 
 <a id="03-sqlc-queries-and-pgx-pooling"></a>
-## 03 Sqlc Queries And Pgx Pooling
-
-﻿---
-id: "03-sqlc-queries-and-pgx-pooling"
-title: "sqlc Type-Safe Queries & pgx Connection Pooling"
-description: "SQL-first development standards using sqlc code generation, compile-checked query verification, and PostgreSQL connection pool management via pgxpool."
-globs: ["**/*.sql", "**/*.go", "sqlc.yaml"]
-alwaysApply: true
----
+## sqlc Type-Safe Queries & pgx Connection Pooling
 
 # 03 - sqlc Type-Safe Queries & pgx Connection Pooling
 
@@ -207,19 +181,10 @@ alwaysApply: true
   return tx.Commit(ctx)
   ```
 
-
 ---
 
 <a id="04-api-security-and-input-validation"></a>
-## 04 Api Security And Input Validation
-
-﻿---
-id: "04-api-security-and-input-validation"
-title: "API Security & OWASP Defense in Go"
-description: "Security invariants covering input validation, parameterized SQL injection prevention, BOLA/IDOR protection, and CSRF defense in Chi & HTMX."
-globs: ["**/*.go", "**/*.sql"]
-alwaysApply: true
----
+## API Security & OWASP Defense in Go
 
 # 04 - API Security & OWASP Defense in Go
 
@@ -253,19 +218,10 @@ alwaysApply: true
   r.Body = http.MaxBytesReader(w, r.Body, 10<<20) // 10MB limit
   ```
 
-
 ---
 
 <a id="05-evaluation-testing-and-benchmarking"></a>
-## 05 Evaluation Testing And Benchmarking
-
-﻿---
-id: "05-evaluation-testing-and-benchmarking"
-title: "Testing, Container Hardening & Token Benchmark"
-description: "Testing standards using standard library httptest, non-root Docker hardening (UID 10001), and token-light efficiency verification."
-globs: ["**/*_test.go", "Dockerfile", "evals/**"]
-alwaysApply: true
----
+## Testing, Container Hardening & Token Benchmark
 
 # 05 - Testing, Container Hardening & Token Benchmark
 
@@ -315,7 +271,6 @@ alwaysApply: true
   - Median build token target: ~16,800 tokens.
   - Efficiency Tier: **A+ (Token-Light Verified)**.
   - Justification: Chi standard library `net/http` ergonomics, `templ` compile-time type checking, and `sqlc` codegen require minimal code output from LLM agents to achieve full end-to-end features.
-
 
 ---
 

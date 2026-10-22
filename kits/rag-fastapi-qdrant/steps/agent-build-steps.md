@@ -1,4 +1,4 @@
-﻿# Agent Build Steps: RAG FastAPI + Qdrant + FastEmbed
+# Agent Build Steps: RAG FastAPI + Qdrant + FastEmbed
 
 Execute the following sequential steps to build, orchestrate, verify, and test the FastAPI + Qdrant vector retrieval service. Every step includes an explicit verification command and expected output.
 

@@ -1,4 +1,4 @@
-﻿# Agent Step-by-Step Build Order: Reverse Engineering & Security Audit Pack
+# Agent Step-by-Step Build Order: Reverse Engineering & Security Audit Pack
 
 1. **Step 1: Environment & Toolchain Setup**: Initialize Python 3.12 virtual environment and install dependencies from `requirements.txt`.
 2. **Step 2: AST Security Visitor Engine**: Subclass `ast.NodeVisitor` in `analyzers/ast_analyzer.py` to inspect syntax trees for dangerous sinks (`eval`, `exec`, `shell=True`, and unparameterized SQL).

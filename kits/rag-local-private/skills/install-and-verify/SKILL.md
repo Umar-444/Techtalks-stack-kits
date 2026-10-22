@@ -1,4 +1,4 @@
-﻿---
+---
 name: "install-and-verify"
 description: "Install, configure, orchestrate, and verify the Local Private RAG (Ollama + Chroma + FastAPI) service with zero outbound network egress."
 ---

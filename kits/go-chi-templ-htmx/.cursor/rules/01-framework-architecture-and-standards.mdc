@@ -1,18 +1,10 @@
 ---
-description: 01 Framework Architecture And Standards
-globs: *
+description: Architectural standards for lightweight Go services using the Chi router, standard net/http compatibility, middleware composition, and clean domain packages.
+globs: ['**/*.go', 'go.mod', 'Dockerfile', 'docker-compose.yml']
 alwaysApply: true
 ---
 
-# 01 Framework Architecture And Standards
-
-﻿---
-id: "01-framework-architecture-and-standards"
-title: "Go & Chi Architecture Standards"
-description: "Architectural standards for lightweight Go services using the Chi router, standard net/http compatibility, middleware composition, and clean domain packages."
-globs: ["**/*.go", "go.mod", "Dockerfile", "docker-compose.yml"]
-alwaysApply: true
----
+# Go & Chi Architecture Standards
 
 # 01 - Go & Chi Architecture Standards
 
@@ -69,4 +61,3 @@ r.Use(middleware.Timeout(30 * time.Second))
 - Never panic in handler code; all errors must be returned to the caller or handled by `middleware.Recoverer`.
 - Always set appropriate Content-Type before writing status codes (`w.Header().Set("Content-Type", "application/json")` or `text/html; charset=utf-8`).
 - Never leak raw SQL query errors or file paths in HTTP error responses. Log the underlying error with `middleware.GetReqID(r.Context())` and return an opaque message with the request correlation ID.
-

@@ -1,4 +1,4 @@
-﻿from flask import Blueprint, render_template, request, jsonify, abort
+from flask import Blueprint, render_template, request, jsonify, abort
 from app.db import get_db
 
 main_bp = Blueprint("main", __name__)

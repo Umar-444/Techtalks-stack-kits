@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "q": "Why is Loco.rs often referred to as the 'Ruby on Rails of Rust'?",
     "a": "Loco.rs brings the proven convention-over-configuration paradigm of Rails, Django, and Laravel into the Rust ecosystem. Instead of stitching together disparate crates for routing, database access, background jobs, mailers, and authentication, Loco provides a cohesive, batteries-included architecture built on top of industry-standard Axum and SeaORM, with powerful CLI scaffolding tools."

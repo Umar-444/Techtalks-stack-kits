@@ -1,4 +1,4 @@
-﻿---
+---
 id: csrf-security-and-input-validation
 title: CSRF Security & Input Sanitization
 globs: "**/*.{py,html,js}"

@@ -1,4 +1,4 @@
-﻿---
+---
 id: htmx-reactivity-and-jinja-rendering
 title: HTMX Reactivity & Jinja2 Partial Rendering
 globs: "**/*.{py,html}"

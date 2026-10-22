@@ -1,4 +1,4 @@
-﻿---
+---
 name: prompt-injection-screening
 description: Implementing heuristic pattern detection, system prompt delimiter sandboxing, and canary token leakage guards.
 ---

@@ -1,4 +1,4 @@
-﻿import uuid
+import uuid
 import time
 from typing import List, Optional
 from fastapi import FastAPI, HTTPException, Request, Response, status

@@ -1,4 +1,4 @@
-﻿---
+---
 id: qdrant-vector-filtering-and-payloads
 title: Qdrant Vector Filtering & Payload Isolation
 globs: "**/*.py"

@@ -1,12 +1,4 @@
-# 02 Templ Components And Htmx Reactivity
-
-﻿---
-id: "02-templ-components-and-htmx-reactivity"
-title: "templ Components & HTMX 2.0 Reactivity"
-description: "Patterns for type-safe compile-time JSX HTML rendering with templ, component layout composition, and hypermedia interactions with HTMX 2.0."
-globs: ["**/*.templ", "**/*.go"]
-alwaysApply: true
----
+# templ Components & HTMX 2.0 Reactivity
 
 # 02 - templ Components & HTMX 2.0 Reactivity
 
@@ -46,4 +38,3 @@ alwaysApply: true
 ## 4. XSS Immunity & Auto-Escaping
 - `templ` automatically contextual-escapes all dynamic variables interpolated within HTML tags, attributes, and text nodes.
 - Never bypass escaping with `templ.Raw()` unless rendering trusted, pre-sanitized markdown from a cryptographically signed source.
-

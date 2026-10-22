@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-01-litestar-router-health",
   "name": "Litestar ASGI Setup & Health Check Invariant",
   "difficulty": "beginner",

@@ -1,4 +1,4 @@
-﻿---
+---
 id: webauthn-fido2-architecture-and-standards
 title: WebAuthn FIDO2 Architecture & Standards
 globs: "**/*.ts"

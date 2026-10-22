@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-03-sarif-security-report-export",
   "name": "OASIS SARIF 2.1.0 Standard Vulnerability Report Export",
   "difficulty": "intermediate",

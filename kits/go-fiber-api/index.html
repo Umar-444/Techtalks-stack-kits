@@ -432,9 +432,29 @@ alwaysApply: true
                 <span>Source: kits/go-fiber-api/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/go-fiber-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Go + Fiber + PostgreSQL
-- Follow architectural boundaries
-- Enforce strict security invariants</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for Go Fiber Api Stack Kit
+
+# Go + Fiber + PostgreSQL — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Fasthttp Concurrency And Buffer Safety](#02-fasthttp-concurrency-and-buffer-safety)
+- [03 Pgxpool Connection And Database Lifecycle](#03-pgxpool-connection-and-database-lifecycle)
+- [04 Security Headers Cors And Rate Limiting](#04-security-headers-cors-and-rate-limiting)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+
+---
+
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
+
+# Framework Architecture and Standards: Go and Fiber (fasthttp)
+
+1. **Throughput-First Architecture**: Fiber is engineered on top of `fasthttp`, bypassing `net/http` allocation overhead for maximum request per second (RPS) throughput and lowest p99 latency.
+2. **Route Grouping**: Encapsulate API resources under `/api/v1` route groups with explicit middleware composition (structured logger, recovery, and request ID).
+3. **Graceful Shutdown**
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">

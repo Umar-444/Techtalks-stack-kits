@@ -1,12 +1,4 @@
-# 04 Authentication Security And Celery
-
-﻿---
-id: "04-authentication-security-and-celery"
-title: "Authentication, API Security & Celery Task Queue"
-description: "Security standards for Bearer token authentication, API keys, Celery 5.4 async background worker orchestration, and Redis broker settings."
-globs: ["**/api.py", "**/celery.py", "**/settings.py"]
-alwaysApply: true
----
+# Authentication, API Security & Celery Task Queue
 
 # 04 - Authentication, API Security & Celery Task Queue
 
@@ -59,4 +51,3 @@ alwaysApply: true
   CELERY_RESULT_SERIALIZER = "json"
   ```
 - Never allow `pickle` serialization in Celery, as it enables arbitrary remote code execution (RCE) if Redis is compromised.
-

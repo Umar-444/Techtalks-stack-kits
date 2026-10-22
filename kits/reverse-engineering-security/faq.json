@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "q": "What is the primary objective of the Reverse Engineering & Security Audit Pack?",
     "a": "This kit provides a strictly defensive, automated security auditing and structural analysis suite. It combines Python AST static code analysis, compiled binary exploit mitigation verification (checksec), Software Bill of Materials (SBOM) validation, and OASIS SARIF reporting to audit applications for vulnerabilities before deployment."

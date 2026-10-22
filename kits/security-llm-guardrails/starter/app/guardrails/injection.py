@@ -1,4 +1,4 @@
-﻿import re
+import re
 import secrets
 import uuid
 from typing import Tuple, List

@@ -1,4 +1,4 @@
-﻿---
+---
 name: sqlite-wal-and-concurrency
 description: SQLite WAL mode configuration, connection concurrency tuning, and transaction locking patterns for Flask.
 ---

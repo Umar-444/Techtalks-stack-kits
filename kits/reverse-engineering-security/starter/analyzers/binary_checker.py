@@ -1,4 +1,4 @@
-﻿import struct
+import struct
 from dataclasses import dataclass
 from typing import Dict, Any
 

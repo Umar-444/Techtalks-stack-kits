@@ -1,6 +1,6 @@
 # 03 Embeddings And Chunking Pipeline
 
-﻿# Rule 3: Text Chunking, Token Budgets & FastEmbed Generation
+# Rule 3: Text Chunking, Token Budgets & FastEmbed Generation
 
 ## Context & Principles
 - RAG accuracy is fundamentally bounded by the quality and granularity of document chunking.

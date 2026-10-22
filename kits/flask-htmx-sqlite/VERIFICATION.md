@@ -1,4 +1,4 @@
-﻿# Verification Guide: Flask + HTMX + SQLite
+# Verification Guide: Flask + HTMX + SQLite
 
 Follow this 6-phase verification guide to confirm that the Flask + HTMX + SQLite stack is functioning cleanly with zero-ceremony persistence, non-blocking WAL mode, and complete security compliance.
 

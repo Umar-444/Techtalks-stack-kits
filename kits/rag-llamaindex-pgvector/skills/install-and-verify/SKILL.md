@@ -1,4 +1,4 @@
-﻿---
+---
 name: install-and-verify
 description: Install, configure, orchestrate, and verify LlamaIndex + PostgreSQL pgvector RAG service.
 ---

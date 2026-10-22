@@ -2,23 +2,17 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Table of Contents
-- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
-- [02 Htmx Reactivity And Jinja Rendering](#02-htmx-reactivity-and-jinja-rendering)
-- [03 Sqlite Wal Mode And Concurrency](#03-sqlite-wal-mode-and-concurrency)
-- [04 Csrf Security And Input Validation](#04-csrf-security-and-input-validation)
-- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+- [Framework Architecture & Standards](#framework-architecture-and-standards)
+- [HTMX Reactivity & Jinja2 Partial Rendering](#htmx-reactivity-and-jinja-rendering)
+- [SQLite WAL Mode & Concurrency Architecture](#sqlite-wal-mode-and-concurrency)
+- [CSRF Security & Input Sanitization](#csrf-security-and-input-validation)
+- [Testing, Verification & CI Invariants](#testing-verification-and-ci)
 
 ---
 
-<a id="01-framework-architecture-and-standards"></a>
-## 01 Framework Architecture And Standards
+<a id="framework-architecture-and-standards"></a>
+## Framework Architecture & Standards
 
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture & Standards
-globs: "**/*.py"
-alwaysApply: true
----
 # Flask Application Factory Architecture & Production Standards
 
 ## 1. Application Factory Pattern
@@ -78,18 +72,11 @@ starter/
   ```
 - Gracefully handle SIGTERM and SIGINT to flush WAL write transactions before process termination.
 
-
 ---
 
-<a id="02-htmx-reactivity-and-jinja-rendering"></a>
-## 02 Htmx Reactivity And Jinja Rendering
+<a id="htmx-reactivity-and-jinja-rendering"></a>
+## HTMX Reactivity & Jinja2 Partial Rendering
 
-﻿---
-id: htmx-reactivity-and-jinja-rendering
-title: HTMX Reactivity & Jinja2 Partial Rendering
-globs: "**/*.{py,html}"
-alwaysApply: true
----
 # HTMX 2.0 Integration & Dual-Render View Architecture
 
 ## 1. Dual-Rendering Pattern via Request Headers
@@ -137,18 +124,11 @@ alwaysApply: true
   ```
 - Always render loading indicators cleanly via `#search-spinner.htmx-indicator`.
 
-
 ---
 
-<a id="03-sqlite-wal-mode-and-concurrency"></a>
-## 03 Sqlite Wal Mode And Concurrency
+<a id="sqlite-wal-mode-and-concurrency"></a>
+## SQLite WAL Mode & Concurrency Architecture
 
-﻿---
-id: sqlite-wal-mode-and-concurrency
-title: SQLite WAL Mode & Concurrency Architecture
-globs: "**/*.{py,sql}"
-alwaysApply: true
----
 # SQLite Production Concurrency & WAL Performance Standards
 
 ## 1. Mandatory SQLite PRAGMA Configuration
@@ -203,18 +183,11 @@ alwaysApply: true
       raise
   ```
 
-
 ---
 
-<a id="04-csrf-security-and-input-validation"></a>
-## 04 Csrf Security And Input Validation
+<a id="csrf-security-and-input-validation"></a>
+## CSRF Security & Input Sanitization
 
-﻿---
-id: csrf-security-and-input-validation
-title: CSRF Security & Input Sanitization
-globs: "**/*.{py,html,js}"
-alwaysApply: true
----
 # CSRF Defenses, HTMX Security Headers & Input Sanitization
 
 ## 1. Flask-WTF CSRF with HTMX Headers
@@ -263,18 +236,11 @@ alwaysApply: true
       return response
   ```
 
-
 ---
 
-<a id="05-testing-verification-and-ci"></a>
-## 05 Testing Verification And Ci
+<a id="testing-verification-and-ci"></a>
+## Testing, Verification & CI Invariants
 
-﻿---
-id: testing-verification-and-ci
-title: Testing, Verification & CI Invariants
-globs: "**/*.py"
-alwaysApply: true
----
 # Testing Standards, HTML Fragment Assertions & CI Pipeline
 
 ## 1. Pytest Test Client & In-Memory Isolation
@@ -322,7 +288,6 @@ alwaysApply: true
   2. `semgrep scan --config p/owasp-top-ten --config p/security-code-scan` with 0 blocking findings.
   3. `python tools/validate_manifest.py` ensuring complete physical manifest parity.
   4. `python tools/transpiler.py --check` guaranteeing 0 dialect drift.
-
 
 ---
 

@@ -1,4 +1,4 @@
-﻿# OpenAI Codex & Assistant Instruction Set: Flask + HTMX + SQLite
+# OpenAI Codex & Assistant Instruction Set: Flask + HTMX + SQLite
 
 You are an expert AI pair-programmer specializing in minimal, ultra-low-token Python web development using Flask 3.0, HTMX 2.0, and SQLite in WAL mode.
 

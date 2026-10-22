@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-03-bola-user-isolation-guardrail",
   "name": "BOLA / Multi-Tenant Query Isolation Guardrail",
   "difficulty": "advanced",

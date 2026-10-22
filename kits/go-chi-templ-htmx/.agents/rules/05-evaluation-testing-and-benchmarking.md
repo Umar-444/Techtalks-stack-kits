@@ -1,12 +1,4 @@
-# 05 Evaluation Testing And Benchmarking
-
-﻿---
-id: "05-evaluation-testing-and-benchmarking"
-title: "Testing, Container Hardening & Token Benchmark"
-description: "Testing standards using standard library httptest, non-root Docker hardening (UID 10001), and token-light efficiency verification."
-globs: ["**/*_test.go", "Dockerfile", "evals/**"]
-alwaysApply: true
----
+# Testing, Container Hardening & Token Benchmark
 
 # 05 - Testing, Container Hardening & Token Benchmark
 
@@ -56,4 +48,3 @@ alwaysApply: true
   - Median build token target: ~16,800 tokens.
   - Efficiency Tier: **A+ (Token-Light Verified)**.
   - Justification: Chi standard library `net/http` ergonomics, `templ` compile-time type checking, and `sqlc` codegen require minimal code output from LLM agents to achieve full end-to-end features.
-

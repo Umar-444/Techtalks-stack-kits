@@ -1,4 +1,4 @@
-﻿---
+---
 name: qdrant-payload-filtering
 description: Configure and execute Qdrant payload schema indexing and multi-condition boolean filters for tenant isolation and attribute filtering.
 ---

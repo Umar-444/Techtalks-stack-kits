@@ -17,6 +17,8 @@ RUN mix deps.get
 
 COPY . /app
 
+USER 10001:10001
+
 EXPOSE 4000
 
 CMD ["sh", "-c", "mix ecto.create && mix ecto.migrate && mix phx.server"]

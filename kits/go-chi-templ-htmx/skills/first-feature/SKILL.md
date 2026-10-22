@@ -1,4 +1,4 @@
-﻿---
+---
 name: "first-feature"
 description: "Scaffold a complete end-to-end feature: parameterized query in sqlc, type-safe templ component, and Chi handler returning reactive HTMX partials."
 ---

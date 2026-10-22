@@ -1,4 +1,4 @@
-﻿# Verification Guide: Go + Chi + templ + HTMX + sqlc + PostgreSQL
+# Verification Guide: Go + Chi + templ + HTMX + sqlc + PostgreSQL
 
 Follow this 6-phase verification guide to confirm that the Go + Chi + templ + HTMX stack is functioning cleanly with compile-time type safety, zero ORM overhead, and complete security compliance.
 

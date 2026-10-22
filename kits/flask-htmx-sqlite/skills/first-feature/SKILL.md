@@ -1,4 +1,4 @@
-﻿---
+---
 name: first-feature
 description: Guide to implementing an end-to-end reactive feature using Flask blueprints, Jinja2 partials, and HTMX 2.0 DOM swaps.
 ---

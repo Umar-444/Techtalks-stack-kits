@@ -1,4 +1,4 @@
-﻿# Verification Guide: LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)
+# Verification Guide: LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)
 
 Follow this 6-phase verification guide to confirm that the AI Security Gateway is operational with zero secret leaks, effective prompt injection screening, automated PII redaction, budget caps, and strict Pydantic AI output validation.
 

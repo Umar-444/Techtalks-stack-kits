@@ -1,4 +1,4 @@
-﻿---
+---
 name: security-llm-guardrails-core
 description: Core operations and scaffolding skill for LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard).
 ---

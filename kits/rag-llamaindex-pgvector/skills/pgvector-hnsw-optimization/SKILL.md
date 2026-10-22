@@ -1,4 +1,4 @@
-﻿---
+---
 name: pgvector-hnsw-optimization
 description: Tune PostgreSQL pgvector HNSW indexing parameters, query-time ef_search, and JSONB metadata GIN indexes.
 ---

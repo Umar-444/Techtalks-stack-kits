@@ -1,4 +1,4 @@
-﻿---
+---
 name: first-feature
 description: Author an interactive reactive Leptos component with fine-grained signals, server action forms, and Axum RPC.
 ---

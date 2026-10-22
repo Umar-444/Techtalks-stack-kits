@@ -1,4 +1,4 @@
-﻿---
+---
 id: "02-sqlalchemy-async-sessions-and-models"
 title: "SQLAlchemy 2.0 Async Sessions & Database Invariants"
 description: "Database persistence standards for asyncpg connection pooling, SQLAlchemy 2.0 DeclarativeBase, explicit indexing, and Alembic migrations."

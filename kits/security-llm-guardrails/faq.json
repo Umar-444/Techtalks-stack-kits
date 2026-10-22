@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "q": "What is an AI Security Gateway and why not connect directly to foundation LLM APIs?",
     "a": "Directly querying upstream LLMs leaves applications exposed to prompt injection attacks, accidental PII leaks, unstructured hallucinated outputs, and runaway API bills (Denial of Wallet). An AI Security Gateway acts as an enterprise-grade reverse proxy enforcing security policies, rate limits, PII masking, and schema validation before and after every model invocation."

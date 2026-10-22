@@ -1,4 +1,4 @@
-﻿---
+---
 name: security-passkeys-auth-core
 description: Core operations and scaffolding skill for Passkeys WebAuthn + Hardened Auth Reference (TypeScript).
 ---

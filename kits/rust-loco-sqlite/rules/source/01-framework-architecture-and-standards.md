@@ -1,4 +1,4 @@
-﻿# Framework Architecture and Standards: Rust, Loco.rs, and SQLite
+# Framework Architecture and Standards: Rust, Loco.rs, and SQLite
 
 1. **Rails-Style MVC Architecture**: Loco.rs provides convention-over-configuration for Rust web services. Structure applications strictly into `src/app.rs` (lifecycle & routing), `src/controllers/` (HTTP handlers), `src/models/` (SeaORM active models), `src/views/` (response serializations), and `config/` (environment configuration).
 2. **Underlying Axum and SeaORM Engine**: Leverage Loco's native Axum HTTP engine and SeaORM database integration without reinventing routing or ORM primitives. Keep controller actions lightweight and push business logic into model traits.

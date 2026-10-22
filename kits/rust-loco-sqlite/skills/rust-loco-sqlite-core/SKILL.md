@@ -1,4 +1,4 @@
-﻿---
+---
 name: rust-loco-sqlite-core
 description: Core operations, MVC generators, SQLite storage persistence, and Docker deployment workflows.
 ---

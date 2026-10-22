@@ -1,4 +1,4 @@
-﻿# Agent Step-by-Step Build Order: Rust + Leptos Full-Stack + Axum + WebAssembly
+# Agent Step-by-Step Build Order: Rust + Leptos Full-Stack + Axum + WebAssembly
 
 1. **Step 1: Environment & Toolchain Setup**: Install Rust stable toolchain, add the `wasm32-unknown-unknown` target, and install `cargo-leptos`. Copy `.env.example` to `.env`.
 2. **Step 2: Component Architecture & Routing**: Define shared UI components, routes, and layout shell in `src/app.rs` using fine-grained reactive signals (`signal`, `memo`, `resource`).

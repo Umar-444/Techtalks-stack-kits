@@ -1,4 +1,4 @@
-﻿import os
+import os
 import hashlib
 import math
 from typing import Any, Optional

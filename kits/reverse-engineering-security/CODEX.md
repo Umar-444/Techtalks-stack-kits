@@ -1,4 +1,4 @@
-﻿# OpenAI Codex & Assistant Instruction Set: Reverse Engineering & Security Audit Pack
+# OpenAI Codex & Assistant Instruction Set: Reverse Engineering & Security Audit Pack
 
 # Reverse Engineering & Security Audit Pack â€” Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.

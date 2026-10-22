@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "q": "Why choose Flask + HTMX + SQLite over full Single Page Application (SPA) stacks like Next.js or React?",
     "a": "Flask + HTMX + SQLite eliminates the enormous cognitive and token footprint of frontend build tools (Node.js, npm, Webpack, hydration mismatches, complex state managers, and dual schema definitions). By returning lightweight HTML fragments directly from Flask into the browser DOM, you get the responsiveness of an SPA with single-language simplicity and instant cold-start times."

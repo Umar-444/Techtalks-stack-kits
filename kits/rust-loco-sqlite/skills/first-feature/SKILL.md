@@ -1,4 +1,4 @@
-﻿---
+---
 name: first-feature
 description: Scaffold a new model, migration, and controller using Loco generators and SeaORM ActiveModel.
 ---

@@ -1,4 +1,4 @@
-﻿schema_version: "1.0.0"
+schema_version: "1.0.0"
 
 name: "LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)"
 slug: "security-llm-guardrails"

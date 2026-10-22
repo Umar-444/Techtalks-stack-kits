@@ -1,4 +1,4 @@
-﻿[package]
+[package]
 name = "rust_actix_postgresql_starter"
 version = "1.0.0"
 edition = "2021"

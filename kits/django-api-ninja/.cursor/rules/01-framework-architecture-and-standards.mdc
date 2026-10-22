@@ -1,18 +1,10 @@
 ---
-description: 01 Framework Architecture And Standards
-globs: *
+description: Architectural standards for high-throughput typed APIs using Django 5.1, Django Ninja 1.3, Pydantic v2 schemas, and modular domain routers.
+globs: ['**/*.py', 'manage.py', 'Dockerfile', 'docker-compose.yml']
 alwaysApply: true
 ---
 
-# 01 Framework Architecture And Standards
-
-﻿---
-id: "01-framework-architecture-and-standards"
-title: "Django 5 & Django Ninja Framework Architecture"
-description: "Architectural standards for high-throughput typed APIs using Django 5.1, Django Ninja 1.3, Pydantic v2 schemas, and modular domain routers."
-globs: ["**/*.py", "manage.py", "Dockerfile", "docker-compose.yml"]
-alwaysApply: true
----
+# Django 5 & Django Ninja Framework Architecture
 
 # 01 - Django 5 & Django Ninja Framework Architecture
 
@@ -61,4 +53,3 @@ starter/
   ```
 - Always mount sub-routers with explicit URL prefixes (`/projects`, `/auth`, `/tasks`).
 - Never write untyped function-based views for API endpoints; all public interfaces must pass through `NinjaAPI` routers with explicit Pydantic request and response schemas.
-

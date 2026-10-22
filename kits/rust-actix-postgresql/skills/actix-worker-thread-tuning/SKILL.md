@@ -1,4 +1,4 @@
-﻿---
+---
 name: actix-worker-thread-tuning
 description: Tune Actix Web worker threads, Tokio threadpool allocations, and SeaORM connection limits for peak throughput.
 ---

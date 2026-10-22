@@ -1,4 +1,4 @@
-﻿# Verification Guide: Passkeys WebAuthn (TypeScript)
+# Verification Guide: Passkeys WebAuthn (TypeScript)
 
 Follow this 6-phase verification guide to confirm that the Passkeys WebAuthn reference stack is operational with FIDO2 compliance, zero secret leaks, and complete security enforcement.
 

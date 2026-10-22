@@ -1,6 +1,6 @@
 # 05 Testing Verification And Ci
 
-﻿# Testing, Verification, and CI Standards
+# Testing, Verification, and CI Standards
 
 1. **Axum Server Integration Testing**: Verify SSR routes, server functions, and health probes using `axum::test` harnesses and standard Tokio test runners.
 2. **WebAssembly Headless Testing**: Author client component interaction tests using `wasm-bindgen-test` to verify signal propagation and DOM event handlers inside headless browser environments.

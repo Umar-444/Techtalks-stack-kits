@@ -1,4 +1,4 @@
-﻿# Rule 5: Security Guardrails, Prompt Injection Defense & In-Memory Testing
+# Rule 5: Security Guardrails, Prompt Injection Defense & In-Memory Testing
 
 ## Context & Principles
 - RAG applications are susceptible to indirect prompt injection through ingested untrusted documents.

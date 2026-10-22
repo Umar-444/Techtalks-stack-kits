@@ -36,98 +36,114 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What exactly is the Flask + HTMX + SQLite kit?",
+      "name": "Why choose Flask + HTMX + SQLite over full Single Page Application (SPA) stacks like Next.js or React?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+        "text": "Flask + HTMX + SQLite eliminates the enormous cognitive and token footprint of frontend build tools (Node.js, npm, Webpack, hydration mismatches, complex state managers, and dual schema definitions). By returning lightweight HTML fragments directly from Flask into the browser DOM, you get the responsiveness of an SPA with single-language simplicity and instant cold-start times."
       }
     },
     {
       "@type": "Question",
-      "name": "Which versions does it pin?",
+      "name": "How does Write-Ahead Logging (WAL) in SQLite enable concurrent reads and writes?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+        "text": "In default rollback journal mode, writing to an SQLite database locks the entire database file, preventing concurrent reads. WAL mode changes this by appending changes to a separate `-wal` file. Readers read from the main file and WAL log concurrently without waiting for writers, and writers do not block readers. Only concurrent writers queue against each other."
       }
     },
     {
       "@type": "Question",
-      "name": "Which AI coding agents are supported?",
+      "name": "What is the dual-rendering pattern and why inspect the HX-Request header?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+        "text": "The dual-rendering pattern enables a single endpoint to serve both full browser navigation (returning <!DOCTYPE html> with base layout) and reactive HTMX updates (returning only targeted partial fragments like <tr class='item-row'>). Inspecting request.headers.get('HX-Request') == 'true' ensures deep-links work for search engines and direct URL sharing while dynamic interactions stay lightning-fast."
       }
     },
     {
       "@type": "Question",
-      "name": "What do I need installed before I start?",
+      "name": "How do I protect state-changing HTMX requests against CSRF attacks in Flask?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+        "text": "Flask-WTF validates CSRF tokens on POST, PUT, PATCH, and DELETE requests. In base.html, inject the token via <meta name='csrf-token' content='{{ csrf_token() }}'> and configure HTMX via document.body.addEventListener('htmx:configRequest', evt => evt.detail.headers['X-CSRFToken'] = token) or hx-headers='{\"X-CSRFToken\": \"{{ csrf_token() }}\"}'. Flask-WTF inspects the X-CSRFToken header automatically."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does installation take?",
+      "name": "How does SQLite handle concurrent writes under high load with busy_timeout?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+        "text": "SQLite permits one active writer at a time. Without PRAGMA busy_timeout, a second concurrent writer immediately throws sqlite3.OperationalError: database is locked. With PRAGMA busy_timeout = 5000;, the SQLite C engine will automatically sleep and retry for up to 5,000 milliseconds until the prior write transaction commits, safely absorbing burst write traffic."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the starter production-shaped or a demo?",
+      "name": "Can SQLite in WAL mode handle production web traffic?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+        "text": "Yes. When configured with WAL mode, PRAGMA synchronous = NORMAL, PRAGMA busy_timeout = 5000, and SSD/NVMe storage, SQLite effortlessly handles hundreds of concurrent read requests and dozens of write transactions per second, making it ideal for internal tools, SaaS backends, edge servers, and low-token microservices."
       }
     },
     {
       "@type": "Question",
-      "name": "How is security handled in this kit?",
+      "name": "How does Jinja2 prevent Cross-Site Scripting (XSS) in HTMX applications?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+        "text": "Flask enables auto-escaping by default for all Jinja2 templates ending in .html, .htm, and .xml. Any dynamic user input interpolated via {{ variable }} is automatically escaped to HTML entities (e.g., < becomes &lt;). You should avoid | safe unless rendering sanitised markdown."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the design?",
+      "name": "How do I implement debounced instant search with HTMX?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+        "text": "Add hx-get='/items' hx-trigger='keyup changed delay:300ms, search' hx-target='#items-table-body' to the search <input>. When the user types, HTMX waits 300ms after the last keystroke before dispatching the request, avoiding unnecessary server load."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I update when a new kit version releases?",
+      "name": "How do I handle out-of-band (OOB) multi-target DOM updates with HTMX?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+        "text": "When returning an HTML response, you can include supplementary elements with hx-swap-oob='true' or hx-swap-oob='outerHTML:#counter'. HTMX will swap the primary target with the main body and simultaneously update any matching elements elsewhere on the page."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I use it for commercial and client work?",
+      "name": "What is the recommended production WSGI server for Flask + SQLite?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+        "text": "Deploy with Gunicorn using the gthread worker class (e.g. gunicorn -w 2 -k gthread --threads 4 -b 0.0.0.0:8080 'app:create_app()'). With SQLite, keep worker process count modest (1-3 workers) and rely on thread concurrency so threads share memory and file descriptors efficiently."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I contribute a fix or skill back?",
+      "name": "How do I handle database migrations in a lightweight SQLite project?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+        "text": "For ultra-lightweight projects, you can version schema files (e.g., 001_initial.sql, 002_add_tags.sql) executed via a small custom runner that tracks applied migrations in a schema_version table, or integrate Alembic with Flask-Migrate if you adopt SQLAlchemy."
       }
     },
     {
       "@type": "Question",
-      "name": "Where do I get help or report a problem?",
+      "name": "Why run Docker as non-root user USER 10001:10001?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+        "text": "Running containers as root (UID 0) exposes the host to privilege escalation vulnerabilities if a container breakout occurs. In our Dockerfile, we explicitly create appuser (UID 10001) and set USER 10001:10001, satisfying strict container security benchmarks and enterprise Semgrep scans."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does this stack achieve Tier A+ token-light efficiency for AI coding agents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AI coding models often consume tens of thousands of tokens when generating large TypeScript interfaces, Tailwind utility cascades, and client state orchestration. Flask + HTMX operates on native HTML and standard Python, allowing agents to understand, edit, and verify features in fewer than 16,000 median tokens."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I test HTMX fragment endpoints with pytest?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the Flask test_client and pass headers={'HX-Request': 'true'} in client.get() or client.post(). Assert that the returned payload contains the expected partial markup (e.g. <tr or <div class='card') and does NOT contain <!DOCTYPE html> or <html> tags."
       }
     }
   ]
@@ -326,13 +342,7 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Quick Reference &amp; Non-Negotiable Standards
-### 01 Framework Architecture And Standards
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture &amp; Standards
-globs: &quot;**/*.py&quot;
-alwaysApply: true
----
+### Framework Architecture &amp; Standards
 # Flask Application Factory Architecture &amp; Production Standards
 
 ## 1. Application Factory Pattern
@@ -343,7 +353,13 @@ alwaysApply: true
   from flask import Flask
 
   def create_app(test_config=None):
-      app = Flask(__name__, instance_relative_config=True)</code></pre>
+      app = Flask(__name__, instance_relative_config=True)
+      app.config.from_mapping(
+          SECRET_KEY=os.environ.get(&quot;SECRET_KEY&quot;, &quot;dev-insecure-key-change-me&quot;),
+          DATABASE=os.path.join(app.instance_path, &quot;app.sqlite&quot;),
+          WTF_CSRF_TIME_LIMIT=3600,
+      )
+      if test_config:</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
@@ -380,7 +396,7 @@ alwaysApply: true
                 <span>Source: kits/flask-htmx-sqlite/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/flask-htmx-sqlite" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: Flask + HTMX + SQLite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># OpenAI Codex &amp; Assistant Instruction Set: Flask + HTMX + SQLite
 
 You are an expert AI pair-programmer specializing in minimal, ultra-low-token Python web development using Flask 3.0, HTMX 2.0, and SQLite in WAL mode.
 
@@ -397,7 +413,7 @@ You are an expert AI pair-programmer specializing in minimal, ultra-low-token Py
 6. **Container Security**: Multi-stage rootless Docker execution (`USER 10001:10001`).
 
 ## Fast Shell Commands
-- Boot app: `flask run --po
+- Boot app: `flask run --por
 ...</code></pre>
             </div>
 
@@ -409,13 +425,7 @@ You are an expert AI pair-programmer specializing in minimal, ultra-low-token Py
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Flask + HTMX + SQLite
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## 01 Framework Architecture And Standards
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture &amp; Standards
-globs: &quot;**/*.py&quot;
-alwaysApply: true
----
+## Framework Architecture &amp; Standards
 # Flask Application Factory Architecture &amp; Production Standards
 
 ## 1. Application Factory Pattern
@@ -427,7 +437,13 @@ alwaysApply: true
 
   def create_app(test_config=None):
       app = Flask(__name__, instance_relative_config=True)
-      app.config.from_mapping(</code></pre>
+      app.config.from_mapping(
+          SECRET_KEY=os.environ.get(&quot;SECRET_KEY&quot;, &quot;dev-insecure-key-change-me&quot;),
+          DATABASE=os.path.join(app.instance_path, &quot;app.sqlite&quot;),
+          WTF_CSRF_TIME_LIMIT=3600,
+      )
+      if test_config:
+          app.config.update(test_config)</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
@@ -435,9 +451,28 @@ alwaysApply: true
                 <span>Source: kits/flask-htmx-sqlite/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/flask-htmx-sqlite" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Flask + HTMX + SQLite
-- Follow architectural boundaries
-- Enforce strict security invariants</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for Flask Htmx Sqlite Stack Kit
+
+# Flask + HTMX + SQLite — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Htmx Reactivity And Jinja Rendering](#02-htmx-reactivity-and-jinja-rendering)
+- [03 Sqlite Wal Mode And Concurrency](#03-sqlite-wal-mode-and-concurrency)
+- [04 Csrf Security And Input Validation](#04-csrf-security-and-input-validation)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+
+---
+
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
+
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
@@ -697,21 +732,23 @@ docker compose up --build -d</pre>
     <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
     <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
   </div>
-  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
 </div>
 <div class="space-y-3">
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the Flask + HTMX + SQLite kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why choose Flask + HTMX + SQLite over full Single Page Application (SPA) stacks like Next.js or React?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Flask + HTMX + SQLite eliminates the enormous cognitive and token footprint of frontend build tools (Node.js, npm, Webpack, hydration mismatches, complex state managers, and dual schema definitions). By returning lightweight HTML fragments directly from Flask into the browser DOM, you get the responsiveness of an SPA with single-language simplicity and instant cold-start times.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Write-Ahead Logging (WAL) in SQLite enable concurrent reads and writes?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In default rollback journal mode, writing to an SQLite database locks the entire database file, preventing concurrent reads. WAL mode changes this by appending changes to a separate `-wal` file. Readers read from the main file and WAL log concurrently without waiting for writers, and writers do not block readers. Only concurrent writers queue against each other.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the dual-rendering pattern and why inspect the HX-Request header?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The dual-rendering pattern enables a single endpoint to serve both full browser navigation (returning <!DOCTYPE html> with base layout) and reactive HTMX updates (returning only targeted partial fragments like <tr class='item-row'>). Inspecting request.headers.get('HX-Request') == 'true' ensures deep-links work for search engines and direct URL sharing while dynamic interactions stay lightning-fast.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I protect state-changing HTMX requests against CSRF attacks in Flask?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Flask-WTF validates CSRF tokens on POST, PUT, PATCH, and DELETE requests. In base.html, inject the token via <meta name='csrf-token' content='{{ csrf_token() }}'> and configure HTMX via document.body.addEventListener('htmx:configRequest', evt => evt.detail.headers['X-CSRFToken'] = token) or hx-headers='{"X-CSRFToken": "{{ csrf_token() }}"}'. Flask-WTF inspects the X-CSRFToken header automatically.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does SQLite handle concurrent writes under high load with busy_timeout?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">SQLite permits one active writer at a time. Without PRAGMA busy_timeout, a second concurrent writer immediately throws sqlite3.OperationalError: database is locked. With PRAGMA busy_timeout = 5000;, the SQLite C engine will automatically sleep and retry for up to 5,000 milliseconds until the prior write transaction commits, safely absorbing burst write traffic.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can SQLite in WAL mode handle production web traffic?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. When configured with WAL mode, PRAGMA synchronous = NORMAL, PRAGMA busy_timeout = 5000, and SSD/NVMe storage, SQLite effortlessly handles hundreds of concurrent read requests and dozens of write transactions per second, making it ideal for internal tools, SaaS backends, edge servers, and low-token microservices.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Jinja2 prevent Cross-Site Scripting (XSS) in HTMX applications?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Flask enables auto-escaping by default for all Jinja2 templates ending in .html, .htm, and .xml. Any dynamic user input interpolated via {{ variable }} is automatically escaped to HTML entities (e.g., < becomes &lt;). You should avoid | safe unless rendering sanitised markdown.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I implement debounced instant search with HTMX?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Add hx-get='/items' hx-trigger='keyup changed delay:300ms, search' hx-target='#items-table-body' to the search <input>. When the user types, HTMX waits 300ms after the last keystroke before dispatching the request, avoiding unnecessary server load.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I handle out-of-band (OOB) multi-target DOM updates with HTMX?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">When returning an HTML response, you can include supplementary elements with hx-swap-oob='true' or hx-swap-oob='outerHTML:#counter'. HTMX will swap the primary target with the main body and simultaneously update any matching elements elsewhere on the page.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the recommended production WSGI server for Flask + SQLite?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Deploy with Gunicorn using the gthread worker class (e.g. gunicorn -w 2 -k gthread --threads 4 -b 0.0.0.0:8080 'app:create_app()'). With SQLite, keep worker process count modest (1-3 workers) and rely on thread concurrency so threads share memory and file descriptors efficiently.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I handle database migrations in a lightweight SQLite project?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">For ultra-lightweight projects, you can version schema files (e.g., 001_initial.sql, 002_add_tags.sql) executed via a small custom runner that tracks applied migrations in a schema_version table, or integrate Alembic with Flask-Migrate if you adopt SQLAlchemy.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why run Docker as non-root user USER 10001:10001?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Running containers as root (UID 0) exposes the host to privilege escalation vulnerabilities if a container breakout occurs. In our Dockerfile, we explicitly create appuser (UID 10001) and set USER 10001:10001, satisfying strict container security benchmarks and enterprise Semgrep scans.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does this stack achieve Tier A+ token-light efficiency for AI coding agents?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">AI coding models often consume tens of thousands of tokens when generating large TypeScript interfaces, Tailwind utility cascades, and client state orchestration. Flask + HTMX operates on native HTML and standard Python, allowing agents to understand, edit, and verify features in fewer than 16,000 median tokens.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I test HTMX fragment endpoints with pytest?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Use the Flask test_client and pass headers={'HX-Request': 'true'} in client.get() or client.post(). Assert that the returned payload contains the expected partial markup (e.g. <tr or <div class='card') and does NOT contain <!DOCTYPE html> or <html> tags.</p></details>
 </div>
       </section>
 

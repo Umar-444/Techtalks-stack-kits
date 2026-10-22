@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "eval-02-prompt-injection-defense",
   "title": "Prompt Injection & Jailbreak Attack Neutralization",
   "instruction": "Verify that adversarial inputs are intercepted and blocked with HTTP 400 before LLM dispatch.",

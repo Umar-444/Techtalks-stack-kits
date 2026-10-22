@@ -1,4 +1,4 @@
-﻿# Verification Log: LlamaIndex + PostgreSQL pgvector + FastAPI
+# Verification Log: LlamaIndex + PostgreSQL pgvector + FastAPI
 
 - **Verification Date**: 2026-10-22
 - **Tested Environment**: Python 3.12.7, PostgreSQL 16.4 with pgvector v0.7.0, FastAPI 0.115.0, LlamaIndex 0.11+, Docker Compose v2.29

@@ -1,18 +1,10 @@
 ---
-description: 05 Evaluation Airgap Security And Testing
-globs: *
+description: Verification of zero-egress network policies, non-root container security, offline faithfulness scoring, and automated test suites.
+globs: ['**/*.py', 'Dockerfile', 'tests/**']
 alwaysApply: true
 ---
 
-# 05 Evaluation Airgap Security And Testing
-
-﻿---
-id: "05-evaluation-airgap-security-and-testing"
-title: "Offline Evaluation, Airgap Security & Testing"
-description: "Verification of zero-egress network policies, non-root container security, offline faithfulness scoring, and automated test suites."
-globs: ["**/*.py", "Dockerfile", "tests/**"]
-alwaysApply: true
----
+# Offline Evaluation, Airgap Security & Testing
 
 # 05 - Offline Evaluation, Airgap Security & Testing
 
@@ -50,4 +42,3 @@ alwaysApply: true
   - `test_prompt_injection_defense`: Verify that adversarial instructions in documents are safely bounded.
   - `test_offline_evaluation`: Verify structured groundedness scoring.
 - Pytest execution must complete in under 2 seconds with zero external network connectivity.
-

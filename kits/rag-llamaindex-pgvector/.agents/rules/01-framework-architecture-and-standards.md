@@ -1,11 +1,5 @@
-# 01 Framework Architecture And Standards
+# FastAPI Architecture, LlamaIndex Settings & Async Lifespan
 
-﻿---
-id: 01-framework-architecture-and-standards
-title: FastAPI Architecture, LlamaIndex Settings & Async Lifespan
-globs: "*"
-alwaysApply: true
----
 # Rule 1: FastAPI Architecture, LlamaIndex Settings & Async Lifespan
 
 ## Context & Principles
@@ -33,4 +27,3 @@ alwaysApply: true
    ```
 3. **Pydantic Validation**: All request and response payloads must subclass `pydantic.BaseModel` with explicit constraints (`Field(min_length=1, max_length=10000)`).
 4. **Health Probe**: Provide a non-blocking `/healthz` endpoint verifying application health and PostgreSQL pgvector connectivity.
-

@@ -1,4 +1,4 @@
-﻿# System & Interface Design Specification: RAG FastAPI + Qdrant
+# System & Interface Design Specification: RAG FastAPI + Qdrant
 
 ## 1. Design Overview
 This specification details the interface tokens, vector search visualization standards, and latency budgets for the RAG FastAPI + Qdrant vector retrieval service.

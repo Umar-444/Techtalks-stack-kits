@@ -1,4 +1,4 @@
-﻿---
+---
 name: install-and-verify
 description: Comprehensive preflight verification, virtual environment setup, and test runner execution for Flask + HTMX + SQLite.
 ---

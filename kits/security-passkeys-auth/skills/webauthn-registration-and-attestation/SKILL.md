@@ -1,4 +1,4 @@
-﻿---
+---
 name: webauthn-registration-and-attestation
 description: Configuring SimpleWebAuthn registration ceremonies, discoverable resident keys, and public key persistence.
 ---

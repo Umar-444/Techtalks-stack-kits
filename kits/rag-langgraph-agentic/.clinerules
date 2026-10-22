@@ -1,0 +1,37 @@
+# Assistant Guidelines for Rag Langgraph Agentic Stack Kit
+
+# LangGraph + LangChain + Qdrant + Ragas Evals — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Adaptive Retrieval And Query Rewriting](#02-adaptive-retrieval-and-query-rewriting)
+- [03 Qdrant Vector Filtering And Payloads](#03-qdrant-vector-filtering-and-payloads)
+- [04 Ragas Groundedness And Hallucination Evals](#04-ragas-groundedness-and-hallucination-evals)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+
+---
+
+<a id="01-framework-architecture-and-standards"></a>
+## 01 Framework Architecture And Standards
+
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture & Standards
+globs: "**/*.py"
+alwaysApply: true
+---
+# Agentic RAG Architecture & LangGraph State Standards
+
+## 1. Cyclical State Machine for Retrieval-Augmented Generation
+- Classical RAG is a static linear pipeline: `Query -> Embed -> Retrieve -> Generate`.
+- Agentic RAG introduces dynamic decision-making nodes:
+  - `retrieve`: Query Qdrant for semantic matches.
+  - `grade_documents`: Evaluates retrieved chunk relevance to the user question.
+  - `decide_to_generate`: If documents are irrelevant, transition to `rewrite_query`; otherwise transition to `generate`.
+  - `rewrite_query`: Transform and clarify user input for better vector search convergence.
+  - `generate`: Synthesize answers using verified grounded context.
+  - `grade_generation`: Check for hallucinations; if ungrounded, loop back.
+
+## 2. Immutable State Schema
+- Define state using `TypedDict` with explicit field semantics:

@@ -1,4 +1,4 @@
-﻿---
+---
 name: passkey-authentication-and-assertion
 description: Implementing passwordless passkey login, assertion verification, and signature counter rollback protection.
 ---

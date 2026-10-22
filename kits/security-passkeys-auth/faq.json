@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "q": "What are Passkeys and how do they replace passwords?",
     "a": "Passkeys are cryptographic credentials based on the FIDO2 / WebAuthn standard that replace shared secrets (passwords) with asymmetric public-key cryptography. A private key remains securely inside the user device enclave or password manager, while only the public key is shared with the server. Passkeys are immune to phishing, server credential leaks, and credential stuffing attacks."

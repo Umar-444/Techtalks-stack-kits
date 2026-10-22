@@ -13,7 +13,7 @@
 <a id="01-framework-architecture-and-standards"></a>
 ## 01 Framework Architecture And Standards
 
-﻿# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
+# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
 
 1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
 2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = "ssr")]` to avoid bloating the client WASM bundle.
@@ -27,7 +27,7 @@
 <a id="02-leptos-server-functions-and-axum-integration"></a>
 ## 02 Leptos Server Functions And Axum Integration
 
-﻿# Leptos Server Functions and Axum Integration
+# Leptos Server Functions and Axum Integration
 
 1. **Type-Safe RPC via Server Functions**: Define backend endpoints using Leptos `#[server(Prefix, "/api")]` macros. Server functions act as ordinary async Rust functions on the client while compiling to Axum HTTP handlers on the server.
 2. **Server Context Dependency Injection**: Access database connections, cache clients, and configuration within server functions using `leptos_axum::extract()` or `use_context::<AppState>()`.
@@ -41,7 +41,7 @@
 <a id="03-wasm-client-hydration-and-reactivity"></a>
 ## 03 Wasm Client Hydration And Reactivity
 
-﻿# WebAssembly Client Hydration and Reactivity
+# WebAssembly Client Hydration and Reactivity
 
 1. **Client Hydration Lifecycle**: Hydrate server-rendered HTML into an active reactive application via `leptos::mount_to_body` inside `src/lib.rs`. Ensure client signal initializers match server SSR rendered states to avoid hydration mismatches.
 2. **Suspense and Resource Boundaries**: Wrap asynchronous queries in `create_resource` paired with `<Suspense fallback=...>`. This renders accessible fallback loading states during WASM initialization and dynamic fetches.
@@ -55,7 +55,7 @@
 <a id="04-security-invariants-and-content-security"></a>
 ## 04 Security Invariants And Content Security
 
-﻿# Security Invariants, Content Security Policy, and CORS
+# Security Invariants, Content Security Policy, and CORS
 
 1. **Strict WebAssembly Content Security Policy**: Deploy strict CSP response headers via Axum middleware (`default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'`). Prevent script injection while allowing WASM module compilation.
 2. **Server Function Authorization**: Protect sensitive server functions with session or bearer token verification extracted from Axum request headers. Never rely on client-side routing guards alone for data authorization.
@@ -69,7 +69,7 @@
 <a id="05-testing-verification-and-ci"></a>
 ## 05 Testing Verification And Ci
 
-﻿# Testing, Verification, and CI Standards
+# Testing, Verification, and CI Standards
 
 1. **Axum Server Integration Testing**: Verify SSR routes, server functions, and health probes using `axum::test` harnesses and standard Tokio test runners.
 2. **WebAssembly Headless Testing**: Author client component interaction tests using `wasm-bindgen-test` to verify signal propagation and DOM event handlers inside headless browser environments.

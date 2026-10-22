@@ -1,4 +1,4 @@
-﻿---
+---
 id: "05-evaluation-testing-and-benchmarking"
 title: "Testing, Container Hardening & Token Benchmark"
 description: "Testing standards using standard library httptest, non-root Docker hardening (UID 10001), and token-light efficiency verification."

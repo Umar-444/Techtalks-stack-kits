@@ -1,4 +1,4 @@
-﻿---
+---
 id: security-tool-sandboxing-and-guardrails
 title: Security, Tool Sandboxing & Guardrails
 globs: "**/*.py"

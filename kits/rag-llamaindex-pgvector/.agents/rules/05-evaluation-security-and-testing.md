@@ -1,11 +1,5 @@
-# 05 Evaluation Security And Testing
+# Faithfulness Evaluations, Security Guardrails & In-Memory Testing
 
-﻿---
-id: 05-evaluation-security-and-testing
-title: Faithfulness Evaluations, Security Guardrails & In-Memory Testing
-globs: "*"
-alwaysApply: true
----
 # Rule 5: Faithfulness Evaluations, Security Guardrails & In-Memory Testing
 
 ## Context & Principles
@@ -28,4 +22,3 @@ alwaysApply: true
 2. **Prompt Injection Mitigation**: Isolate retrieved context from system instructions using explicit XML/markdown boundaries (`<context>...</context>`).
 3. **Zero Plaintext Secrets**: Never hardcode database passwords or LLM API keys. Validate required secrets during startup using Pydantic `BaseSettings`.
 4. **Fast Unit Tests**: Test retrieval, ingestion, and evaluation pipelines using Pytest with in-memory fixtures.
-

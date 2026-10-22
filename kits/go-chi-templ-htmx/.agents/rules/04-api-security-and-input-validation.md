@@ -1,12 +1,4 @@
-# 04 Api Security And Input Validation
-
-﻿---
-id: "04-api-security-and-input-validation"
-title: "API Security & OWASP Defense in Go"
-description: "Security invariants covering input validation, parameterized SQL injection prevention, BOLA/IDOR protection, and CSRF defense in Chi & HTMX."
-globs: ["**/*.go", "**/*.sql"]
-alwaysApply: true
----
+# API Security & OWASP Defense in Go
 
 # 04 - API Security & OWASP Defense in Go
 
@@ -39,4 +31,3 @@ alwaysApply: true
   ```go
   r.Body = http.MaxBytesReader(w, r.Body, 10<<20) // 10MB limit
   ```
-

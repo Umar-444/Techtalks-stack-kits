@@ -1,4 +1,4 @@
-﻿schema_version: "1.0.0"
+schema_version: "1.0.0"
 
 name: "OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest)"
 slug: "security-owasp-api"

@@ -1,4 +1,4 @@
-﻿---
+---
 name: leptos-server-functions
 description: Build type-safe server functions that seamlessly bridge client WASM to server Axum services.
 ---

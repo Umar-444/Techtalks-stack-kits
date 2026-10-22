@@ -1,4 +1,4 @@
-﻿import json
+import json
 from typing import List
 from analyzers.ast_analyzer import Finding
 

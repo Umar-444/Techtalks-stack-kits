@@ -1,4 +1,4 @@
-﻿# Design Tokens & System Standards: LlamaIndex + PostgreSQL pgvector + FastAPI
+# Design Tokens & System Standards: LlamaIndex + PostgreSQL pgvector + FastAPI
 
 Reference: Document 17 (Design System Spec) & Document 18 (Layout & Structure).
 

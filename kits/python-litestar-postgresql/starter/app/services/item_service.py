@@ -1,4 +1,4 @@
-﻿from typing import List, Optional, Dict
+from typing import List, Optional, Dict
 from app.domain.schemas import ItemCreate, ItemResponse
 
 class ItemService:

@@ -1,4 +1,4 @@
-﻿---
+---
 id: ragas-groundedness-and-hallucination-evals
 title: Ragas Groundedness & Hallucination Evals
 globs: "**/*.py"

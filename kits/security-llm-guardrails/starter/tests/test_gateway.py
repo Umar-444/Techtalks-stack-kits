@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 from app.guardrails.injection import detect_prompt_injection, generate_canary_token, detect_canary_leak

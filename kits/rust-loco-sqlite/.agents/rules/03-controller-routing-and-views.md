@@ -1,6 +1,6 @@
 # 03 Controller Routing And Views
 
-﻿# Controller Routing, Extractors, and Views
+# Controller Routing, Extractors, and Views
 
 1. **Declarative Controller Routes**: Implement controller routing via `Routes::new()`. Register endpoint handlers using `.add("/", get(list))` and `.add("/:id", get(get_one))`, mounting them cleanly in `src/app.rs`.
 2. **Type-Safe Extractors**: Extract parameters using Axum/Loco extractors: `State<AppContext>`, `Json<T>`, `Path<T>`, and `Query<T>`. Never access raw HTTP query strings or unstructured body streams.

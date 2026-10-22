@@ -1,4 +1,4 @@
-﻿---
+---
 name: pii-redaction-pipeline
 description: Configuring automated PII redaction, reversible tokenization mapping, and custom entity recognizers.
 ---

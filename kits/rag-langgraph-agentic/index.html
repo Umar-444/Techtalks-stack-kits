@@ -342,13 +342,7 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Quick Reference &amp; Non-Negotiable Standards
-### 01 Framework Architecture And Standards
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture &amp; Standards
-globs: &quot;**/*.py&quot;
-alwaysApply: true
----
+### Framework Architecture &amp; Standards
 # Agentic RAG Architecture &amp; LangGraph State Standards
 
 ## 1. Cyclical State Machine for Retrieval-Augmented Generation
@@ -359,7 +353,13 @@ alwaysApply: true
   - `decide_to_generate`: If documents are irrelevant, transition to `rewrite_query`; otherwise transition to `generate`.
   - `rewrite_query`: Transform and clarify user input for better vector search convergence.
   - `generate`: Synthesize answers using verified grounded context.
-  - `grade_generation`: Check for hallucinations; if ungrounded, loop back.</code></pre>
+  - `grade_generation`: Check for hallucinations; if ungrounded, loop back.
+
+## 2. Immutable State Schema
+- Define state using `TypedDict` with explicit field semantics:
+  ```python
+  from typing import TypedDict, List
+</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
@@ -396,7 +396,7 @@ alwaysApply: true
                 <span>Source: kits/rag-langgraph-agentic/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rag-langgraph-agentic" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: Agentic RAG (LangGraph + Qdrant)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># OpenAI Codex &amp; Assistant Instruction Set: Agentic RAG (LangGraph + Qdrant)
 
 You are an expert AI systems engineer specializing in cyclical Agentic RAG using LangGraph 0.2, LangChain, Qdrant vector database, and Ragas evaluation metrics.
 
@@ -421,13 +421,7 @@ You are an expert AI systems engineer specializing in cyclical Agentic RAG using
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for LangGraph + LangChain + Qdrant + Ragas Evals
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## 01 Framework Architecture And Standards
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture &amp; Standards
-globs: &quot;**/*.py&quot;
-alwaysApply: true
----
+## Framework Architecture &amp; Standards
 # Agentic RAG Architecture &amp; LangGraph State Standards
 
 ## 1. Cyclical State Machine for Retrieval-Augmented Generation
@@ -439,7 +433,13 @@ alwaysApply: true
   - `rewrite_query`: Transform and clarify user input for better vector search convergence.
   - `generate`: Synthesize answers using verified grounded context.
   - `grade_generation`: Check for hallucinations; if ungrounded, loop back.
-</code></pre>
+
+## 2. Immutable State Schema
+- Define state using `TypedDict` with explicit field semantics:
+  ```python
+  from typing import TypedDict, List
+
+  class GraphState(TypedDict):</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
@@ -447,9 +447,28 @@ alwaysApply: true
                 <span>Source: kits/rag-langgraph-agentic/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/rag-langgraph-agentic" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for LangGraph + LangChain + Qdrant + Ragas Evals
-- Follow architectural boundaries
-- Enforce strict security invariants</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for Rag Langgraph Agentic Stack Kit
+
+# LangGraph + LangChain + Qdrant + Ragas Evals — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Adaptive Retrieval And Query Rewriting](#02-adaptive-retrieval-and-query-rewriting)
+- [03 Qdrant Vector Filtering And Payloads](#03-qdrant-vector-filtering-and-payloads)
+- [04 Ragas Groundedness And Hallucination Evals](#04-ragas-groundedness-and-hallucination-evals)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+
+---
+
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
+
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture &amp; Standards
+globs: &quot;**/*.py&quot;
+alwaysApply: true</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">

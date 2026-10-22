@@ -36,98 +36,114 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What exactly is the Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL kit?",
+      "name": "Why is Phoenix LiveView considered one of the most productive real-time full-stack architectures?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+        "text": "Phoenix LiveView eliminates the traditional frontend/backend divide. Instead of building REST or GraphQL APIs, writing client-side state stores in JavaScript, and managing serialization, developers build reactive, server-rendered UIs entirely in Elixir. State resides exclusively on the server, and tiny DOM diffs are sent over WebSockets in binary format."
       }
     },
     {
       "@type": "Question",
-      "name": "Which versions does it pin?",
+      "name": "How does LiveView communicate DOM updates to the browser without writing client JavaScript?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+        "text": "On initial page load, LiveView renders standard static HTML for instant First Contentful Paint. It then establishes a persistent WebSocket connection via a tiny 30 KB client script. When user events trigger state mutations on the server, Phoenix computes structural HTML diffs (sending only the changed dynamic values, not entire HTML templates) and patches the browser DOM seamlessly."
       }
     },
     {
       "@type": "Question",
-      "name": "Which AI coding agents are supported?",
+      "name": "How do LiveView Streams (`stream/3` and `stream_insert/3`) optimize server memory for large collections?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+        "text": "Prior to LiveView 0.18+, storing large lists in socket assigns required keeping all collection items in server RAM. With LiveView Streams, the server sends items to the client DOM once and immediately discards them from server process memory. Subsequent inserts, updates, and deletes are executed via targeted stream operations without holding large datasets in RAM."
       }
     },
     {
       "@type": "Question",
-      "name": "What do I need installed before I start?",
+      "name": "How does the BEAM virtual machine (OTP) guarantee fault tolerance and high concurrency?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+        "text": "The BEAM virtual machine runs millions of lightweight, isolated Erlang processes with preemptive scheduling and per-process garbage collection. Each connected LiveView user runs in their own isolated process. If an unhandled exception crashes one user's process, the OTP supervisor restarts it in milliseconds without affecting any other connected user."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does installation take?",
+      "name": "How does `Phoenix.PubSub` enable real-time collaborative features across server clusters?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+        "text": "Phoenix PubSub provides high-performance, distributed pub/sub messaging built directly into the Phoenix framework. When a record changes, calling `Phoenix.PubSub.broadcast(Demo.PubSub, \"items\", {:item_created, item})` broadcasts the event to all subscribed LiveView processes across any number of clustered nodes without needing external Redis brokers."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the starter production-shaped or a demo?",
+      "name": "How do Ecto Changesets eliminate mass-assignment and SQL injection vulnerabilities?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+        "text": "Ecto separates database schemas from mutation validation. The `cast/3` function acts as an explicit parameter whitelist, stripping any unauthorized fields submitted by clients. Validation rules (`validate_required`, `validate_length`, `validate_format`) run before queries are built, and Postgrex executes all queries with parameterized bind values (`$1`, `$2`), eliminating SQL injection."
       }
     },
     {
       "@type": "Question",
-      "name": "How is security handled in this kit?",
+      "name": "Why does `mount/3` execute twice in Phoenix LiveView and how should it be handled?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+        "text": "LiveView executes `mount/3` twice: first during the initial HTTP GET request to generate SEO-friendly static HTML, and second when the browser establishes the stateful WebSocket connection. To prevent duplicate database queries or duplicate PubSub subscriptions, wrap subscriptions in `if connected?(socket), do: Phoenix.PubSub.subscribe(...)`."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the design?",
+      "name": "How is Cross-Site Request Forgery (CSRF) prevented across WebSocket connections in LiveView?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+        "text": "Phoenix injects a cryptographically signed CSRF meta tag into the HTML layout (`get_csrf_token()`). When the client WebSocket initiates its connection, it sends this token in the connection params. Phoenix verifies the CSRF token during the WebSocket handshake before allowing the socket process to spawn."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I update when a new kit version releases?",
+      "name": "How does Phoenix LiveView handle temporary network disconnects and reconnects?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+        "text": "When a client loses network connectivity, the LiveView JavaScript client automatically applies a disconnected visual state and begins exponential backoff reconnection attempts. Once connectivity is restored, the client reconnects, re-establishes the socket, mounts a fresh LiveView process, and resynchronizes the UI automatically."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I use it for commercial and client work?",
+      "name": "What role does Sobelow play in securing Phoenix applications?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+        "text": "Sobelow is a specialized static analysis security tool designed specifically for Phoenix and Elixir. It inspects controllers, LiveViews, and router pipelines for common vulnerabilities such as cross-site scripting (XSS), SQL injection, directory traversal, insecure secrets, and improper CSRF configurations."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I contribute a fix or skill back?",
+      "name": "How is non-root execution configured in the multi-stage Docker container for Elixir?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+        "text": "The multi-stage `Dockerfile` compiles the Elixir OTP release in a `hexpm/elixir:1.17-alpine` builder image. The resulting standalone release (including the minimal Erlang runtime) is copied into a clean `alpine:3.20` image. The container creates an unprivileged user (`appuser` with UID 10001) and sets `USER 10001:10001` for secure rootless execution."
       }
     },
     {
       "@type": "Question",
-      "name": "Where do I get help or report a problem?",
+      "name": "How does ExUnit test LiveView components without headless browser overhead?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+        "text": "Phoenix provides `Phoenix.LiveViewTest`, allowing developers to test full interactive LiveView lifecycles directly within Elixir. Tests can render views, simulate user clicks (`render_click`), fill out forms (`render_change`), and assert on rendered HTML without launching Chrome, Selenium, or Playwright, running in milliseconds."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the HEEx template engine guarantee compile-time HTML validation and XSS escaping?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "HEEx (HTML+Embedded Elixir) parses HTML at compile time, rejecting unclosed tags, malformed attributes, and invalid nesting before code runs. Dynamic expressions inside `{...}` are automatically HTML-escaped by default, preventing reflected and stored XSS vulnerabilities."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does WebSocket origin validation (`check_origin`) safeguard LiveView endpoints?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In `config/runtime.exs`, the Endpoint configures `check_origin: allowed_origins`. This instructs the Cowboy/Bandit HTTP server to inspect the `Origin` header during WebSocket connection handshakes, rejecting Cross-Site WebSocket Hijacking (CSWSH) attempts from unauthorized third-party origins."
       }
     }
   ]
@@ -707,21 +723,23 @@ docker compose up --build -d</pre>
     <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
     <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
   </div>
-  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
 </div>
 <div class="space-y-3">
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is Phoenix LiveView considered one of the most productive real-time full-stack architectures?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Phoenix LiveView eliminates the traditional frontend/backend divide. Instead of building REST or GraphQL APIs, writing client-side state stores in JavaScript, and managing serialization, developers build reactive, server-rendered UIs entirely in Elixir. State resides exclusively on the server, and tiny DOM diffs are sent over WebSockets in binary format.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does LiveView communicate DOM updates to the browser without writing client JavaScript?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">On initial page load, LiveView renders standard static HTML for instant First Contentful Paint. It then establishes a persistent WebSocket connection via a tiny 30 KB client script. When user events trigger state mutations on the server, Phoenix computes structural HTML diffs (sending only the changed dynamic values, not entire HTML templates) and patches the browser DOM seamlessly.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do LiveView Streams (`stream/3` and `stream_insert/3`) optimize server memory for large collections?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Prior to LiveView 0.18+, storing large lists in socket assigns required keeping all collection items in server RAM. With LiveView Streams, the server sends items to the client DOM once and immediately discards them from server process memory. Subsequent inserts, updates, and deletes are executed via targeted stream operations without holding large datasets in RAM.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the BEAM virtual machine (OTP) guarantee fault tolerance and high concurrency?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The BEAM virtual machine runs millions of lightweight, isolated Erlang processes with preemptive scheduling and per-process garbage collection. Each connected LiveView user runs in their own isolated process. If an unhandled exception crashes one user's process, the OTP supervisor restarts it in milliseconds without affecting any other connected user.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does `Phoenix.PubSub` enable real-time collaborative features across server clusters?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Phoenix PubSub provides high-performance, distributed pub/sub messaging built directly into the Phoenix framework. When a record changes, calling `Phoenix.PubSub.broadcast(Demo.PubSub, "items", {:item_created, item})` broadcasts the event to all subscribed LiveView processes across any number of clustered nodes without needing external Redis brokers.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do Ecto Changesets eliminate mass-assignment and SQL injection vulnerabilities?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Ecto separates database schemas from mutation validation. The `cast/3` function acts as an explicit parameter whitelist, stripping any unauthorized fields submitted by clients. Validation rules (`validate_required`, `validate_length`, `validate_format`) run before queries are built, and Postgrex executes all queries with parameterized bind values (`$1`, `$2`), eliminating SQL injection.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why does `mount/3` execute twice in Phoenix LiveView and how should it be handled?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">LiveView executes `mount/3` twice: first during the initial HTTP GET request to generate SEO-friendly static HTML, and second when the browser establishes the stateful WebSocket connection. To prevent duplicate database queries or duplicate PubSub subscriptions, wrap subscriptions in `if connected?(socket), do: Phoenix.PubSub.subscribe(...)`.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is Cross-Site Request Forgery (CSRF) prevented across WebSocket connections in LiveView?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Phoenix injects a cryptographically signed CSRF meta tag into the HTML layout (`get_csrf_token()`). When the client WebSocket initiates its connection, it sends this token in the connection params. Phoenix verifies the CSRF token during the WebSocket handshake before allowing the socket process to spawn.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Phoenix LiveView handle temporary network disconnects and reconnects?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">When a client loses network connectivity, the LiveView JavaScript client automatically applies a disconnected visual state and begins exponential backoff reconnection attempts. Once connectivity is restored, the client reconnects, re-establishes the socket, mounts a fresh LiveView process, and resynchronizes the UI automatically.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What role does Sobelow play in securing Phoenix applications?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Sobelow is a specialized static analysis security tool designed specifically for Phoenix and Elixir. It inspects controllers, LiveViews, and router pipelines for common vulnerabilities such as cross-site scripting (XSS), SQL injection, directory traversal, insecure secrets, and improper CSRF configurations.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is non-root execution configured in the multi-stage Docker container for Elixir?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The multi-stage `Dockerfile` compiles the Elixir OTP release in a `hexpm/elixir:1.17-alpine` builder image. The resulting standalone release (including the minimal Erlang runtime) is copied into a clean `alpine:3.20` image. The container creates an unprivileged user (`appuser` with UID 10001) and sets `USER 10001:10001` for secure rootless execution.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does ExUnit test LiveView components without headless browser overhead?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Phoenix provides `Phoenix.LiveViewTest`, allowing developers to test full interactive LiveView lifecycles directly within Elixir. Tests can render views, simulate user clicks (`render_click`), fill out forms (`render_change`), and assert on rendered HTML without launching Chrome, Selenium, or Playwright, running in milliseconds.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the HEEx template engine guarantee compile-time HTML validation and XSS escaping?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">HEEx (HTML+Embedded Elixir) parses HTML at compile time, rejecting unclosed tags, malformed attributes, and invalid nesting before code runs. Dynamic expressions inside `{...}` are automatically HTML-escaped by default, preventing reflected and stored XSS vulnerabilities.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does WebSocket origin validation (`check_origin`) safeguard LiveView endpoints?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In `config/runtime.exs`, the Endpoint configures `check_origin: allowed_origins`. This instructs the Cowboy/Bandit HTTP server to inspect the `Origin` header during WebSocket connection handshakes, rejecting Cross-Site WebSocket Hijacking (CSWSH) attempts from unauthorized third-party origins.</p></details>
 </div>
       </section>
 

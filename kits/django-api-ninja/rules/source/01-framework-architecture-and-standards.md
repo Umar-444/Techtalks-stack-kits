@@ -1,4 +1,4 @@
-﻿---
+---
 id: "01-framework-architecture-and-standards"
 title: "Django 5 & Django Ninja Framework Architecture"
 description: "Architectural standards for high-throughput typed APIs using Django 5.1, Django Ninja 1.3, Pydantic v2 schemas, and modular domain routers."

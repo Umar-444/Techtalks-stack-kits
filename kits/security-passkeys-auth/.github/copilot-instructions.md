@@ -1,13 +1,7 @@
 # GitHub Copilot Instructions for Passkeys WebAuthn + Hardened Auth Reference (TypeScript)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## 01 Webauthn Fido2 Architecture And Standards
-﻿---
-id: webauthn-fido2-architecture-and-standards
-title: WebAuthn FIDO2 Architecture & Standards
-globs: "**/*.ts"
-alwaysApply: true
----
+## WebAuthn FIDO2 Architecture & Standards
 # WebAuthn FIDO2 Architecture & Standards
 
 ## 1. Relying Party (RP) Invariants
@@ -35,14 +29,7 @@ alwaysApply: true
   - `-257` (RS256: RSASSA-PKCS1-v1_5 with SHA-256) - Enterprise smartcard / TPM fallback.
   - `-8` (Ed25519: EdDSA over Curve25519) - High-performance modern hardware tokens.
 
-
-## 02 Registration And Attestation Ceremony
-﻿---
-id: registration-and-attestation-ceremony
-title: Passkey Registration & Attestation Ceremony
-globs: "**/*.ts"
-alwaysApply: true
----
+## Passkey Registration & Attestation Ceremony
 # Passkey Registration & Attestation Ceremony
 
 ## 1. Registration Options Generation
@@ -96,14 +83,7 @@ alwaysApply: true
   });
   ```
 
-
-## 03 Authentication And Assertion Ceremony
-﻿---
-id: authentication-and-assertion-ceremony
-title: Passkey Authentication & Assertion Ceremony
-globs: "**/*.ts"
-alwaysApply: true
----
+## Passkey Authentication & Assertion Ceremony
 # Passkey Authentication & Assertion Ceremony
 
 ## 1. Discoverable Autofill / Passwordless Options
@@ -155,14 +135,7 @@ alwaysApply: true
   await db.passkeys.updateCounter(passkey.id, newCounter);
   ```
 
-
-## 04 Session Management And Cookie Hardening
-﻿---
-id: session-management-and-cookie-hardening
-title: Session Management & Cookie Hardening
-globs: "**/*.ts"
-alwaysApply: true
----
+## Session Management & Cookie Hardening
 # Session Fixation Defenses & Cookie Security Standards
 
 ## 1. Session Token Rotation Post-Authentication
@@ -195,14 +168,7 @@ alwaysApply: true
 ## 3. Rate Limiting on Ceremony Endpoints
 - Apply strict IP-based and user-based rate limiting on `/api/auth/register-options` and `/api/auth/authenticate-options` (maximum 10 requests per minute per IP) to prevent challenge generation flooding.
 
-
-## 05 Testing Verification And Ci
-﻿---
-id: testing-verification-and-ci
-title: Testing, Verification & CI Invariants
-globs: "**/*.{ts,js}"
-alwaysApply: true
----
+## Testing, Verification & CI Invariants
 # Testing Protocols, Ceremony Mocking & CI Compliance
 
 ## 1. Automated WebAuthn Ceremony Mocking
@@ -222,5 +188,4 @@ alwaysApply: true
   2. `semgrep scan --config p/security-code-scan` with 0 blocking SAST errors.
   3. `python tools/validate_manifest.py` verifying 100% physical file layout.
   4. `python tools/transpiler.py --check` guaranteeing zero dialect drift.
-
 

@@ -1,4 +1,4 @@
-﻿---
+---
 name: first-feature
 description: Ingest a knowledge document into PostgreSQL pgvector using LlamaIndex, index via HNSW, and execute a grounded semantic query.
 ---

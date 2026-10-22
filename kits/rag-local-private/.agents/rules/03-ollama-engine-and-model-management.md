@@ -1,12 +1,4 @@
-# 03 Ollama Engine And Model Management
-
-﻿---
-id: "03-ollama-engine-and-model-management"
-title: "Ollama Local LLM Engine & Model Management"
-description: "Integration standards for local inference via Ollama HTTP API, model selection, embedding generation, streaming responses, and VRAM management."
-globs: ["**/*.py", "docker-compose.yml"]
-alwaysApply: true
----
+# Ollama Local LLM Engine & Model Management
 
 # 03 - Ollama Local LLM Engine & Model Management
 
@@ -46,4 +38,3 @@ alwaysApply: true
 ## 4. Cold-Start & In-Memory Test Mode Fallback
 - In CI/CD pipelines and automated testing where Ollama daemon is not running, the vector service must activate `TEST_MODE=true`.
 - In test mode, embedding generation produces deterministic normalized synthetic vectors (e.g. 384-dimensional unit vectors) and generation returns deterministic grounded responses based on context tokens. This ensures all tests and CI checks pass reliably in headless runners without requiring a GPU or running Ollama daemon.
-

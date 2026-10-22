@@ -1,4 +1,4 @@
-﻿---
+---
 id: "02-chromadb-collections-and-persistence"
 title: "ChromaDB Collections & Local Persistence"
 description: "Standards for local ChromaDB persistent storage, collection namespacing, distance metric selection, and multi-tenant schema isolation."

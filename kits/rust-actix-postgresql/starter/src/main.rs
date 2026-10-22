@@ -1,4 +1,4 @@
-﻿use actix_web::{middleware::Logger, web, App, HttpServer};
+use actix_web::{middleware::Logger, web, App, HttpServer};
 use dotenvy::dotenv;
 use rust_actix_postgresql_starter::{configure_app, configure_cors, state::AppState};
 use std::env;

@@ -1,4 +1,4 @@
-﻿---
+---
 name: "first-feature"
 description: "Scaffold a complete end-to-end CRUD feature: SQLAlchemy 2.0 async model, msgspec DTO schema, domain service, and Litestar Controller."
 ---

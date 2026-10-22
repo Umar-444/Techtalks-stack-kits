@@ -2,23 +2,17 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Table of Contents
-- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
-- [02 Adaptive Retrieval And Query Rewriting](#02-adaptive-retrieval-and-query-rewriting)
-- [03 Qdrant Vector Filtering And Payloads](#03-qdrant-vector-filtering-and-payloads)
-- [04 Ragas Groundedness And Hallucination Evals](#04-ragas-groundedness-and-hallucination-evals)
-- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+- [Framework Architecture & Standards](#framework-architecture-and-standards)
+- [Adaptive Retrieval & Query Rewriting](#adaptive-retrieval-and-query-rewriting)
+- [Qdrant Vector Filtering & Payload Isolation](#qdrant-vector-filtering-and-payloads)
+- [Ragas Groundedness & Hallucination Evals](#ragas-groundedness-and-hallucination-evals)
+- [Testing, Verification & CI Invariants](#testing-verification-and-ci)
 
 ---
 
-<a id="01-framework-architecture-and-standards"></a>
-## 01 Framework Architecture And Standards
+<a id="framework-architecture-and-standards"></a>
+## Framework Architecture & Standards
 
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture & Standards
-globs: "**/*.py"
-alwaysApply: true
----
 # Agentic RAG Architecture & LangGraph State Standards
 
 ## 1. Cyclical State Machine for Retrieval-Augmented Generation
@@ -53,18 +47,11 @@ alwaysApply: true
   ```
 - If `iteration_count` exceeds 3 query rewrites, route immediately to a fallback generation node or human review.
 
-
 ---
 
-<a id="02-adaptive-retrieval-and-query-rewriting"></a>
-## 02 Adaptive Retrieval And Query Rewriting
+<a id="adaptive-retrieval-and-query-rewriting"></a>
+## Adaptive Retrieval & Query Rewriting
 
-﻿---
-id: adaptive-retrieval-and-query-rewriting
-title: Adaptive Retrieval & Query Rewriting
-globs: "**/*.py"
-alwaysApply: true
----
 # Adaptive Retrieval, Self-RAG & Query Rewriting
 
 ## 1. Document Relevance Grading
@@ -84,18 +71,11 @@ alwaysApply: true
   ```
 - Strips conversational fillers, expands domain-specific acronyms, and generates alternative keyword combinations.
 
-
 ---
 
-<a id="03-qdrant-vector-filtering-and-payloads"></a>
-## 03 Qdrant Vector Filtering And Payloads
+<a id="qdrant-vector-filtering-and-payloads"></a>
+## Qdrant Vector Filtering & Payload Isolation
 
-﻿---
-id: qdrant-vector-filtering-and-payloads
-title: Qdrant Vector Filtering & Payload Isolation
-globs: "**/*.py"
-alwaysApply: true
----
 # Qdrant Vector Search & Multi-Tenant Payload Security
 
 ## 1. Collection Configuration & Distance Metric
@@ -128,18 +108,11 @@ alwaysApply: true
   )
   ```
 
-
 ---
 
-<a id="04-ragas-groundedness-and-hallucination-evals"></a>
-## 04 Ragas Groundedness And Hallucination Evals
+<a id="ragas-groundedness-and-hallucination-evals"></a>
+## Ragas Groundedness & Hallucination Evals
 
-﻿---
-id: ragas-groundedness-and-hallucination-evals
-title: Ragas Groundedness & Hallucination Evals
-globs: "**/*.py"
-alwaysApply: true
----
 # Ragas Groundedness Scoring & Hallucination Detection
 
 ## 1. Ragas Metric Triad
@@ -158,18 +131,11 @@ alwaysApply: true
   ```
 - If hallucination is detected and iterations remain, route back to `generate` with a prompt warning: "Your previous answer included facts not supported by the context. Re-synthesize strictly using provided documents."
 
-
 ---
 
-<a id="05-testing-verification-and-ci"></a>
-## 05 Testing Verification And Ci
+<a id="testing-verification-and-ci"></a>
+## Testing, Verification & CI Invariants
 
-﻿---
-id: testing-verification-and-ci
-title: Testing, Verification & CI Invariants
-globs: "**/*.py"
-alwaysApply: true
----
 # Testing Protocols, Mock LLMs & CI Quality Gates
 
 ## 1. Deterministic Graph Testing
@@ -186,7 +152,6 @@ alwaysApply: true
   2. `semgrep scan --config p/owasp-top-ten` with 0 blocking SAST findings.
   3. `python tools/validate_manifest.py` verifying full physical layout.
   4. `python tools/transpiler.py --check` guaranteeing zero dialect drift.
-
 
 ---
 

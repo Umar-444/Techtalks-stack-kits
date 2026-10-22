@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "question": "Why deploy Local Private RAG (Ollama + ChromaDB) instead of hosted cloud AI APIs like OpenAI or Anthropic?",
     "answer": "Local Private RAG executes 100% within your corporate infrastructure, ensuring zero third-party data egress, zero cloud token billing, and complete data sovereignty. For defense, healthcare, government, and financial organizations bound by strict NDAs or statutory privacy laws, local open-weights models eliminate the regulatory risks of transmitting proprietary intellectual property across public cloud networks."

@@ -1,4 +1,4 @@
-﻿from typing import List
+from typing import List
 from analyzers.ast_analyzer import Finding
 
 def render_console(findings: List[Finding]):

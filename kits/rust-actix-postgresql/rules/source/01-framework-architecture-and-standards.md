@@ -1,4 +1,4 @@
-﻿# Framework Architecture and Standards: Rust, Actix Web, and SeaORM
+# Framework Architecture and Standards: Rust, Actix Web, and SeaORM
 
 1. **Actor Model and Multi-Threaded Workers**: Actix Web spawns dedicated worker threads (defaulting to the host CPU core count) each running their own single-threaded Tokio event loop. Application factory closures passed to `HttpServer::new` must be `Send + Clone + 'static`.
 2. **Layered Domain Separation**: Structure source code into modular layers: `main.rs` (server bootstrapping and pool lifecycle), `handlers.rs` (HTTP request decoding and response presentation), `entities/` (SeaORM active models and schema bindings), `errors.rs` (unified error handling enum), and `state.rs` (shared application state). Never embed raw SQL or business transactions directly inside router declarations.

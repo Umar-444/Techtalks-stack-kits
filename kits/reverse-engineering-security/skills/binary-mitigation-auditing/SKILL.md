@@ -1,4 +1,4 @@
-﻿---
+---
 name: binary-mitigation-auditing
 description: Verify compiled Linux ELF and Windows PE binary hardening protections (NX, ASLR, Canaries, RELRO).
 ---

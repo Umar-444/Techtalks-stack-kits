@@ -1,6 +1,6 @@
 # 04 Software Supply Chain And Sbom Validation
 
-﻿# Software Supply Chain and SBOM Validation
+# Software Supply Chain and SBOM Validation
 
 1. **CycloneDX and SPDX Parsing**: Ingest and validate Software Bill of Materials (SBOM) documents in CycloneDX 1.5+ and SPDX 2.3+ JSON formats to maintain complete inventory of software dependencies.
 2. **Cryptographic Hash Pinning**: Verify that all package dependencies declared in requirements, lockfiles, or SBOMs have associated SHA-256 integrity hashes to prevent dependency substitution and supply-chain tampering.

@@ -1,4 +1,4 @@
-﻿---
+---
 id: 01-framework-architecture-and-standards
 title: FastAPI Architecture, LlamaIndex Settings & Async Lifespan
 globs: "*"

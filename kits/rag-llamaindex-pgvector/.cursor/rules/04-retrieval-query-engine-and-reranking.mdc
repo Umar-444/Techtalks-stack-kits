@@ -1,17 +1,11 @@
 ---
-description: 04 Retrieval Query Engine And Reranking
+description: Vector Retrieval, Metadata Filtering & Response Synthesis
 globs: *
 alwaysApply: true
 ---
 
-# 04 Retrieval Query Engine And Reranking
+# Vector Retrieval, Metadata Filtering & Response Synthesis
 
-﻿---
-id: 04-retrieval-query-engine-and-reranking
-title: Vector Retrieval, Metadata Filtering & Response Synthesis
-globs: "*"
-alwaysApply: true
----
 # Rule 4: Vector Retrieval, Metadata Filtering & Response Synthesis
 
 ## Context & Principles
@@ -40,4 +34,3 @@ alwaysApply: true
    ```
 3. **Score Thresholding**: Filter out nodes with similarity scores below `0.60` to eliminate irrelevant context from being passed to LLM generation prompts.
 4. **Context Budgeting**: Cap total retrieved context at 3,000 tokens to guarantee room for generation without truncation.
-

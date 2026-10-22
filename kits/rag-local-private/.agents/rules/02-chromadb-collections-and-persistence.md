@@ -1,12 +1,4 @@
-# 02 Chromadb Collections And Persistence
-
-﻿---
-id: "02-chromadb-collections-and-persistence"
-title: "ChromaDB Collections & Local Persistence"
-description: "Standards for local ChromaDB persistent storage, collection namespacing, distance metric selection, and multi-tenant schema isolation."
-globs: ["**/*.py", "data/**"]
-alwaysApply: true
----
+# ChromaDB Collections & Local Persistence
 
 # 02 - ChromaDB Collections & Local Persistence
 
@@ -48,4 +40,3 @@ alwaysApply: true
   chunk_id = hashlib.sha256(f"{tenant_id}:{doc_id}:{chunk_index}".encode()).hexdigest()[:24]
   ```
   This guarantees that re-ingesting updated documents with identical content will perform an idempotent upsert rather than polluting the vector space with duplicate embeddings.
-

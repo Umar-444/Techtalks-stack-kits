@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "question": "Why is Litestar considered 'the modern ASGI framework FastAPI users graduate to'?",
     "answer": "Litestar was designed from the ground up to solve structural architectural challenges in large Python codebases. While FastAPI relies on global dependencies, runtime reflection, and Starlette routing hacks, Litestar provides layered dependency injection (controller, router, and application scopes), first-class Data Transfer Objects (DTOs), native msgspec serialization, and strict typing without monkey-patching. It delivers superior performance, cleaner modularity, and enterprise maintainability."

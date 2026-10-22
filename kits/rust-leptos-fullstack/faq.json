@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "q": "What is Leptos and how does full-stack Rust revolutionize web application development?",
     "a": "Leptos is an isomorphic Rust web framework that allows developers to write both backend web servers and frontend browser UIs in Rust. By sharing data structures, validation rules, and business logic between Axum on the server and WebAssembly in the browser, developers eliminate API serialization discrepancies and achieve true end-to-end type safety without TypeScript transpilation."

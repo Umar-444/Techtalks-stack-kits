@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-02-filtered-tenant-retrieval",
   "name": "Filtered Multi-Tenant Vector Retrieval in pgvector",
   "difficulty": "advanced",

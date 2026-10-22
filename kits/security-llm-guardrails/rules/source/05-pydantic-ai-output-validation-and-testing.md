@@ -1,4 +1,4 @@
-﻿---
+---
 id: pydantic-ai-output-validation-and-testing
 title: Pydantic AI Output Validation & Testing
 globs: "**/*.py"

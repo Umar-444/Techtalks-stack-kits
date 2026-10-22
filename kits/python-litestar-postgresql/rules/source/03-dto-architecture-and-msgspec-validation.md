@@ -1,4 +1,4 @@
-﻿---
+---
 id: "03-dto-architecture-and-msgspec-validation"
 title: "First-Class DTOs & msgspec Validation Standards"
 description: "Data Transfer Object (DTO) architecture, field masking, msgspec high-speed serialization, and schema validation invariants."

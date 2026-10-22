@@ -6,7 +6,7 @@ alwaysApply: true
 
 # 02 Leptos Server Functions And Axum Integration
 
-﻿# Leptos Server Functions and Axum Integration
+# Leptos Server Functions and Axum Integration
 
 1. **Type-Safe RPC via Server Functions**: Define backend endpoints using Leptos `#[server(Prefix, "/api")]` macros. Server functions act as ordinary async Rust functions on the client while compiling to Axum HTTP handlers on the server.
 2. **Server Context Dependency Injection**: Access database connections, cache clients, and configuration within server functions using `leptos_axum::extract()` or `use_context::<AppState>()`.

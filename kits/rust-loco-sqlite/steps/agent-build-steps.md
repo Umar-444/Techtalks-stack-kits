@@ -1,4 +1,4 @@
-﻿# Agent Step-by-Step Build Order: Rust + Loco.rs + SeaORM + SQLite
+# Agent Step-by-Step Build Order: Rust + Loco.rs + SeaORM + SQLite
 
 1. **Step 1: Environment & Toolchain Setup**: Verify Rust 1.80+ and install Loco CLI via `cargo install loco-cli`. Copy `.env.example` to `.env`.
 2. **Step 2: Database Storage & WAL Pragmas**: Configure SQLite connection URI with WAL mode (`_journal_mode=WAL`) and busy timeout (`_busy_timeout=5000`) in `config/development.yaml`.

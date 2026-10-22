@@ -1,4 +1,4 @@
-﻿---
+---
 name: "litestar-dto-and-msgspec"
 description: "Master Litestar's first-class DTO system, SQLAlchemyDTO reflection, field masking, and msgspec high-speed struct serialization."
 ---

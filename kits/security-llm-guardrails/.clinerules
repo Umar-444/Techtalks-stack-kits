@@ -1,0 +1,37 @@
+# Assistant Guidelines for Security Llm Guardrails Stack Kit
+
+# LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard) — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Gateway Architecture And Standards](#01-gateway-architecture-and-standards)
+- [02 Prompt Injection And Jailbreak Defenses](#02-prompt-injection-and-jailbreak-defenses)
+- [03 Automated Pii Redaction And Presidio](#03-automated-pii-redaction-and-presidio)
+- [04 Budget Caps And Rate Limiting](#04-budget-caps-and-rate-limiting)
+- [05 Pydantic Ai Output Validation And Testing](#05-pydantic-ai-output-validation-and-testing)
+
+---
+
+<a id="01-gateway-architecture-and-standards"></a>
+## 01 Gateway Architecture And Standards
+
+﻿---
+id: gateway-architecture-and-standards
+title: Gateway Architecture & Standards
+globs: "**/*.py"
+alwaysApply: true
+---
+# AI Security Gateway Architecture & Standards
+
+## 1. Async Gateway Pipeline
+- All LLM interactions must route through the AI Security Gateway before hitting upstream providers (OpenAI, Anthropic, Bedrock, Ollama):
+  ```
+  Client Request -> [1. Auth & Tenant] -> [2. Budget & Rate Limit] -> [3. PII Redaction] -> [4. Prompt Injection Screen] -> Upstream LLM -> [5. Output Schema & Safety Guard] -> [6. PII Deanonymization] -> Client Response
+  ```
+- The gateway must operate with strict latency budgets: input guardrail checks must complete in `< 50ms`.
+- Never use blocking synchronous HTTP calls in the pipeline; use `httpx.AsyncClient` with connection pooling and timeouts:
+  ```python
+  client = httpx.AsyncClient(timeout=httpx.Timeout(connect=5.0, read=30.0, write=5.0, pool=10.0))
+  ```
+
+## 2. Stateless Processing & Zero Data Retention (ZDR)

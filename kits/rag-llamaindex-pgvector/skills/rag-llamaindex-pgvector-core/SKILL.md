@@ -1,4 +1,4 @@
-﻿---
+---
 name: rag-llamaindex-pgvector-core
 description: Core operational workflows, pgvector table migrations, vector vacuuming, and health checks for LlamaIndex + PostgreSQL.
 ---

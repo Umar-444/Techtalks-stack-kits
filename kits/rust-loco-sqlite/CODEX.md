@@ -1,4 +1,4 @@
-﻿# OpenAI Codex & Assistant Instruction Set: Rust + Loco.rs + SeaORM + SQLite
+# OpenAI Codex & Assistant Instruction Set: Rust + Loco.rs + SeaORM + SQLite
 
 # Rust + Loco.rs + SeaORM + SQLite â€” Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.

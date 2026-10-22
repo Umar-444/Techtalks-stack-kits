@@ -1,4 +1,4 @@
-﻿---
+---
 id: gateway-architecture-and-standards
 title: Gateway Architecture & Standards
 globs: "**/*.py"

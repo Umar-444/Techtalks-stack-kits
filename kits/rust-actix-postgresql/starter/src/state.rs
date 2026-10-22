@@ -1,4 +1,4 @@
-﻿use sea_orm::DatabaseConnection;
+use sea_orm::DatabaseConnection;
 
 #[derive(Clone)]
 pub struct AppState {

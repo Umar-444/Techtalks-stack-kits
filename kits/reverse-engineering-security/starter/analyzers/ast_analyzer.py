@@ -1,4 +1,4 @@
-﻿import ast
+import ast
 from dataclasses import dataclass
 from typing import List, Optional
 

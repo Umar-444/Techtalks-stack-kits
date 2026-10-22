@@ -1,4 +1,4 @@
-﻿---
+---
 name: wasm-hydration-optimization
 description: Optimize WebAssembly binary size, implement code-splitting, and configure streaming SSR response buffering.
 ---

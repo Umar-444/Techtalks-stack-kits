@@ -1,4 +1,4 @@
-﻿---
+---
 name: install-and-verify
 description: Install Loco CLI tool, initialize local SQLite database, run migrations, and verify the /healthz endpoint.
 ---

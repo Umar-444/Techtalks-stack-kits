@@ -1,6 +1,6 @@
 # 05 Testing Verification And Ci
 
-﻿# Testing, Verification, and CI Security Standards
+# Testing, Verification, and CI Security Standards
 
 1. **Pytest Regression Test Suite**: Maintain a comprehensive test suite in `tests/test_audit.py` with synthetic test files containing known secure and insecure code patterns to ensure 100% detector accuracy and zero regressions.
 2. **Zero False Positive Threshold**: Rigorously tune analyzer rules to avoid developer alert fatigue. Every reported finding must have a confidence rating (`HIGH`, `MEDIUM`, `LOW`) and actionable remediation steps.

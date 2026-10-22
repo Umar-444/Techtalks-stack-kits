@@ -1,0 +1,37 @@
+# Assistant Guidelines for Flask Htmx Sqlite Stack Kit
+
+# Flask + HTMX + SQLite — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Htmx Reactivity And Jinja Rendering](#02-htmx-reactivity-and-jinja-rendering)
+- [03 Sqlite Wal Mode And Concurrency](#03-sqlite-wal-mode-and-concurrency)
+- [04 Csrf Security And Input Validation](#04-csrf-security-and-input-validation)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+
+---
+
+<a id="01-framework-architecture-and-standards"></a>
+## 01 Framework Architecture And Standards
+
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture & Standards
+globs: "**/*.py"
+alwaysApply: true
+---
+# Flask Application Factory Architecture & Production Standards
+
+## 1. Application Factory Pattern
+- Always construct Flask applications using the factory pattern: `create_app(test_config=None)`.
+- Never use global app instances or module-level `app = Flask(__name__)` in production modules.
+- Register all functional route groups using Flask Blueprints with explicit URL prefixes:
+  ```python
+  from flask import Flask
+
+  def create_app(test_config=None):
+      app = Flask(__name__, instance_relative_config=True)
+      app.config.from_mapping(
+          SECRET_KEY=os.environ.get("SECRET_KEY", "dev-insecure-key-change-me"),
+          DATABASE=os.path.join(app.instance_path, "app.sqlite"),

@@ -1,4 +1,4 @@
-﻿---
+---
 id: "03-sqlc-queries-and-pgx-pooling"
 title: "sqlc Type-Safe Queries & pgx Connection Pooling"
 description: "SQL-first development standards using sqlc code generation, compile-checked query verification, and PostgreSQL connection pool management via pgxpool."

@@ -1,4 +1,4 @@
-﻿---
+---
 name: install-and-verify
 description: Install cargo-leptos build tool, compile the full-stack Leptos project, and verify the /healthz endpoint.
 ---

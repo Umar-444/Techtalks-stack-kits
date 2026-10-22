@@ -1,4 +1,4 @@
-﻿# Testing, Verification, and CI Standards
+# Testing, Verification, and CI Standards
 
 1. **In-Memory SQLite Testing**: Execute unit and integration tests against in-memory SQLite instances (`sqlite::memory:`) configured with isolated schemas for fast, deterministic, and parallel test execution.
 2. **Loco Request Test Harness**: Author integration tests using `loco_rs::testing::prelude::*` utilities (`request().get("/healthz").await`). Verify HTTP status codes and JSON response contracts.

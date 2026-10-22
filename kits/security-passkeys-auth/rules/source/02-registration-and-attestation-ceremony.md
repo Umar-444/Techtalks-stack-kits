@@ -1,4 +1,4 @@
-﻿---
+---
 id: registration-and-attestation-ceremony
 title: Passkey Registration & Attestation Ceremony
 globs: "**/*.ts"

@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "eval-03-session-fixation-defense",
   "title": "Session Fixation Defense & Cookie Hardening",
   "instruction": "Verify that pre-authentication session is destroyed and a new HttpOnly, Secure, SameSite=Lax cookie is issued.",

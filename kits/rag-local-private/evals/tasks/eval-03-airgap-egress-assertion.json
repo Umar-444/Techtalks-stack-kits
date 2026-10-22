@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-03-airgap-egress-assertion",
   "name": "Zero-Egress Airgap & Delimited Context Defense",
   "difficulty": "advanced",

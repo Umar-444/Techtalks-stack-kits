@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "question": "Why choose Django Ninja over Django REST Framework (DRF) for modern Python APIs?",
     "answer": "Django Ninja is an API-first framework designed around modern Python type hints and Pydantic v2. Unlike DRF, which relies on heavy class-based views and reflection-heavy serializers, Django Ninja executes up to 2-3x faster, produces automatic OpenAPI 3.1 interactive Swagger documentation, and reduces boilerplate code by over 50%. You retain the full power of Django ORM, authentication, and database migrations without DRF's complexity."

@@ -1,4 +1,4 @@
-﻿schema_version: "1.0.0"
+schema_version: "1.0.0"
 
 name: "Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL"
 slug: "elixir-phoenix-liveview"

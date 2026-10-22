@@ -1,4 +1,4 @@
-﻿---
+---
 id: "01-framework-architecture-and-standards"
 title: "Go & Chi Architecture Standards"
 description: "Architectural standards for lightweight Go services using the Chi router, standard net/http compatibility, middleware composition, and clean domain packages."

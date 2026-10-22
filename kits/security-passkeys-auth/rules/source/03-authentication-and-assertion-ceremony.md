@@ -1,4 +1,4 @@
-﻿---
+---
 id: authentication-and-assertion-ceremony
 title: Passkey Authentication & Assertion Ceremony
 globs: "**/*.ts"

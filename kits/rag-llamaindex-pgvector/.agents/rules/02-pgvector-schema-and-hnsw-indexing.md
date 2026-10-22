@@ -1,11 +1,5 @@
-# 02 Pgvector Schema And Hnsw Indexing
+# PostgreSQL 16+ pgvector Schema & HNSW Indexing
 
-﻿---
-id: 02-pgvector-schema-and-hnsw-indexing
-title: PostgreSQL 16+ pgvector Schema & HNSW Indexing
-globs: "*"
-alwaysApply: true
----
 # Rule 2: PostgreSQL 16+ pgvector Schema & HNSW Indexing
 
 ## Context & Principles
@@ -32,4 +26,3 @@ alwaysApply: true
 2. **Metadata GIN Indexing**: Create GIN indexes on the `metadata_` JSONB column (`CREATE INDEX idx_metadata ON data_rag_embeddings USING gin (metadata_);`) to accelerate hybrid metadata filters.
 3. **Exact Dimensions**: Vector column dimensions must strictly match the embedding model output dimensionality (`384` for BGE-small).
 4. **Maintenance**: Regularly schedule `VACUUM ANALYZE data_rag_embeddings;` to keep vector page layout and index statistics optimal.
-

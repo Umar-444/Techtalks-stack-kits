@@ -1,4 +1,4 @@
-﻿# Verification Log: Rust + Actix Web + SeaORM + PostgreSQL
+# Verification Log: Rust + Actix Web + SeaORM + PostgreSQL
 
 - **Verification Date**: 2026-10-22
 - **Tested Environment**: Rust 1.81.0, Actix Web 4.9.0, SeaORM 1.1.0, PostgreSQL 16.4, Tokio 1.40

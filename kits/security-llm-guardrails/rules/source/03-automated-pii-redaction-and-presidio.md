@@ -1,4 +1,4 @@
-﻿---
+---
 id: automated-pii-redaction-and-presidio
 title: Automated PII Redaction & Presidio Pipeline
 globs: "**/*.py"

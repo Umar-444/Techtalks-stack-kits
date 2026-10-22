@@ -1,4 +1,4 @@
-﻿---
+---
 name: "python-litestar-postgresql-core"
 description: "Core operational workflows, Litestar application lifecycle management, Redis caching, and Token-Light evaluation."
 ---

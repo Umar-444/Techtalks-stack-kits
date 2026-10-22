@@ -434,9 +434,29 @@ alwaysApply: true
                 <span>Source: kits/go-gin-postgresql/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/go-gin-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Go + Gin + sqlc + PostgreSQL + Redis
-- Follow architectural boundaries
-- Enforce strict security invariants</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Assistant Guidelines for Go Gin Postgresql Stack Kit
+
+# Go + Gin + sqlc + PostgreSQL + Redis — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Sqlc Queries And Pgx Pooling](#02-sqlc-queries-and-pgx-pooling)
+- [03 Redis Caching And Rate Limiting](#03-redis-caching-and-rate-limiting)
+- [04 Api Security And Input Validation](#04-api-security-and-input-validation)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+
+---
+
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
+
+# Framework Architecture and Standards: Go, Gin, and SQLC
+
+1. **Idiomatic Layered Architecture**: Structure code strictly into `cmd/`, `internal/handler/`, `internal/service/`, and `internal/repository/`. Never leak raw database queries into HTTP handlers.
+2. **Gin Router Organization**: Group routes under `/api/v1` with explicit middleware chains (`gin.Recovery()`, structured logger, CORS, and request timeout).
+3. **Structured JSON Responses**: Standardize all JSON payload
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">

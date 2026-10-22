@@ -1,4 +1,4 @@
-﻿# Security Invariants, CORS, and Authentication
+# Security Invariants, CORS, and Authentication
 
 1. **Strict CORS Whitelist**: Configure CORS middleware inside Loco's configuration files and `src/app.rs`. Whitelist allowed origins strictly from the `ALLOWED_ORIGINS` environment variable; never allow wildcard origins (`*`) on routes handling credentials.
 2. **Loco JWT Authentication**: Protect private endpoints using Loco's built-in JWT authenticator middleware. Verify token expiration, issuer, and signature validity on every protected route.

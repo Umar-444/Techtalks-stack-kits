@@ -1,0 +1,37 @@
+# Assistant Guidelines for Go Fiber Api Stack Kit
+
+# Go + Fiber + PostgreSQL — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+
+## Table of Contents
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Fasthttp Concurrency And Buffer Safety](#02-fasthttp-concurrency-and-buffer-safety)
+- [03 Pgxpool Connection And Database Lifecycle](#03-pgxpool-connection-and-database-lifecycle)
+- [04 Security Headers Cors And Rate Limiting](#04-security-headers-cors-and-rate-limiting)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+
+---
+
+<a id="01-framework-architecture-and-standards"></a>
+## 01 Framework Architecture And Standards
+
+# Framework Architecture and Standards: Go and Fiber (fasthttp)
+
+1. **Throughput-First Architecture**: Fiber is engineered on top of `fasthttp`, bypassing `net/http` allocation overhead for maximum request per second (RPS) throughput and lowest p99 latency.
+2. **Route Grouping**: Encapsulate API resources under `/api/v1` route groups with explicit middleware composition (structured logger, recovery, and request ID).
+3. **Graceful Shutdown**: Intercept `SIGINT` and `SIGTERM` signals using standard `signal.Notify`, triggering `app.ShutdownWithTimeout(ctx)` to finish active connections within 10 seconds.
+4. **Environment Binding**: Ingest runtime configuration (`PORT`, `DATABASE_URL`, `ALLOWED_ORIGINS`) through strongly typed structs parsed from environment variables.
+5. **Architectural Caveats**: Acknowledge that `fasthttp` is not 100% compatible with standard `net/http` middleware. Third-party packages requiring `http.Handler` must use Fiber adaptors or native Fiber implementations.
+
+
+---
+
+<a id="02-fasthttp-concurrency-and-buffer-safety"></a>
+## 02 Fasthttp Concurrency And Buffer Safety
+
+# Fasthttp Concurrency and Buffer Safety
+
+1. **Zero-Allocation Buffer Reuse**: Fasthttp reuses byte buffers across sequential requests to achieve zero memory allocation. Never retain raw byte slices or string references returned by `c.Params()`, `c.Query()`, or `c.Body()` outside the handler goroutine.
+2. **Mandatory String Copying**: When dispatching background goroutines or storing values beyond the handler lifecycle, you must explicitly copy strings using `utils.CopyString(c.Params("id"))` or `string([]byte(c.Body()))`.
+3. **Context Lifecycle**: Do not pass `*fiber.Ctx` into background goroutines. Extract primitive parameters or construct a detached `context.Context` before launching async tasks.
+4. **Memory Profiling**: Monitor heap allocations via `pprof` under load tests to verify that buffer pooling is not bypassed by unintended string escaping.

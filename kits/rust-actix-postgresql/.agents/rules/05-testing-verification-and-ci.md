@@ -1,6 +1,6 @@
 # 05 Testing Verification And Ci
 
-﻿# Testing, Verification, and CI Standards
+# Testing, Verification, and CI Standards
 
 1. **Actix Web Integration Harness**: Test API handlers using `actix_web::test` utilities (`test::init_service`, `test::TestRequest`, `test::call_service`, and `test::read_body_json`) for fast, true-to-runtime verification.
 2. **SeaORM Mock Database Testing**: Use SeaORM's `MockDatabase` backend to verify entity CRUD and transaction logic in isolated unit tests without requiring a running PostgreSQL server.

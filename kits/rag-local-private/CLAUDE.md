@@ -2,14 +2,8 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Quick Reference & Non-Negotiable Standards
-### 01 Framework Architecture And Standards
-﻿---
-id: "01-framework-architecture-and-standards"
-title: "Local Private RAG Architecture & Zero-Egress Standards"
-description: "Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies."
-globs: ["**/*.py", "Dockerfile", "docker-compose.yml", ".env*"]
-alwaysApply: true
----
+### Local Private RAG Architecture & Zero-Egress Standards
+> Architectural invariants for 100% offline local RAG using FastAPI, Ollama, ChromaDB, and strict zero-egress network policies.
 
 # 01 - Local Private RAG Architecture & Zero-Egress Standards
 
@@ -66,15 +60,8 @@ starter/
   ```
 - Raw traceback details, system paths, and internal vector coordinates must never be leaked to client responses.
 
-
-### 02 Chromadb Collections And Persistence
-﻿---
-id: "02-chromadb-collections-and-persistence"
-title: "ChromaDB Collections & Local Persistence"
-description: "Standards for local ChromaDB persistent storage, collection namespacing, distance metric selection, and multi-tenant schema isolation."
-globs: ["**/*.py", "data/**"]
-alwaysApply: true
----
+### ChromaDB Collections & Local Persistence
+> Standards for local ChromaDB persistent storage, collection namespacing, distance metric selection, and multi-tenant schema isolation.
 
 # 02 - ChromaDB Collections & Local Persistence
 
@@ -117,15 +104,8 @@ alwaysApply: true
   ```
   This guarantees that re-ingesting updated documents with identical content will perform an idempotent upsert rather than polluting the vector space with duplicate embeddings.
 
-
-### 03 Ollama Engine And Model Management
-﻿---
-id: "03-ollama-engine-and-model-management"
-title: "Ollama Local LLM Engine & Model Management"
-description: "Integration standards for local inference via Ollama HTTP API, model selection, embedding generation, streaming responses, and VRAM management."
-globs: ["**/*.py", "docker-compose.yml"]
-alwaysApply: true
----
+### Ollama Local LLM Engine & Model Management
+> Integration standards for local inference via Ollama HTTP API, model selection, embedding generation, streaming responses, and VRAM management.
 
 # 03 - Ollama Local LLM Engine & Model Management
 
@@ -166,15 +146,8 @@ alwaysApply: true
 - In CI/CD pipelines and automated testing where Ollama daemon is not running, the vector service must activate `TEST_MODE=true`.
 - In test mode, embedding generation produces deterministic normalized synthetic vectors (e.g. 384-dimensional unit vectors) and generation returns deterministic grounded responses based on context tokens. This ensures all tests and CI checks pass reliably in headless runners without requiring a GPU or running Ollama daemon.
 
-
-### 04 Private Ingestion Chunking And Classification
-﻿---
-id: "04-private-ingestion-chunking-and-classification"
-title: "Private Ingestion, Semantic Chunking & Data Classification"
-description: "Ingestion pipeline standards, text chunking heuristics, Saudi PDPL security classification tagging, and indirect prompt injection boundaries."
-globs: ["**/*.py"]
-alwaysApply: true
----
+### Private Ingestion, Semantic Chunking & Data Classification
+> Ingestion pipeline standards, text chunking heuristics, Saudi PDPL security classification tagging, and indirect prompt injection boundaries.
 
 # 04 - Private Ingestion, Semantic Chunking & Data Classification
 
@@ -212,15 +185,8 @@ Answer:"""
   ```
 - **Context Sanitization:** Strip nested XML tags (`</context>`, `<script>`, etc.) from retrieved text prior to prompt assembly.
 
-
-### 05 Evaluation Airgap Security And Testing
-﻿---
-id: "05-evaluation-airgap-security-and-testing"
-title: "Offline Evaluation, Airgap Security & Testing"
-description: "Verification of zero-egress network policies, non-root container security, offline faithfulness scoring, and automated test suites."
-globs: ["**/*.py", "Dockerfile", "tests/**"]
-alwaysApply: true
----
+### Offline Evaluation, Airgap Security & Testing
+> Verification of zero-egress network policies, non-root container security, offline faithfulness scoring, and automated test suites.
 
 # 05 - Offline Evaluation, Airgap Security & Testing
 
@@ -258,5 +224,4 @@ alwaysApply: true
   - `test_prompt_injection_defense`: Verify that adversarial instructions in documents are safely bounded.
   - `test_offline_evaluation`: Verify structured groundedness scoring.
 - Pytest execution must complete in under 2 seconds with zero external network connectivity.
-
 

@@ -1,4 +1,4 @@
-﻿---
+---
 name: "templ-component-architecture"
 description: "Master advanced templ patterns: layout nesting, conditional rendering, loops, out-of-band swaps (hx-swap-oob), and context injection."
 ---

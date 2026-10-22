@@ -1,4 +1,4 @@
-﻿# OpenAI Codex & Assistant Instruction Set: Rust + Actix Web + SeaORM + PostgreSQL
+# OpenAI Codex & Assistant Instruction Set: Rust + Actix Web + SeaORM + PostgreSQL
 
 # Rust + Actix Web + SeaORM + PostgreSQL â€” Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.

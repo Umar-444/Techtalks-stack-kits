@@ -1,4 +1,4 @@
-﻿---
+---
 name: htmx-csrf-and-security
 description: Implementing CSRF protection, Content Security Policy (CSP), and secure headers for HTMX 2.0 AJAX requests in Flask.
 ---

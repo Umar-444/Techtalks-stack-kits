@@ -1,4 +1,4 @@
-﻿---
+---
 name: first-feature
 description: Author a custom AST security detector to identify dangerous string concatenation in database queries.
 ---

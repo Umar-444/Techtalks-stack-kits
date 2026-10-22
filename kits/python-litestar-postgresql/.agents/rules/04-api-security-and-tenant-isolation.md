@@ -1,12 +1,4 @@
-# 04 Api Security And Tenant Isolation
-
-﻿---
-id: "04-api-security-and-tenant-isolation"
-title: "API Security, Guard Middleware & Tenant Isolation"
-description: "Security invariants covering authentication middleware, BOLA/IDOR protection, rate limiting, and CORS configuration in Litestar."
-globs: ["**/main.py", "**/controllers/*.py"]
-alwaysApply: true
----
+# API Security, Guard Middleware & Tenant Isolation
 
 # 04 - API Security, Guard Middleware & Tenant Isolation
 
@@ -55,4 +47,3 @@ alwaysApply: true
 
 ## 4. Rate Limiting & Denial of Service Defense
 - Integrate Litestar's `RateLimitConfig` targeting sensitive login and mutation endpoints to prevent brute-force attacks and resource starvation.
-

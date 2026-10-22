@@ -1,4 +1,4 @@
-﻿---
+---
 name: rust-leptos-fullstack-core
 description: Core operations, isomorphic project layout, Cargo feature gating, and rootless Docker deployment.
 ---

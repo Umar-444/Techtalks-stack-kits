@@ -6,7 +6,7 @@ alwaysApply: true
 
 # 01 Framework Architecture And Standards
 
-﻿# Framework Architecture and Standards: Security Audit & Analysis Pack
+# Framework Architecture and Standards: Security Audit & Analysis Pack
 
 1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` (SARIF and JSON report generators).
 2. **Strict Typing and Python 3.12+ Standards**: Use modern Python type hints (`dataclass`, `typing.Protocol`, pipe unions `X | Y`). Validate analyzer configurations using Pydantic or dataclasses with zero reliance on untyped dictionaries.

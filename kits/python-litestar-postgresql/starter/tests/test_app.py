@@ -1,4 +1,4 @@
-﻿import pytest
+import pytest
 from litestar.testing import AsyncTestClient
 from app.main import app
 

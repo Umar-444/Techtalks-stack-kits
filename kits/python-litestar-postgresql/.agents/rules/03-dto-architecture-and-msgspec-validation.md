@@ -1,12 +1,4 @@
-# 03 Dto Architecture And Msgspec Validation
-
-﻿---
-id: "03-dto-architecture-and-msgspec-validation"
-title: "First-Class DTOs & msgspec Validation Standards"
-description: "Data Transfer Object (DTO) architecture, field masking, msgspec high-speed serialization, and schema validation invariants."
-globs: ["**/schemas.py", "**/controllers/*.py"]
-alwaysApply: true
----
+# First-Class DTOs & msgspec Validation Standards
 
 # 03 - First-Class DTOs & msgspec Validation Standards
 
@@ -43,4 +35,3 @@ alwaysApply: true
 ## 3. Strict Validation & Unknown Fields Rejection
 - Always configure DTOs to reject unexpected payload attributes (`forbid_unknown_fields=True` in msgspec or `extra="forbid"` in Pydantic v2).
 - Never allow clients to inject unverified internal attributes (such as `is_admin` or `role`) during model creation.
-

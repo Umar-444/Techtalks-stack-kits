@@ -1,4 +1,4 @@
-﻿---
+---
 id: "03-ollama-engine-and-model-management"
 title: "Ollama Local LLM Engine & Model Management"
 description: "Integration standards for local inference via Ollama HTTP API, model selection, embedding generation, streaming responses, and VRAM management."

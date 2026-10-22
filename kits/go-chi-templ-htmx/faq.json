@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "question": "Why is Go + Chi + templ + HTMX recognized as the Token-Light Line Flagship (Document 20 Part F)?",
     "answer": "This stack adheres strictly to standard Go `net/http` primitives, compile-time type-checked templates (`templ`), and declarative SQL code generation (`sqlc`). Because there is zero ORM reflection, zero complex state machines, and zero JavaScript build steps, AI agents write concise, predictable business logic without boilerplate. The median build token consumption is verified at 16,800 tokens, achieving an Efficiency Tier of A+ (Token-Light Verified)."

@@ -1,4 +1,4 @@
-﻿---
+---
 name: flask-htmx-sqlite-core
 description: Comprehensive agent reference and operating manual for Flask 3.0, HTMX 2.0, and SQLite in WAL mode.
 ---

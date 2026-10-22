@@ -1,4 +1,4 @@
-﻿---
+---
 name: qdrant-payload-and-filtering
 description: Managing Qdrant vector collections, Cosine distance indexing, payload filtering, and tenant security boundaries.
 ---

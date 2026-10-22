@@ -1,18 +1,10 @@
 ---
-description: 05 Testing Verification And Ci
-globs: *
+description: Testing standards using Ninja TestClient, pytest-django, rootless Docker execution (UID 10001), and token-light efficiency verification.
+globs: ['tests/**/*.py', 'Dockerfile', 'evals/**']
 alwaysApply: true
 ---
 
-# 05 Testing Verification And Ci
-
-﻿---
-id: "05-testing-verification-and-ci"
-title: "Testing, Container Hardening & Token Benchmark"
-description: "Testing standards using Ninja TestClient, pytest-django, rootless Docker execution (UID 10001), and token-light efficiency verification."
-globs: ["tests/**/*.py", "Dockerfile", "evals/**"]
-alwaysApply: true
----
+# Testing, Container Hardening & Token Benchmark
 
 # 05 - Testing, Container Hardening & Token Benchmark
 
@@ -52,4 +44,3 @@ alwaysApply: true
 - Benchmark verification: Run `python evals/runner.py --kit django-api-ninja`.
 - Target token consumption: ~20,500 tokens (Efficiency Tier: **A**).
 - Justification: Django ORM migrations and admin panel batteries combined with typed Pydantic endpoints minimize agent implementation tokens.
-

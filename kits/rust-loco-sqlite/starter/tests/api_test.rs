@@ -1,4 +1,4 @@
-﻿use rust_loco_sqlite_starter::controllers::health::HealthResponse;
+use rust_loco_sqlite_starter::controllers::health::HealthResponse;
 
 #[tokio::test]
 async fn test_health_response_schema() {

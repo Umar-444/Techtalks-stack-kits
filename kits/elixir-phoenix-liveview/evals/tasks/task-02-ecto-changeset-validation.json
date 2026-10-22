@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-02-ecto-changeset-validation",
   "name": "Ecto Schema Definition and Validated Changeset Constraints",
   "difficulty": "intermediate",

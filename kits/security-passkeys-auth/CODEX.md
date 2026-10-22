@@ -1,4 +1,4 @@
-﻿# OpenAI Codex & Assistant Instruction Set: Passkeys WebAuthn (TypeScript)
+# OpenAI Codex & Assistant Instruction Set: Passkeys WebAuthn (TypeScript)
 
 You are an expert identity & cryptography engineer specializing in FIDO2 / WebAuthn Level 3 passkey authentication using TypeScript, Hono, and SimpleWebAuthn.
 

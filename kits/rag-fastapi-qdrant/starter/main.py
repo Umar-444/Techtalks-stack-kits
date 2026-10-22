@@ -1,4 +1,4 @@
-﻿# Root entrypoint redirecting to app.main
+# Root entrypoint redirecting to app.main
 from app.main import app
 
 if __name__ == "__main__":

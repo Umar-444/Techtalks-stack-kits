@@ -1,4 +1,4 @@
-﻿---
+---
 name: first-feature
 description: Guide to adding a custom guardrail rule, domain-specific classifier, or policy filter to the AI Gateway pipeline.
 ---

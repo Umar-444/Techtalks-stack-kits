@@ -1,4 +1,4 @@
-﻿---
+---
 name: "install-and-verify"
 description: "Install dependencies, run Docker Compose for PostgreSQL & Redis, execute Alembic migrations, and verify the Litestar service."
 ---

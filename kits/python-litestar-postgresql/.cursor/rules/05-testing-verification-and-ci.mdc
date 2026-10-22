@@ -1,18 +1,10 @@
 ---
-description: 05 Testing Verification And Ci
-globs: *
+description: Testing standards using AsyncTestClient, pytest-asyncio, in-memory SQLite isolation, and rootless Docker execution (UID 10001).
+globs: ['tests/**/*.py', 'Dockerfile', 'evals/**']
 alwaysApply: true
 ---
 
-# 05 Testing Verification And Ci
-
-﻿---
-id: "05-testing-verification-and-ci"
-title: "Testing, Container Hardening & Token Benchmark"
-description: "Testing standards using AsyncTestClient, pytest-asyncio, in-memory SQLite isolation, and rootless Docker execution (UID 10001)."
-globs: ["tests/**/*.py", "Dockerfile", "evals/**"]
-alwaysApply: true
----
+# Testing, Container Hardening & Token Benchmark
 
 # 05 - Testing, Container Hardening & Token Benchmark
 
@@ -47,4 +39,3 @@ alwaysApply: true
 - Benchmark verification: Run `python evals/runner.py --kit python-litestar-postgresql`.
 - Target token consumption: ~22,100 tokens (Efficiency Tier: **A**).
 - Justification: Clean layered dependency injection and first-class DTO typing eliminate boilerplate and ensure fast, predictable code generation by AI agents.
-

@@ -36,98 +36,114 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What exactly is the Rust + Leptos Full-Stack + Axum + WebAssembly kit?",
+      "name": "What is Leptos and how does full-stack Rust revolutionize web application development?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+        "text": "Leptos is an isomorphic Rust web framework that allows developers to write both backend web servers and frontend browser UIs in Rust. By sharing data structures, validation rules, and business logic between Axum on the server and WebAssembly in the browser, developers eliminate API serialization discrepancies and achieve true end-to-end type safety without TypeScript transpilation."
       }
     },
     {
       "@type": "Question",
-      "name": "Which versions does it pin?",
+      "name": "How does Leptos achieve superior frontend performance without a Virtual DOM?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+        "text": "Unlike frameworks like React that diff entire Virtual DOM trees on every state change, Leptos utilizes fine-grained reactive signals (inspired by SolidJS). When a signal changes, only the specific DOM node linked directly to that signal's closure is updated in the browser. This eliminates tree diffing overhead and results in near-vanilla JavaScript DOM manipulation speeds."
       }
     },
     {
       "@type": "Question",
-      "name": "Which AI coding agents are supported?",
+      "name": "How does WebAssembly client hydration work in a Leptos SSR application?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+        "text": "When a user visits a Leptos application, the Axum server immediately renders and returns static HTML for instant First Contentful Paint (FCP). Concurrently, the browser downloads and compiles the compiled `.wasm` binary. Once compiled, `leptos::mount::hydrate_body` attaches reactive event listeners and signals to the existing DOM nodes without re-rendering the page from scratch."
       }
     },
     {
       "@type": "Question",
-      "name": "What do I need installed before I start?",
+      "name": "What are Leptos `#[server]` functions and how do they eliminate manual API scaffolding?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+        "text": "Server functions defined with `#[server(MyFunc, \"/api\")]` look like normal async Rust functions. When compiled for the client (`hydrate`), Leptos automatically generates an HTTP POST client that serializes parameters. When compiled for the server (`ssr`), Leptos registers an Axum endpoint that deserializes the request, executes database queries, and returns serialized responses."
       }
     },
     {
       "@type": "Question",
-      "name": "How long does installation take?",
+      "name": "How does Cargo feature gating prevent server database credentials from leaking into client WASM?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+        "text": "By partitioning dependencies using Cargo features (`ssr` vs `hydrate`), server-only crates (such as PostgreSQL drivers, AWS SDKs, and private keys) are only linked when compiling the server binary. If client code attempts to import a server-only module without the `ssr` feature, compilation fails, making credential leaks to client WebAssembly impossible."
       }
     },
     {
       "@type": "Question",
-      "name": "Is the starter production-shaped or a demo?",
+      "name": "What compiler flags and tools are essential for minimizing WebAssembly binary size?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+        "text": "In `Cargo.toml`, configure the release profile with `opt-level = \"z\"`, `lto = true`, `codegen-units = 1`, and `panic = \"abort\"`. In CI/CD pipelines, execute the Binaryen `wasm-opt -Oz` utility on the output `.wasm` file to strip unused symbols, prune AST branches, and achieve typical gzipped bundle sizes under 150 KB."
       }
     },
     {
       "@type": "Question",
-      "name": "How is security handled in this kit?",
+      "name": "How do `<Suspense>` components enable streaming HTML server-side rendering?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+        "text": "When wrapping asynchronous data resources in `<Suspense fallback=...>`, the Axum server streams the surrounding HTML shell and fallback loading skeleton to the browser immediately over an open HTTP connection. As soon as server-side async queries resolve, Leptos streams out the rendered component HTML and a tiny inline script that swaps the placeholder with real content."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I customize the design?",
+      "name": "How must Content Security Policy (CSP) be configured for WebAssembly applications?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+        "text": "Modern browsers require explicit CSP authorization to compile WebAssembly modules. Axum response headers must include `script-src 'self' 'wasm-unsafe-eval'` (or WebAssembly module hashes under CSP Level 3) while keeping `object-src 'none'` and disabling unauthorized inline JavaScript, preventing XSS attacks while permitting WASM execution."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I update when a new kit version releases?",
+      "name": "How does this kit enforce strict CORS security on server functions?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+        "text": "The Axum server middleware parses allowed origins from the `ALLOWED_ORIGINS` environment variable (e.g. `http://localhost:3000,https://app.example.com`). Permissive wildcard origins (`*`) are strictly prohibited, ensuring unauthorized third-party origins cannot invoke backend server functions on behalf of authenticated users."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I use it for commercial and client work?",
+      "name": "How does Leptos handle client-side routing and page transitions?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+        "text": "Leptos provides `<Router>` and `<A>` components that intercept browser click events. Instead of triggering a full browser page refresh, the client-side router updates the URL via the HTML5 History API and swaps only the active route's component branch in WebAssembly, preserving global signal states and audio/video playback."
       }
     },
     {
       "@type": "Question",
-      "name": "How do I contribute a fix or skill back?",
+      "name": "What is the `<ActionForm>` component and how does it support Progressive Enhancement?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+        "text": "The `<ActionForm>` component enhances HTML `<form>` elements. When WebAssembly is fully loaded, form submissions are intercepted and dispatched asynchronously via `fetch` without page reload. If WebAssembly fails to load or JavaScript is disabled, the form submits as a standard HTTP POST to the Axum backend, guaranteeing accessibility."
       }
     },
     {
       "@type": "Question",
-      "name": "Where do I get help or report a problem?",
+      "name": "How do you test Leptos applications across server and client boundaries?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+        "text": "Axum server functions and SSR routes are tested using standard Tokio `#[tokio::test]` suites with `axum::test` harnesses. Client-side component reactivity, signal dependencies, and DOM event dispatching are verified in headless browser environments using `wasm-bindgen-test`."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is non-root execution configured in the multi-stage Docker container?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The multi-stage `Dockerfile` compiles the binary in a `rust:1.81-alpine` builder environment and copies only the static server binary into a minimal `alpine:3.20` image. It provisions an unprivileged user and group (`addgroup -g 10001 appgroup && adduser -u 10001 appuser`) and specifies `USER 10001:10001`, eliminating root container vulnerabilities."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What unique advantages does Leptos provide for client-side compute workloads?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For applications requiring heavy client-side computation\u2014such as data visualization, cryptography, image processing, simulation, or complex offline caching\u2014Rust compiles to native WebAssembly bytecode, running up to 10-20x faster than equivalent JavaScript algorithms with deterministic memory consumption."
       }
     }
   ]
@@ -327,12 +343,12 @@
 
 ## Quick Reference &amp; Non-Negotiable Standards
 ### 01 Framework Architecture And Standards
-﻿# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
+# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
 
 1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
 2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = &quot;ssr&quot;)]` to avoid bloating the client WASM bundle.
 3. **Fine-Grained Reactive Signals**: Structure UI state using fine-grained signals (`create_signal`, `create_memo`, `create_resource`). Avoid monolithic state objects; mutate only individual DOM nodes connected to updated signals without Virtual DOM diffing.
-4. **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide
+4. **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide 
 ...</code></pre>
             </div>
 
@@ -349,13 +365,13 @@ alwaysApply: true
 
 # 01 Framework Architecture And Standards
 
-﻿# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
+# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
 
 1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
 2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = &quot;ssr&quot;)]` to avoid bloating the client WASM bundle.
 3. **Fine-Grained Reactive Signals**: Structure UI state using fine-grained signals (`create_signal`, `create_memo`, `create_resource`). Avoid monolithic state objects; mutate only individual DOM nodes connected to updated signals without Virtual DOM diffing.
 4. **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide `src/main.rs` as the Axum SSR server entrypoint and `src/lib.rs` as the `wasm_bindgen` client hydration hook.
-5. **No Unsafe Code
+5. **No Unsafe Code 
 ...</code></pre>
             </div>
 
@@ -364,7 +380,7 @@ alwaysApply: true
                 <span>Source: kits/rust-leptos-fullstack/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rust-leptos-fullstack" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: Rust + Leptos Full-Stack + Axum + WebAssembly
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># OpenAI Codex &amp; Assistant Instruction Set: Rust + Leptos Full-Stack + Axum + WebAssembly
 
 # Rust + Leptos Full-Stack + Axum + WebAssembly â€” Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
@@ -384,7 +400,7 @@ alwaysApply: true
 ï»؟# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
 
 1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
-2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` 
+2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` a
 ...</code></pre>
             </div>
 
@@ -397,12 +413,12 @@ alwaysApply: true
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## 01 Framework Architecture And Standards
-﻿# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
+# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
 
 1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
 2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = &quot;ssr&quot;)]` to avoid bloating the client WASM bundle.
 3. **Fine-Grained Reactive Signals**: Structure UI state using fine-grained signals (`create_signal`, `create_memo`, `create_resource`). Avoid monolithic state objects; mutate only individual DOM nodes connected to updated signals without Virtual DOM diffing.
-4. **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide `src/main.rs` as the Axum SSR server entrypoint and
+4. **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide `src/main.rs` as the Axum SSR server entrypoint and 
 ...</code></pre>
             </div>
 
@@ -436,13 +452,13 @@ alwaysApply: true
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
 
-﻿# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
+# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
 
 1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
 2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = &quot;ssr&quot;)]` to avoid bloating the client WASM bundle.
 3. **Fine-Grained Reactive Signals**: Structure UI state using fine-grained signals (`create_signal`, `create_memo`, `create_resource`). Avoid monolithic state objects; mutate only individual DOM nodes connected to updated signals without Virtual DOM diffing.
 4. **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide `src/main.rs` as the Axum SSR server entrypoint and `src/lib.rs` as the `wasm_bindgen` client hydration hook.
-5. **No Unsafe Code Policy**: Enforce `#[deny(unsafe_code)]` crate-wide to ensure memory safety, concurrency
+5. **No Unsafe Code Policy**: Enforce `#[deny(unsafe_code)]` crate-wide to ensure memory safety, concurrency 
 ...</code></pre>
             </div>
 
@@ -674,21 +690,23 @@ docker compose up --build -d</pre>
     <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
     <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
   </div>
-  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
 </div>
 <div class="space-y-3">
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the Rust + Leptos Full-Stack + Axum + WebAssembly kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
-<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is Leptos and how does full-stack Rust revolutionize web application development?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Leptos is an isomorphic Rust web framework that allows developers to write both backend web servers and frontend browser UIs in Rust. By sharing data structures, validation rules, and business logic between Axum on the server and WebAssembly in the browser, developers eliminate API serialization discrepancies and achieve true end-to-end type safety without TypeScript transpilation.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Leptos achieve superior frontend performance without a Virtual DOM?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Unlike frameworks like React that diff entire Virtual DOM trees on every state change, Leptos utilizes fine-grained reactive signals (inspired by SolidJS). When a signal changes, only the specific DOM node linked directly to that signal's closure is updated in the browser. This eliminates tree diffing overhead and results in near-vanilla JavaScript DOM manipulation speeds.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does WebAssembly client hydration work in a Leptos SSR application?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">When a user visits a Leptos application, the Axum server immediately renders and returns static HTML for instant First Contentful Paint (FCP). Concurrently, the browser downloads and compiles the compiled `.wasm` binary. Once compiled, `leptos::mount::hydrate_body` attaches reactive event listeners and signals to the existing DOM nodes without re-rendering the page from scratch.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What are Leptos `#[server]` functions and how do they eliminate manual API scaffolding?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Server functions defined with `#[server(MyFunc, "/api")]` look like normal async Rust functions. When compiled for the client (`hydrate`), Leptos automatically generates an HTTP POST client that serializes parameters. When compiled for the server (`ssr`), Leptos registers an Axum endpoint that deserializes the request, executes database queries, and returns serialized responses.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Cargo feature gating prevent server database credentials from leaking into client WASM?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">By partitioning dependencies using Cargo features (`ssr` vs `hydrate`), server-only crates (such as PostgreSQL drivers, AWS SDKs, and private keys) are only linked when compiling the server binary. If client code attempts to import a server-only module without the `ssr` feature, compilation fails, making credential leaks to client WebAssembly impossible.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What compiler flags and tools are essential for minimizing WebAssembly binary size?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In `Cargo.toml`, configure the release profile with `opt-level = "z"`, `lto = true`, `codegen-units = 1`, and `panic = "abort"`. In CI/CD pipelines, execute the Binaryen `wasm-opt -Oz` utility on the output `.wasm` file to strip unused symbols, prune AST branches, and achieve typical gzipped bundle sizes under 150 KB.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do `<Suspense>` components enable streaming HTML server-side rendering?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">When wrapping asynchronous data resources in `<Suspense fallback=...>`, the Axum server streams the surrounding HTML shell and fallback loading skeleton to the browser immediately over an open HTTP connection. As soon as server-side async queries resolve, Leptos streams out the rendered component HTML and a tiny inline script that swaps the placeholder with real content.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How must Content Security Policy (CSP) be configured for WebAssembly applications?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Modern browsers require explicit CSP authorization to compile WebAssembly modules. Axum response headers must include `script-src 'self' 'wasm-unsafe-eval'` (or WebAssembly module hashes under CSP Level 3) while keeping `object-src 'none'` and disabling unauthorized inline JavaScript, preventing XSS attacks while permitting WASM execution.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does this kit enforce strict CORS security on server functions?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The Axum server middleware parses allowed origins from the `ALLOWED_ORIGINS` environment variable (e.g. `http://localhost:3000,https://app.example.com`). Permissive wildcard origins (`*`) are strictly prohibited, ensuring unauthorized third-party origins cannot invoke backend server functions on behalf of authenticated users.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Leptos handle client-side routing and page transitions?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Leptos provides `<Router>` and `<A>` components that intercept browser click events. Instead of triggering a full browser page refresh, the client-side router updates the URL via the HTML5 History API and swaps only the active route's component branch in WebAssembly, preserving global signal states and audio/video playback.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the `<ActionForm>` component and how does it support Progressive Enhancement?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The `<ActionForm>` component enhances HTML `<form>` elements. When WebAssembly is fully loaded, form submissions are intercepted and dispatched asynchronously via `fetch` without page reload. If WebAssembly fails to load or JavaScript is disabled, the form submits as a standard HTTP POST to the Axum backend, guaranteeing accessibility.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do you test Leptos applications across server and client boundaries?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Axum server functions and SSR routes are tested using standard Tokio `#[tokio::test]` suites with `axum::test` harnesses. Client-side component reactivity, signal dependencies, and DOM event dispatching are verified in headless browser environments using `wasm-bindgen-test`.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is non-root execution configured in the multi-stage Docker container?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The multi-stage `Dockerfile` compiles the binary in a `rust:1.81-alpine` builder environment and copies only the static server binary into a minimal `alpine:3.20` image. It provisions an unprivileged user and group (`addgroup -g 10001 appgroup && adduser -u 10001 appuser`) and specifies `USER 10001:10001`, eliminating root container vulnerabilities.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What unique advantages does Leptos provide for client-side compute workloads?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">For applications requiring heavy client-side computation—such as data visualization, cryptography, image processing, simulation, or complex offline caching—Rust compiles to native WebAssembly bytecode, running up to 10-20x faster than equivalent JavaScript algorithms with deterministic memory consumption.</p></details>
 </div>
       </section>
 

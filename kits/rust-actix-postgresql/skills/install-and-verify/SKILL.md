@@ -1,4 +1,4 @@
-﻿---
+---
 name: install-and-verify
 description: Bootstrap local dependencies, start PostgreSQL container, run migrations, and verify the /healthz endpoint.
 ---

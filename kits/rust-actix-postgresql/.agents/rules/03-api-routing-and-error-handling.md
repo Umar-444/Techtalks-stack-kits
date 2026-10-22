@@ -1,6 +1,6 @@
 # 03 Api Routing And Error Handling
 
-﻿# API Routing and Unified Error Handling
+# API Routing and Unified Error Handling
 
 1. **Modular Scope Routing**: Group API endpoints logically under `web::scope("/api/v1")`. Bind route handlers with explicit HTTP verb macros (`web::get()`, `web::post()`, `web::put()`, `web::delete()`).
 2. **Type-Safe State Extraction**: Inject database connections and configuration using Actix `web::Data<AppState>`. Never rely on global mutable singletons or static variables.

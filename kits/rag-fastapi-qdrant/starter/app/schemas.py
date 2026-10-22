@@ -1,4 +1,4 @@
-﻿from typing import Any, Optional
+from typing import Any, Optional
 from pydantic import BaseModel, Field
 
 class DocumentIngestRequest(BaseModel):

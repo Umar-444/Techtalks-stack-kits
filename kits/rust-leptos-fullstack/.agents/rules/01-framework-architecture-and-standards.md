@@ -1,6 +1,6 @@
 # 01 Framework Architecture And Standards
 
-﻿# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
+# Framework Architecture and Standards: Rust, Leptos Full-Stack, and Axum
 
 1. **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
 2. **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = "ssr")]` to avoid bloating the client WASM bundle.

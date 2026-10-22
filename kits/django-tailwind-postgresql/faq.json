@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "question": "How does Tailwind CSS integrate into Django without requiring a full Node.js toolchain in production?",
     "answer": "This kit supports two workflows: during development, you can use the official standalone Tailwind CSS CLI executable (or CDN script for fast prototyping). For production builds, the standalone CLI compiles your template utility classes into a single minified static file (`static/css/dist/styles.css`). When running `python manage.py collectstatic`, WhiteNoise bundles and content-hashes the pre-compiled CSS. The production Docker container requires zero Node.js or npm runtime dependencies, resulting in a lean, secure, and fast Python image."

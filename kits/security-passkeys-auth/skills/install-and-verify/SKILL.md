@@ -1,4 +1,4 @@
-﻿---
+---
 name: install-and-verify
 description: Comprehensive preflight verification, package installation, and ceremony test execution for TypeScript Passkeys WebAuthn.
 ---

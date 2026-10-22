@@ -1,4 +1,4 @@
-﻿---
+---
 id: budget-caps-and-rate-limiting
 title: Budget Caps & Rate Limiting
 globs: "**/*.py"

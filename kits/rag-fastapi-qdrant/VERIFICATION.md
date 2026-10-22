@@ -1,4 +1,4 @@
-﻿# Verification Log: RAG FastAPI + Qdrant + FastEmbed
+# Verification Log: RAG FastAPI + Qdrant + FastEmbed
 
 - **Verification Date**: 2026-10-22
 - **Tested Environment**: Python 3.12.7, Qdrant 1.12.0, FastAPI 0.115.0, FastEmbed 0.4.1, Docker Compose v2.29

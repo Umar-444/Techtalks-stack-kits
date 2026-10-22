@@ -1,4 +1,4 @@
-﻿---
+---
 name: rag-fastapi-qdrant-core
 description: Core operational workflows, collection snapshots, health checks, and query optimization for FastAPI + Qdrant.
 ---

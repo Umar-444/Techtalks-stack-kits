@@ -3,7 +3,7 @@
 
 ## Quick Reference & Non-Negotiable Standards
 ### 01 Framework Architecture And Standards
-﻿# Rule 1: FastAPI Architecture, Async Lifespan & Dependency Injection
+# Rule 1: FastAPI Architecture, Async Lifespan & Dependency Injection
 
 ## Context & Principles
 - Build asynchronous, non-blocking APIs utilizing modern Python 3.12+ type annotations and Pydantic v2 schemas.
@@ -27,7 +27,7 @@
 
 
 ### 02 Qdrant Vector Storage And Indexing
-﻿# Rule 2: Qdrant Vector Storage, Collections & HNSW Indexing
+# Rule 2: Qdrant Vector Storage, Collections & HNSW Indexing
 
 ## Context & Principles
 - Qdrant manages dense high-dimensional vectors with customizable distance metrics and Hierarchical Navigable Small World (HNSW) graph indexing.
@@ -50,7 +50,7 @@
 
 
 ### 03 Embeddings And Chunking Pipeline
-﻿# Rule 3: Text Chunking, Token Budgets & FastEmbed Generation
+# Rule 3: Text Chunking, Token Budgets & FastEmbed Generation
 
 ## Context & Principles
 - RAG accuracy is fundamentally bounded by the quality and granularity of document chunking.
@@ -77,7 +77,7 @@
 
 
 ### 04 Rag Retrieval Reranking And Context
-﻿# Rule 4: Vector Retrieval, Payload Filtering & Context Assembly
+# Rule 4: Vector Retrieval, Payload Filtering & Context Assembly
 
 ## Context & Principles
 - Retrieve relevant context with low latency using Qdrant vector search coupled with strict payload filtering for multi-tenant isolation.
@@ -105,7 +105,7 @@
 
 
 ### 05 Security Guardrails And Testing
-﻿# Rule 5: Security Guardrails, Prompt Injection Defense & In-Memory Testing
+# Rule 5: Security Guardrails, Prompt Injection Defense & In-Memory Testing
 
 ## Context & Principles
 - RAG applications are susceptible to indirect prompt injection through ingested untrusted documents.

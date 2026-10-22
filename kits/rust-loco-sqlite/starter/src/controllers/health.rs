@@ -1,4 +1,4 @@
-﻿use axum::debug_handler;
+use axum::debug_handler;
 use loco_rs::prelude::*;
 use serde::Serialize;
 

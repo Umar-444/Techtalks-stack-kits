@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-01-ast-dangerous-sink-detection",
   "name": "AST Dangerous Code Execution Sink Detection",
   "difficulty": "beginner",

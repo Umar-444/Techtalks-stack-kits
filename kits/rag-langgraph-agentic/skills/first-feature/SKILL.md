@@ -1,4 +1,4 @@
-﻿---
+---
 name: first-feature
 description: Guide to adding a custom query rewriter node, web search fallback, or domain classifier to the LangGraph state machine.
 ---

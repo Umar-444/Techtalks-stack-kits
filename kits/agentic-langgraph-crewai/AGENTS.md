@@ -2,23 +2,17 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Table of Contents
-- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
-- [02 Langgraph State Machine And Cycles](#02-langgraph-state-machine-and-cycles)
-- [03 Crewai Delegation And Agent Squads](#03-crewai-delegation-and-agent-squads)
-- [04 Security Tool Sandboxing And Guardrails](#04-security-tool-sandboxing-and-guardrails)
-- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
+- [Framework Architecture & Standards](#framework-architecture-and-standards)
+- [LangGraph State Machine & Cyclic Graph Control](#langgraph-state-machine-and-cycles)
+- [CrewAI Delegation & Agent Squads](#crewai-delegation-and-agent-squads)
+- [Security, Tool Sandboxing & Guardrails](#security-tool-sandboxing-and-guardrails)
+- [Testing, Verification & CI Invariants](#testing-verification-and-ci)
 
 ---
 
-<a id="01-framework-architecture-and-standards"></a>
-## 01 Framework Architecture And Standards
+<a id="framework-architecture-and-standards"></a>
+## Framework Architecture & Standards
 
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture & Standards
-globs: "**/*.py"
-alwaysApply: true
----
 # Python 3.12, Strict Typing and FastAPI Async Standards
 
 ## 1. Async Pipeline & Dependency Injection
@@ -40,18 +34,11 @@ alwaysApply: true
 - FastAPI workers remain stateless while LangGraph checkpoints cyclic execution state into Redis or MemorySaver.
 - Never store in-memory execution state in global variables.
 
-
 ---
 
-<a id="02-langgraph-state-machine-and-cycles"></a>
-## 02 Langgraph State Machine And Cycles
+<a id="langgraph-state-machine-and-cycles"></a>
+## LangGraph State Machine & Cyclic Graph Control
 
-﻿---
-id: langgraph-state-machine-and-cycles
-title: LangGraph State Machine & Cyclic Graph Control
-globs: "**/*.py"
-alwaysApply: true
----
 # LangGraph State Graph & Cyclic Loop Engineering
 
 ## 1. Immutable State Definitions
@@ -77,18 +64,11 @@ alwaysApply: true
   ```
 - Conditional edges must inspect `iteration_count` and force-route to `END` if maximum threshold is reached, preventing infinite agent spend loops.
 
-
 ---
 
-<a id="03-crewai-delegation-and-agent-squads"></a>
-## 03 Crewai Delegation And Agent Squads
+<a id="crewai-delegation-and-agent-squads"></a>
+## CrewAI Delegation & Agent Squads
 
-﻿---
-id: crewai-delegation-and-agent-squads
-title: CrewAI Delegation & Agent Squads
-globs: "**/*.py"
-alwaysApply: true
----
 # CrewAI Autonomous Squads & Role-Based Delegation
 
 ## 1. Agent Role Specification
@@ -102,18 +82,11 @@ alwaysApply: true
 - Use `Process.sequential` for deterministic step-by-step handoffs or `Process.hierarchical` with a designated manager agent.
 - Bind short-term memory and entity memory to Redis or vector stores with scoped tenant IDs.
 
-
 ---
 
-<a id="04-security-tool-sandboxing-and-guardrails"></a>
-## 04 Security Tool Sandboxing And Guardrails
+<a id="security-tool-sandboxing-and-guardrails"></a>
+## Security, Tool Sandboxing & Guardrails
 
-﻿---
-id: security-tool-sandboxing-and-guardrails
-title: Security, Tool Sandboxing & Guardrails
-globs: "**/*.py"
-alwaysApply: true
----
 # Agent Tool Sandboxing, Authorization & Prompt Isolation
 
 ## 1. Strict Tool Input Validation
@@ -137,18 +110,11 @@ alwaysApply: true
   graph.compile(checkpointer=checkpointer, interrupt_before=["execute_deployment"])
   ```
 
-
 ---
 
-<a id="05-testing-verification-and-ci"></a>
-## 05 Testing Verification And Ci
+<a id="testing-verification-and-ci"></a>
+## Testing, Verification & CI Invariants
 
-﻿---
-id: testing-verification-and-ci
-title: Testing, Verification & CI Invariants
-globs: "**/*.py"
-alwaysApply: true
----
 # Testing Multi-Agent Systems, Evals & CI Pipelines
 
 ## 1. Mocking LLMs in Graph Unit Tests
@@ -170,7 +136,6 @@ alwaysApply: true
   2. `semgrep scan --config p/owasp-top-ten` with 0 findings.
   3. `python tools/validate_manifest.py` verifying full physical layout.
   4. `python tools/transpiler.py --check` guaranteeing zero dialect drift.
-
 
 ---
 

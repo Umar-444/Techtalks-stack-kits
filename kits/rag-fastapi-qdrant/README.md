@@ -1,4 +1,4 @@
-﻿# RAG FastAPI + Qdrant + FastEmbed Stack Kit
+# RAG FastAPI + Qdrant + FastEmbed Stack Kit
 
 [![Stack Status: Ready to Ship](https://img.shields.io/badge/status-Ready%20to%20Ship-emerald?style=flat-square)](kit.yaml)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue?style=flat-square)](https://www.python.org/)

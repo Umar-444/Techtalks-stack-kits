@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "eval-01-gateway-health-and-config",
   "title": "FastAPI Gateway Lifespan & Health Verification",
   "instruction": "Verify that FastAPI gateway starts with explicit CORS, security headers, and healthy status probe.",

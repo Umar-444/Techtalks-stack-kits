@@ -1,4 +1,4 @@
-﻿---
+---
 name: chunking-and-embedding
 description: Author optimized sliding-window document chunking and local dense embedding generation pipelines with FastEmbed.
 ---

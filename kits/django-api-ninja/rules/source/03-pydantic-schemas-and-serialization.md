@@ -1,4 +1,4 @@
-﻿---
+---
 id: "03-pydantic-schemas-and-serialization"
 title: "Pydantic v2 Schemas & Serialization Standards"
 description: "Validation rules for Django Ninja Schema models, request payload bounds, response filtering, and custom error formatting."

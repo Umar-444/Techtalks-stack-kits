@@ -1,4 +1,4 @@
-﻿import os
+import os
 import uuid
 from typing import Any, Optional
 from qdrant_client import QdrantClient

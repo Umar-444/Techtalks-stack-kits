@@ -2,23 +2,17 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Table of Contents
-- [01 Gateway Architecture And Standards](#01-gateway-architecture-and-standards)
-- [02 Prompt Injection And Jailbreak Defenses](#02-prompt-injection-and-jailbreak-defenses)
-- [03 Automated Pii Redaction And Presidio](#03-automated-pii-redaction-and-presidio)
-- [04 Budget Caps And Rate Limiting](#04-budget-caps-and-rate-limiting)
-- [05 Pydantic Ai Output Validation And Testing](#05-pydantic-ai-output-validation-and-testing)
+- [Gateway Architecture & Standards](#gateway-architecture-and-standards)
+- [Prompt Injection & Jailbreak Defenses](#prompt-injection-and-jailbreak-defenses)
+- [Automated PII Redaction & Presidio Pipeline](#automated-pii-redaction-and-presidio)
+- [Budget Caps & Rate Limiting](#budget-caps-and-rate-limiting)
+- [Pydantic AI Output Validation & Testing](#pydantic-ai-output-validation-and-testing)
 
 ---
 
-<a id="01-gateway-architecture-and-standards"></a>
-## 01 Gateway Architecture And Standards
+<a id="gateway-architecture-and-standards"></a>
+## Gateway Architecture & Standards
 
-﻿---
-id: gateway-architecture-and-standards
-title: Gateway Architecture & Standards
-globs: "**/*.py"
-alwaysApply: true
----
 # AI Security Gateway Architecture & Standards
 
 ## 1. Async Gateway Pipeline
@@ -40,18 +34,11 @@ alwaysApply: true
 ## 3. Graceful Fallbacks & Circuit Breaking
 - If an upstream safety classifier or secondary LLM guardrail service times out, fail closed on high-risk enterprise endpoints (throw HTTP 503 Service Unavailable) or fallback to deterministic regex/heuristic scanners.
 
-
 ---
 
-<a id="02-prompt-injection-and-jailbreak-defenses"></a>
-## 02 Prompt Injection And Jailbreak Defenses
+<a id="prompt-injection-and-jailbreak-defenses"></a>
+## Prompt Injection & Jailbreak Defenses
 
-﻿---
-id: prompt-injection-and-jailbreak-defenses
-title: Prompt Injection & Jailbreak Defenses
-globs: "**/*.py"
-alwaysApply: true
----
 # Prompt Injection & Jailbreak Screening Invariants
 
 ## 1. Dual-Layer Defense Invariant
@@ -75,18 +62,11 @@ alwaysApply: true
   ```
 - Inspect every model output before returning to the client. If the model response contains `canary_token`, trigger immediate security alert, abort response with HTTP 422, and log a critical prompt extraction incident.
 
-
 ---
 
-<a id="03-automated-pii-redaction-and-presidio"></a>
-## 03 Automated Pii Redaction And Presidio
+<a id="automated-pii-redaction-and-presidio"></a>
+## Automated PII Redaction & Presidio Pipeline
 
-﻿---
-id: automated-pii-redaction-and-presidio
-title: Automated PII Redaction & Presidio Pipeline
-globs: "**/*.py"
-alwaysApply: true
----
 # PII Screening, Anonymization & Reversible Masking
 
 ## 1. Supported Entity Types & Strict Detection
@@ -113,18 +93,11 @@ alwaysApply: true
 - Avoid re-instantiating heavy Presidio or Spacy NLP pipelines per request.
 - Initialize `AnalyzerEngine` and `AnonymizerEngine` once as singletons during FastAPI startup lifespan.
 
-
 ---
 
-<a id="04-budget-caps-and-rate-limiting"></a>
-## 04 Budget Caps And Rate Limiting
+<a id="budget-caps-and-rate-limiting"></a>
+## Budget Caps & Rate Limiting
 
-﻿---
-id: budget-caps-and-rate-limiting
-title: Budget Caps & Rate Limiting
-globs: "**/*.py"
-alwaysApply: true
----
 # Token Bucket Rate Limiting, Dollar Quotas & DoW Mitigation
 
 ## 1. Denial of Wallet (DoW) Defenses
@@ -157,18 +130,11 @@ alwaysApply: true
 - When a tenant reaches 90% of their dollar quota: send warning header `X-AI-Quota-Warning: 90% consumed`.
 - When quota is reached (100%): block immediately with HTTP 402 Payment Required or HTTP 429 Too Many Requests.
 
-
 ---
 
-<a id="05-pydantic-ai-output-validation-and-testing"></a>
-## 05 Pydantic Ai Output Validation And Testing
+<a id="pydantic-ai-output-validation-and-testing"></a>
+## Pydantic AI Output Validation & Testing
 
-﻿---
-id: pydantic-ai-output-validation-and-testing
-title: Pydantic AI Output Validation & Testing
-globs: "**/*.py"
-alwaysApply: true
----
 # Pydantic AI Structured Output Validation & Automated Adversarial Testing
 
 ## 1. Pydantic AI Schema Enforcement
@@ -201,7 +167,6 @@ alwaysApply: true
   2. `semgrep scan --config p/owasp-top-ten` with zero blocking SAST errors.
   3. `python tools/validate_manifest.py` verifying full physical layout.
   4. `python tools/transpiler.py --check` guaranteeing zero dialect drift.
-
 
 ---
 

@@ -1,4 +1,4 @@
-﻿---
+---
 id: "02-orm-models-and-query-optimization"
 title: "Django ORM Invariants & Query Optimization"
 description: "Database standards for PostgreSQL models, N+1 query prevention with select_related/prefetch_related, explicit indexing, and tenant isolation."

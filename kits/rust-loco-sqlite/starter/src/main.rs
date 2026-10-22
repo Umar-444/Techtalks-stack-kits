@@ -1,4 +1,4 @@
-﻿use loco_rs::cli;
+use loco_rs::cli;
 use rust_loco_sqlite_starter::app::App;
 
 #[tokio::main]

@@ -6,7 +6,7 @@ alwaysApply: true
 
 # 04 Security Invariants And Input Validation
 
-﻿# Security Invariants, CORS, and Input Validation
+# Security Invariants, CORS, and Input Validation
 
 1. **Strict CORS Whitelist**: Configure `actix_cors::Cors` explicitly from the `ALLOWED_ORIGINS` environment variable. Never configure permissive wildcard origins (`allow_any_origin()`) on authenticated routes.
 2. **Payload Size Guardrails**: Configure `web::JsonConfig::default().limit(262_144)` (256 KB) to prevent memory exhaustion and Denial-of-Service attacks from oversized request bodies.

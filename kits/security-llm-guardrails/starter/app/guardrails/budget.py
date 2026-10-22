@@ -1,4 +1,4 @@
-﻿import time
+import time
 from typing import Dict, List
 
 # Approximate pricing per 1,000,000 tokens

@@ -1,4 +1,4 @@
-﻿schema_version: "1.0.0"
+schema_version: "1.0.0"
 
 name: "DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)"
 slug: "security-devsecops-ci"

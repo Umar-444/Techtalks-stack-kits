@@ -1,4 +1,4 @@
-﻿[
+[
   {
     "question": "Why choose PostgreSQL pgvector over specialized vector databases like Qdrant or Pinecone?",
     "answer": "pgvector allows you to store, index, and query vector embeddings directly within your existing PostgreSQL relational database. This eliminates the operational overhead, network latency, and monetary cost of deploying a separate vector database cluster. Crucially, pgvector supports full ACID transactions, row-level security (RLS), and native SQL `JOIN` operations between vector embeddings and relational entities (such as users, permissions, orders, and audit logs) in a single transactional query."

@@ -1,4 +1,4 @@
-﻿# Rule 1: FastAPI Architecture, Async Lifespan & Dependency Injection
+# Rule 1: FastAPI Architecture, Async Lifespan & Dependency Injection
 
 ## Context & Principles
 - Build asynchronous, non-blocking APIs utilizing modern Python 3.12+ type annotations and Pydantic v2 schemas.

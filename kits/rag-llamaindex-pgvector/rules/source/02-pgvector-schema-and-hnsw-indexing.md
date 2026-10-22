@@ -1,4 +1,4 @@
-﻿---
+---
 id: 02-pgvector-schema-and-hnsw-indexing
 title: PostgreSQL 16+ pgvector Schema & HNSW Indexing
 globs: "*"

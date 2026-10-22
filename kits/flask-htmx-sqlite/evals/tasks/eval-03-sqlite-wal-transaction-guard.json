@@ -1,4 +1,4 @@
-﻿{
+{
   "id": "eval-03-sqlite-wal-transaction-guard",
   "title": "SQLite WAL Concurrency & Transaction Integrity Guard",
   "instruction": "Verify SQLite connection sets WAL mode, busy_timeout=5000, and isolates database operations.",

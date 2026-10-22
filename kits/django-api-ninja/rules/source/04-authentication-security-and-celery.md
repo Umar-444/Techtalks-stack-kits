@@ -1,4 +1,4 @@
-﻿---
+---
 id: "04-authentication-security-and-celery"
 title: "Authentication, API Security & Celery Task Queue"
 description: "Security standards for Bearer token authentication, API keys, Celery 5.4 async background worker orchestration, and Redis broker settings."

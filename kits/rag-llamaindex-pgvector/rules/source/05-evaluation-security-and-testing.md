@@ -1,4 +1,4 @@
-﻿---
+---
 id: 05-evaluation-security-and-testing
 title: Faithfulness Evaluations, Security Guardrails & In-Memory Testing
 globs: "*"

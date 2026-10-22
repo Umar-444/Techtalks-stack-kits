@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-01-pgvector-ingest-and-hnsw",
   "name": "PostgreSQL pgvector Ingestion and HNSW Indexing",
   "difficulty": "intermediate",

@@ -1,4 +1,4 @@
-﻿---
+---
 id: "02-templ-components-and-htmx-reactivity"
 title: "templ Components & HTMX 2.0 Reactivity"
 description: "Patterns for type-safe compile-time JSX HTML rendering with templ, component layout composition, and hypermedia interactions with HTMX 2.0."

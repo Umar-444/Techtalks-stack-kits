@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-02-filtered-vector-search",
   "name": "Multi-Tenant Vector Search with Exact Payload Filters",
   "difficulty": "advanced",

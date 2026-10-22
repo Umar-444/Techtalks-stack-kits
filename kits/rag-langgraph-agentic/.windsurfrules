@@ -1,13 +1,7 @@
 # Windsurf Rules — LangGraph + LangChain + Qdrant + Ragas Evals
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## 01 Framework Architecture And Standards
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture & Standards
-globs: "**/*.py"
-alwaysApply: true
----
+## Framework Architecture & Standards
 # Agentic RAG Architecture & LangGraph State Standards
 
 ## 1. Cyclical State Machine for Retrieval-Augmented Generation
@@ -42,14 +36,7 @@ alwaysApply: true
   ```
 - If `iteration_count` exceeds 3 query rewrites, route immediately to a fallback generation node or human review.
 
-
-## 02 Adaptive Retrieval And Query Rewriting
-﻿---
-id: adaptive-retrieval-and-query-rewriting
-title: Adaptive Retrieval & Query Rewriting
-globs: "**/*.py"
-alwaysApply: true
----
+## Adaptive Retrieval & Query Rewriting
 # Adaptive Retrieval, Self-RAG & Query Rewriting
 
 ## 1. Document Relevance Grading
@@ -69,14 +56,7 @@ alwaysApply: true
   ```
 - Strips conversational fillers, expands domain-specific acronyms, and generates alternative keyword combinations.
 
-
-## 03 Qdrant Vector Filtering And Payloads
-﻿---
-id: qdrant-vector-filtering-and-payloads
-title: Qdrant Vector Filtering & Payload Isolation
-globs: "**/*.py"
-alwaysApply: true
----
+## Qdrant Vector Filtering & Payload Isolation
 # Qdrant Vector Search & Multi-Tenant Payload Security
 
 ## 1. Collection Configuration & Distance Metric
@@ -109,14 +89,7 @@ alwaysApply: true
   )
   ```
 
-
-## 04 Ragas Groundedness And Hallucination Evals
-﻿---
-id: ragas-groundedness-and-hallucination-evals
-title: Ragas Groundedness & Hallucination Evals
-globs: "**/*.py"
-alwaysApply: true
----
+## Ragas Groundedness & Hallucination Evals
 # Ragas Groundedness Scoring & Hallucination Detection
 
 ## 1. Ragas Metric Triad
@@ -135,14 +108,7 @@ alwaysApply: true
   ```
 - If hallucination is detected and iterations remain, route back to `generate` with a prompt warning: "Your previous answer included facts not supported by the context. Re-synthesize strictly using provided documents."
 
-
-## 05 Testing Verification And Ci
-﻿---
-id: testing-verification-and-ci
-title: Testing, Verification & CI Invariants
-globs: "**/*.py"
-alwaysApply: true
----
+## Testing, Verification & CI Invariants
 # Testing Protocols, Mock LLMs & CI Quality Gates
 
 ## 1. Deterministic Graph Testing
@@ -159,5 +125,4 @@ alwaysApply: true
   2. `semgrep scan --config p/owasp-top-ten` with 0 blocking SAST findings.
   3. `python tools/validate_manifest.py` verifying full physical layout.
   4. `python tools/transpiler.py --check` guaranteeing zero dialect drift.
-
 

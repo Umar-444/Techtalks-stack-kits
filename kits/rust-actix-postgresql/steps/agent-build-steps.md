@@ -1,4 +1,4 @@
-﻿# Agent Step-by-Step Build Order: Rust + Actix Web + SeaORM + PostgreSQL
+# Agent Step-by-Step Build Order: Rust + Actix Web + SeaORM + PostgreSQL
 
 1. **Step 1: Environment & Toolchain Setup**: Initialize Rust toolchain (`rustup default stable`), configure environment variables from `.env.example`, and start PostgreSQL via Docker Compose.
 2. **Step 2: Database Schema & SeaORM Entities**: Author database migrations using SeaORM migration tools and define active models and relational entities.

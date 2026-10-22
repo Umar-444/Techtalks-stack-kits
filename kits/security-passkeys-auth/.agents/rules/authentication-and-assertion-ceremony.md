@@ -1,0 +1,52 @@
+# Passkey Authentication & Assertion Ceremony
+
+# Passkey Authentication & Assertion Ceremony
+
+## 1. Discoverable Autofill / Passwordless Options
+- For discoverable passkeys, `allowCredentials` can be omitted or empty, enabling browser autofill UI:
+  ```typescript
+  import { generateAuthenticationOptions } from "@simplewebauthn/server";
+
+  const options = await generateAuthenticationOptions({
+      rpID,
+      userVerification: "preferred",
+      // allowCredentials left empty for 1-click modal / autofill login
+  });
+  ```
+
+## 2. Signature Assertion Verification & Counter Rollback Defense
+- Verify the client assertion signature against the registered public key:
+  ```typescript
+  import { verifyAuthenticationResponse } from "@simplewebauthn/server";
+
+  const passkey = await db.passkeys.findById(clientResponse.id);
+  if (!passkey) {
+      throw new Error("Passkey credential not found");
+  }
+
+  const verification = await verifyAuthenticationResponse({
+      response: clientResponse,
+      expectedChallenge: session.currentChallenge,
+      expectedOrigin,
+      expectedRPID: rpID,
+      credential: {
+          id: passkey.id,
+          publicKey: passkey.publicKey,
+          counter: passkey.counter,
+          transports: passkey.transports,
+      },
+      requireUserVerification: true,
+  });
+
+  if (!verification.verified) {
+      throw new Error("Authentication assertion signature invalid");
+  }
+
+  // Update signature counter (Crucial for hardware cloning detection)
+  // Multi-device synced passkeys (iCloud, Google Password Manager) typically keep counter = 0
+  const { newCounter } = verification.authenticationInfo;
+  if (passkey.counter > 0 && newCounter <= passkey.counter) {
+      throw new Error("Potential authenticator cloning detected: counter rolled back");
+  }
+  await db.passkeys.updateCounter(passkey.id, newCounter);
+  ```

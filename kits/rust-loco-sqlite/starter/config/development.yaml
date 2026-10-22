@@ -1,4 +1,4 @@
-﻿server:
+server:
   port: 5150
   binding: 0.0.0.0
   host: http://localhost

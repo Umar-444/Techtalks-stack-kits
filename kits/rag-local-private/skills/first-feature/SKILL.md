@@ -1,4 +1,4 @@
-﻿---
+---
 name: "first-feature"
 description: "Ingest a confidential document into local ChromaDB with chunking, assign Saudi PDPL classification, and run a grounded privacy query."
 ---

@@ -1,4 +1,4 @@
-﻿# Verification Log: Reverse Engineering & Security Audit Pack
+# Verification Log: Reverse Engineering & Security Audit Pack
 
 - **Verification Date**: 2026-10-22
 - **Tested Environment**: Python 3.12.9, Pytest 9.1.1, OASIS SARIF 2.1.0, Linux ELF / Windows PE Header Parsers

@@ -1,4 +1,4 @@
-﻿schema_version: "1.0.0"
+schema_version: "1.0.0"
 
 name: "Passkeys WebAuthn + Hardened Auth Reference (TypeScript)"
 slug: "security-passkeys-auth"

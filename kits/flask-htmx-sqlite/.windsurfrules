@@ -1,13 +1,7 @@
 # Windsurf Rules — Flask + HTMX + SQLite
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## 01 Framework Architecture And Standards
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture & Standards
-globs: "**/*.py"
-alwaysApply: true
----
+## Framework Architecture & Standards
 # Flask Application Factory Architecture & Production Standards
 
 ## 1. Application Factory Pattern
@@ -67,14 +61,7 @@ starter/
   ```
 - Gracefully handle SIGTERM and SIGINT to flush WAL write transactions before process termination.
 
-
-## 02 Htmx Reactivity And Jinja Rendering
-﻿---
-id: htmx-reactivity-and-jinja-rendering
-title: HTMX Reactivity & Jinja2 Partial Rendering
-globs: "**/*.{py,html}"
-alwaysApply: true
----
+## HTMX Reactivity & Jinja2 Partial Rendering
 # HTMX 2.0 Integration & Dual-Render View Architecture
 
 ## 1. Dual-Rendering Pattern via Request Headers
@@ -122,14 +109,7 @@ alwaysApply: true
   ```
 - Always render loading indicators cleanly via `#search-spinner.htmx-indicator`.
 
-
-## 03 Sqlite Wal Mode And Concurrency
-﻿---
-id: sqlite-wal-mode-and-concurrency
-title: SQLite WAL Mode & Concurrency Architecture
-globs: "**/*.{py,sql}"
-alwaysApply: true
----
+## SQLite WAL Mode & Concurrency Architecture
 # SQLite Production Concurrency & WAL Performance Standards
 
 ## 1. Mandatory SQLite PRAGMA Configuration
@@ -184,14 +164,7 @@ alwaysApply: true
       raise
   ```
 
-
-## 04 Csrf Security And Input Validation
-﻿---
-id: csrf-security-and-input-validation
-title: CSRF Security & Input Sanitization
-globs: "**/*.{py,html,js}"
-alwaysApply: true
----
+## CSRF Security & Input Sanitization
 # CSRF Defenses, HTMX Security Headers & Input Sanitization
 
 ## 1. Flask-WTF CSRF with HTMX Headers
@@ -240,14 +213,7 @@ alwaysApply: true
       return response
   ```
 
-
-## 05 Testing Verification And Ci
-﻿---
-id: testing-verification-and-ci
-title: Testing, Verification & CI Invariants
-globs: "**/*.py"
-alwaysApply: true
----
+## Testing, Verification & CI Invariants
 # Testing Standards, HTML Fragment Assertions & CI Pipeline
 
 ## 1. Pytest Test Client & In-Memory Isolation
@@ -295,5 +261,4 @@ alwaysApply: true
   2. `semgrep scan --config p/owasp-top-ten --config p/security-code-scan` with 0 blocking findings.
   3. `python tools/validate_manifest.py` ensuring complete physical manifest parity.
   4. `python tools/transpiler.py --check` guaranteeing 0 dialect drift.
-
 

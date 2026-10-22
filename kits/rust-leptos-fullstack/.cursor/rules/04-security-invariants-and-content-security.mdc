@@ -6,7 +6,7 @@ alwaysApply: true
 
 # 04 Security Invariants And Content Security
 
-﻿# Security Invariants, Content Security Policy, and CORS
+# Security Invariants, Content Security Policy, and CORS
 
 1. **Strict WebAssembly Content Security Policy**: Deploy strict CSP response headers via Axum middleware (`default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'`). Prevent script injection while allowing WASM module compilation.
 2. **Server Function Authorization**: Protect sensitive server functions with session or bearer token verification extracted from Axum request headers. Never rely on client-side routing guards alone for data authorization.

@@ -1,4 +1,4 @@
-﻿---
+---
 id: crewai-delegation-and-agent-squads
 title: CrewAI Delegation & Agent Squads
 globs: "**/*.py"

@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-02-binary-hardening-checksec",
   "name": "Compiled Binary Exploit Mitigation Header Inspection",
   "difficulty": "intermediate",

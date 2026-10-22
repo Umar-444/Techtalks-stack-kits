@@ -1,4 +1,4 @@
-﻿import os
+import os
 from typing import List, Optional
 from litestar import Litestar, get, post
 from litestar.config.cors import CORSConfig

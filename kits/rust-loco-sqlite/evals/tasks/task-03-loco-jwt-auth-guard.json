@@ -1,4 +1,4 @@
-﻿{
+{
   "task_id": "eval-03-loco-jwt-auth-guard",
   "name": "Loco Input Validation and CORS Whitelist Guardrails",
   "difficulty": "intermediate",

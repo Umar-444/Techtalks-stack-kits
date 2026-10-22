@@ -1,11 +1,5 @@
-# 03 Ingestion Chunking And Metadata
+# Document Ingestion, Semantic Chunking & Metadata Enrichment
 
-﻿---
-id: 03-ingestion-chunking-and-metadata
-title: Document Ingestion, Semantic Chunking & Metadata Enrichment
-globs: "*"
-alwaysApply: true
----
 # Rule 3: Document Ingestion, Semantic Chunking & Metadata Enrichment
 
 ## Context & Principles
@@ -30,4 +24,3 @@ alwaysApply: true
 2. **Metadata Hygiene**: Strip internal file system paths or PII before persisting metadata to the database.
 3. **Idempotent Ingestion**: Use deterministic node IDs (`doc_id + "_" + str(chunk_idx)`) to ensure re-ingesting a document updates existing records rather than producing duplicates.
 4. **Empty Node Rejection**: Filter out whitespace-only strings or empty chunks prior to embedding calculation.
-

@@ -1,4 +1,4 @@
-﻿import os
+import os
 import pytest
 
 os.environ["TEST_MODE"] = "true"
