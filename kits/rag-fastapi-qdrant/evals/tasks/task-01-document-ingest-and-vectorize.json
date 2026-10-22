@@ -1,0 +1,15 @@
+﻿{
+  "task_id": "eval-01-document-ingest-and-vectorize",
+  "name": "Document Ingestion and Vector Generation Pipeline",
+  "difficulty": "intermediate",
+  "prompt": "Implement the document ingestion endpoint in FastAPI that splits input text into overlapping sliding-window chunks (target 500 characters, 50-character overlap), computes normalized dense vectors, and upserts them to the Qdrant 'documents' collection with payload metadata.",
+  "expected_files": [
+    "starter/app/main.py",
+    "starter/app/services/embedding_service.py",
+    "starter/app/services/qdrant_service.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_rag.py -k test_document_ingest",
+    "criteria": "Ingestion returns HTTP 201 with status 'indexed' and chunks_created >= 1"
+  }
+}

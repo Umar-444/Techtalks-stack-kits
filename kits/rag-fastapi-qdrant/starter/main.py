@@ -1,5 +1,6 @@
-from fastapi import FastAPI
-app = FastAPI(title="Qdrant RAG Service")
-@app.get("/health")
-def health():
-    return {"status": "ok", "vector_db": "qdrant"}
+﻿# Root entrypoint redirecting to app.main
+from app.main import app
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

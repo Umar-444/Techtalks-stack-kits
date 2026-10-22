@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-03-prompt-injection-guardrail",
+  "name": "Prompt Injection Mitigation and Delimited Context Formatting",
+  "difficulty": "advanced",
+  "prompt": "Verify that assembled context generated in search_query() separates retrieved document chunks into clean delimited citation blocks without executing untrusted instructions or leaking system prompts.",
+  "expected_files": [
+    "starter/app/main.py",
+    "starter/app/schemas.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_rag.py -k test_semantic_search",
+    "criteria": "Assembled context structures citations cleanly with score and document_id metadata"
+  }
+}

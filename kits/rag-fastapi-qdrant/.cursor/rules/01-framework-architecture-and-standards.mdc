@@ -1,0 +1,28 @@
+﻿---
+description: 01-framework-architecture-and-standards
+globs: *
+alwaysApply: true
+---
+
+# Rule 1: FastAPI Architecture, Async Lifespan & Dependency Injection
+
+## Context & Principles
+- Build asynchronous, non-blocking APIs utilizing modern Python 3.12+ type annotations and Pydantic v2 schemas.
+- Manage long-lived stateful clients (such as QdrantClient and embedding models) through FastAPI's `@asynccontextmanager` lifespan handler rather than deprecated startup/shutdown events.
+- Utilize FastAPI dependency injection (`Depends`) to provide request-scoped access to vector search services, embedding pipelines, and authorization contexts.
+
+## Standards
+1. **Lifespan Management**:
+   ```python
+   @asynccontextmanager
+   async def lifespan(app: FastAPI):
+       # Initialize Qdrant collection and warm up embedding pipeline
+       await qdrant_service.initialize()
+       yield
+       # Clean connection pools on shutdown
+       await qdrant_service.close()
+   ```
+2. **Schema Invariants**: All request and response payloads must subclass `pydantic.BaseModel` with strict type annotations, field descriptions, and input constraints (`Field(min_length=1, max_length=10000)`).
+3. **Structured Error Handling**: Raise `fastapi.HTTPException` with RFC 7807 compliant JSON details rather than unhandled raw runtime exceptions.
+4. **Health Probe**: Expose a non-blocking `/healthz` probe validating application state and active connectivity to the Qdrant cluster.
+

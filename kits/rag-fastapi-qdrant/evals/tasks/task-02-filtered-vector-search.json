@@ -1,0 +1,15 @@
+﻿{
+  "task_id": "eval-02-filtered-vector-search",
+  "name": "Multi-Tenant Vector Search with Exact Payload Filters",
+  "difficulty": "advanced",
+  "prompt": "Implement the /api/v1/query endpoint to execute Qdrant vector similarity search filtered by tenant_id. Ensure only chunks matching the tenant_id are evaluated, score thresholding is respected, and retrieved results return with provenance metadata and assembled context.",
+  "expected_files": [
+    "starter/app/main.py",
+    "starter/app/services/qdrant_service.py",
+    "starter/app/schemas.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_rag.py -k test_tenant_filtered_search",
+    "criteria": "Search strictly returns matching tenant vectors without cross-tenant information leakage"
+  }
+}
