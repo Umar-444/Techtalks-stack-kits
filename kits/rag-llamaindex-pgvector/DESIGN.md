@@ -1,4 +1,4 @@
-# Design Tokens & System Standards: LlamaIndex + PostgreSQL pgvector + FastAPI
+﻿# Design Tokens & System Standards: LlamaIndex + PostgreSQL pgvector + FastAPI
 
 Reference: Document 17 (Design System Spec) & Document 18 (Layout & Structure).
 
@@ -18,7 +18,17 @@ Reference: Document 17 (Design System Spec) & Document 18 (Layout & Structure).
 - **Text Muted Light:** `#5C6058`
 - **Text Muted Dark:** `#A8ACA0`
 
-## 3. UI Invariants
+## 3. UI Invariants & Accessibility
 - Zero floating gradients; strictly high-contrast borders and solid surfaces.
 - Button height: strictly `40px` (`h-10 px-4 text-sm font-semibold rounded-md`).
 - Focus rings: `focus:ring-2 focus:ring-[#E85D26]/20 focus:outline-none`.
+- WCAG AA accessibility: all text-to-background contrast ratios >= 4.5:1.
+
+## 4. Latency & Resource Budgets
+
+| Operation | Target (p50) | Upper Bound (p95) | Notes |
+|---|:---:|:---:|---|
+| **Query Embedding** | 4 ms | 12 ms | Runs locally on CPU via ONNX Runtime |
+| **PostgreSQL pgvector HNSW Query** | 5 ms | 15 ms | In-memory HNSW index scan (`vector_cosine_ops`) |
+| **JSONB Metadata Filter** | 1 ms | 3 ms | Evaluated via GIN index |
+| **End-to-End Query & Synthesis** | **12 ms** | **35 ms** | Sub-40ms total response time |

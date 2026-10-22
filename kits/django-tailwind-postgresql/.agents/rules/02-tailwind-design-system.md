@@ -1,3 +1,5 @@
+# 02 Tailwind Design System
+
 # Rule 2: Tailwind CSS Design System & Template Standards
 
 ## Context & Principles
@@ -10,3 +12,4 @@
 2. **Color Palette**: Use curated semantic colors (`brand-500`, `slate-900`, `emerald-500`) with high-contrast accessibility (WCAG AA compliant).
 3. **Widget Styling**: Style form inputs with consistent Tailwind classes: `rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-500`.
 4. **Asset Build**: Compile Tailwind assets via the standalone CLI or node watcher into `static/css/dist/styles.css`.
+

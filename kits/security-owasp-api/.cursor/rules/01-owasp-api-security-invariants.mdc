@@ -1,14 +1,10 @@
 ---
 description: OWASP API Security Top 10 (2023) Core Architecture Invariants
-globs: "starter/**/*.py,tests/**/*.py"
----
-
----
-id: 01-owasp-api-security-invariants
-title: OWASP API Security Top 10 (2023) Core Architecture Invariants
-globs: "starter/**/*.py,tests/**/*.py"
+globs: starter/**/*.py,tests/**/*.py
 alwaysApply: true
 ---
+
+# OWASP API Security Top 10 (2023) Core Architecture Invariants
 
 # OWASP API Security Top 10 (2023) Core Architecture Invariants
 
@@ -27,4 +23,3 @@ alwaysApply: true
 ## 3. Strict Input/Output Schema Enforcement
 - All endpoints must declare explicit Pydantic request and response models.
 - Set `extra = "forbid"` on input schemas to reject unexpected or mass-assigned fields.
-

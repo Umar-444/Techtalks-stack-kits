@@ -1,9 +1,4 @@
----
-id: 01-axum-architecture-and-routing
-title: Axum Routing, Handlers, and State Extraction Architecture
-globs: "starter/src/**/*.rs"
-alwaysApply: true
----
+# Axum Routing, Handlers, and State Extraction Architecture
 
 # Axum Routing, Handlers, and State Extraction Architecture
 

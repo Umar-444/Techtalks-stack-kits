@@ -1,14 +1,10 @@
 ---
 description: DevSecOps CI Pipeline Architecture and Gating Standards
-globs: ".github/workflows/*.yml,Dockerfile,scripts/**/*.py,scripts/**/*.sh"
----
-
----
-id: 01-pipeline-architecture-and-standards
-title: DevSecOps CI Pipeline Architecture and Gating Standards
-globs: ".github/workflows/*.yml,scripts/**/*.py,scripts/**/*.sh"
+globs: .github/workflows/*.yml,scripts/**/*.py,scripts/**/*.sh
 alwaysApply: true
 ---
+
+# DevSecOps CI Pipeline Architecture and Gating Standards
 
 # DevSecOps CI Pipeline Architecture and Gating Standards
 
@@ -27,4 +23,3 @@ alwaysApply: true
 ## 3. SARIF Standardization
 - All scanners must emit Static Analysis Results Interchange Format (`SARIF 2.1.0`) reports.
 - Upload reports to `github/codeql-action/upload-sarif` to centralize triaging directly within repository security dashboards.
-

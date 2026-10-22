@@ -1,9 +1,4 @@
----
-id: 05-minitest-system-testing
-title: Testing Standards with Minitest, System Tests, and Hotwire Assertions
-globs: "test/**/*.rb"
-alwaysApply: true
----
+# Testing Standards with Minitest, System Tests, and Hotwire Assertions
 
 # Testing Standards with Minitest, System Tests, and Hotwire Assertions
 

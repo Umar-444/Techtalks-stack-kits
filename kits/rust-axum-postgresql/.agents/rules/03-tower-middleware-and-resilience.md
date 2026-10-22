@@ -1,9 +1,4 @@
----
-id: 03-tower-middleware-and-resilience
-title: Tower-HTTP Middleware Chaining, Observability, and Timeout Control
-globs: "starter/src/**/*.rs"
-alwaysApply: true
----
+# Tower-HTTP Middleware Chaining, Observability, and Timeout Control
 
 # Tower-HTTP Middleware Chaining, Observability, and Timeout Control
 

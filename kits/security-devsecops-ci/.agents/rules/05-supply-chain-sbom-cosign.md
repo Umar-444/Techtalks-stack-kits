@@ -1,9 +1,4 @@
----
-id: 05-supply-chain-sbom-cosign
-title: Supply Chain Security, SBOM Generation, and Cosign Verification
-globs: ".github/workflows/*.yml,sbom/**"
-alwaysApply: true
----
+# Supply Chain Security, SBOM Generation, and Cosign Verification
 
 # Supply Chain Security, SBOM Generation, and Cosign Verification
 

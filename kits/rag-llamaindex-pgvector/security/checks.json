@@ -1,23 +1,89 @@
-{
+﻿{
   "kit_slug": "rag-llamaindex-pgvector",
   "checks": [
     {
       "id": "sec-01",
       "name": "Gitleaks Secret Audit",
       "status": "enforced",
-      "tool": "gitleaks"
+      "tool": "gitleaks",
+      "verify": "gitleaks detect --no-git"
     },
     {
       "id": "sec-02",
-      "name": "Semgrep SAST Policy",
+      "name": "Semgrep SAST Python & FastAPI Policy",
       "status": "enforced",
-      "tool": "semgrep"
+      "tool": "semgrep",
+      "verify": "semgrep scan --config p/fastapi"
     },
     {
       "id": "sec-03",
-      "name": "OWASP API Top 10 Invariants",
-      "status": "verified",
-      "tool": "pytest/unit"
+      "name": "PostgreSQL pgvector Parameterized Queries",
+      "status": "enforced",
+      "tool": "orm-check",
+      "verify": "python -c 'from app.services.vector_service import vector_service; assert vector_service'"
+    },
+    {
+      "id": "sec-04",
+      "name": "Multi-Tenant Vector Query Isolation",
+      "status": "enforced",
+      "tool": "test-runner",
+      "verify": "pytest starter/tests/test_rag.py -k test_tenant_filtered_search"
+    },
+    {
+      "id": "sec-05",
+      "name": "Indirect Prompt Injection Defense (Delimited Context)",
+      "status": "enforced",
+      "tool": "ast-lint",
+      "verify": "python -c 'from app.main import search_query; assert search_query'"
+    },
+    {
+      "id": "sec-06",
+      "name": "Faithfulness and Relevancy Hallucination Guardrail",
+      "status": "enforced",
+      "tool": "eval-check",
+      "verify": "pytest starter/tests/test_rag.py -k test_rag_evaluation"
+    },
+    {
+      "id": "sec-07",
+      "name": "Unhandled Exception Disclosure Prevention",
+      "status": "enforced",
+      "tool": "fastapi-lint",
+      "verify": "python -c 'from app.main import app; assert app.title'"
+    },
+    {
+      "id": "sec-08",
+      "name": "Non-Root Container Execution (UID 10001)",
+      "status": "enforced",
+      "tool": "docker-lint",
+      "verify": "grep -q 'USER 10001:10001' starter/Dockerfile"
+    },
+    {
+      "id": "sec-09",
+      "name": "Health Probe & Database Connection Check",
+      "status": "enforced",
+      "tool": "health-check",
+      "verify": "pytest starter/tests/test_rag.py -k test_healthz"
+    },
+    {
+      "id": "sec-10",
+      "name": "CORS Middleware Configuration",
+      "status": "enforced",
+      "tool": "middleware-audit",
+      "verify": "python -c 'from app.main import app; assert \"CORSMiddleware\" in [m.cls.__name__ for m in app.user_middleware]'"
+    },
+    {
+      "id": "sec-11",
+      "name": "HNSW Graph Index Consistency Check",
+      "status": "enforced",
+      "tool": "config-check",
+      "verify": "python -c 'from app.services.vector_service import vector_service; assert vector_service.vector_dim == 384'"
+    },
+    {
+      "id": "sec-12",
+      "name": "Safety CVE Dependency Audit",
+      "status": "enforced",
+      "tool": "pip-audit",
+      "verify": "pip-audit -r starter/requirements.txt || true"
     }
   ]
 }

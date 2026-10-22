@@ -1,15 +1,126 @@
-# Assistant Guidelines for Laravel + MySQL Stack Kit
+# Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search) — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## Stack Overview
-- Language: PHP 8.3+ / 8.4
-- Framework: Laravel 11.x / 12.x
-- Database: MySQL 8.4 LTS (InnoDB, strict mode, utf8mb4_0900_ai_ci)
-- Cache & Queue: Redis / Database-backed queues
-- Testing: PHPUnit / Pest with RefreshDatabase
+## Quick Reference & Non-Negotiable Standards
+### Architecture for Laravel 12 + MySQL Dashboard
+# Architecture
+Modular structure.
 
-## Mandatory Rules
-1. Zero unparameterized SQL queries. Always use Eloquent query builder or bind parameters.
-2. Models must define explicit `$fillable` arrays. Never use `$guarded = []`.
-3. Wrap critical mutations in `DB::transaction(..., attempts: 5)` with `lockForUpdate()` for concurrency.
-4. Eager load relationships using `with()` to eliminate N+1 queries.
-5. All migrations must define foreign keys with cascade constraints and explicit compound indexes.
+### Laravel Architecture, Service Boundaries, and Omakase Conventions
+# Laravel Architecture, Service Boundaries, and Omakase Conventions
+
+## 1. Directory Structure & Domain Separation
+- Adhere strictly to modern Laravel directory layout:
+  - `app/Models/`: Eloquent models defining schema casts, relationships, scopes, and fillable fields.
+  - `app/Http/Controllers/`: Resourceful controllers with skinny actions delegating to Form Requests and Policies.
+  - `app/Http/Requests/`: Dedicated Form Request classes encapsulating authorization and validation rules.
+  - `app/Policies/`: Granular authorization policies mapping directly to Eloquent models.
+  - `routes/`: Explicit web and API route declarations with route model binding.
+
+## 2. Request Validation & Mass Assignment Guarding
+- Never validate inside controller action methods directly. Always inject dedicated `FormRequest` classes.
+- Models must strictly define `$fillable` arrays. Never use unconstrained `$guarded = []`.
+
+## 3. Policy & Authorization Gates
+- Authorize resourceful actions via `$this->authorize('view', $article)` or route middleware `can:view,article`.
+- Keep controller actions minimal and return typed responses (JSON Resource or Blade view).
+
+### MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
+# MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
+
+## 1. Schema Defaults & Character Set Discipline
+- Standardize on MySQL 8.4 LTS InnoDB storage engine with strict SQL mode enabled.
+- All tables must explicitly use `utf8mb4` character set with `utf8mb4_0900_ai_ci` collation:
+  ```php
+  'charset' => 'utf8mb4',
+  'collation' => 'utf8mb4_0900_ai_ci',
+  'strict' => true,
+  'modes' => [
+      'ONLY_FULL_GROUP_BY',
+      'STRICT_TRANS_TABLES',
+      'NO_ZERO_IN_DATE',
+      'NO_ZERO_DATE',
+      'ERROR_FOR_DIVISION_BY_ZERO',
+      'NO_ENGINE_SUBSTITUTION',
+  ],
+  ```
+
+## 2. Foreign Key Integrity & Cascading
+- Every foreign key constraint must be explicitly indexed and specify delete behaviors:
+  ```php
+  $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+  ```
+- Prohibit orphaned records. Enforce foreign key checks at the database layer.
+
+## 3. Generated Columns & Functional Indexes
+- Leverage MySQL generated virtual or stored columns for indexing JSON properties:
+  `$table->string('email_domain')->virtualAs("SUBSTRING_INDEX(email, '@', -1)");`
+  `$table->index('email_domain');`
+
+### Security for Laravel 12 + MySQL Dashboard
+# Security
+Zero credential leaks.
+
+### Eloquent Query Tuning, MySQL Full-Text Search, and N+1 Prevention
+# Eloquent Query Tuning, MySQL Full-Text Search, and N+1 Prevention
+
+## 1. N+1 Query Elimination
+- Prohibit accessing relationships within loops without eager loading.
+- Always use `Article::with(['author', 'category'])->paginate(20)`.
+- Enable strict loading in development to catch un-eager-loaded queries:
+  `Model::preventLazyLoading(!app()->isProduction());`
+
+## 2. MySQL Full-Text Search
+- Define native MySQL full-text indexes in migrations:
+  `$table->fullText(['title', 'content']);`
+- Query using MySQL boolean or natural language mode:
+  ```php
+  Article::whereRaw('MATCH(title, content) AGAINST(? IN BOOLEAN MODE)', [$searchTerm])->get();
+  ```
+
+## 3. Compound Index Order Strategies
+- Order compound index columns by: Equality filters first, Range/Inequality filters next, Sort columns last.
+- Verify index usage using `DB::table(...)->explain()` to prevent full-table scans.
+
+### Deadlock-Resilient Transactions, Locking, and Read/Write Splitting
+# Deadlock-Resilient Transactions, Locking, and Read/Write Splitting
+
+## 1. Deadlock Retry Protocol
+- MySQL InnoDB row-level locking can encounter deadlocks (Error 1213) under high write concurrency.
+- Wrap critical mutations in `DB::transaction()` with automatic retry attempts:
+  ```php
+  DB::transaction(function () use ($orderId, $amount) {
+      $account = Account::where('id', $accountId)->lockForUpdate()->firstOrFail();
+      $account->decrement('balance', $amount);
+  }, attempts: 5);
+  ```
+
+## 2. Pessimistic vs Optimistic Locking
+- Use `lockForUpdate()` exclusively inside active transactions when updating balances, inventory, or reservations.
+- Keep transaction execution windows under 50ms to prevent lock wait timeouts.
+
+## 3. Read/Write Connection Splitting
+- Configure dedicated read replica pools in `config/database.php`:
+  ```php
+  'mysql' => [
+      'read' => ['host' => [env('DB_READ_HOST_1'), env('DB_READ_HOST_2')]],
+      'write' => ['host' => [env('DB_HOST')]],
+      'sticky' => true,
+  ],
+  ```
+  Ensures immediate read-after-write consistency within the same request lifecycle.
+
+### Pest & PHPUnit Testing with MySQL Database Transactions
+# Pest & PHPUnit Testing with MySQL Database Transactions
+
+## 1. Test Isolation with RefreshDatabase
+- Test classes must use `Illuminate\Foundation\Testing\RefreshDatabase`.
+- Enforces database transactions rolling back after each test case, preserving database cleanliness.
+
+## 2. Feature & Policy Authorization Assertions
+- Verify authorization policies by testing unauthorized users receive HTTP 403 Forbidden.
+- Assert validation errors return HTTP 422 Unprocessable Entity with named error keys.
+
+## 3. Live Health & Smoke Verification
+- Maintain automated smoke tests asserting `/healthz` returns HTTP 200 OK with valid JSON structure.
+

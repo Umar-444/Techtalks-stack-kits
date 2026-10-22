@@ -1,9 +1,4 @@
----
-id: 01-pipeline-architecture-and-standards
-title: DevSecOps CI Pipeline Architecture and Gating Standards
-globs: ".github/workflows/*.yml,scripts/**/*.py,scripts/**/*.sh"
-alwaysApply: true
----
+# DevSecOps CI Pipeline Architecture and Gating Standards
 
 # DevSecOps CI Pipeline Architecture and Gating Standards
 

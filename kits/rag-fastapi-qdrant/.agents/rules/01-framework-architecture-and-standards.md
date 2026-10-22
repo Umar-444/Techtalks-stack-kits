@@ -1,3 +1,5 @@
+# 01 Framework Architecture And Standards
+
 ﻿# Rule 1: FastAPI Architecture, Async Lifespan & Dependency Injection
 
 ## Context & Principles

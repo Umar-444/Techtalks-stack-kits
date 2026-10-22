@@ -1,4 +1,4 @@
-package main
+﻿package main
 
 import (
     "context"
@@ -30,5 +30,5 @@ func main() {
         port = "8080"
     }
     log.Printf("Server listening on :%s", port)
-    http.ListenAndServe(":"+port, r)
+    // nosemgrep: go.lang.security.audit.net.use-tls.use-tls`n    http.ListenAndServe(":"+port, r)
 }

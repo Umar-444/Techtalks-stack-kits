@@ -1,3 +1,5 @@
+# 03 Aggregation Pipelines
+
 # Rule 3: Aggregation Pipelines & Query Performance
 
 ## Context & Principles
@@ -12,3 +14,4 @@
    ```
 3. **Projection Limiting**: Always project only required fields (`$project`) to minimize memory usage and network payload transfer.
 4. **Pipeline Builder**: Use Eloquent's `raw(function($collection) { ... })` or native aggregation pipeline helpers to construct type-safe pipelines.
+

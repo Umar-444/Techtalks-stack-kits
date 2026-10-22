@@ -1,9 +1,4 @@
----
-id: 02-bun-runtime-and-sqlite-engine
-title: Bun Runtime Execution and Native SQLite Engine
-globs: "starter/src/**/*.ts,starter/package.json"
-alwaysApply: true
----
+# Bun Runtime Execution and Native SQLite Engine
 
 # Bun Runtime Execution and Native SQLite Engine
 

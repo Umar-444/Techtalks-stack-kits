@@ -1,9 +1,4 @@
----
-id: 04-brakeman-and-rails-security
-title: Rails Security Invariants, Strong Parameters, and Brakeman
-globs: "app/**/*.rb,config/**/*.rb"
-alwaysApply: true
----
+# Rails Security Invariants, Strong Parameters, and Brakeman
 
 # Rails Security Invariants, Strong Parameters, and Brakeman
 

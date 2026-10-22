@@ -1,3 +1,5 @@
+# 04 Auth And Session Security
+
 # Rule 4: Supabase SSR Authentication & Cookie Session Security
 
 ## Context & Principles
@@ -9,3 +11,4 @@
 2. **Middleware Session Refresh**: Run `updateSession()` in `src/middleware.ts` on every request to refresh expired tokens and persist cookies.
 3. **Cookie Attributes**: Ensure auth cookies use `httpOnly: true`, `secure: process.env.NODE_ENV === 'production'`, and `sameSite: 'lax'`.
 4. **PKCE Flow**: Enforce Proof Key for Code Exchange (PKCE) for all OAuth and email authentication handshakes.
+

@@ -1,0 +1,15 @@
+﻿{
+  "task_id": "eval-01-pgvector-ingest-and-hnsw",
+  "name": "PostgreSQL pgvector Ingestion and HNSW Indexing",
+  "difficulty": "intermediate",
+  "prompt": "Implement the /api/v1/documents/ingest endpoint using LlamaIndex and PostgreSQL pgvector. Split the document into overlapping chunks, generate 384-dimensional dense vectors, and store them into the data_rag_embeddings table with JSONB metadata.",
+  "expected_files": [
+    "starter/app/main.py",
+    "starter/app/services/vector_service.py",
+    "starter/app/schemas.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_rag.py -k test_document_ingest",
+    "criteria": "Ingestion returns HTTP 201 with status 'indexed' and nodes_created >= 1"
+  }
+}

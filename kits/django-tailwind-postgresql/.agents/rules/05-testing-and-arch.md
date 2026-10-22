@@ -1,3 +1,5 @@
+# 05 Testing And Arch
+
 # Rule 5: Automated Testing & Architecture Verification
 
 ## Context & Principles
@@ -9,3 +11,4 @@
 2. **Form Tests**: Test valid submissions, missing required fields, and malicious input handling.
 3. **Database Isolation**: Keep tests idempotent without residual side effects across test runs.
 4. **CI Integration**: Ensure `python manage.py test --parallel` runs cleanly with zero warnings.
+

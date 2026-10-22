@@ -1,14 +1,10 @@
 ---
 description: Zod Schema Validation, Input Sanitization, and API Security
-globs: "starter/src/**/*.ts,starter/package.json"
----
-
----
-id: 04-api-security-and-input-validation
-title: Zod Schema Validation, Input Sanitization, and API Security
-globs: "starter/src/**/*.ts"
+globs: starter/src/**/*.ts
 alwaysApply: true
 ---
+
+# Zod Schema Validation, Input Sanitization, and API Security
 
 # Zod Schema Validation, Input Sanitization, and API Security
 
@@ -35,4 +31,3 @@ alwaysApply: true
 ## 3. Rate Limiting & Denial of Service Defense
 - Impose rate limits on authentication and creation endpoints using in-memory token buckets or sliding windows.
 - Set pagination query limits with hard upper bounds (`z.coerce.number().min(1).max(100).default(20)`).
-

@@ -1,3 +1,5 @@
+# 01 Framework Conventions
+
 # Rule 1: Laravel 12 + Livewire 4 Framework Conventions
 
 ## Context & Principles
@@ -10,3 +12,4 @@
 2. **State Hydration**: Keep component public properties minimal and strongly typed. Never expose raw Eloquent models as public properties without validation gates.
 3. **Routing**: Leverage declarative Folio pages in `resources/views/pages/` or clean controllerless routes with `Route::get('/tasks', TaskManager::class)`.
 4. **Asset Management**: Compile frontend assets via Vite with Tailwind CSS. Never inject unbundled script tags into individual components.
+

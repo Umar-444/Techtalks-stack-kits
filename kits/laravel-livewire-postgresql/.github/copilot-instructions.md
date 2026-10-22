@@ -1,7 +1,7 @@
-# Laravel 12 + Livewire 4 + PostgreSQL - Agent Architecture & Rules
+# GitHub Copilot Instructions for Laravel 12 + Livewire 4 + PostgreSQL
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-This project adheres to the TechTalks production standards for Laravel 12, Livewire 4, Volt single-file components, and PostgreSQL 16+.
-
+## 01 Framework Conventions
 # Rule 1: Laravel 12 + Livewire 4 Framework Conventions
 
 ## Context & Principles
@@ -15,6 +15,30 @@ This project adheres to the TechTalks production standards for Laravel 12, Livew
 3. **Routing**: Leverage declarative Folio pages in `resources/views/pages/` or clean controllerless routes with `Route::get('/tasks', TaskManager::class)`.
 4. **Asset Management**: Compile frontend assets via Vite with Tailwind CSS. Never inject unbundled script tags into individual components.
 
+
+## Livewire 4, Volt & Folio Conventions
+# Livewire 4, Volt & Folio Conventions
+
+1. **Volt Single-File Components:**
+   - Use Volt functional or class-based syntax inside `resources/views/livewire/`.
+   - Keep state properties strictly typed (`public string $query = '';`).
+
+2. **Folio Page Routing:**
+   - Organize URL routes as `.blade.php` pages under `resources/views/pages/`.
+   - Apply middleware in Volt components using `middleware(['auth', 'verified'])`.
+
+## Flux UI Standards
+# Flux UI Standards
+
+1. **Primitive Composition:**
+   - Use standard `<flux:button>`, `<flux:input>`, and `<flux:card>` elements.
+   - Bind primary color actions to `#E85D26`.
+
+2. **Accessibility:**
+   - Every input element must have an associated `<flux:label>`.
+   - Dark mode styling must use `dark:` Tailwind variants.
+
+## 02 Livewire Reactive Lifecycle
 # Rule 2: Livewire Lifecycle, Morphing & Alpine Integration
 
 ## Context & Principles
@@ -27,6 +51,18 @@ This project adheres to the TechTalks production standards for Laravel 12, Livew
 3. **Alpine.js Interactivity**: Use `x-data` and lightweight Alpine directives for purely client-side UI toggles (dropdowns, modals, tabs) to avoid unnecessary round-trips to the server.
 4. **Events & Listeners**: Use `#[On('task-created')]` attributes for clean, decoupled component event communication.
 
+
+## Livewire Security & Property Locking
+# Livewire Security & Property Locking
+
+1. **Property Locking:**
+   - Always decorate IDs, user references, and computed values with `#[Locked]`.
+   - Never trust client-sent property values without re-verification.
+
+2. **Action Authorization:**
+   - Public component methods must call `$this->authorize('action', $model)` before execution.
+
+## 03 Postgresql Database
 # Rule 3: PostgreSQL 16+ ORM, UUIDs & Query Performance
 
 ## Context & Principles
@@ -42,6 +78,8 @@ This project adheres to the TechTalks production standards for Laravel 12, Livew
 3. **Composite Indexes**: Declare explicit indexes in migrations on filtered and sorted column tuples (`$table->index(['status', 'created_at'])`).
 4. **Atomic Mutations**: Wrap multi-model operations inside `DB::transaction()` to ensure relational consistency.
 
+
+## 04 Livewire Security
 # Rule 4: Livewire Security, Authorization & Tampering Defense
 
 ## Context & Principles
@@ -57,6 +95,8 @@ This project adheres to the TechTalks production standards for Laravel 12, Livew
 3. **Rate Limiting**: Apply `#[RateLimit(5, 60)]` on sensitive actions (login, reset password, email sending) to mitigate automated abuse.
 4. **Session Fixation**: Rotate session IDs upon authentication events using `$request->session()->regenerate()`.
 
+
+## 05 Testing And Verification
 # Rule 5: Pest Testing, Component Assertions & Architectural Verification
 
 ## Context & Principles
@@ -80,3 +120,5 @@ This project adheres to the TechTalks production standards for Laravel 12, Livew
        ->assertForbidden();
    ```
 3. **Database Isolation**: Use `RefreshDatabase` trait to keep test runs idempotent and side-effect free.
+
+

@@ -1,9 +1,4 @@
----
-id: 01-owasp-api-security-invariants
-title: OWASP API Security Top 10 (2023) Core Architecture Invariants
-globs: "starter/**/*.py,tests/**/*.py"
-alwaysApply: true
----
+# OWASP API Security Top 10 (2023) Core Architecture Invariants
 
 # OWASP API Security Top 10 (2023) Core Architecture Invariants
 

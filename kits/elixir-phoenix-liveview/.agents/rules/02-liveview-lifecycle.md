@@ -1,3 +1,5 @@
+# 02 Liveview Lifecycle
+
 # Rule 2: Phoenix LiveView Lifecycle & Stream State
 
 ## Context & Principles
@@ -9,3 +11,4 @@
 2. **Event Handling**: Implement `handle_event/3` with pattern matching for user interactions. Return `{:noreply, socket}`.
 3. **PubSub Subscriptions**: Handle broadcast messages via `handle_info/2` and apply delta updates to streams via `stream_insert(socket, :items, item)`.
 4. **Form Handling**: Use `phx-change="validate"` and `phx-submit="save"` with Ecto Changeset backing to provide instant inline validation.
+

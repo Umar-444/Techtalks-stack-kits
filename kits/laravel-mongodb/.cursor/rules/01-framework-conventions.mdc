@@ -1,7 +1,11 @@
 ---
-description: 01 Framework Conventions for Laravel 12 + MongoDB (NoSQL)
-globs: ["**/*.php", "**/*.js", "**/*.json"]
+description: 01 Framework Conventions
+globs: *
+alwaysApply: true
 ---
+
+# 01 Framework Conventions
+
 # Rule 1: Laravel 12 + MongoDB Framework Conventions
 
 ## Context & Principles
@@ -14,3 +18,4 @@ globs: ["**/*.php", "**/*.js", "**/*.json"]
 2. **Collection Organization**: Explicitly declare `$collection` on every model to avoid naming ambiguity.
 3. **Primary Key**: MongoDB uses `_id` (BSON ObjectId). Eloquent aliases `_id` to `$model->id`. Never override primary key semantics unless explicitly mapping external UUIDs.
 4. **Dates & Timestamps**: Ensure all date fields cast to `datetime` or `MongoDB\BSON\UTCDateTime`.
+

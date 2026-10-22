@@ -1,3 +1,5 @@
+# 04 Security And Csrf
+
 # Rule 4: Security, Authentication & CSRF Protection
 
 ## Context & Principles
@@ -9,3 +11,4 @@
 2. **Session Hardening**: Set `SESSION_COOKIE_SECURE=True`, `SESSION_COOKIE_HTTPONLY=True`, and `SESSION_COOKIE_SAMESITE='Lax'`.
 3. **Password Validation**: Enforce standard Django password validators (`UserAttributeSimilarityValidator`, `MinimumLengthValidator`, `CommonPasswordValidator`, `NumericPasswordValidator`).
 4. **Security Headers**: Enable `SECURE_BROWSER_XSS_FILTER`, `SECURE_CONTENT_TYPE_NOSNIFF`, `X_FRAME_OPTIONS = 'DENY'`, and strict Content-Security-Policy (CSP).
+

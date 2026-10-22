@@ -1,14 +1,10 @@
 ---
 description: Container Hardening, CVE Scanning, and Trivy Invariants
-globs: ".github/workflows/*.yml,Dockerfile,scripts/**/*.py,scripts/**/*.sh"
----
-
----
-id: 04-container-scanning-and-trivy
-title: Container Hardening, CVE Scanning, and Trivy Invariants
-globs: "Dockerfile,docker-compose.yml,trivy.yaml"
+globs: Dockerfile,docker-compose.yml,trivy.yaml
 alwaysApply: true
 ---
+
+# Container Hardening, CVE Scanning, and Trivy Invariants
 
 # Container Hardening, CVE Scanning, and Trivy Invariants
 
@@ -31,4 +27,3 @@ alwaysApply: true
   trivy image --exit-code 1 --severity CRITICAL,HIGH --ignore-unfixed my-app:latest
   ```
 - Suppress unfixed vulnerabilities lacking upstream vendor patches (`--ignore-unfixed`).
-

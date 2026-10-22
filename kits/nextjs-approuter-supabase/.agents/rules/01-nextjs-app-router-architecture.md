@@ -1,3 +1,5 @@
+# 01 Nextjs App Router Architecture
+
 # Rule 1: Next.js 15 App Router & React 19 Architecture
 
 ## Context & Principles
@@ -10,3 +12,4 @@
 2. **Streaming & Suspense**: Wrap asynchronous data-fetching Server Components in `<Suspense fallback={<Skeleton />}>` to enable incremental page streaming.
 3. **Metadata & SEO**: Export static or dynamic `generateMetadata()` from `page.tsx` or `layout.tsx` for search engine indexing and Open Graph cards.
 4. **Layout Hygiene**: Avoid fetching dynamic user data in global root layouts unless strictly necessary to preserve static route caching.
+

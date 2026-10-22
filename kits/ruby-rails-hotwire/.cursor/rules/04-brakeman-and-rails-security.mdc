@@ -1,14 +1,10 @@
 ---
 description: Rails Security Invariants, Strong Parameters, and Brakeman
-globs: "app/**/*.rb,config/**/*.rb,test/**/*.rb"
----
-
----
-id: 04-brakeman-and-rails-security
-title: Rails Security Invariants, Strong Parameters, and Brakeman
-globs: "app/**/*.rb,config/**/*.rb"
+globs: app/**/*.rb,config/**/*.rb
 alwaysApply: true
 ---
+
+# Rails Security Invariants, Strong Parameters, and Brakeman
 
 # Rails Security Invariants, Strong Parameters, and Brakeman
 
@@ -29,4 +25,3 @@ alwaysApply: true
 - Maintain `protect_from_forgery with: :exception` in `ApplicationController`.
 - Cookie session stores must be configured with `secure: true`, `httponly: true`, and `same_site: :lax`.
 - Never expose sensitive tokens, API secrets, or passwords in plain-text logs; maintain comprehensive `config.filter_parameters`.
-

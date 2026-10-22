@@ -1,9 +1,4 @@
----
-id: 01-hono-framework-architecture
-title: Hono Web Framework Conventions and Middleware Chaining
-globs: "starter/src/**/*.ts"
-alwaysApply: true
----
+# Hono Web Framework Conventions and Middleware Chaining
 
 # Hono Web Framework Conventions and Middleware Chaining
 

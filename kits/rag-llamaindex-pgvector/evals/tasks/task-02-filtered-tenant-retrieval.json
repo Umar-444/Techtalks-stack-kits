@@ -1,0 +1,15 @@
+﻿{
+  "task_id": "eval-02-filtered-tenant-retrieval",
+  "name": "Filtered Multi-Tenant Vector Retrieval in pgvector",
+  "difficulty": "advanced",
+  "prompt": "Implement the /api/v1/query endpoint to query PostgreSQL pgvector with exact metadata filters for tenant_id. Ensure only nodes belonging to the matching tenant are evaluated, similarity score thresholding is respected, and the response is grounded in retrieved context.",
+  "expected_files": [
+    "starter/app/main.py",
+    "starter/app/services/vector_service.py",
+    "starter/app/schemas.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_rag.py -k test_tenant_filtered_search",
+    "criteria": "Query returns matching tenant vectors without cross-tenant vector leakage"
+  }
+}

@@ -1,3 +1,5 @@
+# 04 Rag Retrieval Reranking And Context
+
 ﻿# Rule 4: Vector Retrieval, Payload Filtering & Context Assembly
 
 ## Context & Principles

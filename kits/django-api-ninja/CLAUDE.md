@@ -1,15 +1,73 @@
-# CLAUDE.md ? Django + Django Ninja + PostgreSQL + Celery
+# Django + Django Ninja + PostgreSQL + Celery — Claude Code Guidelines (CLAUDE.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-You are pair programming on a production-grade Django Ninja API application.
+## Quick Reference & Non-Negotiable Standards
+### Architectural Standards for Django + Django Ninja + PostgreSQL + Celery
+# Architecture Standards: Django + Django Ninja + PostgreSQL + Celery
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
 
-## Core Invariants
-1. **API Only**: Use Django Ninja with Pydantic v2 schemas. Never write legacy Django templates or DRF serializers.
-2. **Database Optimization**: Always use select_related() and prefetch_related() to avoid N+1 queries.
-3. **Async Tasks**: Offload background jobs to Celery tasks with Redis broker.
-4. **Security**: Enforce Bearer token authentication and tenant authorization on all endpoints.
+### 01 Framework Conventions
+# Django 5.1 & Django Ninja Architecture
 
-## Essential Commands
-- Run dev server: python manage.py runserver 0.0.0.0:8000
-- Run migrations: python manage.py migrate
-- Run Celery worker: celery -A config worker -l info
-- Run tests: pytest tests/ -v
+# Django 5.1 & Django Ninja Conventions
+- Use Django Ninja routers (Router()) to structure endpoints modularly per domain app.
+- Never write legacy function-based Django views or DRF serializers; use Pydantic v2 Schema models.
+- Group all routers under the main NinjaAPI(title="...", version="1.0.0") instance in config/api.py.
+- Enforce snake_case for Python code and camelCase for JSON output aliases if required.
+
+
+### 02 Orm And Database
+# Django ORM Invariants, Query Optimization & Migrations
+
+# Django ORM & Database Invariants
+- Prevent N+1 queries: ALWAYS use select_related() for foreign keys and prefetch_related() for many-to-many relationships.
+- Add explicit db_index=True or indexes = [models.Index(...)] on frequently queried fields.
+- Migrations MUST be backward-compatible; never drop or rename a column without a two-phase deploy.
+- Scope all model queries by tenant or authenticated user ID to eliminate BOLA / IDOR vulnerabilities.
+
+
+### Security Invariants for Django + Django Ninja + PostgreSQL + Celery
+# Security Invariants
+- Verify tenant boundary before reading or writing any persistent state.
+- Sanitize all external inputs using validated schemas.
+- Reject requests with missing or expired bearer tokens.
+
+### Agent Coding Conventions for Django + Django Ninja + PostgreSQL + Celery
+# Agent Coding Conventions
+- Maintain clean, minimal code changes with zero extraneous comments.
+- Run typecheck and compile verification after every file modification.
+- Never introduce undocumented third-party libraries without explicit instructions.
+
+### 03 Security And Auth
+# Bearer Token Authentication & Input Validation
+
+# Security & Authorization Invariants
+- Require authentication on all sensitive endpoints via uth=django_auth or custom HttpBearer.
+- Validate all incoming payloads against strict Pydantic schemas. Never parse untyped 
+equest.body.
+- Keep DEBUG=False in production; use environment variables for SECRET_KEY and database credentials.
+- Run Gitleaks secret scans and Semgrep AST checkers on every pull request.
+
+
+### 04 Celery Async Tasks
+# Celery Async Background Workers & Queue Management
+
+# Celery Async Worker Invariants
+- Offload long-running operations (>150ms), email sending, and external API calls to Celery tasks.
+- Pass database primary keys (project_id: int) to tasks rather than complex serialized model instances.
+- Set task timeouts: 	ime_limit=300 and soft_time_limit=240 to prevent hung worker threads.
+- Ensure all Celery tasks are strictly idempotent with retry policies (ind=True, max_retries=3).
+
+
+### 05 Testing And Verification
+# Pytest-Django Test Suites & OpenAPI Contract Verification
+
+# Pytest-Django Testing Invariants
+- Use @pytest.mark.django_db on all database-accessing test functions.
+- Test endpoints using Django Ninja's TestClient(api) asserting status codes and response models.
+- Verify OpenAPI schema generation: test that /api/openapi.json compiles with zero schema warnings.
+- Keep test suite execution fast: use an in-memory SQLite database for local test runs.
+
+

@@ -1,3 +1,5 @@
+# 03 Supabase Rls And Database
+
 # Rule 3: Supabase PostgreSQL 16+ & Row Level Security (RLS)
 
 ## Context & Principles
@@ -9,3 +11,4 @@
 2. **Service Role Isolation**: Never expose `SUPABASE_SERVICE_ROLE_KEY` to client-side bundles or `NEXT_PUBLIC_` environment variables.
 3. **UUID Keys**: Use native PostgreSQL `uuid` or `gen_random_uuid()` for all primary keys.
 4. **Index Foreign Keys**: Create explicit B-tree indexes on `user_id` and timestamp columns to optimize RLS evaluation speeds.
+

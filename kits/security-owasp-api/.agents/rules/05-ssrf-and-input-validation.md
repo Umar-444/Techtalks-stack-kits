@@ -1,9 +1,4 @@
----
-id: 05-ssrf-and-input-validation
-title: Server-Side Request Forgery (SSRF) and Safe URL Fetching (API7:2023)
-globs: "starter/**/*.py,tests/**/*.py"
-alwaysApply: true
----
+# Server-Side Request Forgery (SSRF) and Safe URL Fetching (API7:2023)
 
 # Server-Side Request Forgery (SSRF) and Safe URL Fetching (API7:2023)
 

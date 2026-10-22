@@ -1,3 +1,5 @@
+# 01 Phoenix Conventions
+
 # Rule 1: Phoenix 1.7+ Architecture & Context Conventions
 
 ## Context & Principles
@@ -9,3 +11,4 @@
 2. **HEEX Formatting**: Use verified HTML HEEX syntax (`~H"""`) with component tags `<.component />` and attribute assignments.
 3. **Core Components**: Rely on `DemoWeb.CoreComponents` for flash messages, tables, inputs, buttons, and modals.
 4. **Endpoint Hygiene**: Always route incoming requests through the verified endpoint pipeline with security plugs.
+

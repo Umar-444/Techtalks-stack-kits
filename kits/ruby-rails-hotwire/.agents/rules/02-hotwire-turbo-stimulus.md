@@ -1,9 +1,4 @@
----
-id: 02-hotwire-turbo-stimulus
-title: Hotwire Turbo 8 and Stimulus Reactive Architecture
-globs: "app/views/**/*.erb,app/javascript/**/*.js"
-alwaysApply: true
----
+# Hotwire Turbo 8 and Stimulus Reactive Architecture
 
 # Hotwire Turbo 8 and Stimulus Reactive Architecture
 

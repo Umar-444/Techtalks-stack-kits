@@ -1,14 +1,10 @@
 ---
 description: Rate Limiting, Pagination Caps, and DoS Prevention (API4:2023)
-globs: "starter/**/*.py,tests/**/*.py"
----
-
----
-id: 04-rate-limiting-and-resource-defense
-title: Rate Limiting, Pagination Caps, and DoS Prevention (API4:2023)
-globs: "starter/**/*.py,tests/**/*.py"
+globs: starter/**/*.py,tests/**/*.py
 alwaysApply: true
 ---
+
+# Rate Limiting, Pagination Caps, and DoS Prevention (API4:2023)
 
 # Rate Limiting, Pagination Caps, and DoS Prevention (API4:2023)
 
@@ -30,4 +26,3 @@ alwaysApply: true
 
 ## 3. Payload Size Constraints
 - Enforce strict maximum body sizes (e.g., max 2MB for JSON payloads) at reverse proxy and application middleware layers.
-

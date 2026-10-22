@@ -1,14 +1,10 @@
 ---
 description: Memory Safety, Deserialization Limits, and Supply Chain Auditing
-globs: "starter/src/**/*.rs,starter/tests/**/*.rs,starter/Cargo.toml"
----
-
----
-id: 04-rust-security-and-input-validation
-title: Memory Safety, Deserialization Limits, and Supply Chain Auditing
-globs: "starter/**/*.rs,starter/Cargo.toml"
+globs: starter/**/*.rs,starter/Cargo.toml
 alwaysApply: true
 ---
+
+# Memory Safety, Deserialization Limits, and Supply Chain Auditing
 
 # Memory Safety, Deserialization Limits, and Supply Chain Auditing
 
@@ -23,4 +19,3 @@ alwaysApply: true
 ## 3. Continuous Supply Chain Auditing
 - Run `cargo audit` in CI to detect vulnerabilities in third-party dependencies (`Cargo.lock`).
 - Maintain `cargo deny` checks to enforce permissive software licenses and avoid duplicate crates.
-

@@ -1,14 +1,10 @@
 ---
 description: Eloquent Query Tuning, MySQL Full-Text Search, and N+1 Prevention
-globs: "starter/app/**/*.php,starter/database/**/*.php,starter/routes/**/*.php"
----
-
----
-id: 03-eloquent-query-optimization-and-indexing
-title: Eloquent Query Tuning, MySQL Full-Text Search, and N+1 Prevention
-globs: "starter/app/**/*.php,starter/database/migrations/*.php"
+globs: starter/app/**/*.php,starter/database/migrations/*.php
 alwaysApply: true
 ---
+
+# Eloquent Query Tuning, MySQL Full-Text Search, and N+1 Prevention
 
 # Eloquent Query Tuning, MySQL Full-Text Search, and N+1 Prevention
 
@@ -29,4 +25,3 @@ alwaysApply: true
 ## 3. Compound Index Order Strategies
 - Order compound index columns by: Equality filters first, Range/Inequality filters next, Sort columns last.
 - Verify index usage using `DB::table(...)->explain()` to prevent full-table scans.
-

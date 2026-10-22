@@ -1,30 +1,47 @@
-schema_version: 1.0.0
-name: LlamaIndex + PostgreSQL pgvector + FastAPI
-slug: rag-llamaindex-pgvector
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Data-first RAG on existing database infrastructure: LlamaIndex 0.11+
-  ingestion pipelines, PostgreSQL pgvector cosine similarity index, FastAPI streaming
-  endpoints, and built-in faithfulness/relevancy evals.'
-category: RAG
+﻿schema_version: "1.0.0"
+
+name: "LlamaIndex + PostgreSQL pgvector + FastAPI"
+slug: "rag-llamaindex-pgvector"
+version: "1.0.0"
+status: "stable"
+category: "RAG"
+updated_at: "2026-10-22"
+
+description: "Data-first RAG on existing database infrastructure: LlamaIndex 0.11+ ingestion pipelines, PostgreSQL pgvector cosine similarity index, FastAPI streaming endpoints, and built-in faithfulness/relevancy evals."
+
 maintainer:
-  name: TechTalks AI Engineering Group
-  role: RAG & Vector Search Lead
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Python
-    version: 3.12+
-    registry: pypi.org
+    name: "Python"
+    version: ">= 3.12"
+    registry: "pypi.org"
   framework:
-    name: LlamaIndex
-    version: 0.11+
-    registry: pypi.org
-  api_server: FastAPI
-  vector_store: PostgreSQL 16+ with pgvector extension
-  evals: FaithfulnessEvaluator & RelevancyEvaluator
+    name: "FastAPI"
+    version: ">= 0.115.0"
+    registry: "pypi.org"
+  rag_engine:
+    name: "LlamaIndex"
+    version: ">= 0.11.0"
+    registry: "pypi.org"
+  database:
+    engine: "PostgreSQL"
+    extension: "pgvector"
+    version: ">= 16.0"
+    features:
+      - "HNSW Indexing"
+      - "Cosine Distance (<=>)"
+      - "JSONB GIN Filtering"
+      - "In-Memory Test Mode"
+  runtime:
+    name: "Uvicorn"
+    version: ">= 0.32.0"
+
 layers:
   starter:
     path: starter/
@@ -32,38 +49,57 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: rag-llamaindex-pgvector-core
-      path: skills/rag-llamaindex-pgvector-core/SKILL.md
-      description: Core operations and scaffolding skill for LlamaIndex + PostgreSQL
-        pgvector + FastAPI.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, configure, orchestrate, and verify LlamaIndex + PostgreSQL pgvector RAG service.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Ingest a knowledge document into PostgreSQL pgvector using LlamaIndex, index via HNSW, and execute a grounded semantic query.
+      - id: pgvector-hnsw-optimization
+        path: skills/pgvector-hnsw-optimization/SKILL.md
+        description: Tune PostgreSQL pgvector HNSW indexing parameters, query-time ef_search, and JSONB metadata GIN indexes.
+      - id: llamaindex-rag-evals
+        path: skills/llamaindex-rag-evals/SKILL.md
+        description: Execute automated Faithfulness and Relevancy evaluations on LlamaIndex RAG pipeline query responses.
+      - id: rag-llamaindex-pgvector-core
+        path: skills/rag-llamaindex-pgvector-core/SKILL.md
+        description: Core operational workflows, pgvector table migrations, vector vacuuming, and health checks for LlamaIndex + PostgreSQL.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: false
   median_eval_tokens: 23200
-  efficiency_tier: A
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -73,5 +109,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

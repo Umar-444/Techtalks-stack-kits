@@ -1,3 +1,5 @@
+# 02 Qdrant Vector Storage And Indexing
+
 ﻿# Rule 2: Qdrant Vector Storage, Collections & HNSW Indexing
 
 ## Context & Principles

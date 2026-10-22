@@ -1,7 +1,11 @@
 ---
-description: 05 Testing And Arch for Django 5 + Tailwind CSS + PostgreSQL
-globs: ["**/*.py", "**/*.html", "**/*.css"]
+description: 05 Testing And Arch
+globs: *
+alwaysApply: true
 ---
+
+# 05 Testing And Arch
+
 # Rule 5: Automated Testing & Architecture Verification
 
 ## Context & Principles
@@ -13,3 +17,4 @@ globs: ["**/*.py", "**/*.html", "**/*.css"]
 2. **Form Tests**: Test valid submissions, missing required fields, and malicious input handling.
 3. **Database Isolation**: Keep tests idempotent without residual side effects across test runs.
 4. **CI Integration**: Ensure `python manage.py test --parallel` runs cleanly with zero warnings.
+

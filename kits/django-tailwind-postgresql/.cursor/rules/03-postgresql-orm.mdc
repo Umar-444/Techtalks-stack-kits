@@ -1,7 +1,11 @@
 ---
-description: 03 Postgresql Orm for Django 5 + Tailwind CSS + PostgreSQL
-globs: ["**/*.py", "**/*.html", "**/*.css"]
+description: 03 Postgresql Orm
+globs: *
+alwaysApply: true
 ---
+
+# 03 Postgresql Orm
+
 # Rule 3: PostgreSQL 16+ ORM & Query Performance
 
 ## Context & Principles
@@ -13,3 +17,4 @@ globs: ["**/*.py", "**/*.html", "**/*.css"]
 2. **Atomic Transactions**: Wrap multi-model write operations inside `with transaction.atomic():` to guarantee database integrity.
 3. **Indexes**: Define explicit `indexes = [models.Index(fields=[...])]` on frequently queried, filtered, or sorted columns.
 4. **Psycopg 3 Pooling**: Use `CONN_MAX_AGE` and `psycopg_pool` settings to avoid per-request connection overhead.
+

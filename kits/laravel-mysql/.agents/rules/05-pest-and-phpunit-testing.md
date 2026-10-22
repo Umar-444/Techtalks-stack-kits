@@ -1,9 +1,4 @@
----
-id: 05-pest-and-phpunit-testing
-title: Pest & PHPUnit Testing with MySQL Database Transactions
-globs: "starter/tests/**/*.php"
-alwaysApply: true
----
+# Pest & PHPUnit Testing with MySQL Database Transactions
 
 # Pest & PHPUnit Testing with MySQL Database Transactions
 

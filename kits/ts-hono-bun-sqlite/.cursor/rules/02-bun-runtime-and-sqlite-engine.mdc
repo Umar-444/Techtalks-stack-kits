@@ -1,14 +1,10 @@
 ---
 description: Bun Runtime Execution and Native SQLite Engine
-globs: "starter/src/**/*.ts,starter/package.json"
----
-
----
-id: 02-bun-runtime-and-sqlite-engine
-title: Bun Runtime Execution and Native SQLite Engine
-globs: "starter/src/**/*.ts,starter/package.json"
+globs: starter/src/**/*.ts,starter/package.json
 alwaysApply: true
 ---
+
+# Bun Runtime Execution and Native SQLite Engine
 
 # Bun Runtime Execution and Native SQLite Engine
 
@@ -32,4 +28,3 @@ alwaysApply: true
 
 ## 3. Transaction Isolation
 - Wrap multi-statement mutations in `db.transaction()` to ensure atomicity and rollbacks on failure.
-

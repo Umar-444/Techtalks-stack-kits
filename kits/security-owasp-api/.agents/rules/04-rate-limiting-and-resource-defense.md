@@ -1,9 +1,4 @@
----
-id: 04-rate-limiting-and-resource-defense
-title: Rate Limiting, Pagination Caps, and DoS Prevention (API4:2023)
-globs: "starter/**/*.py,tests/**/*.py"
-alwaysApply: true
----
+# Rate Limiting, Pagination Caps, and DoS Prevention (API4:2023)
 
 # Rate Limiting, Pagination Caps, and DoS Prevention (API4:2023)
 

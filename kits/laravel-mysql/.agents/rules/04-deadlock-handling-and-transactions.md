@@ -1,9 +1,4 @@
----
-id: 04-deadlock-handling-and-transactions
-title: Deadlock-Resilient Transactions, Locking, and Read/Write Splitting
-globs: "starter/app/**/*.php,starter/config/database.php"
-alwaysApply: true
----
+# Deadlock-Resilient Transactions, Locking, and Read/Write Splitting
 
 # Deadlock-Resilient Transactions, Locking, and Read/Write Splitting
 

@@ -1,9 +1,4 @@
----
-id: 02-bola-and-tenant-isolation
-title: BOLA Prevention, Object Ownership, and Tenant Isolation
-globs: "starter/**/*.py,tests/**/*.py"
-alwaysApply: true
----
+# BOLA Prevention, Object Ownership, and Tenant Isolation
 
 # BOLA Prevention, Object Ownership, and Tenant Isolation
 

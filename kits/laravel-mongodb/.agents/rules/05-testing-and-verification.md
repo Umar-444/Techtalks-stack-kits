@@ -1,3 +1,5 @@
+# 05 Testing And Verification
+
 # Rule 5: Testing, Database Isolation & Transaction Verification
 
 ## Context & Principles
@@ -9,3 +11,4 @@
 2. **Database Cleanliness**: Use database cleanup traits to truncate or drop test collections after each test run.
 3. **Feature Test Coverage**: Verify CRUD operations, embedded relation mutations, and aggregation pipeline outputs.
 4. **Policy Enforcement Testing**: Assert that non-owner users attempting cross-document mutations receive HTTP 403 Forbidden.
+

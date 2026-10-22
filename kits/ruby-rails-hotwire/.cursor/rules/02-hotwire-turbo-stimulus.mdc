@@ -1,14 +1,10 @@
 ---
 description: Hotwire Turbo 8 and Stimulus Reactive Architecture
-globs: "app/**/*.rb,config/**/*.rb,test/**/*.rb"
----
-
----
-id: 02-hotwire-turbo-stimulus
-title: Hotwire Turbo 8 and Stimulus Reactive Architecture
-globs: "app/views/**/*.erb,app/javascript/**/*.js"
+globs: app/views/**/*.erb,app/javascript/**/*.js
 alwaysApply: true
 ---
+
+# Hotwire Turbo 8 and Stimulus Reactive Architecture
 
 # Hotwire Turbo 8 and Stimulus Reactive Architecture
 
@@ -43,4 +39,3 @@ alwaysApply: true
 ## 4. Stimulus Controllers
 - Stimulus controllers must strictly provide progressive enhancement (e.g., auto-submitting forms, clipboard copy, dropdown toggles).
 - Do not store core application state in Stimulus; state lives on the server rendered via HTML.
-

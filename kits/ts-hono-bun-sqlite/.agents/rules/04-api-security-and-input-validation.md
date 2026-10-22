@@ -1,9 +1,4 @@
----
-id: 04-api-security-and-input-validation
-title: Zod Schema Validation, Input Sanitization, and API Security
-globs: "starter/src/**/*.ts"
-alwaysApply: true
----
+# Zod Schema Validation, Input Sanitization, and API Security
 
 # Zod Schema Validation, Input Sanitization, and API Security
 

@@ -1,14 +1,10 @@
 ---
 description: MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
-globs: "starter/app/**/*.php,starter/database/**/*.php,starter/routes/**/*.php"
----
-
----
-id: 02-mysql-innodb-and-schema-integrity
-title: MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
-globs: "starter/database/migrations/*.php,starter/config/database.php"
+globs: starter/database/migrations/*.php,starter/config/database.php
 alwaysApply: true
 ---
+
+# MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
 
 # MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
 
@@ -40,4 +36,3 @@ alwaysApply: true
 - Leverage MySQL generated virtual or stored columns for indexing JSON properties:
   `$table->string('email_domain')->virtualAs("SUBSTRING_INDEX(email, '@', -1)");`
   `$table->index('email_domain');`
-

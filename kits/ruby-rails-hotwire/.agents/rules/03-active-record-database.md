@@ -1,9 +1,4 @@
----
-id: 03-active-record-database
-title: ActiveRecord Integrity, Migrations, and Query Tuning
-globs: "app/models/**/*.rb,db/migrate/*.rb"
-alwaysApply: true
----
+# ActiveRecord Integrity, Migrations, and Query Tuning
 
 # ActiveRecord Integrity, Migrations, and Query Tuning
 

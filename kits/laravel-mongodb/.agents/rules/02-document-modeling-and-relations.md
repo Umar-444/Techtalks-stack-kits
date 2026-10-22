@@ -1,3 +1,5 @@
+# 02 Document Modeling And Relations
+
 # Rule 2: Document Modeling, Embedded Documents & Relationships
 
 ## Context & Principles
@@ -9,3 +11,4 @@
 2. **Document Bounding**: Never allow unbounded arrays inside a single document to prevent exceeding MongoDB's 16MB document limit.
 3. **Cascading Operations**: Use MongoDB atomic array update operators (`$push`, `$pull`, `$set`) rather than rewriting full document arrays.
 4. **Data Integrity**: Validate embedded data structure schemas before persisting to the collection.
+

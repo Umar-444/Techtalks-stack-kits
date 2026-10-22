@@ -1,8 +1,8 @@
-﻿# RAG FastAPI + Qdrant + FastEmbed - Agent Architecture & Rules
+# GitHub Copilot Instructions for RAG FastAPI + Qdrant + FastEmbed
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-This project adheres to the TechTalks production standards for RAG applications using FastAPI, Qdrant vector database, and FastEmbed/OpenAI embeddings.
-
-# Rule 1: FastAPI Architecture, Async Lifespan & Dependency Injection
+## 01 Framework Architecture And Standards
+﻿# Rule 1: FastAPI Architecture, Async Lifespan & Dependency Injection
 
 ## Context & Principles
 - Build asynchronous, non-blocking APIs utilizing modern Python 3.12+ type annotations and Pydantic v2 schemas.
@@ -25,8 +25,8 @@ This project adheres to the TechTalks production standards for RAG applications 
 4. **Health Probe**: Expose a non-blocking `/healthz` probe validating application state and active connectivity to the Qdrant cluster.
 
 
----\n
-# Rule 2: Qdrant Vector Storage, Collections & HNSW Indexing
+## 02 Qdrant Vector Storage And Indexing
+﻿# Rule 2: Qdrant Vector Storage, Collections & HNSW Indexing
 
 ## Context & Principles
 - Qdrant manages dense high-dimensional vectors with customizable distance metrics and Hierarchical Navigable Small World (HNSW) graph indexing.
@@ -48,8 +48,8 @@ This project adheres to the TechTalks production standards for RAG applications 
 4. **Batch Upserts**: Group vector additions into batches of 100-256 points to minimize network I/O round trips and optimize disk flushing.
 
 
----\n
-# Rule 3: Text Chunking, Token Budgets & FastEmbed Generation
+## 03 Embeddings And Chunking Pipeline
+﻿# Rule 3: Text Chunking, Token Budgets & FastEmbed Generation
 
 ## Context & Principles
 - RAG accuracy is fundamentally bounded by the quality and granularity of document chunking.
@@ -75,8 +75,8 @@ This project adheres to the TechTalks production standards for RAG applications 
 4. **Zero Empty Chunks**: Filter out whitespace-only or empty strings prior to embedding generation to avoid degenerate null vectors.
 
 
----\n
-# Rule 4: Vector Retrieval, Payload Filtering & Context Assembly
+## 04 Rag Retrieval Reranking And Context
+﻿# Rule 4: Vector Retrieval, Payload Filtering & Context Assembly
 
 ## Context & Principles
 - Retrieve relevant context with low latency using Qdrant vector search coupled with strict payload filtering for multi-tenant isolation.
@@ -103,8 +103,8 @@ This project adheres to the TechTalks production standards for RAG applications 
 4. **Fallback on Empty Results**: When no documents exceed the score threshold, gracefully inform the caller rather than sending irrelevant noise to the generation model.
 
 
----\n
-# Rule 5: Security Guardrails, Prompt Injection Defense & In-Memory Testing
+## 05 Security Guardrails And Testing
+﻿# Rule 5: Security Guardrails, Prompt Injection Defense & In-Memory Testing
 
 ## Context & Principles
 - RAG applications are susceptible to indirect prompt injection through ingested untrusted documents.
@@ -130,4 +130,5 @@ This project adheres to the TechTalks production standards for RAG applications 
        return QdrantClient(":memory:")
    ```
 4. **Secret Scanning**: Never hardcode API keys or vector database passwords. Validate that environment variables are non-empty during startup using Pydantic `BaseSettings`.
+
 

@@ -1,14 +1,10 @@
 ---
 description: Rails 8 Architecture and Solid Stack Standards
-globs: "app/**/*.rb,config/**/*.rb,test/**/*.rb"
----
-
----
-id: 01-rails-conventions-and-architecture
-title: Rails 8 Architecture and Solid Stack Standards
-globs: "app/**/*.rb,config/**/*.rb,Gemfile"
+globs: app/**/*.rb,config/**/*.rb,Gemfile
 alwaysApply: true
 ---
+
+# Rails 8 Architecture and Solid Stack Standards
 
 # Rails 8 Architecture and Solid Stack Standards
 
@@ -38,4 +34,3 @@ alwaysApply: true
   end
   ```
 - Reject business logic inside controllers; delegate to domain models or service objects.
-

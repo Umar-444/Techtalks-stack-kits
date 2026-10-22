@@ -1,14 +1,10 @@
 ---
 description: Testing Standards with Minitest, System Tests, and Hotwire Assertions
-globs: "app/**/*.rb,config/**/*.rb,test/**/*.rb"
----
-
----
-id: 05-minitest-system-testing
-title: Testing Standards with Minitest, System Tests, and Hotwire Assertions
-globs: "test/**/*.rb"
+globs: test/**/*.rb
 alwaysApply: true
 ---
+
+# Testing Standards with Minitest, System Tests, and Hotwire Assertions
 
 # Testing Standards with Minitest, System Tests, and Hotwire Assertions
 
@@ -30,4 +26,3 @@ alwaysApply: true
 
 ## 3. Health Probe & Smoke Verification
 - Maintain automated smoke check verifying `/healthz` returns HTTP 200 OK with valid JSON payload.
-

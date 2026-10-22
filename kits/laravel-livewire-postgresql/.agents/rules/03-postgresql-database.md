@@ -1,3 +1,5 @@
+# 03 Postgresql Database
+
 # Rule 3: PostgreSQL 16+ ORM, UUIDs & Query Performance
 
 ## Context & Principles
@@ -12,3 +14,4 @@
    ```
 3. **Composite Indexes**: Declare explicit indexes in migrations on filtered and sorted column tuples (`$table->index(['status', 'created_at'])`).
 4. **Atomic Mutations**: Wrap multi-model operations inside `DB::transaction()` to ensure relational consistency.
+

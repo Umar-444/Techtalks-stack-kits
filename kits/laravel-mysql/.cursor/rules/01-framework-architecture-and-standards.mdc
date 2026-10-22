@@ -1,14 +1,10 @@
 ---
 description: Laravel Architecture, Service Boundaries, and Omakase Conventions
-globs: "starter/app/**/*.php,starter/database/**/*.php,starter/routes/**/*.php"
----
-
----
-id: 01-framework-architecture-and-standards
-title: Laravel Architecture, Service Boundaries, and Omakase Conventions
-globs: "starter/app/**/*.php,starter/routes/**/*.php"
+globs: starter/app/**/*.php,starter/routes/**/*.php
 alwaysApply: true
 ---
+
+# Laravel Architecture, Service Boundaries, and Omakase Conventions
 
 # Laravel Architecture, Service Boundaries, and Omakase Conventions
 
@@ -27,4 +23,3 @@ alwaysApply: true
 ## 3. Policy & Authorization Gates
 - Authorize resourceful actions via `$this->authorize('view', $article)` or route middleware `can:view,article`.
 - Keep controller actions minimal and return typed responses (JSON Resource or Blade view).
-

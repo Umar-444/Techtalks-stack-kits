@@ -1,6 +1,30 @@
-# Elixir + Phoenix 1.7+ + LiveView + PostgreSQL - Agent Architecture & Rules
+# Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL — Agent Operating Rules (AGENTS.md)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-This project adheres to the TechTalks production standards for Elixir, Phoenix 1.7+, LiveView 1.0+, and Ecto.
+## Table of Contents
+- [Architectural Standards for Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL](#architecture-guidelines)
+- [01 Phoenix Conventions](#01-phoenix-conventions)
+- [02 Liveview Lifecycle](#02-liveview-lifecycle)
+- [Security Invariants for Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL](#security-invariants)
+- [Agent Coding Conventions for Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL](#agent-coding-conventions)
+- [03 Ecto Database](#03-ecto-database)
+- [04 Security And Sessions](#04-security-and-sessions)
+- [05 Exunit Testing](#05-exunit-testing)
+
+---
+
+<a id="architecture-guidelines"></a>
+## Architectural Standards for Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL
+
+# Architecture Standards: Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
+
+---
+
+<a id="01-phoenix-conventions"></a>
+## 01 Phoenix Conventions
 
 # Rule 1: Phoenix 1.7+ Architecture & Context Conventions
 
@@ -14,6 +38,12 @@ This project adheres to the TechTalks production standards for Elixir, Phoenix 1
 3. **Core Components**: Rely on `DemoWeb.CoreComponents` for flash messages, tables, inputs, buttons, and modals.
 4. **Endpoint Hygiene**: Always route incoming requests through the verified endpoint pipeline with security plugs.
 
+
+---
+
+<a id="02-liveview-lifecycle"></a>
+## 02 Liveview Lifecycle
+
 # Rule 2: Phoenix LiveView Lifecycle & Stream State
 
 ## Context & Principles
@@ -25,6 +55,32 @@ This project adheres to the TechTalks production standards for Elixir, Phoenix 1
 2. **Event Handling**: Implement `handle_event/3` with pattern matching for user interactions. Return `{:noreply, socket}`.
 3. **PubSub Subscriptions**: Handle broadcast messages via `handle_info/2` and apply delta updates to streams via `stream_insert(socket, :items, item)`.
 4. **Form Handling**: Use `phx-change="validate"` and `phx-submit="save"` with Ecto Changeset backing to provide instant inline validation.
+
+
+---
+
+<a id="security-invariants"></a>
+## Security Invariants for Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL
+
+# Security Invariants
+- Verify tenant boundary before reading or writing any persistent state.
+- Sanitize all external inputs using validated schemas.
+- Reject requests with missing or expired bearer tokens.
+
+---
+
+<a id="agent-coding-conventions"></a>
+## Agent Coding Conventions for Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL
+
+# Agent Coding Conventions
+- Maintain clean, minimal code changes with zero extraneous comments.
+- Run typecheck and compile verification after every file modification.
+- Never introduce undocumented third-party libraries without explicit instructions.
+
+---
+
+<a id="03-ecto-database"></a>
+## 03 Ecto Database
 
 # Rule 3: Ecto 3.11+ Schema, Changesets & Migrations
 
@@ -38,6 +94,12 @@ This project adheres to the TechTalks production standards for Elixir, Phoenix 1
 3. **Indexes**: Explicitly create indexes in migrations for foreign keys and timestamp sort columns (`create index(:items, [:inserted_at])`).
 4. **Transactions**: Use `Ecto.Multi` for coordinated writes across multiple tables to ensure atomicity.
 
+
+---
+
+<a id="04-security-and-sessions"></a>
+## 04 Security And Sessions
+
 # Rule 4: Security, CSRF & LiveView Session Hardening
 
 ## Context & Principles
@@ -50,6 +112,12 @@ This project adheres to the TechTalks production standards for Elixir, Phoenix 1
 3. **Parameter Safety**: Pattern match expected keys in `handle_event/3` and cast through Ecto changesets to prevent parameter pollution.
 4. **Content Security Policy**: Configure strict CSP and frame options in `endpoint.ex` (`put_secure_browser_headers`).
 
+
+---
+
+<a id="05-exunit-testing"></a>
+## 05 Exunit Testing
+
 # Rule 5: ExUnit Testing & LiveView Assertions
 
 ## Context & Principles
@@ -61,3 +129,7 @@ This project adheres to the TechTalks production standards for Elixir, Phoenix 1
 2. **Stream Assertions**: Verify stream items using `has_element?(view, "#items-#{item.id}")`.
 3. **Data Isolation**: Run tests with `async: true` whenever possible, utilizing the SQL sandbox checkout.
 4. **PubSub Broadcast Tests**: Test that external broadcasts trigger real-time DOM updates in the connected test view.
+
+
+---
+

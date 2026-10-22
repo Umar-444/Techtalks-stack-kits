@@ -1,9 +1,4 @@
----
-id: 03-bfla-and-role-rbac
-title: Broken Function Level Authorization (BFLA) and RBAC Enforcement
-globs: "starter/**/*.py,tests/**/*.py"
-alwaysApply: true
----
+# Broken Function Level Authorization (BFLA) and RBAC Enforcement
 
 # Broken Function Level Authorization (BFLA) and RBAC Enforcement
 

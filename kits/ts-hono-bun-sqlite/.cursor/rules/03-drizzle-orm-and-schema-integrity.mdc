@@ -1,14 +1,10 @@
 ---
 description: Drizzle ORM Schema Discipline and Typed Migrations
-globs: "starter/src/**/*.ts,starter/package.json"
----
-
----
-id: 03-drizzle-orm-and-schema-integrity
-title: Drizzle ORM Schema Discipline and Typed Migrations
-globs: "starter/src/db/**/*.ts,starter/drizzle.config.ts"
+globs: starter/src/db/**/*.ts,starter/drizzle.config.ts
 alwaysApply: true
 ---
+
+# Drizzle ORM Schema Discipline and Typed Migrations
 
 # Drizzle ORM Schema Discipline and Typed Migrations
 
@@ -33,4 +29,3 @@ alwaysApply: true
 
 ## 3. Zero-Overhead Typed Queries
 - Leverage Drizzle's relational queries (`db.query.tasks.findMany({ where: ... })`) to eliminate N+1 queries.
-

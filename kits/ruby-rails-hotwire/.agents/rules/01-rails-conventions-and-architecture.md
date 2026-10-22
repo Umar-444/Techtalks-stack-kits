@@ -1,9 +1,4 @@
----
-id: 01-rails-conventions-and-architecture
-title: Rails 8 Architecture and Solid Stack Standards
-globs: "app/**/*.rb,config/**/*.rb,Gemfile"
-alwaysApply: true
----
+# Rails 8 Architecture and Solid Stack Standards
 
 # Rails 8 Architecture and Solid Stack Standards
 

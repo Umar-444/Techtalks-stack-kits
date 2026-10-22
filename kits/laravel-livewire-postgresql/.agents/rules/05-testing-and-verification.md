@@ -1,3 +1,5 @@
+# 05 Testing And Verification
+
 # Rule 5: Pest Testing, Component Assertions & Architectural Verification
 
 ## Context & Principles
@@ -21,3 +23,4 @@
        ->assertForbidden();
    ```
 3. **Database Isolation**: Use `RefreshDatabase` trait to keep test runs idempotent and side-effect free.
+

@@ -1,0 +1,33 @@
+# 03 Ingestion Chunking And Metadata
+
+﻿---
+id: 03-ingestion-chunking-and-metadata
+title: Document Ingestion, Semantic Chunking & Metadata Enrichment
+globs: "*"
+alwaysApply: true
+---
+# Rule 3: Document Ingestion, Semantic Chunking & Metadata Enrichment
+
+## Context & Principles
+- Ingestion pipelines must transform unstructured documents into discrete, high-signal nodes with preserved provenance.
+- Use LlamaIndex `SentenceSplitter` with a target chunk size of 512 tokens and 64-token overlap to prevent truncation of conceptual units.
+- Enrich every document node with structured metadata keys enabling granular access control and tenant isolation.
+
+## Standards
+1. **Node Parsing**:
+   ```python
+   from llama_index.core.node_parser import SentenceSplitter
+   from llama_index.core.schema import Document
+
+   parser = SentenceSplitter(chunk_size=512, chunk_overlap=64)
+   nodes = parser.get_nodes_from_documents([
+       Document(
+           text=raw_text,
+           metadata={"document_id": doc_id, "tenant_id": tenant_id, "category": category}
+       )
+   ])
+   ```
+2. **Metadata Hygiene**: Strip internal file system paths or PII before persisting metadata to the database.
+3. **Idempotent Ingestion**: Use deterministic node IDs (`doc_id + "_" + str(chunk_idx)`) to ensure re-ingesting a document updates existing records rather than producing duplicates.
+4. **Empty Node Rejection**: Filter out whitespace-only strings or empty chunks prior to embedding calculation.
+

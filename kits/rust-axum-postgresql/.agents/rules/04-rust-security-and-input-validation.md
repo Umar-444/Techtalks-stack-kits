@@ -1,9 +1,4 @@
----
-id: 04-rust-security-and-input-validation
-title: Memory Safety, Deserialization Limits, and Supply Chain Auditing
-globs: "starter/**/*.rs,starter/Cargo.toml"
-alwaysApply: true
----
+# Memory Safety, Deserialization Limits, and Supply Chain Auditing
 
 # Memory Safety, Deserialization Limits, and Supply Chain Auditing
 

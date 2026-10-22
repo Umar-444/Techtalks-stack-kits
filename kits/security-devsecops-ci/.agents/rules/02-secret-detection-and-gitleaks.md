@@ -1,9 +1,4 @@
----
-id: 02-secret-detection-and-gitleaks
-title: Secret Detection, Entropy Scanning, and Gitleaks Invariants
-globs: ".gitleaks.toml,**/*.env*,**/*.json,**/*.yml"
-alwaysApply: true
----
+# Secret Detection, Entropy Scanning, and Gitleaks Invariants
 
 # Secret Detection, Entropy Scanning, and Gitleaks Invariants
 

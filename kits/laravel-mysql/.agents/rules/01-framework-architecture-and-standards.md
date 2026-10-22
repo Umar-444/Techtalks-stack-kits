@@ -1,9 +1,4 @@
----
-id: 01-framework-architecture-and-standards
-title: Laravel Architecture, Service Boundaries, and Omakase Conventions
-globs: "starter/app/**/*.php,starter/routes/**/*.php"
-alwaysApply: true
----
+# Laravel Architecture, Service Boundaries, and Omakase Conventions
 
 # Laravel Architecture, Service Boundaries, and Omakase Conventions
 

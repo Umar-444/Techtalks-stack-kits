@@ -1,3 +1,5 @@
+# 04 Livewire Security
+
 # Rule 4: Livewire Security, Authorization & Tampering Defense
 
 ## Context & Principles
@@ -12,3 +14,4 @@
 2. **Property Protection**: Use `#[Locked]` attributes on sensitive component state (e.g., IDs, tenant keys) to prevent client-side DOM payload tampering.
 3. **Rate Limiting**: Apply `#[RateLimit(5, 60)]` on sensitive actions (login, reset password, email sending) to mitigate automated abuse.
 4. **Session Fixation**: Rotate session IDs upon authentication events using `$request->session()->regenerate()`.
+

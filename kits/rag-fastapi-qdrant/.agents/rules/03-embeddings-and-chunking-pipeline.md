@@ -1,3 +1,5 @@
+# 03 Embeddings And Chunking Pipeline
+
 ﻿# Rule 3: Text Chunking, Token Budgets & FastEmbed Generation
 
 ## Context & Principles

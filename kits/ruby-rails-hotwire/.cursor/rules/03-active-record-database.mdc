@@ -1,14 +1,10 @@
 ---
 description: ActiveRecord Integrity, Migrations, and Query Tuning
-globs: "app/**/*.rb,config/**/*.rb,test/**/*.rb"
----
-
----
-id: 03-active-record-database
-title: ActiveRecord Integrity, Migrations, and Query Tuning
-globs: "app/models/**/*.rb,db/migrate/*.rb"
+globs: app/models/**/*.rb,db/migrate/*.rb
 alwaysApply: true
 ---
+
+# ActiveRecord Integrity, Migrations, and Query Tuning
 
 # ActiveRecord Integrity, Migrations, and Query Tuning
 
@@ -42,4 +38,3 @@ alwaysApply: true
 ## 3. Model Validations & Scopes
 - Mirror database constraints with ActiveModel validations (`validates :title, presence: true, length: { maximum: 200 }`).
 - Scopes must always return an `ActiveRecord::Relation` and never execute immediate queries like `.first` or `.all`.
-

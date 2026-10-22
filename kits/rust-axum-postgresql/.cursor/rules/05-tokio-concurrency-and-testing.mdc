@@ -1,14 +1,10 @@
 ---
 description: Async Tokio Runtime Concurrency and Integration Testing
-globs: "starter/src/**/*.rs,starter/tests/**/*.rs,starter/Cargo.toml"
----
-
----
-id: 05-tokio-concurrency-and-testing
-title: Async Tokio Runtime Concurrency and Integration Testing
-globs: "starter/tests/**/*.rs,starter/src/**/*.rs"
+globs: starter/tests/**/*.rs,starter/src/**/*.rs
 alwaysApply: true
 ---
+
+# Async Tokio Runtime Concurrency and Integration Testing
 
 # Async Tokio Runtime Concurrency and Integration Testing
 
@@ -26,4 +22,3 @@ alwaysApply: true
   assert_eq!(response.status(), StatusCode::OK);
   ```
 - Guarantees fast, reproducible test execution without binding physical TCP ports.
-

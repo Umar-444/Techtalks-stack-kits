@@ -1,0 +1,7 @@
+﻿# Semgrep Ignore Configuration
+.github/workflows/*
+kits/**/starter/.github/workflows/*
+.git/
+.venv/
+node_modules/
+evals/results/

@@ -1,7 +1,7 @@
-# Laravel 12 + MongoDB (NoSQL) - Agent Architecture & Rules
+# GitHub Copilot Instructions for Laravel 12 + MongoDB (NoSQL)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-This project adheres to the TechTalks production standards for Laravel 12, mongodb/laravel-mongodb, and MongoDB 7+.
-
+## 01 Framework Conventions
 # Rule 1: Laravel 12 + MongoDB Framework Conventions
 
 ## Context & Principles
@@ -15,6 +15,29 @@ This project adheres to the TechTalks production standards for Laravel 12, mongo
 3. **Primary Key**: MongoDB uses `_id` (BSON ObjectId). Eloquent aliases `_id` to `$model->id`. Never override primary key semantics unless explicitly mapping external UUIDs.
 4. **Dates & Timestamps**: Ensure all date fields cast to `datetime` or `MongoDB\BSON\UTCDateTime`.
 
+
+## MongoDB Eloquent Conventions
+# MongoDB Eloquent Conventions
+
+1. **Model Inheritance:**
+   - All MongoDB models must extend `MongoDB\Laravel\Eloquent\Model`.
+   - Explicitly specify the collection name: `protected $collection = 'users';`.
+
+2. **Embedded Relations:**
+   - Use `embedsOne()` and `embedsMany()` for strictly co-located document data.
+   - Define embedded models with strict attribute casting.
+
+## Aggregation Pipelines
+# Aggregation Pipelines
+
+1. **Pipeline Syntax:**
+   - Use `$collection->raw()->aggregate([ ... ])` or Eloquent aggregation helpers.
+   - Always place `$match` filters as early as possible in the pipeline.
+
+2. **Index Optimization:**
+   - Ensure fields referenced in `$match` and `$sort` stages have corresponding compound indices.
+
+## 02 Document Modeling And Relations
 # Rule 2: Document Modeling, Embedded Documents & Relationships
 
 ## Context & Principles
@@ -27,6 +50,8 @@ This project adheres to the TechTalks production standards for Laravel 12, mongo
 3. **Cascading Operations**: Use MongoDB atomic array update operators (`$push`, `$pull`, `$set`) rather than rewriting full document arrays.
 4. **Data Integrity**: Validate embedded data structure schemas before persisting to the collection.
 
+
+## 03 Aggregation Pipelines
 # Rule 3: Aggregation Pipelines & Query Performance
 
 ## Context & Principles
@@ -42,6 +67,18 @@ This project adheres to the TechTalks production standards for Laravel 12, mongo
 3. **Projection Limiting**: Always project only required fields (`$project`) to minimize memory usage and network payload transfer.
 4. **Pipeline Builder**: Use Eloquent's `raw(function($collection) { ... })` or native aggregation pipeline helpers to construct type-safe pipelines.
 
+
+## NoSQL Security & Injection Defense
+# NoSQL Security & Injection Defense
+
+1. **Operator Injection Defense:**
+   - Never pass unfiltered `$request->all()` into `where()` clauses.
+   - MongoDB interprets array inputs as operators (e.g. `['$gt' => '']`). Cast all inputs to scalar types.
+
+2. **Prohibited Features:**
+   - Usage of `$where` with JavaScript execution is strictly prohibited.
+
+## 04 Nosql Injection Security
 # Rule 4: NoSQL Injection Defense & Authorization Policies
 
 ## Context & Principles
@@ -59,6 +96,8 @@ This project adheres to the TechTalks production standards for Laravel 12, mongo
 3. **Where Operator Prohibition**: Never use `$where` or arbitrary JavaScript execution in MongoDB queries.
 4. **BOLA Document Policies**: Every document read or write must pass authorization gates verifying user ownership or role entitlements.
 
+
+## 05 Testing And Verification
 # Rule 5: Testing, Database Isolation & Transaction Verification
 
 ## Context & Principles
@@ -70,3 +109,5 @@ This project adheres to the TechTalks production standards for Laravel 12, mongo
 2. **Database Cleanliness**: Use database cleanup traits to truncate or drop test collections after each test run.
 3. **Feature Test Coverage**: Verify CRUD operations, embedded relation mutations, and aggregation pipeline outputs.
 4. **Policy Enforcement Testing**: Assert that non-owner users attempting cross-document mutations receive HTTP 403 Forbidden.
+
+

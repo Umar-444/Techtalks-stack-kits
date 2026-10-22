@@ -1,0 +1,15 @@
+﻿{
+  "task_id": "eval-03-faithfulness-eval-guardrail",
+  "name": "Automated Faithfulness & Relevancy Evaluation",
+  "difficulty": "advanced",
+  "prompt": "Implement the /api/v1/evaluate endpoint utilizing LlamaIndex FaithfulnessEvaluator and RelevancyEvaluator. Measure whether generated answers contain ungrounded hallucinated assertions or stray from reference source contexts.",
+  "expected_files": [
+    "starter/app/main.py",
+    "starter/app/services/vector_service.py",
+    "starter/app/schemas.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_rag.py -k test_rag_evaluation",
+    "criteria": "Evaluation returns faithfulness_passing=True and score >= 0.8 on grounded inputs"
+  }
+}

@@ -1,9 +1,4 @@
----
-id: 04-container-scanning-and-trivy
-title: Container Hardening, CVE Scanning, and Trivy Invariants
-globs: "Dockerfile,docker-compose.yml,trivy.yaml"
-alwaysApply: true
----
+# Container Hardening, CVE Scanning, and Trivy Invariants
 
 # Container Hardening, CVE Scanning, and Trivy Invariants
 

@@ -1,9 +1,4 @@
----
-id: 02-sqlx-compile-time-verification
-title: SQLx Compile-Time Verification, Migrations, and Connection Pooling
-globs: "starter/src/**/*.rs,starter/migrations/*.sql"
-alwaysApply: true
----
+# SQLx Compile-Time Verification, Migrations, and Connection Pooling
 
 # SQLx Compile-Time Verification, Migrations, and Connection Pooling
 

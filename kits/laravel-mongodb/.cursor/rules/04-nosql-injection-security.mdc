@@ -1,7 +1,11 @@
 ---
-description: 04 Nosql Injection Security for Laravel 12 + MongoDB (NoSQL)
-globs: ["**/*.php", "**/*.js", "**/*.json"]
+description: 04 Nosql Injection Security
+globs: *
+alwaysApply: true
 ---
+
+# 04 Nosql Injection Security
+
 # Rule 4: NoSQL Injection Defense & Authorization Policies
 
 ## Context & Principles
@@ -18,3 +22,4 @@ globs: ["**/*.php", "**/*.js", "**/*.json"]
    ```
 3. **Where Operator Prohibition**: Never use `$where` or arbitrary JavaScript execution in MongoDB queries.
 4. **BOLA Document Policies**: Every document read or write must pass authorization gates verifying user ownership or role entitlements.
+

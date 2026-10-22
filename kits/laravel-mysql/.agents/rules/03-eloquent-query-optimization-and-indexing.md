@@ -1,9 +1,4 @@
----
-id: 03-eloquent-query-optimization-and-indexing
-title: Eloquent Query Tuning, MySQL Full-Text Search, and N+1 Prevention
-globs: "starter/app/**/*.php,starter/database/migrations/*.php"
-alwaysApply: true
----
+# Eloquent Query Tuning, MySQL Full-Text Search, and N+1 Prevention
 
 # Eloquent Query Tuning, MySQL Full-Text Search, and N+1 Prevention
 

@@ -1,9 +1,4 @@
----
-id: 05-tokio-concurrency-and-testing
-title: Async Tokio Runtime Concurrency and Integration Testing
-globs: "starter/tests/**/*.rs,starter/src/**/*.rs"
-alwaysApply: true
----
+# Async Tokio Runtime Concurrency and Integration Testing
 
 # Async Tokio Runtime Concurrency and Integration Testing
 

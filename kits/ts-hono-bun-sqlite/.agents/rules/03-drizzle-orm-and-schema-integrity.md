@@ -1,9 +1,4 @@
----
-id: 03-drizzle-orm-and-schema-integrity
-title: Drizzle ORM Schema Discipline and Typed Migrations
-globs: "starter/src/db/**/*.ts,starter/drizzle.config.ts"
-alwaysApply: true
----
+# Drizzle ORM Schema Discipline and Typed Migrations
 
 # Drizzle ORM Schema Discipline and Typed Migrations
 

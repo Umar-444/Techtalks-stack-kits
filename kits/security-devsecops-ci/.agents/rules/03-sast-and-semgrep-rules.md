@@ -1,9 +1,4 @@
----
-id: 03-sast-and-semgrep-rules
-title: Static Application Security Testing (SAST) and Custom Semgrep Rules
-globs: ".semgrep.yml,**/*.py,**/*.ts,**/*.js,**/*.php,**/*.rb"
-alwaysApply: true
----
+# Static Application Security Testing (SAST) and Custom Semgrep Rules
 
 # Static Application Security Testing (SAST) and Custom Semgrep Rules
 

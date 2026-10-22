@@ -1,3 +1,5 @@
+# 04 Nosql Injection Security
+
 # Rule 4: NoSQL Injection Defense & Authorization Policies
 
 ## Context & Principles
@@ -14,3 +16,4 @@
    ```
 3. **Where Operator Prohibition**: Never use `$where` or arbitrary JavaScript execution in MongoDB queries.
 4. **BOLA Document Policies**: Every document read or write must pass authorization gates verifying user ownership or role entitlements.
+

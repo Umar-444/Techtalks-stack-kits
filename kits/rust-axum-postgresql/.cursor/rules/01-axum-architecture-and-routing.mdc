@@ -1,14 +1,10 @@
 ---
 description: Axum Routing, Handlers, and State Extraction Architecture
-globs: "starter/src/**/*.rs,starter/tests/**/*.rs,starter/Cargo.toml"
----
-
----
-id: 01-axum-architecture-and-routing
-title: Axum Routing, Handlers, and State Extraction Architecture
-globs: "starter/src/**/*.rs"
+globs: starter/src/**/*.rs
 alwaysApply: true
 ---
+
+# Axum Routing, Handlers, and State Extraction Architecture
 
 # Axum Routing, Handlers, and State Extraction Architecture
 
@@ -34,4 +30,3 @@ alwaysApply: true
   }
   ```
 - Map database errors to HTTP status codes cleanly without leaking internal connection strings or queries to clients.
-

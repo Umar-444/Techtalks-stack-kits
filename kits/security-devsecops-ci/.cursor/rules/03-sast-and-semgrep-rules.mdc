@@ -1,14 +1,10 @@
 ---
 description: Static Application Security Testing (SAST) and Custom Semgrep Rules
-globs: ".github/workflows/*.yml,Dockerfile,scripts/**/*.py,scripts/**/*.sh"
----
-
----
-id: 03-sast-and-semgrep-rules
-title: Static Application Security Testing (SAST) and Custom Semgrep Rules
-globs: ".semgrep.yml,**/*.py,**/*.ts,**/*.js,**/*.php,**/*.rb"
+globs: .semgrep.yml,**/*.py,**/*.ts,**/*.js,**/*.php,**/*.rb
 alwaysApply: true
 ---
+
+# Static Application Security Testing (SAST) and Custom Semgrep Rules
 
 # Static Application Security Testing (SAST) and Custom Semgrep Rules
 
@@ -35,4 +31,3 @@ alwaysApply: true
 - When an alert is an intentional, hardened pattern, use inline suppression:
   `# nosemgrep: custom-rule-id -- Reason: Input validated by upstream middleware`
 - Review all inline suppressions periodically during security retrospectives.
-

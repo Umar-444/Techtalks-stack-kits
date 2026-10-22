@@ -1,14 +1,10 @@
 ---
 description: Broken Function Level Authorization (BFLA) and RBAC Enforcement
-globs: "starter/**/*.py,tests/**/*.py"
----
-
----
-id: 03-bfla-and-role-rbac
-title: Broken Function Level Authorization (BFLA) and RBAC Enforcement
-globs: "starter/**/*.py,tests/**/*.py"
+globs: starter/**/*.py,tests/**/*.py
 alwaysApply: true
 ---
+
+# Broken Function Level Authorization (BFLA) and RBAC Enforcement
 
 # Broken Function Level Authorization (BFLA) and RBAC Enforcement
 
@@ -31,4 +27,3 @@ alwaysApply: true
 
 ## 3. Scope & Capability Verification
 - For machine-to-machine tokens, inspect OAuth2 scopes (`read:reports`, `write:payments`) in addition to role tags.
-

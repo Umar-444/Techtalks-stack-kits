@@ -1,3 +1,5 @@
+# 02 Server Actions And Mutations
+
 # Rule 2: Server Actions, Zod Validation & Optimistic Updates
 
 ## Context & Principles
@@ -15,3 +17,4 @@
 2. **Revalidation**: Always call `revalidatePath()` or `revalidateTag()` after successful mutations to purge stale cached data.
 3. **Error Handling**: Return structured action results `{ success: boolean, data?: T, error?: string }` instead of throwing unhandled exceptions.
 4. **CSRF Protection**: Next.js automatically validates the `Origin` header on Server Actions; never disable origin verification.
+

@@ -1,14 +1,10 @@
 ---
 description: Fast Testing with Bun Native Test Runner and Mock Requests
-globs: "starter/src/**/*.ts,starter/package.json"
----
-
----
-id: 05-bun-test-and-verification
-title: Fast Testing with Bun Native Test Runner and Mock Requests
-globs: "starter/src/**/*.test.ts"
+globs: starter/src/**/*.test.ts
 alwaysApply: true
 ---
+
+# Fast Testing with Bun Native Test Runner and Mock Requests
 
 # Fast Testing with Bun Native Test Runner and Mock Requests
 
@@ -33,4 +29,3 @@ alwaysApply: true
 
 ## 3. Validation and Status Assertions
 - Assert both successful 200/201 responses and rejected 400/403/422 payloads with proper error schemas.
-

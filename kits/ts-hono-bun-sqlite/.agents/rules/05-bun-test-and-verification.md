@@ -1,9 +1,4 @@
----
-id: 05-bun-test-and-verification
-title: Fast Testing with Bun Native Test Runner and Mock Requests
-globs: "starter/src/**/*.test.ts"
-alwaysApply: true
----
+# Fast Testing with Bun Native Test Runner and Mock Requests
 
 # Fast Testing with Bun Native Test Runner and Mock Requests
 

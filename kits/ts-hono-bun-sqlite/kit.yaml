@@ -1,92 +1,111 @@
-schema_version: 1.0.0
-name: TypeScript + Hono + Bun + SQLite (Drizzle ORM)
-slug: ts-hono-bun-sqlite
-version: 1.0.0
-status: stable
-category: backend
-updated_at: '2026-10-22'
-description: Sub-millisecond TypeScript API stack kit powered by Hono, Bun runtime,
-  Drizzle ORM, and high-concurrency SQLite in WAL mode.
-maintainer: TechTalks Engineering
+﻿schema_version: "1.0.0"
+
+name: "TypeScript + Hono + Bun + SQLite (Drizzle ORM)"
+slug: "ts-hono-bun-sqlite"
+version: "1.0.0"
+status: "stable"
+category: "backend"
+updated_at: "2026-10-22"
+
+description: "Ultra-fast, edge-ready TypeScript REST API powered by the Bun runtime, Hono framework, Drizzle ORM, and local embedded SQLite with WAL mode."
+
+maintainer:
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: TypeScript
-    version: '>= 5.6.0'
-    registry: npm
+    name: "TypeScript"
+    version: ">= 5.5"
+    registry: "npm"
   framework:
-    name: Hono
-    version: '>= 4.6.0'
-    registry: npm
+    name: "Hono"
+    version: "^4.6"
+    registry: "npm"
   database:
-    engine: SQLite / LibSQL
-    version: 3.45+
+    engine: "SQLite (bun:sqlite)"
+    version: ">= 3.45"
     features:
-    - WAL mode
-    - Prepared Statements
-    - Compound Indexing
+      - "WAL Journaling"
+      - "Drizzle ORM Migrations"
+      - "Zod Schema Validation"
   runtime:
-    name: Bun
-    version: '>= 1.1.0'
-  orm: Drizzle ORM (schema migrations & typed queries)
-  validation: Zod 3.23+ with strict schemas
-  token_light_metric: 18,200 median tokens
-starter:
-  path: starter/
-  health_endpoint: /healthz
-  port: 3000
-  env_file: .env.example
-rules:
-  source: rules/source/
-  dialects:
-  - CLAUDE.md
-  - AGENTS.md
-  - CODEX.md
-  - .cursor/rules/
-  - .agents/rules/
-  - .clinerules
-  - .windsurfrules
-  - .github/copilot-instructions.md
+    name: "Bun"
+    version: ">= 1.1.29"
+
+layers:
+  starter:
+    path: starter/
+    type: starter-scaffold
   rules:
-  - id: 01-hono-framework-architecture
-    title: Hono Web Framework Conventions and Middleware Chaining
-  - id: 02-bun-runtime-and-sqlite-engine
-    title: Bun Runtime Execution and Native SQLite Engine
-  - id: 03-drizzle-orm-and-schema-integrity
-    title: Drizzle ORM Schema Discipline and Typed Migrations
-  - id: 04-api-security-and-input-validation
-    title: Zod Schema Validation, Input Sanitization, and API Security
-  - id: 05-bun-test-and-verification
-    title: Fast Testing with Bun Native Test Runner and Mock Requests
-skills:
-- name: install-and-verify
-  path: skills/install-and-verify/SKILL.md
-- name: first-feature
-  path: skills/first-feature/SKILL.md
-- name: hono-zod-openapi
-  path: skills/hono-zod-openapi/SKILL.md
-- name: drizzle-sqlite-migrations
-  path: skills/drizzle-sqlite-migrations/SKILL.md
-- name: bun-performance-tuning
-  path: skills/bun-performance-tuning/SKILL.md
-evals:
-  framework: bun:test
-  tasks:
-  - id: eval-01-drizzle-crud-scaffold
-    file: evals/tasks/task-01-drizzle-crud-scaffold.json
-  - id: eval-02-zod-validation-guardrails
-    file: evals/tasks/task-02-zod-validation-guardrails.json
-  - id: eval-03-sqlite-wal-concurrency
-    file: evals/tasks/task-03-sqlite-wal-concurrency.json
-security:
-  framework: semgrep+gitleaks
-  checks_file: security/checks.json
-  total_controls: 12
-install:
-  prerequisites:
-  - Bun >= 1.1.0
-  - Docker >= 24.0
+    source_dir: rules/source/
+    generated_targets:
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install and orchestrate Bun, Hono, and Drizzle ORM.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Build canonical Item CRUD endpoint with Drizzle ORM and Zod validation.
+      - id: hono-zod-openapi
+        path: skills/hono-zod-openapi/SKILL.md
+        description: Author OpenAPI specifications and type-safe Zod route validation.
+      - id: drizzle-sqlite-migrations
+        path: skills/drizzle-sqlite-migrations/SKILL.md
+        description: Author and run zero-downtime Drizzle SQLite migrations.
+      - id: bun-performance-tuning
+        path: skills/bun-performance-tuning/SKILL.md
+        description: Configure Bun native SQLite WAL mode and connection pooling.
+      - id: ts-hono-bun-sqlite-core
+        path: skills/ts-hono-bun-sqlite-core/SKILL.md
+        description: Core operational commands, package scripts, and Bun runtime settings.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
+  design:
+    path: DESIGN.md
+    theme_support:
+      - light
+      - dark
+    wcag_compliance: "AA"
+  security:
+    config_dir: security/
+    checks:
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
-  - bun install
-  - bun test
-  - bun run dev
-  - curl http://localhost:3000/healthz
+    path: steps/agent-build-steps.md
+    total_steps: 6
+
+token_metrics:
+  token_light: true
+  median_eval_tokens: 15400
+  efficiency_tier: "A"
+
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+
+install:
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

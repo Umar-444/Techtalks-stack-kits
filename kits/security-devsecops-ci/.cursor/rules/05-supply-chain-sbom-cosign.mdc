@@ -1,14 +1,10 @@
 ---
 description: Supply Chain Security, SBOM Generation, and Cosign Verification
-globs: ".github/workflows/*.yml,Dockerfile,scripts/**/*.py,scripts/**/*.sh"
----
-
----
-id: 05-supply-chain-sbom-cosign
-title: Supply Chain Security, SBOM Generation, and Cosign Verification
-globs: ".github/workflows/*.yml,sbom/**"
+globs: .github/workflows/*.yml,sbom/**
 alwaysApply: true
 ---
+
+# Supply Chain Security, SBOM Generation, and Cosign Verification
 
 # Supply Chain Security, SBOM Generation, and Cosign Verification
 
@@ -28,4 +24,3 @@ alwaysApply: true
 
 ## 3. Automated Dependency Updates
 - Maintain `.github/dependabot.yml` configured for weekly security version bump PRs with automated testing.
-

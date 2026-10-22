@@ -1,3 +1,5 @@
+# 05 Exunit Testing
+
 # Rule 5: ExUnit Testing & LiveView Assertions
 
 ## Context & Principles
@@ -9,3 +11,4 @@
 2. **Stream Assertions**: Verify stream items using `has_element?(view, "#items-#{item.id}")`.
 3. **Data Isolation**: Run tests with `async: true` whenever possible, utilizing the SQL sandbox checkout.
 4. **PubSub Broadcast Tests**: Test that external broadcasts trigger real-time DOM updates in the connected test view.
+

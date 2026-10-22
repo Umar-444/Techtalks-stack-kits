@@ -1,9 +1,4 @@
----
-id: 02-mysql-innodb-and-schema-integrity
-title: MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
-globs: "starter/database/migrations/*.php,starter/config/database.php"
-alwaysApply: true
----
+# MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
 
 # MySQL 8.4 LTS InnoDB Engine, Strict SQL Mode, and UTF8mb4 Collation
 

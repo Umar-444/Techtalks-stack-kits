@@ -1,3 +1,5 @@
+# 02 Livewire Reactive Lifecycle
+
 # Rule 2: Livewire Lifecycle, Morphing & Alpine Integration
 
 ## Context & Principles
@@ -9,3 +11,4 @@
 2. **Keyed DOM Elements**: Every iteration loop in Blade must have an explicit `wire:key="{{ $task->id }}"`.
 3. **Alpine.js Interactivity**: Use `x-data` and lightweight Alpine directives for purely client-side UI toggles (dropdowns, modals, tabs) to avoid unnecessary round-trips to the server.
 4. **Events & Listeners**: Use `#[On('task-created')]` attributes for clean, decoupled component event communication.
+
