@@ -1,0 +1,25 @@
+﻿services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: flask_htmx_sqlite_app
+    ports:
+      - "8080:8080"
+    environment:
+      - FLASK_ENV=production
+      - SECRET_KEY=prod-secret-must-be-rotated-for-production-deployment-32byte
+      - PORT=8080
+    volumes:
+      - sqlite_data:/app/instance
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8080/health')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  sqlite_data:
+    driver: local

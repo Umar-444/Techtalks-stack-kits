@@ -1,0 +1,9 @@
+﻿{% if items %}
+    {% for item in items %}
+        {% include "partials/item_row.html" %}
+    {% endfor %}
+{% else %}
+    <tr class="empty-row">
+        <td colspan="4" class="text-center py-4">No matching records found. Create one above!</td>
+    </tr>
+{% endif %}

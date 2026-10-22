@@ -1,0 +1,58 @@
+﻿[
+  {
+    "q": "Why choose Flask + HTMX + SQLite over full Single Page Application (SPA) stacks like Next.js or React?",
+    "a": "Flask + HTMX + SQLite eliminates the enormous cognitive and token footprint of frontend build tools (Node.js, npm, Webpack, hydration mismatches, complex state managers, and dual schema definitions). By returning lightweight HTML fragments directly from Flask into the browser DOM, you get the responsiveness of an SPA with single-language simplicity and instant cold-start times."
+  },
+  {
+    "q": "How does Write-Ahead Logging (WAL) in SQLite enable concurrent reads and writes?",
+    "a": "In default rollback journal mode, writing to an SQLite database locks the entire database file, preventing concurrent reads. WAL mode changes this by appending changes to a separate `-wal` file. Readers read from the main file and WAL log concurrently without waiting for writers, and writers do not block readers. Only concurrent writers queue against each other."
+  },
+  {
+    "q": "What is the dual-rendering pattern and why inspect the HX-Request header?",
+    "a": "The dual-rendering pattern enables a single endpoint to serve both full browser navigation (returning <!DOCTYPE html> with base layout) and reactive HTMX updates (returning only targeted partial fragments like <tr class='item-row'>). Inspecting request.headers.get('HX-Request') == 'true' ensures deep-links work for search engines and direct URL sharing while dynamic interactions stay lightning-fast."
+  },
+  {
+    "q": "How do I protect state-changing HTMX requests against CSRF attacks in Flask?",
+    "a": "Flask-WTF validates CSRF tokens on POST, PUT, PATCH, and DELETE requests. In base.html, inject the token via <meta name='csrf-token' content='{{ csrf_token() }}'> and configure HTMX via document.body.addEventListener('htmx:configRequest', evt => evt.detail.headers['X-CSRFToken'] = token) or hx-headers='{\"X-CSRFToken\": \"{{ csrf_token() }}\"}'. Flask-WTF inspects the X-CSRFToken header automatically."
+  },
+  {
+    "q": "How does SQLite handle concurrent writes under high load with busy_timeout?",
+    "a": "SQLite permits one active writer at a time. Without PRAGMA busy_timeout, a second concurrent writer immediately throws sqlite3.OperationalError: database is locked. With PRAGMA busy_timeout = 5000;, the SQLite C engine will automatically sleep and retry for up to 5,000 milliseconds until the prior write transaction commits, safely absorbing burst write traffic."
+  },
+  {
+    "q": "Can SQLite in WAL mode handle production web traffic?",
+    "a": "Yes. When configured with WAL mode, PRAGMA synchronous = NORMAL, PRAGMA busy_timeout = 5000, and SSD/NVMe storage, SQLite effortlessly handles hundreds of concurrent read requests and dozens of write transactions per second, making it ideal for internal tools, SaaS backends, edge servers, and low-token microservices."
+  },
+  {
+    "q": "How does Jinja2 prevent Cross-Site Scripting (XSS) in HTMX applications?",
+    "a": "Flask enables auto-escaping by default for all Jinja2 templates ending in .html, .htm, and .xml. Any dynamic user input interpolated via {{ variable }} is automatically escaped to HTML entities (e.g., < becomes &lt;). You should avoid | safe unless rendering sanitised markdown."
+  },
+  {
+    "q": "How do I implement debounced instant search with HTMX?",
+    "a": "Add hx-get='/items' hx-trigger='keyup changed delay:300ms, search' hx-target='#items-table-body' to the search <input>. When the user types, HTMX waits 300ms after the last keystroke before dispatching the request, avoiding unnecessary server load."
+  },
+  {
+    "q": "How do I handle out-of-band (OOB) multi-target DOM updates with HTMX?",
+    "a": "When returning an HTML response, you can include supplementary elements with hx-swap-oob='true' or hx-swap-oob='outerHTML:#counter'. HTMX will swap the primary target with the main body and simultaneously update any matching elements elsewhere on the page."
+  },
+  {
+    "q": "What is the recommended production WSGI server for Flask + SQLite?",
+    "a": "Deploy with Gunicorn using the gthread worker class (e.g. gunicorn -w 2 -k gthread --threads 4 -b 0.0.0.0:8080 'app:create_app()'). With SQLite, keep worker process count modest (1-3 workers) and rely on thread concurrency so threads share memory and file descriptors efficiently."
+  },
+  {
+    "q": "How do I handle database migrations in a lightweight SQLite project?",
+    "a": "For ultra-lightweight projects, you can version schema files (e.g., 001_initial.sql, 002_add_tags.sql) executed via a small custom runner that tracks applied migrations in a schema_version table, or integrate Alembic with Flask-Migrate if you adopt SQLAlchemy."
+  },
+  {
+    "q": "Why run Docker as non-root user USER 10001:10001?",
+    "a": "Running containers as root (UID 0) exposes the host to privilege escalation vulnerabilities if a container breakout occurs. In our Dockerfile, we explicitly create appuser (UID 10001) and set USER 10001:10001, satisfying strict container security benchmarks and enterprise Semgrep scans."
+  },
+  {
+    "q": "How does this stack achieve Tier A+ token-light efficiency for AI coding agents?",
+    "a": "AI coding models often consume tens of thousands of tokens when generating large TypeScript interfaces, Tailwind utility cascades, and client state orchestration. Flask + HTMX operates on native HTML and standard Python, allowing agents to understand, edit, and verify features in fewer than 16,000 median tokens."
+  },
+  {
+    "q": "How do I test HTMX fragment endpoints with pytest?",
+    "a": "Use the Flask test_client and pass headers={'HX-Request': 'true'} in client.get() or client.post(). Assert that the returned payload contains the expected partial markup (e.g. <tr or <div class='card') and does NOT contain <!DOCTYPE html> or <html> tags."
+  }
+]

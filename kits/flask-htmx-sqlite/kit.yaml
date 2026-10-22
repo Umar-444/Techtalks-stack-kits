@@ -1,33 +1,45 @@
-schema_version: 1.0.0
-name: Flask + HTMX + SQLite
-slug: flask-htmx-sqlite
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Minimal Python full-stack stack: single-file Flask, HTMX 2.0 reactive
-  DOM boosts, and zero-ceremony SQLite persistence. The Python entry in the Token-Light
-  line.'
-category: Token-Light
+﻿schema_version: "1.0.0"
+
+name: "Flask + HTMX + SQLite"
+slug: "flask-htmx-sqlite"
+version: "1.0.0"
+status: "stable"
+updated_at: "2026-10-22"
+description: "Minimalist Python full-stack flagship: application factory Flask 3.0, HTMX 2.0 reactive DOM boosts, non-blocking SQLite WAL persistence, and CSRF protection. The ultra-efficient Python entry in the Token-Light line."
+category: "Token-Light"
+
 maintainer:
-  name: TechTalks Python Engineering Group
-  role: Python Web Lead
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Systems Architect"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Python
-    version: 3.12+
-    registry: pypi.org
+    name: "Python"
+    version: ">= 3.12"
+    registry: "pypi.org"
   framework:
-    name: Flask
-    version: 3.0+
-    registry: pypi.org
-  interactivity: HTMX 2.0+
-  database:
-    engine: SQLite
-    version: 3.45+
+    name: "Flask"
+    version: ">= 3.0.3"
+    registry: "pypi.org"
+  interactivity:
+    name: "HTMX"
+    version: ">= 2.0.3"
     features:
-    - WAL mode
+      - "Hypermedia-driven dynamic updates"
+      - "Debounced instant search"
+      - "Zero JavaScript client bundle"
+  database:
+    engine: "SQLite"
+    version: ">= 3.45"
+    features:
+      - "WAL mode (Write-Ahead Logging)"
+      - "PRAGMA busy_timeout = 5000"
+      - "Foreign key integrity enforcement"
+      - "Synchronous NORMAL optimization"
+
 layers:
   starter:
     path: starter/
@@ -35,37 +47,57 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: flask-htmx-sqlite-core
-      path: skills/flask-htmx-sqlite-core/SKILL.md
-      description: Core operations skill for Flask + HTMX + SQLite.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Comprehensive preflight verification, virtual environment setup, and test runner execution for Flask + HTMX + SQLite.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Guide to implementing an end-to-end reactive feature using Flask blueprints, Jinja2 partials, and HTMX 2.0 DOM swaps.
+      - id: sqlite-wal-and-concurrency
+        path: skills/sqlite-wal-and-concurrency/SKILL.md
+        description: SQLite WAL mode configuration, connection concurrency tuning, and transaction locking patterns for Flask.
+      - id: htmx-csrf-and-security
+        path: skills/htmx-csrf-and-security/SKILL.md
+        description: Implementing CSRF protection, Content Security Policy (CSP), and secure headers for HTMX 2.0 AJAX requests in Flask.
+      - id: flask-htmx-sqlite-core
+        path: skills/flask-htmx-sqlite-core/SKILL.md
+        description: Core operational workflows, Blueprint routing, SQLite WAL pragmas, CSRF tokens, and Token-Light evaluation.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: true
   median_eval_tokens: 15900
-  efficiency_tier: A+
+  efficiency_tier: "A+"
+
 security:
   automated_scans:
     gitleaks: true
@@ -75,5 +107,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

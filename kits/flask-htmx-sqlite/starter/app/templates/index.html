@@ -1,0 +1,72 @@
+﻿{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <!-- Header Controls & Search -->
+    <section class="card controls-card">
+        <div class="card-header">
+            <h2>Data Management Dashboard</h2>
+            <p class="subtitle">Single-file zero-ceremony persistence with dynamic HTMX partial DOM updates</p>
+        </div>
+        
+        <div class="search-bar">
+            <input type="search"
+                   name="q"
+                   class="form-control"
+                   placeholder="Live search records (debounced 300ms)..."
+                   hx-get="{{ url_for('main.items') }}"
+                   hx-trigger="keyup changed delay:300ms, search"
+                   hx-target="#items-table-body"
+                   hx-indicator="#search-spinner">
+            <div id="search-spinner" class="htmx-indicator spinner"></div>
+        </div>
+    </section>
+
+    <!-- Create Item Form -->
+    <section class="card form-card">
+        <h3>Add New Record</h3>
+        <form class="inline-form"
+              hx-post="{{ url_for('main.items') }}"
+              hx-target="#items-table-body"
+              hx-swap="afterbegin"
+              hx-on::after-request="if(event.detail.successful) this.reset()">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="form-row">
+                <input type="text"
+                       name="title"
+                       class="form-control"
+                       placeholder="Record title (e.g., Enable WAL checkpoint)"
+                       required>
+                <input type="text"
+                       name="description"
+                       class="form-control"
+                       placeholder="Optional description...">
+                <select name="category" class="form-control">
+                    <option value="database">Database</option>
+                    <option value="frontend">Frontend</option>
+                    <option value="security">Security</option>
+                    <option value="ops">DevOps</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Add Record</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Interactive Data Table -->
+    <section class="card table-card">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th class="col-status">Done</th>
+                    <th class="col-title">Title & Details</th>
+                    <th class="col-category">Category</th>
+                    <th class="col-actions">Actions</th>
+                </tr>
+            </thead>
+            <tbody id="items-table-body">
+                {% include "partials/item_list.html" %}
+            </tbody>
+        </table>
+    </section>
+</div>
+{% endblock %}

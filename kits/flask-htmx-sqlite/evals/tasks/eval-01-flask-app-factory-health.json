@@ -1,0 +1,11 @@
+﻿{
+  "id": "eval-01-flask-app-factory-health",
+  "title": "Flask Application Factory & WAL Health Verification",
+  "instruction": "Verify that create_app() constructs the Flask application, registers SQLite teardown, enables WAL mode, and serves health checks.",
+  "assertions": [
+    "Application factory create_app() is defined and callable",
+    "GET /health returns HTTP 200 with JSON payload",
+    "journal_mode is reported as 'wal'",
+    "token_light is true"
+  ]
+}

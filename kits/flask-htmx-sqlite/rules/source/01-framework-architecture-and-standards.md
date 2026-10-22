@@ -1,0 +1,64 @@
+﻿---
+id: framework-architecture-and-standards
+title: Framework Architecture & Standards
+globs: "**/*.py"
+alwaysApply: true
+---
+# Flask Application Factory Architecture & Production Standards
+
+## 1. Application Factory Pattern
+- Always construct Flask applications using the factory pattern: `create_app(test_config=None)`.
+- Never use global app instances or module-level `app = Flask(__name__)` in production modules.
+- Register all functional route groups using Flask Blueprints with explicit URL prefixes:
+  ```python
+  from flask import Flask
+
+  def create_app(test_config=None):
+      app = Flask(__name__, instance_relative_config=True)
+      app.config.from_mapping(
+          SECRET_KEY=os.environ.get("SECRET_KEY", "dev-insecure-key-change-me"),
+          DATABASE=os.path.join(app.instance_path, "app.sqlite"),
+          WTF_CSRF_TIME_LIMIT=3600,
+      )
+      if test_config:
+          app.config.update(test_config)
+      
+      # Initialize extensions
+      init_app(app)
+      csrf.init_app(app)
+      
+      # Register blueprints
+      from app.routes import main_bp
+      app.register_blueprint(main_bp)
+      
+      return app
+  ```
+
+## 2. Directory Layout & Separation of Concerns
+```
+starter/
+├── app/
+│   ├── __init__.py        # Application factory & extension init
+│   ├── db.py              # SQLite connection lifecycle & WAL pragma management
+│   ├── routes.py          # HTTP handlers supporting full & HTMX partial views
+│   ├── schema.sql         # DDL migrations & initial schema
+│   ├── static/
+│   │   ├── css/style.css  # Dark-mode styling tokens
+│   │   └── js/htmx.min.js # Vendored or CDN fallback
+│   └── templates/
+│       ├── base.html      # Outer layout with CSRF token & htmx:configRequest
+│       ├── index.html     # Full page container
+│       └── partials/      # HTMX fragment targets (item_row.html, item_list.html)
+├── tests/
+│   └── test_app.py        # Pytest test client fixtures & fragment tests
+├── Dockerfile             # Multi-stage rootless container (USER 10001:10001)
+├── docker-compose.yml     # Standalone compose runner
+└── requirements.txt       # Hardened dependency pins
+```
+
+## 3. ASGI/WSGI Production Server Invariants
+- Deploy with Gunicorn using gevent, eventlet, or gthread workers for concurrent I/O:
+  ```bash
+  gunicorn -w 4 -k gthread --threads 4 -b 0.0.0.0:8080 "app:create_app()"
+  ```
+- Gracefully handle SIGTERM and SIGINT to flush WAL write transactions before process termination.

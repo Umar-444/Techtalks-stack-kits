@@ -1,0 +1,11 @@
+﻿{
+  "id": "eval-03-sqlite-wal-transaction-guard",
+  "title": "SQLite WAL Concurrency & Transaction Integrity Guard",
+  "instruction": "Verify SQLite connection sets WAL mode, busy_timeout=5000, and isolates database operations.",
+  "assertions": [
+    "PRAGMA journal_mode is set to WAL",
+    "PRAGMA busy_timeout is set to 5000ms",
+    "Foreign keys are enforced via PRAGMA foreign_keys = ON",
+    "Database connection is properly closed in teardown_appcontext"
+  ]
+}

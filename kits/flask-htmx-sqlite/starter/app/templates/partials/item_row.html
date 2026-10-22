@@ -1,0 +1,33 @@
+﻿<tr id="item-{{ item['id'] }}" class="item-row {% if item['completed'] %}completed{% endif %}">
+    <td class="col-status">
+        <button class="toggle-btn"
+                hx-post="{{ url_for('main.toggle_item', item_id=item['id']) }}"
+                hx-target="#item-{{ item['id'] }}"
+                hx-swap="outerHTML"
+                title="Toggle Completion">
+            {% if item['completed'] %}
+                <span class="icon-checked">✓</span>
+            {% else %}
+                <span class="icon-unchecked">○</span>
+            {% endif %}
+        </button>
+    </td>
+    <td class="col-title">
+        <span class="item-title">{{ item['title'] }}</span>
+        {% if item['description'] %}
+            <small class="item-desc">{{ item['description'] }}</small>
+        {% endif %}
+    </td>
+    <td class="col-category">
+        <span class="tag tag-{{ item['category'] }}">{{ item['category'] }}</span>
+    </td>
+    <td class="col-actions">
+        <button class="btn btn-delete btn-sm"
+                hx-delete="{{ url_for('main.delete_item', item_id=item['id']) }}"
+                hx-target="#item-{{ item['id'] }}"
+                hx-swap="outerHTML"
+                hx-confirm="Are you sure you want to delete this record?">
+            Delete
+        </button>
+    </td>
+</tr>

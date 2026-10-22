@@ -1,0 +1,62 @@
+---
+description: 04 Csrf Security And Input Validation
+globs: *
+alwaysApply: true
+---
+
+# 04 Csrf Security And Input Validation
+
+﻿---
+id: csrf-security-and-input-validation
+title: CSRF Security & Input Sanitization
+globs: "**/*.{py,html,js}"
+alwaysApply: true
+---
+# CSRF Defenses, HTMX Security Headers & Input Sanitization
+
+## 1. Flask-WTF CSRF with HTMX Headers
+- All state-changing requests (POST, PUT, PATCH, DELETE) MUST validate CSRF tokens.
+- Inject the token into the global HTML layout meta tag:
+  ```html
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  ```
+- Configure HTMX to automatically append `X-CSRFToken` to every outgoing AJAX request:
+  ```html
+  <body hx-headers='{"X-CSRFToken": "{{ csrf_token() }}"}'>
+  ```
+  Or via JavaScript event hook:
+  ```javascript
+  document.body.addEventListener('htmx:configRequest', function(evt) {
+      evt.detail.headers['X-CSRFToken'] = document.querySelector('meta[name="csrf-token"]').content;
+  });
+  ```
+
+## 2. SQL Injection Prevention & Strict Parameterization
+- NEVER use Python f-strings, `%` formatting, or manual string concatenation in SQL queries.
+- ALWAYS use parameter placeholders (`?` in sqlite3):
+  ```python
+  # SECURE:
+  cursor.execute("SELECT * FROM items WHERE tenant_id = ? AND title LIKE ?", (tenant_id, f"%{query}%"))
+
+  # FORBIDDEN (Vulnerable to SQLi):
+  cursor.execute(f"SELECT * FROM items WHERE tenant_id = '{tenant_id}'")
+  ```
+
+## 3. Strict Content Security Policy (CSP) & Security Headers
+- Set standard security headers on every response:
+  ```python
+  @app.after_request
+  def set_security_headers(response):
+      response.headers["X-Content-Type-Options"] = "nosniff"
+      response.headers["X-Frame-Options"] = "DENY"
+      response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+      response.headers["Content-Security-Policy"] = (
+          "default-src 'self'; "
+          "script-src 'self' 'unsafe-eval' https://unpkg.com; "
+          "style-src 'self' 'unsafe-inline'; "
+          "img-src 'self' data:; "
+          "connect-src 'self';"
+      )
+      return response
+  ```
+

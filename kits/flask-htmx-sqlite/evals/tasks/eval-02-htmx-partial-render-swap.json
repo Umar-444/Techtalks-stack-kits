@@ -1,0 +1,11 @@
+﻿{
+  "id": "eval-02-htmx-partial-render-swap",
+  "title": "HTMX Dual-Rendering & Partial DOM Swapping",
+  "instruction": "Verify that standard GET returns full HTML document whereas HX-Request returns partial fragment.",
+  "assertions": [
+    "GET / returns complete <!DOCTYPE html> markup",
+    "GET /items with HX-Request: true returns partial fragment without html shell",
+    "POST /items creates new item and returns item_row.html partial with HTTP 201",
+    "DELETE /items/<id> returns empty body with HTTP 200 for outerHTML cleanup"
+  ]
+}

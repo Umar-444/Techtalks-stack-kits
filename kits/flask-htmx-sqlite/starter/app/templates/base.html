@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{% block title %}Flask + HTMX + SQLite • Token-Light Stack{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- HTMX 2.0.3 -->
+    <script src="https://unpkg.com/htmx.org@2.0.3" integrity="sha384-0895/CurykRqdYZMtL8WB2lMBfzTU0s6gznWG3CBQE6WByYGd7hKiTWlYZCvFX8r" crossorigin="anonymous"></script>
+    <script>
+        // Forward Flask-WTF CSRF Token on all HTMX AJAX requests
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.addEventListener('htmx:configRequest', (evt) => {
+                const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                if (token) {
+                    evt.detail.headers['X-CSRFToken'] = token;
+                }
+            });
+        });
+    </script>
+</head>
+<body class="bg-dark text-light">
+    <header class="navbar">
+        <div class="container nav-content">
+            <div class="brand">
+                <span class="logo-icon">⚡</span>
+                <span class="brand-text">Flask <strong>HTMX</strong> SQLite</span>
+            </div>
+            <div class="badges">
+                <span class="badge badge-success">WAL Mode Active</span>
+                <span class="badge badge-primary">Token-Light Tier A+</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <p>TechTalks Stack Kits • Ultra-low Token Python Web Architecture • Non-blocking SQLite</p>
+        </div>
+    </footer>
+</body>
+</html>
