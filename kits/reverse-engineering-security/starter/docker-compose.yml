@@ -1,0 +1,12 @@
+﻿version: '3.8'
+
+services:
+  security-audit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/workspace:ro
+    environment:
+      - REPORT_FORMAT=console
+    restart: "no"

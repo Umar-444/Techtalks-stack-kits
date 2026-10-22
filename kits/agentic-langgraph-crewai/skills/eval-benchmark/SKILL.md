@@ -4,6 +4,6 @@ description: Run automated benchmark evaluation test suites measuring accuracy a
 ---
 # Evaluation Benchmark Skill
 
-`ash
+````bash
 pytest tests/ -v --benchmark
 `

@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-03-sarif-security-report-export",
+  "name": "OASIS SARIF 2.1.0 Standard Vulnerability Report Export",
+  "difficulty": "intermediate",
+  "prompt": "Format all AST and binary audit findings into standard OASIS SARIF 2.1.0 JSON format with rule metadata, severity levels, and physical file locations for CI/CD ingestion.",
+  "expected_files": [
+    "starter/reporting/sarif_report.py",
+    "starter/cli.py"
+  ],
+  "verification": {
+    "command": "python starter/cli.py scan --path starter/tests/test_audit.py --format sarif",
+    "criteria": "Outputs valid SARIF 2.1.0 JSON matching the OASIS specification"
+  }
+}

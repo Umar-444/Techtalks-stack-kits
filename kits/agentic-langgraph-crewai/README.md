@@ -17,7 +17,7 @@ Production-ready multi-agent coordination architecture: LangGraph state machines
 - Git
 
 ### 1. Clone & Start Containers
-`ash
+````bash
 git clone https://github.com/Umar-444/Techtalks-stack-kits.git
 cd Techtalks-stack-kits/kits/agentic-langgraph-crewai/starter
 cp .env.example .env
@@ -25,20 +25,20 @@ docker compose up -d
 `
 
 ### 2. Verify Health
-`ash
+````bash
 curl http://localhost:8000/health
 # {"status":"healthy","service":"agentic-langgraph-crewai","version":"1.0.0"}
 `
 
 ### 3. Run Agent Workflow
-`ash
+````bash
 curl -X POST http://localhost:8000/api/v1/run-agent \
   -H "Content-Type: application/json" \
   -d '{"query": "Analyze distributed cloud security"}'
 `
 
 ### 4. Run Test Suite
-`ash
+````bash
 docker compose exec app pytest tests/ -v
 `
 

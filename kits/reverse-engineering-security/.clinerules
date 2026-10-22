@@ -1,0 +1,14 @@
+﻿# Assistant Guidelines for Reverse Engineering & Security Audit Pack
+
+## Stack Overview
+- Language: Python 3.12+ (Type-annotated, dataclasses)
+- Analysis Engine: Python standard AST (Abstract Syntax Tree) & pure-Python ELF/PE header parser
+- Standards: OASIS SARIF 2.1.0, CycloneDX 1.5+, SPDX 2.3+
+- Security: Strictly defensive static analysis; zero exploitation code; non-root Alpine container (USER 10001:10001)
+
+## Mandatory Rules
+1. All analysis must be strictly defensive, static, and deterministic (read-only file access).
+2. Report vulnerabilities using structured SARIF 2.1.0 JSON format with exact line, column, and remediation guidance.
+3. Verify compiled binary security flags (NX/DEP, ASLR/PIE, Stack Canaries, RELRO) without executing targets.
+4. Detect dangerous source sinks (eval, exec, shell=True, SQL string interpolation) via AST NodeVisitor.
+5. Provide actionable compiler remediation flags (-fstack-protector-strong, -pie) for any failed binary checks.

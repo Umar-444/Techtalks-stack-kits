@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-02-binary-hardening-checksec",
+  "name": "Compiled Binary Exploit Mitigation Header Inspection",
+  "difficulty": "intermediate",
+  "prompt": "Implement pure-Python structural inspection of executable headers to audit modern exploit mitigations (NX/DEP, ASLR/PIE, Stack Canaries, and RELRO) without binary execution.",
+  "expected_files": [
+    "starter/analyzers/binary_checker.py",
+    "starter/cli.py"
+  ],
+  "verification": {
+    "command": "python starter/cli.py health",
+    "criteria": "CLI executes cleanly and outputs valid machine-readable status"
+  }
+}

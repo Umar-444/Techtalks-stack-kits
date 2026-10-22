@@ -1,0 +1,58 @@
+﻿[
+  {
+    "q": "What is the primary objective of the Reverse Engineering & Security Audit Pack?",
+    "a": "This kit provides a strictly defensive, automated security auditing and structural analysis suite. It combines Python AST static code analysis, compiled binary exploit mitigation verification (checksec), Software Bill of Materials (SBOM) validation, and OASIS SARIF reporting to audit applications for vulnerabilities before deployment."
+  },
+  {
+    "q": "Why is AST (Abstract Syntax Tree) analysis vastly superior to regex-based vulnerability scanning?",
+    "a": "Regex scanning looks only for raw text patterns, leading to frequent false positives (such as matching function names inside comments or string literals) and false negatives (missing multi-line function calls). AST parsing reconstructs the true semantic syntax tree of the code, allowing analyzers to evaluate actual call arguments, variable scopes, and execution contexts accurately."
+  },
+  {
+    "q": "What dangerous execution sinks are detected by this AST analyzer?",
+    "a": "The AST analyzer flags invocations of `eval()`, `exec()`, and `subprocess` functions called with `shell=True`. These sinks permit arbitrary code execution or command injection if supplied with unvalidated user input. The analyzer provides exact file paths, line numbers, and code snippets for immediate remediation."
+  },
+  {
+    "q": "How does the analyzer detect SQL injection vulnerabilities in database queries?",
+    "a": "The AST visitor inspects arguments passed to database execution methods (`execute()`, `raw()`, `raw_query()`). It flags any argument constructed using Python f-strings (`JoinedStr`), string formatting (`%` or `.format()`), or binary string addition (`BinOp`), ensuring queries utilize strict parameterized placeholders."
+  },
+  {
+    "q": "What are compiled binary exploit mitigations and why must they be audited?",
+    "a": "Modern operating systems provide kernel and compiler-level mitigations to neutralize memory corruption vulnerabilities. Even when source code contains latent memory bugs, mitigations like NX/DEP, ASLR, and Stack Canaries prevent attackers from executing arbitrary payload code or predicting memory layout."
+  },
+  {
+    "q": "How does checksec verify Position Independent Executables (PIE/ASLR)?",
+    "a": "The binary analyzer inspects the ELF header `e_type` field. A standard non-PIE executable has `e_type = 2` (`ET_EXEC`), which loads at fixed virtual memory addresses. A hardened binary has `e_type = 3` (`ET_DYN`), instructing the Linux kernel dynamic loader to randomize the binary's base memory address on every execution."
+  },
+  {
+    "q": "How does Non-Executable Stack (NX/DEP) prevent buffer overflow exploitation?",
+    "a": "NX (No-Execute) or DEP (Data Execution Prevention) marks stack and heap memory pages as non-executable. The binary checker inspects the `GNU_STACK` program header segment. If flags permit execution (`RWE`), the analyzer flags a critical vulnerability and recommends compiling with `-Wl,-z,noexecstack`."
+  },
+  {
+    "q": "What compiler flags should developers use to remediate missing binary mitigations?",
+    "a": "For GCC and Clang: enable Stack Canaries via `-fstack-protector-strong`, enable full ASLR via `-fPIE -pie`, enforce Read-Only Relocations via `-Wl,-z,relro,-z,now`, mark stack non-executable via `-Wl,-z,noexecstack`, and enable libc function bounds checking via `-D_FORTIFY_SOURCE=2 -O2`."
+  },
+  {
+    "q": "What is OASIS SARIF and why is it essential for enterprise security pipelines?",
+    "a": "SARIF (Static Analysis Results Interchange Format) is an OASIS standard JSON specification for static analysis tool output. By outputting SARIF 2.1.0, results seamlessly upload into GitHub Code Scanning alerts, GitLab Security Dashboards, and security aggregators like DefectDojo without custom parser scripts."
+  },
+  {
+    "q": "How does the CLI integrate into GitHub Actions workflows for automated pull request gating?",
+    "a": "In GitHub Actions, run `python cli.py scan --path src/ --format sarif --out results.sarif`, followed by the official `github/codeql-action/upload-sarif@v3` action. Findings appear directly inline on PR code diffs with severity badges and line annotations."
+  },
+  {
+    "q": "How does the kit validate Software Bill of Materials (SBOM) documents?",
+    "a": "The analyzer parses CycloneDX and SPDX SBOM JSON files, verifying that declared dependencies have pinned cryptographic SHA-256 integrity hashes, checking packages against OSV vulnerability feeds, and verifying license compliance against organizational whitelists."
+  },
+  {
+    "q": "Why does this tool use pure-Python structural inspection instead of executing binaries?",
+    "a": "Executing untrusted binaries or running heavyweight disassemblers in automated CI pipelines introduces security risks and excessive CPU overhead. The pure-Python structural reader parses ELF and PE header bytes directly in memory with read-only file handles, completing audits in under 10 milliseconds."
+  },
+  {
+    "q": "How does the CLI enforce automated security gating in CI/CD pipelines?",
+    "a": "When running in CI pipelines, the CLI returns exit code `0` if zero high-severity issues are found, and exits with code `1` if any `HIGH` severity finding (such as unparameterized SQL or `eval` usage) is detected, automatically blocking pipeline progression."
+  },
+  {
+    "q": "How is the security audit tool itself protected against supply chain vulnerabilities?",
+    "a": "The containerized tool executes as an unprivileged user (`USER 10001:10001`) in an Alpine Linux environment. All Python dependencies are pinned with exact versions, and the tool codebase is scanned with `gitleaks` and `semgrep` on every commit."
+  }
+]

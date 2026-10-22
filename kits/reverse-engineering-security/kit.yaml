@@ -1,27 +1,34 @@
-schema_version: 1.0.0
-name: Reverse Engineering & Security Audit Pack
-slug: reverse-engineering-security
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Security auditing and reverse engineering suite: decompiler scripts,
-  AST static analyzers, and invariant validation harnesses.'
-category: Security
+﻿schema_version: "1.0.0"
+
+name: "Reverse Engineering & Security Audit Pack"
+slug: "reverse-engineering-security"
+version: "1.0.0"
+status: "stable"
+category: "security"
+updated_at: "2026-10-22"
+
+description: "Production-grade defensive security auditing and structural analysis suite: Python AST static analyzers, compiled binary exploit mitigation verification (checksec), SBOM validation, and OASIS SARIF reporting."
+
 maintainer:
-  name: Umar Farooq
-  role: Senior Security Researcher
-  url: https://itsumarfarooq.com
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Systems Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Python
-    version: 3.12+
-    registry: pypi.org
+    name: "Python"
+    version: ">= 3.12.0"
+    registry: "pypi.org"
   framework:
-    name: Security Audit CLI
-    version: '1.0'
-    registry: pypi.org
-  ast_analysis: Tree-sitter / Semgrep
+    name: "Security Audit CLI"
+    version: "^1.0"
+    registry: "pypi.org"
+  ast_analysis: "Python Standard AST Visitor Engine"
+  binary_analysis: "ELF/PE Structural Exploit Mitigation Checker"
+  reporting: "OASIS SARIF 2.1.0"
+
 layers:
   starter:
     path: starter/
@@ -29,38 +36,57 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: reverse-engineering-security-core
-      path: skills/reverse-engineering-security-core/SKILL.md
-      description: Core operations skill for Reverse Engineering & Security Audit
-        Pack.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install dependencies, run audit CLI against sample test files, and verify SARIF reporting.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Author a custom AST security detector to identify dangerous string concatenation in database queries.
+      - id: ast-security-rule-authoring
+        path: skills/ast-security-rule-authoring/SKILL.md
+        description: Deep dive into writing semantic AST visitors for dangerous functions (eval, exec, subprocess, yaml.load).
+      - id: binary-mitigation-auditing
+        path: skills/binary-mitigation-auditing/SKILL.md
+        description: Verify compiled Linux ELF and Windows PE binary hardening protections (NX, ASLR, Canaries, RELRO).
+      - id: reverse-engineering-security-core
+        path: skills/reverse-engineering-security-core/SKILL.md
+        description: Core operations, SARIF export, CLI flags, GitHub Actions CI integration, and audit workflows.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
-  token_light: false
-  median_eval_tokens: 21000
-  efficiency_tier: A
+  token_light: true
+  median_eval_tokens: 20998
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -70,5 +96,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

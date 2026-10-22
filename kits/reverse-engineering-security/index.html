@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reverse Engineering & Security Audit Pack (Blueprint) &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="Security auditing and reverse engineering suite: decompiler scripts, AST static analyzers, and invariant validation harnesses.">
+  <title>Reverse Engineering & Security Audit Pack &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Production-grade defensive security auditing and structural analysis suite: Python AST static analyzers, compiled binary exploit mitigation verification (checksec), SBOM validation, and OASIS SARIF reporting.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/reverse-engineering-security/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/reverse-engineering-security/">
-  <meta property="og:title" content="Reverse Engineering & Security Audit Pack (Blueprint) &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="Security auditing and reverse engineering suite: decompiler scripts, AST static analyzers, and invariant validation harnesses.">
+  <meta property="og:title" content="Reverse Engineering & Security Audit Pack &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Production-grade defensive security auditing and structural analysis suite: Python AST static analyzers, compiled binary exploit mitigation verification (checksec), SBOM validation, and OASIS SARIF reporting.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -201,27 +201,27 @@
       <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">reverse-engineering-security</span>
     </nav>
 
-<div class="mb-8 p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] border-l-[3px] border-l-[#B7791F] text-xs leading-relaxed flex items-start gap-3"><span class="font-mono font-bold text-[#B7791F] uppercase tracking-wider">Note:</span><div class="text-[#5C6058] dark:text-[#C4C4CC]">This kit is an architectural blueprint. Specifications, threat models, and multi-dialect rules are compiled. Starter containers are in active verification.</div></div>
+
 
     <!-- Kit Header Section -->
     <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="chip-status-blueprint"><span class="w-1.5 h-1.5 rounded-full bg-[#8E8E96]"></span>BLUEPRINT</span>
+        <span class="chip-status-ready"><span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>READY TO SHIP</span>
         <span class="text-xs font-mono text-[#8E8E96]">v1.0.0</span>
         <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>
         <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        Reverse Engineering & Security Audit Pack (Blueprint)
+        Reverse Engineering & Security Audit Pack
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        Security auditing and reverse engineering suite: decompiler scripts, AST static analyzers, and invariant validation harnesses.
+        Production-grade defensive security auditing and structural analysis suite: Python AST static analyzers, compiled binary exploit mitigation verification (checksec), SBOM validation, and OASIS SARIF reporting.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Python', 'version': '3.12+', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Security Audit CLI', 'version': '1.0', 'registry': 'pypi.org'}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Python', 'version': '>= 3.12.0', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Security Audit CLI', 'version': '^1.0', 'registry': 'pypi.org'}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -326,14 +326,14 @@
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Quick Reference &amp; Non-Negotiable Standards
-### Architecture for Reverse Engineering &amp; Security Audit Pack
-# Architecture
-Modular structure.
+### 01 Framework Architecture And Standards
+﻿# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
 
-### Security for Reverse Engineering &amp; Security Audit Pack
-# Security
-Zero credential leaks.
-</code></pre>
+1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` (SARIF and JSON report generators).
+2. **Strict Typing and Python 3.12+ Standards**: Use modern Python type hints (`dataclass`, `typing.Protocol`, pipe unions `X | Y`). Validate analyzer configurations using Pydantic or dataclasses with zero reliance on untyped dictionaries.
+3. **Deterministic Scan Execution**: Analyzers must operate deterministically without side effects. Scanners must read files in read-only mode (`O_RDONLY`), calculate SHA-256 hashes of targets, and generate reproducible vulnerability findings.
+4. **Standard SARIF 2.1.0 Export**: Standardize all security findin
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
@@ -342,15 +342,20 @@ Zero credential leaks.
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/reverse-engineering-security" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>---
-description: Architecture for Reverse Engineering &amp; Security Audit Pack
+description: 01 Framework Architecture And Standards
 globs: *
 alwaysApply: true
 ---
 
-# Architecture for Reverse Engineering &amp; Security Audit Pack
+# 01 Framework Architecture And Standards
 
-# Architecture
-Modular structure.</code></pre>
+﻿# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
+
+1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` (SARIF and JSON report generators).
+2. **Strict Typing and Python 3.12+ Standards**: Use modern Python type hints (`dataclass`, `typing.Protocol`, pipe unions `X | Y`). Validate analyzer configurations using Pydantic or dataclasses with zero reliance on untyped dictionaries.
+3. **Deterministic Scan Execution**: Analyzers must operate deterministically without side effects. Scanners must read files in read-only mode (`O_RDONLY`), calculate SHA-256 hashes of targets, and generate reproducible vulnerability findings.
+4. **Standard SARIF 2.1.0 Export**: Standardize all security findings into OASIS SARIF (Static Analysis Results Interchange Format) JSON format, enabling direct ingestion into GitHub Code Scann
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
@@ -358,28 +363,27 @@ Modular structure.</code></pre>
                 <span>Source: kits/reverse-engineering-security/CODEX.md &bull; Token footprint: ~400 tokens</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/reverse-engineering-security" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Reverse Engineering &amp; Security Audit Pack — Agent Operating Rules (AGENTS.md)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# OpenAI Codex &amp; Assistant Instruction Set: Reverse Engineering &amp; Security Audit Pack
+
+# Reverse Engineering &amp; Security Audit Pack â€” Agent Operating Rules (AGENTS.md)
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
 ## Table of Contents
-- [Architecture for Reverse Engineering &amp; Security Audit Pack](#architecture-guidelines)
-- [Security for Reverse Engineering &amp; Security Audit Pack](#security-invariants)
+- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
+- [02 Ast Static Analysis And Pattern Matching](#02-ast-static-analysis-and-pattern-matching)
+- [03 Binary Hardening And Exploit Mitigation Verification](#03-binary-hardening-and-exploit-mitigation-verification)
+- [04 Software Supply Chain And Sbom Validation](#04-software-supply-chain-and-sbom-validation)
+- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
 
 ---
 
-&lt;a id=&quot;architecture-guidelines&quot;&gt;&lt;/a&gt;
-## Architecture for Reverse Engineering &amp; Security Audit Pack
+&lt;a id=&quot;01-framework-architecture-and-standards&quot;&gt;&lt;/a&gt;
+## 01 Framework Architecture And Standards
 
-# Architecture
-Modular structure.
+ï»؟# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
 
----
-
-&lt;a id=&quot;security-invariants&quot;&gt;&lt;/a&gt;
-## Security for Reverse Engineering &amp; Security Audit Pack
-
-# Security
-Zero credential leaks.</code></pre>
+1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` 
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
@@ -390,14 +394,14 @@ Zero credential leaks.</code></pre>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># GitHub Copilot Instructions for Reverse Engineering &amp; Security Audit Pack
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
 
-## Architecture for Reverse Engineering &amp; Security Audit Pack
-# Architecture
-Modular structure.
+## 01 Framework Architecture And Standards
+﻿# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
 
-## Security for Reverse Engineering &amp; Security Audit Pack
-# Security
-Zero credential leaks.
-</code></pre>
+1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` (SARIF and JSON report generators).
+2. **Strict Typing and Python 3.12+ Standards**: Use modern Python type hints (`dataclass`, `typing.Protocol`, pipe unions `X | Y`). Validate analyzer configurations using Pydantic or dataclasses with zero reliance on untyped dictionaries.
+3. **Deterministic Scan Execution**: Analyzers must operate deterministically without side effects. Scanners must read files in read-only mode (`O_RDONLY`), calculate SHA-256 hashes of targets, and generate reproducible vulnerability findings.
+4. **Standard SARIF 2.1.0 Export**: Standardize all security findings into OASIS SARIF (Static Analysis Results Interch
+...</code></pre>
             </div>
 
             <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
@@ -405,9 +409,20 @@ Zero credential leaks.
                 <span>Source: kits/reverse-engineering-security/.clinerules &bull; Token footprint: ~310 tokens</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/reverse-engineering-security" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Rules compiled for Reverse Engineering & Security Audit Pack (Blueprint)
-- Follow architectural boundaries
-- Enforce strict security invariants</code></pre>
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code>﻿# Assistant Guidelines for Reverse Engineering &amp; Security Audit Pack
+
+## Stack Overview
+- Language: Python 3.12+ (Type-annotated, dataclasses)
+- Analysis Engine: Python standard AST (Abstract Syntax Tree) &amp; pure-Python ELF/PE header parser
+- Standards: OASIS SARIF 2.1.0, CycloneDX 1.5+, SPDX 2.3+
+- Security: Strictly defensive static analysis; zero exploitation code; non-root Alpine container (USER 10001:10001)
+
+## Mandatory Rules
+1. All analysis must be strictly defensive, static, and deterministic (read-only file access).
+2. Report vulnerabilities using structured SARIF 2.1.0 JSON format with exact line, column, and remediation guidance.
+3. Verify compiled binary security flags (NX/DEP, ASLR/PIE, Stack Canaries, RELRO) without executing targets.
+4. Detect dangerous source sinks (eval, exec, shell=True, SQL string interpolation) via AST NodeVisitor.
+5. Provide actionable compiler remediation flags (-fstack-protector-strong, -pie) for any failed binary checks.</code></pre>
             </div>
 
             <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
@@ -415,10 +430,16 @@ Zero credential leaks.
                 <span>Source: kits/reverse-engineering-security/.agents/rules/ &bull; Token footprint: ~330 tokens</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/reverse-engineering-security" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># Architecture for Reverse Engineering &amp; Security Audit Pack
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto whitespace-pre"><code># 01 Framework Architecture And Standards
 
-# Architecture
-Modular structure.</code></pre>
+﻿# Framework Architecture and Standards: Security Audit &amp; Analysis Pack
+
+1. **Defensive Audit Architecture**: Structure code into modular analyzer packages: `cli.py` (CLI runner and argument parsing), `analyzers/ast_analyzer.py` (AST visitor-based source code audits), `analyzers/binary_checker.py` (ELF/PE header security verification), and `reporting/` (SARIF and JSON report generators).
+2. **Strict Typing and Python 3.12+ Standards**: Use modern Python type hints (`dataclass`, `typing.Protocol`, pipe unions `X | Y`). Validate analyzer configurations using Pydantic or dataclasses with zero reliance on untyped dictionaries.
+3. **Deterministic Scan Execution**: Analyzers must operate deterministically without side effects. Scanners must read files in read-only mode (`O_RDONLY`), calculate SHA-256 hashes of targets, and generate reproducible vulnerability findings.
+4. **Standard SARIF 2.1.0 Export**: Standardize all security findings into OASIS SARIF (Static Analysis Results Interchange Format) JSON format, enabling direct ingestion into GitHub Code Scanning, GitLab Security Dashboard, and DefectDojo.
+5. **No External Attack Code**: All tools
+...</code></pre>
             </div>
 
           </div>
@@ -429,7 +450,11 @@ Modular structure.</code></pre>
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">reverse-engineering-security-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core skill for Reverse Engineering & Security Audit Pack</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">ast-security-rule-authoring</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Deep dive into writing semantic AST visitors for dangerous functions (eval, exec, subprocess, yaml.load).</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">binary-mitigation-auditing</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Verify compiled Linux ELF and Windows PE binary hardening protections (NX, ASLR, Canaries, RELRO).</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Author a custom AST security detector to identify dangerous string concatenation in database queries.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Install dependencies, run the audit CLI against sample test files, and verify the SARIF reporting engine.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">reverse-engineering-security-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core operations, SARIF export, CLI flags, GitHub Actions CI integration, and audit workflows.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 

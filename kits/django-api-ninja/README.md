@@ -5,7 +5,7 @@ API-only Django: full power of Django ORM, migrations, and admin panel behind hi
 ## Quickstart
 
 ### 1. Clone & Start Containers
-`ash
+````bash
 git clone https://github.com/Umar-444/Techtalks-stack-kits.git
 cd Techtalks-stack-kits/kits/django-api-ninja/starter
 cp .env.example .env
@@ -13,12 +13,12 @@ docker compose up -d
 `
 
 ### 2. Run Migrations
-`ash
+````bash
 docker compose exec web python manage.py migrate
 `
 
 ### 3. Verify Health
-`ash
+````bash
 curl http://localhost:8000/api/health
 # {"status":"healthy","service":"django-api-ninja","version":"1.0.0"}
 `
@@ -27,7 +27,7 @@ curl http://localhost:8000/api/health
 Open your browser at http://localhost:8000/api/docs to view the interactive Swagger/OpenAPI documentation.
 
 ### 5. Run Tests
-`ash
+````bash
 docker compose exec web pytest tests/ -v
 `
 

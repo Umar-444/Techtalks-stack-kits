@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-01-ast-dangerous-sink-detection",
+  "name": "AST Dangerous Code Execution Sink Detection",
+  "difficulty": "beginner",
+  "prompt": "Implement an AST visitor detecting dangerous dynamic code execution sinks (eval, exec, and subprocess shell=True), extracting source line numbers and code snippets.",
+  "expected_files": [
+    "starter/analyzers/ast_analyzer.py",
+    "starter/tests/test_audit.py"
+  ],
+  "verification": {
+    "command": "pytest starter/tests/test_audit.py -k test_ast_detects_eval_and_exec",
+    "criteria": "Test detects dangerous sinks with exact line numbers and rule IDs"
+  }
+}
