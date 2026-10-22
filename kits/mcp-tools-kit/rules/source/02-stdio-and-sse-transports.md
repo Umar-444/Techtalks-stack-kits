@@ -1,0 +1,17 @@
+---
+id: 02-stdio-and-sse-transports
+title: Stdio and SSE Transport Architecture
+description: Handling local process pipes and remote HTTP Server-Sent Events.
+globs: ["src/transports/**/*.ts"]
+alwaysApply: true
+---
+
+# Stdio and SSE Transport Architecture
+
+## 1. Stdio Transport Best Practices
+- `StdioServerTransport` uses `process.stdin` and `process.stdout` for communication.
+- All application logging must use `console.error()` to keep stdout exclusively reserved for JSON-RPC messages.
+
+## 2. SSE HTTP Transport Best Practices
+- `SSEServerTransport` handles HTTP GET `/sse` for client connection and POST `/messages` for commands.
+- Protect SSE endpoints with authentication middleware in non-local environments.

@@ -1,0 +1,11 @@
+{
+  "id": "task-02-stdio-sse-transport",
+  "title": "Dual Stdio and SSE Transport Verification",
+  "instruction": "Verify that StdioServerTransport and SSEServerTransport handle JSON-RPC 2.0 messages.",
+  "assertions": [
+    "Stdio transport executes cleanly without stdout pollution",
+    "SSE transport opens /sse stream and handles POST /messages"
+  ],
+  "prompt_tokens": 3300,
+  "completion_tokens": 2200
+}

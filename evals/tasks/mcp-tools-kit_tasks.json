@@ -1,0 +1,55 @@
+{
+  "kit_slug": "mcp-tools-kit",
+  "name": "Model Context Protocol (MCP) Server Kit (stdio + SSE)",
+  "token_metrics": {
+    "median_tokens": 14800,
+    "tier": "A+",
+    "token_light": true
+  },
+  "eval_tasks": [
+    {
+      "id": "mcp-tools-kit-task-01",
+      "title": "Initialization & Environment Config",
+      "instruction": "Verify MCP server boots cleanly across stdio and SSE transports.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health check responds 200 OK"
+      ],
+      "prompt_tokens": 2700,
+      "completion_tokens": 1900
+    },
+    {
+      "id": "mcp-tools-kit-task-02",
+      "title": "Data Model & Schema",
+      "instruction": "Define tool input schemas using Zod and register capabilities.",
+      "assertions": [
+        "Schemas validate with Zod",
+        "Tools declared with typed inputs"
+      ],
+      "prompt_tokens": 3000,
+      "completion_tokens": 2100
+    },
+    {
+      "id": "mcp-tools-kit-task-03",
+      "title": "API Handlers & Security",
+      "instruction": "Expose tools with path traversal sandbox defenses.",
+      "assertions": [
+        "Traversal attempts blocked",
+        "JSON-RPC 2.0 protocol conformance"
+      ],
+      "prompt_tokens": 2900,
+      "completion_tokens": 2000
+    },
+    {
+      "id": "mcp-tools-kit-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Execute Vitest unit tests and Semgrep security scans.",
+      "assertions": [
+        "Vitest tests pass with 0 failures",
+        "Zero secrets detected"
+      ],
+      "prompt_tokens": 3000,
+      "completion_tokens": 2200
+    }
+  ]
+}

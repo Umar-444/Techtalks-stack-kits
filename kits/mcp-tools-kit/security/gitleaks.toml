@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowed placeholder test tokens"
+regexes = [
+  '''(?i)mcp-mock-secret-token-12345''',
+  '''(?i)eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'''
+]

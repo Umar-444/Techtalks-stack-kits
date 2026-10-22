@@ -1,0 +1,6 @@
+rules:
+  - id: avoid-child-process-exec
+    pattern: child_process.exec($CMD, ...)
+    message: "Avoid child_process.exec() in MCP tools. Use safe sandboxed handlers."
+    languages: [typescript, javascript]
+    severity: ERROR

@@ -1,0 +1,11 @@
+{
+  "id": "task-03-tool-sandbox-guardrail",
+  "title": "Tool Sandbox & Path Traversal Guardrail",
+  "instruction": "Assert that read_secure_file blocks directory traversal and Zod rejects malformed inputs.",
+  "assertions": [
+    "Path traversal throws SECURITY_ERROR",
+    "Zero eval() or shell execution sinks exist in codebase"
+  ],
+  "prompt_tokens": 3400,
+  "completion_tokens": 2300
+}

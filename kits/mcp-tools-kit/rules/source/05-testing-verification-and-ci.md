@@ -1,0 +1,17 @@
+---
+id: 05-testing-verification-and-ci
+title: Testing Verification and CI Standards
+description: Vitest unit testing, protocol conformance, and CI checks.
+globs: ["tests/**/*.ts"]
+alwaysApply: true
+---
+
+# Testing Verification and CI Standards
+
+## 1. Unit Testing Tools
+- Test tool execution directly by invoking registered handler functions.
+- Test that invalid payloads fail Zod validation with code `-32602`.
+- Test that path traversal attempts throw `SecurityError`.
+
+## 2. CI Pipeline
+- Every PR must pass `npm test`, `npm run build`, `gitleaks`, and `semgrep`.

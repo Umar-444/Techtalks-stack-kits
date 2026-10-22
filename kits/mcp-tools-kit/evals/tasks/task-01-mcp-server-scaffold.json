@@ -1,0 +1,11 @@
+{
+  "id": "task-01-mcp-server-scaffold",
+  "title": "MCP Server Scaffold & Protocol Handshake",
+  "instruction": "Verify McpServer initialization, capabilities declaration, and health check route.",
+  "assertions": [
+    "Route /api/health responds with status ok",
+    "McpServer registers capabilities: tools, resources, prompts"
+  ],
+  "prompt_tokens": 3100,
+  "completion_tokens": 2000
+}

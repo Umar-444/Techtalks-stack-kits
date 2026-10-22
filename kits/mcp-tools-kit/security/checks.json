@@ -1,0 +1,90 @@
+{
+  "kit_slug": "mcp-tools-kit",
+  "updated_at": "2026-10-22",
+  "checks": [
+    {
+      "id": "SEC-01",
+      "name": "Zero Plaintext Credentials",
+      "status": "PASS",
+      "description": "All API tokens and secrets loaded via environment variables."
+    },
+    {
+      "id": "SEC-02",
+      "name": "Rootless Container Isolation",
+      "status": "PASS",
+      "description": "Dockerfile specifies non-root USER 10001:10001."
+    },
+    {
+      "id": "SEC-03",
+      "name": "Path Traversal Sandboxing",
+      "status": "PASS",
+      "description": "path.resolve() sandbox boundary validation prevents directory escapes."
+    },
+    {
+      "id": "SEC-04",
+      "name": "Runtime Zod Schema Validation",
+      "status": "PASS",
+      "description": "Every tool call argument validated against strict Zod schema."
+    },
+    {
+      "id": "SEC-05",
+      "name": "Zero Arbitrary Shell Execution",
+      "status": "PASS",
+      "description": "Child process exec() prohibited; only deterministic utilities permitted."
+    },
+    {
+      "id": "SEC-06",
+      "name": "JSON-RPC 2.0 Schema Conformance",
+      "status": "PASS",
+      "description": "All responses comply with JSON-RPC 2.0 specifications."
+    },
+    {
+      "id": "SEC-07",
+      "name": "Bearer Token Auth for SSE",
+      "status": "PASS",
+      "description": "HTTP SSE endpoints protected by Bearer token authorization."
+    },
+    {
+      "id": "SEC-08",
+      "name": "Payload Size Capping",
+      "status": "PASS",
+      "description": "Maximum JSON-RPC payload size capped at 4MB to prevent memory exhaustion."
+    },
+    {
+      "id": "SEC-09",
+      "name": "CORS Origin Restriction",
+      "status": "PASS",
+      "description": "SSE endpoints restrict cross-origin access to allowlisted origins."
+    },
+    {
+      "id": "SEC-10",
+      "name": "Rate Limiting on Tool Invocations",
+      "status": "PASS",
+      "description": "Per-client rate limiting prevents tool abuse and denial-of-service."
+    },
+    {
+      "id": "SEC-11",
+      "name": "Safe Math & Query Evaluation",
+      "status": "PASS",
+      "description": "No eval() or new Function() used in calculation or query tools."
+    },
+    {
+      "id": "SEC-12",
+      "name": "Structured Error Code Sanitization",
+      "status": "PASS",
+      "description": "Internal stack traces masked in client error responses."
+    },
+    {
+      "id": "SEC-13",
+      "name": "SAST Semgrep OSS Scan",
+      "status": "PASS",
+      "description": "0 blocking findings on OWASP Top 10 ruleset."
+    },
+    {
+      "id": "SEC-14",
+      "name": "Gitleaks Secret Scan",
+      "status": "PASS",
+      "description": "0 leaked tokens or credentials detected."
+    }
+  ]
+}

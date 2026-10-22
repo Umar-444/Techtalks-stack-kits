@@ -1,0 +1,119 @@
+schema_version: 1.0.0
+name: Model Context Protocol (MCP) Server Kit (stdio + SSE)
+slug: mcp-tools-kit
+version: 1.0.0
+status: stable
+category: AI & Agents
+updated_at: '2026-10-22'
+description: Production-ready Model Context Protocol (MCP) server reference kit supporting
+  stdio transport for local desktop AI agents (Claude Desktop, Cursor, Antigravity)
+  and Server-Sent Events (SSE) HTTP transport for remote microservices. Features strict
+  JSON-RPC 2.0 validation, tool sandboxing, and security boundaries.
+maintainer:
+  name: Umar Farooq
+  role: Senior Full-Stack & Security Engineer
+  url: https://itsumarfarooq.com
+  github: umar-444
+  email: contact@itsumarfarooq.com
+stack:
+  language:
+    name: TypeScript
+    version: ^5.6
+    registry: npm
+  mcp_sdk:
+    name: '@modelcontextprotocol/sdk'
+    version: ^1.0.0
+    features:
+    - StdioServerTransport
+    - SSEServerTransport
+    - Tool Schema Definition
+    - Dynamic Resources
+    - Prompt Templates
+  validation:
+    name: Zod
+    version: ^3.23
+  runtime:
+    name: Node.js
+    version: '>= 22.0.0'
+    registry: npm
+  framework:
+    name: Model Context Protocol SDK
+    version: ^1.0.0
+    registry: npm
+layers:
+  starter:
+    path: starter/
+    type: pre-wired-container
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+    - AGENTS.md
+    - CLAUDE.md
+    - CODEX.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .clinerules
+    - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+    - id: install-and-verify
+      path: skills/install-and-verify/SKILL.md
+      description: Install, configure, and verify the MCP Server across stdio and
+        SSE transports with healthchecks.
+    - id: first-feature
+      path: skills/first-feature/SKILL.md
+      description: Build the canonical sandboxed file inspector and database query
+        tools with Zod schema verification and Vitest tests.
+    - id: mcp-tool-authoring
+      path: skills/mcp-tool-authoring/SKILL.md
+      description: Author production-ready MCP tools with typed Zod arguments, error
+        handling, and progress notifications.
+    - id: mcp-transport-configuration
+      path: skills/mcp-transport-configuration/SKILL.md
+      description: Configure StdioServerTransport for desktop clients and SSEServerTransport
+        for distributed agent swarms.
+    - id: mcp-security-sandboxing
+      path: skills/mcp-security-sandboxing/SKILL.md
+      description: Enforce path traversal protection, command execution boundaries,
+        and read-only access locks.
+    - id: mcp-tools-kit-core
+      path: skills/mcp-tools-kit-core/SKILL.md
+      description: Core configuration, MCP Inspector debugging workflows, and developer
+        scripts.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
+  design:
+    path: DESIGN.md
+    theme_support:
+    - light
+    - dark
+    wcag_compliance: AA
+  security:
+    config_dir: security/
+    checks:
+    - gitleaks
+    - semgrep
+    - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: true
+  median_eval_tokens: 14800
+  efficiency_tier: A+
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+    rootless_container_enforced: true
+install:
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

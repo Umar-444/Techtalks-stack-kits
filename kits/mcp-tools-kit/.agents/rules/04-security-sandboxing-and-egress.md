@@ -1,0 +1,12 @@
+# Security Sandboxing and Access Boundaries
+
+# Security Sandboxing and Access Boundaries
+
+## 1. Path Traversal Defense
+- Always resolve paths against an allowed base directory using `path.resolve()`.
+- Validate that `resolvedPath.startsWith(allowedRoot)`.
+- Disallow access to hidden dotfiles or system directories (`/etc`, `/proc`).
+
+## 2. Denial-of-Service Defense
+- Cap tool output buffer size to 4MB.
+- Impose timeout limits (default 10s) on long-running tool operations.

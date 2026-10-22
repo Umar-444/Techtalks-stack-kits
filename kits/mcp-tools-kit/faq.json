@@ -1,0 +1,58 @@
+[
+  {
+    "q": "What is the Model Context Protocol (MCP) and how does this kit implement it?",
+    "a": "MCP is an open standard created by Anthropic that standardizes how AI applications connect to external tools and data sources. This kit implements official @modelcontextprotocol/sdk with full support for stdio and SSE transports."
+  },
+  {
+    "q": "When should I use stdio transport versus SSE HTTP transport?",
+    "a": "Use stdio transport when integrating directly with desktop AI clients like Claude Desktop, Cursor IDE, or local CLI agents. Use SSE (Server-Sent Events) over HTTP when deploying the MCP server as a microservice in Docker, Kubernetes, or multi-agent swarms."
+  },
+  {
+    "q": "How does this kit prevent path traversal attacks in file-related tools?",
+    "a": "The read_secure_file tool resolves target file paths against an explicit ALLOWED_SANDBOX_DIR root using path.resolve(). If the normalized target path does not start with the sandbox root, execution is terminated immediately."
+  },
+  {
+    "q": "How are tool input parameters validated?",
+    "a": "All tools declare input schemas using Zod. The MCP server automatically transforms Zod definitions into JSON Schema for AI model discovery, and validates all runtime tool invocations before execution."
+  },
+  {
+    "q": "Can I connect this MCP server to Claude Desktop?",
+    "a": "Yes. Add an entry to claude_desktop_config.json pointing to node and the compiled dist/transports/stdio.js file. Claude Desktop will automatically launch the process and expose registered tools in the chat UI."
+  },
+  {
+    "q": "What tools are included in the starter scaffold?",
+    "a": "The starter includes three canonical tools: system_info (returns OS and Node telemetry), read_secure_file (reads allowed files within the sandbox), and calculator (safe arithmetic evaluator)."
+  },
+  {
+    "q": "How does rootless containerization work in this MCP kit?",
+    "a": "The Dockerfile defines an appuser with non-root UID 10001:10001. All Node processes and HTTP listeners execute under this unprivileged user, preventing privilege escalation vulnerabilities."
+  },
+  {
+    "q": "Does the server support dynamic MCP Resources?",
+    "a": "Yes. The server registers dynamic resource templates using the resource() API, allowing AI agents to read configuration files and logs via standard URI patterns like internal://config/{key}."
+  },
+  {
+    "q": "What is the token consumption benchmark tier for this kit?",
+    "a": "The kit is benchmarked at Tier A+ (14,800 median build tokens) due to its minimal dependencies, zero-SPA architecture, and concise declarative tool definitions."
+  },
+  {
+    "q": "How are JSON-RPC 2.0 errors formatted and returned?",
+    "a": "Errors conform to standard JSON-RPC 2.0 error specifications with codes such as -32600 (Invalid Request), -32601 (Method not found), -32602 (Invalid params), and -32603 (Internal error)."
+  },
+  {
+    "q": "How do I test MCP tools locally without Claude Desktop?",
+    "a": "You can run the official MCP Inspector using npx @modelcontextprotocol/inspector node dist/transports/stdio.js, or run the included Vitest test suite via npm test."
+  },
+  {
+    "q": "How is authentication handled in SSE mode?",
+    "a": "The SSE transport includes middleware that validates an incoming Authorization: Bearer <token> header matching MCP_API_KEY from environment variables before opening the event stream."
+  },
+  {
+    "q": "Can tools report execution progress back to the agent?",
+    "a": "Yes. Long-running tools can use extra.sendNotification() to transmit progress events containing total and completed steps back to the client."
+  },
+  {
+    "q": "What automated security scans run in CI for this kit?",
+    "a": "GitHub Actions executes Gitleaks for credential detection, Semgrep with OWASP Top 10 rules, TypeScript typechecking, and manifest schema validation."
+  }
+]
