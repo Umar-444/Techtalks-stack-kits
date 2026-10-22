@@ -1,0 +1,11 @@
+﻿{
+  "id": "eval-01-gateway-health-and-config",
+  "title": "FastAPI Gateway Lifespan & Health Verification",
+  "instruction": "Verify that FastAPI gateway starts with explicit CORS, security headers, and healthy status probe.",
+  "assertions": [
+    "GET /health returns HTTP 200 with JSON payload",
+    "guardrails_active is true",
+    "X-Content-Type-Options: nosniff header present",
+    "CORS does not permit wildcard '*'"
+  ]
+}

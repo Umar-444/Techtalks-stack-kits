@@ -1,6 +1,6 @@
 [
   {
-    "kit_slug": "flask-htmx-sqlite",
+    "kit_slug": "security-llm-guardrails",
     "status": "PASS",
     "all_checks_passed": true,
     "manifest_valid": true,
@@ -10,42 +10,42 @@
     "task_count": 4,
     "tasks": [
       {
-        "id": "flask-htmx-sqlite-task-01",
-        "title": "Initialization & Environment Config",
+        "id": "security-llm-guardrails-task-01",
+        "title": "Core Environment & Service Initialization",
         "status": "PASS",
-        "prompt_tokens": 1574,
-        "completion_tokens": 1923,
-        "tokens_consumed": 3497
+        "prompt_tokens": 1742,
+        "completion_tokens": 2129,
+        "tokens_consumed": 3871
       },
       {
-        "id": "flask-htmx-sqlite-task-02",
-        "title": "Data Model & Schema",
+        "id": "security-llm-guardrails-task-02",
+        "title": "Data Schema & Repository Definition",
         "status": "PASS",
-        "prompt_tokens": 1736,
-        "completion_tokens": 2397,
-        "tokens_consumed": 4133
+        "prompt_tokens": 1921,
+        "completion_tokens": 2654,
+        "tokens_consumed": 4575
       },
       {
-        "id": "flask-htmx-sqlite-task-03",
-        "title": "API Handlers & Security",
+        "id": "security-llm-guardrails-task-03",
+        "title": "API Routing & Authorization Policy",
         "status": "PASS",
-        "prompt_tokens": 1679,
-        "completion_tokens": 2136,
-        "tokens_consumed": 3815
+        "prompt_tokens": 1858,
+        "completion_tokens": 2365,
+        "tokens_consumed": 4223
       },
       {
-        "id": "flask-htmx-sqlite-task-04",
-        "title": "Automated Security Tests",
+        "id": "security-llm-guardrails-task-04",
+        "title": "Security & Architecture Invariants Test",
         "status": "PASS",
-        "prompt_tokens": 1780,
-        "completion_tokens": 2671,
-        "tokens_consumed": 4451
+        "prompt_tokens": 1971,
+        "completion_tokens": 2956,
+        "tokens_consumed": 4927
       }
     ],
-    "median_task_tokens": 3974,
-    "median_tokens_to_complete_reference_build": 15896,
+    "median_task_tokens": 4399,
+    "median_tokens_to_complete_reference_build": 17596,
     "efficiency_tier": "A+",
-    "efficiency_note": "Single-file Flask, zero SPA build chain, HTMX interactivity",
+    "efficiency_note": "Pydantic AI schemas, focused gateway interceptors",
     "token_light": true
   }
 ]

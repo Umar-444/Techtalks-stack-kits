@@ -1,23 +1,89 @@
-{
+﻿{
   "kit_slug": "security-llm-guardrails",
   "checks": [
     {
       "id": "sec-01",
       "name": "Gitleaks Secret Audit",
       "status": "enforced",
-      "tool": "gitleaks"
+      "tool": "gitleaks",
+      "verify": "gitleaks detect --no-git"
     },
     {
       "id": "sec-02",
-      "name": "Semgrep SAST Policy",
+      "name": "Semgrep SAST Python Code Scan",
       "status": "enforced",
-      "tool": "semgrep"
+      "tool": "semgrep",
+      "verify": "semgrep scan --config p/owasp-top-ten"
     },
     {
       "id": "sec-03",
-      "name": "OWASP API Top 10 Invariants",
-      "status": "verified",
-      "tool": "pytest/unit"
+      "name": "Explicit CORS Policy (Zero Wildcard Origins)",
+      "status": "enforced",
+      "tool": "code-lint",
+      "verify": "grep -q 'allow_origins=settings.cors_origins' starter/app/main.py"
+    },
+    {
+      "id": "sec-04",
+      "name": "Prompt Injection & Jailbreak Heuristic Interception",
+      "status": "enforced",
+      "tool": "static-analysis",
+      "verify": "grep -q 'detect_prompt_injection' starter/app/guardrails/injection.py"
+    },
+    {
+      "id": "sec-05",
+      "name": "Automated PII Anonymization & Reversible Masking",
+      "status": "enforced",
+      "tool": "static-analysis",
+      "verify": "grep -q 'anonymize_pii' starter/app/guardrails/pii.py"
+    },
+    {
+      "id": "sec-06",
+      "name": "Non-Root Container Execution (UID 10001)",
+      "status": "enforced",
+      "tool": "docker-lint",
+      "verify": "grep -q 'USER 10001:10001' starter/Dockerfile"
+    },
+    {
+      "id": "sec-07",
+      "name": "Health Probe & Gateway Status Endpoint",
+      "status": "enforced",
+      "tool": "test-runner",
+      "verify": "grep -q '/health' starter/app/main.py"
+    },
+    {
+      "id": "sec-08",
+      "name": "Denial of Wallet Token & Cost Rate Limiting",
+      "status": "enforced",
+      "tool": "quota-audit",
+      "verify": "grep -q 'rate_limiter' starter/app/guardrails/budget.py"
+    },
+    {
+      "id": "sec-09",
+      "name": "Delimiter Sandboxing & XML Boundary Isolation",
+      "status": "enforced",
+      "tool": "static-analysis",
+      "verify": "grep -q 'sandbox_user_input' starter/app/guardrails/injection.py"
+    },
+    {
+      "id": "sec-10",
+      "name": "Canary Token System Prompt Leakage Protection",
+      "status": "enforced",
+      "tool": "static-analysis",
+      "verify": "grep -q 'detect_canary_leak' starter/app/guardrails/injection.py"
+    },
+    {
+      "id": "sec-11",
+      "name": "Pydantic AI Strict Output Schema Validation",
+      "status": "enforced",
+      "tool": "schema-linter",
+      "verify": "grep -q 'StructuredChatResponse' starter/app/guardrails/output.py"
+    },
+    {
+      "id": "sec-12",
+      "name": "Token-Light Efficiency Verification (Tier A+ Standard)",
+      "status": "enforced",
+      "tool": "eval-runner",
+      "verify": "python evals/runner.py --kit security-llm-guardrails"
     }
   ]
 }

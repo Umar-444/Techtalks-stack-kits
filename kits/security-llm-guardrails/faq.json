@@ -1,0 +1,58 @@
+﻿[
+  {
+    "q": "What is an AI Security Gateway and why not connect directly to foundation LLM APIs?",
+    "a": "Directly querying upstream LLMs leaves applications exposed to prompt injection attacks, accidental PII leaks, unstructured hallucinated outputs, and runaway API bills (Denial of Wallet). An AI Security Gateway acts as an enterprise-grade reverse proxy enforcing security policies, rate limits, PII masking, and schema validation before and after every model invocation."
+  },
+  {
+    "q": "How does the gateway intercept direct prompt injections and DAN-style jailbreaks?",
+    "a": "The gateway deploys a dual-layer defense. First, a high-speed (<5ms) deterministic regex scanner catches known jailbreak signatures ('ignore previous instructions', 'DAN mode', 'system override'). Second, compact classifier models evaluate the semantic intent against safety taxonomies to block evasion attempts before the prompt is forwarded to the main LLM."
+  },
+  {
+    "q": "What is delimiter sandboxing and how does it prevent instruction hijacking?",
+    "a": "Instead of naively interpolating untrusted user input into raw system prompt strings, the gateway wraps user text in dynamically generated XML boundary tags (e.g. <user_input_a1b2c3d4>). The system prompt instructs the foundation model to treat everything inside the tag strictly as inert data to process, neutralizing attempts to override system instructions."
+  },
+  {
+    "q": "How does canary token verification prevent system prompt leakage?",
+    "a": "The gateway embeds a cryptographically random canary token (e.g., CANARY_7f3e8a...) into the system prompt. Before streaming or returning the model completion to the client, the gateway scans the response. If the canary token is detected, it indicates the model was tricked into exfiltrating internal instructions, triggering an immediate HTTP 422 block and security alert."
+  },
+  {
+    "q": "How does automated PII anonymization work without destroying model reasoning capabilities?",
+    "a": "The gateway scans inputs for sensitive personal data (emails, phone numbers, SSNs, credit cards, API keys) and replaces each entity with a typed placeholder token (e.g. <EMAIL_1>, <PHONE_1>). Because the tokens maintain semantic structure, the foundation model can understand context and relationships without ever seeing real user credentials."
+  },
+  {
+    "q": "What is reversible deanonymization and when should it be used versus permanent redaction?",
+    "a": "In reversible deanonymization, the gateway holds an ephemeral in-memory map of placeholders to original values. When the model generates a response referencing <EMAIL_1>, the gateway swaps the real email back before returning the final text to authorized internal users. For untrusted third-party foundation models, permanent redaction is enforced."
+  },
+  {
+    "q": "What is Denial of Wallet (DoW) and how does the gateway mitigate runaway API bills?",
+    "a": "Denial of Wallet occurs when attackers or looping agent workflows trigger massive token generation, costing thousands of dollars in LLM API fees. The gateway prevents this by enforcing hard maximum input token caps, explicit max_tokens limits, Redis sliding window rate limits, and per-tenant monthly dollar spend quotas."
+  },
+  {
+    "q": "How does Pydantic AI enforce structured output validation on nondeterministic models?",
+    "a": "Pydantic AI binds strict Pydantic BaseModel schemas to LLM function calling or tool definitions. The gateway inspects the returned payload and validates all required fields, value ranges, and types. Responses that fail validation are rejected or automatically reprompted with the specific schema error."
+  },
+  {
+    "q": "What happens when a model hallucinates invalid JSON or violates the required schema?",
+    "a": "When output fails Pydantic validation, the gateway catches the ValidationError and can execute an automated retry passing the validation traceback back to the model for self-correction. If the model fails after maximum retries (typically 2), the gateway returns a clean HTTP 502 Bad Gateway error rather than corrupt downstream systems with invalid data."
+  },
+  {
+    "q": "How does the gateway maintain low latency (<50ms guardrail overhead)?",
+    "a": "High performance is achieved by compiling all regex patterns at startup, utilizing singleton NLP analyzer engines across requests, using async I/O with httpx connection pools, and running deterministic heuristic filters before calling heavier classifier models."
+  },
+  {
+    "q": "What is the MLCommons / Llama Guard AI Safety Taxonomy and how is it applied?",
+    "a": "The MLCommons AI Safety Taxonomy categorizes AI hazards into specific hazard classes: violent crimes, non-violent crimes, sex-related crimes, child sexual exploitation, CBRN weapons, suicide/self-harm, cyberattacks, and privacy violations. The gateway maps incoming prompts and outgoing completions against these hazard categories to ensure regulatory compliance."
+  },
+  {
+    "q": "Why run the container with non-root user USER 10001:10001?",
+    "a": "Running as root inside containers creates severe privilege escalation risks in multi-tenant Kubernetes and Docker environments. Explicitly declaring USER 10001:10001 ensures processes operate with minimal operating system privileges, passing Semgrep container security scans and enterprise compliance audits."
+  },
+  {
+    "q": "How does this architecture maintain Zero Data Retention (ZDR) compliance?",
+    "a": "The gateway never logs, stores, or caches raw user prompts or unmasked PII into databases or persistent log files. Audit logs only record metadata (tenant ID, token counts, cost, classification verdict, and request latency), adhering to strict GDPR, HIPAA, and SOC2 confidentiality requirements."
+  },
+  {
+    "q": "How do I test the gateway against adversarial jailbreak payloads in CI?",
+    "a": "The starter includes an automated test suite in tests/test_gateway.py containing benchmark jailbreak prompts, PII masking assertions, rate limiting saturation tests, and canary leak simulations. These execute via pytest in CI workflows with zero external API dependencies."
+  }
+]

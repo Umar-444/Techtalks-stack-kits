@@ -1,0 +1,40 @@
+---
+description: 03 Automated Pii Redaction And Presidio
+globs: *
+alwaysApply: true
+---
+
+# 03 Automated Pii Redaction And Presidio
+
+﻿---
+id: automated-pii-redaction-and-presidio
+title: Automated PII Redaction & Presidio Pipeline
+globs: "**/*.py"
+alwaysApply: true
+---
+# PII Screening, Anonymization & Reversible Masking
+
+## 1. Supported Entity Types & Strict Detection
+- The gateway must detect and mask at minimum:
+  - `EMAIL_ADDRESS` (RFC 5322 regex + NLP context)
+  - `PHONE_NUMBER` (E.164 + international formats)
+  - `CREDIT_CARD` (Luhn algorithm verified)
+  - `US_SSN` / `IBAN` / National ID numbers
+  - `IP_ADDRESS` (IPv4 / IPv6)
+  - Custom API keys & Secrets (`sk-[a-zA-Z0-9]{20,}`, Bearer tokens)
+
+## 2. Reversible Anonymization vs Permanent Redaction
+- For internal processing where the client needs real identities restored in the final response:
+  ```python
+  # Reversible token mapping:
+  # "Contact John at john@example.com" -> "Contact John at <EMAIL_1>"
+  # Store ephemeral mapping: {"<EMAIL_1>": "john@example.com"}
+  # Send <EMAIL_1> to upstream LLM
+  # On response completion: replace <EMAIL_1> with john@example.com
+  ```
+- For third-party untrusted foundation models: enforce PERMANENT redaction using generic placeholder tokens `[REDACTED_EMAIL]`, `[REDACTED_PHONE]`.
+
+## 3. High-Throughput Tokenizer Optimization
+- Avoid re-instantiating heavy Presidio or Spacy NLP pipelines per request.
+- Initialize `AnalyzerEngine` and `AnonymizerEngine` once as singletons during FastAPI startup lifespan.
+

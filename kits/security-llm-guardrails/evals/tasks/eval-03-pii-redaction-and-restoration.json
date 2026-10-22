@@ -1,0 +1,11 @@
+﻿{
+  "id": "eval-03-pii-redaction-and-restoration",
+  "title": "Automated PII Masking & Reversible Restoration",
+  "instruction": "Verify that emails, phone numbers, and keys are anonymized prior to upstream processing and cleanly restored.",
+  "assertions": [
+    "Email addresses are replaced with <EMAIL_x> tokens",
+    "Phone numbers are replaced with <PHONE_x> tokens",
+    "Upstream prompt contains zero raw PII",
+    "Client response restores original entity values accurately"
+  ]
+}

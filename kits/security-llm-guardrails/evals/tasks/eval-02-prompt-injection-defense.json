@@ -1,0 +1,11 @@
+﻿{
+  "id": "eval-02-prompt-injection-defense",
+  "title": "Prompt Injection & Jailbreak Attack Neutralization",
+  "instruction": "Verify that adversarial inputs are intercepted and blocked with HTTP 400 before LLM dispatch.",
+  "assertions": [
+    "System override and DAN prompts are blocked",
+    "HTTP 400 Bad Request returned with PromptInjectionBlocked error code",
+    "Input is sandboxed within randomized XML boundaries",
+    "Canary token generation defends against system prompt leaks"
+  ]
+}

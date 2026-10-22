@@ -1,30 +1,48 @@
-schema_version: 1.0.0
-name: LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)
-slug: security-llm-guardrails
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Stack-neutral AI security gateway: prompt injection screening, Presidio
-  automated PII redaction pipeline, token and dollar budget limiters, and Pydantic
-  AI strict output validation.'
-category: Security
+﻿schema_version: "1.0.0"
+
+name: "LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)"
+slug: "security-llm-guardrails"
+version: "1.0.0"
+status: "stable"
+updated_at: "2026-10-22"
+description: "Enterprise-grade AI security gateway: prompt injection screening, automated PII redaction pipeline, token and dollar budget limiters, and Pydantic AI strict structured output validation."
+category: "Security"
+
 maintainer:
-  name: TechTalks AI Security Group
-  role: AI Safety & Guardrails Lead
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior AI Security & Systems Architect"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Python
-    version: 3.12+
-    registry: pypi.org
+    name: "Python"
+    version: ">= 3.12"
+    registry: "pypi.org"
   framework:
-    name: FastAPI
-    version: 0.115+
-    registry: pypi.org
-  guardrails: Pydantic AI + Llama Guard 3
-  pii_redaction: Microsoft Presidio
-  budget_caps: Token & Dollar limit middleware
+    name: "FastAPI"
+    version: ">= 0.115.4"
+    registry: "pypi.org"
+  guardrails:
+    name: "Pydantic AI + Llama Guard 3"
+    features:
+      - "Deterministic heuristic pattern screening"
+      - "Canary token system prompt leakage guard"
+      - "Delimiter sandboxing & XML boundaries"
+  pii_redaction:
+    name: "Microsoft Presidio & Reversible Tokenizer"
+    features:
+      - "Zero Data Retention (ZDR) architecture"
+      - "Reversible deanonymization mappings"
+      - "Custom enterprise entity recognizers"
+  budget_caps:
+    name: "Token & Dollar Quota Limiter"
+    features:
+      - "Sliding window rate limiting with Redis"
+      - "Denial of Wallet (DoW) mitigation"
+      - "Max input/output token caps"
+
 layers:
   starter:
     path: starter/
@@ -32,38 +50,57 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: security-llm-guardrails-core
-      path: skills/security-llm-guardrails-core/SKILL.md
-      description: Core operations and scaffolding skill for LLM Guardrails & AI Gateway
-        (Pydantic AI + Llama Guard).
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Complete preflight verification, virtual environment setup, and automated adversarial test suite execution for LLM Guardrails & AI Gateway.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Guide to adding a custom guardrail rule, domain-specific classifier, or policy filter to the AI Gateway pipeline.
+      - id: prompt-injection-screening
+        path: skills/prompt-injection-screening/SKILL.md
+        description: Implementing heuristic pattern detection, system prompt delimiter sandboxing, and canary token leakage guards.
+      - id: pii-redaction-pipeline
+        path: skills/pii-redaction-pipeline/SKILL.md
+        description: Configuring automated PII redaction, reversible tokenization mapping, and custom entity recognizers.
+      - id: security-llm-guardrails-core
+        path: skills/security-llm-guardrails-core/SKILL.md
+        description: Core operational workflows, gateway routing, safety taxonomies, budget limits, and Token-Light evaluation.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: true
   median_eval_tokens: 17600
-  efficiency_tier: A+
+  efficiency_tier: "A+"
+
 security:
   automated_scans:
     gitleaks: true
@@ -73,5 +110,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

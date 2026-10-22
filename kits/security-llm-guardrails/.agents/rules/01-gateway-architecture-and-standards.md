@@ -1,0 +1,29 @@
+# 01 Gateway Architecture And Standards
+
+﻿---
+id: gateway-architecture-and-standards
+title: Gateway Architecture & Standards
+globs: "**/*.py"
+alwaysApply: true
+---
+# AI Security Gateway Architecture & Standards
+
+## 1. Async Gateway Pipeline
+- All LLM interactions must route through the AI Security Gateway before hitting upstream providers (OpenAI, Anthropic, Bedrock, Ollama):
+  ```
+  Client Request -> [1. Auth & Tenant] -> [2. Budget & Rate Limit] -> [3. PII Redaction] -> [4. Prompt Injection Screen] -> Upstream LLM -> [5. Output Schema & Safety Guard] -> [6. PII Deanonymization] -> Client Response
+  ```
+- The gateway must operate with strict latency budgets: input guardrail checks must complete in `< 50ms`.
+- Never use blocking synchronous HTTP calls in the pipeline; use `httpx.AsyncClient` with connection pooling and timeouts:
+  ```python
+  client = httpx.AsyncClient(timeout=httpx.Timeout(connect=5.0, read=30.0, write=5.0, pool=10.0))
+  ```
+
+## 2. Stateless Processing & Zero Data Retention (ZDR)
+- The gateway MUST NOT log, persist, or cache raw prompt contents or unmasked PII into permanent storage.
+- Audit logs should store only metadata: `tenant_id`, `model_name`, `prompt_tokens`, `completion_tokens`, `cost_usd`, `safety_classification`, `latency_ms`.
+- Any temporary in-memory deanonymization mapping must be discarded immediately upon request completion.
+
+## 3. Graceful Fallbacks & Circuit Breaking
+- If an upstream safety classifier or secondary LLM guardrail service times out, fail closed on high-risk enterprise endpoints (throw HTTP 503 Service Unavailable) or fallback to deterministic regex/heuristic scanners.
+
