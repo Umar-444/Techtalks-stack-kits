@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Laravel Security Guide: The Companion to the Laravel Kits &bull; TechTalks</title>
-  <meta name="description" content="Production guide and runnable code for securing Laravel web applications and AI features. Covers prompt injection, RAG isolation, Passkeys, and OWASP 2026.">
+  <meta name="description"
+    content="Production guide and runnable code for securing Laravel web applications and AI features. Covers prompt injection, RAG isolation, Passkeys, and OWASP 2026.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/security/laravel/">
-  
+
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/security/laravel/">
   <meta property="og:title" content="Laravel AI Security Masterclass — PHP 8.4 &amp; Laravel 13">
-  <meta property="og:description" content="Production guide and runnable code for securing Laravel web applications and AI features.">
+  <meta property="og:description"
+    content="Production guide and runnable code for securing Laravel web applications and AI features.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Twitter Card -->
@@ -18,13 +21,16 @@
   <meta name="twitter:site" content="@umartechtalks">
   <meta name="twitter:creator" content="@umartechtalks">
   <meta name="twitter:title" content="Laravel AI Security Masterclass — PHP 8.4 &amp; Laravel 13">
-  <meta name="twitter:description" content="Production guide and runnable code for securing Laravel web applications and AI features.">
+  <meta name="twitter:description"
+    content="Production guide and runnable code for securing Laravel web applications and AI features.">
   <meta name="twitter:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
   <!-- Fonts: Inter 400-800, JetBrains Mono, Newsreader italic (Document 17 Exact) -->
   <!-- Fonts: Inter 400-800, JetBrains Mono, Newsreader italic (Document 17 Exact) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500;1,6..72,600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/styles.css">
 
   <script type="application/ld+json">
@@ -42,78 +48,108 @@
 }
   </script>
 </head>
-<body class="bg-[#FFFFFF] dark:bg-[#0F1110] text-[#12140F] dark:text-[#F2F2EC] font-sans antialiased min-h-screen flex flex-col selection:bg-[#E85D26]/20 selection:text-[#E85D26]">
+
+<body
+  class="bg-[#FFFFFF] dark:bg-[#0F1110] text-[#12140F] dark:text-[#F2F2EC] font-sans antialiased min-h-screen flex flex-col selection:bg-[#E85D26]/20 selection:text-[#E85D26]">
 
   <!-- Header -->
-    <!-- Header Navigation -->
+  <!-- Header Navigation -->
   <!-- Master Navbar (Document 18 Exact: Sticky 60px, Paper 90% blur, Hairline border) -->
   <!-- Master Navbar (Document 18 Exact: Sticky 60px, Paper 90% blur, Hairline border) -->
-  <header class="sticky top-0 z-50 h-[60px] bg-white/90 dark:bg-[#0F1110]/90 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#2A2E2A] transition-colors">
+  <header
+    class="sticky top-0 z-50 h-[60px] bg-white/90 dark:bg-[#0F1110]/90 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#2A2E2A] transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-      
+
       <!-- Left: Logo & Wordmark -->
       <div class="flex items-center gap-8">
         <a href="../../" class="flex items-center gap-2.5 group select-none" aria-label="TechTalks Stack Kits Home">
-          <div class="w-[30px] h-[30px] rounded-[6px] bg-[#E85D26] flex items-center justify-center text-white font-bold text-xs shadow-none">
+          <div
+            class="w-[30px] h-[30px] rounded-[6px] bg-[#E85D26] flex items-center justify-center text-white font-bold text-xs shadow-none">
             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
             </svg>
           </div>
           <div class="flex items-baseline">
-            <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F2F2EC] group-hover:text-[#E85D26] transition-colors">TechTalks</span>
-            <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] font-semibold ml-2">STACK KITS</span>
+            <span
+              class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F2F2EC] group-hover:text-[#E85D26] transition-colors">TechTalks</span>
+            <span
+              class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] font-semibold ml-2">STACK
+              KITS</span>
           </div>
         </a>
 
         <!-- Center / Left Desktop Navigation -->
         <nav class="hidden md:flex items-center gap-6 text-[15px]" aria-label="Main Navigation">
-          
+
           <!-- Kits Dropdown -->
           <div class="relative group py-2">
-            <a href="../../kits/" class="flex items-center gap-1 text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">
+            <a href="../../kits/"
+              class="flex items-center gap-1 text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">
               <span>Kits</span>
-              <svg class="w-3.5 h-3.5 text-[#8C9088] group-hover:text-[#12140F] dark:group-hover:text-white transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              <svg
+                class="w-3.5 h-3.5 text-[#8C9088] group-hover:text-[#12140F] dark:group-hover:text-white transition-transform group-hover:rotate-180"
+                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </a>
-            
+
             <!-- Hover dropdown menu -->
-            <div class="absolute top-full left-0 w-72 bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] rounded-[8px] p-2 shadow-lg hidden group-hover:block transition-all z-50">
+            <div
+              class="absolute top-full left-0 w-72 bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] rounded-[8px] p-2 shadow-lg hidden group-hover:block transition-all z-50">
               <div class="px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-[#8C9088] font-semibold">
                 Complete Kits (Ready to Ship)
               </div>
-              <a href="../../kits/laravel-filament-postgresql/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
-                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Laravel + Filament + PostgreSQL</span>
-                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Admin dashboard with multi-tenancy & audit logging</span>
+              <a href="../../kits/laravel-filament-postgresql/"
+                class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
+                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Laravel + Filament +
+                  PostgreSQL</span>
+                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Admin dashboard with multi-tenancy & audit
+                  logging</span>
               </a>
-              <a href="../../kits/laravel-livewire-postgresql/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
-                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Laravel + Livewire + PostgreSQL</span>
-                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Reactive full-stack SaaS foundation with Alpine.js</span>
+              <a href="../../kits/laravel-livewire-postgresql/"
+                class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
+                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Laravel + Livewire +
+                  PostgreSQL</span>
+                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Reactive full-stack SaaS foundation with
+                  Alpine.js</span>
               </a>
-              <a href="../../kits/laravel-mongodb/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
+              <a href="../../kits/laravel-mongodb/"
+                class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
                 <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Laravel + MongoDB</span>
-                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Document-oriented data layer with MongoDB 7+</span>
+                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Document-oriented data layer with MongoDB
+                  7+</span>
               </a>
-              <a href="../../kits/nextjs-approuter-supabase/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
+              <a href="../../kits/nextjs-approuter-supabase/"
+                class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
                 <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Next.js 15+ + Supabase</span>
-                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">App Router, React 19, Server Actions & Supabase RLS</span>
+                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">App Router, React 19, Server Actions &
+                  Supabase RLS</span>
               </a>
               <div class="border-t border-[#E6E6DF] dark:border-[#2A2E2A] my-1"></div>
-              <a href="../../kits/" class="flex items-center justify-between px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] text-[13px] font-semibold text-[#12140F] dark:text-white transition-colors">
+              <a href="../../kits/"
+                class="flex items-center justify-between px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] text-[13px] font-semibold text-[#12140F] dark:text-white transition-colors">
                 <span>All kits and blueprints</span>
                 <span class="font-mono text-xs text-[#E85D26]">&rarr;</span>
               </a>
-              <a href="https://github.com/Umar-444/Techtalks-stack-kits/issues/new?template=new-topic.yml" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] text-[13px] text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">
+              <a href="https://github.com/Umar-444/Techtalks-stack-kits/issues/new?template=new-topic.yml"
+                target="_blank" rel="noopener noreferrer"
+                class="flex items-center justify-between px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] text-[13px] text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">
                 <span>Propose a kit</span>
                 <span class="text-xs">&nearr;</span>
               </a>
             </div>
           </div>
 
-          <a href="../../start/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">How It Works</a>
-          <a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">Blog</a>
-          <a href="../../security/" class="text-[#12140F] dark:text-white font-semibold border-b-2 border-[#E85D26] pb-[1px] transition-colors">Standards</a>
-          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors inline-flex items-center gap-1">
+          <a href="../../start/"
+            class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">How
+            It Works</a>
+          <a href="../../blog/"
+            class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">Blog</a>
+          <a href="../../security/"
+            class="text-[#12140F] dark:text-white font-semibold border-b-2 border-[#E85D26] pb-[1px] transition-colors">Standards</a>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank"
+            rel="noopener noreferrer"
+            class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors inline-flex items-center gap-1">
             <span>Community</span>
             <span class="text-xs text-[#8C9088]">&nearr;</span>
           </a>
@@ -122,46 +158,59 @@
 
       <!-- Right: Search, GitHub with live star count, Theme Toggle, Primary CTA -->
       <div class="flex items-center gap-3">
-        
+
         <!-- Search Button (Ctrl K hint) -->
-        <button type="button" class="hidden sm:inline-flex items-center gap-2 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors" id="search-palette-trigger" data-search-trigger aria-label="Search kits and documentation">
+        <button type="button"
+          class="hidden sm:inline-flex items-center gap-2 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors"
+          id="search-palette-trigger" data-search-trigger aria-label="Search kits and documentation">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <span>Search</span>
-          <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[#F4F4F0] dark:bg-[#202422] border border-[#E6E6DF] dark:border-[#2A2E2A]">Ctrl K</kbd>
+          <kbd
+            class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[#F4F4F0] dark:bg-[#202422] border border-[#E6E6DF] dark:border-[#2A2E2A]">Ctrl
+            K</kbd>
         </button>
 
         <!-- GitHub Repo with Stars Badge -->
-        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-mono text-[#12140F] dark:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors" title="View repository on GitHub">
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-mono text-[#12140F] dark:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors"
+          title="View repository on GitHub">
           <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
           </svg>
           <span class="font-semibold text-xs text-[#8C9088]">&bull;</span>
           <span class="text-xs font-semibold text-[#12140F] dark:text-[#F2F2EC]">Star</span>
         </a>
 
         <!-- Theme Toggle Button -->
-        <button id="theme-toggle" type="button" aria-label="Toggle theme" class="w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors focus:outline-none focus:ring-2 focus:ring-[#E85D26]">
+        <button id="theme-toggle" type="button" aria-label="Toggle theme"
+          class="w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors focus:outline-none focus:ring-2 focus:ring-[#E85D26]">
           <!-- Sun Icon -->
           <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
           </svg>
           <!-- Moon Icon -->
           <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
           </svg>
         </button>
 
         <!-- Primary CTA: Ink Background 'Get a Kit' -->
-        <a href="../../kits/" class="hidden sm:inline-flex items-center justify-center h-[38px] px-4 rounded-[6px] text-[14px] font-semibold bg-[#12140F] text-white hover:bg-[#2A2E2C] dark:bg-white dark:text-[#12140F] dark:hover:bg-[#EAECE8] focus:outline-none focus:ring-2 focus:ring-[#E85D26] focus:ring-offset-2 transition-colors select-none">
+        <a href="../../kits/"
+          class="hidden sm:inline-flex items-center justify-center h-[38px] px-4 rounded-[6px] text-[14px] font-semibold bg-[#12140F] text-white hover:bg-[#2A2E2C] dark:bg-white dark:text-[#12140F] dark:hover:bg-[#EAECE8] focus:outline-none focus:ring-2 focus:ring-[#E85D26] focus:ring-offset-2 transition-colors select-none">
           Get a Kit
         </a>
 
         <!-- Mobile Menu Hamburger -->
-        <button id="mobile-menu-toggle" type="button" aria-label="Toggle navigation menu" class="md:hidden w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors">
+        <button id="mobile-menu-toggle" type="button" aria-label="Toggle navigation menu"
+          class="md:hidden w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
 
@@ -170,14 +219,16 @@
     </div>
 
     <!-- Mobile Drawer Sheet (Document 18: Full-width sheet under header, links at 17px, kits expanded) -->
-    <div id="mobile-menu" class="hidden md:hidden fixed inset-x-0 top-[60px] bottom-0 bg-white dark:bg-[#0F1110] border-t border-[#E6E6DF] dark:border-[#2A2E2A] p-6 flex flex-col justify-between overflow-y-auto z-40">
+    <div id="mobile-menu"
+      class="hidden md:hidden fixed inset-x-0 top-[60px] bottom-0 bg-white dark:bg-[#0F1110] border-t border-[#E6E6DF] dark:border-[#2A2E2A] p-6 flex flex-col justify-between overflow-y-auto z-40">
       <div class="space-y-4">
-        
+
         <div class="font-mono text-xs uppercase tracking-wider text-[#8C9088] font-semibold">
           Navigation
         </div>
-        
-        <div class="flex flex-col text-[17px] font-medium space-y-3 pb-4 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
+
+        <div
+          class="flex flex-col text-[17px] font-medium space-y-3 pb-4 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
           <a href="../../kits/" class="text-[#12140F] dark:text-white font-semibold flex items-center justify-between">
             <span>Kits &amp; Blueprints</span>
             <span class="text-xs font-mono text-[#E85D26]">All &rarr;</span>
@@ -190,11 +241,17 @@
           </div>
         </div>
 
-        <div class="flex flex-col text-[17px] font-medium space-y-3 pb-4 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
-          <a href="../../start/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">How It Works</a>
-          <a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">Blog</a>
-          <a href="../../security/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">Standards</a>
-          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white flex items-center justify-between">
+        <div
+          class="flex flex-col text-[17px] font-medium space-y-3 pb-4 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
+          <a href="../../start/"
+            class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">How It Works</a>
+          <a href="../../blog/"
+            class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">Blog</a>
+          <a href="../../security/"
+            class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">Standards</a>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank"
+            rel="noopener noreferrer"
+            class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white flex items-center justify-between">
             <span>Community</span>
             <span class="text-xs">&nearr;</span>
           </a>
@@ -203,7 +260,8 @@
       </div>
 
       <div class="pt-6 border-t border-[#E6E6DF] dark:border-[#2A2E2A]">
-        <a href="../../kits/" class="w-full inline-flex items-center justify-center h-[42px] rounded-[6px] text-[15px] font-semibold bg-[#12140F] text-white dark:bg-white dark:text-[#12140F] transition-colors">
+        <a href="../../kits/"
+          class="w-full inline-flex items-center justify-center h-[42px] rounded-[6px] text-[15px] font-semibold bg-[#12140F] text-white dark:bg-white dark:text-[#12140F] transition-colors">
           Get a Kit &rarr;
         </a>
       </div>
@@ -211,19 +269,25 @@
   </header>
 
   <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 py-12 w-full">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-  <div class="mb-10 p-6 rounded-[8px] bg-[#E6F4F1] dark:bg-[#122A26] border border-[#0E7C6B]/25">
-    <div class="font-mono text-xs uppercase tracking-wider text-[#0A584C] dark:text-[#3CD6BC] font-semibold mb-1">
-      COMPANION GUIDE TO LARAVEL STACK KITS
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <div class="mb-10 p-6 rounded-[8px] bg-[#E6F4F1] dark:bg-[#122A26] border border-[#0E7C6B]/25">
+        <div class="font-mono text-xs uppercase tracking-wider text-[#0A584C] dark:text-[#3CD6BC] font-semibold mb-1">
+          COMPANION GUIDE TO LARAVEL STACK KITS
+        </div>
+        <h2 class="text-xl font-bold text-[#12140F] dark:text-white">
+          The In-Depth Security Companion to Kits #1, #2, and #3
+        </h2>
+        <p class="text-sm text-[#5C6058] dark:text-[#A8ACA0] mt-1 leading-[1.6]">
+          Every security pattern and test assertion in this 22-chapter guide is pre-configured and automated inside our
+          official Laravel stack kits. Explore <a href="/kits/laravel-filament-postgresql/"
+            class="font-semibold underline text-[#12140F] dark:text-white hover:text-[#E85D26]">Kit #1 (Filament)</a>,
+          <a href="/kits/laravel-livewire-postgresql/"
+            class="font-semibold underline text-[#12140F] dark:text-white hover:text-[#E85D26]">Kit #2 (Livewire)</a>,
+          and <a href="/kits/laravel-mongodb/"
+            class="font-semibold underline text-[#12140F] dark:text-white hover:text-[#E85D26]">Kit #3 (MongoDB)</a>.
+        </p>
+      </div>
     </div>
-    <h2 class="text-xl font-bold text-[#12140F] dark:text-white">
-      The In-Depth Security Companion to Kits #1, #2, and #3
-    </h2>
-    <p class="text-sm text-[#5C6058] dark:text-[#A8ACA0] mt-1 leading-[1.6]">
-      Every security pattern and test assertion in this 22-chapter guide is pre-configured and automated inside our official Laravel stack kits. Explore <a href="/kits/laravel-filament-postgresql/" class="font-semibold underline text-[#12140F] dark:text-white hover:text-[#E85D26]">Kit #1 (Filament)</a>, <a href="/kits/laravel-livewire-postgresql/" class="font-semibold underline text-[#12140F] dark:text-white hover:text-[#E85D26]">Kit #2 (Livewire)</a>, and <a href="/kits/laravel-mongodb/" class="font-semibold underline text-[#12140F] dark:text-white hover:text-[#E85D26]">Kit #3 (MongoDB)</a>.
-    </p>
-  </div>
-  </div>
     <!-- Breadcrumb -->
     <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-8" aria-label="Breadcrumb">
       <a href="/" class="hover:text-[#E85D26] transition-colors">Home</a>
@@ -242,7 +306,8 @@
         Laravel AI Security Masterclass
       </h1>
       <p class="text-[#5C6058] dark:text-[#A8ACA0] mt-4 max-w-3xl text-base sm:text-lg leading-relaxed">
-        Production-tested playbooks, concrete threat models, and runnable hardened PHP 8.4 &amp; Laravel 13 code. Designed for developers building high-stakes web applications and enterprise AI systems.
+        Production-tested playbooks, concrete threat models, and runnable hardened PHP 8.4 &amp; Laravel 13 code.
+        Designed for developers building high-stakes web applications and enterprise AI systems.
       </p>
 
       <div class="mt-8 flex flex-wrap gap-3">
@@ -268,14 +333,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 01</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Secure Coding Basics
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Fundamental security principles, defense-in-depth, least privilege, and secure SDLC in PHP.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -285,14 +352,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 02</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               PHP 8.4 Security Features
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Modern PHP 8.4 security: readonly classes, typed properties, Fibers, and memory safety.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -302,14 +371,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 03</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Laravel 13 Architecture Security
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Laravel 13 security pipeline, bootstrap/app.php middleware, Precognition, and Reverb channels.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -327,14 +398,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 04</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Password Handling &amp; Passkeys
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               NIST SP 800-63B standards, Argon2id parameters, and passwordless FIDO2 WebAuthn Passkeys.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -344,14 +417,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 05</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Session Security &amp; Fixation Defense
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Session fixation mitigation, secure cookie flags, session hijacking defense, and Redis storage.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -369,14 +444,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 06</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Input Handling &amp; Sanitization
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Zero-trust input filtering, strict FormRequest validation rules, and UTF-8 normalization.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -386,14 +463,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 07</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               SQL Injection Prevention
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Defeating SQL injection with Eloquent query bindings, safe whereRaw, and PDO parameterization.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -403,14 +482,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 08</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Cross-Site Scripting (XSS) Defense
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Blade automatic HTML-escaping, innerHTML hazards, context-aware escaping, and DOM sanitization.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -420,14 +501,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 09</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               CSRF Protection &amp; SameSite Cookies
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Synchronizer tokens, AJAX CSRF headers, SameSite cookie mechanics, and webhook exemptions.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -437,14 +520,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 10</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Secure File Uploads
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               MIME verification, polyglot file detection, private cloud disk storage, and filename hashing.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -462,31 +547,36 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 11</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               API Security &amp; OWASP API Top 10
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Sanctum 4.x token authorization, BOLA/IDOR prevention, rate limiting, and mass assignment.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
-        <a href="/security/laravel/common-vulnerabilities.html" class="card-kit p-5 flex flex-col justify-between group">
+        <a href="/security/laravel/common-vulnerabilities.html"
+          class="card-kit p-5 flex flex-col justify-between group">
           <div>
             <div class="flex items-center justify-between text-xs font-mono text-[#5C6058] dark:text-[#A8ACA0] mb-2.5">
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 12</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Common API Exploits &amp; SSRF
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Deep dive into broken authentication, SSRF allowlisting, and unrestricted resource consumption.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -504,14 +594,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 13</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Prompt Injection Defense
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Direct &amp; indirect prompt injection defense, system/user role separation, and boundary nonces.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -521,14 +613,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 14</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               LLM API Key &amp; Cost Security
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               API key protection, Redis sliding-window token budgets, and Denial of Wallet mitigation.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -538,14 +632,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 15</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               RAG Multi-Tenant Isolation
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Vector database tenant filtering with pgvector and Eloquent access controls.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -555,14 +651,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 16</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Agent Tool Sandboxing
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Autonomous agent tool allowlists, Laravel Gate policies, and human approval gates.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -572,31 +670,36 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 17</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               PII Redaction Pipeline
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Reversible tokenization for Saudi National IDs, emails, phones, and Saudi PDPL compliance.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
-        <a href="/security/laravel/model-output-validation.html" class="card-kit p-5 flex flex-col justify-between group">
+        <a href="/security/laravel/model-output-validation.html"
+          class="card-kit p-5 flex flex-col justify-between group">
           <div>
             <div class="flex items-center justify-between text-xs font-mono text-[#5C6058] dark:text-[#A8ACA0] mb-2.5">
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 18</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Model Output Validation
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Treating model outputs as untrusted: JSON schema validation and second-order injection defense.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -614,14 +717,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 19</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Secure Configuration &amp; Environment
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Environment variable protection, OPcache tuning, debug mode risks, and secret vaults.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -631,14 +736,16 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 20</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Security Headers &amp; CSP Nonces
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Content Security Policy with nonces, HSTS preloading, COOP, COEP, and modern headers.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -648,31 +755,36 @@
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 21</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Secure Server Deployment &amp; TLS 1.3
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               TLS 1.3 ciphers, ECDSA P-256 / RSA 4096 keys, Linux permissions, Fail2Ban, and firewalls.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
-        <a href="/security/laravel/error-handling-logging.html" class="card-kit p-5 flex flex-col justify-between group">
+        <a href="/security/laravel/error-handling-logging.html"
+          class="card-kit p-5 flex flex-col justify-between group">
           <div>
             <div class="flex items-center justify-between text-xs font-mono text-[#5C6058] dark:text-[#A8ACA0] mb-2.5">
               <span class="chip-teal text-[11px] px-2 py-0.5">Lesson 22</span>
               <span>10 min read</span>
             </div>
-            <h3 class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
+            <h3
+              class="text-base font-bold text-ink dark:text-white group-hover:text-[#E85D26] transition-colors mb-1.5 leading-snug">
               Error Handling &amp; Security Logging
             </h3>
             <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed line-clamp-2">
               Masking stack traces in production, structured JSON security audit trails, and SIEM alerting.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
+          <div
+            class="mt-4 pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-semibold text-[#E85D26] flex items-center justify-between">
             <span>Read Lesson</span> &rarr;
           </div>
         </a>
@@ -681,28 +793,38 @@
 
 
     <!-- Author Card -->
-    <div class="card-kit p-6 mt-12 bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] shadow-soft print:hidden">
+    <div
+      class="card-kit p-6 mt-12 bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] shadow-soft print:hidden">
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
+        <div
+          class="w-14 h-14 rounded-full bg-gradient-to-tr from-primary to-primary-pressed flex items-center justify-center text-white text-lg font-bold shrink-0 shadow-soft">
           UF
         </div>
         <div>
           <h3 class="text-base font-bold text-ink dark:text-white">Curated by Umar Farooq</h3>
           <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] mt-1 leading-relaxed max-w-2xl">
-            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern web application security. Author of the Laravel AI Security Masterclass.
+            Senior Full-Stack &amp; Security Engineer with 5+ years of production experience in Laravel, PHP, and modern
+            web application security. Author of the Laravel AI Security Masterclass.
           </p>
           <div class="flex flex-wrap items-center gap-3 mt-3 text-xs font-medium">
-            <a href="mailto:contact@itsumarfarooq.com" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">Email</a>
+            <a href="mailto:contact@itsumarfarooq.com"
+              class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">Email</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-[#E85D26] hover:underline">Portfolio</a>
+            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer"
+              class="text-[#E85D26] hover:underline">Portfolio</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">GitHub</a>
+            <a href="https://github.com/umar-444" target="_blank" rel="noopener noreferrer"
+              class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">GitHub</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">X.com</a>
+            <a href="https://x.com/umartechtalks" target="_blank" rel="noopener noreferrer"
+              class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">X.com</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">LinkedIn</a>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer"
+              class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">LinkedIn</a>
             <span class="text-surface-hairline dark:text-dark-border">&bull;</span>
-            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">Company (Worldwebtree)</a>
+            <a href="https://worldwebtree.com" target="_blank" rel="noopener noreferrer"
+              class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#E85D26] transition-colors">Company
+              (Worldwebtree)</a>
           </div>
         </div>
       </div>
@@ -710,54 +832,81 @@
   </main>
 
   <!-- Footer -->
-    <!-- Standard 4-Column Footer -->
+  <!-- Standard 4-Column Footer -->
   <!-- Master Footer (Document 18 Exact: Tint #F7F7F3, 4 Columns, Hairline, No Fake Newsletter) -->
   <!-- Master Footer (Document 18 Exact: Tint #F7F7F3, 4 Columns, Hairline, No Fake Newsletter) -->
-  <footer class="bg-[#F7F7F3] dark:bg-[#111312] border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-16 pb-12 transition-colors">
+  <footer
+    class="bg-[#F7F7F3] dark:bg-[#111312] border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-16 pb-12 transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
+
       <!-- 4 Columns Grid -->
       <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
-        
+
         <!-- Column 1: Brand (wider, ~1.4x) -->
         <div class="md:col-span-5 space-y-4">
           <div class="flex items-center gap-2.5">
-            <div class="w-[28px] h-[28px] rounded-[6px] bg-[#E85D26] flex items-center justify-center text-white text-xs font-bold shrink-0">
+            <div
+              class="w-[28px] h-[28px] rounded-[6px] bg-[#E85D26] flex items-center justify-center text-white text-xs font-bold shrink-0">
               <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
               </svg>
             </div>
             <div class="flex items-baseline">
               <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F2F2EC]">TechTalks</span>
-              <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] font-semibold ml-2">STACK KITS</span>
+              <span
+                class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] font-semibold ml-2">STACK
+                KITS</span>
             </div>
           </div>
           <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6] max-w-sm">
-            Complete stack kits for AI coding agents: starter code, rules, skills, design and security checks in one clone.
+            Complete stack kits for AI coding agents: starter code, rules, skills, design and security checks in one
+            clone.
           </p>
-          
+
           <!-- Social Icons Row (18px stroke icons, ghost circles with hairline border) -->
           <div class="flex items-center gap-2 pt-1">
             <!-- GitHub -->
-            <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="GitHub">
-              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer"
+              class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors"
+              aria-label="GitHub">
+              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" clip-rule="evenodd"
+                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+              </svg>
             </a>
             <!-- LinkedIn -->
-            <a href="https://linkedin.com/in/itsumarfarooq" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="LinkedIn">
-              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer"
+              class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors"
+              aria-label="LinkedIn">
+              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24">
+                <path
+                  d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+              </svg>
             </a>
             <!-- X / Twitter -->
-            <a href="https://x.com/itsumarfarooq" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="X (Twitter)">
-              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            <a href="https://x.com/@umartechtalks" target="_blank" rel="noopener noreferrer"
+              class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors"
+              aria-label="X (Twitter)">
+              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24">
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
             </a>
             <!-- YouTube -->
-            <a href="https://youtube.com/@itsumarfarooq" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="YouTube">
-              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <a href="https://youtube.com/@umartechtalks" target="_blank" rel="noopener noreferrer"
+              class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors"
+              aria-label="YouTube">
+              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24">
+                <path
+                  d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+              </svg>
             </a>
           </div>
 
           <div class="pt-2 text-xs text-[#5C6058] dark:text-[#A8ACA0]">
-            By Umar Farooq &bull; <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-[#12140F] dark:text-white font-medium hover:text-[#E85D26] underline transition-colors">itsumarfarooq.com &nearr;</a>
+            By Umar Farooq &bull; <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer"
+              class="text-[#12140F] dark:text-white font-medium hover:text-[#E85D26] underline transition-colors">itsumarfarooq.com
+              &nearr;</a>
           </div>
         </div>
 
@@ -767,12 +916,25 @@
             Kits
           </div>
           <ul class="space-y-2.5 text-[14px]">
-            <li><a href="../../kits/laravel-filament-postgresql/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Filament</a></li>
-            <li><a href="../../kits/laravel-livewire-postgresql/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Livewire</a></li>
-            <li><a href="../../kits/laravel-mongodb/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + MongoDB</a></li>
-            <li><a href="../../kits/nextjs-approuter-supabase/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Next.js + Supabase</a></li>
-            <li><a href="../../kits/" class="font-medium text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">All Kits &amp; Blueprints &rarr;</a></li>
-            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/issues/new?template=new-topic.yml" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Propose a Kit &nearr;</a></li>
+            <li><a href="../../kits/laravel-filament-postgresql/"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel
+                + Filament</a></li>
+            <li><a href="../../kits/laravel-livewire-postgresql/"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel
+                + Livewire</a></li>
+            <li><a href="../../kits/laravel-mongodb/"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel
+                + MongoDB</a></li>
+            <li><a href="../../kits/nextjs-approuter-supabase/"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Next.js
+                + Supabase</a></li>
+            <li><a href="../../kits/"
+                class="font-medium text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">All Kits &amp;
+                Blueprints &rarr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/issues/new?template=new-topic.yml"
+                target="_blank" rel="noopener noreferrer"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Propose
+                a Kit &nearr;</a></li>
           </ul>
         </div>
 
@@ -782,12 +944,25 @@
             Resources
           </div>
           <ul class="space-y-2.5 text-[14px]">
-            <li><a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Blog</a></li>
-            <li><a href="../../start/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">How It Works</a></li>
-            <li><a href="../../security/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Security Standard</a></li>
-            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Contributor Guide &nearr;</a></li>
-            <li><a href="../../llms.txt" class="font-mono text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">llms.txt</a></li>
-            <li><a href="../../sitemap.xml" class="font-mono text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">sitemap.xml</a></li>
+            <li><a href="../../blog/"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Blog</a>
+            </li>
+            <li><a href="../../start/"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">How
+                It Works</a></li>
+            <li><a href="../../security/"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Security
+                Standard</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/CONTRIBUTING.md" target="_blank"
+                rel="noopener noreferrer"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Contributor
+                Guide &nearr;</a></li>
+            <li><a href="../../llms.txt"
+                class="font-mono text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">llms.txt</a>
+            </li>
+            <li><a href="../../sitemap.xml"
+                class="font-mono text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">sitemap.xml</a>
+            </li>
           </ul>
         </div>
 
@@ -797,26 +972,43 @@
             Community
           </div>
           <ul class="space-y-2.5 text-[14px]">
-            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">GitHub Repository &nearr;</a></li>
-            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Discussions &nearr;</a></li>
-            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Good First Issues &nearr;</a></li>
-            <li><a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Changelog &amp; Releases</a></li>
-            <li><a href="https://itsumarfarooq.com#contact" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Contact Maintainer &nearr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">GitHub
+                Repository &nearr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank"
+                rel="noopener noreferrer"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Discussions
+                &nearr;</a></li>
+            <li><a
+                href="https://github.com/Umar-444/Techtalks-stack-kits/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22"
+                target="_blank" rel="noopener noreferrer"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Good
+                First Issues &nearr;</a></li>
+            <li><a href="../../blog/"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Changelog
+                &amp; Releases</a></li>
+            <li><a href="https://itsumarfarooq.com#contact" target="_blank" rel="noopener noreferrer"
+                class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Contact
+                Maintainer &nearr;</a></li>
           </ul>
         </div>
 
       </div>
 
       <!-- Bottom Bar (Document 18: Hairline above, 13px muted, three items) -->
-      <div class="pt-8 flex flex-col md:flex-row items-center justify-between text-[13px] text-[#5C6058] dark:text-[#A8ACA0] gap-4">
+      <div
+        class="pt-8 flex flex-col md:flex-row items-center justify-between text-[13px] text-[#5C6058] dark:text-[#A8ACA0] gap-4">
         <div>
-          &copy; 2026 Umar Farooq &bull; TechTalks Stack Kits &bull; <a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-[#12140F] dark:hover:text-white">MIT License</a>
+          &copy; 2026 Umar Farooq &bull; TechTalks Stack Kits &bull; <a
+            href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/LICENSE" target="_blank"
+            rel="noopener noreferrer" class="underline hover:text-[#12140F] dark:hover:text-white">MIT License</a>
         </div>
         <div class="text-center">
           Not affiliated with Laravel, Filament, Anthropic or OpenAI.
         </div>
         <div>
-          <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="hover:text-[#12140F] dark:hover:text-white transition-colors inline-flex items-center gap-1">
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer"
+            class="hover:text-[#12140F] dark:hover:text-white transition-colors inline-flex items-center gap-1">
             <span>Built in the open on GitHub</span>
             <span class="text-xs">&nearr;</span>
           </a>
@@ -828,4 +1020,5 @@
 
   <script src="/assets/js/main.js"></script>
 </body>
+
 </html>

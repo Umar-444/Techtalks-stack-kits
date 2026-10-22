@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Vibe Coding: The Checklist I Run Before Any AI-Built App Ships &bull; TechTalks Blog</title>
+  <meta name="description" content="Shipping an app built with Claude Code, Cursor, or Codex? Here is the exact secure vibe coding checklist to verify authorization, secrets, and OWASP defenses.">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/blog/secure-vibe-coding-checklist/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/blog/secure-vibe-coding-checklist/">
+  <meta property="og:title" content="Secure Vibe Coding: The Checklist I Run Before Any AI-Built App Ships &bull; TechTalks Blog">
+  <meta property="og:description" content="Shipping an app built with Claude Code, Cursor, or Codex? Here is the exact secure vibe coding checklist to verify authorization, secrets, and OWASP defenses.">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E85D26'><path d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/></svg>">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Secure Vibe Coding: The Checklist I Run Before Any AI-Built App Ships",
+    "description": "Shipping an app built with Claude Code, Cursor, or Codex? Here is the exact secure vibe coding checklist to verify authorization, secrets, and OWASP defenses.",
+    "datePublished": "2026-10-22",
+    "author": {
+      "@type": "Person",
+      "name": "Umar Farooq",
+      "url": "https://itsumarfarooq.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "TechTalks Stack Kits",
+      "url": "https://techtalks.itsumarfarooq.com"
+    }
+  }
+  </script>
+
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+
+<body class="bg-white dark:bg-[#0A0A0B] text-[#12140F] dark:text-[#F4F4F5] selection:bg-[#FFF1E8] selection:text-[#e85d26] min-h-screen flex flex-col font-sans transition-colors">
+
+  <!-- Master Navbar -->
+  <header class="sticky top-0 z-50 h-[60px] bg-white/90 dark:bg-[#0A0A0B]/90 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#26262C] transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+      
+      <!-- Left: Logo & Wordmark -->
+      <div class="flex items-center gap-8">
+        <a href="../../" class="flex items-center gap-2.5 group select-none" aria-label="TechTalks Stack Kits Home">
+          <div class="w-[30px] h-[30px] rounded-[6px] bg-[#e85d26] flex items-center justify-center text-white font-bold text-xs shadow-none">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="flex items-baseline">
+            <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F4F4F5] group-hover:text-[#e85d26] transition-colors">TechTalks</span>
+            <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] font-semibold ml-2">STACK KITS</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-[14px]" aria-label="Main Navigation">
+          <a href="../../kits/" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">Kits</a>
+          <a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">How It Works</a>
+          <a href="../../blog/" class="text-[#12140F] dark:text-[#F4F4F5] font-semibold border-b-2 border-[#e85d26] pb-[1px] transition-colors">Blog</a>
+          <a href="../../security/" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">Standards</a>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors inline-flex items-center gap-1">
+            <span>Community</span>
+            <span class="text-xs">&nearr;</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+        <button type="button" class="hidden sm:inline-flex items-center gap-2 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#26262C] text-xs text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors" data-search-trigger aria-label="Search">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <span>Search</span>
+          <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[#F4F4F0] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">Ctrl K</kbd>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#26262C] text-xs font-mono text-[#12140F] dark:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span class="text-xs font-semibold">Star</span>
+        </a>
+
+        <button id="theme-toggle" type="button" aria-label="Toggle theme" class="w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+
+        <a href="../../kits/" class="hidden sm:inline-flex items-center justify-center h-[36px] px-3.5 rounded-[6px] text-[13px] font-semibold bg-[#12140F] text-white hover:bg-[#2A2E2C] dark:bg-white dark:text-[#0A0A0B] dark:hover:bg-[#E4E4E7] transition-all">
+          Browse Kits
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Reading Progress Bar -->
+  <div id="reading-progress-bar" class="fixed top-[60px] left-0 h-[2px] bg-[#e85d26] z-50 transition-all duration-75" style="width: 0%;"></div>
+
+  <!-- Main Article Body -->
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-12 w-full">
+    
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#8E8E96] mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-[#e85d26] transition-colors">Home</a>
+      <span>/</span>
+      <a href="/blog/" class="hover:text-[#e85d26] transition-colors">Blog</a>
+      <span>/</span>
+      <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium truncate max-w-md">Secure Vibe Coding: The Checklist I Run Before Any AI-Built App Ships</span>
+    </nav>
+
+    <!-- Post Article Column -->
+    <article class="max-w-[760px]">
+
+      <!-- Eyebrow Metadata -->
+      <div class="flex items-center gap-3 font-mono text-xs mb-4">
+        <span class="chip-status-ready">Security Playbooks</span>
+        <span class="text-[#8E8E96]">2026-10-22 &bull; 9 min read</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#12140F] dark:text-[#F4F4F5] mb-6 leading-tight">
+        Secure Vibe Coding: The Checklist I Run Before Any AI-Built App Ships
+      </h1>
+
+      <!-- Lead paragraph -->
+      <p class="text-[17px] text-[#5C6058] dark:text-[#C4C4CC] leading-[1.65] font-normal pb-6 border-b border-[#E6E6DF] dark:border-[#26262C] mb-8">
+        Building applications with AI agents takes hours instead of weeks. But when AI writes 90% of your codebase, who is auditing the security invariants? Here is the exact secure vibe coding checklist I run on every AI-built repository before deploying to production.
+      </p>
+
+      <!-- Post Body Content -->
+      <div class="prose max-w-none text-[16px] leading-[1.75] text-[#12140F] dark:text-[#C4C4CC] space-y-6">
+
+<p>
+  <strong>Secure vibe coding</strong> is the practice of maintaining production-grade security, access control, and secret hygiene while leveraging autonomous AI coding agents to build software at high velocity.
+</p>
+<p>
+  Recent security scans across thousands of vibe-coded repositories revealed a startling statistic: over 35% of AI-generated web applications contained hardcoded credentials, and more than 60% missed basic object-level authorization checks. Why? Because language models are trained to satisfy the user prompt first. If you say <em>"create a dashboard showing invoice history"</em>, the agent writes the SQL query that works—it doesn't pause to ask if tenant isolation or rate limiting was requested.
+</p>
+<p>
+  To solve this, I run this 6-gate verification checklist on every project before the first production deploy.
+</p>
+
+<h2>Gate 1 / Secret Scanning with Gitleaks</h2>
+<p>
+  Agents routinely drop API keys, database connection strings, or JWT signing secrets into configuration files. Even if you revert the commit later, the secret remains forever in git history.
+</p>
+<ul>
+  <li><strong>The Rule:</strong> Never commit code without running an automated entropy secret scanner.</li>
+  <li><strong>The Check:</strong> Run Gitleaks across your entire git history:</li>
+</ul>
+<div class="code-block">
+  <code>gitleaks detect --source . --verbose --redact</code>
+</div>
+<p>
+  In our <a href="/security/" class="text-[#e85d26] underline font-semibold">Security Standards</a>, Gitleaks runs in GitHub Actions on every pull request. If any developer or agent accidentally adds a secret, the CI build fails instantly before merge.
+</p>
+
+<h2>Gate 2 / Static Analysis with Semgrep AST Checks</h2>
+<p>
+  Simple regex linters miss complex multi-line vulnerabilities. AST (Abstract Syntax Tree) checkers analyze how data flows from user input to database sinks.
+</p>
+<div class="code-block">
+  <code>semgrep scan --config p/security-audit --config p/owasp-top-ten</code>
+</div>
+<p>
+  This single command catches:
+</p>
+<ul>
+  <li>Raw SQL interpolation in ORM queries</li>
+  <li>Missing CSRF tokens on state-changing endpoints</li>
+  <li>Insecure direct object references (IDOR)</li>
+  <li>Vulnerable third-party dependency usage</li>
+</ul>
+
+<h2>Gate 3 / Object-Level Authorization (BOLA Defense)</h2>
+<p>
+  Broken Object-Level Authorization is the #1 vulnerability in modern APIs. An endpoint like <code>DELETE /api/teams/{team}/members/{id}</code> must verify:
+</p>
+<ol>
+  <li>The authenticated user is an administrator of <code>{team}</code>.</li>
+  <li>The targeted member belongs to <code>{team}</code>.</li>
+</ol>
+<div class="callout callout-warning">
+  <strong>The Invariant:</strong>
+  In Laravel, every controller method must execute <code>->authorize('update', )</code>. In Next.js, every Server Action must query Supabase with Row Level Security (RLS) active.
+</div>
+
+<h2>Gate 4 / Input Validation & Type Boundaries</h2>
+<p>
+  Autonomous agents often write controllers that parse <code>->input()</code> directly into database creation calls. This allows malicious actors to inject unvalidated fields (mass assignment vulnerability).
+</p>
+<p>
+  <strong>The Fix:</strong> Demand explicit Form Request or Zod schemas:
+</p>
+<div class="code-block">
+  <div class="text-[#8E8E96] mb-1">// app/Http/Requests/StoreProjectRequest.php</div>
+  <code>public function rules(): array
+{
+    return [
+        'name' => ['required', 'string', 'max:255'],
+        'slug' => ['required', 'string', 'alpha_dash', 'unique:projects,slug'],
+        'budget' => ['required', 'integer', 'min:0'],
+    ];
+}</code>
+</div>
+
+<h2>Gate 5 / AI & LLM Threat Defense</h2>
+<p>
+  If your vibe-coded application integrates LLMs (such as a customer support bot or document analysis tool), the application inherits an entirely new attack surface:
+</p>
+<ul>
+  <li><strong>Prompt Injection:</strong> Untrusted user input altering system instructions. Always delimit external user content with XML tags (<code>&lt;user_query&gt;...&lt;/user_query&gt;</code>).</li>
+  <li><strong>Token Cost Explosions:</strong> Rate limit every user and enforce maximum token limits per completion to prevent denial-of-wallet attacks.</li>
+  <li><strong>PII Redaction:</strong> Filter phone numbers, credit cards, and email addresses before forwarding context to commercial LLM APIs.</li>
+</ul>
+
+<h2>Gate 6 / Rootless Container Isolation</h2>
+<p>
+  Never let your production application run as <code>root</code> inside a Docker container. If a remote code execution bug is discovered in a PHP or Node dependency, running as root grants the attacker immediate takeover of the container environment.
+</p>
+<div class="code-block">
+  <div class="text-[#8E8E96] mb-1"># Dockerfile</div>
+  <code>USER nonroot:nonroot
+HEALTHCHECK --interval=30s --timeout=3s --retries=3   CMD curl -f http://localhost:8080/health || exit 1</code>
+</div>
+
+<h2>The Automated Solution: Use a Production Stack Kit</h2>
+<p>
+  Setting up Gitleaks, Semgrep, PHPStan Level 8, rootless Docker, and multi-agent rules manually takes 6 to 10 hours for every new project.
+</p>
+<p>
+  That is why we built <a href="/kits/" class="text-[#e85d26] underline font-bold">TechTalks Stack Kits</a>. Every kit ships with:
+</p>
+<ul>
+  <li>Pre-wired Gitleaks and Semgrep configurations in <code>security/</code></li>
+  <li>Automated OWASP functional test suites</li>
+  <li>Transpiled rules in 6 dialects (Claude Code, Cursor, Codex, Copilot, Cline, Antigravity)</li>
+  <li>Turnkey rootless Docker Compose environments</li>
+</ul>
+<p>
+  Clone a kit, start vibe coding, and let the CI security gates keep your application bulletproof.
+</p>
+
+      </div>
+
+      <!-- Author Bio & Next Steps Box -->
+      <div class="mt-12 p-6 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div class="font-bold text-sm text-[#12140F] dark:text-white">Written by Umar Farooq</div>
+          <div class="text-xs text-[#5C6058] dark:text-[#8E8E96] mt-0.5">Senior Full-Stack &amp; Application Security Engineer</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="/kits/" class="btn-primary-orange text-xs h-[32px] px-3">
+            Explore Stack Kits &rarr;
+          </a>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="btn-secondary text-xs h-[32px] px-3">
+            GitHub &nearr;
+          </a>
+        </div>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Master Footer -->
+  <footer class="bg-[#F7F7F3] dark:bg-[#0A0A0B] border-t border-[#E6E6DF] dark:border-[#26262C] pt-16 pb-12 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#E6E6DF] dark:border-[#26262C]">
+        
+        <div class="md:col-span-5 space-y-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-[28px] h-[28px] rounded-[6px] bg-[#e85d26] flex items-center justify-center text-white text-xs font-bold shrink-0">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div class="flex items-baseline">
+              <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F4F4F5]">TechTalks</span>
+              <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] font-semibold ml-2">STACK KITS</span>
+            </div>
+          </div>
+          <p class="text-[14px] text-[#5C6058] dark:text-[#C4C4CC] leading-[1.6] max-w-sm">
+            Complete stack kits for AI coding agents: starter code, rules, skills, design tokens and security checks in one clone.
+          </p>
+          <div class="pt-2 text-xs text-[#5C6058] dark:text-[#8E8E96]">
+            By Umar Farooq &bull; <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-[#12140F] dark:text-white font-medium hover:text-[#e85d26] underline transition-colors">itsumarfarooq.com &nearr;</a>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Kits
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="../../kits/laravel-filament-postgresql/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Filament</a></li>
+            <li><a href="../../kits/laravel-livewire-postgresql/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Livewire</a></li>
+            <li><a href="../../kits/laravel-mongodb/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + MongoDB</a></li>
+            <li><a href="../../kits/nextjs-approuter-supabase/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Next.js + Supabase</a></li>
+            <li><a href="../../kits/" class="font-medium text-[#12140F] dark:text-white hover:text-[#e85d26] transition-colors">All 30 Kits &rarr;</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Resources
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="../../blog/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Blog</a></li>
+            <li><a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">How It Works</a></li>
+            <li><a href="../../security/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Security Standards</a></li>
+            <li><a href="../../sitemap.xml" class="font-mono text-xs text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white transition-colors">sitemap.xml</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-3 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Community
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">GitHub Repository &nearr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Discussions &nearr;</a></li>
+            <li><a href="https://itsumarfarooq.com#contact" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Contact Maintainer &nearr;</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col md:flex-row items-center justify-between text-[13px] text-[#5C6058] dark:text-[#8E8E96] gap-4">
+        <div>
+          &copy; 2026 Umar Farooq &bull; TechTalks Stack Kits &bull; <a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-[#12140F] dark:hover:text-white">MIT License</a>
+        </div>
+        <div>
+          Open-source stack kits for AI coding agents.
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

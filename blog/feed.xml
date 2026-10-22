@@ -9,6 +9,42 @@
     <atom:link href="https://techtalks.itsumarfarooq.com/blog/feed.xml" rel="self" type="application/rss+xml"/>
     
     <item>
+      <title><![CDATA[9 Vibe Coding Mistakes That Break Production Apps (and the Rule That Prevents Each One)]]></title>
+      <link>https://techtalks.itsumarfarooq.com/blog/vibe-coding-mistakes/</link>
+      <guid>https://techtalks.itsumarfarooq.com/blog/vibe-coding-mistakes/</guid>
+      <pubDate>2026-10-22T08:00:00Z</pubDate>
+      <category>Mistakes &amp; Fixes</category>
+      <description><![CDATA[Vibe coding lets you move fast, until 800-line files, context drift, and missing authorization break production. The 9 failure modes and rules that fix them.]]></description>
+    </item>
+
+    <item>
+      <title><![CDATA[Secure Vibe Coding: The Checklist I Run Before Any AI-Built App Ships]]></title>
+      <link>https://techtalks.itsumarfarooq.com/blog/secure-vibe-coding-checklist/</link>
+      <guid>https://techtalks.itsumarfarooq.com/blog/secure-vibe-coding-checklist/</guid>
+      <pubDate>2026-10-22T07:30:00Z</pubDate>
+      <category>Security Playbooks</category>
+      <description><![CDATA[When AI writes 90% of your codebase, who is checking authorization and credentials? The 6-gate verification checklist for secure vibe coding.]]></description>
+    </item>
+
+    <item>
+      <title><![CDATA[What Is Vibe Coding? The 2026 Guide for People Who Actually Ship]]></title>
+      <link>https://techtalks.itsumarfarooq.com/blog/what-is-vibe-coding/</link>
+      <guid>https://techtalks.itsumarfarooq.com/blog/what-is-vibe-coding/</guid>
+      <pubDate>2026-10-22T07:00:00Z</pubDate>
+      <category>Pillars &amp; Concepts</category>
+      <description><![CDATA[Karpathy origin, how vibe coding differs from autocomplete, the 2,000-line drift cliff, and how stack kits turn vibes into production software.]]></description>
+    </item>
+
+    <item>
+      <title><![CDATA[Cursor Rules That Actually Work: A Field Guide With Examples]]></title>
+      <link>https://techtalks.itsumarfarooq.com/blog/cursor-rules-examples/</link>
+      <guid>https://techtalks.itsumarfarooq.com/blog/cursor-rules-examples/</guid>
+      <pubDate>2026-10-22T06:30:00Z</pubDate>
+      <category>Agent Craft</category>
+      <description><![CDATA[Why Cursor ignores bloated prompts, the 4 invariants of high-adherence rules, and real production examples for Laravel, Next.js, and FastAPI.]]></description>
+    </item>
+
+    <item>
       <title><![CDATA[TechTalks Stack Kits: What a Kit Is and Why AI Agents Need One]]></title>
       <link>https://techtalks.itsumarfarooq.com/blog/what-is-a-stack-kit/</link>
       <guid>https://techtalks.itsumarfarooq.com/blog/what-is-a-stack-kit/</guid>

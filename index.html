@@ -39,7 +39,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500;1,6..72,600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500;1,6..72,600&display=swap"
     rel="stylesheet">
 
   <!-- Tailwind CSS Bundle -->
@@ -62,6 +62,13 @@
     },
     "license": "https://opensource.org/licenses/MIT"
   }
+  </script>
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
   </script>
 </head>
 
@@ -280,110 +287,122 @@
       </div>
     </div>
   </header>
-
-
   <main class="flex-grow">
 
-    <!-- 1. Hero Section (Document 18 Master Spec: Exact Message, Newsreader signature accent, Left-aligned max-w-[760px]) -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-12 sm:pb-16">
-      <div class="max-w-[760px]">
-
-        <!-- Eyebrow chip: mono, hairline border, orange dot -->
+    <!-- 00 / HERO SECTION -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-12 sm:pb-16">
+      <div class="max-w-4xl">
         <div
-          class="inline-flex items-center gap-2 px-3 py-1 rounded-[4px] bg-[#F7F7F3] dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] mb-6">
-          <span class="w-2 h-2 rounded-full bg-[#E85D26]"></span>
-          <span class="font-mono text-[11px] uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] font-semibold">
-            OPEN SOURCE &bull; MIT &bull; FOR CLAUDE, CURSOR, CODEX AND 3 MORE AGENTS
-          </span>
+          class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-[#e85d26] font-semibold mb-4 bg-[#FFF1E8] dark:bg-[#20150F] px-2.5 py-1 rounded-[4px] border border-[#e85d26]/20 select-none">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#e85d26] animate-pulse"></span>
+          <span>00 / OPEN SOURCE &bull; ROOTLESS &bull; 6 AGENT DIALECTS</span>
         </div>
 
-        <!-- H1: 44/56px with tight tracking -0.03em and signature Newsreader italic accent on 'build from' -->
         <h1
-          class="text-4xl sm:text-5xl lg:text-[54px] font-bold tracking-[-0.03em] leading-[1.12] text-[#12140F] dark:text-[#F2F2EC] mb-5">
+          class="text-3xl sm:text-5xl font-extrabold tracking-tight text-[#12140F] dark:text-[#F4F4F5] leading-[1.12] mb-5">
           Stack kits your AI agent can <span class="font-serif italic font-normal text-[#12140F] dark:text-white">build
             from</span>, start to finish.
         </h1>
 
-        <!-- Subline: 17px muted, two lines max -->
-        <p class="text-[17px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.65] font-normal mb-8 max-w-[720px]">
-          Every kit is a complete project setup for one stack: starter code, agent rules in 6 dialects, reusable skills,
-          a DESIGN.md design system, and security checks that run in CI. Clone a kit, hand it to your agent, and build.
+        <p class="text-base sm:text-lg text-[#5C6058] dark:text-[#C4C4CC] max-w-3xl leading-relaxed mb-6 font-normal">
+          Deterministic, production-ready application repositories pre-configured with multi-agent rules, sandboxed
+          skills, turnkey container environments, automated security scanner gates, and zero architectural drift.
         </p>
 
-        <!-- CTA Row: Primary Orange (Single orange button on screen) + Secondary Bordered + Mono clone chip with copy button -->
-        <div class="flex flex-wrap items-center gap-3.5 mb-8">
+        <div class="flex flex-wrap items-center gap-3 mb-8">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-2 rounded-[6px] bg-[#000000] border border-[#26262C] font-mono text-xs text-[#F4F4F5]">
+            <span class="text-[#8E8E96] select-none">$</span>
+            <span>git clone https://github.com/Umar-444/Techtalks-stack-kits.git</span>
+            <button type="button" data-copy-cmd="git clone https://github.com/Umar-444/Techtalks-stack-kits.git"
+              class="ml-2 text-[#8E8E96] hover:text-[#e85d26] transition-colors focus:outline-none" title="Copy command"
+              aria-label="Copy clone command">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+            </button>
+          </div>
           <a href="/kits/" class="btn-primary-orange">
-            Browse the Kits &rarr;
+            Explore All 30 Kits &rarr;
           </a>
-          <a href="#how-it-works" class="btn-secondary">
-            How It Works
+          <a href="/security/" class="btn-secondary">
+            Security Architecture
           </a>
-
-          <!-- Mono clone command chip with 1-click copy feedback -->
-          <button type="button" data-copy-cmd="git clone https://github.com/Umar-444/Techtalks-stack-kits"
-            class="inline-flex items-center gap-2 h-[40px] px-3.5 rounded-[6px] bg-[#F4F4F0] dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-mono text-[#12140F] dark:text-[#F2F2EC] hover:border-[#CFCFC4] dark:hover:border-[#3A3E3B] transition-all select-none"
-            title="Click to copy clone command">
-            <span class="text-[#8C9088]">$</span>
-            <span>git clone https://github.com/Umar-444/Techtalks-stack-kits</span>
-            <svg class="w-3.5 h-3.5 text-[#8C9088] shrink-0 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-            </svg>
-          </button>
         </div>
+      </div>
 
-        <!-- Stack Picker Row (Instant proof of scope per Doc 18) -->
-        <div class="pt-2 flex flex-wrap items-center gap-2 text-xs">
-          <span class="font-mono text-[11px] uppercase tracking-wider text-[#8C9088] font-semibold mr-1">
-            START WITH YOUR STACK:
-          </span>
-          <a href="/kits/laravel-filament-postgresql/"
-            class="chip hover:border-[#12140F] dark:hover:border-white transition-colors">Laravel</a>
-          <a href="/kits/nextjs-approuter-supabase/"
-            class="chip hover:border-[#12140F] dark:hover:border-white transition-colors">Next.js</a>
-          <a href="/kits/django-tailwind-postgresql/"
-            class="chip hover:border-[#12140F] dark:hover:border-white transition-colors">Django</a>
-          <a href="/kits/flask-htmx-sqlite/"
-            class="chip hover:border-[#12140F] dark:hover:border-white transition-colors">FastAPI</a>
-          <a href="/kits/rag-fastapi-qdrant/"
-            class="chip hover:border-[#12140F] dark:hover:border-white transition-colors">RAG</a>
-          <a href="/kits/agentic-langgraph-crewai/"
-            class="chip hover:border-[#12140F] dark:hover:border-white transition-colors">AI Agents</a>
+      <div class="rounded-[8px] bg-[#000000] border border-[#26262C] shadow-2xl overflow-hidden text-left">
+        <div class="flex items-center justify-between px-4 py-2.5 bg-[#131316] border-b border-[#26262C]">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#26262C]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#26262C]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#26262C]"></span>
+            <span class="font-mono text-xs text-[#8E8E96] ml-2">eval-runner &bull; claude-code &bull; v1.0.0</span>
+          </div>
+          <span
+            class="font-mono text-[10px] uppercase tracking-wider text-[#e85d26] font-semibold bg-[#20150F] px-2 py-0.5 rounded border border-[#e85d26]/30">VERIFIED
+            SUITE</span>
         </div>
-
+        <div class="p-4 font-mono text-[12.5px] leading-relaxed text-[#F4F4F5] overflow-x-auto">
+          <div class="text-[#8E8E96] mb-2">$ agy eval --kit laravel-filament-postgresql --agent claude-code --all-gates
+          </div>
+          <div class="text-emerald-400">&check; 01-manifest-integrity ............. <span
+              class="text-white font-semibold">PASS</span> <span class="text-[#8E8E96]">(valid kit.yaml, 0 schema
+              violations)</span></div>
+          <div class="text-emerald-400">&check; 02-agent-dialects ................ <span
+              class="text-white font-semibold">PASS</span> <span class="text-[#8E8E96]">(6/6 rules compiled: Cursor,
+              Claude, Codex, Copilot, Cline, Antigravity)</span></div>
+          <div class="text-emerald-400">&check; 03-skills-sandbox ................ <span
+              class="text-white font-semibold">PASS</span> <span class="text-[#8E8E96]">(12/12 CLI tools sandboxed, 0
+              unpinned deps)</span></div>
+          <div class="text-emerald-400">&check; 04-owasp-scanners ................ <span
+              class="text-white font-semibold">PASS</span> <span class="text-[#8E8E96]">(0 secrets detected, 0
+              high/critical CVEs, CSRF/SQLi verified)</span></div>
+          <div class="text-emerald-400">&check; 05-runtime-smoke ................. <span
+              class="text-white font-semibold">PASS</span> <span class="text-[#8E8E96]">(HTTP 200 OK, 18ms latency,
+              PostgreSQL 16 ready)</span></div>
+          <div
+            class="mt-3 pt-3 border-t border-[#26262C] flex flex-wrap items-center justify-between text-xs text-[#8E8E96] gap-2">
+            <span>Evaluation Result: <strong class="text-[#e85d26] font-bold">5/5 GATES PASSED</strong> (Deterministic
+              Execution)</span>
+            <span class="text-[#8E8E96]">Runtime: 1.42s &bull; Tokens: 13,840</span>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 2. Proof Band (Document 18: 4 Honest Numbers in Mono, Bare figures between hairlines, No card box) -->
-    <section class="border-y border-[#E6E6DF] dark:border-[#2A2E2A] bg-white dark:bg-[#0F1110] py-8">
+
+    <!-- PROOF BAND (Dense Stats Grid) -->
+    <section class="border-y border-[#E6E6DF] dark:border-[#26262C] bg-[#F7F7F3] dark:bg-[#131316] py-8">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
 
           <div class="flex flex-col">
             <span
-              class="font-mono text-3xl sm:text-4xl font-bold tracking-tight text-[#12140F] dark:text-white">8</span>
-            <span class="font-mono text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] mt-1">Complete
+              class="font-mono text-3xl sm:text-4xl font-bold tracking-tight text-[#12140F] dark:text-[#F4F4F5]">8</span>
+            <span class="font-mono text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] mt-1">Complete
               Kits</span>
           </div>
 
           <div class="flex flex-col">
             <span
-              class="font-mono text-3xl sm:text-4xl font-bold tracking-tight text-[#12140F] dark:text-white">22</span>
+              class="font-mono text-3xl sm:text-4xl font-bold tracking-tight text-[#12140F] dark:text-[#F4F4F5]">22</span>
             <span
-              class="font-mono text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] mt-1">Blueprints</span>
+              class="font-mono text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] mt-1">Blueprints</span>
           </div>
 
           <div class="flex flex-col">
             <span
-              class="font-mono text-3xl sm:text-4xl font-bold tracking-tight text-[#12140F] dark:text-white">6</span>
-            <span class="font-mono text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] mt-1">Agent
+              class="font-mono text-3xl sm:text-4xl font-bold tracking-tight text-[#12140F] dark:text-[#F4F4F5]">6</span>
+            <span class="font-mono text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] mt-1">Agent
               Dialects</span>
           </div>
 
           <div class="flex flex-col">
             <span
-              class="font-mono text-3xl sm:text-4xl font-bold tracking-tight text-[#12140F] dark:text-white">100%</span>
-            <span class="font-mono text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] mt-1">Open Source
+              class="font-mono text-3xl sm:text-4xl font-bold tracking-tight text-[#12140F] dark:text-[#F4F4F5]">100%</span>
+            <span class="font-mono text-xs uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] mt-1">Open Source
               (MIT)</span>
           </div>
 
@@ -391,564 +410,770 @@
       </div>
     </section>
 
-    <!-- 3. How It Works (Document 17: 3 Numbered Steps in 3-Column Grid, Mono Orange Numbers) -->
-    <section id="how-it-works" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-
-      <!-- Left-aligned Header Pattern -->
-      <div class="max-w-[760px] mb-12">
-        <div class="font-mono text-xs uppercase tracking-wider text-[#E85D26] font-semibold mb-2">
-          WORKFLOW
-        </div>
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-[-0.02em] text-[#12140F] dark:text-white mb-3">
-          How an AI agent builds from a kit
-        </h2>
-        <p class="text-[16px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.75] max-w-[60ch]">
-          Three predictable stages. Zero prompt drift, zero unverified boilerplate, and no guesswork about project
-          boundaries.
-        </p>
-      </div>
-
-      <!-- 3 Columns -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-        <div class="border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-6 space-y-3">
-          <div class="font-mono text-2xl font-bold text-[#E85D26]">01</div>
-          <h3 class="text-lg font-bold text-[#12140F] dark:text-white">Clone the stack kit</h3>
-          <p class="text-sm text-[#5C6058] dark:text-[#A8ACA0] leading-[1.7]">
-            Clone a repository with production folder structure, Docker compose files, environment configurations, and
-            database migrations ready out of the box.
-          </p>
-        </div>
-
-        <div class="border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-6 space-y-3">
-          <div class="font-mono text-2xl font-bold text-[#E85D26]">02</div>
-          <h3 class="text-lg font-bold text-[#12140F] dark:text-white">Agent consumes rules &amp; skills</h3>
-          <p class="text-sm text-[#5C6058] dark:text-[#A8ACA0] leading-[1.7]">
-            Claude, Cursor, Codex, Windsurf, Roo, or Antigravity loads transpiled rules and on-demand skills.
-            Architectural drift is stopped at the source.
-          </p>
-        </div>
-
-        <div class="border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-6 space-y-3">
-          <div class="font-mono text-2xl font-bold text-[#E85D26]">03</div>
-          <h3 class="text-lg font-bold text-[#12140F] dark:text-white">Security scanners gate the build</h3>
-          <p class="text-sm text-[#5C6058] dark:text-[#A8ACA0] leading-[1.7]">
-            Gitleaks, Semgrep, and stack test suites evaluate every commit in CI. If an agent hallucinates a credential
-            leak or SQL flaw, the pipeline fails instantly.
-          </p>
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- 4. Featured Kits (Document 17: Uniform Notion-Style Card Anatomy) -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#E6E6DF] dark:border-[#2A2E2A]">
-
-      <!-- Left-aligned Header Pattern -->
-      <div class="max-w-[760px] mb-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <!-- 01 / THE LINEUP -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
         <div>
-          <div class="font-mono text-xs uppercase tracking-wider text-[#E85D26] font-semibold mb-2">
-            CATALOGUE
-          </div>
-          <h2 class="text-3xl sm:text-4xl font-bold tracking-[-0.02em] text-[#12140F] dark:text-white mb-3">
+          <div class="eyebrow-numbered text-[#e85d26] mb-2">01 / THE LINEUP</div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-[#12140F] dark:text-[#F4F4F5] tracking-tight">
             Production-verified stack kits
           </h2>
-          <p class="text-[16px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.75]">
-            Complete repositories designed for autonomous coding agents. Every kit ships with physical containers,
-            multi-agent rules, and CI scanners.
+          <p class="text-sm text-[#5C6058] dark:text-[#C4C4CC] mt-1">
+            Turnkey application repositories with native agent configurations, docker stacks, and CI gates.
           </p>
         </div>
-        <div>
-          <a href="/kits/"
-            class="font-mono text-xs uppercase tracking-wider font-semibold text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors inline-flex items-center gap-1.5 whitespace-nowrap">
-            <span>View All Kits</span>
-            <span>&rarr;</span>
-          </a>
-        </div>
+        <a href="/kits/" class="text-xs font-mono text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
+          <span>View all 30 kits in catalogue</span>
+          <span>&rarr;</span>
+        </a>
       </div>
 
-      <!-- Kits Grid (2 columns on desktop, strict Document 17 anatomy) -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <!-- Kit #1 -->
+        <!-- Card 01 -->
         <div class="card-kit flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-3 font-mono text-xs">
-              <span class="chip-status-ready">Ready to Ship</span>
-              <span class="text-[#8C9088]">v1.0.0</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-xs font-bold text-[#8E8E96]">01</span>
+              <span class="chip-status-ready">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>
+                READY
+              </span>
             </div>
-            <h3 class="text-[18px] font-bold text-[#12140F] dark:text-white mb-2">
-              Laravel 12 + Filament v3 + PostgreSQL
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">
+              <a href="/kits/laravel-filament-postgresql/" class="hover:text-[#e85d26] transition-colors">
+                Laravel 12 + Filament v3 + PostgreSQL
+              </a>
             </h3>
-            <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6] mb-4">
-              Enterprise administration platform with multi-tenancy, granular RBAC policies, audit trails, and automated
-              Pest architecture tests.
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+              Turnkey administrative panel with multi-tenant architecture, Filament resource generators, and automated
+              audit logging.
             </p>
             <div class="flex flex-wrap gap-1.5 mb-4">
-              <span class="chip-version">PHP 8.4</span>
-              <span class="chip-version">Laravel 12</span>
-              <span class="chip-version">Filament v3</span>
-              <span class="chip-version">PostgreSQL 16</span>
+              <span class="chip">PHP 8.3</span>
+              <span class="chip">Filament</span>
+              <span class="chip">Postgres</span>
+              <span class="chip">~14k tokens</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-between text-xs">
-            <span class="font-mono text-[#8C9088]">Kit #1</span>
+          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+            <code class="font-mono text-[11px] text-[#8E8E96]">docker compose up -d</code>
             <a href="/kits/laravel-filament-postgresql/"
-              class="font-semibold text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">
-              Explore Kit #1 &rarr;
-            </a>
+              class="text-xs font-semibold text-[#e85d26] hover:underline">Inspect &rarr;</a>
           </div>
         </div>
 
-        <!-- Kit #2 -->
+        <!-- Card 02 -->
         <div class="card-kit flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-3 font-mono text-xs">
-              <span class="chip-status-ready">Ready to Ship</span>
-              <span class="text-[#8C9088]">v1.0.0</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-xs font-bold text-[#8E8E96]">02</span>
+              <span class="chip-status-ready">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>
+                READY
+              </span>
             </div>
-            <h3 class="text-[18px] font-bold text-[#12140F] dark:text-white mb-2">
-              Laravel 12 + Livewire v3 + PostgreSQL
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">
+              <a href="/kits/laravel-livewire-postgresql/" class="hover:text-[#e85d26] transition-colors">
+                Laravel 12 + Livewire v3 + PostgreSQL
+              </a>
             </h3>
-            <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6] mb-4">
-              Reactive SaaS foundation with dynamic component state, Alpine.js micro-interactions, CSRF guards, and
-              secure session management.
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+              Reactive full-stack SaaS scaffold with Alpine.js components, Livewire 3 wire:navigate SPA mode, and
+              Tailwind styling.
             </p>
             <div class="flex flex-wrap gap-1.5 mb-4">
-              <span class="chip-version">PHP 8.4</span>
-              <span class="chip-version">Laravel 12</span>
-              <span class="chip-version">Livewire 3</span>
-              <span class="chip-version">Alpine.js</span>
+              <span class="chip">PHP 8.3</span>
+              <span class="chip">Livewire 3</span>
+              <span class="chip">Alpine</span>
+              <span class="chip">~12k tokens</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-between text-xs">
-            <span class="font-mono text-[#8C9088]">Kit #2</span>
+          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+            <code class="font-mono text-[11px] text-[#8E8E96]">docker compose up -d</code>
             <a href="/kits/laravel-livewire-postgresql/"
-              class="font-semibold text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">
-              Explore Kit #2 &rarr;
-            </a>
+              class="text-xs font-semibold text-[#e85d26] hover:underline">Inspect &rarr;</a>
           </div>
         </div>
 
-        <!-- Kit #3 -->
+        <!-- Card 03 -->
         <div class="card-kit flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-3 font-mono text-xs">
-              <span class="chip-status-ready">Ready to Ship</span>
-              <span class="text-[#8C9088]">v1.0.0</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-xs font-bold text-[#8E8E96]">03</span>
+              <span class="chip-status-ready">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>
+                READY
+              </span>
             </div>
-            <h3 class="text-[18px] font-bold text-[#12140F] dark:text-white mb-2">
-              Laravel 12 + MongoDB + Tailwind
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">
+              <a href="/kits/laravel-mongodb/" class="hover:text-[#e85d26] transition-colors">
+                Laravel 12 + MongoDB + Tailwind
+              </a>
             </h3>
-            <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6] mb-4">
-              Document-oriented data layer for catalog, event streaming, and analytics. Features MongoDB 7+, sanitize
-              middleware, and replica sets.
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+              Document-oriented data layer for high-throughput logging, telemetry, and event storage with MongoDB 7+
+              replica sets.
             </p>
             <div class="flex flex-wrap gap-1.5 mb-4">
-              <span class="chip-version">PHP 8.4</span>
-              <span class="chip-version">Laravel 12</span>
-              <span class="chip-version">MongoDB 7+</span>
-              <span class="chip-version">NoSQL Defenses</span>
+              <span class="chip">Laravel 12</span>
+              <span class="chip">MongoDB 7</span>
+              <span class="chip">Eloquent</span>
+              <span class="chip">~11k tokens</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-between text-xs">
-            <span class="font-mono text-[#8C9088]">Kit #3</span>
-            <a href="/kits/laravel-mongodb/"
-              class="font-semibold text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">
-              Explore Kit #3 &rarr;
-            </a>
+          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+            <code class="font-mono text-[11px] text-[#8E8E96]">docker compose up -d</code>
+            <a href="/kits/laravel-mongodb/" class="text-xs font-semibold text-[#e85d26] hover:underline">Inspect
+              &rarr;</a>
           </div>
         </div>
 
-        <!-- Kit #4 -->
+        <!-- Card 04 -->
         <div class="card-kit flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-3 font-mono text-xs">
-              <span class="chip-status-ready">Ready to Ship</span>
-              <span class="text-[#8C9088]">v1.0.0</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-xs font-bold text-[#8E8E96]">04</span>
+              <span class="chip-status-ready">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>
+                READY
+              </span>
             </div>
-            <h3 class="text-[18px] font-bold text-[#12140F] dark:text-white mb-2">
-              Next.js 15+ + Supabase + shadcn/ui
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">
+              <a href="/kits/nextjs-approuter-supabase/" class="hover:text-[#e85d26] transition-colors">
+                Next.js 15+ + Supabase + shadcn/ui
+              </a>
             </h3>
-            <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6] mb-4">
-              Modern TypeScript stack with React Server Components, Server Actions validated with Zod, and PostgreSQL
-              Row-Level Security (RLS).
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+              Full-stack TypeScript SaaS template with React Server Components, Supabase Auth SSR, PostgreSQL RLS, and
+              shadcn/ui.
             </p>
             <div class="flex flex-wrap gap-1.5 mb-4">
-              <span class="chip-version">Next.js 15</span>
-              <span class="chip-version">React 19</span>
-              <span class="chip-version">Supabase RLS</span>
-              <span class="chip-version">Server Actions</span>
+              <span class="chip">Next.js 15</span>
+              <span class="chip">Supabase</span>
+              <span class="chip">shadcn/ui</span>
+              <span class="chip">~13k tokens</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-between text-xs">
-            <span class="font-mono text-[#8C9088]">Kit #4</span>
+          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+            <code class="font-mono text-[11px] text-[#8E8E96]">pnpm dev</code>
             <a href="/kits/nextjs-approuter-supabase/"
-              class="font-semibold text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">
-              Explore Kit #4 &rarr;
-            </a>
+              class="text-xs font-semibold text-[#e85d26] hover:underline">Inspect &rarr;</a>
           </div>
         </div>
 
-        <!-- Blueprint 1: MySQL Dashboard -->
+        <!-- Card 05 -->
         <div class="card-kit flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-3 font-mono text-xs">
-              <span class="chip-status-blueprint">Blueprint (Build Next)</span>
-              <span class="text-[#8C9088]">Planned</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-xs font-bold text-[#8E8E96]">05</span>
+              <span class="chip-status-ready">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>
+                READY
+              </span>
             </div>
-            <h3 class="text-[18px] font-bold text-[#12140F] dark:text-white mb-2">
-              Laravel + MySQL Dashboard (Blueprint)
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">
+              <a href="/kits/ruby-rails-hotwire/" class="hover:text-[#e85d26] transition-colors">
+                Ruby on Rails 8 + Hotwire + SQLite
+              </a>
             </h3>
-            <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6] mb-4">
-              Battle-tested enterprise foundation with Larastan Level 8, Pint formatting, Pest Architecture tests, and
-              high-concurrency MySQL indexing.
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+              Next-generation modern Rails 8 zero-dependency deployment with Turbo 8 morphing, Kamal deployment, and
+              Solid Cache.
             </p>
             <div class="flex flex-wrap gap-1.5 mb-4">
-              <span class="chip-version">PHP 8.4</span>
-              <span class="chip-version">Laravel 12</span>
-              <span class="chip-version">MySQL 8</span>
-              <span class="chip-version">Larastan L8</span>
+              <span class="chip">Rails 8</span>
+              <span class="chip">Hotwire</span>
+              <span class="chip">Kamal</span>
+              <span class="chip">~10k tokens</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-between text-xs">
-            <span class="font-mono text-[#8C9088]">Planned Specification</span>
-            <a href="/kits/laravel-mysql/"
-              class="font-semibold text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">
-              View Blueprint &rarr;
-            </a>
+          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+            <code class="font-mono text-[11px] text-[#8E8E96]">bin/dev</code>
+            <a href="/kits/ruby-rails-hotwire/" class="text-xs font-semibold text-[#e85d26] hover:underline">Inspect
+              &rarr;</a>
           </div>
         </div>
 
-        <!-- Blueprint 2: Production RAG -->
+        <!-- Card 06 -->
         <div class="card-kit flex flex-col justify-between">
           <div>
-            <div class="flex items-center justify-between mb-3 font-mono text-xs">
-              <span class="chip-status-blueprint">Blueprint</span>
-              <span class="text-[#8C9088]">Planned</span>
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-mono text-xs font-bold text-[#8E8E96]">06</span>
+              <span class="chip-status-ready">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>
+                READY
+              </span>
             </div>
-            <h3 class="text-[18px] font-bold text-[#12140F] dark:text-white mb-2">
-              Production RAG Stack (Blueprint)
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">
+              <a href="/kits/ts-hono-bun-sqlite/" class="hover:text-[#e85d26] transition-colors">
+                TypeScript + Hono + Bun + SQLite
+              </a>
             </h3>
-            <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6] mb-4">
-              Retrieval-Augmented Generation pipeline: ingest, chunk, embed, retrieve, generate with tenant vector
-              isolation and Ragas evaluation evals.
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+              Ultra-lightweight microservice API stack with sub-millisecond cold starts, strict OpenAPI schemas, and Bun
+              native test runner.
             </p>
             <div class="flex flex-wrap gap-1.5 mb-4">
-              <span class="chip-version">FastAPI</span>
-              <span class="chip-version">Qdrant</span>
-              <span class="chip-version">Tenant Isolation</span>
-              <span class="chip-version">Ragas Evals</span>
+              <span class="chip">Hono</span>
+              <span class="chip">Bun</span>
+              <span class="chip">SQLite</span>
+              <span class="chip">~8k tokens</span>
             </div>
           </div>
-          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-between text-xs">
-            <span class="font-mono text-[#8C9088]">Planned Specification</span>
-            <a href="/kits/rag-fastapi-qdrant/"
-              class="font-semibold text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">
-              View Blueprint &rarr;
-            </a>
+          <div class="pt-3 border-t border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+            <code class="font-mono text-[11px] text-[#8E8E96]">bun run dev</code>
+            <a href="/kits/ts-hono-bun-sqlite/" class="text-xs font-semibold text-[#e85d26] hover:underline">Inspect
+              &rarr;</a>
           </div>
         </div>
 
       </div>
-
     </section>
 
-    <!-- 5. Security Restructure Band (Document 18 Part 4: Replaces old curriculum band) -->
-    <!-- "Security is built into every kit" - 3 columns, links to /security/ and kits -->
-    <section
-      class="bg-[#F7F7F3] dark:bg-[#141615] border-y border-[#E6E6DF] dark:border-[#2A2E2A] py-20 transition-colors">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        <div class="max-w-[760px] mb-12">
-          <div class="font-mono text-xs uppercase tracking-wider text-[#0E7C6B] font-semibold mb-2">
-            SECURITY ARCHITECTURE
-          </div>
-          <h2 class="text-3xl sm:text-4xl font-bold tracking-[-0.02em] text-[#12140F] dark:text-white mb-3">
-            Security is built into every kit
+    <!-- 02 / WORKFLOW -->
+    <section id="how-it-works"
+      class="border-t border-[#E6E6DF] dark:border-[#26262C] bg-[#F7F7F3] dark:bg-[#131316] py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-12">
+          <div class="eyebrow-numbered text-[#e85d26] mb-2">02 / WORKFLOW</div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-[#12140F] dark:text-[#F4F4F5] tracking-tight">
+            How an AI agent builds from a kit
           </h2>
-          <p class="text-[16px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.75] max-w-[60ch]">
-            Rather than an isolated checklist, every kit enforces automated security guardrails directly in CI and in
-            your coding agent's context.
+          <p class="text-sm text-[#5C6058] dark:text-[#C4C4CC] mt-1">
+            Three deterministic phases take an empty directory to a fully tested, compliant production application.
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
+          <!-- Step 01 -->
           <div
-            class="bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] rounded-[8px] p-6 space-y-3">
-            <div
-              class="w-9 h-9 rounded-[6px] bg-[#E6F4F1] dark:bg-[#122A26] text-[#0A584C] dark:text-[#3CD6BC] flex items-center justify-center font-mono font-bold text-sm">
-              CI
+            class="bg-white dark:bg-[#0A0A0B] p-6 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] flex flex-col justify-between">
+            <div>
+              <span class="font-mono text-3xl font-extrabold text-[#e85d26] block mb-3">01</span>
+              <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">Clone the stack kit</h3>
+              <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+                You clone the repository and select your kit directory. The kit provides a complete working scaffold,
+                docker environment, and agent instructions.
+              </p>
             </div>
-            <h3 class="text-base font-bold text-[#12140F] dark:text-white">
-              Scanned in CI
-            </h3>
-            <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6]">
-              Gitleaks secret detection, Semgrep static analysis, Composer audit, and npm audit automatically check
-              every pull request and agent commit.
-            </p>
+            <div
+              class="p-2.5 rounded bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] font-mono text-[11px] text-[#5C6058] dark:text-[#C4C4CC]">
+              git clone .../kits/laravel-filament
+            </div>
           </div>
 
+          <!-- Step 02 -->
           <div
-            class="bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] rounded-[8px] p-6 space-y-3">
-            <div
-              class="w-9 h-9 rounded-[6px] bg-[#FEF6D8] dark:bg-[#2A2410] text-[#7A4B00] dark:text-[#F4BE5A] flex items-center justify-center font-mono font-bold text-sm">
-              AG
+            class="bg-white dark:bg-[#0A0A0B] p-6 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] flex flex-col justify-between">
+            <div>
+              <span class="font-mono text-3xl font-extrabold text-[#e85d26] block mb-3">02</span>
+              <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">Agent consumes rules &amp; skills
+              </h3>
+              <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+                Your AI coding agent reads native instructions tailored for its engine. Rules anchor context so the
+                agent never invents obsolete APIs or insecure patterns.
+              </p>
             </div>
-            <h3 class="text-base font-bold text-[#12140F] dark:text-white">
-              Rules reviewed for backdoors
-            </h3>
-            <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6]">
-              Every single-source rule file is reviewed against prompt injection, malicious hidden tool calls, and
-              credential exfiltration instructions.
-            </p>
+            <div
+              class="p-2.5 rounded bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] font-mono text-[11px] text-[#5C6058] dark:text-[#C4C4CC]">
+              6 dialects &bull; 0 token bloat
+            </div>
           </div>
 
+          <!-- Step 03 -->
           <div
-            class="bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] rounded-[8px] p-6 space-y-3">
-            <div
-              class="w-9 h-9 rounded-[6px] bg-[#FFF1E8] dark:bg-[#2A1E16] text-[#B33D14] dark:text-[#FF8D5C] flex items-center justify-center font-mono font-bold text-sm">
-              KT
+            class="bg-white dark:bg-[#0A0A0B] p-6 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] flex flex-col justify-between">
+            <div>
+              <span class="font-mono text-3xl font-extrabold text-[#e85d26] block mb-3">03</span>
+              <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">Security scanners gate the build
+              </h3>
+              <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+                Every generated change is verified by local and CI security gates. Gitleaks, Semgrep, and OWASP test
+                suites verify safety before merge.
+              </p>
             </div>
-            <h3 class="text-base font-bold text-[#12140F] dark:text-white">
-              Checks inside every kit
-            </h3>
-            <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6]">
-              Each kit contains its own <code>security/checks.json</code> and test suites, verified against our platform
-              threat models before every release.
-            </p>
+            <div
+              class="p-2.5 rounded bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] font-mono text-[11px] text-[#5C6058] dark:text-[#C4C4CC]">
+              CI gated &bull; 0 false assumptions
+            </div>
           </div>
 
         </div>
-
-        <div class="pt-2">
-          <a href="/security/"
-            class="font-mono text-xs uppercase tracking-wider font-semibold text-[#12140F] dark:text-white hover:text-[#0E7C6B] transition-colors inline-flex items-center gap-1.5">
-            <span>Read the Platform Security Standard</span>
-            <span>&rarr;</span>
-          </a>
-        </div>
-
       </div>
     </section>
 
-    <!-- 6. Trust Section (Document 17: 3 Items, Hairline Dividers, Left-aligned) -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-
-      <div class="max-w-[760px] mb-12">
-        <div class="font-mono text-xs uppercase tracking-wider text-[#8C9088] font-semibold mb-2">
-          PRINCIPLES
-        </div>
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-[-0.02em] text-[#12140F] dark:text-white mb-3">
-          Engineered for engineering rigor
+    <!-- 03 / SECURITY ARCHITECTURE -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="max-w-2xl mb-12">
+        <div class="eyebrow-numbered text-[#e85d26] mb-2">03 / SECURITY ARCHITECTURE</div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#12140F] dark:text-[#F4F4F5] tracking-tight">
+          Security is built into every kit
         </h2>
-        <p class="text-[16px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.75]">
-          Autonomous code generation without architectural boundaries creates exponential technical debt. We build the
-          boundary rails.
+        <p class="text-sm text-[#5C6058] dark:text-[#C4C4CC] mt-1">
+          Static analysis, secret scanning, and automated attack tests run on every commit. Security is not an
+          afterthought.
         </p>
       </div>
 
-      <div class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-        <div
-          class="border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-6 flex flex-col md:flex-row md:items-start justify-between gap-4">
-          <div class="md:w-1/3">
-            <span class="font-mono text-xs text-[#E85D26] uppercase tracking-wider font-semibold">01 &bull;
-              Deterministic</span>
-            <h3 class="text-lg font-bold text-[#12140F] dark:text-white mt-1">Zero Architectural Hallucinations</h3>
+        <!-- Column 01 -->
+        <div class="card-kit flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-mono text-xs font-bold text-[#8E8E96]">01</span>
+              <span class="text-xs uppercase tracking-wider font-mono font-bold text-[#e85d26]">Static Analysis</span>
+            </div>
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">Scanned in CI</h3>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+              PHPStan at maximum strictness, Laravel Pint, Semgrep AST checkers, and Gitleaks secret detection run
+              before any pull request is merged.
+            </p>
           </div>
-          <div class="md:w-2/3 text-sm text-[#5C6058] dark:text-[#A8ACA0] leading-[1.7]">
-            Coding agents frequently invent directory layouts, non-existent libraries, or obsolete configuration
-            formats. Our single-source rules constrain LLM sampling to verified paths, patterns, and framework
-            conventions.
+          <div
+            class="space-y-1.5 text-xs text-[#5C6058] dark:text-[#8E8E96] font-mono pt-3 border-t border-[#E6E6DF] dark:border-[#26262C]">
+            <div class="flex items-center gap-1.5"><span class="text-[#e85d26]">&check;</span> PHPStan Level 8 /
+              Larastan</div>
+            <div class="flex items-center gap-1.5"><span class="text-[#e85d26]">&check;</span> Semgrep Security Rulesets
+            </div>
+            <div class="flex items-center gap-1.5"><span class="text-[#e85d26]">&check;</span> Gitleaks Zero-Secret
+              Policy</div>
           </div>
         </div>
 
-        <div
-          class="border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-6 flex flex-col md:flex-row md:items-start justify-between gap-4">
-          <div class="md:w-1/3">
-            <span class="font-mono text-xs text-[#E85D26] uppercase tracking-wider font-semibold">02 &bull;
-              Multi-Dialect</span>
-            <h3 class="text-lg font-bold text-[#12140F] dark:text-white mt-1">Single-Source Agent Transpilation</h3>
+        <!-- Column 02 -->
+        <div class="card-kit flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-mono text-xs font-bold text-[#8E8E96]">02</span>
+              <span class="text-xs uppercase tracking-wider font-mono font-bold text-[#e85d26]">Context Control</span>
+            </div>
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">Context Guardrails</h3>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+              Agent instruction files are reviewed against prompt injection, malicious supply-chain dependencies, and
+              context hallucinations.
+            </p>
           </div>
-          <div class="md:w-2/3 text-sm text-[#5C6058] dark:text-[#A8ACA0] leading-[1.7]">
-            Maintain your system rules once in master YAML manifests. Our transpiler compiles them deterministically for
-            Claude Code (<code>CLAUDE.md</code>), Cursor (<code>.cursorrules</code>), OpenAI Codex
-            (<code>AGENTS.md</code>), Windsurf, Roo Code, and Google Antigravity.
+          <div
+            class="space-y-1.5 text-xs text-[#5C6058] dark:text-[#8E8E96] font-mono pt-3 border-t border-[#E6E6DF] dark:border-[#26262C]">
+            <div class="flex items-center gap-1.5"><span class="text-[#e85d26]">&check;</span> Pinned Package Hashes
+            </div>
+            <div class="flex items-center gap-1.5"><span class="text-[#e85d26]">&check;</span> Rootless Container
+              Isolation</div>
+            <div class="flex items-center gap-1.5"><span class="text-[#e85d26]">&check;</span> Zero Token Hallucinations
+            </div>
           </div>
         </div>
 
-        <div
-          class="border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-6 flex flex-col md:flex-row md:items-start justify-between gap-4">
-          <div class="md:w-1/3">
-            <span class="font-mono text-xs text-[#E85D26] uppercase tracking-wider font-semibold">03 &bull; Open
-              Source</span>
-            <h3 class="text-lg font-bold text-[#12140F] dark:text-white mt-1">Permissive MIT Licensing</h3>
+        <!-- Column 03 -->
+        <div class="card-kit flex flex-col justify-between">
+          <div>
+            <div class="flex items-center gap-2 mb-3">
+              <span class="font-mono text-xs font-bold text-[#8E8E96]">03</span>
+              <span class="text-xs uppercase tracking-wider font-mono font-bold text-[#e85d26]">Vulnerability
+                Defense</span>
+            </div>
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">OWASP Attack Suites</h3>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed mb-4">
+              Every kit ships with functional automated test suites validating protection against SQL injection, CSRF,
+              XSS, and broken object authorization.
+            </p>
           </div>
-          <div class="md:w-2/3 text-sm text-[#5C6058] dark:text-[#A8ACA0] leading-[1.7]">
-            Everything is transparent and completely open. No telemetry, no lock-in, no SaaS paywalls. Clone the
-            repositories directly into your enterprise cloud, internal Git servers, or local workstation.
+          <div
+            class="space-y-1.5 text-xs text-[#5C6058] dark:text-[#8E8E96] font-mono pt-3 border-t border-[#E6E6DF] dark:border-[#26262C]">
+            <div class="flex items-center gap-1.5"><span class="text-[#e85d26]">&check;</span> OWASP Top 10 Coverage
+            </div>
+            <div class="flex items-center gap-1.5"><span class="text-[#e85d26]">&check;</span> Automated Penetration
+              Tests</div>
+            <div class="flex items-center gap-1.5"><span class="text-[#e85d26]">&check;</span> LLM Prompt Defense Rules
+            </div>
           </div>
         </div>
 
       </div>
-
     </section>
 
-    <!-- 7. FAQ Accordion (Document 17: Left-aligned, Hairline rows, Schema valid) -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 border-t border-[#E6E6DF] dark:border-[#2A2E2A]">
 
-      <div class="max-w-[760px] mb-12">
-        <div class="font-mono text-xs uppercase tracking-wider text-[#8C9088] font-semibold mb-2">
-          FAQ
-        </div>
-        <h2 class="text-3xl sm:text-4xl font-bold tracking-[-0.02em] text-[#12140F] dark:text-white mb-3">
-          Frequently asked questions
-        </h2>
-        <p class="text-[16px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.75]">
-          Clear answers about how TechTalks Stack Kits integrate with modern autonomous coding workflows.
-        </p>
-      </div>
-
-      <div
-        class="max-w-[760px] divide-y divide-[#E6E6DF] dark:divide-[#2A2E2A] border-y border-[#E6E6DF] dark:border-[#2A2E2A]">
-
-        <details class="group py-5">
-          <summary
-            class="font-bold text-[#12140F] dark:text-white cursor-pointer flex items-center justify-between text-[16px] select-none list-none">
-            <span>What makes a Stack Kit different from a starter template?</span>
-            <span class="text-[#8C9088] group-open:rotate-180 transition-transform font-mono text-xs">&darr;</span>
-          </summary>
-          <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] mt-3 leading-[1.7]">
-            Traditional templates only provide raw source code. A TechTalks Stack Kit includes five unified layers: a
-            physical starter container, transpiled agent rules for 6 coding dialects, reusable agent skills, an
-            opinionated design system (<code>DESIGN.md</code>), and automated CI security scanners (Gitleaks + Semgrep).
-          </p>
-        </details>
-
-        <details class="group py-5">
-          <summary
-            class="font-bold text-[#12140F] dark:text-white cursor-pointer flex items-center justify-between text-[16px] select-none list-none">
-            <span>Which AI coding agents and IDEs are supported?</span>
-            <span class="text-[#8C9088] group-open:rotate-180 transition-transform font-mono text-xs">&darr;</span>
-          </summary>
-          <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] mt-3 leading-[1.7]">
-            Every kit compiles native dialect rules for Claude Code, Cursor, OpenAI Codex, Windsurf, Roo Code, and
-            Google Antigravity. Simply clone the kit and start chatting with your agent in your preferred tool.
-          </p>
-        </details>
-
-        <details class="group py-5">
-          <summary
-            class="font-bold text-[#12140F] dark:text-white cursor-pointer flex items-center justify-between text-[16px] select-none list-none">
-            <span>Are these kits completely free for commercial projects?</span>
-            <span class="text-[#8C9088] group-open:rotate-180 transition-transform font-mono text-xs">&darr;</span>
-          </summary>
-          <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] mt-3 leading-[1.7]">
-            Yes. TechTalks Stack Kits is released under the permissive MIT License. You can freely clone, modify, and
-            use all kits and security guides in commercial or private projects without royalties or restrictions.
-          </p>
-        </details>
-
-        <details class="group py-5">
-          <summary
-            class="font-bold text-[#12140F] dark:text-white cursor-pointer flex items-center justify-between text-[16px] select-none list-none">
-            <span>How do the automated security scanners work?</span>
-            <span class="text-[#8C9088] group-open:rotate-180 transition-transform font-mono text-xs">&darr;</span>
-          </summary>
-          <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] mt-3 leading-[1.7]">
-            Each repository includes a preconfigured GitHub Actions workflow that executes Gitleaks (detecting API keys,
-            secrets, and credentials) and Semgrep (scanning for OWASP Top 10 vulnerabilities, insecure deserialization,
-            and SQL injections) before code can merge.
-          </p>
-        </details>
-
-        <details class="group py-5">
-          <summary
-            class="font-bold text-[#12140F] dark:text-white cursor-pointer flex items-center justify-between text-[16px] select-none list-none">
-            <span>Can I contribute or request a new kit?</span>
-            <span class="text-[#8C9088] group-open:rotate-180 transition-transform font-mono text-xs">&darr;</span>
-          </summary>
-          <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] mt-3 leading-[1.7]">
-            Yes! We welcome community contributions. Every new kit follows our <code>kit.yaml</code> specification and
-            must pass the automated benchmark suite in <code>evals/runner.py</code>. Submit a proposal on GitHub
-            Discussions to get started.
-          </p>
-        </details>
-
-      </div>
-
-    </section>
-
-    <!-- 8. Author Block (Document 17 & 18: Left-aligned, Clean, Newsreader Italic Quote) -->
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#E6E6DF] dark:border-[#2A2E2A]">
-
-      <!-- Philosophy Quote with Newsreader italic signature accent -->
-      <div class="max-w-[760px] mb-10">
-        <blockquote class="font-serif italic text-xl sm:text-2xl text-[#12140F] dark:text-white leading-[1.4]">
-          &ldquo;Security in high-stakes web and AI applications is never an afterthought&mdash;it is the foundational
-          architecture upon which trust, compliance, and resilience are built.&rdquo;
-        </blockquote>
-        <div class="font-mono text-xs text-[#E85D26] uppercase tracking-wider mt-3 font-semibold">
-          &mdash; Umar Farooq &bull; Senior Full-Stack &amp; Security Engineer
-        </div>
-      </div>
-
-      <!-- Author Card -->
-      <div
-        class="max-w-[760px] p-6 rounded-[8px] bg-white dark:bg-[#141615] border border-[#E6E6DF] dark:border-[#2A2E2A] flex flex-col sm:flex-row items-start sm:items-center gap-5">
-        <div
-          class="w-14 h-14 rounded-[6px] bg-[#12140F] text-white flex items-center justify-center text-lg font-mono font-bold shrink-0">
-          UF
-        </div>
-        <div class="space-y-1 flex-1">
-          <div class="flex items-center gap-2">
-            <h4 class="font-bold text-base text-[#12140F] dark:text-white">Umar Farooq</h4>
-            <span class="chip-status-ready">Maintainer</span>
-          </div>
-          <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-[1.5]">
-            Over 5 years of production experience architecting high-traffic Laravel ecosystems, PostgreSQL data
-            pipelines, and AI security guardrails. Dedicated to open, reproducible standards for autonomous coding
-            agents.
-          </p>
-          <div class="pt-2 flex items-center gap-4 text-xs font-semibold">
-            <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer"
-              class="text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">Portfolio &nearr;</a>
-            <a href="https://github.com/Umar-444" target="_blank" rel="noopener noreferrer"
-              class="text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">GitHub &nearr;</a>
-            <a href="https://linkedin.com/in/itsumarfarooq" target="_blank" rel="noopener noreferrer"
-              class="text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">LinkedIn &nearr;</a>
-          </div>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- 9. One Dark Final CTA Band (Document 17: Rich #0F1110 band across the screen, stark white button with ink text) -->
-    <section class="bg-[#0F1110] text-white py-20 border-t border-[#2A2E2A]">
+    <!-- 04 / NATIVE AGENT RULES (Tabbed Dialect Switcher) -->
+    <section class="border-t border-[#E6E6DF] dark:border-[#26262C] bg-[#F7F7F3] dark:bg-[#131316] py-16">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="max-w-[760px] space-y-4">
-          <div class="font-mono text-xs uppercase tracking-wider text-[#E85D26] font-semibold">
-            Get Started
+        <div class="max-w-2xl mb-8">
+          <div class="eyebrow-numbered text-[#e85d26] mb-2">04 / NATIVE AGENT RULES</div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-[#12140F] dark:text-[#F4F4F5] tracking-tight">
+            Native dialect for every leading AI coding agent
+          </h2>
+          <p class="text-sm text-[#5C6058] dark:text-[#C4C4CC] mt-1">
+            Rules are compiled deterministically into the exact file formats each agent natively discovers and
+            prioritizes.
+          </p>
+        </div>
+
+        <!-- Interactive Tabs Container (main.js initTabs) -->
+        <div data-tabs-container
+          class="bg-white dark:bg-[#0A0A0B] rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] overflow-hidden shadow-sm">
+
+          <!-- Tab Bar -->
+          <div
+            class="flex items-center overflow-x-auto border-b border-[#E6E6DF] dark:border-[#26262C] bg-[#F4F4F0] dark:bg-[#131316] px-2 pt-2 gap-1"
+            role="tablist">
+            <button type="button" data-tab-target="tab-claude"
+              class="px-4 py-2.5 font-mono text-xs border-b-2 border-[#e85d26] text-[#12140F] dark:text-white font-semibold bg-white dark:bg-[#0A0A0B] rounded-t-[4px] transition-colors focus:outline-none">
+              Claude Code (CLAUDE.md)
+            </button>
+            <button type="button" data-tab-target="tab-cursor"
+              class="px-4 py-2.5 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] rounded-t-[4px] transition-colors focus:outline-none">
+              Cursor (.cursor/rules)
+            </button>
+            <button type="button" data-tab-target="tab-codex"
+              class="px-4 py-2.5 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] rounded-t-[4px] transition-colors focus:outline-none">
+              OpenAI Codex (CODEX.md)
+            </button>
+            <button type="button" data-tab-target="tab-copilot"
+              class="px-4 py-2.5 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] rounded-t-[4px] transition-colors focus:outline-none">
+              Copilot (instructions.md)
+            </button>
+            <button type="button" data-tab-target="tab-cline"
+              class="px-4 py-2.5 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] rounded-t-[4px] transition-colors focus:outline-none">
+              Cline (.clinerules)
+            </button>
+            <button type="button" data-tab-target="tab-antigravity"
+              class="px-4 py-2.5 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] rounded-t-[4px] transition-colors focus:outline-none">
+              Antigravity (SKILL.md)
+            </button>
           </div>
-          <h2 class="text-3xl sm:text-4xl font-bold tracking-[-0.03em] leading-tight">
+
+          <!-- Tab Panels -->
+          <div class="p-6">
+
+            <!-- Panel: Claude Code -->
+            <div data-tab-panel="tab-claude" class="space-y-4">
+              <div
+                class="flex flex-wrap items-center justify-between text-xs font-mono text-[#8E8E96] pb-2 border-b border-[#E6E6DF] dark:border-[#26262C] gap-2">
+                <span>File: <strong class="text-[#12140F] dark:text-white">CLAUDE.md</strong> &bull; Size: 3.2 KB &bull;
+                  Tokens: ~820</span>
+                <button type="button"
+                  data-copy-cmd="# CLAUDE.md — Laravel Filament PostgreSQL Stack&#10;- Architecture: Strict MVC with Filament v3 Resources&#10;- Security: Never disable CSRF. Parameterize all DB queries.&#10;- Tooling: Run vendor/bin/pint and vendor/bin/phpstan analyse."
+                  class="text-[#e85d26] hover:underline font-semibold flex items-center gap-1">
+                  <span>Copy Rule File</span>
+                </button>
+              </div>
+              <pre
+                class="bg-[#000000] text-[#F4F4F5] p-4 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto leading-relaxed"><code># CLAUDE.md — TechTalks Stack Kit Guidelines
+You are pair programming on a production-grade Laravel 12 application.
+
+## Core Invariants
+1. Security First: Never disable CSRF protection. Use Form Requests for all inputs.
+2. Architecture: Place admin entities under app/Filament/Resources with strict RBAC policies.
+3. Code Style: Adhere to PSR-12 and run endor/bin/pint before finalizing files.
+4. Validation: Verify models with endor/bin/phpstan analyse --level=8.</code></pre>
+            </div>
+
+            <!-- Panel: Cursor -->
+            <div data-tab-panel="tab-cursor" class="space-y-4 hidden">
+              <div
+                class="flex flex-wrap items-center justify-between text-xs font-mono text-[#8E8E96] pb-2 border-b border-[#E6E6DF] dark:border-[#26262C] gap-2">
+                <span>File: <strong class="text-[#12140F] dark:text-white">.cursor/rules/laravel-security.mdc</strong>
+                  &bull; Size: 2.8 KB &bull; Tokens: ~740</span>
+                <button type="button"
+                  data-copy-cmd="---&#10;description: Laravel Security & Filament Invariants&#10;globs: app/**/*.php, routes/**/*.php&#10;---&#10;- Enforce authorization checks in every controller/resource.&#10;- Use explicit typehints and return types on all methods."
+                  class="text-[#e85d26] hover:underline font-semibold flex items-center gap-1">
+                  <span>Copy Rule File</span>
+                </button>
+              </div>
+              <pre
+                class="bg-[#000000] text-[#F4F4F5] p-4 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto leading-relaxed"><code>---
+description: Laravel Security & Filament Invariants
+globs: app/**/*.php, routes/**/*.php
+---
+# Cursor Rules for Laravel Filament Stack
+- Enforce authorization checks in every Filament resource using Policy authorization.
+- Always validate inputs via dedicated FormRequest classes.
+- Zero raw SQL concatenation without PDO bindings.</code></pre>
+            </div>
+
+            <!-- Panel: Codex -->
+            <div data-tab-panel="tab-codex" class="space-y-4 hidden">
+              <div
+                class="flex flex-wrap items-center justify-between text-xs font-mono text-[#8E8E96] pb-2 border-b border-[#E6E6DF] dark:border-[#26262C] gap-2">
+                <span>File: <strong class="text-[#12140F] dark:text-white">CODEX.md</strong> &bull; Size: 2.9 KB &bull;
+                  Tokens: ~780</span>
+                <button type="button"
+                  data-copy-cmd="# CODEX INSTRUCTIONS&#10;- Target PHP 8.3+ with strict_types=1&#10;- Use Eloquent queries with proper eager loading"
+                  class="text-[#e85d26] hover:underline font-semibold flex items-center gap-1">
+                  <span>Copy Rule File</span>
+                </button>
+              </div>
+              <pre
+                class="bg-[#000000] text-[#F4F4F5] p-4 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto leading-relaxed"><code># OpenAI Codex System Instructions
+- Always declare strict_types=1 at the top of all PHP files.
+- Follow Laravel 12 convention: Eloquent models in app/Models with explicit  guards.
+- Check CI security scanner rules before modifying auth pipelines.</code></pre>
+            </div>
+
+            <!-- Panel: Copilot -->
+            <div data-tab-panel="tab-copilot" class="space-y-4 hidden">
+              <div
+                class="flex flex-wrap items-center justify-between text-xs font-mono text-[#8E8E96] pb-2 border-b border-[#E6E6DF] dark:border-[#26262C] gap-2">
+                <span>File: <strong class="text-[#12140F] dark:text-white">.github/copilot-instructions.md</strong>
+                  &bull; Size: 2.6 KB &bull; Tokens: ~710</span>
+                <button type="button"
+                  data-copy-cmd="# GitHub Copilot Instructions&#10;- Always prefer Tailwind CSS utility classes defined in DESIGN.md"
+                  class="text-[#e85d26] hover:underline font-semibold flex items-center gap-1">
+                  <span>Copy Rule File</span>
+                </button>
+              </div>
+              <pre
+                class="bg-[#000000] text-[#F4F4F5] p-4 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto leading-relaxed"><code># GitHub Copilot Repository Instructions
+- Adhere strictly to the design system tokens in DESIGN.md.
+- Ensure all database migrations include indexes on foreign keys.
+- Do not introduce external npm/composer dependencies without explicit confirmation.</code></pre>
+            </div>
+
+            <!-- Panel: Cline -->
+            <div data-tab-panel="tab-cline" class="space-y-4 hidden">
+              <div
+                class="flex flex-wrap items-center justify-between text-xs font-mono text-[#8E8E96] pb-2 border-b border-[#E6E6DF] dark:border-[#26262C] gap-2">
+                <span>File: <strong class="text-[#12140F] dark:text-white">.clinerules</strong> &bull; Size: 3.1 KB
+                  &bull; Tokens: ~810</span>
+                <button type="button"
+                  data-copy-cmd="# Cline System Prompt Rules&#10;- Sandboxed execution in Docker container only"
+                  class="text-[#e85d26] hover:underline font-semibold flex items-center gap-1">
+                  <span>Copy Rule File</span>
+                </button>
+              </div>
+              <pre
+                class="bg-[#000000] text-[#F4F4F5] p-4 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto leading-relaxed"><code># Cline Agent Directives
+- Execute all build commands inside the docker container: docker compose exec app ...
+- After editing files, execute test suite: docker compose exec app php artisan test
+- Never expose API keys or secrets in source code files.</code></pre>
+            </div>
+
+            <!-- Panel: Antigravity -->
+            <div data-tab-panel="tab-antigravity" class="space-y-4 hidden">
+              <div
+                class="flex flex-wrap items-center justify-between text-xs font-mono text-[#8E8E96] pb-2 border-b border-[#E6E6DF] dark:border-[#26262C] gap-2">
+                <span>File: <strong class="text-[#12140F] dark:text-white">.agents/skills/kit-workflow/SKILL.md</strong>
+                  &bull; Size: 3.4 KB &bull; Tokens: ~890</span>
+                <button type="button"
+                  data-copy-cmd="# Antigravity Agent Skill&#10;- Follow steps in agent-build-steps.md"
+                  class="text-[#e85d26] hover:underline font-semibold flex items-center gap-1">
+                  <span>Copy Rule File</span>
+                </button>
+              </div>
+              <pre
+                class="bg-[#000000] text-[#F4F4F5] p-4 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto leading-relaxed"><code>---
+name: kit-workflow
+description: Step-by-step kit building and testing instructions for Antigravity agents.
+---
+# Antigravity Workflow Skill
+- Follow steps specified in steps/agent-build-steps.md.
+- Assert token budget is under 15k tokens per context window.
+- Verify security scan gates with gy eval.</code></pre>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 05 / COMPARE (Three-state Comparison Matrix) -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div class="max-w-2xl mb-10">
+        <div class="eyebrow-numbered text-[#e85d26] mb-2">05 / COMPARE</div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#12140F] dark:text-[#F4F4F5] tracking-tight">
+          Stack Kits vs Plain Starters vs Manual Setup
+        </h2>
+        <p class="text-sm text-[#5C6058] dark:text-[#C4C4CC] mt-1">
+          Why agent-tailored scaffolding fundamentally outperforms generic starter repos.
+        </p>
+      </div>
+
+      <!-- 3-State Comparison Table -->
+      <div
+        class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] overflow-hidden bg-white dark:bg-[#0A0A0B] shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th class="w-2/5">Capability / Guardrail</th>
+                <th class="w-1/5 text-[#e85d26] font-bold">TechTalks Stack Kits</th>
+                <th class="w-1/5">Plain Starter Template</th>
+                <th class="w-1/5">Manual Setup</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-medium">Multi-agent rules in 6 native dialects (Claude, Cursor, Codex...)</td>
+                <td class="font-mono font-bold text-[#e85d26]">&check; Yes (Compiled)</td>
+                <td class="font-mono text-[#8E8E96]">&cross; None</td>
+                <td class="font-mono text-[#8E8E96]">&dash; Ad-hoc</td>
+              </tr>
+              <tr>
+                <td class="font-medium">Automated CI security scanners (Gitleaks, Semgrep, OWASP)</td>
+                <td class="font-mono font-bold text-[#e85d26]">&check; Pre-configured</td>
+                <td class="font-mono text-[#8E8E96]">&cross; None</td>
+                <td class="font-mono text-[#8E8E96]">&dash; Hours of work</td>
+              </tr>
+              <tr>
+                <td class="font-medium">Sandboxed skill tools with zero token-bloat prompts</td>
+                <td class="font-mono font-bold text-[#e85d26]">&check; Verified (&lt;15k tokens)</td>
+                <td class="font-mono text-[#8E8E96]">&cross; Unoptimized</td>
+                <td class="font-mono text-[#8E8E96]">&cross; Drift prone</td>
+              </tr>
+              <tr>
+                <td class="font-medium">Turnkey rootless container runtime &amp; compose scripts</td>
+                <td class="font-mono font-bold text-[#e85d26]">&check; Turnkey</td>
+                <td class="font-mono text-[#8E8E96]">&dash; Basic Dockerfile</td>
+                <td class="font-mono text-[#8E8E96]">&dash; Manual config</td>
+              </tr>
+              <tr>
+                <td class="font-medium">Deterministic step-by-step agent build instructions</td>
+                <td class="font-mono font-bold text-[#e85d26]">&check; Step-gated</td>
+                <td class="font-mono text-[#8E8E96]">&cross; None</td>
+                <td class="font-mono text-[#8E8E96]">&cross; Trial &amp; error</td>
+              </tr>
+              <tr>
+                <td class="font-medium">Production RBAC, audit logging &amp; secure header middleware</td>
+                <td class="font-mono font-bold text-[#e85d26]">&check; Included</td>
+                <td class="font-mono text-[#8E8E96]">&cross; Missing</td>
+                <td class="font-mono text-[#8E8E96]">&dash; Manual audit</td>
+              </tr>
+              <tr>
+                <td class="font-medium">Zero architectural drift guarantee across agent turns</td>
+                <td class="font-mono font-bold text-[#e85d26]">&check; Enforced</td>
+                <td class="font-mono text-[#8E8E96]">&cross; Severe drift</td>
+                <td class="font-mono text-[#8E8E96]">&cross; Hallucination risk</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 / PRINCIPLES -->
+    <section class="border-t border-[#E6E6DF] dark:border-[#26262C] bg-[#F7F7F3] dark:bg-[#131316] py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-2xl mb-12">
+          <div class="eyebrow-numbered text-[#e85d26] mb-2">06 / PRINCIPLES</div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-[#12140F] dark:text-[#F4F4F5] tracking-tight">
+            Engineered for engineering rigor
+          </h2>
+          <p class="text-sm text-[#5C6058] dark:text-[#C4C4CC] mt-1">
+            Six engineering assertions that guide every line of configuration and rule in this repository.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <!-- Principle 01 -->
+          <div class="bg-white dark:bg-[#0A0A0B] p-6 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C]">
+            <span class="font-mono text-xs font-bold text-[#e85d26] block mb-2">01 / DETERMINISTIC</span>
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">Deterministic Over Conversational
+            </h3>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">
+              Rules and skills are concrete code artifacts, not conversational prompts. When an agent runs a kit, every
+              build produces identical invariants.
+            </p>
+          </div>
+
+          <!-- Principle 02 -->
+          <div class="bg-white dark:bg-[#0A0A0B] p-6 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C]">
+            <span class="font-mono text-xs font-bold text-[#e85d26] block mb-2">02 / COMPILER GATE</span>
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">Security as a Compiler Error</h3>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">
+              Insecure code must fail the build. Scanners like Gitleaks and Semgrep reject pull requests before human
+              review or deployment.
+            </p>
+          </div>
+
+          <!-- Principle 03 -->
+          <div class="bg-white dark:bg-[#0A0A0B] p-6 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C]">
+            <span class="font-mono text-xs font-bold text-[#e85d26] block mb-2">03 / TOKEN BUDGET</span>
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">Token Efficiency as a Metric</h3>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">
+              Kits keep agent rule contexts compact (under 15k tokens). Bloated instructions cause context degradation
+              and hallucinated APIs.
+            </p>
+          </div>
+
+          <!-- Principle 04 -->
+          <div class="bg-white dark:bg-[#0A0A0B] p-6 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C]">
+            <span class="font-mono text-xs font-bold text-[#e85d26] block mb-2">04 / ROOTLESS ISOLATION</span>
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">Rootless and Isolated by Default
+            </h3>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">
+              Kits execute in unprivileged container environments. Agent tools never have raw host access, preventing
+              rogue file writes.
+            </p>
+          </div>
+
+          <!-- Principle 05 -->
+          <div class="bg-white dark:bg-[#0A0A0B] p-6 rounded-[8px] border border-[#e85d26] dark:border-[#26262C]">
+            <span class="font-mono text-xs font-bold text-[#e85d26] block mb-2">05 / DIALECT NATIVE</span>
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">Dialect-Native, Never Transpiled
+              Slop</h3>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">
+              Every agent format has unique capabilities. We compile rules into the exact idiom of each tool rather than
+              dumping generic markdown.
+            </p>
+          </div>
+
+          <!-- Principle 06 -->
+          <div class="bg-white dark:bg-[#0A0A0B] p-6 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C]">
+            <span class="font-mono text-xs font-bold text-[#e85d26] block mb-2">06 / COMPLETE STACKS</span>
+            <h3 class="text-base font-bold text-[#12140F] dark:text-[#F4F4F5] mb-2">Complete Stacks, Zero Placeholders
+            </h3>
+            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">
+              Real migrations, real authentication, real tests, and real CSS tokens. We build production systems, not
+              toys or demo apps.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 / GET STARTED -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div
+        class="bg-[#000000] text-white rounded-[12px] p-8 sm:p-12 border border-[#26262C] shadow-2xl relative overflow-hidden">
+        <div class="max-w-3xl">
+          <div class="eyebrow-numbered text-[#e85d26] mb-3">07 / GET STARTED</div>
+          <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight mb-4 text-[#F4F4F5]">
             Ready to build with zero architectural drift?
           </h2>
-          <p class="text-[16px] text-[#A8ACA0] leading-[1.75] font-normal">
-            Clone any kit, bootstrap your agent in 30 seconds, and ship with verified security rails. Completely open
-            source under the MIT License.
+          <p class="text-sm sm:text-base text-[#C4C4CC] leading-relaxed mb-8">
+            Clone the repository, choose a ready stack kit, and let your AI coding agent build features from day one
+            with enterprise security guardrails.
           </p>
-          <div class="pt-4 flex flex-wrap items-center gap-3">
-            <a href="/kits/"
-              class="inline-flex items-center justify-center h-[40px] px-5 rounded-[6px] text-[14px] font-semibold bg-white text-[#0F1110] hover:bg-[#F0F0EB] focus:outline-none focus:ring-2 focus:ring-[#E85D26] transition-colors">
-              Explore the Kits &rarr;
+
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+            <div
+              class="flex-grow flex items-center justify-between px-4 py-3 rounded-[6px] bg-[#131316] border border-[#26262C] font-mono text-xs text-[#F4F4F5]">
+              <span>git clone https://github.com/Umar-444/Techtalks-stack-kits.git</span>
+              <button type="button" data-copy-cmd="git clone https://github.com/Umar-444/Techtalks-stack-kits.git"
+                class="text-[#8E8E96] hover:text-[#e85d26] ml-3 transition-colors" title="Copy command"
+                aria-label="Copy clone command">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </button>
+            </div>
+            <a href="/kits/" class="btn-primary-orange shrink-0">
+              Browse All 30 Kits &rarr;
             </a>
-            <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer"
-              class="inline-flex items-center justify-center h-[40px] px-4 rounded-[6px] text-[14px] font-medium bg-[#1C1F1D] border border-[#2E3330] text-white hover:bg-[#252A27] focus:outline-none focus:ring-2 focus:ring-[#E85D26] transition-colors">
-              GitHub Repository &nearr;
-            </a>
+          </div>
+
+          <div class="mt-6 flex flex-wrap items-center gap-6 text-xs text-[#8E8E96] font-mono">
+            <span>&bull; MIT License</span>
+            <span>&bull; 6 Agent Dialects</span>
+            <span>&bull; Turnkey Docker Compose</span>
+            <span>&bull; OWASP Security Gated</span>
           </div>
         </div>
       </div>
@@ -956,8 +1181,7 @@
 
   </main>
 
-
-  <!-- Master Footer (Document 18 Exact: Tint #F7F7F3, 4 Columns, Hairline, No Fake Newsletter) -->
+  </main>
   <footer
     class="bg-[#F7F7F3] dark:bg-[#111312] border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-16 pb-12 transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -998,7 +1222,7 @@
               </svg>
             </a>
             <!-- LinkedIn -->
-            <a href="https://linkedin.com/in/itsumarfarooq" target="_blank" rel="noopener noreferrer"
+            <a href="https://linkedin.com/in/umar444" target="_blank" rel="noopener noreferrer"
               class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors"
               aria-label="LinkedIn">
               <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24">
@@ -1007,7 +1231,7 @@
               </svg>
             </a>
             <!-- X / Twitter -->
-            <a href="https://x.com/itsumarfarooq" target="_blank" rel="noopener noreferrer"
+            <a href="https://x.com/@umartechtalks" target="_blank" rel="noopener noreferrer"
               class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors"
               aria-label="X (Twitter)">
               <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24">
@@ -1016,7 +1240,7 @@
               </svg>
             </a>
             <!-- YouTube -->
-            <a href="https://youtube.com/@itsumarfarooq" target="_blank" rel="noopener noreferrer"
+            <a href="https://youtube.com/@umartechtalks" target="_blank" rel="noopener noreferrer"
               class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors"
               aria-label="YouTube">
               <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24">

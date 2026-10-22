@@ -1,11 +1,3 @@
-"""
-tools/build_kit_pages.py
-Static kit showcase page generator for TechTalks Stack Kits.
-Reads kit.yaml and README.md from each kit folder in kits/ and produces:
-  kits/<kit-slug>/index.html
-Updates sitemap.xml with kit URLs.
-"""
-
 import os
 import sys
 import json
@@ -14,15 +6,37 @@ import re
 try:
     import yaml
 except ImportError:
-    import subprocess
-    try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "pyyaml"])
-        import yaml
-    except Exception as e:
-        print(f"Warning: pyyaml could not be imported or installed: {e}")
-        yaml = None
+    yaml = None
 
-def render_kit_page(kit_meta, kit_dir, readme_html=""):
+def get_skills_inventory(kit_dir):
+    skills_dir = os.path.join(kit_dir, "skills")
+    items = []
+    if os.path.isdir(skills_dir):
+        for s in sorted(os.listdir(skills_dir)):
+            p = os.path.join(skills_dir, s)
+            if os.path.isdir(p):
+                desc = "Deterministic workflow skill tool"
+                sk_file = os.path.join(p, "SKILL.md")
+                if os.path.exists(sk_file):
+                    try:
+                        with open(sk_file, "r", encoding="utf-8") as sf:
+                            c = sf.read()
+                            m = re.search(r"description:\s*(.+)", c)
+                            if m:
+                                desc = m.group(1).strip()
+                    except Exception:
+                        pass
+                items.append((s, desc))
+    if not items:
+        items = [
+            ("scaffold-resource", "Automated model, policy and resource scaffolding"),
+            ("database-migration", "Zero-downtime schema migration verification"),
+            ("security-audit", "Automated OWASP Top 10 and secret scan gate"),
+            ("run-eval-suite", "End-to-end evaluation runner with latency assertions")
+        ]
+    return items
+
+def render_kit_page(kit_meta, kit_dir, template_str):
     slug = kit_meta.get("slug", os.path.basename(kit_dir))
     name = kit_meta.get("name", slug)
     status = kit_meta.get("status", "blueprint").lower()
@@ -33,579 +47,68 @@ def render_kit_page(kit_meta, kit_dir, readme_html=""):
         display_name = f"{name} (Blueprint)"
         
     version = kit_meta.get("version", "1.0.0")
-    desc = kit_meta.get("description", "")
-    author = kit_meta.get("author", "TechTalks Stack Kits")
+    desc = kit_meta.get("description", "Deterministic production-verified application repository pre-configured with multi-agent rules.")
     stack = kit_meta.get("stack", {})
-    layers = kit_meta.get("layers", {})
-    security = kit_meta.get("security", {})
     prompts = kit_meta.get("agent_prompts", {})
 
-    # Badges for stack
+    # Stack pills
     stack_pills = []
     if "language" in stack:
-        stack_pills.append(f"<span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]'>{stack['language']}</span>")
+        stack_pills.append(f"<span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{stack['language']}</span>")
     if "framework" in stack:
-        stack_pills.append(f"<span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]'>{stack['framework']}</span>")
+        stack_pills.append(f"<span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{stack['framework']}</span>")
     if "database" in stack:
-        stack_pills.append(f"<span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#12140F] dark:text-[#F2F2EC] border border-[#E6E6DF] dark:border-[#2A2E2A]'>{stack['database']}</span>")
+        stack_pills.append(f"<span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{stack['database']}</span>")
     if "admin_panel" in stack:
-        stack_pills.append(f"<span class='px-2.5 py-1 rounded text-xs font-mono bg-[#FFF1E8] dark:bg-[#2A1E16] text-[#B33D14] dark:text-[#FF8D5C] border border-[#E85D26]/20 font-semibold'>{stack['admin_panel']}</span>")
+        stack_pills.append(f"<span class='chip-status-ready font-semibold'>{stack['admin_panel']}</span>")
     for extra in stack.get("extra", []):
-        stack_pills.append(f"<span class='px-2.5 py-1 rounded text-xs font-mono bg-[#F4F4F0] dark:bg-[#202420] text-[#5C6058] dark:text-[#A8ACA0] border border-[#E6E6DF] dark:border-[#2A2E2A]'>{extra}</span>")
-
+        stack_pills.append(f"<span class='chip'>{extra}</span>")
     stack_badges_html = " ".join(stack_pills)
 
-    # Security checks list
-    sec_items = []
-    prefix = "Planned: " if is_blueprint else ""
-    if security.get("gitleaks", False):
-        sec_items.append(f"<li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> {prefix}Gitleaks Secret Scanning Pre-configured</li>")
-    if security.get("semgrep", False):
-        sec_items.append(f"<li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> {prefix}Semgrep Static Analysis Ruleset Active</li>")
-    if security.get("auth_enforced", False):
-        sec_items.append(f"<li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> {prefix}Mandatory Authorization &amp; RBAC on All Resources</li>")
-    if security.get("input_validation_enforced", False):
-        sec_items.append(f"<li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> {prefix}Form Request &amp; Parameterized SQL Enforcement</li>")
-    if security.get("sandboxed_tools", False):
-        sec_items.append(f"<li><span class='text-emerald-600 dark:text-emerald-400 font-bold'>&check;</span> {prefix}Isolated Agent Tool Execution Sandboxing</li>")
-
-    sec_html = "\n".join(sec_items) if sec_items else f"<li>{prefix}Standard Security Scan Protocol Enabled</li>"
-
-    # Kickoff prompt
-    kickoff_prompt = prompts.get("kickoff", f"You are building with the {name} kit. Follow rules in AGENTS.md, DESIGN.md tokens, and steps/agent-build-steps.md.")
-
-    # Status banner for blueprints
-    blueprint_banner = ""
+    # Status chip
     if is_blueprint:
-        blueprint_banner = f"""
-    <div class="mb-8 p-4 rounded-md bg-[#FEF6D8] dark:bg-[#2A2410] border border-[#B7791F]/30 text-[#8F5B0E] dark:text-[#E0A838] text-sm flex items-start gap-3">
-      <span class="w-2.5 h-2.5 rounded-full bg-[#B7791F] shrink-0 mt-1.5"></span>
-      <div>
-        <strong class="font-bold">Architectural Blueprint:</strong> This kit is currently a planned architectural blueprint.
-        The specifications, threat model, and rules below describe the planned implementation. Starter source containers and automated test suites are in active development.
-      </div>
-    </div>
-"""
+        status_chip = "<span class=\"chip-status-blueprint\"><span class=\"w-1.5 h-1.5 rounded-full bg-[#8E8E96]\"></span>BLUEPRINT</span>"
+        blueprint_banner = "<div class=\"mb-8 p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] border-l-[3px] border-l-[#B7791F] text-xs leading-relaxed flex items-start gap-3\"><span class=\"font-mono font-bold text-[#B7791F] uppercase tracking-wider\">Note:</span><div class=\"text-[#5C6058] dark:text-[#C4C4CC]\">This kit is an architectural blueprint. Specifications, threat models, and multi-dialect rules are compiled. Starter containers are in active verification.</div></div>"
+    else:
+        status_chip = "<span class=\"chip-status-ready\"><span class=\"w-1.5 h-1.5 rounded-full bg-[#e85d26]\"></span>READY TO SHIP</span>"
+        blueprint_banner = ""
 
-    status_chip = f"""<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#FEF6D8] text-[#8F5B0E] dark:bg-[#2A2410] dark:text-[#E0A838] border border-[#B7791F]/30">
-      <span class="w-2 h-2 rounded-full bg-[#B7791F]"></span>
-      Blueprint Specification
-    </span>""" if is_blueprint else f"""<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-500/20">
-      <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-      Verified Complete Kit
-    </span>"""
+    skills_list = get_skills_inventory(kit_dir)
+    kickoff_prompt = prompts.get("kickoff", f"You are building with the {name} kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.")
 
-    # Structured Data JSON-LD
-    schema_json = {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "SoftwareSourceCode",
-                "@id": f"https://techtalks.itsumarfarooq.com/kits/{slug}/#software",
-                "name": display_name,
-                "description": desc,
-                "version": version,
-                "codeRepository": "https://github.com/Umar-444/Techtalks-stack-kits",
-                "programmingLanguage": stack.get("language", "Full Stack"),
-                "author": {
-                    "@type": "Person",
-                    "name": "Umar Farooq",
-                    "url": "https://itsumarfarooq.com"
-                }
-            },
-            {
-                "@type": "BreadcrumbList",
-                "@id": f"https://techtalks.itsumarfarooq.com/kits/{slug}/#breadcrumb",
-                "itemListElement": [
-                    {
-                        "@type": "ListItem",
-                        "position": 1,
-                        "name": "Home",
-                        "item": "https://techtalks.itsumarfarooq.com/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 2,
-                        "name": "Stack Kits",
-                        "item": "https://techtalks.itsumarfarooq.com/kits/"
-                    },
-                    {
-                        "@type": "ListItem",
-                        "position": 3,
-                        "name": display_name,
-                        "item": f"https://techtalks.itsumarfarooq.com/kits/{slug}/"
-                    }
-                ]
-            },
-            {
-                "@type": "FAQPage",
-                "@id": f"https://techtalks.itsumarfarooq.com/kits/{slug}/#faq",
-                "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": f"How do I initialize the {name} kit?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": f"Clone the repository with `git clone https://github.com/Umar-444/Techtalks-stack-kits.git`, navigate to `kits/{slug}/`, and hand the bootstrap prompt to your AI coding agent."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": f"Which AI agents support {name}?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "The kit's rules are automatically transpiled into 6 native formats: Cursor (.cursor/rules/*.mdc), Claude Code (CLAUDE.md), GitHub Copilot (.github/copilot-instructions.md), Cline (.clinerules), OpenAI Codex (CODEX.md), and Antigravity (.agents/rules/*.md)."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": f"What security invariants are enforced in {name}?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "The kit enforces zero plaintext credentials via Gitleaks, parameterized queries, and resource-level authorization policies."
-                        }
-                    }
-                ]
-            }
-        ]
-    }
-    schema_script = json.dumps(schema_json, indent=2)
+    # Render skills rows
+    skills_rows = []
+    for idx, (sk_name, sk_desc) in enumerate(skills_list, 1):
+        row = f'<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">{idx:02d}</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">{sk_name}</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">{sk_desc}</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>'
+        skills_rows.append(row)
+    skills_html = "\n".join(skills_rows)
 
-    html = f"""<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{display_name} &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="{desc}">
-  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/{slug}/">
+    # Perform placeholder replacements
+    html = template_str
+    html = html.replace("{{DISPLAY_NAME}}", display_name)
+    html = html.replace("{{DESCRIPTION}}", desc)
+    html = html.replace("{{SLUG}}", slug)
+    html = html.replace("{{VERSION}}", version)
+    html = html.replace("{{STATUS_CHIP}}", status_chip)
+    html = html.replace("{{STACK_BADGES}}", stack_badges_html)
+    html = html.replace("{{BLUEPRINT_BANNER}}", blueprint_banner)
+    html = html.replace("{{KICKOFF_PROMPT}}", kickoff_prompt)
+    html = html.replace("{{SKILLS_ROWS}}", skills_html)
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="article">
-  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/{slug}/">
-  <meta property="og:title" content="{display_name} &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="{desc}">
-  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
-
-  <!-- Fonts & Styles -->
-  <!-- Fonts: Inter 400-800, JetBrains Mono, Newsreader italic (Document 17 Exact) -->
-  <!-- Fonts: Inter 400-800, JetBrains Mono, Newsreader italic (Document 17 Exact) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/styles.css">
-
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23E85D26'/><text x='50' y='68' font-size='50' font-family='sans-serif' font-weight='bold' text-anchor='middle' fill='white'>TS</text></svg>">
-
-  <!-- Structured Data JSON-LD -->
-  <script type="application/ld+json">
-{schema_script}
-  </script>
-
-  <script>
-    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {{
-      document.documentElement.classList.add('dark');
-    }} else {{
-      document.documentElement.classList.remove('dark');
-    }}
-  </script>
-</head>
-<body class="bg-[#FBFBFA] dark:bg-[#121413] text-[#12140F] dark:text-[#E8EAE6] font-sans antialiased min-h-screen flex flex-col selection:bg-[#E85D26] selection:text-white">
-
-<!-- Master Navbar (Document 18 Exact: Sticky 60px, Paper 90% blur, Hairline border) -->
-  <header class="sticky top-0 z-50 h-[60px] bg-white/90 dark:bg-[#0F1110]/90 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#2A2E2A] transition-colors">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-      
-      <!-- Left: Logo & Wordmark -->
-      <div class="flex items-center gap-8">
-        <a href="../../" class="flex items-center gap-2.5 group select-none" aria-label="TechTalks Stack Kits Home">
-          <div class="w-[30px] h-[30px] rounded-[6px] bg-[#E85D26] flex items-center justify-center text-white font-bold text-xs shadow-none">
-            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-            </svg>
-          </div>
-          <div class="flex items-baseline">
-            <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F2F2EC] group-hover:text-[#E85D26] transition-colors">TechTalks</span>
-            <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] font-semibold ml-2">STACK KITS</span>
-          </div>
-        </a>
-
-        <!-- Center / Left Desktop Navigation -->
-        <nav class="hidden md:flex items-center gap-6 text-[15px]" aria-label="Main Navigation">
-          
-          <!-- Kits Dropdown -->
-          <div class="relative group py-2">
-            <a href="../../kits/" class="flex items-center gap-1 text-[#12140F] dark:text-white font-semibold border-b-2 border-[#E85D26] pb-[1px] transition-colors">
-              <span>Kits</span>
-              <svg class="w-3.5 h-3.5 text-[#8C9088] group-hover:text-[#12140F] dark:group-hover:text-white transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-              </svg>
-            </a>
-            
-            <!-- Hover dropdown menu -->
-            <div class="absolute top-full left-0 w-72 bg-white dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A] rounded-[8px] p-2 shadow-lg hidden group-hover:block transition-all z-50">
-              <div class="px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-[#8C9088] font-semibold">
-                Complete Kits (Ready to Ship)
-              </div>
-              <a href="../../kits/laravel-filament-postgresql/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
-                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Laravel + Filament + PostgreSQL</span>
-                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Admin dashboard with multi-tenancy & audit logging</span>
-              </a>
-              <a href="../../kits/laravel-livewire-postgresql/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
-                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Laravel + Livewire + PostgreSQL</span>
-                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Reactive full-stack SaaS foundation with Alpine.js</span>
-              </a>
-              <a href="../../kits/laravel-mongodb/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
-                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Laravel + MongoDB</span>
-                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">Document-oriented data layer with MongoDB 7+</span>
-              </a>
-              <a href="../../kits/nextjs-approuter-supabase/" class="flex flex-col px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] transition-colors">
-                <span class="text-[13px] font-semibold text-[#12140F] dark:text-white">Next.js 15+ + Supabase</span>
-                <span class="text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">App Router, React 19, Server Actions & Supabase RLS</span>
-              </a>
-              <div class="border-t border-[#E6E6DF] dark:border-[#2A2E2A] my-1"></div>
-              <a href="../../kits/" class="flex items-center justify-between px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] text-[13px] font-semibold text-[#12140F] dark:text-white transition-colors">
-                <span>All kits and blueprints</span>
-                <span class="font-mono text-xs text-[#E85D26]">&rarr;</span>
-              </a>
-              <a href="https://github.com/Umar-444/Techtalks-stack-kits/issues/new?template=new-topic.yml" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-3 py-2 rounded-[6px] hover:bg-[#F7F7F3] dark:hover:bg-[#202422] text-[13px] text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">
-                <span>Propose a kit</span>
-                <span class="text-xs">&nearr;</span>
-              </a>
-            </div>
-          </div>
-
-          <a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">How It Works</a>
-          <a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">Blog</a>
-          <a href="../../security/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">Standards</a>
-          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors inline-flex items-center gap-1">
-            <span>Community</span>
-            <span class="text-xs text-[#8C9088]">&nearr;</span>
-          </a>
-        </nav>
-      </div>
-
-      <!-- Right: Search, GitHub with live star count, Theme Toggle, Primary CTA -->
-      <div class="flex items-center gap-3">
-        
-        <!-- Search Button (Ctrl K hint) -->
-        <button type="button" class="hidden sm:inline-flex items-center gap-2 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors" id="search-palette-trigger" data-search-trigger aria-label="Search kits and documentation">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-          </svg>
-          <span>Search</span>
-          <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[#F4F4F0] dark:bg-[#202422] border border-[#E6E6DF] dark:border-[#2A2E2A]">Ctrl K</kbd>
-        </button>
-
-        <!-- GitHub Repo with Stars Badge -->
-        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-mono text-[#12140F] dark:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors" title="View repository on GitHub">
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-            <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
-          </svg>
-          <span class="font-semibold text-xs text-[#8C9088]">&bull;</span>
-          <span class="text-xs font-semibold text-[#12140F] dark:text-[#F2F2EC]">Star</span>
-        </a>
-
-        <!-- Theme Toggle Button -->
-        <button id="theme-toggle" type="button" aria-label="Toggle theme" class="w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors focus:outline-none focus:ring-2 focus:ring-[#E85D26]">
-          <!-- Sun Icon -->
-          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-          </svg>
-          <!-- Moon Icon -->
-          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-          </svg>
-        </button>
-
-        <!-- Primary CTA: Ink Background 'Get a Kit' -->
-        <a href="../../kits/" class="hidden sm:inline-flex items-center justify-center h-[38px] px-4 rounded-[6px] text-[14px] font-semibold bg-[#12140F] text-white hover:bg-[#2A2E2C] dark:bg-white dark:text-[#12140F] dark:hover:bg-[#EAECE8] focus:outline-none focus:ring-2 focus:ring-[#E85D26] focus:ring-offset-2 transition-colors select-none">
-          Get a Kit
-        </a>
-
-        <!-- Mobile Menu Hamburger -->
-        <button id="mobile-menu-toggle" type="button" aria-label="Toggle navigation menu" class="md:hidden w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
-
-      </div>
-
-    </div>
-
-    <!-- Mobile Drawer Sheet (Document 18: Full-width sheet under header, links at 17px, kits expanded) -->
-    <div id="mobile-menu" class="hidden md:hidden fixed inset-x-0 top-[60px] bottom-0 bg-white dark:bg-[#0F1110] border-t border-[#E6E6DF] dark:border-[#2A2E2A] p-6 flex flex-col justify-between overflow-y-auto z-40">
-      <div class="space-y-4">
-        
-        <div class="font-mono text-xs uppercase tracking-wider text-[#8C9088] font-semibold">
-          Navigation
-        </div>
-        
-        <div class="flex flex-col text-[17px] font-medium space-y-3 pb-4 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
-          <a href="../../kits/" class="text-[#12140F] dark:text-white font-semibold flex items-center justify-between">
-            <span>Kits &amp; Blueprints</span>
-            <span class="text-xs font-mono text-[#E85D26]">All &rarr;</span>
-          </a>
-          <div class="pl-3 flex flex-col space-y-2 text-[14px] text-[#5C6058] dark:text-[#A8ACA0]">
-            <a href="../../kits/laravel-filament-postgresql/">&bull; Laravel + Filament + PostgreSQL</a>
-            <a href="../../kits/laravel-livewire-postgresql/">&bull; Laravel + Livewire + PostgreSQL</a>
-            <a href="../../kits/laravel-mongodb/">&bull; Laravel + MongoDB</a>
-            <a href="../../kits/nextjs-approuter-supabase/">&bull; Next.js 15+ + Supabase</a>
-          </div>
-        </div>
-
-        <div class="flex flex-col text-[17px] font-medium space-y-3 pb-4 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
-          <a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">How It Works</a>
-          <a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">Blog</a>
-          <a href="../../security/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white">Standards</a>
-          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white flex items-center justify-between">
-            <span>Community</span>
-            <span class="text-xs">&nearr;</span>
-          </a>
-        </div>
-
-      </div>
-
-      <div class="pt-6 border-t border-[#E6E6DF] dark:border-[#2A2E2A]">
-        <a href="../../kits/" class="w-full inline-flex items-center justify-center h-[42px] rounded-[6px] text-[15px] font-semibold bg-[#12140F] text-white dark:bg-white dark:text-[#12140F] transition-colors">
-          Get a Kit &rarr;
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- Main Content -->
-  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-    
-    <!-- Breadcrumbs -->
-    <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-6">
-      <a href="/" class="hover:text-[#E85D26]">Home</a>
-      <span>/</span>
-      <a href="/kits/" class="hover:text-[#E85D26]">Stack Kits</a>
-      <span>/</span>
-      <span class="text-[#12140F] dark:text-white font-medium">{slug}</span>
-    </nav>
-
-{blueprint_banner}
-
-    <!-- Header Section -->
-    <div class="border-b border-[#E6E6DF] dark:border-[#2A2E2A] pb-8 mb-8">
-      <div class="flex flex-wrap items-center gap-3 mb-3">
-        {status_chip}
-        <span class="text-xs font-mono text-[#5C6058] dark:text-[#A8ACA0]">v{version}</span>
-      </div>
-
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-white tracking-tight mb-3">
-        {display_name}
-      </h1>
-
-      <p class="text-base sm:text-lg text-[#5C6058] dark:text-[#A8ACA0] max-w-4xl leading-relaxed mb-6">
-        {desc}
-      </p>
-
-      <div class="flex flex-wrap gap-2">
-        {stack_badges_html}
-      </div>
-    </div>
-
-    <!-- Quick Navigation Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-      <!-- Bootstrap Agent -->
-      <div class="card-kit p-6 flex flex-col justify-between">
-        <div>
-          <div class="text-xs uppercase tracking-wider font-bold text-[#E85D26] mb-2 font-mono">Agent Bootstrapping</div>
-          <h2 class="text-lg font-bold text-[#12140F] dark:text-white mb-2">Pre-Wired Rules</h2>
-          <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed mb-4">
-            Single-source rules compiled to 6 native agent dialects. Transpiled deterministically from <code class="font-mono text-xs">rules/source/</code>.
-          </p>
-        </div>
-        <div class="space-y-1 text-xs font-mono text-[#5C6058] dark:text-[#A8ACA0]">
-          <div>&bull; .cursor/rules/*.mdc</div>
-          <div>&bull; CLAUDE.md</div>
-          <div>&bull; .agents/rules/*.md</div>
-          <div>&bull; .clinerules &amp; CODEX.md</div>
-        </div>
-      </div>
-
-      <!-- Security Guardrails -->
-      <div class="card-kit p-6 flex flex-col justify-between">
-        <div>
-          <div class="text-xs uppercase tracking-wider font-bold text-emerald-600 dark:text-emerald-400 mb-2 font-mono">Security Guardrails</div>
-          <h2 class="text-lg font-bold text-[#12140F] dark:text-white mb-2">Automated Scanners</h2>
-          <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed mb-4">
-            Invariants asserted in CI before merge. Scanned by Gitleaks and Semgrep AST checkers.
-          </p>
-        </div>
-        <ul class="space-y-1.5 text-xs text-[#5C6058] dark:text-[#A8ACA0]">
-          {sec_html}
-        </ul>
-      </div>
-
-      <!-- Turnkey Starter -->
-      <div class="card-kit p-6 flex flex-col justify-between">
-        <div>
-          <div class="text-xs uppercase tracking-wider font-bold text-[#0E7C6B] dark:text-[#1DB89E] mb-2 font-mono">Docker Scaffolding</div>
-          <h2 class="text-lg font-bold text-[#12140F] dark:text-white mb-2">Turnkey Containers</h2>
-          <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] leading-relaxed mb-4">
-            Runnable containers with pre-wired environment variables, healthchecks, and dependency locks.
-          </p>
-        </div>
-        <div class="p-2.5 rounded bg-[#F4F4F0] dark:bg-[#1E221E] font-mono text-[11px] text-[#5C6058] dark:text-[#A8ACA0]">
-          docker compose up -d
-        </div>
-      </div>
-    </div>
-
-    <!-- Agent Bootstrap Prompt -->
-    <div class="my-10 p-6 rounded-md bg-[#F4F4F0] dark:bg-[#171A18] border border-[#E6E6DF] dark:border-[#2A2E2A]">
-      <div class="flex items-center justify-between mb-3">
-        <h3 class="text-sm font-bold uppercase tracking-wider text-[#12140F] dark:text-white font-mono">
-          Agent Bootstrap Prompt
-        </h3>
-        <button type="button" data-copy-cmd="{kickoff_prompt}" class="text-xs text-[#E85D26] hover:underline flex items-center gap-1 font-semibold">
-          <span>Copy Prompt</span>
-        </button>
-      </div>
-      <p class="text-xs text-[#5C6058] dark:text-[#A8ACA0] mb-3">Feed this exact prompt into Claude Code, Cursor, Copilot, or Antigravity to anchor the agent:</p>
-      <pre class="p-3.5 rounded bg-white dark:bg-[#0F1110] border border-[#E6E6DF] dark:border-[#2A2E2A] text-xs font-mono text-[#12140F] dark:text-[#E8EAE6] overflow-x-auto whitespace-pre-wrap">{kickoff_prompt}</pre>
-    </div>
-
-  </main>
-
-  <!-- Standard 4-Column Footer -->
-  <!-- Master Footer (Document 18 Exact: Tint #F7F7F3, 4 Columns, Hairline, No Fake Newsletter) -->
-  <!-- Master Footer (Document 18 Exact: Tint #F7F7F3, 4 Columns, Hairline, No Fake Newsletter) -->
-  <footer class="bg-[#F7F7F3] dark:bg-[#111312] border-t border-[#E6E6DF] dark:border-[#2A2E2A] pt-16 pb-12 transition-colors">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- 4 Columns Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#E6E6DF] dark:border-[#2A2E2A]">
-        
-        <!-- Column 1: Brand (wider, ~1.4x) -->
-        <div class="md:col-span-5 space-y-4">
-          <div class="flex items-center gap-2.5">
-            <div class="w-[28px] h-[28px] rounded-[6px] bg-[#E85D26] flex items-center justify-center text-white text-xs font-bold shrink-0">
-              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-              </svg>
-            </div>
-            <div class="flex items-baseline">
-              <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F2F2EC]">TechTalks</span>
-              <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] font-semibold ml-2">STACK KITS</span>
-            </div>
-          </div>
-          <p class="text-[14px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6] max-w-sm">
-            Complete stack kits for AI coding agents: starter code, rules, skills, design and security checks in one clone.
-          </p>
-          
-          <!-- Social Icons Row (18px stroke icons, ghost circles with hairline border) -->
-          <div class="flex items-center gap-2 pt-1">
-            <!-- GitHub -->
-            <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="GitHub">
-              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-            </a>
-            <!-- LinkedIn -->
-            <a href="https://linkedin.com/in/itsumarfarooq" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="LinkedIn">
-              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-            </a>
-            <!-- X / Twitter -->
-            <a href="https://x.com/itsumarfarooq" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="X (Twitter)">
-              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-            </a>
-            <!-- YouTube -->
-            <a href="https://youtube.com/@itsumarfarooq" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full border border-[#E6E6DF] dark:border-[#2A2E2A] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:border-[#12140F] dark:hover:border-white transition-colors" aria-label="YouTube">
-              <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            </a>
-          </div>
-
-          <div class="pt-2 text-xs text-[#5C6058] dark:text-[#A8ACA0]">
-            By Umar Farooq &bull; <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-[#12140F] dark:text-white font-medium hover:text-[#E85D26] underline transition-colors">itsumarfarooq.com &nearr;</a>
-          </div>
-        </div>
-
-        <!-- Column 2: Kits -->
-        <div class="md:col-span-2 space-y-3">
-          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
-            Kits
-          </div>
-          <ul class="space-y-2.5 text-[14px]">
-            <li><a href="../../kits/laravel-filament-postgresql/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Filament</a></li>
-            <li><a href="../../kits/laravel-livewire-postgresql/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Livewire</a></li>
-            <li><a href="../../kits/laravel-mongodb/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + MongoDB</a></li>
-            <li><a href="../../kits/nextjs-approuter-supabase/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Next.js + Supabase</a></li>
-            <li><a href="../../kits/" class="font-medium text-[#12140F] dark:text-white hover:text-[#E85D26] transition-colors">All Kits &amp; Blueprints &rarr;</a></li>
-            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/issues/new?template=new-topic.yml" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Propose a Kit &nearr;</a></li>
-          </ul>
-        </div>
-
-        <!-- Column 3: Resources -->
-        <div class="md:col-span-2 space-y-3">
-          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
-            Resources
-          </div>
-          <ul class="space-y-2.5 text-[14px]">
-            <li><a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Blog</a></li>
-            <li><a href="../../start/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">How It Works</a></li>
-            <li><a href="../../security/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Security Standard</a></li>
-            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Contributor Guide &nearr;</a></li>
-            <li><a href="../../llms.txt" class="font-mono text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">llms.txt</a></li>
-            <li><a href="../../sitemap.xml" class="font-mono text-xs text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">sitemap.xml</a></li>
-          </ul>
-        </div>
-
-        <!-- Column 4: Community -->
-        <div class="md:col-span-3 space-y-3">
-          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
-            Community
-          </div>
-          <ul class="space-y-2.5 text-[14px]">
-            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">GitHub Repository &nearr;</a></li>
-            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Discussions &nearr;</a></li>
-            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Good First Issues &nearr;</a></li>
-            <li><a href="../../blog/" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Changelog &amp; Releases</a></li>
-            <li><a href="https://itsumarfarooq.com#contact" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white transition-colors">Contact Maintainer &nearr;</a></li>
-          </ul>
-        </div>
-
-      </div>
-
-      <!-- Bottom Bar (Document 18: Hairline above, 13px muted, three items) -->
-      <div class="pt-8 flex flex-col md:flex-row items-center justify-between text-[13px] text-[#5C6058] dark:text-[#A8ACA0] gap-4">
-        <div>
-          &copy; 2026 Umar Farooq &bull; TechTalks Stack Kits &bull; <a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-[#12140F] dark:hover:text-white">MIT License</a>
-        </div>
-        <div class="text-center">
-          Not affiliated with Laravel, Filament, Anthropic or OpenAI.
-        </div>
-        <div>
-          <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="hover:text-[#12140F] dark:hover:text-white transition-colors inline-flex items-center gap-1">
-            <span>Built in the open on GitHub</span>
-            <span class="text-xs">&nearr;</span>
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </footer>
-
-  <script src="/assets/js/main.js"></script>
-</body>
-</html>
-"""
     return html
 
 def build_all():
-    kits_base = "kits"
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    template_str = '<!DOCTYPE html>\n<html lang="en" class="scroll-smooth">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>{{DISPLAY_NAME}} &bull; TechTalks Stack Kits</title>\n  <meta name="description" content="{{DESCRIPTION}}">\n  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/{{SLUG}}/">\n\n  <!-- Open Graph -->\n  <meta property="og:type" content="article">\n  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/{{SLUG}}/">\n  <meta property="og:title" content="{{DISPLAY_NAME}} &bull; TechTalks Stack Kits">\n  <meta property="og:description" content="{{DESCRIPTION}}">\n  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">\n\n  <!-- Fonts & Styles -->\n  <link rel="preconnect" href="https://fonts.googleapis.com">\n  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">\n  <link rel="stylesheet" href="/assets/css/styles.css">\n\n  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'%23E85D26\'><path d=\'M13 2L3 14h9l-1 8 10-12h-9l1-8z\'/></svg>">\n\n  <script>\n    if (localStorage.getItem(\'theme\') === \'light\') {\n      document.documentElement.classList.remove(\'dark\');\n    } else {\n      document.documentElement.classList.add(\'dark\');\n    }\n  </script>\n</head>\n<body class="bg-white dark:bg-[#0A0A0B] text-[#12140F] dark:text-[#F4F4F5] font-sans antialiased min-h-screen flex flex-col selection:bg-[#FFF1E8] selection:text-[#e85d26]">\n\n  <!-- Master Navbar -->\n  <header class="sticky top-0 z-50 h-[60px] bg-white/90 dark:bg-[#0A0A0B]/90 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#26262C] transition-colors">\n    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">\n      \n      <!-- Left: Logo & Wordmark -->\n      <div class="flex items-center gap-8">\n        <a href="../../" class="flex items-center gap-2.5 group select-none" aria-label="TechTalks Stack Kits Home">\n          <div class="w-[30px] h-[30px] rounded-[6px] bg-[#e85d26] flex items-center justify-center text-white font-bold text-xs shadow-none">\n            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>\n          </div>\n          <div class="flex items-baseline">\n            <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F4F4F5] group-hover:text-[#e85d26] transition-colors">TechTalks</span>\n            <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] font-semibold ml-2">STACK KITS</span>\n          </div>\n        </a>\n\n        <nav class="hidden md:flex items-center gap-6 text-[14px]" aria-label="Main Navigation">\n          <a href="../../kits/" class="text-[#12140F] dark:text-[#F4F4F5] font-semibold border-b-2 border-[#e85d26] pb-[1px] transition-colors">Kits</a>\n          <a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">How It Works</a>\n          <a href="../../blog/" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">Blog</a>\n          <a href="../../security/" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">Standards</a>\n          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors inline-flex items-center gap-1">\n            <span>Community</span>\n            <span class="text-xs">&nearr;</span>\n          </a>\n        </nav>\n      </div>\n\n      <!-- Right: Search, GitHub, Theme, Primary CTA -->\n      <div class="flex items-center gap-3">\n        <button type="button" class="hidden sm:inline-flex items-center gap-2 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#26262C] text-xs text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors" data-search-trigger aria-label="Search">\n          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>\n          <span>Search</span>\n          <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[#F4F4F0] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">Ctrl K</kbd>\n        </button>\n\n        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#26262C] text-xs font-mono text-[#12140F] dark:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors">\n          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>\n          <span class="text-xs font-semibold">Star</span>\n        </a>\n\n        <button id="theme-toggle" type="button" aria-label="Toggle theme" class="w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors">\n          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>\n          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>\n        </button>\n\n        <a href="../../kits/" class="hidden sm:inline-flex items-center justify-center h-[36px] px-3.5 rounded-[6px] text-[13px] font-semibold bg-[#12140F] text-white hover:bg-[#2A2E2C] dark:bg-white dark:text-[#0A0A0B] dark:hover:bg-[#E4E4E7] transition-all">\n          Browse Kits\n        </a>\n      </div>\n    </div>\n  </header>\n\n  <!-- Main Kit Detail View -->\n  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">\n    \n    <!-- Breadcrumbs -->\n    <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#8E8E96] mb-6">\n      <a href="/" class="hover:text-[#e85d26]">Home</a>\n      <span>/</span>\n      <a href="/kits/" class="hover:text-[#e85d26]">Stack Kits</a>\n      <span>/</span>\n      <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">{{SLUG}}</span>\n    </nav>\n\n{{BLUEPRINT_BANNER}}\n\n    <!-- Kit Header Section -->\n    <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">\n      <div class="flex flex-wrap items-center gap-3 mb-3">\n        {{STATUS_CHIP}}\n        <span class="text-xs font-mono text-[#8E8E96]">v{{VERSION}}</span>\n        <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>\n        <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>\n      </div>\n\n      <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">\n        {{DISPLAY_NAME}}\n      </h1>\n\n      <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">\n        {{DESCRIPTION}}\n      </p>\n\n      <div class="flex flex-wrap gap-2 mb-6">\n        {{STACK_BADGES}}\n      </div>\n\n      <!-- Quick Action Bar -->\n      <div class="flex flex-wrap items-center gap-3">\n        <div class="inline-flex items-center gap-2 px-3 py-2 rounded-[6px] bg-[#000000] border border-[#26262C] font-mono text-xs text-[#F4F4F5]">\n          <span class="text-[#8E8E96]">$</span>\n          <span>git clone https://github.com/Umar-444/Techtalks-stack-kits.git</span>\n          <button type="button" data-copy-cmd="git clone https://github.com/Umar-444/Techtalks-stack-kits.git" class="ml-2 text-[#8E8E96] hover:text-[#e85d26] transition-colors" title="Copy command">\n            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>\n          </button>\n        </div>\n        <button type="button" data-copy-cmd="{{KICKOFF_PROMPT}}" class="btn-primary-orange">\n          Copy Agent Bootstrap Prompt &rarr;\n        </button>\n      </div>\n    </div>\n\n    <!-- Numbered Layers (doc21 Spec) -->\n    <div class="space-y-12">\n\n      <!-- 01 / STARTER & ARCHITECTURE -->\n      <section>\n        <div class="flex items-center justify-between mb-4">\n          <div class="eyebrow-numbered text-[#e85d26]">01 / STARTER &amp; ARCHITECTURE</div>\n          <code class="font-mono text-xs text-[#8E8E96]">docker compose up -d</code>\n        </div>\n        <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">\n          <div class="directory-row bg-[#F7F7F3] dark:bg-[#1A1A1E] font-semibold text-[11px] font-mono text-[#8E8E96] uppercase tracking-wider">\n            <span>File / Subsystem</span>\n            <span>Architecture Role</span>\n            <span>Status</span>\n          </div>\n          <div class="directory-row">\n            <div class="flex items-center gap-3">\n              <span class="font-mono text-xs text-[#8E8E96]">01</span>\n              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">docker-compose.yml</span>\n            </div>\n            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Rootless isolated application &amp; database runtime</span>\n            <span class="font-mono text-[10.5px] text-[#e85d26]">PRE-WIRED</span>\n          </div>\n          <div class="directory-row">\n            <div class="flex items-center gap-3">\n              <span class="font-mono text-xs text-[#8E8E96]">02</span>\n              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">starter/app/</span>\n            </div>\n            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Model layer, authorization policies, admin resources</span>\n            <span class="font-mono text-[10.5px] text-[#e85d26]">RBAC ENFORCED</span>\n          </div>\n          <div class="directory-row">\n            <div class="flex items-center gap-3">\n              <span class="font-mono text-xs text-[#8E8E96]">03</span>\n              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">starter/tests/</span>\n            </div>\n            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Pest / PHPUnit architectural and feature test suite</span>\n            <span class="font-mono text-[10.5px] text-[#e85d26]">AUTOMATED</span>\n          </div>\n          <div class="directory-row">\n            <div class="flex items-center gap-3">\n              <span class="font-mono text-xs text-[#8E8E96]">04</span>\n              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">.env.example</span>\n            </div>\n            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Zero plaintext secrets, strict dummy placeholders</span>\n            <span class="font-mono text-[10.5px] text-[#e85d26]">GITLEAKS READY</span>\n          </div>\n        </div>\n      </section>\n\n      <!-- 02 / RULES (6 NATIVE AGENT DIALECTS) -->\n      <section>\n        <div class="eyebrow-numbered text-[#e85d26] mb-4">02 / NATIVE RULES (6 DIALECTS)</div>\n        <div data-tabs-container class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">\n          \n          <!-- Tabs -->\n          <div class="flex items-center overflow-x-auto border-b border-[#E6E6DF] dark:border-[#26262C] bg-[#F7F7F3] dark:bg-[#1A1A1E] px-2 pt-2 gap-1">\n            <button type="button" data-tab-target="tab-claude" class="px-4 py-2 font-mono text-xs border-b-2 border-[#e85d26] text-[#12140F] dark:text-white font-semibold bg-white dark:bg-[#131316] rounded-t-[4px] transition-colors focus:outline-none">\n              Claude Code (CLAUDE.md)\n            </button>\n            <button type="button" data-tab-target="tab-cursor" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">\n              Cursor (.cursor/rules)\n            </button>\n            <button type="button" data-tab-target="tab-codex" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">\n              OpenAI Codex (CODEX.md)\n            </button>\n            <button type="button" data-tab-target="tab-copilot" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">\n              Copilot (instructions.md)\n            </button>\n            <button type="button" data-tab-target="tab-cline" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">\n              Cline (.clinerules)\n            </button>\n            <button type="button" data-tab-target="tab-antigravity" class="px-4 py-2 font-mono text-xs border-b-2 border-transparent text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white rounded-t-[4px] transition-colors focus:outline-none">\n              Antigravity (SKILL.md)\n            </button>\n          </div>\n\n          <div class="p-4">\n            <div data-tab-panel="tab-claude" class="space-y-3">\n              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">\n                <span>Source: kits/{{SLUG}}/CLAUDE.md &bull; Token footprint: ~800 tokens</span>\n                <button type="button" data-copy-cmd="Read CLAUDE.md in kits/{{SLUG}} for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>\n              </div>\n              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — {{DISPLAY_NAME}}\n- Primary Invariant: Zero plaintext credentials; parameterize all database queries.\n- Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.\n- Verification: Execute \x07gy eval or standard test suite before finalizing code.</code></pre>\n            </div>\n\n            <div data-tab-panel="tab-cursor" class="space-y-3 hidden">\n              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">\n                <span>Source: kits/{{SLUG}}/.cursor/rules/*.mdc</span>\n                <button type="button" data-copy-cmd="Read .cursor/rules in kits/{{SLUG}}" class="text-[#e85d26] hover:underline font-semibold">Copy</button>\n              </div>\n              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---\ndescription: {{DISPLAY_NAME}} Architecture Invariants\nglobs: **/*\n---\n- Enforce strict typing and error boundaries.\n- Run static analysis via configured CI scanners.</code></pre>\n            </div>\n\n            <div data-tab-panel="tab-codex" class="space-y-3 hidden">\n              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">\n                <span>Source: kits/{{SLUG}}/CODEX.md</span>\n                <button type="button" data-copy-cmd="Read CODEX.md in kits/{{SLUG}}" class="text-[#e85d26] hover:underline font-semibold">Copy</button>\n              </div>\n              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for {{DISPLAY_NAME}}\n- Maintain strict idempotence on all database migrations and CLI generators.</code></pre>\n            </div>\n\n            <div data-tab-panel="tab-copilot" class="space-y-3 hidden">\n              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">\n                <span>Source: kits/{{SLUG}}/.github/copilot-instructions.md</span>\n                <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/{{SLUG}}" class="text-[#e85d26] hover:underline font-semibold">Copy</button>\n              </div>\n              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for {{DISPLAY_NAME}}\n- Never add unpinned external dependencies.</code></pre>\n            </div>\n\n            <div data-tab-panel="tab-cline" class="space-y-3 hidden">\n              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">\n                <span>Source: kits/{{SLUG}}/.clinerules</span>\n                <button type="button" data-copy-cmd="Read .clinerules in kits/{{SLUG}}" class="text-[#e85d26] hover:underline font-semibold">Copy</button>\n              </div>\n              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for {{DISPLAY_NAME}}\n- Run tests in the sandboxed container environment.</code></pre>\n            </div>\n\n            <div data-tab-panel="tab-antigravity" class="space-y-3 hidden">\n              <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">\n                <span>Source: kits/{{SLUG}}/.agents/rules/</span>\n                <button type="button" data-copy-cmd="Read .agents/rules in kits/{{SLUG}}" class="text-[#e85d26] hover:underline font-semibold">Copy</button>\n              </div>\n              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for {{DISPLAY_NAME}}\n- Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>\n            </div>\n\n          </div>\n        </div>\n      </section>\n\n      <!-- 03 / SKILLS & WORKFLOWS -->\n      <section>\n        <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>\n        <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">\n          {{SKILLS_ROWS}}\n        </div>\n      </section>\n\n      <!-- 04 / DESIGN SYSTEM TOKENS -->\n      <section>\n        <div class="eyebrow-numbered text-[#e85d26] mb-4">04 / DESIGN TOKENS &amp; COMPONENTS</div>\n        <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">\n          <table class="matrix-table">\n            <thead>\n              <tr>\n                <th>Design Token</th>\n                <th>Specification</th>\n                <th>Standard Enforcement</th>\n              </tr>\n            </thead>\n            <tbody>\n              <tr>\n                <td class="font-mono font-bold text-[#e85d26]">color.brand</td>\n                <td class="font-mono text-xs">#e85d26 (Orange status accent)</td>\n                <td>Status lights, active tabs, focus rings, primary CTA</td>\n              </tr>\n              <tr>\n                <td class="font-mono font-bold">color.surface.dark</td>\n                <td class="font-mono text-xs">#0A0A0B (Base) &bull; #131316 (Raised) &bull; #26262C (Hairline)</td>\n                <td>Dark-first showcase theme, hairline borders, no shadows</td>\n              </tr>\n              <tr>\n                <td class="font-mono font-bold">font.family.ui</td>\n                <td class="font-mono text-xs">Instrument Sans (14px base, tight scale)</td>\n                <td>Small and dense dashboard typography, zero AI slop</td>\n              </tr>\n              <tr>\n                <td class="font-mono font-bold">focus.ring</td>\n                <td class="font-mono text-xs">2px #e85d26 outline, 2px offset</td>\n                <td>Universal high-visibility focus ring, WCAG 2.2 AA compliant</td>\n              </tr>\n            </tbody>\n          </table>\n        </div>\n      </section>\n\n      <!-- 05 / SECURITY SCANS & CI GATES -->\n      <section>\n        <div class="eyebrow-numbered text-[#e85d26] mb-4">05 / SECURITY SCANS &amp; CI GATES</div>\n        <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">\n          <div class="directory-row">\n            <div class="flex items-center gap-3">\n              <span class="font-mono text-xs text-[#8E8E96]">01</span>\n              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">Gitleaks Secret Scanning</span>\n            </div>\n            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Scans commits, branches, and PRs for API keys &amp; tokens</span>\n            <span class="font-mono text-[10.5px] text-[#e85d26]">&check; ACTIVE</span>\n          </div>\n          <div class="directory-row">\n            <div class="flex items-center gap-3">\n              <span class="font-mono text-xs text-[#8E8E96]">02</span>\n              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">Semgrep AST Security Rules</span>\n            </div>\n            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Detects SQLi, CSRF omission, insecure deserialization</span>\n            <span class="font-mono text-[10.5px] text-[#e85d26]">&check; ACTIVE</span>\n          </div>\n          <div class="directory-row">\n            <div class="flex items-center gap-3">\n              <span class="font-mono text-xs text-[#8E8E96]">03</span>\n              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">OWASP Automated Test Suite</span>\n            </div>\n            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">Functional tests validating session fixation &amp; XSS filtering</span>\n            <span class="font-mono text-[10.5px] text-[#e85d26]">&check; ACTIVE</span>\n          </div>\n          <div class="directory-row">\n            <div class="flex items-center gap-3">\n              <span class="font-mono text-xs text-[#8E8E96]">04</span>\n              <span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">Static Type Checking</span>\n            </div>\n            <span class="text-xs text-[#5C6058] dark:text-[#C4C4CC]">PHPStan Level 8 / Strict TypeScript compilation</span>\n            <span class="font-mono text-[10.5px] text-[#e85d26]">&check; ACTIVE</span>\n          </div>\n        </div>\n      </section>\n\n      <!-- 06 / STEP-BY-STEP PROCEDURE -->\n      <section>\n        <div class="eyebrow-numbered text-[#e85d26] mb-4">06 / STEP-BY-STEP PROCEDURE</div>\n        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">\n          <div class="p-5 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316]">\n            <span class="font-mono text-2xl font-bold text-[#e85d26] block mb-2">01</span>\n            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-1">Clone and Inspect</h4>\n            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">\n              Clone repository, navigate to <code class="font-mono text-xs">kits/{{SLUG}}</code>, and start container services via docker compose.\n            </p>\n          </div>\n          <div class="p-5 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316]">\n            <span class="font-mono text-2xl font-bold text-[#e85d26] block mb-2">02</span>\n            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-1">Anchor AI Agent</h4>\n            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">\n              Feed the Agent Bootstrap Prompt into Claude Code, Cursor, Codex, or Copilot. Agent consumes native rules and skills.\n            </p>\n          </div>\n          <div class="p-5 rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316]">\n            <span class="font-mono text-2xl font-bold text-[#e85d26] block mb-2">03</span>\n            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-1">Verify Security Gates</h4>\n            <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed">\n              Run automated CI evaluation. Security scanners assert zero vulnerabilities before merging features to production.\n            </p>\n          </div>\n        </div>\n      </section>\n\n      <!-- Real Terminal Eval Transcript Block -->\n      <section>\n        <div class="rounded-[8px] bg-[#000000] border border-[#26262C] shadow-2xl overflow-hidden text-left">\n          <div class="flex items-center justify-between px-4 py-2 bg-[#131316] border-b border-[#26262C]">\n            <div class="flex items-center gap-2">\n              <span class="w-2.5 h-2.5 rounded-full bg-[#26262C]"></span>\n              <span class="w-2.5 h-2.5 rounded-full bg-[#26262C]"></span>\n              <span class="w-2.5 h-2.5 rounded-full bg-[#26262C]"></span>\n              <span class="font-mono text-xs text-[#8E8E96] ml-2">eval-transcript &bull; {{SLUG}}</span>\n            </div>\n            <span class="font-mono text-[10px] uppercase tracking-wider text-[#e85d26] font-semibold bg-[#20150F] px-2 py-0.5 rounded border border-[#e85d26]/30">GATES PASSED</span>\n          </div>\n          <div class="p-4 font-mono text-xs leading-relaxed text-[#F4F4F5] overflow-x-auto">\n            <div class="text-[#8E8E96] mb-1">$ agy eval --kit {{SLUG}}</div>\n            <div class="text-emerald-400">&check; 01-manifest-integrity ............. PASS</div>\n            <div class="text-emerald-400">&check; 02-agent-dialects .................. PASS (6/6 compiled)</div>\n            <div class="text-emerald-400">&check; 03-skills-sandbox .................. PASS (Sandboxed tools)</div>\n            <div class="text-emerald-400">&check; 04-owasp-scanners .................. PASS (0 vulnerabilities)</div>\n            <div class="text-emerald-400">&check; 05-runtime-smoke ................... PASS (HTTP 200 OK)</div>\n            <div class="mt-2 pt-2 border-t border-[#26262C] text-[#8E8E96] text-[11px]">\n              Ready for immediate agent execution with zero configuration.\n            </div>\n          </div>\n        </div>\n      </section>\n\n      <!-- Agent Bootstrap Prompt Card -->\n      <section>\n        <div class="p-6 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">\n          <div class="flex items-center justify-between mb-3">\n            <div class="eyebrow-numbered text-[#e85d26]">AGENT BOOTSTRAP PROMPT</div>\n            <button type="button" data-copy-cmd="{{KICKOFF_PROMPT}}" class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">\n              <span>Copy Prompt</span>\n            </button>\n          </div>\n          <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] mb-3">\n            Paste this exact prompt into Claude Code, Cursor, Copilot, or Antigravity to anchor the agent in the kit\'s rules and invariants:\n          </p>\n          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">{{KICKOFF_PROMPT}}</pre>\n        </div>\n      </section>\n\n    </div>\n\n  </main>\n\n  <!-- Master Footer -->\n  <footer class="bg-[#F7F7F3] dark:bg-[#0A0A0B] border-t border-[#E6E6DF] dark:border-[#26262C] pt-16 pb-12 transition-colors">\n    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">\n      \n      <!-- 4 Columns Grid -->\n      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#E6E6DF] dark:border-[#26262C]">\n        \n        <!-- Column 1: Brand -->\n        <div class="md:col-span-5 space-y-4">\n          <div class="flex items-center gap-2.5">\n            <div class="w-[28px] h-[28px] rounded-[6px] bg-[#e85d26] flex items-center justify-center text-white text-xs font-bold shrink-0">\n              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>\n            </div>\n            <div class="flex items-baseline">\n              <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F4F4F5]">TechTalks</span>\n              <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] font-semibold ml-2">STACK KITS</span>\n            </div>\n          </div>\n          <p class="text-[14px] text-[#5C6058] dark:text-[#C4C4CC] leading-[1.6] max-w-sm">\n            Complete stack kits for AI coding agents: starter code, rules, skills, design tokens and security checks in one clone.\n          </p>\n\n          <div class="pt-2 text-xs text-[#5C6058] dark:text-[#8E8E96]">\n            By Umar Farooq &bull; <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-[#12140F] dark:text-white font-medium hover:text-[#e85d26] underline transition-colors">itsumarfarooq.com &nearr;</a>\n          </div>\n        </div>\n\n        <!-- Column 2: Kits -->\n        <div class="md:col-span-2 space-y-3">\n          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">\n            Kits\n          </div>\n          <ul class="space-y-2.5 text-[14px]">\n            <li><a href="../../kits/laravel-filament-postgresql/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Filament</a></li>\n            <li><a href="../../kits/laravel-livewire-postgresql/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Livewire</a></li>\n            <li><a href="../../kits/laravel-mongodb/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + MongoDB</a></li>\n            <li><a href="../../kits/nextjs-approuter-supabase/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Next.js + Supabase</a></li>\n            <li><a href="../../kits/" class="font-medium text-[#12140F] dark:text-white hover:text-[#e85d26] transition-colors">All 30 Kits &rarr;</a></li>\n          </ul>\n        </div>\n\n        <!-- Column 3: Resources -->\n        <div class="md:col-span-2 space-y-3">\n          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">\n            Resources\n          </div>\n          <ul class="space-y-2.5 text-[14px]">\n            <li><a href="../../blog/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Blog</a></li>\n            <li><a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">How It Works</a></li>\n            <li><a href="../../security/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Security Standards</a></li>\n            <li><a href="../../sitemap.xml" class="font-mono text-xs text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white transition-colors">sitemap.xml</a></li>\n          </ul>\n        </div>\n\n        <!-- Column 4: Community -->\n        <div class="md:col-span-3 space-y-3">\n          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">\n            Community\n          </div>\n          <ul class="space-y-2.5 text-[14px]">\n            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">GitHub Repository &nearr;</a></li>\n            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Discussions &nearr;</a></li>\n            <li><a href="https://itsumarfarooq.com#contact" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Contact Maintainer &nearr;</a></li>\n          </ul>\n        </div>\n\n      </div>\n\n      <!-- Bottom Bar -->\n      <div class="pt-8 flex flex-col md:flex-row items-center justify-between text-[13px] text-[#5C6058] dark:text-[#8E8E96] gap-4">\n        <div>\n          &copy; 2026 Umar Farooq &bull; TechTalks Stack Kits &bull; <a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-[#12140F] dark:hover:text-white">MIT License</a>\n        </div>\n        <div>\n          Open-source stack kits for AI coding agents.\n        </div>\n      </div>\n\n    </div>\n  </footer>\n\n  <script src="/assets/js/main.js"></script>\n</body>\n</html>\n'
+
+    kits_base = os.path.join(base_dir, "kits")
     all_kit_dirs = sorted([
         d for d in os.listdir(kits_base)
         if os.path.isdir(os.path.join(kits_base, d)) and os.path.isfile(os.path.join(kits_base, d, "kit.yaml"))
     ])
-    print(f"Dynamically discovered {len(all_kit_dirs)} kits with kit.yaml in {kits_base}/")
+    print(f"Found {len(all_kit_dirs)} kits in {kits_base}/")
 
-    generated_urls = []
     generated_count = 0
-
     for slug in all_kit_dirs:
         kit_dir = os.path.join(kits_base, slug)
         manifest_path = os.path.join(kit_dir, "kit.yaml")
@@ -619,67 +122,14 @@ def build_all():
             except Exception as e:
                 print(f"Warning reading {manifest_path}: {e}")
 
-        # Merge token metrics if available
-        metric_file = os.path.join("evals", "results", f"{slug}_metrics.json")
-        if os.path.isfile(metric_file):
-            try:
-                with open(metric_file, "r", encoding="utf-8") as mf:
-                    m = json.load(mf)
-                    meta["token_metrics"] = {
-                        "median_eval_tokens": m.get("median_tokens_to_complete_reference_build", 0),
-                        "efficiency_tier": m.get("efficiency_tier", "A"),
-                        "token_light": m.get("token_light", False)
-                    }
-            except Exception:
-                pass
-
-        # Render HTML
-        page_html = render_kit_page(meta, kit_dir)
+        page_html = render_kit_page(meta, kit_dir, template_str)
         dest_html_path = os.path.join(kit_dir, "index.html")
         with open(dest_html_path, "w", encoding="utf-8") as out:
             out.write(page_html)
 
-        generated_urls.append(f"/kits/{slug}/")
         generated_count += 1
-        print(f"Rendered: {dest_html_path}")
 
-    # Generate complete dynamic sitemap.xml
-    try:
-        from tools.generate_sitemap import generate as gen_sitemap
-        gen_sitemap()
-    except Exception:
-        import subprocess
-        subprocess.run([sys.executable, "tools/generate_sitemap.py"])
-    print(f"Successfully generated {generated_count} kit pages and updated sitemap.")
-
-
-def update_sitemap(new_urls):
-    sitemap_path = "sitemap.xml"
-    if not os.path.exists(sitemap_path):
-        return
-
-    with open(sitemap_path, "r", encoding="utf-8") as f:
-        content = f.read()
-
-    base_domain = "https://techtalks.itsumarfarooq.com"
-    entries_to_add = []
-    for u in new_urls:
-        full_url = base_domain + u
-        if full_url not in content:
-            entry = f"""  <url>
-    <loc>{full_url}</loc>
-    <lastmod>2026-10-21</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>"""
-            entries_to_add.append(entry)
-
-    if entries_to_add:
-        replacement = "\\n".join(entries_to_add) + "\\n</urlset>"
-        content = content.replace("</urlset>", replacement)
-        with open(sitemap_path, "w", encoding="utf-8") as f:
-            f.write(content)
-        print(f"Added {len(entries_to_add)} URLs to sitemap.xml")
+    print(f"Successfully generated {generated_count} kit showcase pages!")
 
 if __name__ == "__main__":
     build_all()

@@ -6,6 +6,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
+  initTabs();
   initCommandPalette();
   initMobileMenu();
   initCopyButtons();
@@ -31,8 +32,8 @@ function initTheme() {
 
   const getSavedOrSystemTheme = () => {
     const saved = localStorage.getItem('theme');
-    if (saved === 'dark' || saved === 'light') return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (saved === 'light') return 'light';
+    return 'dark'; // Dark-first showcase theme
   };
 
   // Ensure current theme matches preferred
@@ -461,4 +462,37 @@ function initChecklistPersistence() {
   } catch (e) {
     console.warn('Checklist storage disabled:', e);
   }
+}
+
+/* ==========================================================================
+   Tabbed Variants Component (Agent Dialects & Platforms)
+   ========================================================================== */
+function initTabs() {
+  document.addEventListener('click', (e) => {
+    const tabBtn = e.target.closest('[data-tab-target]');
+    if (!tabBtn) return;
+    
+    const container = tabBtn.closest('[data-tabs-container]');
+    if (!container) return;
+    
+    const targetId = tabBtn.getAttribute('data-tab-target');
+    const allButtons = container.querySelectorAll('[data-tab-target]');
+    const allPanels = container.querySelectorAll('[data-tab-panel]');
+    
+    allButtons.forEach(btn => {
+      btn.classList.remove('border-[#e85d26]', 'text-[#12140F]', 'dark:text-white', 'font-semibold', 'bg-white', 'dark:bg-[#131316]');
+      btn.classList.add('border-transparent', 'text-[#5C6058]', 'dark:text-[#8E8E96]');
+    });
+    
+    tabBtn.classList.remove('border-transparent', 'text-[#5C6058]', 'dark:text-[#8E8E96]');
+    tabBtn.classList.add('border-[#e85d26]', 'text-[#12140F]', 'dark:text-white', 'font-semibold', 'bg-white', 'dark:bg-[#131316]');
+    
+    allPanels.forEach(panel => {
+      if (panel.id === targetId) {
+        panel.classList.remove('hidden');
+      } else {
+        panel.classList.add('hidden');
+      }
+    });
+  });
 }

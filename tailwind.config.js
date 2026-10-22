@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+﻿/** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: 'class',
   content: [
@@ -11,21 +11,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        base: '#0A0A0B',
+        raised: '#131316',
+        strong: '#000000',
+        hairline: '#26262C',
+        'text-primary': '#F4F4F5',
+        'text-body': '#C4C4CC',
+        'text-muted': '#8E8E96',
+        brand: '#e85d26',
         ink: '#12140F',
         muted: '#5C6058',
         paper: '#FFFFFF',
         tint: '#F7F7F3',
         line: '#E6E6DF',
-        brand: '#E85D26',
         teal: '#0E7C6B',
         gold: '#B7791F',
-        night: '#0F1110',
-        surface: '#171A18',
-        nightline: '#2A2E2A',
-        nighttext: '#F2F2EC',
+        night: '#0A0A0B',
+        surface: '#131316',
+        nightline: '#26262C',
+        nighttext: '#F4F4F5',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['"Instrument Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
         serif: ['Newsreader', 'Georgia', 'serif'],
       },
@@ -33,11 +40,12 @@ module.exports = {
         btn: '6px',
         card: '8px',
         xs: '4px',
-        sm: '8px',
-        md: '12px',
+        sm: '6px',
+        md: '8px',
+        lg: '12px',
       },
       boxShadow: {
-        'card-hover': '0 8px 24px rgba(18, 20, 15, 0.06)',
+        'card-hover': '0 8px 24px rgba(0, 0, 0, 0.25)',
       }
     },
   },

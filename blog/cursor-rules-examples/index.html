@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cursor Rules That Actually Work: A Field Guide With Examples &bull; TechTalks Blog</title>
+  <meta name="description" content="Tired of Cursor ignoring your instructions? Here are real cursor rules examples with YAML frontmatter, glob scoping, and negative constraints that agents actually obey.">
+  <link rel="canonical" href="https://techtalks.itsumarfarooq.com/blog/cursor-rules-examples/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://techtalks.itsumarfarooq.com/blog/cursor-rules-examples/">
+  <meta property="og:title" content="Cursor Rules That Actually Work: A Field Guide With Examples &bull; TechTalks Blog">
+  <meta property="og:description" content="Tired of Cursor ignoring your instructions? Here are real cursor rules examples with YAML frontmatter, glob scoping, and negative constraints that agents actually obey.">
+  <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500;1,6..72,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/styles.css">
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23E85D26'><path d='M13 2L3 14h9l-1 8 10-12h-9l1-8z'/></svg>">
+
+  <!-- Schema.org JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Cursor Rules That Actually Work: A Field Guide With Examples",
+    "description": "Tired of Cursor ignoring your instructions? Here are real cursor rules examples with YAML frontmatter, glob scoping, and negative constraints that agents actually obey.",
+    "datePublished": "2026-10-22",
+    "author": {
+      "@type": "Person",
+      "name": "Umar Farooq",
+      "url": "https://itsumarfarooq.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "TechTalks Stack Kits",
+      "url": "https://techtalks.itsumarfarooq.com"
+    }
+  }
+  </script>
+
+  <script>
+    if (localStorage.getItem('theme') === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+  </script>
+</head>
+
+<body class="bg-white dark:bg-[#0A0A0B] text-[#12140F] dark:text-[#F4F4F5] selection:bg-[#FFF1E8] selection:text-[#e85d26] min-h-screen flex flex-col font-sans transition-colors">
+
+  <!-- Master Navbar -->
+  <header class="sticky top-0 z-50 h-[60px] bg-white/90 dark:bg-[#0A0A0B]/90 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#26262C] transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
+      
+      <!-- Left: Logo & Wordmark -->
+      <div class="flex items-center gap-8">
+        <a href="../../" class="flex items-center gap-2.5 group select-none" aria-label="TechTalks Stack Kits Home">
+          <div class="w-[30px] h-[30px] rounded-[6px] bg-[#e85d26] flex items-center justify-center text-white font-bold text-xs shadow-none">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+          </div>
+          <div class="flex items-baseline">
+            <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F4F4F5] group-hover:text-[#e85d26] transition-colors">TechTalks</span>
+            <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] font-semibold ml-2">STACK KITS</span>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-6 text-[14px]" aria-label="Main Navigation">
+          <a href="../../kits/" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">Kits</a>
+          <a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">How It Works</a>
+          <a href="../../blog/" class="text-[#12140F] dark:text-[#F4F4F5] font-semibold border-b-2 border-[#e85d26] pb-[1px] transition-colors">Blog</a>
+          <a href="../../security/" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">Standards</a>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors inline-flex items-center gap-1">
+            <span>Community</span>
+            <span class="text-xs">&nearr;</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+        <button type="button" class="hidden sm:inline-flex items-center gap-2 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#26262C] text-xs text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors" data-search-trigger aria-label="Search">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <span>Search</span>
+          <kbd class="font-mono text-[10px] px-1.5 py-0.5 rounded bg-[#F4F4F0] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">Ctrl K</kbd>
+        </button>
+
+        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 h-[36px] px-2.5 rounded-[6px] border border-[#E6E6DF] dark:border-[#26262C] text-xs font-mono text-[#12140F] dark:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span class="text-xs font-semibold">Star</span>
+        </a>
+
+        <button id="theme-toggle" type="button" aria-label="Toggle theme" class="w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#131316] transition-colors">
+          <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+
+        <a href="../../kits/" class="hidden sm:inline-flex items-center justify-center h-[36px] px-3.5 rounded-[6px] text-[13px] font-semibold bg-[#12140F] text-white hover:bg-[#2A2E2C] dark:bg-white dark:text-[#0A0A0B] dark:hover:bg-[#E4E4E7] transition-all">
+          Browse Kits
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Reading Progress Bar -->
+  <div id="reading-progress-bar" class="fixed top-[60px] left-0 h-[2px] bg-[#e85d26] z-50 transition-all duration-75" style="width: 0%;"></div>
+
+  <!-- Main Article Body -->
+  <main class="flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-12 w-full">
+    
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-2 text-xs text-[#5C6058] dark:text-[#8E8E96] mb-8" aria-label="Breadcrumb">
+      <a href="/" class="hover:text-[#e85d26] transition-colors">Home</a>
+      <span>/</span>
+      <a href="/blog/" class="hover:text-[#e85d26] transition-colors">Blog</a>
+      <span>/</span>
+      <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium truncate max-w-md">Cursor Rules That Actually Work: A Field Guide With Examples</span>
+    </nav>
+
+    <!-- Post Article Column -->
+    <article class="max-w-[760px]">
+
+      <!-- Eyebrow Metadata -->
+      <div class="flex items-center gap-3 font-mono text-xs mb-4">
+        <span class="chip-status-ready">Agent Craft</span>
+        <span class="text-[#8E8E96]">2026-10-22 &bull; 8 min read</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#12140F] dark:text-[#F4F4F5] mb-6 leading-tight">
+        Cursor Rules That Actually Work: A Field Guide With Examples
+      </h1>
+
+      <!-- Lead paragraph -->
+      <p class="text-[17px] text-[#5C6058] dark:text-[#C4C4CC] leading-[1.65] font-normal pb-6 border-b border-[#E6E6DF] dark:border-[#26262C] mb-8">
+        Every developer using Cursor starts by dumping a 3,000-word prompt into a root .cursorrules file, only to watch the AI completely ignore it 15 minutes later. Here is why most Cursor rules fail, and real production cursor rules examples that AI agents actually follow.
+      </p>
+
+      <!-- Post Body Content -->
+      <div class="prose max-w-none text-[16px] leading-[1.75] text-[#12140F] dark:text-[#C4C4CC] space-y-6">
+
+<p>
+  If you have spent any time with Cursor, you have probably experienced the frustration of writing an explicit rule—<em>"Always use Form Requests for input validation"</em>—only to watch the agent generate inline <code>->validate()</code> calls on the very next turn.
+</p>
+<p>
+  The problem is almost never the intelligence of the underlying model (Claude 3.5 Sonnet, GPT-4o, etc.). The problem is <strong>rule architecture</strong>. When instructions are bloated, vaguely phrased, or dumped into a single global file, attention heads dilute the directives during generation.
+</p>
+<p>
+  Here is the field-tested guide to writing <strong>cursor rules examples</strong> that agents obey with high adherence.
+</p>
+
+<h2>The 4 Invariants of High-Adherence Cursor Rules</h2>
+<ol>
+  <li><strong>Keep Rules Under 1,000 Tokens:</strong> Long, essay-like rules cause context dilution. High-adherence rules are concise, bulleted, and structured with clear headings.</li>
+  <li><strong>Use Negative Constraints ("NEVER"):</strong> Language models respond significantly better to negative constraints than polite suggestions. Instead of <em>"Consider using policies"</em>, write <em>"NEVER query or mutate database models without evaluating an authorization Policy."</em></li>
+  <li><strong>Use Scoped .cursor/rules/*.mdc Files:</strong> Do not put all rules in one giant file. Split them by domain (database, UI, security) using Cursor's modern frontmatter glob scoping.</li>
+  <li><strong>Provide One Terse Negative & Positive Example:</strong> Showing a 3-line bad pattern and a 3-line good pattern eliminates ambiguity instantly.</li>
+</ol>
+
+<h2>Example 1: Laravel Security & Authorization Rule</h2>
+<p>
+  Save this as <code>.cursor/rules/laravel-security.mdc</code>:
+</p>
+<div class="code-block">
+  <code>---
+description: Laravel Security & Authorization Invariants
+globs: app/Http/Controllers/**/*.php, app/Filament/**/*.php
+---
+# Security Invariants for Controllers & Filament Resources
+
+## Mandatory Rules
+- NEVER disable CSRF protection on web routes.
+- NEVER query or mutate resources by route ID without calling $this->authorize('action', ).
+- NEVER read raw inputs with $request->all(). Always typehint dedicated FormRequest classes.
+
+## Anti-Pattern (DO NOT WRITE)
+`php
+// Insecure: BOLA vulnerability + mass assignment
+ = Project::find();
+->update(->all());
+`
+
+## Correct Pattern
+`php
+public function update(UpdateProjectRequest , Project ): RedirectResponse
+{
+    ->authorize('update', );
+    ->update(->validated());
+    return redirect()->route('projects.show', );
+}
+`</code>
+</div>
+
+<h2>Example 2: Next.js 15 Server Components & Actions Rule</h2>
+<p>
+  Save this as <code>.cursor/rules/nextjs-architecture.mdc</code>:
+</p>
+<div class="code-block">
+  <code>---
+description: Next.js 15 App Router & Server Actions Guidelines
+globs: app/**/*.{ts,tsx}
+---
+# Next.js 15 Guidelines
+
+## Core Rules
+- Default to React Server Components (RSC). Only add 'use client' when state (useState), effects (useEffect), or browser event listeners are required.
+- Place all server mutations in dedicated files under pp/actions/ with 'use server' declared at file top.
+- Validate all Server Action input arguments with Zod schemas before querying the database.
+- Wrap all async Supabase database queries in try/catch blocks that return structured { data, error } objects.</code>
+</div>
+
+<h2>Example 3: Python FastAPI & Pydantic Boundaries</h2>
+<p>
+  Save this as <code>.cursor/rules/fastapi-conventions.mdc</code>:
+</p>
+<div class="code-block">
+  <code>---
+description: FastAPI Schemas and Dependency Injection
+globs: app/**/*.py
+---
+# FastAPI Clean Architecture Rules
+
+- Enforce strict typing on all function signatures using Pydantic v2 schemas.
+- NEVER access raw request bodies or dictionaries in endpoint handlers.
+- Inject database sessions using db: AsyncSession = Depends(get_db).
+- Return explicit HTTP status codes (status_code=status.HTTP_201_CREATED on resource creation).</code>
+</div>
+
+<h2>The Multi-Agent Problem: What About Claude Code and Codex?</h2>
+<p>
+  Writing separate rules for Cursor (<code>.cursor/rules/*.mdc</code>), Claude Code (<code>CLAUDE.md</code>), OpenAI Codex (<code>CODEX.md</code>), Copilot, and Cline leads to fragmentation and rule drift.
+</p>
+<p>
+  In <a href="/kits/" class="text-[#e85d26] underline font-semibold">TechTalks Stack Kits</a>, we solve this with <strong>single-source rule compilation</strong>:
+</p>
+<div class="callout callout-info">
+  You write your rules once in <code>rules/source/</code> as clean Markdown files. Our deterministic transpiler compiles them automatically into all 6 agent dialects:
+  <ul class="mt-2 list-disc pl-4 text-xs font-mono">
+    <li>.cursor/rules/*.mdc (with YAML frontmatter and globs)</li>
+    <li>CLAUDE.md (compact hierarchy for Claude Code)</li>
+    <li>CODEX.md (OpenAI Codex directives)</li>
+    <li>.github/copilot-instructions.md</li>
+    <li>.clinerules</li>
+    <li>.agents/rules/*.md (Antigravity IDE format)</li>
+  </ul>
+</div>
+
+<h2>Start With Production-Tested Rules</h2>
+<p>
+  Don't spend days writing rules from scratch. <a href="/kits/" class="text-[#e85d26] underline font-bold">Browse our 30 stack kits</a> to get production-tested agent configurations, pre-configured security checkers, and zero-token-bloat rules today.
+</p>
+
+      </div>
+
+      <!-- Author Bio & Next Steps Box -->
+      <div class="mt-12 p-6 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div class="font-bold text-sm text-[#12140F] dark:text-white">Written by Umar Farooq</div>
+          <div class="text-xs text-[#5C6058] dark:text-[#8E8E96] mt-0.5">Senior Full-Stack &amp; Application Security Engineer</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="/kits/" class="btn-primary-orange text-xs h-[32px] px-3">
+            Explore Stack Kits &rarr;
+          </a>
+          <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="btn-secondary text-xs h-[32px] px-3">
+            GitHub &nearr;
+          </a>
+        </div>
+      </div>
+
+    </article>
+  </main>
+
+  <!-- Master Footer -->
+  <footer class="bg-[#F7F7F3] dark:bg-[#0A0A0B] border-t border-[#E6E6DF] dark:border-[#26262C] pt-16 pb-12 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12 border-b border-[#E6E6DF] dark:border-[#26262C]">
+        
+        <div class="md:col-span-5 space-y-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-[28px] h-[28px] rounded-[6px] bg-[#e85d26] flex items-center justify-center text-white text-xs font-bold shrink-0">
+              <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div class="flex items-baseline">
+              <span class="font-bold text-[17px] tracking-[-0.02em] text-[#12140F] dark:text-[#F4F4F5]">TechTalks</span>
+              <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#8E8E96] font-semibold ml-2">STACK KITS</span>
+            </div>
+          </div>
+          <p class="text-[14px] text-[#5C6058] dark:text-[#C4C4CC] leading-[1.6] max-w-sm">
+            Complete stack kits for AI coding agents: starter code, rules, skills, design tokens and security checks in one clone.
+          </p>
+          <div class="pt-2 text-xs text-[#5C6058] dark:text-[#8E8E96]">
+            By Umar Farooq &bull; <a href="https://itsumarfarooq.com" target="_blank" rel="noopener noreferrer" class="text-[#12140F] dark:text-white font-medium hover:text-[#e85d26] underline transition-colors">itsumarfarooq.com &nearr;</a>
+          </div>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Kits
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="../../kits/laravel-filament-postgresql/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Filament</a></li>
+            <li><a href="../../kits/laravel-livewire-postgresql/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + Livewire</a></li>
+            <li><a href="../../kits/laravel-mongodb/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Laravel + MongoDB</a></li>
+            <li><a href="../../kits/nextjs-approuter-supabase/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Next.js + Supabase</a></li>
+            <li><a href="../../kits/" class="font-medium text-[#12140F] dark:text-white hover:text-[#e85d26] transition-colors">All 30 Kits &rarr;</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-2 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Resources
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="../../blog/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Blog</a></li>
+            <li><a href="../../#how-it-works" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">How It Works</a></li>
+            <li><a href="../../security/" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Security Standards</a></li>
+            <li><a href="../../sitemap.xml" class="font-mono text-xs text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-white transition-colors">sitemap.xml</a></li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-3 space-y-3">
+          <div class="font-mono text-xs uppercase tracking-wider text-[#12140F] dark:text-white font-semibold">
+            Community
+          </div>
+          <ul class="space-y-2.5 text-[14px]">
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">GitHub Repository &nearr;</a></li>
+            <li><a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Discussions &nearr;</a></li>
+            <li><a href="https://itsumarfarooq.com#contact" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#C4C4CC] hover:text-[#12140F] dark:hover:text-white transition-colors">Contact Maintainer &nearr;</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col md:flex-row items-center justify-between text-[13px] text-[#5C6058] dark:text-[#8E8E96] gap-4">
+        <div>
+          &copy; 2026 Umar Farooq &bull; TechTalks Stack Kits &bull; <a href="https://github.com/Umar-444/Techtalks-stack-kits/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" class="underline hover:text-[#12140F] dark:hover:text-white">MIT License</a>
+        </div>
+        <div>
+          Open-source stack kits for AI coding agents.
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>
