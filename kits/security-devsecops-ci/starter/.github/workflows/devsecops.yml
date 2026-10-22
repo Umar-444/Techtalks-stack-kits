@@ -1,4 +1,4 @@
-name: DevSecOps Comprehensive Security Pipeline
+name: DevSecOps Production Security Pipeline
 
 on:
   push:
@@ -6,15 +6,86 @@ on:
   pull_request:
     branches: [ main, master ]
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
-  secrets-scan:
-    name: Gitleaks Secret Audit
+  secret-scan:
+    name: 1. Secret Scanning (Gitleaks)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Run Gitleaks
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_CONFIG: starter/.gitleaks.toml
+
+  sast-scan:
+    name: 2. SAST Analysis (Semgrep)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep OSS
+        run: |
+          docker run --rm -v "${{ github.workspace }}:/src" returntocorp/semgrep \
+            semgrep scan --config /src/starter/.semgrep.yml --sarif --output /src/semgrep.sarif /src
+
+      - name: Upload Semgrep SARIF Report
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: semgrep.sarif
+
+  container-cve-scan:
+    name: 3. Container & Dependency Scan (Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Build Local Test Container
+        run: |
+          docker build -t test-app:local -f starter/Dockerfile starter/
+
+      - name: Run Trivy Image Scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: 'test-app:local'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          ignore-unfixed: true
+
+      - name: Upload Trivy SARIF Report
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-results.sarif
+
+  sbom-generation:
+    name: 4. Supply Chain SBOM (Syft)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Generate CycloneDX and SPDX SBOM
+        uses: anchore/sbom-action@v0
+        with:
+          path: ./starter
+          format: cyclonedx-json
+          output-file: cyclonedx-sbom.json
+
+      - name: Archive SBOM Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom-reports
+          path: cyclonedx-sbom.json

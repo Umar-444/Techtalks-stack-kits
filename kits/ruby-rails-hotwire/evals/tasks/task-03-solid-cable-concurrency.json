@@ -1,0 +1,15 @@
+{
+  "task_id": "eval-03-solid-cable-concurrency",
+  "name": "Solid Cable & Solid Queue Concurrency Setup",
+  "difficulty": "advanced",
+  "prompt": "Configure Solid Cable and Solid Queue in Rails 8 for database-backed WebSocket connections and background jobs. Write an ActiveJob to process analytics notifications asynchronously without Redis.",
+  "expected_files": [
+    "config/cable.yml",
+    "config/queue.yml",
+    "app/jobs/analytics_notification_job.rb"
+  ],
+  "verification": {
+    "command": "bin/rails test test/jobs/analytics_notification_job_test.rb",
+    "criteria": "ActiveJob enqueues and executes successfully using the solid_queue adapter"
+  }
+}

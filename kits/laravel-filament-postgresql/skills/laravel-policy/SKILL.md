@@ -1,28 +1,21 @@
 ---
-name: "laravel-policy"
-description: "Generate strict BOLA-resistant model authorization gates and policies."
-version: "1.0.0"
-author: "TechTalks Stack Kits"
+name: laravel-policy
+description: Generate granular Laravel Model Policies enforcing zero-trust BOLA and multi-tenant authorization.
 ---
 
-# Laravel Policy Generator Skill
+# Laravel Policy Skill
 
-Use this skill whenever creating an authorization policy to defend against Broken Object-Level Authorization (BOLA).
+## Purpose
+Guarantees authorization gates are applied to every database mutation and view action.
 
-## Workflow
+## Key Workflows
+```bash
+php artisan make:policy CustomerPolicy --model=Customer
+```
 
-1. **Generate Policy:**
-   ```bash
-   php artisan make:policy {ModelName}Policy --model={ModelName}
-   ```
+## Security Invariants
+- Deny by default: `before(User $user, string $ability)` only bypasses for verified `super-admin`.
+- Explicit tenant scoping: Verify `$user->tenant_id === $model->tenant_id` on all view/update/delete gates.
 
-2. **Policy Invariants:**
-   - Always verify tenant or ownership boundaries:
-     ```php
-     public function update(User $user, Order $order): bool
-     {
-         return $user->id === $order->user_id || $user->hasRole('Superadmin');
-     }
-     ```
-   - Never allow automatic `true` returns in `update` or `delete` methods.
-   - Superadmin bypass must be centralized in `AuthServiceProvider` or `AppServiceProvider` using `Gate::before`.
+## Done Means
+Every model has an associated Policy registered in `AuthServiceProvider` and unauthorized cross-tenant requests fail with HTTP 403 Forbidden.

@@ -1,0 +1,58 @@
+[
+  {
+    "q": "What exactly is this kit, and what do I get when I clone it?",
+    "a": "This kit is a reactive full-stack TALL stack application combining Laravel 12, Livewire 4, and PostgreSQL 16. You get a pre-wired Docker Compose container setup, 6 AI agent rule dialects, 5 operational skills, automated architectural tests, and a reactive real-time Task Manager component."
+  },
+  {
+    "q": "Which versions does it pin, and why those?",
+    "a": "It pins PHP 8.4+, Laravel 12, Livewire 4, and PostgreSQL 16+. These versions deliver native UUID support, single-file Volt components, morphdom diffing, and long-term security support."
+  },
+  {
+    "q": "Which AI coding agents are supported, and how do the rules reach each one?",
+    "a": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets generated from canonical source rules."
+  },
+  {
+    "q": "What do I need installed before I start?",
+    "a": "You only need Docker Engine 24+ and Docker Compose v2.20+. All runtime dependencies (PHP 8.4, PostgreSQL 16, Redis 7, Composer) run inside isolated containers."
+  },
+  {
+    "q": "How long does installation take, honestly, and what can slow it down?",
+    "a": "A fresh install takes between 60 to 90 seconds on a standard broadband connection. Primary bottleneck is pulling base Alpine container images."
+  },
+  {
+    "q": "Is the starter production-shaped or a demo? What must I change before real production?",
+    "a": "The starter is production-shaped with strict security defaults. Before production release, rotate default database credentials, set APP_DEBUG=false, generate a unique APP_KEY, and configure SSL termination."
+  },
+  {
+    "q": "How is security handled in this kit, and where are its checks?",
+    "a": "Security is enforced at multiple layers: Argon2id password hashing, component property checksum validation, BOLA authorization policies, and automated secret scanning. The complete 12-control suite is in security/checks.json."
+  },
+  {
+    "q": "Can I change the design? Where do the design tokens live?",
+    "a": "Yes. Design tokens are documented in DESIGN.md. You can customize Tailwind CSS classes directly in Blade layouts and Flux UI components."
+  },
+  {
+    "q": "How do I update when a new kit version releases?",
+    "a": "Review the CHANGELOG.md and merge updates to rules/ and skills/. Project-specific models, views, and .env settings remain untouched."
+  },
+  {
+    "q": "Can I use it for commercial and client work?",
+    "a": "Yes. The kit is licensed under the permissive MIT License with zero royalties."
+  },
+  {
+    "q": "How do I contribute a fix or a skill back?",
+    "a": "Submit a PR to https://github.com/Umar-444/Techtalks-stack-kits adhering to the 18-checkpoint completeness standard."
+  },
+  {
+    "q": "Where do I get help or report a problem?",
+    "a": "Open an issue on the repository or participate in community discussions at https://techtalks.itsumarfarooq.com."
+  },
+  {
+    "q": "How does Livewire 4 prevent parameter tampering?",
+    "a": "Livewire signs all public component properties with an HMAC checksum on every request. Any client-side DOM tampering causes an immediate checksum mismatch exception."
+  },
+  {
+    "q": "Why does this kit use PostgreSQL instead of MySQL?",
+    "a": "PostgreSQL provides native UUID generation functions, robust JSONB querying with GIN indexing, and superior connection pooling under high concurrent Livewire event traffic."
+  }
+]

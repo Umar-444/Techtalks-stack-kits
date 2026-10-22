@@ -1,0 +1,65 @@
+<div class="space-y-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div class="text-sm font-medium text-slate-500">Live Items Stream</div>
+      <div class="mt-2 text-3xl font-bold text-slate-900 dark:text-slate-100">{@total_count}</div>
+      <div class="mt-1 text-xs text-purple-500">WebSocket Diff Sync</div>
+    </div>
+    <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div class="text-sm font-medium text-slate-500">Process Model</div>
+      <div class="mt-2 text-3xl font-bold text-emerald-600 dark:text-emerald-400">BEAM OTP</div>
+      <div class="mt-1 text-xs text-slate-400">Fault-tolerant actor model</div>
+    </div>
+    <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+      <div class="text-sm font-medium text-slate-500">Payload Footprint</div>
+      <div class="mt-2 text-3xl font-bold text-sky-600 dark:text-sky-400">&lt; 100 Bytes</div>
+      <div class="mt-1 text-xs text-slate-400">Binary token compression</div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-1 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm h-fit">
+      <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-4">Add Live Task</h2>
+      <.form for={@form} id="item-form" phx-change="validate" phx-submit="save" class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Title</label>
+          <.input field={@form[:title]} type="text" placeholder="e.g. Implement OTP Supervisor" class="w-full px-4 py-2 border rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Description</label>
+          <.input field={@form[:description]} type="textarea" placeholder="Real-time live updates via PubSub" class="w-full px-4 py-2 border rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Priority</label>
+          <.input field={@form[:priority]} type="select" options={[{"Medium", "medium"}, {"High", "high"}, {"Low", "low"}]} class="w-full px-4 py-2 border rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100" />
+        </div>
+        <button type="submit" class="w-full py-2.5 px-4 rounded-lg bg-purple-600 hover:bg-purple-700 text-white font-semibold shadow-sm transition">
+          Broadcast Item
+        </button>
+      </.form>
+    </div>
+
+    <div class="lg:col-span-2 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+      <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-4">Real-time Stream</h2>
+      <div id="items-stream" phx-update="stream" class="divide-y divide-slate-100 dark:divide-slate-800">
+        <div :for={{id, item} <- @streams.items} id={id} class="py-4 flex items-start justify-between space-x-4">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2">
+              <span class={"font-semibold text-slate-900 dark:text-slate-100 " <> if item.is_completed, do: "line-through text-slate-400 dark:text-slate-500", else: ""}>{item.title}</span>
+              <span class="px-2 py-0.5 text-xs rounded-full font-medium bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300">{item.priority}</span>
+            </div>
+            <p class="text-sm text-slate-600 dark:text-slate-400">{item.description}</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button phx-click="toggle" phx-value-id={item.id} class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800">
+              {if item.is_completed, do: "Mark Pending", else: "Complete"}
+            </button>
+            <button phx-click="delete" phx-value-id={item.id} class="px-2 py-1.5 text-xs text-red-600 hover:bg-red-50 rounded-lg">
+              ✕
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

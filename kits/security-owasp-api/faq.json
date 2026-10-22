@@ -1,0 +1,58 @@
+[
+  {
+    "q": "What is Broken Object Level Authorization (BOLA) and why is it #1 on the OWASP API list?",
+    "a": "BOLA (formerly IDOR) occurs when an API accepts an object identifier from the client and retrieves the object from the database without verifying whether the requesting user owns or has legitimate access to that object. Attackers simply iterate through resource IDs (/api/v1/documents/1, /2, /3) to harvest sensitive records across all tenants."
+  },
+  {
+    "q": "How does BOLA differ from Broken Function Level Authorization (BFLA)?",
+    "a": "BOLA concerns object-level access (e.g., user Alice accessing user Bob's documents). BFLA concerns administrative or capability-level access (e.g., a standard user accessing administrative endpoints like DELETE /api/v1/admin/users/123). Both must be verified independently on every request."
+  },
+  {
+    "q": "What is Broken Object Property Level Authorization (BOPLA / Mass Assignment)?",
+    "a": "BOPLA occurs when endpoints expose internal or sensitive object properties in read responses (e.g., returning password hashes or internal credit scores) or accept client modifications to privileged properties (e.g., allowing a user to set `is_admin: true` in a profile update payload). Strict Pydantic schemas with `extra = 'forbid'` eliminate this risk."
+  },
+  {
+    "q": "How does this kit defend against Server-Side Request Forgery (SSRF API7:2023)?",
+    "a": "When accepting external webhook or callback URLs, the API resolves the hostname to an IP address and verifies that it does not belong to RFC1918 private subnets (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), loopback addresses (127.0.0.1, ::1), or cloud metadata services (169.254.169.254)."
+  },
+  {
+    "q": "What algorithm confusion attacks affect JWT tokens and how are they prevented?",
+    "a": "Attackers can tamper with the JWT header, changing the algorithm from asymmetric RS256 to symmetric HS256 (signing the token using the public key as the secret) or setting algorithm to `none`. This kit hardcodes explicit algorithm whitelists (`algorithms=['HS256']`) in `jwt.decode()` to prevent algorithm switching."
+  },
+  {
+    "q": "Why is pagination bound enforcement critical for API security (API4:2023)?",
+    "a": "If collection endpoints allow clients to request unbounded limits (`?limit=1000000`), a single request can trigger memory exhaustion, lock database tables, and crash API worker processes. This kit enforces strict Pydantic query caps (`le=50`)."
+  },
+  {
+    "q": "How does sliding-window rate limiting operate in this kit?",
+    "a": "The kit maintains timestamps of recent requests per user ID. If the number of requests within a 60-second sliding window exceeds the allowed threshold, the endpoint halts further execution and immediately returns HTTP 429 Too Many Requests."
+  },
+  {
+    "q": "Why does this kit use FastAPI rather than a traditional MVC framework?",
+    "a": "FastAPI is built natively on Pydantic v2 and Python type annotations. This guarantees automated compile-time and runtime validation on all inputs, automatic OpenAPI schema generation, and asynchronous execution with minimal latency."
+  },
+  {
+    "q": "How are database queries structured to prevent BOLA at the SQL layer?",
+    "a": "Instead of selecting by ID and then checking permissions in Python (`SELECT * FROM orders WHERE id = :id`), queries combine the resource ID with the authenticated tenant ID: `SELECT * FROM orders WHERE id = :id AND customer_id = :auth_user_id`. If the record does not belong to the user, zero rows return."
+  },
+  {
+    "q": "Can I use UUIDv7 instead of UUIDv4 for public API identifiers?",
+    "a": "Yes. UUIDv7 provides time-ordered sorting while preserving the 128-bit unguessable entropy of UUIDv4, improving B-Tree database indexing performance while remaining resilient against enumeration attacks."
+  },
+  {
+    "q": "How should sensitive API keys and secrets be stored in client environments?",
+    "a": "API tokens should be stored in memory or secure operating system credential stores. For web applications, tokens should be managed via HttpOnly, Secure, SameSite=Lax cookies rather than accessible JavaScript LocalStorage."
+  },
+  {
+    "q": "How do automated DAST tools (OWASP ZAP) interact with this test harness?",
+    "a": "Because FastAPI generates a complete OpenAPI 3.1 specification at `/openapi.json`, security tools like OWASP ZAP, Burp Suite, or StackHawk can automatically import the API definition, discover all endpoints and parameters, and run automated vulnerability fuzzing."
+  },
+  {
+    "q": "What is the recommended approach for error handling to prevent information disclosure?",
+    "a": "Endpoints must return generic error messages (e.g., 'Invalid credentials' or 'Resource not found') rather than raw database exceptions, stack traces, or framework internals that reveal infrastructure details to attackers."
+  },
+  {
+    "q": "How is non-root execution configured in the Docker container?",
+    "a": "The Dockerfile creates a dedicated system user and group (`appuser` with UID 10001) and sets `USER 10001:10001`. This prevents container breakouts from gaining root privileges on the underlying host operating system."
+  }
+]

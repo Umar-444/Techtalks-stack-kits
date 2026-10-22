@@ -1,0 +1,21 @@
+{
+  "id": "eval-01",
+  "name": "Server Action Scaffolding with Zod",
+  "prompt": "Create an updateItem Server Action using Zod schema validation and revalidatePath.",
+  "rule_under_test": "02-server-actions-and-mutations.md",
+  "expected_artifacts": [
+    "src/app/actions.ts"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "src/app/actions.ts",
+      "value": "use server"
+    },
+    {
+      "type": "contains_string",
+      "target": "src/app/actions.ts",
+      "value": "revalidatePath"
+    }
+  ]
+}

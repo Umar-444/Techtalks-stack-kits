@@ -1,25 +1,16 @@
-# Agentic LangGraph + CrewAI + FastAPI — Agent Operating Rules (AGENTS.md)
-# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# CLAUDE.md ? Agentic LangGraph + CrewAI + FastAPI
 
-## Table of Contents
-- [Architecture for Agentic LangGraph + CrewAI + FastAPI](#architecture-guidelines)
-- [Security for Agentic LangGraph + CrewAI + FastAPI](#security-invariants)
+You are pair programming on an enterprise-grade multi-agent AI system.
 
----
+## Primary Invariants
+1. **LangGraph State**: Never mutate state in-place; always return updated TypedDict partials from nodes.
+2. **CrewAI Squads**: Define explicit roles, goals, and backstories. Keep tools sandboxed with Pydantic schemas.
+3. **Security**: Never execute unvalidated shell commands. Use Gitleaks for secret scanning and Semgrep for AST checks.
+4. **FastAPI**: Write async endpoints with explicit Pydantic v2 
+esponse_model definitions.
 
-<a id="architecture-guidelines"></a>
-## Architecture for Agentic LangGraph + CrewAI + FastAPI
-
-# Architecture
-Modular structure.
-
----
-
-<a id="security-invariants"></a>
-## Security for Agentic LangGraph + CrewAI + FastAPI
-
-# Security
-Zero credential leaks.
-
----
-
+## Key Commands
+- Run API server: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+- Run test suite: pytest tests/ -v
+- Run security scans: gitleaks detect --source .
+- Docker compose up: docker compose up -d

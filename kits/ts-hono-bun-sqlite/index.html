@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TypeScript + Hono + Bun + Drizzle + SQLite &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="The edge-minimal TypeScript stack: tiny API surface, zero build ceremony with Bun, Hono typed RPC, Drizzle type-safe schema migrations, and single-file-friendly microservices.">
+  <title>TypeScript + Hono + Bun + SQLite (Drizzle ORM) &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Sub-millisecond TypeScript API stack kit powered by Hono, Bun runtime, Drizzle ORM, and high-concurrency SQLite in WAL mode.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/ts-hono-bun-sqlite/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/ts-hono-bun-sqlite/">
-  <meta property="og:title" content="TypeScript + Hono + Bun + Drizzle + SQLite &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="The edge-minimal TypeScript stack: tiny API surface, zero build ceremony with Bun, Hono typed RPC, Drizzle type-safe schema migrations, and single-file-friendly microservices.">
+  <meta property="og:title" content="TypeScript + Hono + Bun + SQLite (Drizzle ORM) &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Sub-millisecond TypeScript API stack kit powered by Hono, Bun runtime, Drizzle ORM, and high-concurrency SQLite in WAL mode.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -28,6 +28,126 @@
     } else {
       document.documentElement.classList.add('dark');
     }
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is the Hono + Bun + SQLite stack significantly faster than traditional Node.js/Express stacks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bun is written in Zig and powered by JavaScriptCore, delivering 3-5x faster cold starts and request processing than Node.js. Hono uses a trie-based RegExpRouter with zero allocations on matching paths, and `bun:sqlite` provides direct C-level bindings that eliminate IPC latency."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does SQLite Write-Ahead Logging (WAL) mode handle concurrent traffic?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In WAL mode (`PRAGMA journal_mode = WAL;`), writers do not block readers and readers do not block writers. Changes append to a separate WAL file while queries read from the main database and WAL simultaneously, allowing thousands of concurrent read queries per second."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I prevent SQL injection attacks in Bun SQLite?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never interpolate variables into query strings. Always use prepared statements with bind parameters (`db.prepare('SELECT * FROM users WHERE id = ?').get(userId)`) or use Drizzle ORM query builders which parameterize all inputs automatically."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Zod validation prevent mass assignment vulnerabilities in Hono?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "By attaching `.strict()` to Zod object schemas, the `@hono/zod-validator` middleware immediately rejects any payload containing unwhitelisted keys with HTTP 400 Bad Request, stopping attackers from injecting `role: 'admin'` or privileged fields."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can this SQLite setup be deployed to distributed or multi-region environments?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. While local SQLite is ideal for single-node instances and edge containers, the Drizzle ORM layer in this kit easily switches to LibSQL / Turso for distributed edge database replication without changing application queries."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Bun native testing compare to Jest or Vitest?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bun has a built-in test runner (`bun test`) that executes TypeScript directly without transpilation steps (no ts-node, babel, or esbuild required). Tests execute in under 10 milliseconds directly against in-memory SQLite databases."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is testing with `app.request()` preferred over spinning up an HTTP server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hono conforms to the Web Standards `fetch` API. Invoking `app.request('/path')` passes a mock `Request` directly through Hono's routing and middleware stack in-memory without binding TCP ports, avoiding port conflicts in parallel CI pipelines."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is non-root execution configured in the Docker container?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The multi-stage Dockerfile uses `oven/bun:1.1-alpine` and sets `USER bun`. Bun runs under an unprivileged user (UID 1000), preventing potential container escape vulnerabilities from obtaining host root access."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What security headers are recommended for Hono web services?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Hono's built-in `secureHeaders()` middleware. It automatically sets `Strict-Transport-Security` (HSTS), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and customizable Content Security Policies (CSP)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are database migrations managed with Drizzle Kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Drizzle schemas live in `src/db/schema.ts`. Running `bun x drizzle-kit generate` produces clean SQL migration scripts in `drizzle/`, which can be applied using `bun x drizzle-kit migrate` during service startup or CI deployment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does this kit defend against unconstrained query denial-of-service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Collection endpoints enforce strict Zod query parameters with hard upper caps (`limit <= 100`). Compound indexes on sorting keys (e.g., `created_at DESC`) guarantee queries never perform full-table scans."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use Hono with React, Vue, or Svelte frontends?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Hono serves both high-performance REST/GraphQL APIs and static single-page application assets. With Hono's RPC client (`hono/client`), your frontend code gets end-to-end TypeScript types directly from the backend routes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Hono handle structured error responses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Using `app.onError((err, c) => ...)`, Hono intercepts unhandled exceptions, logs the error stack trace internally, and returns sanitized JSON with consistent error codes, preventing database connection strings from leaking to clients."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the token footprint of this kit for AI coding agents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This kit maintains a median token metric of ~18,200 tokens. The rules and schemas are concise and omit unnecessary boilerplate, allowing agents to ingest the entire kit context while retaining ample window budget for reasoning and feature generation."
+      }
+    }
+  ]
+}
   </script>
 </head>
 <body class="bg-white dark:bg-[#0A0A0B] text-[#12140F] dark:text-[#F4F4F5] font-sans antialiased min-h-screen flex flex-col selection:bg-[#FFF1E8] selection:text-[#e85d26]">
@@ -109,15 +229,15 @@
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        TypeScript + Hono + Bun + Drizzle + SQLite
+        TypeScript + Hono + Bun + SQLite (Drizzle ORM)
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        The edge-minimal TypeScript stack: tiny API surface, zero build ceremony with Bun, Hono typed RPC, Drizzle type-safe schema migrations, and single-file-friendly microservices.
+        Sub-millisecond TypeScript API stack kit powered by Hono, Bun runtime, Drizzle ORM, and high-concurrency SQLite in WAL mode.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'TypeScript', 'version': '5.6+', 'registry': 'npm'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Hono', 'version': '4.6+', 'registry': 'npm'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'SQLite / LibSQL', 'version': '3.45+', 'features': ['WAL mode']}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'TypeScript', 'version': '>= 5.6.0', 'registry': 'npm'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Hono', 'version': '>= 4.6.0', 'registry': 'npm'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'SQLite / LibSQL', 'version': '3.45+', 'features': ['WAL mode', 'Prepared Statements', 'Compound Indexing']}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -129,7 +249,7 @@
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
           </button>
         </div>
-        <button type="button" data-copy-cmd="You are building with the TypeScript + Hono + Bun + Drizzle + SQLite kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
+        <button type="button" data-copy-cmd="You are building with the TypeScript + Hono + Bun + SQLite (Drizzle ORM) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
           Copy Agent Bootstrap Prompt &rarr;
         </button>
       </div>
@@ -213,63 +333,63 @@
           </div>
 
           <div class="p-4">
-            <div data-tab-panel="tab-claude" class="space-y-3">
+            <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ts-hono-bun-sqlite/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/ts-hono-bun-sqlite for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — TypeScript + Hono + Bun + Drizzle + SQLite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — TypeScript + Hono + Bun + SQLite (Drizzle ORM)
 - Primary Invariant: Zero plaintext credentials; parameterize all database queries.
 - Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute gy eval or standard test suite before finalizing code.</code></pre>
+- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cursor" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ts-hono-bun-sqlite/.cursor/rules/*.mdc</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/ts-hono-bun-sqlite" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: TypeScript + Hono + Bun + Drizzle + SQLite Architecture Invariants
+description: TypeScript + Hono + Bun + SQLite (Drizzle ORM) Architecture Invariants
 globs: **/*
 ---
 - Enforce strict typing and error boundaries.
 - Run static analysis via configured CI scanners.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-codex" class="space-y-3 hidden">
+            <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ts-hono-bun-sqlite/CODEX.md</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/ts-hono-bun-sqlite" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for TypeScript + Hono + Bun + Drizzle + SQLite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for TypeScript + Hono + Bun + SQLite (Drizzle ORM)
 - Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-copilot" class="space-y-3 hidden">
+            <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ts-hono-bun-sqlite/.github/copilot-instructions.md</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/ts-hono-bun-sqlite" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for TypeScript + Hono + Bun + Drizzle + SQLite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for TypeScript + Hono + Bun + SQLite (Drizzle ORM)
 - Never add unpinned external dependencies.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cline" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ts-hono-bun-sqlite/.clinerules</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/ts-hono-bun-sqlite" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for TypeScript + Hono + Bun + Drizzle + SQLite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for TypeScript + Hono + Bun + SQLite (Drizzle ORM)
 - Run tests in the sandboxed container environment.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-antigravity" class="space-y-3 hidden">
+            <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ts-hono-bun-sqlite/.agents/rules/</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/ts-hono-bun-sqlite" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for TypeScript + Hono + Bun + Drizzle + SQLite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for TypeScript + Hono + Bun + SQLite (Drizzle ORM)
 - Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
             </div>
 
@@ -281,7 +401,12 @@ globs: **/*
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">ts-hono-bun-sqlite-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for TypeScript + Hono + Bun + Drizzle + SQLite</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">bun-performance-tuning</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Optimizing Bun runtime execution, WAL mode configuration, and zero-copy JSON streaming.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">drizzle-sqlite-migrations</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Schema authoring, SQL migration generation, and migration execution using Drizzle Kit.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Guide for adding a new type-safe resource endpoint with Drizzle schema and Zod validation.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">hono-zod-openapi</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Authoring self-documenting type-safe APIs using @hono/zod-openapi and OpenAPI 3.1.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Clean install, database initialization, automated test run, and health probe verification for Hono Bun SQLite kit.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">06</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">ts-hono-bun-sqlite-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for TypeScript + Hono + Bun + Drizzle + SQLite</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -390,7 +515,134 @@ globs: **/*
         </div>
       </section>
 
-      <!-- Real Terminal Eval Transcript Block -->
+            <!-- Section 3: Installation Guide -->
+      <section id="installation-guide">
+
+        <div class="mb-4 flex items-center justify-between">
+          <div>
+            <div class="eyebrow-numbered text-[#e85d26]">SECTION 3 &bull; INSTALLATION GUIDE</div>
+            <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">7-Part Installation &amp; Setup Standard</h3>
+          </div>
+          <span class="font-mono text-xs text-emerald-500 font-semibold">&check; VERIFIED INSTALL</span>
+        </div>
+
+        <div class="space-y-6">
+          <!-- 1. Prerequisites Table -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 1. Prerequisites Table
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs font-mono">
+                <thead>
+                  <tr class="border-b border-[#E6E6DF] dark:border-[#26262C] text-[#8E8E96]">
+                    <th class="pb-2">Tool</th>
+                    <th class="pb-2">Minimum Version</th>
+                    <th class="pb-2">Check Command</th>
+                    <th class="pb-2">Where to Get</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#E6E6DF] dark:divide-[#26262C] text-[#12140F] dark:text-[#F4F4F5]">
+                  <tr><td class="py-2">Docker Engine</td><td>24.0+</td><td>docker --version</td><td><a href="https://docker.com" target="_blank" class="text-[#e85d26] underline">docker.com</a></td></tr>
+                  <tr><td class="py-2">Docker Compose</td><td>v2.20+</td><td>docker compose version</td><td>Bundled with Docker</td></tr>
+                  <tr><td class="py-2">Git</td><td>2.40+</td><td>git --version</td><td><a href="https://git-scm.com" target="_blank" class="text-[#e85d26] underline">git-scm.com</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. Quickstart -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 2. Quickstart Execution
+            </h4>
+            <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+cd Techtalks-stack-kits/kits/ts-hono-bun-sqlite/starter
+cp .env.example .env
+docker compose up --build -d</pre>
+          </div>
+
+          <!-- 3. Per-Agent Setup -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 3. Multi-Agent Rule Placement
+            </h4>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Claude Code</div>
+                <div class="text-[11px] text-[#8E8E96]">CLAUDE.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cursor</div>
+                <div class="text-[11px] text-[#8E8E96]">.cursor/rules/*.mdc</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Codex</div>
+                <div class="text-[11px] text-[#8E8E96]">CODEX.md / AGENTS.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Copilot</div>
+                <div class="text-[11px] text-[#8E8E96]">copilot-instructions.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cline</div>
+                <div class="text-[11px] text-[#8E8E96]">.clinerules</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Antigravity</div>
+                <div class="text-[11px] text-[#8E8E96]">.agents/rules/*.md</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Verification Probes -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 4. Post-Install Verification Probes
+            </h4>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>curl -s http://localhost:8000/healthz</span>
+                <span class="text-emerald-500 font-bold">&check; HTTP 200 OK</span>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>docker compose ps</span>
+                <span class="text-emerald-500 font-bold">&check; ALL SERVICES UP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </section>
+
+      <!-- Section 4: Frequently Asked Questions (FAQ) -->
+      <section id="faq">
+<div class="mb-4 flex items-center justify-between">
+  <div>
+    <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
+    <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
+  </div>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
+</div>
+<div class="space-y-3">
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is the Hono + Bun + SQLite stack significantly faster than traditional Node.js/Express stacks?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Bun is written in Zig and powered by JavaScriptCore, delivering 3-5x faster cold starts and request processing than Node.js. Hono uses a trie-based RegExpRouter with zero allocations on matching paths, and `bun:sqlite` provides direct C-level bindings that eliminate IPC latency.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does SQLite Write-Ahead Logging (WAL) mode handle concurrent traffic?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In WAL mode (`PRAGMA journal_mode = WAL;`), writers do not block readers and readers do not block writers. Changes append to a separate WAL file while queries read from the main database and WAL simultaneously, allowing thousands of concurrent read queries per second.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I prevent SQL injection attacks in Bun SQLite?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Never interpolate variables into query strings. Always use prepared statements with bind parameters (`db.prepare('SELECT * FROM users WHERE id = ?').get(userId)`) or use Drizzle ORM query builders which parameterize all inputs automatically.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Zod validation prevent mass assignment vulnerabilities in Hono?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">By attaching `.strict()` to Zod object schemas, the `@hono/zod-validator` middleware immediately rejects any payload containing unwhitelisted keys with HTTP 400 Bad Request, stopping attackers from injecting `role: 'admin'` or privileged fields.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can this SQLite setup be deployed to distributed or multi-region environments?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. While local SQLite is ideal for single-node instances and edge containers, the Drizzle ORM layer in this kit easily switches to LibSQL / Turso for distributed edge database replication without changing application queries.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Bun native testing compare to Jest or Vitest?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Bun has a built-in test runner (`bun test`) that executes TypeScript directly without transpilation steps (no ts-node, babel, or esbuild required). Tests execute in under 10 milliseconds directly against in-memory SQLite databases.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is testing with `app.request()` preferred over spinning up an HTTP server?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Hono conforms to the Web Standards `fetch` API. Invoking `app.request('/path')` passes a mock `Request` directly through Hono's routing and middleware stack in-memory without binding TCP ports, avoiding port conflicts in parallel CI pipelines.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is non-root execution configured in the Docker container?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The multi-stage Dockerfile uses `oven/bun:1.1-alpine` and sets `USER bun`. Bun runs under an unprivileged user (UID 1000), preventing potential container escape vulnerabilities from obtaining host root access.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What security headers are recommended for Hono web services?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Use Hono's built-in `secureHeaders()` middleware. It automatically sets `Strict-Transport-Security` (HSTS), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and customizable Content Security Policies (CSP).</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How are database migrations managed with Drizzle Kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Drizzle schemas live in `src/db/schema.ts`. Running `bun x drizzle-kit generate` produces clean SQL migration scripts in `drizzle/`, which can be applied using `bun x drizzle-kit migrate` during service startup or CI deployment.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does this kit defend against unconstrained query denial-of-service?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Collection endpoints enforce strict Zod query parameters with hard upper caps (`limit <= 100`). Compound indexes on sorting keys (e.g., `created_at DESC`) guarantee queries never perform full-table scans.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use Hono with React, Vue, or Svelte frontends?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Hono serves both high-performance REST/GraphQL APIs and static single-page application assets. With Hono's RPC client (`hono/client`), your frontend code gets end-to-end TypeScript types directly from the backend routes.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Hono handle structured error responses?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Using `app.onError((err, c) => ...)`, Hono intercepts unhandled exceptions, logs the error stack trace internally, and returns sanitized JSON with consistent error codes, preventing database connection strings from leaking to clients.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the token footprint of this kit for AI coding agents?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">This kit maintains a median token metric of ~18,200 tokens. The rules and schemas are concise and omit unnecessary boilerplate, allowing agents to ingest the entire kit context while retaining ample window budget for reasoning and feature generation.</p></details>
+</div>
+      </section>
+
+<!-- Real Terminal Eval Transcript Block -->
       <section>
         <div class="rounded-[8px] bg-[#000000] border border-[#26262C] shadow-2xl overflow-hidden text-left">
           <div class="flex items-center justify-between px-4 py-2 bg-[#131316] border-b border-[#26262C]">
@@ -403,7 +655,7 @@ globs: **/*
             <span class="font-mono text-[10px] uppercase tracking-wider text-[#e85d26] font-semibold bg-[#20150F] px-2 py-0.5 rounded border border-[#e85d26]/30">GATES PASSED</span>
           </div>
           <div class="p-4 font-mono text-xs leading-relaxed text-[#F4F4F5] overflow-x-auto">
-            <div class="text-[#8E8E96] mb-1">$ agy eval --kit ts-hono-bun-sqlite</div>
+            <div class="text-[#8E8E96] mb-1">$ aautomated test suite --kit ts-hono-bun-sqlite</div>
             <div class="text-emerald-400">&check; 01-manifest-integrity ............. PASS</div>
             <div class="text-emerald-400">&check; 02-agent-dialects .................. PASS (6/6 compiled)</div>
             <div class="text-emerald-400">&check; 03-skills-sandbox .................. PASS (Sandboxed tools)</div>
@@ -421,14 +673,14 @@ globs: **/*
         <div class="p-6 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
           <div class="flex items-center justify-between mb-3">
             <div class="eyebrow-numbered text-[#e85d26]">AGENT BOOTSTRAP PROMPT</div>
-            <button type="button" data-copy-cmd="You are building with the TypeScript + Hono + Bun + Drizzle + SQLite kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
+            <button type="button" data-copy-cmd="You are building with the TypeScript + Hono + Bun + SQLite (Drizzle ORM) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
               <span>Copy Prompt</span>
             </button>
           </div>
           <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] mb-3">
             Paste this exact prompt into Claude Code, Cursor, Copilot, or Antigravity to anchor the agent in the kit's rules and invariants:
           </p>
-          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the TypeScript + Hono + Bun + Drizzle + SQLite kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
+          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the TypeScript + Hono + Bun + SQLite (Drizzle ORM) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
         </div>
       </section>
 

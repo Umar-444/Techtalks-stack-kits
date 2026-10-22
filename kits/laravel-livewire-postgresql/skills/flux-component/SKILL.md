@@ -1,11 +1,17 @@
 ---
-name: "flux-component"
-description: "Scaffold Flux UI reactive components with Volt single-file structure."
-version: "1.0.0"
+name: flux-component
+description: Build accessible, responsive UI elements using Flux UI design tokens and Tailwind utility classes.
 ---
 
-# Flux UI Component Scaffold Skill
+# Flux Component Skill
 
-1. Scaffold component: `php artisan make:volt {ComponentName}`.
-2. Add `#[Locked]` attributes on internal IDs.
-3. Use `<flux:card>` container and `<flux:button variant="primary">`.
+## Purpose
+Enforces cohesive, accessible UI design tokens across all Livewire templates.
+
+## Standards
+- Use semantic color tokens: `brand-600` for primary actions, `slate-900` for headers, `emerald-600` for success states.
+- Ensure WCAG AA compliance with high-contrast text and explicit focus rings (`focus:ring-2 focus:ring-brand-500`).
+- Implement smooth transitions using Tailwind transitions and Livewire loading indicators (`wire:loading.class="opacity-50"`).
+
+## Done Means
+UI components render responsively across mobile and desktop viewports with dark mode support and zero layout shifts.

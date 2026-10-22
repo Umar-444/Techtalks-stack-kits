@@ -1,0 +1,33 @@
+---
+description: Testing Standards with Minitest, System Tests, and Hotwire Assertions
+globs: "app/**/*.rb,config/**/*.rb,test/**/*.rb"
+---
+
+---
+id: 05-minitest-system-testing
+title: Testing Standards with Minitest, System Tests, and Hotwire Assertions
+globs: "test/**/*.rb"
+alwaysApply: true
+---
+
+# Testing Standards with Minitest, System Tests, and Hotwire Assertions
+
+## 1. Controller & Integration Testing
+- Test format-negotiated endpoints and Turbo Stream responses:
+  ```ruby
+  test "creates post and responds with turbo stream" do
+    assert_difference("Post.count", 1) do
+      post posts_url, params: { post: { title: "Title", body: "Body" } }, as: :turbo_stream
+    end
+    assert_response :success
+    assert_match /<turbo-stream action="prepend"/, response.body
+  end
+  ```
+
+## 2. Model Validations & ActiveModel Tests
+- Verify validation failures return HTTP 422 Unprocessable Entity with error feedback.
+- Assert cascading deletes and database constraints through transactional test runs.
+
+## 3. Health Probe & Smoke Verification
+- Maintain automated smoke check verifying `/healthz` returns HTTP 200 OK with valid JSON payload.
+

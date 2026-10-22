@@ -1,23 +1,99 @@
 {
-  "kit_slug": "ruby-rails-hotwire",
-  "checks": [
+  "kit": "ruby-rails-hotwire",
+  "version": "1.0.0",
+  "total_controls": 12,
+  "categories": [
     {
-      "id": "sec-01",
-      "name": "Gitleaks Secret Audit",
-      "status": "enforced",
-      "tool": "gitleaks"
+      "name": "Static Analysis & Brakeman Invariants",
+      "controls": [
+        {
+          "id": "BRAKE-01",
+          "name": "Zero high or medium confidence Brakeman vulnerabilities",
+          "status": "enforced",
+          "tool": "brakeman"
+        },
+        {
+          "id": "BRAKE-02",
+          "name": "Strict Strong Parameters required on all mutating controller actions",
+          "status": "enforced",
+          "test": "app/controllers/posts_controller.rb"
+        },
+        {
+          "id": "BRAKE-03",
+          "name": "SQL injection prevention via bind parameters exclusively",
+          "status": "enforced",
+          "tool": "brakeman"
+        },
+        {
+          "id": "BRAKE-04",
+          "name": "Cross-Site Scripting (XSS) defense; no raw unescaped user strings",
+          "status": "enforced",
+          "tool": "brakeman"
+        }
+      ]
     },
     {
-      "id": "sec-02",
-      "name": "Semgrep SAST Policy",
-      "status": "enforced",
-      "tool": "semgrep"
+      "name": "Session, Authentication & CSRF Protection",
+      "controls": [
+        {
+          "id": "AUTH-01",
+          "name": "CSRF authenticity token verification on all non-GET requests",
+          "status": "enforced",
+          "config": "ApplicationController: protect_from_forgery"
+        },
+        {
+          "id": "AUTH-02",
+          "name": "Encrypted session cookies with HttpOnly, Secure, and SameSite=Lax",
+          "status": "enforced",
+          "config": "config/initializers/session_store.rb"
+        },
+        {
+          "id": "AUTH-03",
+          "name": "Comprehensive sensitive parameter filtering (passwords, tokens, keys)",
+          "status": "enforced",
+          "config": "config/initializers/filter_parameter_logging.rb"
+        }
+      ]
     },
     {
-      "id": "sec-03",
-      "name": "OWASP API Top 10 Invariants",
-      "status": "verified",
-      "tool": "pytest/unit"
+      "name": "Database & Concurrency Hardening",
+      "controls": [
+        {
+          "id": "DB-01",
+          "name": "Database-level nullability constraints and foreign key enforcement",
+          "status": "enforced",
+          "test": "db/migrate/"
+        },
+        {
+          "id": "DB-02",
+          "name": "Compound index coverage on filtered and sorted timestamp columns",
+          "status": "enforced",
+          "test": "db/migrate/"
+        },
+        {
+          "id": "DB-03",
+          "name": "Strict loading enabled in development/test to eliminate N+1 queries",
+          "status": "enforced",
+          "config": "config/environments/development.rb"
+        }
+      ]
+    },
+    {
+      "name": "CI / Supply Chain & Container Security",
+      "controls": [
+        {
+          "id": "CI-01",
+          "name": "Gitleaks secret detection across git commit history",
+          "status": "enforced",
+          "workflow": ".github/workflows/security.yml"
+        },
+        {
+          "id": "CI-02",
+          "name": "Non-root container user execution in multi-stage Dockerfile",
+          "status": "enforced",
+          "docker": "starter/Dockerfile: USER rails:rails"
+        }
+      ]
     }
   ]
 }

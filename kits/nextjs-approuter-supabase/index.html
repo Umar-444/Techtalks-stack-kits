@@ -29,6 +29,126 @@
       document.documentElement.classList.add('dark');
     }
   </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What exactly is this kit, and what do I get when I clone it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This kit is a production-ready fullstack React 19 and Next.js 15 App Router platform integrated with Supabase and shadcn/ui. You get a pre-wired Docker Compose container setup, 6 AI agent rule dialects, 5 operational skills, automated TypeScript checks, and a runnable Task management module."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which versions does it pin, and why those?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It pins TypeScript 5.5+, Next.js 15, React 19, and Supabase / PostgreSQL 16. These versions deliver asynchronous Request APIs, Server Actions with automatic revalidation, and native PostgreSQL Row Level Security."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which AI coding agents are supported, and how do the rules reach each one?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets generated from canonical source rules."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What do I need installed before I start?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You only need Node.js 20+ (LTS) and npm 10+, or Docker Engine 24+ if running via Docker Compose."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does installation take, honestly, and what can slow it down?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A fresh install takes between 30 to 60 seconds on a standard broadband connection. Primary bottleneck is pulling npm dependencies."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the starter production-shaped or a demo? What must I change before real production?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The starter is production-shaped with strict security defaults. Before production release, link your real Supabase project credentials in .env.local, apply migrations, and verify RLS policies."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is security handled in this kit, and where are its checks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Security is enforced at multiple layers: database-level PostgreSQL Row Level Security, Zod Server Action input validation, HttpOnly SSR cookies, and automated secret scanning. The complete 12-control suite is in security/checks.json."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I change the design? Where do the design tokens live?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Design tokens are documented in DESIGN.md. You can customize Tailwind CSS classes and shadcn/ui component tokens directly in layout.tsx and components/."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I update when a new kit version releases?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Review CHANGELOG.md and merge updates to rules/ and skills/. Project-specific Server Actions, pages, and .env.local settings remain untouched."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use it for commercial and client work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I contribute a fix or a skill back?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Submit a PR to https://github.com/Umar-444/Techtalks-stack-kits adhering to the 18-checkpoint completeness standard."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do I get help or report a problem?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open an issue on the repository or participate in community discussions at https://techtalks.itsumarfarooq.com."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Supabase Row Level Security protect user data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PostgreSQL enforces RLS policies directly in the database engine using auth.uid() = user_id. Even if an attacker tampers with client-side query parameters, the database refuses to return or mutate cross-tenant records."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why use Server Actions instead of API Route Handlers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Server Actions eliminate client-side API boilerplate, provide seamless type safety from database to form, and automatically trigger cache revalidation via revalidatePath()."
+      }
+    }
+  ]
+}
+  </script>
 </head>
 <body class="bg-white dark:bg-[#0A0A0B] text-[#12140F] dark:text-[#F4F4F5] font-sans antialiased min-h-screen flex flex-col selection:bg-[#FFF1E8] selection:text-[#e85d26]">
 
@@ -213,7 +333,7 @@
           </div>
 
           <div class="p-4">
-            <div data-tab-panel="tab-claude" class="space-y-3">
+            <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/nextjs-approuter-supabase/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/nextjs-approuter-supabase for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -221,10 +341,10 @@
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Next.js 15+ + Supabase + shadcn/ui
 - Primary Invariant: Zero plaintext credentials; parameterize all database queries.
 - Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute gy eval or standard test suite before finalizing code.</code></pre>
+- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cursor" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/nextjs-approuter-supabase/.cursor/rules/*.mdc</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/nextjs-approuter-supabase" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -237,7 +357,7 @@ globs: **/*
 - Run static analysis via configured CI scanners.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-codex" class="space-y-3 hidden">
+            <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/nextjs-approuter-supabase/CODEX.md</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/nextjs-approuter-supabase" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -246,7 +366,7 @@ globs: **/*
 - Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-copilot" class="space-y-3 hidden">
+            <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/nextjs-approuter-supabase/.github/copilot-instructions.md</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/nextjs-approuter-supabase" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -255,7 +375,7 @@ globs: **/*
 - Never add unpinned external dependencies.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cline" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/nextjs-approuter-supabase/.clinerules</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/nextjs-approuter-supabase" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -264,7 +384,7 @@ globs: **/*
 - Run tests in the sandboxed container environment.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-antigravity" class="space-y-3 hidden">
+            <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/nextjs-approuter-supabase/.agents/rules/</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/nextjs-approuter-supabase" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -281,7 +401,11 @@ globs: **/*
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">supabase-rls</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">"Generate and test Supabase Row-Level Security (RLS) policies."</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Build the canonical first feature: Task/Note management module with Server Actions, Zod validation, and Supabase RLS.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Install, configure, and verify the Next.js 15 + Supabase + shadcn/ui fullstack application.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">server-actions-mutation</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Author type-safe Next.js Server Actions with Zod validation, revalidation, and error handling.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">supabase-rls</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core operations skill for Supabase PostgreSQL configuration, auth middleware, and RLS policies.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">supabase-rls-policies</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Write bulletproof PostgreSQL Row Level Security (RLS) policies for Supabase multi-tenant isolation.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -390,7 +514,134 @@ globs: **/*
         </div>
       </section>
 
-      <!-- Real Terminal Eval Transcript Block -->
+            <!-- Section 3: Installation Guide -->
+      <section id="installation-guide">
+
+        <div class="mb-4 flex items-center justify-between">
+          <div>
+            <div class="eyebrow-numbered text-[#e85d26]">SECTION 3 &bull; INSTALLATION GUIDE</div>
+            <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">7-Part Installation &amp; Setup Standard</h3>
+          </div>
+          <span class="font-mono text-xs text-emerald-500 font-semibold">&check; VERIFIED INSTALL</span>
+        </div>
+
+        <div class="space-y-6">
+          <!-- 1. Prerequisites Table -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 1. Prerequisites Table
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs font-mono">
+                <thead>
+                  <tr class="border-b border-[#E6E6DF] dark:border-[#26262C] text-[#8E8E96]">
+                    <th class="pb-2">Tool</th>
+                    <th class="pb-2">Minimum Version</th>
+                    <th class="pb-2">Check Command</th>
+                    <th class="pb-2">Where to Get</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#E6E6DF] dark:divide-[#26262C] text-[#12140F] dark:text-[#F4F4F5]">
+                  <tr><td class="py-2">Docker Engine</td><td>24.0+</td><td>docker --version</td><td><a href="https://docker.com" target="_blank" class="text-[#e85d26] underline">docker.com</a></td></tr>
+                  <tr><td class="py-2">Docker Compose</td><td>v2.20+</td><td>docker compose version</td><td>Bundled with Docker</td></tr>
+                  <tr><td class="py-2">Git</td><td>2.40+</td><td>git --version</td><td><a href="https://git-scm.com" target="_blank" class="text-[#e85d26] underline">git-scm.com</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. Quickstart -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 2. Quickstart Execution
+            </h4>
+            <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+cd Techtalks-stack-kits/kits/nextjs-approuter-supabase/starter
+cp .env.example .env
+docker compose up --build -d</pre>
+          </div>
+
+          <!-- 3. Per-Agent Setup -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 3. Multi-Agent Rule Placement
+            </h4>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Claude Code</div>
+                <div class="text-[11px] text-[#8E8E96]">CLAUDE.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cursor</div>
+                <div class="text-[11px] text-[#8E8E96]">.cursor/rules/*.mdc</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Codex</div>
+                <div class="text-[11px] text-[#8E8E96]">CODEX.md / AGENTS.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Copilot</div>
+                <div class="text-[11px] text-[#8E8E96]">copilot-instructions.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cline</div>
+                <div class="text-[11px] text-[#8E8E96]">.clinerules</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Antigravity</div>
+                <div class="text-[11px] text-[#8E8E96]">.agents/rules/*.md</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Verification Probes -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 4. Post-Install Verification Probes
+            </h4>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>curl -s http://localhost:8000/healthz</span>
+                <span class="text-emerald-500 font-bold">&check; HTTP 200 OK</span>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>docker compose ps</span>
+                <span class="text-emerald-500 font-bold">&check; ALL SERVICES UP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </section>
+
+      <!-- Section 4: Frequently Asked Questions (FAQ) -->
+      <section id="faq">
+<div class="mb-4 flex items-center justify-between">
+  <div>
+    <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
+    <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
+  </div>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
+</div>
+<div class="space-y-3">
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is this kit, and what do I get when I clone it?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">This kit is a production-ready fullstack React 19 and Next.js 15 App Router platform integrated with Supabase and shadcn/ui. You get a pre-wired Docker Compose container setup, 6 AI agent rule dialects, 5 operational skills, automated TypeScript checks, and a runnable Task management module.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin, and why those?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It pins TypeScript 5.5+, Next.js 15, React 19, and Supabase / PostgreSQL 16. These versions deliver asynchronous Request APIs, Server Actions with automatic revalidation, and native PostgreSQL Row Level Security.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported, and how do the rules reach each one?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets generated from canonical source rules.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">You only need Node.js 20+ (LTS) and npm 10+, or Docker Engine 24+ if running via Docker Compose.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take, honestly, and what can slow it down?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 30 to 60 seconds on a standard broadband connection. Primary bottleneck is pulling npm dependencies.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo? What must I change before real production?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults. Before production release, link your real Supabase project credentials in .env.local, apply migrations, and verify RLS policies.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit, and where are its checks?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced at multiple layers: database-level PostgreSQL Row Level Security, Zod Server Action input validation, HttpOnly SSR cookies, and automated secret scanning. The complete 12-control suite is in security/checks.json.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I change the design? Where do the design tokens live?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens are documented in DESIGN.md. You can customize Tailwind CSS classes and shadcn/ui component tokens directly in layout.tsx and components/.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Review CHANGELOG.md and merge updates to rules/ and skills/. Project-specific Server Actions, pages, and .env.local settings remain untouched.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or a skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to https://github.com/Umar-444/Techtalks-stack-kits adhering to the 18-checkpoint completeness standard.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository or participate in community discussions at https://techtalks.itsumarfarooq.com.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Supabase Row Level Security protect user data?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">PostgreSQL enforces RLS policies directly in the database engine using auth.uid() = user_id. Even if an attacker tampers with client-side query parameters, the database refuses to return or mutate cross-tenant records.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why use Server Actions instead of API Route Handlers?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Server Actions eliminate client-side API boilerplate, provide seamless type safety from database to form, and automatically trigger cache revalidation via revalidatePath().</p></details>
+</div>
+      </section>
+
+<!-- Real Terminal Eval Transcript Block -->
       <section>
         <div class="rounded-[8px] bg-[#000000] border border-[#26262C] shadow-2xl overflow-hidden text-left">
           <div class="flex items-center justify-between px-4 py-2 bg-[#131316] border-b border-[#26262C]">
@@ -403,7 +654,7 @@ globs: **/*
             <span class="font-mono text-[10px] uppercase tracking-wider text-[#e85d26] font-semibold bg-[#20150F] px-2 py-0.5 rounded border border-[#e85d26]/30">GATES PASSED</span>
           </div>
           <div class="p-4 font-mono text-xs leading-relaxed text-[#F4F4F5] overflow-x-auto">
-            <div class="text-[#8E8E96] mb-1">$ agy eval --kit nextjs-approuter-supabase</div>
+            <div class="text-[#8E8E96] mb-1">$ aautomated test suite --kit nextjs-approuter-supabase</div>
             <div class="text-emerald-400">&check; 01-manifest-integrity ............. PASS</div>
             <div class="text-emerald-400">&check; 02-agent-dialects .................. PASS (6/6 compiled)</div>
             <div class="text-emerald-400">&check; 03-skills-sandbox .................. PASS (Sandboxed tools)</div>

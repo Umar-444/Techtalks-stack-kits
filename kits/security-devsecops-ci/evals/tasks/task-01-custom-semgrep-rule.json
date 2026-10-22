@@ -1,0 +1,15 @@
+{
+  "task_id": "eval-01-custom-semgrep-rule",
+  "name": "Custom AST Semgrep Rule Authoring & Taint Tracking",
+  "difficulty": "intermediate",
+  "prompt": "Author a custom Semgrep rule in .semgrep.yml that detects unsanitized user inputs passed to os.system() or subprocess calls. Test it against vulnerable and hardened sample files and verify SARIF report emission.",
+  "expected_files": [
+    "starter/.semgrep.yml",
+    "starter/tests/test_target_vulnerable.py",
+    "starter/tests/test_target_hardened.py"
+  ],
+  "verification": {
+    "command": "python3 starter/scripts/run_local_pipeline.py",
+    "criteria": "Semgrep flags vulnerable subprocess usage and ignores hardened pattern"
+  }
+}

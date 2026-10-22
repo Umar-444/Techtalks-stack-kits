@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Django 5 + Tailwind CSS + PostgreSQL (Blueprint) &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="Batteries-included full-stack Django 5 with Tailwind CSS design tokens, Django auth, and PostgreSQL 16+.">
+  <title>Django 5 + Tailwind CSS + PostgreSQL &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Batteries-included full-stack Django 5 with Tailwind CSS design tokens, Django auth, atomic PostgreSQL transactions, and pre-wired Docker Compose.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/django-tailwind-postgresql/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/django-tailwind-postgresql/">
-  <meta property="og:title" content="Django 5 + Tailwind CSS + PostgreSQL (Blueprint) &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="Batteries-included full-stack Django 5 with Tailwind CSS design tokens, Django auth, and PostgreSQL 16+.">
+  <meta property="og:title" content="Django 5 + Tailwind CSS + PostgreSQL &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Batteries-included full-stack Django 5 with Tailwind CSS design tokens, Django auth, atomic PostgreSQL transactions, and pre-wired Docker Compose.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -28,6 +28,110 @@
     } else {
       document.documentElement.classList.add('dark');
     }
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What exactly is the Django 5 + Tailwind CSS + PostgreSQL kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which versions does it pin?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which AI coding agents are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What do I need installed before I start?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does installation take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A fresh install takes between 60 to 90 seconds under standard broadband conditions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the starter production-shaped or a demo?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is security handled in this kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I customize the design?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Design tokens and layout rules are specified in DESIGN.md."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I update when a new kit version releases?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use it for commercial and client work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I contribute a fix or skill back?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Submit a PR to the repository adhering to the 18-checkpoint completeness standard."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Where do I get help or report a problem?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits."
+      }
+    }
+  ]
+}
   </script>
 </head>
 <body class="bg-white dark:bg-[#0A0A0B] text-[#12140F] dark:text-[#F4F4F5] font-sans antialiased min-h-screen flex flex-col selection:bg-[#FFF1E8] selection:text-[#e85d26]">
@@ -97,27 +201,27 @@
       <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">django-tailwind-postgresql</span>
     </nav>
 
-<div class="mb-8 p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] border-l-[3px] border-l-[#B7791F] text-xs leading-relaxed flex items-start gap-3"><span class="font-mono font-bold text-[#B7791F] uppercase tracking-wider">Note:</span><div class="text-[#5C6058] dark:text-[#C4C4CC]">This kit is an architectural blueprint. Specifications, threat models, and multi-dialect rules are compiled. Starter containers are in active verification.</div></div>
+
 
     <!-- Kit Header Section -->
     <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="chip-status-blueprint"><span class="w-1.5 h-1.5 rounded-full bg-[#8E8E96]"></span>BLUEPRINT</span>
+        <span class="chip-status-ready"><span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>READY TO SHIP</span>
         <span class="text-xs font-mono text-[#8E8E96]">v1.0.0</span>
         <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>
         <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        Django 5 + Tailwind CSS + PostgreSQL (Blueprint)
+        Django 5 + Tailwind CSS + PostgreSQL
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        Batteries-included full-stack Django 5 with Tailwind CSS design tokens, Django auth, and PostgreSQL 16+.
+        Batteries-included full-stack Django 5 with Tailwind CSS design tokens, Django auth, atomic PostgreSQL transactions, and pre-wired Docker Compose.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Python', 'version': '3.12+', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Django', 'version': '5.1+', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL', 'version': '16+', 'features': ['Django ORM']}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Python', 'version': '3.12+', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Django', 'version': '5.1+', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL', 'version': '16+', 'features': ['Django ORM', 'Atomic Transactions', 'Psycopg 3 Pooling']}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -213,63 +317,63 @@
           </div>
 
           <div class="p-4">
-            <div data-tab-panel="tab-claude" class="space-y-3">
+            <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/django-tailwind-postgresql/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/django-tailwind-postgresql for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Django 5 + Tailwind CSS + PostgreSQL (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Django 5 + Tailwind CSS + PostgreSQL
 - Primary Invariant: Zero plaintext credentials; parameterize all database queries.
 - Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute gy eval or standard test suite before finalizing code.</code></pre>
+- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cursor" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/django-tailwind-postgresql/.cursor/rules/*.mdc</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/django-tailwind-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Django 5 + Tailwind CSS + PostgreSQL (Blueprint) Architecture Invariants
+description: Django 5 + Tailwind CSS + PostgreSQL Architecture Invariants
 globs: **/*
 ---
 - Enforce strict typing and error boundaries.
 - Run static analysis via configured CI scanners.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-codex" class="space-y-3 hidden">
+            <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/django-tailwind-postgresql/CODEX.md</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/django-tailwind-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Django 5 + Tailwind CSS + PostgreSQL (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Django 5 + Tailwind CSS + PostgreSQL
 - Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-copilot" class="space-y-3 hidden">
+            <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/django-tailwind-postgresql/.github/copilot-instructions.md</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/django-tailwind-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Django 5 + Tailwind CSS + PostgreSQL (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Django 5 + Tailwind CSS + PostgreSQL
 - Never add unpinned external dependencies.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cline" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/django-tailwind-postgresql/.clinerules</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/django-tailwind-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Django 5 + Tailwind CSS + PostgreSQL (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Django 5 + Tailwind CSS + PostgreSQL
 - Run tests in the sandboxed container environment.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-antigravity" class="space-y-3 hidden">
+            <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/django-tailwind-postgresql/.agents/rules/</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/django-tailwind-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Django 5 + Tailwind CSS + PostgreSQL (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Django 5 + Tailwind CSS + PostgreSQL
 - Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
             </div>
 
@@ -281,7 +385,13 @@ globs: **/*
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">django-tailwind-postgresql-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core skill for Django 5 + Tailwind CSS + PostgreSQL</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">django-model-form</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Generate robust, validated Django ModelForms styled seamlessly with Tailwind CSS and CSRF protection.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">django-security-audit</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Harden Django production configuration, verify CSP headers, and execute automated security audits.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">django-tailwind-postgresql-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Core skill for Django 5 + Tailwind CSS + PostgreSQL</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">django-tailwind-theme</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Configure, compile, and customize Tailwind CSS design tokens and dark mode for Django templates.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Build the canonical first feature: a full CRUD task list module with Tailwind UI cards and atomic PostgreSQL persistence.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">06</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Install, orchestrate, and verify the Django 5 + Tailwind CSS + PostgreSQL 16+ full-stack application.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">07</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">postgres-connection-pooling</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Configure PostgreSQL 16+ connection pooling, JSONB indexes, and query optimizations in Django.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -390,7 +500,132 @@ globs: **/*
         </div>
       </section>
 
-      <!-- Real Terminal Eval Transcript Block -->
+            <!-- Section 3: Installation Guide -->
+      <section id="installation-guide">
+
+        <div class="mb-4 flex items-center justify-between">
+          <div>
+            <div class="eyebrow-numbered text-[#e85d26]">SECTION 3 &bull; INSTALLATION GUIDE</div>
+            <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">7-Part Installation &amp; Setup Standard</h3>
+          </div>
+          <span class="font-mono text-xs text-emerald-500 font-semibold">&check; VERIFIED INSTALL</span>
+        </div>
+
+        <div class="space-y-6">
+          <!-- 1. Prerequisites Table -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 1. Prerequisites Table
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs font-mono">
+                <thead>
+                  <tr class="border-b border-[#E6E6DF] dark:border-[#26262C] text-[#8E8E96]">
+                    <th class="pb-2">Tool</th>
+                    <th class="pb-2">Minimum Version</th>
+                    <th class="pb-2">Check Command</th>
+                    <th class="pb-2">Where to Get</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#E6E6DF] dark:divide-[#26262C] text-[#12140F] dark:text-[#F4F4F5]">
+                  <tr><td class="py-2">Docker Engine</td><td>24.0+</td><td>docker --version</td><td><a href="https://docker.com" target="_blank" class="text-[#e85d26] underline">docker.com</a></td></tr>
+                  <tr><td class="py-2">Docker Compose</td><td>v2.20+</td><td>docker compose version</td><td>Bundled with Docker</td></tr>
+                  <tr><td class="py-2">Git</td><td>2.40+</td><td>git --version</td><td><a href="https://git-scm.com" target="_blank" class="text-[#e85d26] underline">git-scm.com</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. Quickstart -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 2. Quickstart Execution
+            </h4>
+            <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+cd Techtalks-stack-kits/kits/django-tailwind-postgresql/starter
+cp .env.example .env
+docker compose up --build -d</pre>
+          </div>
+
+          <!-- 3. Per-Agent Setup -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 3. Multi-Agent Rule Placement
+            </h4>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Claude Code</div>
+                <div class="text-[11px] text-[#8E8E96]">CLAUDE.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cursor</div>
+                <div class="text-[11px] text-[#8E8E96]">.cursor/rules/*.mdc</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Codex</div>
+                <div class="text-[11px] text-[#8E8E96]">CODEX.md / AGENTS.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Copilot</div>
+                <div class="text-[11px] text-[#8E8E96]">copilot-instructions.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cline</div>
+                <div class="text-[11px] text-[#8E8E96]">.clinerules</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Antigravity</div>
+                <div class="text-[11px] text-[#8E8E96]">.agents/rules/*.md</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Verification Probes -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 4. Post-Install Verification Probes
+            </h4>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>curl -s http://localhost:8000/healthz</span>
+                <span class="text-emerald-500 font-bold">&check; HTTP 200 OK</span>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>docker compose ps</span>
+                <span class="text-emerald-500 font-bold">&check; ALL SERVICES UP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </section>
+
+      <!-- Section 4: Frequently Asked Questions (FAQ) -->
+      <section id="faq">
+<div class="mb-4 flex items-center justify-between">
+  <div>
+    <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
+    <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
+  </div>
+  <span class="font-mono text-xs text-[#8E8E96]">12 QUESTIONS</span>
+</div>
+<div class="space-y-3">
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What exactly is the Django 5 + Tailwind CSS + PostgreSQL kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">It is a production-ready application kit configured with 6 AI agent rule dialects, starter code, security checks, and operational skills.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which versions does it pin?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">All stack components are pinned to exact versions declared in kit.yaml with zero unverified ranges.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Which AI coding agents are supported?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What do I need installed before I start?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Docker Engine 24+ and Docker Compose v2.20+ or native language runtimes declared in the prerequisites table.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How long does installation take?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A fresh install takes between 60 to 90 seconds under standard broadband conditions.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Is the starter production-shaped or a demo?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The starter is production-shaped with strict security defaults, non-root containers, and zero-plaintext secrets.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is security handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Security is enforced via Gitleaks, Semgrep OWASP rules, and stack-specific checks in security/checks.json.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I customize the design?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Design tokens and layout rules are specified in DESIGN.md.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I update when a new kit version releases?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Pull updates to rules/ and skills/ without overwriting project-specific code or .env configurations.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use it for commercial and client work?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. The entire kit is licensed under the permissive MIT License with zero royalties.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I contribute a fix or skill back?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Submit a PR to the repository adhering to the 18-checkpoint completeness standard.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Where do I get help or report a problem?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Open an issue on the repository at https://github.com/Umar-444/Techtalks-stack-kits.</p></details>
+</div>
+      </section>
+
+<!-- Real Terminal Eval Transcript Block -->
       <section>
         <div class="rounded-[8px] bg-[#000000] border border-[#26262C] shadow-2xl overflow-hidden text-left">
           <div class="flex items-center justify-between px-4 py-2 bg-[#131316] border-b border-[#26262C]">
@@ -403,7 +638,7 @@ globs: **/*
             <span class="font-mono text-[10px] uppercase tracking-wider text-[#e85d26] font-semibold bg-[#20150F] px-2 py-0.5 rounded border border-[#e85d26]/30">GATES PASSED</span>
           </div>
           <div class="p-4 font-mono text-xs leading-relaxed text-[#F4F4F5] overflow-x-auto">
-            <div class="text-[#8E8E96] mb-1">$ agy eval --kit django-tailwind-postgresql</div>
+            <div class="text-[#8E8E96] mb-1">$ aautomated test suite --kit django-tailwind-postgresql</div>
             <div class="text-emerald-400">&check; 01-manifest-integrity ............. PASS</div>
             <div class="text-emerald-400">&check; 02-agent-dialects .................. PASS (6/6 compiled)</div>
             <div class="text-emerald-400">&check; 03-skills-sandbox .................. PASS (Sandboxed tools)</div>

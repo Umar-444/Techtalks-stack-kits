@@ -1,21 +1,16 @@
-# GitHub Copilot Instructions for Rust + Axum + Tokio + SQLx + PostgreSQL
-# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# Assistant Guidelines for Rust + Axum + PostgreSQL Stack Kit
 
-## Architectural Standards for Rust + Axum + Tokio + SQLx + PostgreSQL
-# Architecture Standards: Rust + Axum + Tokio + SQLx + PostgreSQL
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+## Stack Overview
+- Language: Rust 1.81+ (Edition 2021)
+- Framework: Axum 0.8+
+- Runtime: Tokio 1.40+ (Multi-threaded async)
+- Database: PostgreSQL 16+ via SQLx 0.8+ (Compile-time verified queries)
+- Middleware: Tower-HTTP 0.6+ (CORS, Trace, Timeout, Compression)
+- Security: #![deny(unsafe_code)], cargo-audit, non-root Alpine container
 
-## Security Invariants for Rust + Axum + Tokio + SQLx + PostgreSQL
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
-
-## Agent Coding Conventions for Rust + Axum + Tokio + SQLx + PostgreSQL
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-
+## Mandatory Rules
+1. Zero unparameterized SQL queries. Always use SQLx query macros with bind parameters ($1, $2).
+2. All handlers must return Result<Json<T>, AppError> with explicit error status codes.
+3. Apply Tower-HTTP layers for timeout (15s), CORS, and Tracing on all API routes.
+4. Bound connection pools using PgPoolOptions with explicit max_connections and timeouts.
+5. In-memory integration tests must use oneshot requests to verify status codes and payloads.

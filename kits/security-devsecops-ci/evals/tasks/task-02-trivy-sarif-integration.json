@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-02-trivy-sarif-integration",
+  "name": "Trivy Container CVE Scan with SARIF GitHub Upload",
+  "difficulty": "advanced",
+  "prompt": "Configure Aqua Security Trivy in GitHub Actions to scan a built multi-stage container image, filter out unfixed CVEs, output findings in SARIF format, and upload to the GitHub Code Scanning security tab.",
+  "expected_files": [
+    "starter/.github/workflows/devsecops.yml",
+    "starter/trivy.yaml"
+  ],
+  "verification": {
+    "command": "python3 starter/tests/pipeline_test.py",
+    "criteria": "Workflow validates with trivy-action and upload-sarif job integration"
+  }
+}

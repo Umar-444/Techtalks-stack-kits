@@ -1,0 +1,13 @@
+{
+  "task_id": "eval-03-tower-layer-concurrency",
+  "name": "Tower Middleware Layer & Timeout Resilience",
+  "difficulty": "advanced",
+  "prompt": "Configure Tower-HTTP middleware layers including TraceLayer, TimeoutLayer (15 seconds), CompressionLayer, and CorsLayer on the Axum Router. Verify that long-running operations timeout gracefully.",
+  "expected_files": [
+    "starter/src/main.rs"
+  ],
+  "verification": {
+    "command": "cargo check",
+    "criteria": "Router builds with Tower middleware layers without type inference errors"
+  }
+}

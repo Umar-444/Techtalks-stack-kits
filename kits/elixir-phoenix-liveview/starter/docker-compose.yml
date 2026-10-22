@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/app
+      - deps_cache:/app/deps
+      - build_cache:/app/_build
+    ports:
+      - "4000:4000"
+    environment:
+      - MIX_ENV=dev
+      - DATABASE_URL=ecto://postgres:postgres@db:5432/demo_dev
+      - SECRET_KEY_BASE=supersecretkeybasethatisatleast64byteslongforphoenixliveviewsecurity123456
+      - PHX_HOST=localhost
+      - PORT=4000
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=demo_dev
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d demo_dev"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+  deps_cache:
+  build_cache:

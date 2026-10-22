@@ -1,0 +1,33 @@
+---
+id: 02-secret-detection-and-gitleaks
+title: Secret Detection, Entropy Scanning, and Gitleaks Invariants
+globs: ".gitleaks.toml,**/*.env*,**/*.json,**/*.yml"
+alwaysApply: true
+---
+
+# Secret Detection, Entropy Scanning, and Gitleaks Invariants
+
+## 1. Zero Plaintext Credentials
+- No private keys, JWT secrets, database connection strings, cloud API keys, or Webhook tokens may be committed to version control.
+- All secrets must be sourced from runtime secret managers (AWS Secrets Manager, HashiCorp Vault, GitHub Encrypted Secrets).
+
+## 2. Gitleaks Configuration
+- Maintain customized rules in `.gitleaks.toml`:
+  ```toml
+  [extend]
+  useDefault = true
+
+  [[rules]]
+  id = "custom-jwt-secret"
+  description = "Detected Hardcoded JWT Secret Key"
+  regex = '''(?i)(jwt[_-]?secret|token[_-]?secret)\s*[:=]\s*["']([A-Za-z0-9_\-]{24,})["']'''
+  keywords = ["jwt_secret", "token_secret"]
+  ```
+- Run full historical scans on pull requests using `--log-opts="--all"`.
+
+## 3. Leaked Secret Remediation Protocol
+- If a secret is committed:
+  1. Revoke and rotate the compromised credential immediately.
+  2. Invalidate active sessions tied to the secret.
+  3. Purge the git commit history using `git-filter-repo` or BFG Repo-Cleaner.
+  4. Never merely commit a "delete secret" patch—historical commits remain compromised.

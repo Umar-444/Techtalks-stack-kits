@@ -2,10 +2,9 @@ schema_version: 1.0.0
 name: Django 5 + Tailwind CSS + PostgreSQL
 slug: django-tailwind-postgresql
 version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: Batteries-included full-stack Django 5 with Tailwind CSS design tokens,
-  Django auth, and PostgreSQL 16+.
+status: stable
+updated_at: '2026-10-22'
+description: Batteries-included full-stack Django 5 with Tailwind CSS design tokens, Django auth, atomic PostgreSQL transactions, and pre-wired Docker Compose.
 category: Python
 maintainer:
   name: TechTalks Python Engineering Group
@@ -21,12 +20,14 @@ stack:
     name: Django
     version: 5.1+
     registry: pypi.org
-  styling: Tailwind CSS
+  styling: Tailwind CSS 3.4+
   database:
     engine: PostgreSQL
     version: 16+
     features:
     - Django ORM
+    - Atomic Transactions
+    - Psycopg 3 Pooling
 layers:
   starter:
     path: starter/
@@ -36,16 +37,27 @@ layers:
     generated_targets:
     - AGENTS.md
     - CLAUDE.md
+    - CODEX.md
     - .cursor/rules/*.mdc
     - .github/copilot-instructions.md
     - .agents/rules/*.md
+    - .clinerules
     - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: django-tailwind-postgresql-core
-      path: skills/django-tailwind-postgresql-core/SKILL.md
-      description: Core operations skill for Django 5 + Tailwind CSS + PostgreSQL.
+    - id: install-and-verify
+      path: skills/install-and-verify/SKILL.md
+      description: Install, orchestrate, and verify the Django 5 + Tailwind CSS + PostgreSQL 16+ full-stack application.
+    - id: first-feature
+      path: skills/first-feature/SKILL.md
+      description: Build the canonical first feature - full CRUD task list module with Tailwind UI cards.
+    - id: django-tailwind-theme
+      path: skills/django-tailwind-theme/SKILL.md
+      description: Build, compile, and configure Tailwind CSS tokens, typography, and dark mode for Django templates.
+    - id: postgres-connection-pooling
+      path: skills/postgres-connection-pooling/SKILL.md
+      description: Configure PostgreSQL 16+ connection pooling, JSONB operations, and composite indexes in Django ORM.
   design:
     path: DESIGN.md
     theme_support:
@@ -62,9 +74,9 @@ layers:
     path: steps/agent-build-steps.md
     total_steps: 6
 token_metrics:
-  token_light: false
-  median_eval_tokens: 24200
-  efficiency_tier: B
+  token_light: true
+  median_eval_tokens: 15800
+  efficiency_tier: A
 security:
   automated_scans:
     gitleaks: true

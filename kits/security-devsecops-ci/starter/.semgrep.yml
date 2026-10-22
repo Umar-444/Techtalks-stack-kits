@@ -1,6 +1,19 @@
 rules:
   - id: generic-injection
     pattern: "$X.execute(... + ...)"
-    message: "String concatenation into query."
+    message: "String concatenation into query. Use parameterized statements."
     languages: [python, javascript, php]
     severity: ERROR
+
+  - id: insecure-subprocess-shell
+    patterns:
+      - pattern: subprocess.$FUNC(..., shell=True, ...)
+    message: "Executing subprocess with shell=True introduces command injection risks."
+    languages: [python]
+    severity: ERROR
+
+  - id: hardcoded-secret-assignment
+    pattern: "SECRET_KEY = "...""
+    message: "Hardcoded secret key in source code. Sourced from environment variable."
+    languages: [python]
+    severity: WARNING

@@ -1,0 +1,35 @@
+---
+description: Bun Runtime Execution and Native SQLite Engine
+globs: "starter/src/**/*.ts,starter/package.json"
+---
+
+---
+id: 02-bun-runtime-and-sqlite-engine
+title: Bun Runtime Execution and Native SQLite Engine
+globs: "starter/src/**/*.ts,starter/package.json"
+alwaysApply: true
+---
+
+# Bun Runtime Execution and Native SQLite Engine
+
+## 1. Native SQLite (`bun:sqlite`) Optimization
+- Utilize Bun's built-in `Database` module for maximum performance with near C-speed bindings.
+- Always initialize databases in Write-Ahead Logging (WAL) mode for high concurrent throughput:
+  ```typescript
+  const db = new Database("app.db");
+  db.run("PRAGMA journal_mode = WAL;");
+  db.run("PRAGMA synchronous = NORMAL;");
+  db.run("PRAGMA foreign_keys = ON;");
+  ```
+
+## 2. Prepared Statement Discipline
+- Always prepare statements for repetitive lookups to benefit from statement caching:
+  ```typescript
+  const queryUser = db.query("SELECT * FROM users WHERE id = ?");
+  const user = queryUser.get(userId);
+  ```
+- Prohibit string concatenation into SQL statements. Every parameter must use bind parameters (`?` or `$param`).
+
+## 3. Transaction Isolation
+- Wrap multi-statement mutations in `db.transaction()` to ensure atomicity and rollbacks on failure.
+

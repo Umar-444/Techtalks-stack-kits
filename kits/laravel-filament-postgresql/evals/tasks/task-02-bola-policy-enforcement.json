@@ -1,0 +1,21 @@
+{
+  "id": "eval-02",
+  "name": "BOLA / IDOR Policy Enforcement (Security)",
+  "prompt": "Implement an authorization policy for the Invoice model ensuring users cannot view or mutate cross-tenant invoice records.",
+  "rule_under_test": "04-security-and-auth.md",
+  "expected_artifacts": [
+    "app/Policies/InvoicePolicy.php"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "app/Policies/InvoicePolicy.php",
+      "value": "$user->id === $invoice->user_id"
+    },
+    {
+      "type": "does_not_contain",
+      "target": "app/Policies/InvoicePolicy.php",
+      "value": "return true;"
+    }
+  ]
+}

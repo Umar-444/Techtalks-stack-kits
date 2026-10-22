@@ -1,21 +1,16 @@
-# Windsurf Rules — Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
-# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# Assistant Guidelines for Ruby on Rails 8 + Hotwire Stack Kit
 
-## Architectural Standards for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
-# Architecture Standards: Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+## Stack Overview
+- Language: Ruby 3.3.6+
+- Framework: Ruby on Rails 8.0.0+
+- Front-End: Hotwire (Turbo 8 + Stimulus 3)
+- Solid Stack: Solid Cache, Solid Queue, Solid Cable
+- Database: SQLite 3.45+ (Development/Single-node) / PostgreSQL 16.4+ (Multi-node Production)
+- Security: Brakeman, Strong Parameters, HttpOnly Cookies, CSRF verification
 
-## Security Invariants for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
-
-## Agent Coding Conventions for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-
+## Mandatory Rules
+1. Maintain omakase Rails 8 architecture: RESTful controllers, domain logic in models, progressive enhancement via Stimulus.
+2. Use Turbo Streams and Turbo 8 morphing for dynamic UI updates without client-side SPA frameworks.
+3. Strict Strong Parameters on all mutating controller actions. Never call `params.permit!`.
+4. Zero Brakeman warnings: Run `brakeman -q -z` before deploying or validating changes.
+5. All database operations must be indexed and protected against N+1 queries.

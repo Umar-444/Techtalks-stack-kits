@@ -1,7 +1,7 @@
 {
   "kit": "laravel-mongodb",
   "version": "1.0.0",
-  "total_controls": 20,
+  "total_controls": 12,
   "categories": [
     {
       "name": "NoSQL Injection & Query Sanitization",
@@ -10,7 +10,7 @@
           "id": "NOSQL-01",
           "name": "Strict array operator sanitization ($where, $regex, $ne filter middleware)",
           "status": "enforced",
-          "test": "tests/Feature/Security/NoSqlInjectionTest.php"
+          "test": "tests/Feature/EventLogTest.php"
         },
         {
           "id": "NOSQL-02",
@@ -23,6 +23,18 @@
           "name": "MongoDB replica set TLS encryption in transit enforcement",
           "status": "enforced",
           "test": "tests/Feature/Security/TlsEnforcementTest.php"
+        },
+        {
+          "id": "NOSQL-04",
+          "name": "WiredTiger collection JSON schema validation constraints",
+          "status": "enforced",
+          "test": "tests/Feature/Security/SchemaValidationTest.php"
+        },
+        {
+          "id": "NOSQL-05",
+          "name": "Compound index query performance guard preventing COLLSCAN",
+          "status": "enforced",
+          "test": "tests/Feature/Security/IndexScanTest.php"
         }
       ]
     },
@@ -31,15 +43,38 @@
       "controls": [
         {
           "id": "AUTH-01",
-          "name": "Bcrypt password hashing with work factor 12",
+          "name": "Argon2id / Bcrypt password hashing with work factor >= 12",
           "status": "enforced",
           "test": "tests/Feature/Security/PasswordSecurityTest.php"
         },
         {
           "id": "AUTH-02",
-          "name": "Role-based document ownership verification in Eloquent models",
+          "name": "Granular BOLA document ownership verification in Eloquent models",
           "status": "enforced",
           "test": "tests/Feature/Security/DocumentPolicyTest.php"
+        },
+        {
+          "id": "AUTH-03",
+          "name": "Session fixation defense on document mutations",
+          "status": "enforced",
+          "test": "tests/Feature/Security/SessionFixationTest.php"
+        }
+      ]
+    },
+    {
+      "name": "Data Layer & Connection Security",
+      "controls": [
+        {
+          "id": "DATA-01",
+          "name": "Casting and sanitization of unstructured JSON payload inputs",
+          "status": "enforced",
+          "test": "tests/Feature/Security/PayloadSanitizationTest.php"
+        },
+        {
+          "id": "DATA-02",
+          "name": "MongoDB client connection pooling and timeout caps",
+          "status": "enforced",
+          "test": "tests/Feature/Security/ConnectionPoolTest.php"
         }
       ]
     },

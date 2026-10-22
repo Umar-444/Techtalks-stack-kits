@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-01-drizzle-crud-scaffold",
+  "name": "Typed Drizzle ORM CRUD Scaffold with SQLite",
+  "difficulty": "intermediate",
+  "prompt": "Define a typed comments table using Drizzle ORM and bun:sqlite. Create resourceful Hono routes to list and insert comments, ensuring all parameters use parameterized queries and return typed JSON.",
+  "expected_files": [
+    "starter/src/index.ts",
+    "starter/src/index.test.ts"
+  ],
+  "verification": {
+    "command": "bun test",
+    "criteria": "All unit tests pass and comments are inserted and retrieved successfully"
+  }
+}

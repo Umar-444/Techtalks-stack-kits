@@ -1,0 +1,58 @@
+[
+  {
+    "q": "What exactly is this kit, and what do I get when I clone it?",
+    "a": "This kit is a production-ready fullstack React 19 and Next.js 15 App Router platform integrated with Supabase and shadcn/ui. You get a pre-wired Docker Compose container setup, 6 AI agent rule dialects, 5 operational skills, automated TypeScript checks, and a runnable Task management module."
+  },
+  {
+    "q": "Which versions does it pin, and why those?",
+    "a": "It pins TypeScript 5.5+, Next.js 15, React 19, and Supabase / PostgreSQL 16. These versions deliver asynchronous Request APIs, Server Actions with automatic revalidation, and native PostgreSQL Row Level Security."
+  },
+  {
+    "q": "Which AI coding agents are supported, and how do the rules reach each one?",
+    "a": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets generated from canonical source rules."
+  },
+  {
+    "q": "What do I need installed before I start?",
+    "a": "You only need Node.js 20+ (LTS) and npm 10+, or Docker Engine 24+ if running via Docker Compose."
+  },
+  {
+    "q": "How long does installation take, honestly, and what can slow it down?",
+    "a": "A fresh install takes between 30 to 60 seconds on a standard broadband connection. Primary bottleneck is pulling npm dependencies."
+  },
+  {
+    "q": "Is the starter production-shaped or a demo? What must I change before real production?",
+    "a": "The starter is production-shaped with strict security defaults. Before production release, link your real Supabase project credentials in .env.local, apply migrations, and verify RLS policies."
+  },
+  {
+    "q": "How is security handled in this kit, and where are its checks?",
+    "a": "Security is enforced at multiple layers: database-level PostgreSQL Row Level Security, Zod Server Action input validation, HttpOnly SSR cookies, and automated secret scanning. The complete 12-control suite is in security/checks.json."
+  },
+  {
+    "q": "Can I change the design? Where do the design tokens live?",
+    "a": "Yes. Design tokens are documented in DESIGN.md. You can customize Tailwind CSS classes and shadcn/ui component tokens directly in layout.tsx and components/."
+  },
+  {
+    "q": "How do I update when a new kit version releases?",
+    "a": "Review CHANGELOG.md and merge updates to rules/ and skills/. Project-specific Server Actions, pages, and .env.local settings remain untouched."
+  },
+  {
+    "q": "Can I use it for commercial and client work?",
+    "a": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+  },
+  {
+    "q": "How do I contribute a fix or a skill back?",
+    "a": "Submit a PR to https://github.com/Umar-444/Techtalks-stack-kits adhering to the 18-checkpoint completeness standard."
+  },
+  {
+    "q": "Where do I get help or report a problem?",
+    "a": "Open an issue on the repository or participate in community discussions at https://techtalks.itsumarfarooq.com."
+  },
+  {
+    "q": "How does Supabase Row Level Security protect user data?",
+    "a": "PostgreSQL enforces RLS policies directly in the database engine using auth.uid() = user_id. Even if an attacker tampers with client-side query parameters, the database refuses to return or mutate cross-tenant records."
+  },
+  {
+    "q": "Why use Server Actions instead of API Route Handlers?",
+    "a": "Server Actions eliminate client-side API boilerplate, provide seamless type safety from database to form, and automatically trigger cache revalidation via revalidatePath()."
+  }
+]

@@ -1,0 +1,21 @@
+{
+  "id": "eval-03",
+  "name": "Multi-Stage Aggregation Pipeline Performance",
+  "prompt": "Build an aggregation pipeline calculating category statistics using $group and $sort stages in EventLogController.",
+  "rule_under_test": "03-aggregation-pipelines.md",
+  "expected_artifacts": [
+    "app/Http/Controllers/EventLogController.php"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "app/Http/Controllers/EventLogController.php",
+      "value": "$group"
+    },
+    {
+      "type": "contains_string",
+      "target": "app/Http/Controllers/EventLogController.php",
+      "value": "$sort"
+    }
+  ]
+}

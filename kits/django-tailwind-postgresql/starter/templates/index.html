@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard | Django 5 + Tailwind + PostgreSQL{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Hero / Metrics -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="text-sm font-medium text-slate-500">Total Items</div>
+            <div class="mt-2 text-3xl font-bold text-slate-900 dark:text-slate-100">{{ total_count }}</div>
+            <div class="mt-1 text-xs text-slate-400">Tracked in PostgreSQL 16</div>
+        </div>
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="text-sm font-medium text-slate-500">Completed</div>
+            <div class="mt-2 text-3xl font-bold text-emerald-600 dark:text-emerald-400">{{ completed_count }}</div>
+            <div class="mt-1 text-xs text-slate-400">Verified tasks</div>
+        </div>
+        <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="text-sm font-medium text-slate-500">Pending Execution</div>
+            <div class="mt-2 text-3xl font-bold text-orange-600 dark:text-orange-400">{{ pending_count }}</div>
+            <div class="mt-1 text-xs text-slate-400">Active pipeline items</div>
+        </div>
+    </div>
+
+    <!-- Main Grid: Form + List -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Create Item Form -->
+        <div class="lg:col-span-1 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm h-fit">
+            <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-4">Add New Item</h2>
+            <form action="{% url 'app:item_create' %}" method="post" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Title</label>
+                    {{ form.title }}
+                    {% if form.title.errors %}
+                        <p class="text-xs text-red-500 mt-1">{{ form.title.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Description</label>
+                    {{ form.description }}
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Priority</label>
+                    {{ form.priority }}
+                </div>
+                <button type="submit" class="w-full py-2.5 px-4 rounded-lg bg-orange-600 hover:bg-orange-700 text-white font-semibold shadow-sm transition">
+                    Save Item
+                </button>
+            </form>
+        </div>
+
+        <!-- Items List -->
+        <div class="lg:col-span-2 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+            <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100 mb-4">Pipeline Items</h2>
+            {% if items %}
+            <div class="divide-y divide-slate-100 dark:divide-slate-800">
+                {% for item in items %}
+                <div class="py-4 flex items-start justify-between space-x-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2">
+                            <span class="font-semibold text-slate-900 dark:text-slate-100 {% if item.is_completed %}line-through text-slate-400 dark:text-slate-500{% endif %}">{{ item.title }}</span>
+                            <span class="px-2 py-0.5 text-xs rounded-full font-medium {% if item.priority == 'high' %}bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300{% elif item.priority == 'medium' %}bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300{% else %}bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400{% endif %}">{{ item.priority|title }}</span>
+                        </div>
+                        {% if item.description %}
+                        <p class="text-sm text-slate-600 dark:text-slate-400">{{ item.description }}</p>
+                        {% endif %}
+                        <p class="text-xs text-slate-400">Created: {{ item.created_at|date:"M d, Y H:i" }}</p>
+                    </div>
+                    <form action="{% url 'app:item_toggle' item.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="px-3 py-1.5 text-xs font-semibold rounded-lg border {% if item.is_completed %}border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% else %}border-emerald-300 text-emerald-700 bg-emerald-50 dark:bg-emerald-950 dark:border-emerald-800 dark:text-emerald-300 hover:bg-emerald-100{% endif %}">
+                            {% if item.is_completed %}Mark Pending{% else %}Complete{% endif %}
+                        </button>
+                    </form>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="text-center py-12 text-slate-400">
+                <p>No items in database yet. Use the form on the left to add one.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+---
+id: 03-active-record-database
+title: ActiveRecord Integrity, Migrations, and Query Tuning
+globs: "app/models/**/*.rb,db/migrate/*.rb"
+alwaysApply: true
+---
+
+# ActiveRecord Integrity, Migrations, and Query Tuning
+
+## 1. Migration Discipline
+- Every migration must be reversible or declare explicit `up` and `down` methods.
+- Enforce foreign keys and database-level null constraints:
+  ```ruby
+  create_table :posts do |t|
+    t.string :title, null: false
+    t.text :body, null: false
+    t.references :user, null: false, foreign_key: true, index: true
+    t.timestamps
+  end
+  ```
+- Add compound indexes for sorted queries:
+  ```ruby
+  add_index :posts, [:user_id, :created_at]
+  ```
+
+## 2. Prevention of N+1 Queries
+- Never query associations within view loops.
+- Use eager loading via `.includes()`, `.preload()`, or `.eager_load()`:
+  ```ruby
+  @posts = Post.includes(:user).order(created_at: :desc).limit(50)
+  ```
+- In development and test environments, enable strict loading:
+  ```ruby
+  config.active_record.strict_loading_by_default = true
+  ```
+
+## 3. Model Validations & Scopes
+- Mirror database constraints with ActiveModel validations (`validates :title, presence: true, length: { maximum: 200 }`).
+- Scopes must always return an `ActiveRecord::Relation` and never execute immediate queries like `.first` or `.all`.

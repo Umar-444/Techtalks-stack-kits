@@ -1,42 +1,33 @@
-# OWASP API Security Top 10 Reference + Pytest Attack Suite
+# OWASP API Security Top 10 Reference API Stack Kit
 
-> **Part of TechTalks Stack Kits Catalogue (doc 20 expansion: Kit #32)**  
-> **Efficiency Tier:** `A+` | **Median Tokens to Complete Reference Build:** `15,200 tokens` (Token-Light Flagship)
+A production-grade Python/FastAPI reference implementation and automated test harness enforcing defense-in-depth across the **OWASP API Security Top 10 (2023)** standard.
 
-## 1. Overview & Architectural Rationale
-Executable OWASP API Security Top 10 reference implementation built in FastAPI paired with a runnable pytest attack suite testing every control: BOLA, Broken Auth, BOPB, Rate Limiting, BFLA, and SSRF.
+## Features & Threat Defenses
+- **API1:2023 BOLA**: Object ownership verification on all resource lookups.
+- **API2:2023 Broken Authentication**: Cryptographically verified PyJWT tokens with explicit algorithm pinning.
+- **API3:2023 BOPLA**: Pydantic response models eliminating sensitive property leakage.
+- **API4:2023 Unrestricted Resource Consumption**: Sliding-window rate limiting & pagination caps.
+- **API5:2023 BFLA**: Declarative role-based access control (RBAC) on administrative endpoints.
+- **API7:2023 SSRF**: Strict outbound URL parsing blocking loopback, RFC1918, and AWS metadata (169.254.169.254).
 
-### Why This Stack
-- **Maintainable & Predictable:** Clean architectural boundaries designed specifically for AI coding agents.
-- **Security-First:** Hardened input sanitization, automated secret scanning, and OWASP baseline baked in.
-- **Token Efficiency:** Minimizes hallucination surface through strict typing and convention over configuration.
+## Quickstart
 
-## 2. Directory Structure & House Anatomy
-```text
-kits/security-owasp-api/
-├── kit.yaml                 # Machine-readable kit manifest
-├── README.md                # Full architectural guide
-├── DESIGN.md                # Design tokens & UI constraints (Document 17/18 compliant)
-├── SECURITY.md              # Threat model & security invariant rules
-├── starter/                 # Executable starter source code
-├── rules/source/            # Single-source markdown rule definitions
-├── skills/                  # Domain-specific agent skills
-├── steps/                   # Step-by-step verified build sequence
-└── security/                # Gitleaks & Semgrep configs
-```
-
-## 3. Token-Light Consumption Metrics (doc 20 Part F)
-- **Median Tokens to Complete Reference Build:** `15,200` tokens
-- **Agent First-Try Correctness:** Verified through `evals/runner.py` benchmark assertions.
-- **Efficiency Tier:** `A+`
-
-## 4. Quickstart
+### 1. Run Automated Security Test Suite
 ```bash
-# Clone the repository
-git clone https://github.com/Umar-444/Techtalks-stack-kits.git
-cd Techtalks-stack-kits/kits/security-owasp-api/starter
+python3 starter/run_security_tests.py
 ```
 
-## 5. Maintainer
-- **Lead Maintainer:** Umar Farooq (Senior Full-Stack & Security Engineer)
-- **Propose improvements:** [Propose a Kit](https://techtalks.itsumarfarooq.com/kits/propose/)
+### 2. Start the API Server
+```bash
+uvicorn starter.main:app --reload --port 8000
+```
+Interactive documentation available at `http://localhost:8000/docs` (Swagger UI) and `http://localhost:8000/redoc`.
+
+### 3. Run with Docker Compose
+```bash
+docker compose -f starter/docker-compose.yml up -d
+curl http://localhost:8000/healthz
+```
+
+## Design Rationale
+See [`DESIGN-NOTES.md`](DESIGN-NOTES.md) for architectural details on why this kit emphasizes interactive OpenAPI documentation and automated Pytest harnesses.

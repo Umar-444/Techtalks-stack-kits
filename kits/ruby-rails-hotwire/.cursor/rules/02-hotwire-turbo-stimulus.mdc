@@ -1,0 +1,46 @@
+---
+description: Hotwire Turbo 8 and Stimulus Reactive Architecture
+globs: "app/**/*.rb,config/**/*.rb,test/**/*.rb"
+---
+
+---
+id: 02-hotwire-turbo-stimulus
+title: Hotwire Turbo 8 and Stimulus Reactive Architecture
+globs: "app/views/**/*.erb,app/javascript/**/*.js"
+alwaysApply: true
+---
+
+# Hotwire Turbo 8 and Stimulus Reactive Architecture
+
+## 1. Turbo Drive & Turbo 8 Morphing
+- Default page transitions use Turbo Drive with standard asset caching.
+- Enable Turbo 8 page refreshes with morphing for real-time list synchronization:
+  ```html
+  <meta name="turbo-refresh-method" content="morph">
+  <meta name="turbo-refresh-scroll" content="preserve">
+  ```
+- Preserve user input and scroll positions during asynchronous background updates.
+
+## 2. Turbo Frames
+- Scope partial page updates using semantic `<turbo-frame>` tags:
+  ```erb
+  <%= turbo_frame_tag dom_id(post) do %>
+    <h3><%= post.title %></h3>
+    <p><%= post.body %></p>
+  <% end %>
+  ```
+- All navigational links and form submissions within a frame remain scoped to that frame unless targeting `_top`.
+
+## 3. Turbo Streams & Asynchronous Broadcasting
+- Use Turbo Streams for granular DOM mutations (`append`, `prepend`, `replace`, `update`, `remove`).
+- Broadcast model updates asynchronously through ActiveModel lifecycle callbacks:
+  ```ruby
+  after_create_commit  -> { broadcast_prepend_to "posts", target: "posts_list", partial: "posts/post" }
+  after_update_commit  -> { broadcast_replace_to "posts" }
+  after_destroy_commit -> { broadcast_remove_to "posts" }
+  ```
+
+## 4. Stimulus Controllers
+- Stimulus controllers must strictly provide progressive enhancement (e.g., auto-submitting forms, clipboard copy, dropdown toggles).
+- Do not store core application state in Stimulus; state lives on the server rendered via HTML.
+

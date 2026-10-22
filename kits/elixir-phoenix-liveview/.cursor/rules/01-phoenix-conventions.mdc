@@ -1,0 +1,15 @@
+---
+description: 01 Phoenix Conventions for Elixir + Phoenix LiveView + PostgreSQL
+globs: ["**/*.ex", "**/*.exs", "**/*.heex"]
+---
+# Rule 1: Phoenix 1.7+ Architecture & Context Conventions
+
+## Context & Principles
+- Strictly adhere to Phoenix Context boundaries: encapsulate business operations in `lib/demo/` and web transport layer in `lib/demo_web/`.
+- Treat all Elixir data as immutable; favor pure functions and pattern matching in function heads over nested conditionals.
+
+## Standards
+1. **Context Boundary**: All database queries must run through Context modules (e.g. `Demo.Items`). Never call `Repo` directly inside LiveView or Controller modules.
+2. **HEEX Formatting**: Use verified HTML HEEX syntax (`~H"""`) with component tags `<.component />` and attribute assignments.
+3. **Core Components**: Rely on `DemoWeb.CoreComponents` for flash messages, tables, inputs, buttons, and modals.
+4. **Endpoint Hygiene**: Always route incoming requests through the verified endpoint pipeline with security plugs.

@@ -1,0 +1,8 @@
+# Python 3.12, Strict Typing and FastAPI Async Standards
+
+# Python 3.12 & FastAPI Architecture Guidelines
+- Target Python 3.12+ with strict type hints on all functions and methods.
+- Use Pydantic v2 schemas (BaseModel) for all request/response validation and tool schemas.
+- Declare all FastAPI endpoints as sync def with explicit 
+esponse_model and status codes.
+- Structure dependencies using FastAPI Depends() for state, session, and agent squad injection.

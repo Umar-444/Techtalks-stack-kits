@@ -1,0 +1,58 @@
+[
+  {
+    "q": "Why does this DevSecOps CI kit not include a frontend user interface?",
+    "a": "This kit is an infrastructure and automation framework rather than a web application. Its primary outputs are SARIF 2.1.0 security reports consumed by GitHub Code Scanning, CycloneDX/SPDX SBOMs for compliance, and local CLI feedback. A hardened mock microservice container with a /healthz endpoint is provided to validate container builds and local execution."
+  },
+  {
+    "q": "How do developers run DevSecOps security checks locally before pushing code?",
+    "a": "Developers execute `python3 starter/scripts/run_local_pipeline.py` or install it as a pre-commit hook (`gitleaks protect --staged`). This scans staged files for plaintext credentials, validates AST rules with Semgrep, and verifies Dockerfile compliance in seconds without waiting for GitHub Actions."
+  },
+  {
+    "q": "How are false positives handled in Gitleaks without disabling security rules?",
+    "a": "False positives are allowlisted in `.gitleaks.toml` using explicit rule IDs, regex exclusions, or commit path exemptions. Additionally, specific line hashes can be added to `.gitleaksignore` with documented reviewer justifications."
+  },
+  {
+    "q": "How does Semgrep AST pattern matching differ from traditional regex grep?",
+    "a": "Regex searches for raw text strings, creating high false-positive rates on whitespace, variable names, or comments. Semgrep parses code into an Abstract Syntax Tree (AST), understanding semantic context, variable scope, function boundaries, and data flow taint tracking."
+  },
+  {
+    "q": "What happens if a high-entropy secret is accidentally committed to git history?",
+    "a": "Committing a secret immediately invalidates trust. The secret must be revoked and rotated immediately in the target service, sessions terminated, and the git history rewritten using git-filter-repo. Simply pushing a commit that deletes the file leaves the secret exposed in git commit history."
+  },
+  {
+    "q": "What is the difference between blocking and non-blocking CI gates?",
+    "a": "Blocking gates fail the pull request build (exit code 1) on CRITICAL or HIGH severity vulnerabilities with known upstream fixes. Non-blocking gates record medium/low findings as PR annotations or SARIF alerts in the GitHub Security tab for gradual triage without stopping deployments."
+  },
+  {
+    "q": "How does Aqua Security Trivy handle CVEs that have no available vendor fix?",
+    "a": "Trivy is configured with `--ignore-unfixed: true`. This prevents CI builds from failing on zero-day or unpatched upstream vulnerabilities that application developers cannot immediately remediate, focusing blocker alerts solely on actionable patches."
+  },
+  {
+    "q": "What is an SBOM and why does this pipeline generate both CycloneDX and SPDX?",
+    "a": "A Software Bill of Materials (SBOM) is a formal, machine-readable inventory of all software components and transitive dependencies. CycloneDX is optimized for application security and vulnerability management, while SPDX is the international standard (ISO/IEC 5962) favored for open-source license compliance."
+  },
+  {
+    "q": "How is SARIF uploaded and displayed inside GitHub repository tabs?",
+    "a": "Scanners output results to `sarif-2.1.0` format. The workflow uses `github/codeql-action/upload-sarif` to transmit the file to GitHub. Findings appear under Repository > Security > Code scanning alerts with line-by-line annotations and rule remediation advice."
+  },
+  {
+    "q": "Why is running containers as non-root critical in CI and production?",
+    "a": "Running as root inside a container grants attackers container-breakout capabilities if a Linux kernel vulnerability or volume mount misconfiguration occurs. Enforcing an unprivileged user (UID 10001) confines compromised processes inside the container sandbox."
+  },
+  {
+    "q": "How does Sigstore Cosign achieve keyless container signing?",
+    "a": "Cosign integrates with OpenID Connect (OIDC) providers like GitHub Actions. It obtains an ephemeral cryptographic certificate tied to the repository workflow identity, signs the image digest, and publishes the signature to the Rekor transparency log without storing long-lived private keys."
+  },
+  {
+    "q": "How often should Dependabot dependency updates be scheduled?",
+    "a": "This kit configures `.github/dependabot.yml` on a weekly cadence with group rules to combine minor and patch updates into single consolidated PRs, preventing developer PR fatigue while keeping critical security updates prompt."
+  },
+  {
+    "q": "How can CI build times be optimized when running heavy container scans?",
+    "a": "Trivy caches its vulnerability database in the GitHub Actions cache directory (`~/.cache/trivy`). Subsequent workflow runs perform differential updates in under 10 seconds rather than downloading the entire 200MB CVE database on every commit."
+  },
+  {
+    "q": "Can these DevSecOps workflows be adapted to GitLab CI, Bitbucket, or Jenkins?",
+    "a": "Yes. Gitleaks, Semgrep, Trivy, and Syft are open-source CLI tools distributed as Docker containers and standalone binaries. The exact commands executed in `starter/scripts/run_local_pipeline.py` and `.github/workflows/devsecops.yml` map directly to GitLab CI `.gitlab-ci.yml` or Jenkins pipelines."
+  }
+]

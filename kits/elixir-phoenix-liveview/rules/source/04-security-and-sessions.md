@@ -1,0 +1,11 @@
+# Rule 4: Security, CSRF & LiveView Session Hardening
+
+## Context & Principles
+- Protect WebSocket connections from cross-site hijacking and guarantee zero data leakage.
+- Enforce strict parameter filtering and sanitization.
+
+## Standards
+1. **LiveView CSRF**: Ensure the root layout embeds `<meta name="csrf-token" content={get_csrf_token()} />` and LiveSocket passes the token on connect.
+2. **Session Verification**: Always verify user tokens on both the initial HTTP request and the LiveView WebSocket mount.
+3. **Parameter Safety**: Pattern match expected keys in `handle_event/3` and cast through Ecto changesets to prevent parameter pollution.
+4. **Content Security Policy**: Configure strict CSP and frame options in `endpoint.ex` (`put_secure_browser_headers`).

@@ -1,0 +1,58 @@
+[
+  {
+    "q": "What exactly is this kit, and what do I get when I clone it?",
+    "a": "This kit is a production-grade administrative and SaaS backend combining Laravel 13, Filament 4, and PostgreSQL 16. Cloning it gives you a pre-configured multi-container Docker Compose setup, 6 AI agent rule dialects, 6 operational skills, automated architectural assertions, and a runnable Customer management module."
+  },
+  {
+    "q": "Which versions does it pin (framework, language, database), and why those?",
+    "a": "It pins PHP 8.4+, Laravel 13, Filament 4, and PostgreSQL 16+. These versions provide native UUID v7 support, compile-time property types, enhanced JSONB indexing, and long-term security support."
+  },
+  {
+    "q": "Which AI coding agents are supported, and how do the rules reach each one?",
+    "a": "All six major AI agent ecosystems are supported: Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity. Rules are transpiled from a single canonical source in rules/source/ into each agent's native format."
+  },
+  {
+    "q": "What do I need installed before I start?",
+    "a": "You only need Docker Engine 24+ and Docker Compose v2.20+. All runtime dependencies (PHP 8.4, PostgreSQL 16, Redis 7, Composer) run inside isolated containers."
+  },
+  {
+    "q": "How long does installation take, honestly, and what can slow it down?",
+    "a": "A fresh install takes approximately 60 to 90 seconds on a standard broadband connection. The primary bottleneck is pulling the Alpine base container images and running Composer dependency installation."
+  },
+  {
+    "q": "Is the starter production-shaped or a demo? What must I change before real production?",
+    "a": "The starter is production-shaped with strict security defaults. Before deploying to live production, you must rotate default database credentials, set APP_DEBUG=false, generate a unique APP_KEY, and enable SSL termination."
+  },
+  {
+    "q": "How is security handled in this kit, and where are its checks?",
+    "a": "Security is enforced at multiple layers: Argon2id password hashing, secure session cookie flags, BOLA authorization policies, and automated secret scanning. The complete 12-control verification suite is defined in security/checks.json."
+  },
+  {
+    "q": "Can I change the design? Where do the design tokens live?",
+    "a": "Yes. The design system is documented in DESIGN.md. You can customize Filament panel colors, typography tokens, and brand accents in app/Providers/Filament/AdminPanelProvider.php."
+  },
+  {
+    "q": "How do I update when a new kit version releases?",
+    "a": "Review the kit's CHANGELOG.md and selectively merge updates to rules/ and skills/. Your project-specific models, migrations, and .env file should remain untouched."
+  },
+  {
+    "q": "Can I use it for commercial and client work?",
+    "a": "Yes. The entire kit is licensed under the permissive MIT License, allowing commercial, internal, and proprietary client use with zero royalties."
+  },
+  {
+    "q": "How do I contribute a fix or a skill back?",
+    "a": "Submit a pull request to the repository following the guidelines in CONTRIBUTING.md. Ensure all Pest architectural tests and Semgrep scans pass."
+  },
+  {
+    "q": "Where do I get help or report a problem?",
+    "a": "Open an issue on the GitHub repository or consult the TechTalks community discussions at https://techtalks.itsumarfarooq.com."
+  },
+  {
+    "q": "Why does this kit enforce UUIDs for all primary keys?",
+    "a": "UUID primary keys prevent sequential ID enumeration attacks, allow safe client-side ID generation, and simplify distributed multi-tenant database partitioning."
+  },
+  {
+    "q": "How does multi-tenant authorization work in this kit?",
+    "a": "Every Filament resource is paired with a strict Laravel Policy that verifies the authenticated user's organization ownership before permitting view, update, or delete operations."
+  }
+]

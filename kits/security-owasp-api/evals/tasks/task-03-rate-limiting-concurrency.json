@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-03-rate-limiting-concurrency",
+  "name": "Rate Limiting & DoS Mitigation (API4:2023)",
+  "difficulty": "intermediate",
+  "prompt": "Configure sliding-window rate limiting on a sensitive endpoint allowing maximum 5 requests per minute per user ID, returning HTTP 429 Too Many Requests on violations.",
+  "expected_files": [
+    "starter/main.py",
+    "starter/tests/test_owasp_top10.py"
+  ],
+  "verification": {
+    "command": "python3 starter/run_security_tests.py",
+    "criteria": "The 6th request within 60s returns HTTP 429 Too Many Requests"
+  }
+}

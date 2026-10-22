@@ -1,0 +1,11 @@
+# Rule 5: Testing, Database Isolation & Transaction Verification
+
+## Context & Principles
+- All tests must run against an isolated MongoDB test database (e.g. `app_mongo_test`) with automatic collection dropping between test suites.
+- Ensure test idempotency without cross-test state leakage.
+
+## Standards
+1. **Test Environment**: Set `DB_DATABASE=app_mongo_test` in `phpunit.xml`.
+2. **Database Cleanliness**: Use database cleanup traits to truncate or drop test collections after each test run.
+3. **Feature Test Coverage**: Verify CRUD operations, embedded relation mutations, and aggregation pipeline outputs.
+4. **Policy Enforcement Testing**: Assert that non-owner users attempting cross-document mutations receive HTTP 403 Forbidden.

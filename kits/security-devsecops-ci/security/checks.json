@@ -1,23 +1,99 @@
 {
-  "kit_slug": "security-devsecops-ci",
-  "checks": [
+  "kit": "security-devsecops-ci",
+  "version": "1.0.0",
+  "total_controls": 12,
+  "categories": [
     {
-      "id": "sec-01",
-      "name": "Gitleaks Secret Audit",
-      "status": "enforced",
-      "tool": "gitleaks"
+      "name": "Secret Detection & Credential Hygiene",
+      "controls": [
+        {
+          "id": "SEC-01",
+          "name": "Zero plaintext secrets across git commit history via Gitleaks",
+          "status": "enforced",
+          "tool": "gitleaks"
+        },
+        {
+          "id": "SEC-02",
+          "name": "Customized regex & high-entropy string rules in .gitleaks.toml",
+          "status": "enforced",
+          "config": "starter/.gitleaks.toml"
+        },
+        {
+          "id": "SEC-03",
+          "name": "Pre-commit hook protection for staged developer commits",
+          "status": "enforced",
+          "script": "starter/scripts/run_local_pipeline.py"
+        }
+      ]
     },
     {
-      "id": "sec-02",
-      "name": "Semgrep SAST Policy",
-      "status": "enforced",
-      "tool": "semgrep"
+      "name": "Static Code Analysis (SAST)",
+      "controls": [
+        {
+          "id": "SAST-01",
+          "name": "Semgrep OSS AST pattern matching for OWASP Top 10 vulnerabilities",
+          "status": "enforced",
+          "tool": "semgrep"
+        },
+        {
+          "id": "SAST-02",
+          "name": "SQL injection and command injection taint tracking",
+          "status": "enforced",
+          "config": "starter/.semgrep.yml"
+        },
+        {
+          "id": "SAST-03",
+          "name": "Standardized SARIF 2.1.0 output uploaded to GitHub Code Scanning",
+          "status": "enforced",
+          "workflow": "starter/.github/workflows/devsecops.yml"
+        }
+      ]
     },
     {
-      "id": "sec-03",
-      "name": "OWASP API Top 10 Invariants",
-      "status": "verified",
-      "tool": "pytest/unit"
+      "name": "Container Hardening & Vulnerability Management (SCA)",
+      "controls": [
+        {
+          "id": "CONT-01",
+          "name": "Aqua Security Trivy CVE vulnerability scans on filesystem and image",
+          "status": "enforced",
+          "tool": "trivy"
+        },
+        {
+          "id": "CONT-02",
+          "name": "Automated blocking on CRITICAL and HIGH CVEs with known upstream fixes",
+          "status": "enforced",
+          "config": "starter/trivy.yaml"
+        },
+        {
+          "id": "CONT-03",
+          "name": "Non-root container user execution and minimal Alpine base image",
+          "status": "enforced",
+          "docker": "starter/Dockerfile: USER 10001:10001"
+        }
+      ]
+    },
+    {
+      "name": "Supply Chain & Software Bill of Materials (SBOM)",
+      "controls": [
+        {
+          "id": "SUP-01",
+          "name": "Automated CycloneDX & SPDX SBOM generation via Anchore Syft",
+          "status": "enforced",
+          "tool": "syft"
+        },
+        {
+          "id": "SUP-02",
+          "name": "Dependabot weekly automated dependency updates and security PRs",
+          "status": "enforced",
+          "config": "starter/.github/dependabot.yml"
+        },
+        {
+          "id": "SUP-03",
+          "name": "Cross-platform local simulation script for pre-flight developer runs",
+          "status": "enforced",
+          "script": "starter/scripts/run_local_pipeline.py"
+        }
+      ]
     }
   ]
 }

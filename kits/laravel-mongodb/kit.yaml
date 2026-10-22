@@ -1,12 +1,11 @@
-# TechTalks Stack Kit Manifest Spec
 schema_version: "1.0.0"
 
 name: "Laravel 12 + MongoDB (NoSQL)"
 slug: "laravel-mongodb"
 version: "1.0.0"
 status: "stable"
-category: Laravel
-updated_at: "2026-10-21"
+category: "Laravel"
+updated_at: "2026-10-22"
 
 description: "Empty-market pioneer stack combining Laravel 12 with the official mongodb/laravel-mongodb package, embedded document relations, aggregation pipeline builders, and custom Inertia/React dashboard."
 
@@ -53,33 +52,56 @@ layers:
   rules:
     source_dir: "rules/source/"
     generated_targets:
-      - "AGENTS.md"
-      - "CLAUDE.md"
-      - ".cursor/rules/*.mdc"
-      - ".github/copilot-instructions.md"
-      - ".agents/rules/*.md"
-      - ".windsurfrules"
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: "skills/"
     manifest:
-      - id: "mongodb-aggregation"
-        path: "skills/mongodb-aggregation/SKILL.md"
-        description: "Construct safe, high-performance MongoDB aggregation pipelines."
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, configure, and verify the Laravel 12 + MongoDB 7+ multi-container application.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Build the canonical first feature - EventLog Document Resource with embedded telemetry attributes, aggregation stats, and BOLA policy protection.
+      - id: mongodb-aggregation-pipeline
+        path: skills/mongodb-aggregation-pipeline/SKILL.md
+        description: Construct multi-stage MongoDB aggregation pipelines ($match, $group, $sort) for high-velocity analytics.
+      - id: document-schema-validation
+        path: skills/document-schema-validation/SKILL.md
+        description: Enforce MongoDB collection JSON schema validation, compound indexes, and BSON ObjectId validation.
+      - id: mongodb-aggregation
+        path: skills/mongodb-aggregation/SKILL.md
+        description: Core operations and aggregation query builder for MongoDB Eloquent models.
+  evals:
+    tasks_dir: "evals/tasks/"
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: "DESIGN.md"
     theme_support:
-      - "light"
-      - "dark"
+      - light
+      - dark
     wcag_compliance: "AA"
   security:
     config_dir: "security/"
     checks:
-      - "semgrep"
-      - "gitleaks"
-      - "rules-backdoor-check"
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: "steps/agent-build-steps.md"
-    total_steps: 8
+    total_steps: 6
+
+token_metrics:
+  token_light: true
+  median_eval_tokens: 15600
+  efficiency_tier: "A"
 
 security:
   automated_scans:
@@ -90,21 +112,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
-    prompt_injection_boundary_nonces: true
-  badges:
-    - name: "Zero Plaintext Credentials"
-      status: "verified"
-    - name: "OWASP Top 10 Guardrails"
-      status: "verified"
 
 install:
-  clone_command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git --depth 1"
-  quickstart: "cd kits/laravel-mongodb && cp .env.example .env && composer install && npm install"
-
-agent_bootstrap_prompt: |
-  You are an expert engineer building with the TechTalks "laravel-mongodb" kit.
-  Adhere strictly to:
-  1. Extend MongoDB\Laravel\Eloquent\Model for document models.
-  2. Use typed embedded documents (embedsOne / embedsMany).
-  3. Never construct raw MongoDB operators with unsanitized user keys ($where forbidden).
-  4. Build custom dashboard layouts using DESIGN.md tokens and React components.
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

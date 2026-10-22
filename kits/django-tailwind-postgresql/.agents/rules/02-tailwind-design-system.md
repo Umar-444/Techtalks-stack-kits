@@ -1,0 +1,12 @@
+# Rule 2: Tailwind CSS Design System & Template Standards
+
+## Context & Principles
+- Use Tailwind CSS 3.4+ utility classes directly in Django templates without ad-hoc inline styles.
+- Support both light and dark mode using the `dark:` variant and class-based theme switching.
+- Standardize layout structure using a base template with reusable partials.
+
+## Standards
+1. **Base Layout**: All pages must extend `base.html` which includes responsive navigation, theme toggle, flash messages, and main content slot.
+2. **Color Palette**: Use curated semantic colors (`brand-500`, `slate-900`, `emerald-500`) with high-contrast accessibility (WCAG AA compliant).
+3. **Widget Styling**: Style form inputs with consistent Tailwind classes: `rounded-lg border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-500`.
+4. **Asset Build**: Compile Tailwind assets via the standalone CLI or node watcher into `static/css/dist/styles.css`.

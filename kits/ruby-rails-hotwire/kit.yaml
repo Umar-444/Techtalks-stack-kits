@@ -3,81 +3,92 @@ name: Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
 slug: ruby-rails-hotwire
 version: 1.0.0
 status: stable
-updated_at: '2026-10-21'
-description: 'The lowest full-stack token footprint on the platform (14,200 median
-  build tokens): Rails 8 convention-over-configuration, Hotwire Turbo 8 reactive DOM
-  morphing, Stimulus micro-controllers, and Solid Cache/Solid Queue on SQLite or PostgreSQL.'
-category: Token-Light
-maintainer:
-  name: TechTalks Web Architecture Team
-  role: Rails & Token-Efficiency Specialist
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+category: fullstack
+updated_at: '2026-10-22'
+description: Production-grade Ruby on Rails 8 kit featuring the native Solid Suite
+  (Solid Cache, Solid Queue, Solid Cable) and Hotwire Turbo 8 reactive HTML streaming.
+maintainer: TechTalks Engineering
 stack:
   language:
     name: Ruby
-    version: 3.3+
+    version: '>= 3.3.0'
     registry: rubygems.org
   framework:
     name: Ruby on Rails
-    version: 8.0+
+    version: ~> 8.0.0
     registry: rubygems.org
-  ui_engine: Hotwire Turbo 8 + Stimulus 3
+  ui_engine:
+    name: Hotwire (Turbo 8 + Stimulus 3)
+    version: ~> 2.0
   database:
-    engine: SQLite / PostgreSQL
-    version: 3.45+
+    engine: PostgreSQL / SQLite
+    version: '>= 16.0'
     features:
     - Solid Cache
     - Solid Queue
     - Solid Cable
-  token_light_metric: 14,200 median tokens (Lowest full-stack build)
-layers:
-  starter:
-    path: starter/
-    type: starter-scaffold
+  runtime:
+    name: Ruby
+    version: '>= 3.3.6'
+starter:
+  path: starter/
+  health_endpoint: /healthz
+  port: 3000
+  env_file: .env.example
+rules:
+  source: rules/source/
+  dialects:
+  - CLAUDE.md
+  - AGENTS.md
+  - CODEX.md
+  - .cursor/rules/
+  - .agents/rules/
+  - .clinerules
+  - .windsurfrules
+  - .github/copilot-instructions.md
   rules:
-    source_dir: rules/source/
-    generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
-  skills:
-    dir: skills/
-    manifest:
-    - id: ruby-rails-hotwire-core
-      path: skills/ruby-rails-hotwire-core/SKILL.md
-      description: Core operations and scaffolding skill for Ruby on Rails 8 + Hotwire
-        (Turbo + Stimulus) + SQLite/PostgreSQL.
-  design:
-    path: DESIGN.md
-    theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
-  security:
-    config_dir: security/
-    checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
-  steps:
-    path: steps/agent-build-steps.md
-    total_steps: 6
-token_metrics:
-  token_light: true
-  median_eval_tokens: 14200
-  efficiency_tier: A+
+  - id: 01-rails-conventions-and-architecture
+    title: Rails 8 Architecture and Solid Stack Standards
+  - id: 02-hotwire-turbo-stimulus
+    title: Hotwire Turbo 8 and Stimulus Reactive Architecture
+  - id: 03-active-record-database
+    title: ActiveRecord Integrity, Migrations, and Query Tuning
+  - id: 04-brakeman-and-rails-security
+    title: Rails Security Invariants, Strong Parameters, and Brakeman
+  - id: 05-minitest-system-testing
+    title: Testing Standards with Minitest, System Tests, and Hotwire Assertions
+skills:
+- name: install-and-verify
+  path: skills/install-and-verify/SKILL.md
+- name: first-feature
+  path: skills/first-feature/SKILL.md
+- name: turbo-streams-broadcast
+  path: skills/turbo-streams-broadcast/SKILL.md
+- name: active-record-postgres-tuning
+  path: skills/active-record-postgres-tuning/SKILL.md
+- name: brakeman-security-audit
+  path: skills/brakeman-security-audit/SKILL.md
+evals:
+  framework: custom
+  tasks:
+  - id: eval-01-turbo-stream-scaffold
+    file: evals/tasks/task-01-turbo-stream-scaffold.json
+  - id: eval-02-strong-parameters-security
+    file: evals/tasks/task-02-strong-parameters-security.json
+  - id: eval-03-solid-cable-concurrency
+    file: evals/tasks/task-03-solid-cable-concurrency.json
 security:
-  automated_scans:
-    gitleaks: true
-    semgrep_owasp_top10: true
-    rules_backdoor_check: true
-  rules_enforced:
-    zero_plaintext_credentials: true
-    strict_parameterized_queries: true
-    authorization_on_every_resource: true
+  framework: brakeman
+  checks_file: security/checks.json
+  total_controls: 12
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  prerequisites:
+  - Ruby >= 3.3.0
+  - Bundler >= 2.5
+  - SQLite3 or PostgreSQL >= 16
+  steps:
+  - bundle install
+  - bin/rails db:prepare
+  - bundle exec brakeman -q -z
+  - bin/rails test
+  - bin/rails server

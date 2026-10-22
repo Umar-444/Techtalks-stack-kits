@@ -1,0 +1,21 @@
+{
+  "id": "eval-02",
+  "name": "Supabase Row Level Security Policy (Security)",
+  "prompt": "Write an SQL migration enabling RLS and adding SELECT/INSERT/UPDATE policies using auth.uid() = user_id.",
+  "rule_under_test": "03-supabase-rls-and-database.md",
+  "expected_artifacts": [
+    "supabase/migrations/20261022000001_create_items_table.sql"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "supabase/migrations/20261022000001_create_items_table.sql",
+      "value": "ENABLE ROW LEVEL SECURITY"
+    },
+    {
+      "type": "contains_string",
+      "target": "supabase/migrations/20261022000001_create_items_table.sql",
+      "value": "auth.uid() = user_id"
+    }
+  ]
+}

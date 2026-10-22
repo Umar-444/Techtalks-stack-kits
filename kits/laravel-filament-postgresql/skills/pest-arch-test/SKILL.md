@@ -1,33 +1,22 @@
 ---
-name: "pest-arch-test"
-description: "Write Pest architecture regression tests protecting against unescaped SQL and architectural drift."
-version: "1.0.0"
-author: "TechTalks Stack Kits"
+name: pest-arch-test
+description: Execute Pest Architectural tests verifying strict layering, UUID usage, and zero debugging calls.
 ---
 
 # Pest Architecture Test Skill
 
-Use this skill whenever adding architectural guardrails in `tests/ArchTest.php`.
+## Purpose
+Runs automated static architectural assertions against the codebase before commit.
 
-## Workflow
+## Execution
+```bash
+./vendor/bin/pest tests/ArchTest.php
+```
 
-1. **DB Facade Isolation:**
-   ```php
-   test('controllers do not call DB facade directly')
-       ->expect('App\Http\Controllers')
-       ->not->toUse('Illuminate\Support\Facades\DB');
-   ```
+## Standards Enforced
+- Controllers never call `DB::` facade directly.
+- All Eloquent models use `HasUuids`.
+- Zero residual `dd()`, `dump()`, or `ray()` calls.
 
-2. **Strict Model Conventions:**
-   ```php
-   test('all models implement UUIDs')
-       ->expect('App\Models')
-       ->toUse('Illuminate\Database\Eloquent\Concerns\HasUuids');
-   ```
-
-3. **No Leftover Debugging:**
-   ```php
-   test('no debug calls remain')
-       ->expect(['dd', 'dump', 'ray'])
-       ->not->toBeUsed();
-   ```
+## Done Means
+Pest architecture test suite executes and passes 100% of architectural rules with zero warnings.

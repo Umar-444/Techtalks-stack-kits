@@ -1,0 +1,15 @@
+{
+  "task_id": "eval-01-turbo-stream-scaffold",
+  "name": "Turbo Stream Scaffolding & Real-Time Broadcasting",
+  "difficulty": "intermediate",
+  "prompt": "Create an Article model with title and content validations. Implement an ArticlesController with index and create actions supporting Turbo Streams format, broadcasting newly created articles to an articles Turbo Stream channel.",
+  "expected_files": [
+    "app/models/article.rb",
+    "app/controllers/articles_controller.rb",
+    "app/views/articles/create.turbo_stream.erb"
+  ],
+  "verification": {
+    "command": "bin/rails test test/controllers/articles_controller_test.rb",
+    "criteria": "Articles broadcast to Turbo Stream channel without page refresh"
+  }
+}

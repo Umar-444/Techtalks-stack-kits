@@ -2,11 +2,9 @@ schema_version: 1.0.0
 name: Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL
 slug: elixir-phoenix-liveview
 version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Ultra-compact real-time full-stack application in a single functional
-  language: Phoenix LiveView server-rendered state over WebSockets, Ecto changesets
-  with compile-checked queries, and BEAM fault-tolerant processes.'
+status: stable
+updated_at: '2026-10-22'
+description: Ultra-compact real-time full-stack application in a single functional language with Phoenix LiveView 1.0+ server-rendered state over WebSockets, Ecto changesets with compile-checked queries, and BEAM fault-tolerant processes.
 category: Token-Light
 maintainer:
   name: TechTalks Distributed Systems Group
@@ -29,7 +27,7 @@ stack:
     features:
     - Ecto changesets
     - BEAM supervisor trees
-  token_light_metric: 19,400 median tokens
+    - Phoenix PubSub
 layers:
   starter:
     path: starter/
@@ -39,17 +37,27 @@ layers:
     generated_targets:
     - AGENTS.md
     - CLAUDE.md
+    - CODEX.md
     - .cursor/rules/*.mdc
     - .github/copilot-instructions.md
     - .agents/rules/*.md
+    - .clinerules
     - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: elixir-phoenix-liveview-core
-      path: skills/elixir-phoenix-liveview-core/SKILL.md
-      description: Core operations and scaffolding skill for Elixir + Phoenix 1.7+
-        + LiveView + Ecto + PostgreSQL.
+    - id: install-and-verify
+      path: skills/install-and-verify/SKILL.md
+      description: Install, orchestrate, and verify the Elixir + Phoenix 1.7+ LiveView + Ecto + PostgreSQL stack.
+    - id: first-feature
+      path: skills/first-feature/SKILL.md
+      description: Build the canonical first feature - real-time live synchronized stream list with PubSub broadcast.
+    - id: liveview-component
+      path: skills/liveview-component/SKILL.md
+      description: Build and test Phoenix LiveView components using streams for memory-efficient real-time updates.
+    - id: ecto-migration-changeset
+      path: skills/ecto-migration-changeset/SKILL.md
+      description: Create Ecto schemas, validated changesets with compile-checked query constraints, and reversible migrations.
   design:
     path: DESIGN.md
     theme_support:
@@ -67,7 +75,7 @@ layers:
     total_steps: 6
 token_metrics:
   token_light: true
-  median_eval_tokens: 19400
+  median_eval_tokens: 16400
   efficiency_tier: A
 security:
   automated_scans:

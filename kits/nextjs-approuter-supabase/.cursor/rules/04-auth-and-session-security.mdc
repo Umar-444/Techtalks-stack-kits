@@ -1,0 +1,15 @@
+---
+description: 04 Auth And Session Security for Next.js 15+ + Supabase + shadcn/ui
+globs: ["**/*.ts", "**/*.tsx", "**/*.sql", "**/*.css"]
+---
+# Rule 4: Supabase SSR Authentication & Cookie Session Security
+
+## Context & Principles
+- Manage authentication sessions securely across Server Components, Server Actions, and Route Handlers using `@supabase/ssr`.
+- Rotate and refresh auth tokens transparently via Next.js Middleware.
+
+## Standards
+1. **SSR Client Factory**: Instantiate Supabase clients via dedicated factory functions (`createClient()` in `src/lib/supabase/server.ts` and `client.ts`).
+2. **Middleware Session Refresh**: Run `updateSession()` in `src/middleware.ts` on every request to refresh expired tokens and persist cookies.
+3. **Cookie Attributes**: Ensure auth cookies use `httpOnly: true`, `secure: process.env.NODE_ENV === 'production'`, and `sameSite: 'lax'`.
+4. **PKCE Flow**: Enforce Proof Key for Code Exchange (PKCE) for all OAuth and email authentication handshakes.

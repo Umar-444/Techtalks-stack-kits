@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - RAILS_ENV=development
+      - DATABASE_URL=postgres://rails:password@db:5432/rails_development
+      - SECRET_KEY_BASE=dev_insecure_key_base_replace_in_production_384729182374912
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/rails
+      - bundle_cache:/usr/local/bundle
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=rails
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=rails_development
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U rails -d rails_development"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  bundle_cache:
+  pgdata:

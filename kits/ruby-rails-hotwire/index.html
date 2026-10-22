@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="The lowest full-stack token footprint on the platform (14,200 median build tokens): Rails 8 convention-over-configuration, Hotwire Turbo 8 reactive DOM morphing, Stimulus micro-controllers, and Solid Cache/Solid Queue on SQLite or PostgreSQL.">
+  <meta name="description" content="Production-grade Ruby on Rails 8 kit featuring the native Solid Suite (Solid Cache, Solid Queue, Solid Cable) and Hotwire Turbo 8 reactive HTML streaming.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/ruby-rails-hotwire/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/ruby-rails-hotwire/">
   <meta property="og:title" content="Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="The lowest full-stack token footprint on the platform (14,200 median build tokens): Rails 8 convention-over-configuration, Hotwire Turbo 8 reactive DOM morphing, Stimulus micro-controllers, and Solid Cache/Solid Queue on SQLite or PostgreSQL.">
+  <meta property="og:description" content="Production-grade Ruby on Rails 8 kit featuring the native Solid Suite (Solid Cache, Solid Queue, Solid Cable) and Hotwire Turbo 8 reactive HTML streaming.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -28,6 +28,126 @@
     } else {
       document.documentElement.classList.add('dark');
     }
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the Rails 8 Solid Stack and how does it replace external services?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rails 8 introduces the Solid Stack: Solid Cache (database-backed key-value store), Solid Queue (database-backed background jobs), and Solid Cable (database-backed WebSockets for ActionCable and Turbo Streams). This eliminates the requirement for Redis or Sidekiq in single-node and moderately sized production clusters."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Hotwire Turbo 8 differ from traditional Single Page Applications (SPAs)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Hotwire delivers server-rendered HTML rather than JSON APIs consumed by heavy client bundles. Turbo Drive speeds up page navigation, Turbo Frames isolate partial updates, and Turbo 8 morphing smoothly updates the DOM preserving user scroll and form state with zero React/Vue overhead."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can this kit run on SQLite in production or is PostgreSQL required?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rails 8 officially supports SQLite in production for single-node deployments using litestream and WAL mode. For multi-node autoscaling clusters, this kit provides a complete PostgreSQL 16 configuration in docker-compose.yml."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is CSRF protection handled in Turbo Stream and AJAX requests?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rails automatically injects CSRF authenticity tokens via `<meta name='csrf-token'>`. Turbo Drive and Turbo Streams automatically attach the `X-CSRF-Token` header to all outgoing non-GET HTTP requests."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Brakeman security policy enforced in this kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Brakeman is configured in CI with zero-warning tolerance (`brakeman -q -z`). Any unescaped SQL interpolation, mass assignment vulnerability, or insecure session configuration immediately fails the build."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are Strong Parameters configured for nested attributes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Controllers must explicitly whitelist parameters using `params.require(:model).permit(:scalar, nested_attributes: [:id, :attribute])`. Calling `params.permit!` is strictly prohibited."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do Turbo Streams handle asynchronous background model broadcasts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Models use ActiveModel lifecycle callbacks like `after_create_commit -> { broadcast_prepend_to 'posts' }`. The broadcast is dispatched via Solid Cable over WebSockets to subscribed client browser sessions without polling."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the recommended approach for client-side JavaScript in Hotwire?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use lightweight Stimulus controllers (`app/javascript/controllers/`). Controllers connect to DOM elements via HTML data-attributes (`data-controller='post'`) to add micro-interactions without mutating server state."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I avoid N+1 queries when rendering Turbo Stream lists?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use `.includes()` or `.eager_load()` on controllers before rendering. Additionally, enable `config.active_record.strict_loading_by_default = true` in development and test environments to raise an error when un-eager-loaded associations are accessed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does this kit ensure zero secrets are leaked in git commits?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gitleaks is integrated via `.github/workflows/security.yml` with a customized configuration that scans all commits, branches, and PRs against secret patterns and credentials."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the health check endpoint operate?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The `/healthz` route in `config/routes.rb` is an ultra-lightweight Rack proc that returns HTTP 200 OK with `{\"status\":\"ok\",\"app\":\"ruby-rails-hotwire\",\"version\":\"1.0.0\"}` without hitting database locks, suitable for Kubernetes and load balancer liveness probes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is authentication handled in this kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rails 8 includes native authentication generation (`bin/rails generate authentication`), establishing secure password hashing with bcrypt, session tokens stored in HttpOnly cookies, and automatic session revocation upon password changes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What asset pipeline is utilized in Rails 8?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rails 8 uses Propshaft for fast asset bundling and importmaps for JavaScript modules without requiring Node.js, Webpack, or npm in the production runtime container."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is Docker multi-stage build optimized for Rails 8?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Dockerfile uses a multi-stage Alpine build that installs build dependencies (gcc, make) only in the build stage, precompiles Bootsnap cache, and copies only runtime gems to the final image running under an unprivileged `rails:rails` user."
+      }
+    }
+  ]
+}
   </script>
 </head>
 <body class="bg-white dark:bg-[#0A0A0B] text-[#12140F] dark:text-[#F4F4F5] font-sans antialiased min-h-screen flex flex-col selection:bg-[#FFF1E8] selection:text-[#e85d26]">
@@ -113,11 +233,11 @@
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        The lowest full-stack token footprint on the platform (14,200 median build tokens): Rails 8 convention-over-configuration, Hotwire Turbo 8 reactive DOM morphing, Stimulus micro-controllers, and Solid Cache/Solid Queue on SQLite or PostgreSQL.
+        Production-grade Ruby on Rails 8 kit featuring the native Solid Suite (Solid Cache, Solid Queue, Solid Cable) and Hotwire Turbo 8 reactive HTML streaming.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Ruby', 'version': '3.3+', 'registry': 'rubygems.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Ruby on Rails', 'version': '8.0+', 'registry': 'rubygems.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'SQLite / PostgreSQL', 'version': '3.45+', 'features': ['Solid Cache', 'Solid Queue', 'Solid Cable']}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Ruby', 'version': '>= 3.3.0', 'registry': 'rubygems.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Ruby on Rails', 'version': '~> 8.0.0', 'registry': 'rubygems.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL / SQLite', 'version': '>= 16.0', 'features': ['Solid Cache', 'Solid Queue', 'Solid Cable']}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -213,7 +333,7 @@
           </div>
 
           <div class="p-4">
-            <div data-tab-panel="tab-claude" class="space-y-3">
+            <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ruby-rails-hotwire/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/ruby-rails-hotwire for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -221,10 +341,10 @@
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
 - Primary Invariant: Zero plaintext credentials; parameterize all database queries.
 - Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute gy eval or standard test suite before finalizing code.</code></pre>
+- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cursor" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ruby-rails-hotwire/.cursor/rules/*.mdc</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/ruby-rails-hotwire" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -237,7 +357,7 @@ globs: **/*
 - Run static analysis via configured CI scanners.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-codex" class="space-y-3 hidden">
+            <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ruby-rails-hotwire/CODEX.md</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/ruby-rails-hotwire" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -246,7 +366,7 @@ globs: **/*
 - Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-copilot" class="space-y-3 hidden">
+            <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ruby-rails-hotwire/.github/copilot-instructions.md</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/ruby-rails-hotwire" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -255,7 +375,7 @@ globs: **/*
 - Never add unpinned external dependencies.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cline" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ruby-rails-hotwire/.clinerules</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/ruby-rails-hotwire" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -264,7 +384,7 @@ globs: **/*
 - Run tests in the sandboxed container environment.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-antigravity" class="space-y-3 hidden">
+            <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/ruby-rails-hotwire/.agents/rules/</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/ruby-rails-hotwire" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
@@ -281,7 +401,12 @@ globs: **/*
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">ruby-rails-hotwire-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">active-record-postgres-tuning</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">ActiveRecord optimization, compound indexing, strict loading, and N+1 query elimination.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">brakeman-security-audit</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Static code analysis, vulnerability mitigation, and security compliance with Brakeman.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Guide for scaffolding a real-time reactive Hotwire feature using Turbo Frames, Turbo Streams, and Stimulus.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Clean setup, dependency installation, migration execution, and verification for Ruby on Rails 8 Hotwire kit.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">ruby-rails-hotwire-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">06</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">turbo-streams-broadcast</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Real-time DOM mutations and WebSockets broadcasting via Turbo Streams and Solid Cable.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -390,7 +515,134 @@ globs: **/*
         </div>
       </section>
 
-      <!-- Real Terminal Eval Transcript Block -->
+            <!-- Section 3: Installation Guide -->
+      <section id="installation-guide">
+
+        <div class="mb-4 flex items-center justify-between">
+          <div>
+            <div class="eyebrow-numbered text-[#e85d26]">SECTION 3 &bull; INSTALLATION GUIDE</div>
+            <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">7-Part Installation &amp; Setup Standard</h3>
+          </div>
+          <span class="font-mono text-xs text-emerald-500 font-semibold">&check; VERIFIED INSTALL</span>
+        </div>
+
+        <div class="space-y-6">
+          <!-- 1. Prerequisites Table -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 1. Prerequisites Table
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs font-mono">
+                <thead>
+                  <tr class="border-b border-[#E6E6DF] dark:border-[#26262C] text-[#8E8E96]">
+                    <th class="pb-2">Tool</th>
+                    <th class="pb-2">Minimum Version</th>
+                    <th class="pb-2">Check Command</th>
+                    <th class="pb-2">Where to Get</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#E6E6DF] dark:divide-[#26262C] text-[#12140F] dark:text-[#F4F4F5]">
+                  <tr><td class="py-2">Docker Engine</td><td>24.0+</td><td>docker --version</td><td><a href="https://docker.com" target="_blank" class="text-[#e85d26] underline">docker.com</a></td></tr>
+                  <tr><td class="py-2">Docker Compose</td><td>v2.20+</td><td>docker compose version</td><td>Bundled with Docker</td></tr>
+                  <tr><td class="py-2">Git</td><td>2.40+</td><td>git --version</td><td><a href="https://git-scm.com" target="_blank" class="text-[#e85d26] underline">git-scm.com</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. Quickstart -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 2. Quickstart Execution
+            </h4>
+            <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+cd Techtalks-stack-kits/kits/ruby-rails-hotwire/starter
+cp .env.example .env
+docker compose up --build -d</pre>
+          </div>
+
+          <!-- 3. Per-Agent Setup -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 3. Multi-Agent Rule Placement
+            </h4>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Claude Code</div>
+                <div class="text-[11px] text-[#8E8E96]">CLAUDE.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cursor</div>
+                <div class="text-[11px] text-[#8E8E96]">.cursor/rules/*.mdc</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Codex</div>
+                <div class="text-[11px] text-[#8E8E96]">CODEX.md / AGENTS.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Copilot</div>
+                <div class="text-[11px] text-[#8E8E96]">copilot-instructions.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cline</div>
+                <div class="text-[11px] text-[#8E8E96]">.clinerules</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Antigravity</div>
+                <div class="text-[11px] text-[#8E8E96]">.agents/rules/*.md</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Verification Probes -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 4. Post-Install Verification Probes
+            </h4>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>curl -s http://localhost:8000/healthz</span>
+                <span class="text-emerald-500 font-bold">&check; HTTP 200 OK</span>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>docker compose ps</span>
+                <span class="text-emerald-500 font-bold">&check; ALL SERVICES UP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </section>
+
+      <!-- Section 4: Frequently Asked Questions (FAQ) -->
+      <section id="faq">
+<div class="mb-4 flex items-center justify-between">
+  <div>
+    <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
+    <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
+  </div>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
+</div>
+<div class="space-y-3">
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the Rails 8 Solid Stack and how does it replace external services?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Rails 8 introduces the Solid Stack: Solid Cache (database-backed key-value store), Solid Queue (database-backed background jobs), and Solid Cable (database-backed WebSockets for ActionCable and Turbo Streams). This eliminates the requirement for Redis or Sidekiq in single-node and moderately sized production clusters.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Hotwire Turbo 8 differ from traditional Single Page Applications (SPAs)?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Hotwire delivers server-rendered HTML rather than JSON APIs consumed by heavy client bundles. Turbo Drive speeds up page navigation, Turbo Frames isolate partial updates, and Turbo 8 morphing smoothly updates the DOM preserving user scroll and form state with zero React/Vue overhead.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can this kit run on SQLite in production or is PostgreSQL required?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Rails 8 officially supports SQLite in production for single-node deployments using litestream and WAL mode. For multi-node autoscaling clusters, this kit provides a complete PostgreSQL 16 configuration in docker-compose.yml.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is CSRF protection handled in Turbo Stream and AJAX requests?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Rails automatically injects CSRF authenticity tokens via `<meta name='csrf-token'>`. Turbo Drive and Turbo Streams automatically attach the `X-CSRF-Token` header to all outgoing non-GET HTTP requests.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the Brakeman security policy enforced in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Brakeman is configured in CI with zero-warning tolerance (`brakeman -q -z`). Any unescaped SQL interpolation, mass assignment vulnerability, or insecure session configuration immediately fails the build.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How are Strong Parameters configured for nested attributes?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Controllers must explicitly whitelist parameters using `params.require(:model).permit(:scalar, nested_attributes: [:id, :attribute])`. Calling `params.permit!` is strictly prohibited.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do Turbo Streams handle asynchronous background model broadcasts?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Models use ActiveModel lifecycle callbacks like `after_create_commit -> { broadcast_prepend_to 'posts' }`. The broadcast is dispatched via Solid Cable over WebSockets to subscribed client browser sessions without polling.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the recommended approach for client-side JavaScript in Hotwire?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Use lightweight Stimulus controllers (`app/javascript/controllers/`). Controllers connect to DOM elements via HTML data-attributes (`data-controller='post'`) to add micro-interactions without mutating server state.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I avoid N+1 queries when rendering Turbo Stream lists?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Use `.includes()` or `.eager_load()` on controllers before rendering. Additionally, enable `config.active_record.strict_loading_by_default = true` in development and test environments to raise an error when un-eager-loaded associations are accessed.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does this kit ensure zero secrets are leaked in git commits?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Gitleaks is integrated via `.github/workflows/security.yml` with a customized configuration that scans all commits, branches, and PRs against secret patterns and credentials.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the health check endpoint operate?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The `/healthz` route in `config/routes.rb` is an ultra-lightweight Rack proc that returns HTTP 200 OK with `{"status":"ok","app":"ruby-rails-hotwire","version":"1.0.0"}` without hitting database locks, suitable for Kubernetes and load balancer liveness probes.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is authentication handled in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Rails 8 includes native authentication generation (`bin/rails generate authentication`), establishing secure password hashing with bcrypt, session tokens stored in HttpOnly cookies, and automatic session revocation upon password changes.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What asset pipeline is utilized in Rails 8?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Rails 8 uses Propshaft for fast asset bundling and importmaps for JavaScript modules without requiring Node.js, Webpack, or npm in the production runtime container.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is Docker multi-stage build optimized for Rails 8?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The Dockerfile uses a multi-stage Alpine build that installs build dependencies (gcc, make) only in the build stage, precompiles Bootsnap cache, and copies only runtime gems to the final image running under an unprivileged `rails:rails` user.</p></details>
+</div>
+      </section>
+
+<!-- Real Terminal Eval Transcript Block -->
       <section>
         <div class="rounded-[8px] bg-[#000000] border border-[#26262C] shadow-2xl overflow-hidden text-left">
           <div class="flex items-center justify-between px-4 py-2 bg-[#131316] border-b border-[#26262C]">
@@ -403,7 +655,7 @@ globs: **/*
             <span class="font-mono text-[10px] uppercase tracking-wider text-[#e85d26] font-semibold bg-[#20150F] px-2 py-0.5 rounded border border-[#e85d26]/30">GATES PASSED</span>
           </div>
           <div class="p-4 font-mono text-xs leading-relaxed text-[#F4F4F5] overflow-x-auto">
-            <div class="text-[#8E8E96] mb-1">$ agy eval --kit ruby-rails-hotwire</div>
+            <div class="text-[#8E8E96] mb-1">$ aautomated test suite --kit ruby-rails-hotwire</div>
             <div class="text-emerald-400">&check; 01-manifest-integrity ............. PASS</div>
             <div class="text-emerald-400">&check; 02-agent-dialects .................. PASS (6/6 compiled)</div>
             <div class="text-emerald-400">&check; 03-skills-sandbox .................. PASS (Sandboxed tools)</div>

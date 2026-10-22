@@ -1,0 +1,21 @@
+{
+  "id": "eval-01",
+  "name": "Filament Resource Scaffolding",
+  "prompt": "Create an Invoice Filament Resource with UUID primary key, status badge column, and customer_id foreign key relationship.",
+  "rule_under_test": "02-filament-admin.md",
+  "expected_artifacts": [
+    "app/Filament/Resources/InvoiceResource.php"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "app/Filament/Resources/InvoiceResource.php",
+      "value": "Tables\\Columns\\TextColumn"
+    },
+    {
+      "type": "contains_string",
+      "target": "app/Filament/Resources/InvoiceResource.php",
+      "value": "modifyQueryUsing"
+    }
+  ]
+}

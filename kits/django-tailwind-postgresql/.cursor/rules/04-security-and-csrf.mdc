@@ -1,0 +1,15 @@
+---
+description: 04 Security And Csrf for Django 5 + Tailwind CSS + PostgreSQL
+globs: ["**/*.py", "**/*.html", "**/*.css"]
+---
+# Rule 4: Security, Authentication & CSRF Protection
+
+## Context & Principles
+- Maintain zero-trust web application hygiene in compliance with OWASP Top 10 guidelines.
+- Never bypass Django's built-in CSRF, clickjacking, or authentication defenses.
+
+## Standards
+1. **CSRF Tokens**: Every form POST request must include `{% csrf_token %}`. Never use `@csrf_exempt` unless integrating verified webhook signatures.
+2. **Session Hardening**: Set `SESSION_COOKIE_SECURE=True`, `SESSION_COOKIE_HTTPONLY=True`, and `SESSION_COOKIE_SAMESITE='Lax'`.
+3. **Password Validation**: Enforce standard Django password validators (`UserAttributeSimilarityValidator`, `MinimumLengthValidator`, `CommonPasswordValidator`, `NumericPasswordValidator`).
+4. **Security Headers**: Enable `SECURE_BROWSER_XSS_FILTER`, `SECURE_CONTENT_TYPE_NOSNIFF`, `X_FRAME_OPTIONS = 'DENY'`, and strict Content-Security-Policy (CSP).

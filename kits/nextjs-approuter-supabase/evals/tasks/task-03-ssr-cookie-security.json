@@ -1,0 +1,21 @@
+{
+  "id": "eval-03",
+  "name": "Supabase SSR Client Cookie Security",
+  "prompt": "Configure createServerClient in src/lib/supabase/server.ts with getAll and setAll cookie handlers.",
+  "rule_under_test": "04-auth-and-session-security.md",
+  "expected_artifacts": [
+    "src/lib/supabase/server.ts"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "src/lib/supabase/server.ts",
+      "value": "createServerClient"
+    },
+    {
+      "type": "contains_string",
+      "target": "src/lib/supabase/server.ts",
+      "value": "cookies"
+    }
+  ]
+}

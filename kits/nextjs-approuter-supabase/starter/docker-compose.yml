@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: nextjs_supabase_app
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_SUPABASE_URL=https://mock-project.supabase.co
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=mock-anon-key-for-local-development-purposes
+      - SUPABASE_SERVICE_ROLE_KEY=mock-service-role-key-never-expose

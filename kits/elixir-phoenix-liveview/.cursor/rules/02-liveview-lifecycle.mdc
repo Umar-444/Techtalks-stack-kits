@@ -1,0 +1,15 @@
+---
+description: 02 Liveview Lifecycle for Elixir + Phoenix LiveView + PostgreSQL
+globs: ["**/*.ex", "**/*.exs", "**/*.heex"]
+---
+# Rule 2: Phoenix LiveView Lifecycle & Stream State
+
+## Context & Principles
+- Keep the server-side process lightweight. Avoid storing large lists in assigns; always use `stream/3` and `stream_insert/3` for collections.
+- Leverage DOM diffing over WebSockets to minimize payload size (typically < 100 bytes per event).
+
+## Standards
+1. **Mount Callback**: In `mount/3`, initialize assigns and streams. Check `connected?(socket)` before subscribing to PubSub topics to prevent duplicate work during static HTTP prerendering.
+2. **Event Handling**: Implement `handle_event/3` with pattern matching for user interactions. Return `{:noreply, socket}`.
+3. **PubSub Subscriptions**: Handle broadcast messages via `handle_info/2` and apply delta updates to streams via `stream_insert(socket, :items, item)`.
+4. **Form Handling**: Use `phx-change="validate"` and `phx-submit="save"` with Ecto Changeset backing to provide instant inline validation.

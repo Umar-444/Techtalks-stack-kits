@@ -1,2 +1,17 @@
 [extend]
 useDefault = true
+
+[allowlist]
+description = "Global DevSecOps CI Allowlist"
+paths = [
+  '''gitleaks\.toml$''',
+  '''checks\.json$''',
+  '''VERIFICATION\.md$''',
+  '''run_local_pipeline\.py$'''
+]
+
+[[rules]]
+id = "custom-api-token"
+description = "Detected Hardcoded API Authentication Token"
+regex = '''(?i)(api[_-]?token|auth[_-]?token)\s*[:=]\s*['"][0-9a-zA-Z\-_]{24,}['"]'''
+keywords = ["api_token", "auth_token"]

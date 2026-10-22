@@ -1,0 +1,16 @@
+---
+description: 01 Framework Conventions for Laravel 12 + MongoDB (NoSQL)
+globs: ["**/*.php", "**/*.js", "**/*.json"]
+---
+# Rule 1: Laravel 12 + MongoDB Framework Conventions
+
+## Context & Principles
+- Utilize the official `mongodb/laravel-mongodb` package for seamless Eloquent integration with MongoDB 7+.
+- All models interacting with MongoDB must extend `MongoDB\Laravel\Eloquent\Model` or `MongoDB\Laravel\Auth\User`.
+- Enforce strict typing (`declare(strict_types=1);`) and treat MongoDB documents as schema-governed data structures rather than arbitrary key-value dictionaries.
+
+## Standards
+1. **Connection Config**: Set `DB_CONNECTION=mongodb` in `.env` and define the MongoDB driver in `config/database.php`.
+2. **Collection Organization**: Explicitly declare `$collection` on every model to avoid naming ambiguity.
+3. **Primary Key**: MongoDB uses `_id` (BSON ObjectId). Eloquent aliases `_id` to `$model->id`. Never override primary key semantics unless explicitly mapping external UUIDs.
+4. **Dates & Timestamps**: Ensure all date fields cast to `datetime` or `MongoDB\BSON\UTCDateTime`.

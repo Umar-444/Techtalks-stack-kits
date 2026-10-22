@@ -1,0 +1,21 @@
+{
+  "id": "eval-02",
+  "name": "NoSQL Operator Injection Defense (Security)",
+  "prompt": "Implement an input sanitization check rejecting client query keys prefixed with $ or containing . operators.",
+  "rule_under_test": "04-nosql-injection-security.md",
+  "expected_artifacts": [
+    "app/Http/Controllers/EventLogController.php"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "app/Http/Controllers/EventLogController.php",
+      "value": "str_starts_with"
+    },
+    {
+      "type": "contains_string",
+      "target": "app/Http/Controllers/EventLogController.php",
+      "value": "422"
+    }
+  ]
+}

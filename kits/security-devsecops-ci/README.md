@@ -1,42 +1,37 @@
-# DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+# DevSecOps CI/CD Security Pipeline Stack Kit
 
-> **Part of TechTalks Stack Kits Catalogue (doc 20 expansion: Kit #33)**  
-> **Efficiency Tier:** `A+` | **Median Tokens to Complete Reference Build:** `8,400 tokens` (Token-Light Flagship)
+A battle-tested, production-grade security automation harness for GitHub Actions and local developer pre-commit stages.
+Enforces shift-left security with secret detection, SAST, container CVE scanning, SBOM generation, and SARIF integration.
 
-## 1. Overview & Architectural Rationale
-Stack-agnostic, drop-in GitHub Actions DevSecOps workflow pipeline: automated Gitleaks secrets audit, Semgrep SAST, GitHub CodeQL, Aqua Trivy container/filesystem CVE scanner, Syft CycloneDX SBOM generation, and Dependabot.
+## Architecture & Tools
+- **Pipeline Automation**: GitHub Actions v4
+- **Secret Scanning**: Gitleaks 8+ (`.gitleaks.toml`)
+- **Static Analysis (SAST)**: Semgrep OSS with custom AST rules (`.semgrep.yml`)
+- **Container & Dependency Scanning**: Aqua Security Trivy (`trivy.yaml`)
+- **Supply Chain SBOM**: Anchore Syft (CycloneDX 1.5 & SPDX 2.3)
+- **Local Runner**: Cross-platform Python pipeline (`starter/scripts/run_local_pipeline.py`)
+- **Reporting**: Native SARIF 2.1.0 integration with GitHub Security tab
 
-### Why This Stack
-- **Maintainable & Predictable:** Clean architectural boundaries designed specifically for AI coding agents.
-- **Security-First:** Hardened input sanitization, automated secret scanning, and OWASP baseline baked in.
-- **Token Efficiency:** Minimizes hallucination surface through strict typing and convention over configuration.
+## Quickstart
 
-## 2. Directory Structure & House Anatomy
-```text
-kits/security-devsecops-ci/
-├── kit.yaml                 # Machine-readable kit manifest
-├── README.md                # Full architectural guide
-├── DESIGN.md                # Design tokens & UI constraints (Document 17/18 compliant)
-├── SECURITY.md              # Threat model & security invariant rules
-├── starter/                 # Executable starter source code
-├── rules/source/            # Single-source markdown rule definitions
-├── skills/                  # Domain-specific agent skills
-├── steps/                   # Step-by-step verified build sequence
-└── security/                # Gitleaks & Semgrep configs
-```
-
-## 3. Token-Light Consumption Metrics (doc 20 Part F)
-- **Median Tokens to Complete Reference Build:** `8,400` tokens
-- **Agent First-Try Correctness:** Verified through `evals/runner.py` benchmark assertions.
-- **Efficiency Tier:** `A+`
-
-## 4. Quickstart
+### 1. Run Local Pipeline Simulation
 ```bash
-# Clone the repository
-git clone https://github.com/Umar-444/Techtalks-stack-kits.git
-cd Techtalks-stack-kits/kits/security-devsecops-ci/starter
+python3 starter/scripts/run_local_pipeline.py
 ```
 
-## 5. Maintainer
-- **Lead Maintainer:** Umar Farooq (Senior Full-Stack & Security Engineer)
-- **Propose improvements:** [Propose a Kit](https://techtalks.itsumarfarooq.com/kits/propose/)
+### 2. Run Pipeline Unit Tests
+```bash
+python3 starter/tests/pipeline_test.py
+```
+
+### 3. Run Mock Test Container & Health Check
+```bash
+docker compose -f starter/docker-compose.yml up -d
+curl http://localhost:8080/healthz
+```
+
+### 4. Enable GitHub Actions
+Copy `starter/.github/workflows/devsecops.yml` into your repository's `.github/workflows/` directory.
+
+## Design Rationale
+See [`DESIGN-NOTES.md`](DESIGN-NOTES.md) for detailed explanations on why this infrastructure kit focuses on CI automation and SARIF outputs rather than a web UI.

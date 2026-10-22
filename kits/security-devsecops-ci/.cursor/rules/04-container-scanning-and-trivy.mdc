@@ -1,0 +1,34 @@
+---
+description: Container Hardening, CVE Scanning, and Trivy Invariants
+globs: ".github/workflows/*.yml,Dockerfile,scripts/**/*.py,scripts/**/*.sh"
+---
+
+---
+id: 04-container-scanning-and-trivy
+title: Container Hardening, CVE Scanning, and Trivy Invariants
+globs: "Dockerfile,docker-compose.yml,trivy.yaml"
+alwaysApply: true
+---
+
+# Container Hardening, CVE Scanning, and Trivy Invariants
+
+## 1. Minimal Attack Surface Base Images
+- Standardize on minimal Alpine (`alpine:3.20`) or Google Distroless base images.
+- Prohibit generic `:latest` tags; pin explicit patch versions with SHA256 digests:
+  `FROM alpine:3.20.3@sha256:beefdbd8a1da6d2915566fde36db9db0b524eb737fc57cd13675d29e64fc613b`
+
+## 2. Non-Root Execution
+- Containers must never execute as `root`.
+- Always create a dedicated unprivileged user and group in the Dockerfile:
+  ```dockerfile
+  RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+  USER appuser
+  ```
+
+## 3. Trivy Scanning Discipline
+- Scan both filesystem dependencies and built container images:
+  ```bash
+  trivy image --exit-code 1 --severity CRITICAL,HIGH --ignore-unfixed my-app:latest
+  ```
+- Suppress unfixed vulnerabilities lacking upstream vendor patches (`--ignore-unfixed`).
+

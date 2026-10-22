@@ -1,0 +1,21 @@
+{
+  "id": "eval-01",
+  "name": "Livewire Volt Component Scaffolding",
+  "prompt": "Create a ProjectList Livewire component with real-time search filtering, status toggles, and UUID keys.",
+  "rule_under_test": "01-framework-conventions.md",
+  "expected_artifacts": [
+    "app/Livewire/ProjectList.php"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "app/Livewire/ProjectList.php",
+      "value": "wire:model"
+    },
+    {
+      "type": "contains_string",
+      "target": "app/Livewire/ProjectList.php",
+      "value": "render"
+    }
+  ]
+}

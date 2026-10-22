@@ -1,0 +1,28 @@
+---
+description: Server-Side Request Forgery (SSRF) and Safe URL Fetching (API7:2023)
+globs: "starter/**/*.py,tests/**/*.py"
+---
+
+---
+id: 05-ssrf-and-input-validation
+title: Server-Side Request Forgery (SSRF) and Safe URL Fetching (API7:2023)
+globs: "starter/**/*.py,tests/**/*.py"
+alwaysApply: true
+---
+
+# Server-Side Request Forgery (SSRF) and Safe URL Fetching (API7:2023)
+
+## 1. Strict URL Scheme & Host Validation
+- Only permit `http` and `https` schemes; strictly prohibit `file://`, `gopher://`, `dict://`, `ftp://`.
+- Resolve the target hostname to an IP address before establishing network connections.
+
+## 2. Prohibit Private and Loopback IP Ranges
+- Block access to internal, loopback, and cloud metadata addresses:
+  - `127.0.0.0/8` (Loopback)
+  - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16` (RFC1918 Private)
+  - `169.254.169.254` (Cloud Instance Metadata Service / IMDS)
+  - `::1` and `fc00::/7` (IPv6 loopback & unique local addresses)
+
+## 3. DNS Rebinding Defense
+- Ensure the IP address validated against the blocklist is the exact IP address connected to, preventing time-of-check to time-of-use (TOCTOU) DNS rebinding attacks.
+

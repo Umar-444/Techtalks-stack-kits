@@ -1,86 +1,112 @@
-# TechTalks Stack Kit Manifest Spec
-schema_version: "1.0.0"
-
-name: "Next.js 15+ + Supabase + shadcn/ui"
-slug: "nextjs-approuter-supabase"
-version: "1.0.0"
-status: "stable"
+schema_version: 1.0.0
+name: Next.js 15+ + Supabase + shadcn/ui
+slug: nextjs-approuter-supabase
+version: 1.0.0
+status: stable
 category: JS / TS
-updated_at: "2026-10-21"
-
-description: "Production fullstack React 19 / Next.js 15 App Router kit featuring Server Actions with Zod validation, Supabase Row-Level Security (RLS), and shadcn/ui design system tokens."
-
+updated_at: '2026-10-22'
+description: Production fullstack React 19 / Next.js 15 App Router kit featuring Server
+  Actions with Zod validation, Supabase Row-Level Security (RLS), and shadcn/ui design
+  system tokens.
 maintainer:
-  name: "Umar Farooq"
-  role: "Senior Full-Stack & Security Engineer"
-  url: "https://itsumarfarooq.com"
-  github: "umar-444"
-  email: "contact@itsumarfarooq.com"
-
+  name: Umar Farooq
+  role: Senior Full-Stack & Security Engineer
+  url: https://itsumarfarooq.com
+  github: umar-444
+  email: contact@itsumarfarooq.com
 stack:
   language:
-    name: "TypeScript"
-    version: "^5.5"
-    registry: "npm"
+    name: TypeScript
+    version: ^5.5
+    registry: npm
   framework:
-    name: "Next.js"
-    version: "^15.0"
-    registry: "npm"
+    name: Next.js
+    version: ^15.0
+    registry: npm
   ui_layer:
-    name: "shadcn/ui + Tailwind CSS"
-    version: "^3.4"
-    type: "component-library"
+    name: shadcn/ui + Tailwind CSS
+    version: ^3.4
+    type: component-library
   database:
-    engine: "Supabase / PostgreSQL"
-    version: ">=16.0"
+    engine: Supabase / PostgreSQL
+    version: '>=16.0'
     features:
-      - "row-level-security"
-      - "realtime"
-      - "pgcrypto"
+    - row-level-security
+    - realtime
+    - pgcrypto
   cache_queue:
-    engine: "Next.js Data Cache"
-    version: "App Router"
+    engine: Next.js Data Cache
+    version: App Router
   auth_system:
-    type: "supabase-auth"
+    type: supabase-auth
     features:
-      - "SSR Middleware Sessions"
-      - "PKCE OAuth"
-
+    - SSR Middleware Sessions
+    - PKCE OAuth
+  runtime:
+    name: Node.js
+    version: '>=22.0.0'
+    registry: npm
 layers:
   starter:
-    path: "starter/"
-    type: "monolithic-app"
+    path: starter/
+    type: starter-scaffold
   rules:
-    source_dir: "rules/source/"
+    source_dir: rules/source/
     generated_targets:
-      - "AGENTS.md"
-      - "CLAUDE.md"
-      - ".cursor/rules/*.mdc"
-      - ".github/copilot-instructions.md"
-      - ".agents/rules/*.md"
-      - ".windsurfrules"
+    - AGENTS.md
+    - CLAUDE.md
+    - CODEX.md
+    - .cursor/rules/*.mdc
+    - .github/copilot-instructions.md
+    - .agents/rules/*.md
+    - .clinerules
+    - .windsurfrules
   skills:
-    dir: "skills/"
+    dir: skills/
     manifest:
-      - id: "supabase-rls"
-        path: "skills/supabase-rls/SKILL.md"
-        description: "Generate and test Supabase Row-Level Security (RLS) policies."
+    - id: install-and-verify
+      path: skills/install-and-verify/SKILL.md
+      description: Install, configure, and verify the Next.js 15 + Supabase + shadcn/ui
+        fullstack application.
+    - id: first-feature
+      path: skills/first-feature/SKILL.md
+      description: Build the canonical first feature - Task/Note management module
+        with Server Actions, Zod validation, and Supabase RLS.
+    - id: supabase-rls-policies
+      path: skills/supabase-rls-policies/SKILL.md
+      description: Write bulletproof PostgreSQL Row Level Security (RLS) policies
+        for Supabase multi-tenant isolation.
+    - id: server-actions-mutation
+      path: skills/server-actions-mutation/SKILL.md
+      description: Author type-safe Next.js Server Actions with Zod validation, revalidation,
+        and error handling.
+    - id: supabase-rls
+      path: skills/supabase-rls/SKILL.md
+      description: Core operations skill for Supabase PostgreSQL configuration, auth
+        middleware, and RLS policies.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
-    path: "DESIGN.md"
+    path: DESIGN.md
     theme_support:
-      - "light"
-      - "dark"
-    wcag_compliance: "AA"
+    - light
+    - dark
+    wcag_compliance: AA
   security:
-    config_dir: "security/"
+    config_dir: security/
     checks:
-      - "semgrep"
-      - "gitleaks"
-      - "rules-backdoor-check"
+    - gitleaks
+    - semgrep
+    - owasp-top-10
   steps:
-    path: "steps/agent-build-steps.md"
-    total_steps: 8
-
+    path: steps/agent-build-steps.md
+    total_steps: 6
+token_metrics:
+  token_light: true
+  median_eval_tokens: 15400
+  efficiency_tier: A
 security:
   automated_scans:
     gitleaks: true
@@ -90,21 +116,5 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
-    prompt_injection_boundary_nonces: true
-  badges:
-    - name: "Zero Plaintext Credentials"
-      status: "verified"
-    - name: "OWASP Top 10 Guardrails"
-      status: "verified"
-
 install:
-  clone_command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git --depth 1"
-  quickstart: "cd kits/nextjs-approuter-supabase && cp .env.example .env.local && npm install && npm run dev"
-
-agent_bootstrap_prompt: |
-  You are an expert fullstack engineer building with the TechTalks "nextjs-approuter-supabase" kit.
-  Adhere strictly to:
-  1. Next.js 15 App Router and React Server Components (RSC) by default.
-  2. All Server Actions must validate payloads using Zod schemas.
-  3. Every database table must have Row-Level Security (RLS) enabled.
-  4. Never expose SUPABASE_SERVICE_ROLE_KEY to client components.
+  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git

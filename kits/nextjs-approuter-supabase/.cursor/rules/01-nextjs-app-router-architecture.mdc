@@ -1,0 +1,16 @@
+---
+description: 01 Nextjs App Router Architecture for Next.js 15+ + Supabase + shadcn/ui
+globs: ["**/*.ts", "**/*.tsx", "**/*.sql", "**/*.css"]
+---
+# Rule 1: Next.js 15 App Router & React 19 Architecture
+
+## Context & Principles
+- All components in the `app/` directory are React Server Components (RSC) by default.
+- Minimize client-side bundle size: only add `'use client'` at the leaves of the component tree for interactive hooks (`useState`, `useEffect`, `useFormStatus`).
+- Keep data fetching on the server using direct Supabase server client calls inside Server Components.
+
+## Standards
+1. **Directory Structure**: Group route segments into `src/app/(auth)/`, `src/app/(dashboard)/`, and shared components into `src/components/`.
+2. **Streaming & Suspense**: Wrap asynchronous data-fetching Server Components in `<Suspense fallback={<Skeleton />}>` to enable incremental page streaming.
+3. **Metadata & SEO**: Export static or dynamic `generateMetadata()` from `page.tsx` or `layout.tsx` for search engine indexing and Open Graph cards.
+4. **Layout Hygiene**: Avoid fetching dynamic user data in global root layouts unless strictly necessary to preserve static route caching.

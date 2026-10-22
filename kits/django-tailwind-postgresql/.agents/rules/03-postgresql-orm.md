@@ -1,0 +1,11 @@
+# Rule 3: PostgreSQL 16+ ORM & Query Performance
+
+## Context & Principles
+- Exploit PostgreSQL capabilities through Django's ORM: connection pooling (Psycopg 3), JSONB querying, and native full-text search.
+- Eliminate N+1 query bottlenecks on all read views.
+
+## Standards
+1. **Eager Loading**: Always use `select_related()` for ForeignKey/OneToOne and `prefetch_related()` for ManyToMany/Reverse relationships.
+2. **Atomic Transactions**: Wrap multi-model write operations inside `with transaction.atomic():` to guarantee database integrity.
+3. **Indexes**: Define explicit `indexes = [models.Index(fields=[...])]` on frequently queried, filtered, or sorted columns.
+4. **Psycopg 3 Pooling**: Use `CONN_MAX_AGE` and `psycopg_pool` settings to avoid per-request connection overhead.

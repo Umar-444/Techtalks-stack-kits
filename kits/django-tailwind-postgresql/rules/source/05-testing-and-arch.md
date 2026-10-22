@@ -1,0 +1,11 @@
+# Rule 5: Automated Testing & Architecture Verification
+
+## Context & Principles
+- Guarantee that all views, forms, and database mutations are covered by automated unit and integration tests.
+- Run tests in isolated test databases using Django's `TestCase` or `pytest-django`.
+
+## Standards
+1. **View Tests**: Assert HTTP 200 responses, correct template rendering, and contextual query counts via `assertNumQueries()`.
+2. **Form Tests**: Test valid submissions, missing required fields, and malicious input handling.
+3. **Database Isolation**: Keep tests idempotent without residual side effects across test runs.
+4. **CI Integration**: Ensure `python manage.py test --parallel` runs cleanly with zero warnings.

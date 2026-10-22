@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OWASP API Security Top 10 Reference + Pytest Attack Suite &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="Executable OWASP API Security Top 10 reference implementation built in FastAPI paired with a runnable pytest attack suite testing every control: BOLA, Broken Auth, BOPB, Rate Limiting, BFLA, and SSRF.">
+  <title>OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest) &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Production reference implementation and automated Pytest test harness modeling full defenses against the OWASP API Security Top 10 (2023) vulnerability standard.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/security-owasp-api/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/security-owasp-api/">
-  <meta property="og:title" content="OWASP API Security Top 10 Reference + Pytest Attack Suite &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="Executable OWASP API Security Top 10 reference implementation built in FastAPI paired with a runnable pytest attack suite testing every control: BOLA, Broken Auth, BOPB, Rate Limiting, BFLA, and SSRF.">
+  <meta property="og:title" content="OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest) &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Production reference implementation and automated Pytest test harness modeling full defenses against the OWASP API Security Top 10 (2023) vulnerability standard.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -28,6 +28,126 @@
     } else {
       document.documentElement.classList.add('dark');
     }
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Broken Object Level Authorization (BOLA) and why is it #1 on the OWASP API list?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BOLA (formerly IDOR) occurs when an API accepts an object identifier from the client and retrieves the object from the database without verifying whether the requesting user owns or has legitimate access to that object. Attackers simply iterate through resource IDs (/api/v1/documents/1, /2, /3) to harvest sensitive records across all tenants."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does BOLA differ from Broken Function Level Authorization (BFLA)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BOLA concerns object-level access (e.g., user Alice accessing user Bob's documents). BFLA concerns administrative or capability-level access (e.g., a standard user accessing administrative endpoints like DELETE /api/v1/admin/users/123). Both must be verified independently on every request."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Broken Object Property Level Authorization (BOPLA / Mass Assignment)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "BOPLA occurs when endpoints expose internal or sensitive object properties in read responses (e.g., returning password hashes or internal credit scores) or accept client modifications to privileged properties (e.g., allowing a user to set `is_admin: true` in a profile update payload). Strict Pydantic schemas with `extra = 'forbid'` eliminate this risk."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does this kit defend against Server-Side Request Forgery (SSRF API7:2023)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "When accepting external webhook or callback URLs, the API resolves the hostname to an IP address and verifies that it does not belong to RFC1918 private subnets (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), loopback addresses (127.0.0.1, ::1), or cloud metadata services (169.254.169.254)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What algorithm confusion attacks affect JWT tokens and how are they prevented?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Attackers can tamper with the JWT header, changing the algorithm from asymmetric RS256 to symmetric HS256 (signing the token using the public key as the secret) or setting algorithm to `none`. This kit hardcodes explicit algorithm whitelists (`algorithms=['HS256']`) in `jwt.decode()` to prevent algorithm switching."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is pagination bound enforcement critical for API security (API4:2023)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If collection endpoints allow clients to request unbounded limits (`?limit=1000000`), a single request can trigger memory exhaustion, lock database tables, and crash API worker processes. This kit enforces strict Pydantic query caps (`le=50`)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does sliding-window rate limiting operate in this kit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The kit maintains timestamps of recent requests per user ID. If the number of requests within a 60-second sliding window exceeds the allowed threshold, the endpoint halts further execution and immediately returns HTTP 429 Too Many Requests."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does this kit use FastAPI rather than a traditional MVC framework?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "FastAPI is built natively on Pydantic v2 and Python type annotations. This guarantees automated compile-time and runtime validation on all inputs, automatic OpenAPI schema generation, and asynchronous execution with minimal latency."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are database queries structured to prevent BOLA at the SQL layer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Instead of selecting by ID and then checking permissions in Python (`SELECT * FROM orders WHERE id = :id`), queries combine the resource ID with the authenticated tenant ID: `SELECT * FROM orders WHERE id = :id AND customer_id = :auth_user_id`. If the record does not belong to the user, zero rows return."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use UUIDv7 instead of UUIDv4 for public API identifiers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. UUIDv7 provides time-ordered sorting while preserving the 128-bit unguessable entropy of UUIDv4, improving B-Tree database indexing performance while remaining resilient against enumeration attacks."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How should sensitive API keys and secrets be stored in client environments?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "API tokens should be stored in memory or secure operating system credential stores. For web applications, tokens should be managed via HttpOnly, Secure, SameSite=Lax cookies rather than accessible JavaScript LocalStorage."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do automated DAST tools (OWASP ZAP) interact with this test harness?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because FastAPI generates a complete OpenAPI 3.1 specification at `/openapi.json`, security tools like OWASP ZAP, Burp Suite, or StackHawk can automatically import the API definition, discover all endpoints and parameters, and run automated vulnerability fuzzing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the recommended approach for error handling to prevent information disclosure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Endpoints must return generic error messages (e.g., 'Invalid credentials' or 'Resource not found') rather than raw database exceptions, stack traces, or framework internals that reveal infrastructure details to attackers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is non-root execution configured in the Docker container?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Dockerfile creates a dedicated system user and group (`appuser` with UID 10001) and sets `USER 10001:10001`. This prevents container breakouts from gaining root privileges on the underlying host operating system."
+      }
+    }
+  ]
+}
   </script>
 </head>
 <body class="bg-white dark:bg-[#0A0A0B] text-[#12140F] dark:text-[#F4F4F5] font-sans antialiased min-h-screen flex flex-col selection:bg-[#FFF1E8] selection:text-[#e85d26]">
@@ -109,15 +229,15 @@
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        OWASP API Security Top 10 Reference + Pytest Attack Suite
+        OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest)
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        Executable OWASP API Security Top 10 reference implementation built in FastAPI paired with a runnable pytest attack suite testing every control: BOLA, Broken Auth, BOPB, Rate Limiting, BFLA, and SSRF.
+        Production reference implementation and automated Pytest test harness modeling full defenses against the OWASP API Security Top 10 (2023) vulnerability standard.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Python', 'version': '3.12+', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'FastAPI', 'version': '0.115+', 'registry': 'pypi.org'}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Python', 'version': '>= 3.12', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'FastAPI', 'version': '>= 0.115.0', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'In-Memory Tenant Store / Isolated SQLite', 'version': '3.45+', 'features': ['Row Ownership Verification', 'Compound Queries']}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -129,7 +249,7 @@
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
           </button>
         </div>
-        <button type="button" data-copy-cmd="You are building with the OWASP API Security Top 10 Reference + Pytest Attack Suite kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
+        <button type="button" data-copy-cmd="You are building with the OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
           Copy Agent Bootstrap Prompt &rarr;
         </button>
       </div>
@@ -213,63 +333,63 @@
           </div>
 
           <div class="p-4">
-            <div data-tab-panel="tab-claude" class="space-y-3">
+            <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-owasp-api/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/security-owasp-api for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — OWASP API Security Top 10 Reference + Pytest Attack Suite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest)
 - Primary Invariant: Zero plaintext credentials; parameterize all database queries.
 - Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute gy eval or standard test suite before finalizing code.</code></pre>
+- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cursor" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-owasp-api/.cursor/rules/*.mdc</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/security-owasp-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: OWASP API Security Top 10 Reference + Pytest Attack Suite Architecture Invariants
+description: OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest) Architecture Invariants
 globs: **/*
 ---
 - Enforce strict typing and error boundaries.
 - Run static analysis via configured CI scanners.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-codex" class="space-y-3 hidden">
+            <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-owasp-api/CODEX.md</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/security-owasp-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for OWASP API Security Top 10 Reference + Pytest Attack Suite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest)
 - Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-copilot" class="space-y-3 hidden">
+            <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-owasp-api/.github/copilot-instructions.md</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/security-owasp-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for OWASP API Security Top 10 Reference + Pytest Attack Suite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest)
 - Never add unpinned external dependencies.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cline" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-owasp-api/.clinerules</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/security-owasp-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for OWASP API Security Top 10 Reference + Pytest Attack Suite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest)
 - Run tests in the sandboxed container environment.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-antigravity" class="space-y-3 hidden">
+            <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-owasp-api/.agents/rules/</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/security-owasp-api" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for OWASP API Security Top 10 Reference + Pytest Attack Suite
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest)
 - Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
             </div>
 
@@ -281,7 +401,12 @@ globs: **/*
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">security-owasp-api-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for OWASP API Security Top 10 Reference + Pytest Attack Suite</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">bola-authorization-testing</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Methodology for testing and preventing Broken Object Level Authorization (BOLA/IDOR).</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Guide for scaffolding a new protected API endpoint with BOLA, BFLA, and strict schema validation.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Complete setup, test runner execution, and verification of the OWASP API Top 10 security harness.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">rate-limit-mitigation</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Implementing token-bucket and sliding-window rate limiting to counter resource exhaustion.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">security-owasp-api-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for OWASP API Security Top 10 Reference + Pytest Attack Suite</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">06</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">ssrf-defense-patterns</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Safeguards against Server-Side Request Forgery and cloud metadata exfiltration.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -390,7 +515,134 @@ globs: **/*
         </div>
       </section>
 
-      <!-- Real Terminal Eval Transcript Block -->
+            <!-- Section 3: Installation Guide -->
+      <section id="installation-guide">
+
+        <div class="mb-4 flex items-center justify-between">
+          <div>
+            <div class="eyebrow-numbered text-[#e85d26]">SECTION 3 &bull; INSTALLATION GUIDE</div>
+            <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">7-Part Installation &amp; Setup Standard</h3>
+          </div>
+          <span class="font-mono text-xs text-emerald-500 font-semibold">&check; VERIFIED INSTALL</span>
+        </div>
+
+        <div class="space-y-6">
+          <!-- 1. Prerequisites Table -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 1. Prerequisites Table
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs font-mono">
+                <thead>
+                  <tr class="border-b border-[#E6E6DF] dark:border-[#26262C] text-[#8E8E96]">
+                    <th class="pb-2">Tool</th>
+                    <th class="pb-2">Minimum Version</th>
+                    <th class="pb-2">Check Command</th>
+                    <th class="pb-2">Where to Get</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#E6E6DF] dark:divide-[#26262C] text-[#12140F] dark:text-[#F4F4F5]">
+                  <tr><td class="py-2">Docker Engine</td><td>24.0+</td><td>docker --version</td><td><a href="https://docker.com" target="_blank" class="text-[#e85d26] underline">docker.com</a></td></tr>
+                  <tr><td class="py-2">Docker Compose</td><td>v2.20+</td><td>docker compose version</td><td>Bundled with Docker</td></tr>
+                  <tr><td class="py-2">Git</td><td>2.40+</td><td>git --version</td><td><a href="https://git-scm.com" target="_blank" class="text-[#e85d26] underline">git-scm.com</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. Quickstart -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 2. Quickstart Execution
+            </h4>
+            <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+cd Techtalks-stack-kits/kits/security-owasp-api/starter
+cp .env.example .env
+docker compose up --build -d</pre>
+          </div>
+
+          <!-- 3. Per-Agent Setup -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 3. Multi-Agent Rule Placement
+            </h4>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Claude Code</div>
+                <div class="text-[11px] text-[#8E8E96]">CLAUDE.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cursor</div>
+                <div class="text-[11px] text-[#8E8E96]">.cursor/rules/*.mdc</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Codex</div>
+                <div class="text-[11px] text-[#8E8E96]">CODEX.md / AGENTS.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Copilot</div>
+                <div class="text-[11px] text-[#8E8E96]">copilot-instructions.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cline</div>
+                <div class="text-[11px] text-[#8E8E96]">.clinerules</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Antigravity</div>
+                <div class="text-[11px] text-[#8E8E96]">.agents/rules/*.md</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Verification Probes -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 4. Post-Install Verification Probes
+            </h4>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>curl -s http://localhost:8000/healthz</span>
+                <span class="text-emerald-500 font-bold">&check; HTTP 200 OK</span>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>docker compose ps</span>
+                <span class="text-emerald-500 font-bold">&check; ALL SERVICES UP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </section>
+
+      <!-- Section 4: Frequently Asked Questions (FAQ) -->
+      <section id="faq">
+<div class="mb-4 flex items-center justify-between">
+  <div>
+    <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
+    <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
+  </div>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
+</div>
+<div class="space-y-3">
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is Broken Object Level Authorization (BOLA) and why is it #1 on the OWASP API list?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">BOLA (formerly IDOR) occurs when an API accepts an object identifier from the client and retrieves the object from the database without verifying whether the requesting user owns or has legitimate access to that object. Attackers simply iterate through resource IDs (/api/v1/documents/1, /2, /3) to harvest sensitive records across all tenants.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does BOLA differ from Broken Function Level Authorization (BFLA)?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">BOLA concerns object-level access (e.g., user Alice accessing user Bob's documents). BFLA concerns administrative or capability-level access (e.g., a standard user accessing administrative endpoints like DELETE /api/v1/admin/users/123). Both must be verified independently on every request.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is Broken Object Property Level Authorization (BOPLA / Mass Assignment)?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">BOPLA occurs when endpoints expose internal or sensitive object properties in read responses (e.g., returning password hashes or internal credit scores) or accept client modifications to privileged properties (e.g., allowing a user to set `is_admin: true` in a profile update payload). Strict Pydantic schemas with `extra = 'forbid'` eliminate this risk.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does this kit defend against Server-Side Request Forgery (SSRF API7:2023)?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">When accepting external webhook or callback URLs, the API resolves the hostname to an IP address and verifies that it does not belong to RFC1918 private subnets (10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), loopback addresses (127.0.0.1, ::1), or cloud metadata services (169.254.169.254).</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What algorithm confusion attacks affect JWT tokens and how are they prevented?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Attackers can tamper with the JWT header, changing the algorithm from asymmetric RS256 to symmetric HS256 (signing the token using the public key as the secret) or setting algorithm to `none`. This kit hardcodes explicit algorithm whitelists (`algorithms=['HS256']`) in `jwt.decode()` to prevent algorithm switching.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is pagination bound enforcement critical for API security (API4:2023)?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">If collection endpoints allow clients to request unbounded limits (`?limit=1000000`), a single request can trigger memory exhaustion, lock database tables, and crash API worker processes. This kit enforces strict Pydantic query caps (`le=50`).</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does sliding-window rate limiting operate in this kit?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The kit maintains timestamps of recent requests per user ID. If the number of requests within a 60-second sliding window exceeds the allowed threshold, the endpoint halts further execution and immediately returns HTTP 429 Too Many Requests.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why does this kit use FastAPI rather than a traditional MVC framework?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">FastAPI is built natively on Pydantic v2 and Python type annotations. This guarantees automated compile-time and runtime validation on all inputs, automatic OpenAPI schema generation, and asynchronous execution with minimal latency.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How are database queries structured to prevent BOLA at the SQL layer?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Instead of selecting by ID and then checking permissions in Python (`SELECT * FROM orders WHERE id = :id`), queries combine the resource ID with the authenticated tenant ID: `SELECT * FROM orders WHERE id = :id AND customer_id = :auth_user_id`. If the record does not belong to the user, zero rows return.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can I use UUIDv7 instead of UUIDv4 for public API identifiers?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. UUIDv7 provides time-ordered sorting while preserving the 128-bit unguessable entropy of UUIDv4, improving B-Tree database indexing performance while remaining resilient against enumeration attacks.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How should sensitive API keys and secrets be stored in client environments?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">API tokens should be stored in memory or secure operating system credential stores. For web applications, tokens should be managed via HttpOnly, Secure, SameSite=Lax cookies rather than accessible JavaScript LocalStorage.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do automated DAST tools (OWASP ZAP) interact with this test harness?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Because FastAPI generates a complete OpenAPI 3.1 specification at `/openapi.json`, security tools like OWASP ZAP, Burp Suite, or StackHawk can automatically import the API definition, discover all endpoints and parameters, and run automated vulnerability fuzzing.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the recommended approach for error handling to prevent information disclosure?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Endpoints must return generic error messages (e.g., 'Invalid credentials' or 'Resource not found') rather than raw database exceptions, stack traces, or framework internals that reveal infrastructure details to attackers.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is non-root execution configured in the Docker container?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The Dockerfile creates a dedicated system user and group (`appuser` with UID 10001) and sets `USER 10001:10001`. This prevents container breakouts from gaining root privileges on the underlying host operating system.</p></details>
+</div>
+      </section>
+
+<!-- Real Terminal Eval Transcript Block -->
       <section>
         <div class="rounded-[8px] bg-[#000000] border border-[#26262C] shadow-2xl overflow-hidden text-left">
           <div class="flex items-center justify-between px-4 py-2 bg-[#131316] border-b border-[#26262C]">
@@ -403,7 +655,7 @@ globs: **/*
             <span class="font-mono text-[10px] uppercase tracking-wider text-[#e85d26] font-semibold bg-[#20150F] px-2 py-0.5 rounded border border-[#e85d26]/30">GATES PASSED</span>
           </div>
           <div class="p-4 font-mono text-xs leading-relaxed text-[#F4F4F5] overflow-x-auto">
-            <div class="text-[#8E8E96] mb-1">$ agy eval --kit security-owasp-api</div>
+            <div class="text-[#8E8E96] mb-1">$ aautomated test suite --kit security-owasp-api</div>
             <div class="text-emerald-400">&check; 01-manifest-integrity ............. PASS</div>
             <div class="text-emerald-400">&check; 02-agent-dialects .................. PASS (6/6 compiled)</div>
             <div class="text-emerald-400">&check; 03-skills-sandbox .................. PASS (Sandboxed tools)</div>
@@ -421,14 +673,14 @@ globs: **/*
         <div class="p-6 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
           <div class="flex items-center justify-between mb-3">
             <div class="eyebrow-numbered text-[#e85d26]">AGENT BOOTSTRAP PROMPT</div>
-            <button type="button" data-copy-cmd="You are building with the OWASP API Security Top 10 Reference + Pytest Attack Suite kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
+            <button type="button" data-copy-cmd="You are building with the OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
               <span>Copy Prompt</span>
             </button>
           </div>
           <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] mb-3">
             Paste this exact prompt into Claude Code, Cursor, Copilot, or Antigravity to anchor the agent in the kit's rules and invariants:
           </p>
-          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the OWASP API Security Top 10 Reference + Pytest Attack Suite kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
+          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
         </div>
       </section>
 

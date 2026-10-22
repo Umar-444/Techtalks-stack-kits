@@ -1,0 +1,25 @@
+---
+description: Tower-HTTP Middleware Chaining, Observability, and Timeout Control
+globs: "starter/src/**/*.rs,starter/tests/**/*.rs,starter/Cargo.toml"
+---
+
+---
+id: 03-tower-middleware-and-resilience
+title: Tower-HTTP Middleware Chaining, Observability, and Timeout Control
+globs: "starter/src/**/*.rs"
+alwaysApply: true
+---
+
+# Tower-HTTP Middleware Chaining, Observability, and Timeout Control
+
+## 1. Layer Composition
+- Wrap Axum routers with standard Tower-HTTP middleware:
+  - `TraceLayer::new_for_http()`: Structured request logging with OpenTelemetry / Tracing.
+  - `TimeoutLayer::new(Duration::from_secs(15))`: Fast failure for stalled operations.
+  - `CorsLayer`: Explicit allowed origins and headers; never allow wildcard `*` with credentials.
+  - `CompressionLayer::new()`: Gzip/Brotli automatic payload compression.
+
+## 2. Tracing & Structured Logging
+- Instrument async handler functions with `#[tracing::instrument(skip(pool))]`.
+- Emits contextual trace spans across request lifecycles.
+

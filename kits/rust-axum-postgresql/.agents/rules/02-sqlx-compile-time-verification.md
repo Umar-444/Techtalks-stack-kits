@@ -1,0 +1,37 @@
+---
+id: 02-sqlx-compile-time-verification
+title: SQLx Compile-Time Verification, Migrations, and Connection Pooling
+globs: "starter/src/**/*.rs,starter/migrations/*.sql"
+alwaysApply: true
+---
+
+# SQLx Compile-Time Verification, Migrations, and Connection Pooling
+
+## 1. Compile-Time Query Safety
+- Prefer `sqlx::query!` and `sqlx::query_as!` macros for compile-time syntax and type checking against PostgreSQL schemas:
+  ```rust
+  let item = sqlx::query_as!(
+      Item,
+      "SELECT id, name, description, created_at FROM items WHERE id = $1",
+      item_id
+  )
+  .fetch_optional(&pool)
+  .await?;
+  ```
+- Use `cargo sqlx prepare` to generate `.sqlx/` metadata for offline CI builds without requiring a live database.
+
+## 2. Immutable SQL Migrations
+- Write migrations in `migrations/` named with versioned prefixes (e.g., `0001_init.sql`).
+- Apply migrations automatically at service startup using `sqlx::migrate!().run(&pool).await?`.
+
+## 3. Connection Pool Discipline
+- Configure explicit pool boundaries via `PgPoolOptions`:
+  ```rust
+  let pool = PgPoolOptions::new()
+      .max_connections(25)
+      .min_connections(5)
+      .acquire_timeout(std::time::Duration::from_secs(3))
+      .idle_timeout(std::time::Duration::from_secs(600))
+      .connect(&database_url)
+      .await?;
+  ```

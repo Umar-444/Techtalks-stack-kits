@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-02-strong-parameters-security",
+  "name": "Strong Parameters Mass Assignment Defense",
+  "difficulty": "advanced",
+  "prompt": "Refactor a legacy controller action that receives nested author attributes to use strict Strong Parameters with permitted scalars and nested attributes. Verify that unauthorized role attribute injection raises an error or is stripped.",
+  "expected_files": [
+    "app/controllers/articles_controller.rb",
+    "test/controllers/articles_controller_test.rb"
+  ],
+  "verification": {
+    "command": "bundle exec brakeman -q -z",
+    "criteria": "Zero Brakeman mass assignment warnings and strict Strong Parameters test passes"
+  }
+}

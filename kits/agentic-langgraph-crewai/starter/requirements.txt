@@ -1,3 +1,9 @@
-langgraph>=0.2.0
-crewai>=0.55.0
-fastapi>=0.115.0
+fastapi==0.115.0
+uvicorn==0.31.0
+langgraph==0.2.34
+crewai==0.70.1
+pydantic==2.9.2
+redis==5.1.1
+pytest==8.3.3
+pytest-asyncio==0.24.0
+httpx==0.27.2

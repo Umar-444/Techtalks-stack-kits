@@ -1,42 +1,35 @@
-# TypeScript + Hono + Bun + Drizzle + SQLite
+# TypeScript + Hono + Bun + SQLite (Drizzle ORM) Stack Kit
 
-> **Part of TechTalks Stack Kits Catalogue (doc 20 expansion: Kit #38)**  
-> **Efficiency Tier:** `A` | **Median Tokens to Complete Reference Build:** `18,200 tokens` (Token-Light Flagship)
+An ultra-lightweight, sub-millisecond full-stack TypeScript API kit built with **Hono**, **Bun**, and native **SQLite** in Write-Ahead Logging (WAL) mode.
 
-## 1. Overview & Architectural Rationale
-The edge-minimal TypeScript stack: tiny API surface, zero build ceremony with Bun, Hono typed RPC, Drizzle type-safe schema migrations, and single-file-friendly microservices.
+## Stack Overview
+- **Language**: TypeScript 5.6+
+- **Framework**: Hono 4.6+ (Trie-based RegExpRouter)
+- **Runtime**: Bun 1.1+ (Built-in SQLite & native test runner)
+- **Database & ORM**: SQLite / LibSQL with Drizzle ORM 0.35+
+- **Validation**: Zod 3.23+ with strict request schemas
+- **Container**: Multi-stage Alpine container running as non-root `bun` user
 
-### Why This Stack
-- **Maintainable & Predictable:** Clean architectural boundaries designed specifically for AI coding agents.
-- **Security-First:** Hardened input sanitization, automated secret scanning, and OWASP baseline baked in.
-- **Token Efficiency:** Minimizes hallucination surface through strict typing and convention over configuration.
+## Quickstart
 
-## 2. Directory Structure & House Anatomy
-```text
-kits/ts-hono-bun-sqlite/
-├── kit.yaml                 # Machine-readable kit manifest
-├── README.md                # Full architectural guide
-├── DESIGN.md                # Design tokens & UI constraints (Document 17/18 compliant)
-├── SECURITY.md              # Threat model & security invariant rules
-├── starter/                 # Executable starter source code
-├── rules/source/            # Single-source markdown rule definitions
-├── skills/                  # Domain-specific agent skills
-├── steps/                   # Step-by-step verified build sequence
-└── security/                # Gitleaks & Semgrep configs
-```
-
-## 3. Token-Light Consumption Metrics (doc 20 Part F)
-- **Median Tokens to Complete Reference Build:** `18,200` tokens
-- **Agent First-Try Correctness:** Verified through `evals/runner.py` benchmark assertions.
-- **Efficiency Tier:** `A`
-
-## 4. Quickstart
+### 1. Install & Run Tests
 ```bash
-# Clone the repository
-git clone https://github.com/Umar-444/Techtalks-stack-kits.git
-cd Techtalks-stack-kits/kits/ts-hono-bun-sqlite/starter
+bun install
+bun test
 ```
 
-## 5. Maintainer
-- **Lead Maintainer:** TechTalks Edge & Minimalist Group (TypeScript Edge Architect)
-- **Propose improvements:** [Propose a Kit](https://techtalks.itsumarfarooq.com/kits/propose/)
+### 2. Run Development Server
+```bash
+bun run dev
+```
+Visit `http://localhost:3000/healthz` to verify live status.
+
+### 3. Run with Docker Compose
+```bash
+docker compose up --build
+```
+
+## Security & Verification Standards
+- Strict prepared statements eliminate SQL injection risks.
+- SQLite WAL mode guarantees high concurrent throughput without database lock contention.
+- Fully documented in [`VERIFICATION.md`](VERIFICATION.md).

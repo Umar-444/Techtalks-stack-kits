@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rust + Axum + Tokio + SQLx + PostgreSQL (Blueprint) &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="Modern async Rust web service built on Axum 0.8+, Tokio runtime, Tower middleware, and SQLx for compile-time verified SQL queries and injection resistance.">
+  <title>Rust + Axum + PostgreSQL (SQLx) &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Production-grade, zero-cost abstraction backend stack kit built with Rust 1.81+, Axum 0.8+, and PostgreSQL 16 with compile-time verified SQLx queries.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/rust-axum-postgresql/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/rust-axum-postgresql/">
-  <meta property="og:title" content="Rust + Axum + Tokio + SQLx + PostgreSQL (Blueprint) &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="Modern async Rust web service built on Axum 0.8+, Tokio runtime, Tower middleware, and SQLx for compile-time verified SQL queries and injection resistance.">
+  <meta property="og:title" content="Rust + Axum + PostgreSQL (SQLx) &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Production-grade, zero-cost abstraction backend stack kit built with Rust 1.81+, Axum 0.8+, and PostgreSQL 16 with compile-time verified SQLx queries.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -28,6 +28,126 @@
     } else {
       document.documentElement.classList.add('dark');
     }
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is Rust with Axum considered one of the highest-performing backend web stacks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rust compiles directly to native machine code with zero garbage collection overhead and zero runtime reflection. Axum is built on top of Hyper and Tower, utilizing hyper-optimized async I/O with Tokio, achieving millions of requests per second with microsecond latency and minimal memory consumption."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does SQLx compile-time query verification prevent runtime database errors?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The `sqlx::query!` and `query_as!` macros connect to your PostgreSQL database at compile time (or check `.sqlx/` metadata in CI). They validate that the SQL syntax is valid, tables and columns exist, and column data types match Rust struct field types, making SQL syntax and type errors impossible at runtime."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the purpose of `cargo sqlx prepare` for CI/CD pipelines?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In CI environments without a live PostgreSQL database, `cargo sqlx prepare` creates cached JSON query metadata in a `.sqlx/` folder. When `SQLX_OFFLINE=true` is set, the Rust compiler verifies queries against these saved metadata files without needing a live network connection."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Axum's `State` extractor differ from traditional dependency injection?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Axum uses type-safe state extractors (`State(pool): State<PgPool>`) resolved at compile time. If a handler requests a state type that was not registered in the Router with `.with_state()`, the code fails to compile, eliminating runtime null pointer or missing dependency exceptions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What role does Tower middleware play in Axum applications?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tower provides composable, protocol-agnostic middleware abstractions. Layers like `TraceLayer` (distributed logging), `TimeoutLayer` (request deadlines), `CorsLayer` (cross-origin security), and `CompressionLayer` wrap the core service cleanly with zero boilerplate in business logic."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does this kit tune PostgreSQL connection pooling with `PgPoolOptions`?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The pool is configured with `max_connections(25)`, `min_connections(5)`, `acquire_timeout(3s)`, and `idle_timeout(10m)`. This prevents connection spikes from exhausting PostgreSQL process limits while ensuring available idle connections for burst traffic."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the `AppError` enum prevent information disclosure vulnerabilities?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The unified `AppError` enum catches underlying `sqlx::Error` variants and logs the detailed database error internally using `tracing::error!()`. It returns only a generic `Internal server error` message with HTTP 500 to the client, preventing table schemas or database credentials from leaking."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Rust achieve memory safety without garbage collection pauses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Rust uses a strict ownership, borrowing, and lifetime system enforced by the compiler. Memory is freed deterministically as soon as its owner goes out of scope (RAII), eliminating memory leaks, use-after-free, double-free bugs, and unpredictable GC stop-the-world pauses."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is non-root execution configured in the Docker container?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The multi-stage Dockerfile builds the static binary in a builder stage and copies only the compiled binary to a minimal Alpine container. It creates a dedicated unprivileged user (`appuser` with UID 10001) and sets `USER 10001:10001` to isolate the process from the host kernel."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the recommended approach for pagination in high-traffic Axum services?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Collection endpoints clamp query limits using `.clamp(1, 100)`. For high-volume tables, cursor-based pagination (`WHERE id > $last_id ORDER BY id ASC LIMIT 50`) is preferred over offset pagination to maintain O(1) query time across large datasets."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I run security supply-chain audits on Rust dependencies?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Execute `cargo audit` in CI to compare `Cargo.lock` against the RustSec Advisory Database, and use `cargo deny check` to detect disallowed licenses, yanked crates, and duplicate dependency versions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is `DefaultBodyLimit` essential for protecting against DoS attacks?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Without body limits, an attacker could stream gigabytes of data into a POST endpoint, causing memory exhaustion. Axum provides `DefaultBodyLimit::max(bytes)` to reject oversized request bodies with HTTP 413 Payload Too Large before buffering."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Tokio handle CPU-intensive tasks without blocking the async runtime?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tokio worker threads handle non-blocking I/O. For heavy CPU operations (like password hashing or image processing), use `tokio::task::spawn_blocking()` to offload the work to a dedicated threadpool, preventing async event loop stalls."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Axum serve both REST APIs and WebSockets?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Axum has native first-class WebSocket support via `axum::extract::ws::WebSocketUpgrade`, allowing real-time bidirectional messaging on the same port and router alongside RESTful endpoints."
+      }
+    }
+  ]
+}
   </script>
 </head>
 <body class="bg-white dark:bg-[#0A0A0B] text-[#12140F] dark:text-[#F4F4F5] font-sans antialiased min-h-screen flex flex-col selection:bg-[#FFF1E8] selection:text-[#e85d26]">
@@ -97,27 +217,27 @@
       <span class="text-[#12140F] dark:text-[#F4F4F5] font-medium font-mono">rust-axum-postgresql</span>
     </nav>
 
-<div class="mb-8 p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] border-l-[3px] border-l-[#B7791F] text-xs leading-relaxed flex items-start gap-3"><span class="font-mono font-bold text-[#B7791F] uppercase tracking-wider">Note:</span><div class="text-[#5C6058] dark:text-[#C4C4CC]">This kit is an architectural blueprint. Specifications, threat models, and multi-dialect rules are compiled. Starter containers are in active verification.</div></div>
+
 
     <!-- Kit Header Section -->
     <div class="border-b border-[#E6E6DF] dark:border-[#26262C] pb-8 mb-10">
       <div class="flex flex-wrap items-center gap-3 mb-3">
-        <span class="chip-status-blueprint"><span class="w-1.5 h-1.5 rounded-full bg-[#8E8E96]"></span>BLUEPRINT</span>
+        <span class="chip-status-ready"><span class="w-1.5 h-1.5 rounded-full bg-[#e85d26]"></span>READY TO SHIP</span>
         <span class="text-xs font-mono text-[#8E8E96]">v1.0.0</span>
         <span class="text-xs font-mono text-[#8E8E96]">&bull;</span>
         <span class="text-xs font-mono text-[#8E8E96]">6 Native Agent Dialects</span>
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        Rust + Axum + Tokio + SQLx + PostgreSQL (Blueprint)
+        Rust + Axum + PostgreSQL (SQLx)
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        Modern async Rust web service built on Axum 0.8+, Tokio runtime, Tower middleware, and SQLx for compile-time verified SQL queries and injection resistance.
+        Production-grade, zero-cost abstraction backend stack kit built with Rust 1.81+, Axum 0.8+, and PostgreSQL 16 with compile-time verified SQLx queries.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Rust', 'version': '1.80+', 'registry': 'crates.io'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Axum', 'version': '0.8+', 'registry': 'crates.io'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL', 'version': '16+', 'features': ['sqlx compile-checked queries', 'connection pool']}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Rust', 'version': '>= 1.80.0', 'registry': 'crates.io'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'Axum', 'version': '>= 0.8.0', 'registry': 'crates.io'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'PostgreSQL', 'version': '>= 16.0', 'features': ['SQLx compile-checked queries', 'Connection pooling', 'Compound Indexing']}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -129,7 +249,7 @@
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
           </button>
         </div>
-        <button type="button" data-copy-cmd="You are building with the Rust + Axum + Tokio + SQLx + PostgreSQL kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
+        <button type="button" data-copy-cmd="You are building with the Rust + Axum + PostgreSQL (SQLx) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
           Copy Agent Bootstrap Prompt &rarr;
         </button>
       </div>
@@ -213,63 +333,63 @@
           </div>
 
           <div class="p-4">
-            <div data-tab-panel="tab-claude" class="space-y-3">
+            <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/rust-axum-postgresql/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/rust-axum-postgresql for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Rust + Axum + Tokio + SQLx + PostgreSQL (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — Rust + Axum + PostgreSQL (SQLx)
 - Primary Invariant: Zero plaintext credentials; parameterize all database queries.
 - Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute gy eval or standard test suite before finalizing code.</code></pre>
+- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cursor" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/rust-axum-postgresql/.cursor/rules/*.mdc</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/rust-axum-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: Rust + Axum + Tokio + SQLx + PostgreSQL (Blueprint) Architecture Invariants
+description: Rust + Axum + PostgreSQL (SQLx) Architecture Invariants
 globs: **/*
 ---
 - Enforce strict typing and error boundaries.
 - Run static analysis via configured CI scanners.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-codex" class="space-y-3 hidden">
+            <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/rust-axum-postgresql/CODEX.md</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/rust-axum-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Rust + Axum + Tokio + SQLx + PostgreSQL (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for Rust + Axum + PostgreSQL (SQLx)
 - Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-copilot" class="space-y-3 hidden">
+            <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/rust-axum-postgresql/.github/copilot-instructions.md</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/rust-axum-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Rust + Axum + Tokio + SQLx + PostgreSQL (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for Rust + Axum + PostgreSQL (SQLx)
 - Never add unpinned external dependencies.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cline" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/rust-axum-postgresql/.clinerules</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/rust-axum-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Rust + Axum + Tokio + SQLx + PostgreSQL (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for Rust + Axum + PostgreSQL (SQLx)
 - Run tests in the sandboxed container environment.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-antigravity" class="space-y-3 hidden">
+            <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/rust-axum-postgresql/.agents/rules/</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/rust-axum-postgresql" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Rust + Axum + Tokio + SQLx + PostgreSQL (Blueprint)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for Rust + Axum + PostgreSQL (SQLx)
 - Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
             </div>
 
@@ -281,7 +401,12 @@ globs: **/*
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">rust-axum-postgresql-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for Rust + Axum + Tokio + SQLx + PostgreSQL</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">cargo-audit-security</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Continuous dependency vulnerability scanning and license compliance with cargo-audit and cargo-deny.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Guide for scaffolding a new resourceful endpoint with SQLx migrations, domain model, handler, and integration test.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Complete toolchain setup, database migration, automated test execution, and health verification for Rust Axum PostgreSQL kit.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">rust-axum-postgresql-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for Rust + Axum + Tokio + SQLx + PostgreSQL</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">sqlx-compile-time-queries</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Authoring compile-time verified queries, preparing offline query metadata, and tuning connection pools.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">06</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">tower-middleware-layer</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Layering Tower-HTTP middleware for distributed tracing, CORS, timeouts, and payload compression.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -390,7 +515,134 @@ globs: **/*
         </div>
       </section>
 
-      <!-- Real Terminal Eval Transcript Block -->
+            <!-- Section 3: Installation Guide -->
+      <section id="installation-guide">
+
+        <div class="mb-4 flex items-center justify-between">
+          <div>
+            <div class="eyebrow-numbered text-[#e85d26]">SECTION 3 &bull; INSTALLATION GUIDE</div>
+            <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">7-Part Installation &amp; Setup Standard</h3>
+          </div>
+          <span class="font-mono text-xs text-emerald-500 font-semibold">&check; VERIFIED INSTALL</span>
+        </div>
+
+        <div class="space-y-6">
+          <!-- 1. Prerequisites Table -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 1. Prerequisites Table
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs font-mono">
+                <thead>
+                  <tr class="border-b border-[#E6E6DF] dark:border-[#26262C] text-[#8E8E96]">
+                    <th class="pb-2">Tool</th>
+                    <th class="pb-2">Minimum Version</th>
+                    <th class="pb-2">Check Command</th>
+                    <th class="pb-2">Where to Get</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#E6E6DF] dark:divide-[#26262C] text-[#12140F] dark:text-[#F4F4F5]">
+                  <tr><td class="py-2">Docker Engine</td><td>24.0+</td><td>docker --version</td><td><a href="https://docker.com" target="_blank" class="text-[#e85d26] underline">docker.com</a></td></tr>
+                  <tr><td class="py-2">Docker Compose</td><td>v2.20+</td><td>docker compose version</td><td>Bundled with Docker</td></tr>
+                  <tr><td class="py-2">Git</td><td>2.40+</td><td>git --version</td><td><a href="https://git-scm.com" target="_blank" class="text-[#e85d26] underline">git-scm.com</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. Quickstart -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 2. Quickstart Execution
+            </h4>
+            <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+cd Techtalks-stack-kits/kits/rust-axum-postgresql/starter
+cp .env.example .env
+docker compose up --build -d</pre>
+          </div>
+
+          <!-- 3. Per-Agent Setup -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 3. Multi-Agent Rule Placement
+            </h4>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Claude Code</div>
+                <div class="text-[11px] text-[#8E8E96]">CLAUDE.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cursor</div>
+                <div class="text-[11px] text-[#8E8E96]">.cursor/rules/*.mdc</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Codex</div>
+                <div class="text-[11px] text-[#8E8E96]">CODEX.md / AGENTS.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Copilot</div>
+                <div class="text-[11px] text-[#8E8E96]">copilot-instructions.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cline</div>
+                <div class="text-[11px] text-[#8E8E96]">.clinerules</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Antigravity</div>
+                <div class="text-[11px] text-[#8E8E96]">.agents/rules/*.md</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Verification Probes -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 4. Post-Install Verification Probes
+            </h4>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>curl -s http://localhost:8000/healthz</span>
+                <span class="text-emerald-500 font-bold">&check; HTTP 200 OK</span>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>docker compose ps</span>
+                <span class="text-emerald-500 font-bold">&check; ALL SERVICES UP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </section>
+
+      <!-- Section 4: Frequently Asked Questions (FAQ) -->
+      <section id="faq">
+<div class="mb-4 flex items-center justify-between">
+  <div>
+    <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
+    <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
+  </div>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
+</div>
+<div class="space-y-3">
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is Rust with Axum considered one of the highest-performing backend web stacks?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Rust compiles directly to native machine code with zero garbage collection overhead and zero runtime reflection. Axum is built on top of Hyper and Tower, utilizing hyper-optimized async I/O with Tokio, achieving millions of requests per second with microsecond latency and minimal memory consumption.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does SQLx compile-time query verification prevent runtime database errors?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The `sqlx::query!` and `query_as!` macros connect to your PostgreSQL database at compile time (or check `.sqlx/` metadata in CI). They validate that the SQL syntax is valid, tables and columns exist, and column data types match Rust struct field types, making SQL syntax and type errors impossible at runtime.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the purpose of `cargo sqlx prepare` for CI/CD pipelines?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">In CI environments without a live PostgreSQL database, `cargo sqlx prepare` creates cached JSON query metadata in a `.sqlx/` folder. When `SQLX_OFFLINE=true` is set, the Rust compiler verifies queries against these saved metadata files without needing a live network connection.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Axum's `State` extractor differ from traditional dependency injection?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Axum uses type-safe state extractors (`State(pool): State<PgPool>`) resolved at compile time. If a handler requests a state type that was not registered in the Router with `.with_state()`, the code fails to compile, eliminating runtime null pointer or missing dependency exceptions.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What role does Tower middleware play in Axum applications?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Tower provides composable, protocol-agnostic middleware abstractions. Layers like `TraceLayer` (distributed logging), `TimeoutLayer` (request deadlines), `CorsLayer` (cross-origin security), and `CompressionLayer` wrap the core service cleanly with zero boilerplate in business logic.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does this kit tune PostgreSQL connection pooling with `PgPoolOptions`?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The pool is configured with `max_connections(25)`, `min_connections(5)`, `acquire_timeout(3s)`, and `idle_timeout(10m)`. This prevents connection spikes from exhausting PostgreSQL process limits while ensuring available idle connections for burst traffic.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does the `AppError` enum prevent information disclosure vulnerabilities?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The unified `AppError` enum catches underlying `sqlx::Error` variants and logs the detailed database error internally using `tracing::error!()`. It returns only a generic `Internal server error` message with HTTP 500 to the client, preventing table schemas or database credentials from leaking.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Rust achieve memory safety without garbage collection pauses?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Rust uses a strict ownership, borrowing, and lifetime system enforced by the compiler. Memory is freed deterministically as soon as its owner goes out of scope (RAII), eliminating memory leaks, use-after-free, double-free bugs, and unpredictable GC stop-the-world pauses.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is non-root execution configured in the Docker container?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">The multi-stage Dockerfile builds the static binary in a builder stage and copies only the compiled binary to a minimal Alpine container. It creates a dedicated unprivileged user (`appuser` with UID 10001) and sets `USER 10001:10001` to isolate the process from the host kernel.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the recommended approach for pagination in high-traffic Axum services?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Collection endpoints clamp query limits using `.clamp(1, 100)`. For high-volume tables, cursor-based pagination (`WHERE id > $last_id ORDER BY id ASC LIMIT 50`) is preferred over offset pagination to maintain O(1) query time across large datasets.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do I run security supply-chain audits on Rust dependencies?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Execute `cargo audit` in CI to compare `Cargo.lock` against the RustSec Advisory Database, and use `cargo deny check` to detect disallowed licenses, yanked crates, and duplicate dependency versions.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is `DefaultBodyLimit` essential for protecting against DoS attacks?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Without body limits, an attacker could stream gigabytes of data into a POST endpoint, causing memory exhaustion. Axum provides `DefaultBodyLimit::max(bytes)` to reject oversized request bodies with HTTP 413 Payload Too Large before buffering.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Tokio handle CPU-intensive tasks without blocking the async runtime?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Tokio worker threads handle non-blocking I/O. For heavy CPU operations (like password hashing or image processing), use `tokio::task::spawn_blocking()` to offload the work to a dedicated threadpool, preventing async event loop stalls.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can Axum serve both REST APIs and WebSockets?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Axum has native first-class WebSocket support via `axum::extract::ws::WebSocketUpgrade`, allowing real-time bidirectional messaging on the same port and router alongside RESTful endpoints.</p></details>
+</div>
+      </section>
+
+<!-- Real Terminal Eval Transcript Block -->
       <section>
         <div class="rounded-[8px] bg-[#000000] border border-[#26262C] shadow-2xl overflow-hidden text-left">
           <div class="flex items-center justify-between px-4 py-2 bg-[#131316] border-b border-[#26262C]">
@@ -403,7 +655,7 @@ globs: **/*
             <span class="font-mono text-[10px] uppercase tracking-wider text-[#e85d26] font-semibold bg-[#20150F] px-2 py-0.5 rounded border border-[#e85d26]/30">GATES PASSED</span>
           </div>
           <div class="p-4 font-mono text-xs leading-relaxed text-[#F4F4F5] overflow-x-auto">
-            <div class="text-[#8E8E96] mb-1">$ agy eval --kit rust-axum-postgresql</div>
+            <div class="text-[#8E8E96] mb-1">$ aautomated test suite --kit rust-axum-postgresql</div>
             <div class="text-emerald-400">&check; 01-manifest-integrity ............. PASS</div>
             <div class="text-emerald-400">&check; 02-agent-dialects .................. PASS (6/6 compiled)</div>
             <div class="text-emerald-400">&check; 03-skills-sandbox .................. PASS (Sandboxed tools)</div>
@@ -421,14 +673,14 @@ globs: **/*
         <div class="p-6 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
           <div class="flex items-center justify-between mb-3">
             <div class="eyebrow-numbered text-[#e85d26]">AGENT BOOTSTRAP PROMPT</div>
-            <button type="button" data-copy-cmd="You are building with the Rust + Axum + Tokio + SQLx + PostgreSQL kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
+            <button type="button" data-copy-cmd="You are building with the Rust + Axum + PostgreSQL (SQLx) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
               <span>Copy Prompt</span>
             </button>
           </div>
           <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] mb-3">
             Paste this exact prompt into Claude Code, Cursor, Copilot, or Antigravity to anchor the agent in the kit's rules and invariants:
           </p>
-          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the Rust + Axum + Tokio + SQLx + PostgreSQL kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
+          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the Rust + Axum + PostgreSQL (SQLx) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
         </div>
       </section>
 

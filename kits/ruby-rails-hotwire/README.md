@@ -1,42 +1,45 @@
-# Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL
+# Ruby on Rails 8 + Hotwire (Turbo 8 + Stimulus 3) Stack Kit
 
-> **Part of TechTalks Stack Kits Catalogue (doc 20 expansion: Kit #36)**  
-> **Efficiency Tier:** `A+` | **Median Tokens to Complete Reference Build:** `14,200 tokens` (Token-Light Flagship)
+A production-grade, highly optimized Rails 8 stack featuring the complete **Solid Suite** (Solid Cache, Solid Queue, Solid Cable), Hotwire Turbo 8 page morphing, and zero-external-dependency infrastructure.
 
-## 1. Overview & Architectural Rationale
-The lowest full-stack token footprint on the platform (14,200 median build tokens): Rails 8 convention-over-configuration, Hotwire Turbo 8 reactive DOM morphing, Stimulus micro-controllers, and Solid Cache/Solid Queue on SQLite or PostgreSQL.
+## Stack Overview
+- **Language**: Ruby 3.3.6+
+- **Framework**: Ruby on Rails 8.0.0+
+- **Frontend Reactive Engine**: Hotwire (Turbo 8 + Stimulus 3)
+- **Background & Real-time**: Solid Cache, Solid Queue, Solid Cable
+- **Database**: SQLite 3.45+ (Development/Single-node) / PostgreSQL 16.4+ (Production)
+- **Asset Pipeline**: Propshaft & Importmaps
+- **Security**: Brakeman, Strong Parameters, HttpOnly Session Protection
 
-### Why This Stack
-- **Maintainable & Predictable:** Clean architectural boundaries designed specifically for AI coding agents.
-- **Security-First:** Hardened input sanitization, automated secret scanning, and OWASP baseline baked in.
-- **Token Efficiency:** Minimizes hallucination surface through strict typing and convention over configuration.
+## Quickstart
 
-## 2. Directory Structure & House Anatomy
-```text
-kits/ruby-rails-hotwire/
-├── kit.yaml                 # Machine-readable kit manifest
-├── README.md                # Full architectural guide
-├── DESIGN.md                # Design tokens & UI constraints (Document 17/18 compliant)
-├── SECURITY.md              # Threat model & security invariant rules
-├── starter/                 # Executable starter source code
-├── rules/source/            # Single-source markdown rule definitions
-├── skills/                  # Domain-specific agent skills
-├── steps/                   # Step-by-step verified build sequence
-└── security/                # Gitleaks & Semgrep configs
-```
-
-## 3. Token-Light Consumption Metrics (doc 20 Part F)
-- **Median Tokens to Complete Reference Build:** `14,200` tokens
-- **Agent First-Try Correctness:** Verified through `evals/runner.py` benchmark assertions.
-- **Efficiency Tier:** `A+`
-
-## 4. Quickstart
+### 1. Local Development
 ```bash
-# Clone the repository
-git clone https://github.com/Umar-444/Techtalks-stack-kits.git
-cd Techtalks-stack-kits/kits/ruby-rails-hotwire/starter
+bundle install
+bin/rails db:prepare
+bin/rails server
+```
+Visit `http://localhost:3000` to interact with real-time posts.
+
+### 2. Run with Docker Compose
+```bash
+docker compose up --build
 ```
 
-## 5. Maintainer
-- **Lead Maintainer:** TechTalks Web Architecture Team (Rails & Token-Efficiency Specialist)
-- **Propose improvements:** [Propose a Kit](https://techtalks.itsumarfarooq.com/kits/propose/)
+### 3. Run Tests & Security Analysis
+```bash
+bin/rails test
+bundle exec brakeman -q -z
+```
+
+### 4. Health Probe
+```bash
+curl -s http://localhost:3000/healthz
+# Returns: {"status":"ok","app":"ruby-rails-hotwire","version":"1.0.0"}
+```
+
+## Security & Verification Standards
+- Zero Brakeman warning policy in CI (`brakeman -q -z`).
+- Strict Strong Parameters mass-assignment protection.
+- Database foreign key constraints and compound index coverage.
+- Fully documented in [`VERIFICATION.md`](VERIFICATION.md).

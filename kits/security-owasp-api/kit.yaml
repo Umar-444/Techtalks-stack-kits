@@ -1,77 +1,93 @@
 schema_version: 1.0.0
-name: OWASP API Security Top 10 Reference + Pytest Attack Suite
+name: OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest)
 slug: security-owasp-api
 version: 1.0.0
 status: stable
-updated_at: '2026-10-21'
-description: 'Executable OWASP API Security Top 10 reference implementation built
-  in FastAPI paired with a runnable pytest attack suite testing every control: BOLA,
-  Broken Auth, BOPB, Rate Limiting, BFLA, and SSRF.'
-category: Security
-maintainer:
-  name: Umar Farooq
-  role: Senior Full-Stack & Security Engineer
-  url: https://itsumarfarooq.com
-  github: umar-444
+category: security
+updated_at: '2026-10-22'
+description: Production reference implementation and automated Pytest test harness
+  modeling full defenses against the OWASP API Security Top 10 (2023) vulnerability
+  standard.
+maintainer: TechTalks Engineering
 stack:
   language:
     name: Python
-    version: 3.12+
+    version: '>= 3.12'
     registry: pypi.org
   framework:
     name: FastAPI
-    version: 0.115+
+    version: '>= 0.115.0'
     registry: pypi.org
+  database:
+    engine: In-Memory Tenant Store / Isolated SQLite
+    version: 3.45+
+    features:
+    - Row Ownership Verification
+    - Compound Queries
+  runtime:
+    name: Python & Uvicorn
+    version: '>= 3.12'
   test_runner: Pytest + HTTPX TestClient
   security_standard: OWASP API Security Top 10 (2023)
-  auth: PyJWT + Bcrypt
-layers:
-  starter:
-    path: starter/
-    type: starter-scaffold
+  auth: PyJWT + Bcrypt (HS256/RS256)
+starter:
+  path: starter/
+  health_endpoint: /healthz
+  port: 8000
+  env_file: .env.example
+rules:
+  source: rules/source/
+  dialects:
+  - CLAUDE.md
+  - AGENTS.md
+  - CODEX.md
+  - .cursor/rules/
+  - .agents/rules/
+  - .clinerules
+  - .windsurfrules
+  - .github/copilot-instructions.md
   rules:
-    source_dir: rules/source/
-    generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
-  skills:
-    dir: skills/
-    manifest:
-    - id: security-owasp-api-core
-      path: skills/security-owasp-api-core/SKILL.md
-      description: Core operations and scaffolding skill for OWASP API Security Top
-        10 Reference + Pytest Attack Suite.
-  design:
-    path: DESIGN.md
-    theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
-  security:
-    config_dir: security/
-    checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
-  steps:
-    path: steps/agent-build-steps.md
-    total_steps: 6
-token_metrics:
-  token_light: true
-  median_eval_tokens: 15200
-  efficiency_tier: A+
+  - id: 01-owasp-api-security-invariants
+    title: OWASP API Security Top 10 (2023) Core Architecture Invariants
+  - id: 02-bola-and-tenant-isolation
+    title: BOLA Prevention, Object Ownership, and Tenant Isolation
+  - id: 03-bfla-and-role-rbac
+    title: Broken Function Level Authorization (BFLA) and RBAC Enforcement
+  - id: 04-rate-limiting-and-resource-defense
+    title: Rate Limiting, Pagination Caps, and DoS Prevention (API4:2023)
+  - id: 05-ssrf-and-input-validation
+    title: Server-Side Request Forgery (SSRF) and Safe URL Fetching (API7:2023)
+skills:
+- name: install-and-verify
+  path: skills/install-and-verify/SKILL.md
+- name: first-feature
+  path: skills/first-feature/SKILL.md
+- name: bola-authorization-testing
+  path: skills/bola-authorization-testing/SKILL.md
+- name: rate-limit-mitigation
+  path: skills/rate-limit-mitigation/SKILL.md
+- name: ssrf-defense-patterns
+  path: skills/ssrf-defense-patterns/SKILL.md
+evals:
+  framework: pytest
+  tasks:
+  - id: eval-01-bola-defense
+    file: evals/tasks/task-01-bola-defense.json
+  - id: eval-02-ssrf-safeguards
+    file: evals/tasks/task-02-ssrf-safeguards.json
+  - id: eval-03-rate-limiting-concurrency
+    file: evals/tasks/task-03-rate-limiting-concurrency.json
 security:
-  automated_scans:
-    gitleaks: true
-    semgrep_owasp_top10: true
-    rules_backdoor_check: true
-  rules_enforced:
-    zero_plaintext_credentials: true
-    strict_parameterized_queries: true
-    authorization_on_every_resource: true
+  framework: owasp-api-top10
+  checks_file: security/checks.json
+  total_controls: 12
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  prerequisites:
+  - Python >= 3.12
+  - Pip >= 24.0
+  - Docker >= 24.0
+  steps:
+  - pip install -r starter/requirements.txt
+  - python3 starter/run_security_tests.py
+  - docker compose -f starter/docker-compose.yml up -d
+  - curl http://localhost:8000/healthz

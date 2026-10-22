@@ -1,11 +1,12 @@
 ---
-name: "mongodb-aggregation"
-description: "Construct safe, high-performance MongoDB aggregation pipelines."
-version: "1.0.0"
+name: mongodb-aggregation
+description: Core operations and aggregation query builder for MongoDB Eloquent models.
 ---
 
-# MongoDB Aggregation Pipeline Skill
+# MongoDB Aggregation Skill
 
-1. Define match stages using typed scalar parameters.
-2. Group records with `$group` using `$sum`, `$avg`, or `$first`.
-3. Project output fields explicitly with `$project`.
+## Purpose
+Provides end-to-end guidance for querying, indexing, and aggregating MongoDB documents in Laravel.
+
+## Done Means
+Queries execute via MongoDB driver with zero relational schema dependencies, returning strongly typed Eloquent document collections.

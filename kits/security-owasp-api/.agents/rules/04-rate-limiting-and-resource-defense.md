@@ -1,0 +1,27 @@
+---
+id: 04-rate-limiting-and-resource-defense
+title: Rate Limiting, Pagination Caps, and DoS Prevention (API4:2023)
+globs: "starter/**/*.py,tests/**/*.py"
+alwaysApply: true
+---
+
+# Rate Limiting, Pagination Caps, and DoS Prevention (API4:2023)
+
+## 1. Sliding Window & Token Bucket Rate Limiting
+- Enforce per-client rate limits keyed on authenticated user ID or hashed IP address:
+  - Public endpoints: 60 requests / minute.
+  - Authentication endpoints (login, password reset): 5 requests / minute.
+  - Sensitive operations: 10 requests / minute.
+- Return HTTP 429 Too Many Requests with standard `Retry-After` headers.
+
+## 2. Mandatory Pagination Bounds
+- Reject unbounded queries. Impose hard maximum limits on all collection endpoints:
+  ```python
+  @app.get("/api/v1/items")
+  def list_items(skip: int = 0, limit: int = Query(default=20, le=100)):
+      ...
+  ```
+- Protect against deep-pagination denial-of-service via keyset/cursor pagination.
+
+## 3. Payload Size Constraints
+- Enforce strict maximum body sizes (e.g., max 2MB for JSON payloads) at reverse proxy and application middleware layers.

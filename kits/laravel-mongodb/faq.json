@@ -1,0 +1,58 @@
+[
+  {
+    "q": "What exactly is this kit, and what do I get when I clone it?",
+    "a": "This kit is a production-ready NoSQL backend and analytics platform combining Laravel 12 with official MongoDB 7+ support. You get a pre-wired Docker Compose container setup, 6 AI agent rule dialects, 5 operational skills, automated security tests, and an EventLog document analytics starter."
+  },
+  {
+    "q": "Which versions does it pin, and why those?",
+    "a": "It pins PHP 8.4+, Laravel 12, mongodb/laravel-mongodb 5.0, and MongoDB 7.0+. These versions provide native BSON type support, aggregation pipeline builders, WiredTiger document engine optimization, and long-term security support."
+  },
+  {
+    "q": "Which AI coding agents are supported, and how do the rules reach each one?",
+    "a": "Claude Code, Cursor, Codex, GitHub Copilot, Cline, and Antigravity are supported via transpiled native dialect targets generated from canonical source rules."
+  },
+  {
+    "q": "What do I need installed before I start?",
+    "a": "You only need Docker Engine 24+ and Docker Compose v2.20+. All runtime dependencies (PHP 8.4 with ext-mongodb, MongoDB 7.0, Redis 7, Composer) run inside isolated containers."
+  },
+  {
+    "q": "How long does installation take, honestly, and what can slow it down?",
+    "a": "A fresh install takes between 60 to 90 seconds on a standard broadband connection. Primary bottleneck is compiling the PHP MongoDB PECL driver and pulling base container images."
+  },
+  {
+    "q": "Is the starter production-shaped or a demo? What must I change before real production?",
+    "a": "The starter is production-shaped with strict security defaults. Before production release, configure authentication on MongoDB with a dedicated app user, set APP_DEBUG=false, and enable TLS for database traffic."
+  },
+  {
+    "q": "How is security handled in this kit, and where are its checks?",
+    "a": "Security is enforced at multiple layers: NoSQL operator injection sanitization, BSON ObjectId format validation, BOLA document policies, and automated secret scanning. The complete 12-control suite is in security/checks.json."
+  },
+  {
+    "q": "Can I change the design? Where do the design tokens live?",
+    "a": "Yes. Design tokens are documented in DESIGN.md. Frontend layouts use Tailwind CSS utility tokens and responsive cards."
+  },
+  {
+    "q": "How do I update when a new kit version releases?",
+    "a": "Review CHANGELOG.md and merge updates to rules/ and skills/. Project-specific document models, controllers, and .env settings remain untouched."
+  },
+  {
+    "q": "Can I use it for commercial and client work?",
+    "a": "Yes. The entire kit is licensed under the permissive MIT License with zero royalties."
+  },
+  {
+    "q": "How do I contribute a fix or a skill back?",
+    "a": "Submit a PR to https://github.com/Umar-444/Techtalks-stack-kits adhering to the 18-checkpoint completeness standard."
+  },
+  {
+    "q": "Where do I get help or report a problem?",
+    "a": "Open an issue on the repository or participate in community discussions at https://techtalks.itsumarfarooq.com."
+  },
+  {
+    "q": "Why does this kit use MongoDB instead of a relational database?",
+    "a": "MongoDB is ideal for unstructured payloads, flexible event logs, hierarchical telemetry data, and high-frequency writes that do not require rigid tabular schemas."
+  },
+  {
+    "q": "Why are there no relational migrations, and how does data modeling work here?",
+    "a": "MongoDB is schema-flexible. Document structure is governed at the application layer by Eloquent models and embedded document schemas. Migrations are used exclusively for defining compound indexes and collection validation rules."
+  }
+]

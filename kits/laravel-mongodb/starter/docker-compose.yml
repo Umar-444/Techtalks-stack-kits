@@ -1,23 +1,42 @@
 version: '3.8'
+
 services:
   app:
     build: .
+    container_name: mongo_app
     ports:
       - "8000:8000"
     volumes:
       - .:/var/www/html
     environment:
+      - APP_ENV=local
+      - APP_DEBUG=true
       - DB_CONNECTION=mongodb
-      - DB_HOST=mongodb
-      - DB_PORT=27017
-      - DB_DATABASE=app_mongo
+      - MONGODB_URI=mongodb://mongodb:27017/app_mongo
+      - MONGODB_DATABASE=app_mongo
+      - REDIS_HOST=redis
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
+
   mongodb:
     image: mongo:7.0
+    container_name: mongo_db
     ports:
       - "27017:27017"
     volumes:
       - mongodata:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: mongo_redis
+    ports:
+      - "6379:6379"
+
 volumes:
   mongodata:

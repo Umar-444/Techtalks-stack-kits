@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-02-zod-validation-guardrails",
+  "name": "Strict Zod Request Validation & Mass Assignment Defense",
+  "difficulty": "intermediate",
+  "prompt": "Implement a strict Zod schema validator using @hono/zod-validator that forbids unknown fields on incoming payloads. Verify that payloads with unauthorized attributes (e.g., is_admin: true) return HTTP 400 Bad Request.",
+  "expected_files": [
+    "starter/src/index.ts",
+    "starter/src/index.test.ts"
+  ],
+  "verification": {
+    "command": "bun test",
+    "criteria": "Tests assert that invalid and mass-assignment payloads return status 400"
+  }
+}

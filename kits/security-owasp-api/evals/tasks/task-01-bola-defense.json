@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-01-bola-defense",
+  "name": "Broken Object Level Authorization (BOLA) Defense",
+  "difficulty": "intermediate",
+  "prompt": "Implement an endpoint GET /api/v1/orders/{order_id} that strictly verifies the current authenticated user matches order.customer_id. Ensure requests from other tenants return HTTP 403 Forbidden.",
+  "expected_files": [
+    "starter/main.py",
+    "starter/tests/test_owasp_top10.py"
+  ],
+  "verification": {
+    "command": "python3 starter/run_security_tests.py",
+    "criteria": "BOLA test validates with 403 Forbidden on cross-tenant access"
+  }
+}

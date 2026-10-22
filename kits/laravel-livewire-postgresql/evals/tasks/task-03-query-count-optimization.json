@@ -1,0 +1,20 @@
+{
+  "id": "eval-03",
+  "name": "Livewire Eager Loading Optimization",
+  "prompt": "Refactor TaskManager render method to eager load the user relationship and prevent N+1 query loops.",
+  "rule_under_test": "03-postgresql-database.md",
+  "expected_artifacts": [
+    "app/Livewire/TaskManager.php"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "app/Livewire/TaskManager.php",
+      "value": "with"
+    },
+    {
+      "type": "max_query_count",
+      "limit": 3
+    }
+  ]
+}

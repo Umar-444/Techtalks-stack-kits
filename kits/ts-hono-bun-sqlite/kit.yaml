@@ -1,82 +1,92 @@
 schema_version: 1.0.0
-name: TypeScript + Hono + Bun + Drizzle + SQLite
+name: TypeScript + Hono + Bun + SQLite (Drizzle ORM)
 slug: ts-hono-bun-sqlite
 version: 1.0.0
 status: stable
-updated_at: '2026-10-21'
-description: 'The edge-minimal TypeScript stack: tiny API surface, zero build ceremony
-  with Bun, Hono typed RPC, Drizzle type-safe schema migrations, and single-file-friendly
-  microservices.'
-category: Token-Light
-maintainer:
-  name: TechTalks Edge & Minimalist Group
-  role: TypeScript Edge Architect
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+category: backend
+updated_at: '2026-10-22'
+description: Sub-millisecond TypeScript API stack kit powered by Hono, Bun runtime,
+  Drizzle ORM, and high-concurrency SQLite in WAL mode.
+maintainer: TechTalks Engineering
 stack:
   language:
     name: TypeScript
-    version: 5.6+
+    version: '>= 5.6.0'
     registry: npm
   framework:
     name: Hono
-    version: 4.6+
+    version: '>= 4.6.0'
     registry: npm
-  runtime: Bun 1.1+ (native SQLite & fast test runner)
-  orm: Drizzle ORM (schema migrations & typed queries)
   database:
     engine: SQLite / LibSQL
     version: 3.45+
     features:
     - WAL mode
+    - Prepared Statements
+    - Compound Indexing
+  runtime:
+    name: Bun
+    version: '>= 1.1.0'
+  orm: Drizzle ORM (schema migrations & typed queries)
+  validation: Zod 3.23+ with strict schemas
   token_light_metric: 18,200 median tokens
-layers:
-  starter:
-    path: starter/
-    type: starter-scaffold
+starter:
+  path: starter/
+  health_endpoint: /healthz
+  port: 3000
+  env_file: .env.example
+rules:
+  source: rules/source/
+  dialects:
+  - CLAUDE.md
+  - AGENTS.md
+  - CODEX.md
+  - .cursor/rules/
+  - .agents/rules/
+  - .clinerules
+  - .windsurfrules
+  - .github/copilot-instructions.md
   rules:
-    source_dir: rules/source/
-    generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
-  skills:
-    dir: skills/
-    manifest:
-    - id: ts-hono-bun-sqlite-core
-      path: skills/ts-hono-bun-sqlite-core/SKILL.md
-      description: Core operations and scaffolding skill for TypeScript + Hono + Bun
-        + Drizzle + SQLite.
-  design:
-    path: DESIGN.md
-    theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
-  security:
-    config_dir: security/
-    checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
-  steps:
-    path: steps/agent-build-steps.md
-    total_steps: 6
-token_metrics:
-  token_light: true
-  median_eval_tokens: 18200
-  efficiency_tier: A
+  - id: 01-hono-framework-architecture
+    title: Hono Web Framework Conventions and Middleware Chaining
+  - id: 02-bun-runtime-and-sqlite-engine
+    title: Bun Runtime Execution and Native SQLite Engine
+  - id: 03-drizzle-orm-and-schema-integrity
+    title: Drizzle ORM Schema Discipline and Typed Migrations
+  - id: 04-api-security-and-input-validation
+    title: Zod Schema Validation, Input Sanitization, and API Security
+  - id: 05-bun-test-and-verification
+    title: Fast Testing with Bun Native Test Runner and Mock Requests
+skills:
+- name: install-and-verify
+  path: skills/install-and-verify/SKILL.md
+- name: first-feature
+  path: skills/first-feature/SKILL.md
+- name: hono-zod-openapi
+  path: skills/hono-zod-openapi/SKILL.md
+- name: drizzle-sqlite-migrations
+  path: skills/drizzle-sqlite-migrations/SKILL.md
+- name: bun-performance-tuning
+  path: skills/bun-performance-tuning/SKILL.md
+evals:
+  framework: bun:test
+  tasks:
+  - id: eval-01-drizzle-crud-scaffold
+    file: evals/tasks/task-01-drizzle-crud-scaffold.json
+  - id: eval-02-zod-validation-guardrails
+    file: evals/tasks/task-02-zod-validation-guardrails.json
+  - id: eval-03-sqlite-wal-concurrency
+    file: evals/tasks/task-03-sqlite-wal-concurrency.json
 security:
-  automated_scans:
-    gitleaks: true
-    semgrep_owasp_top10: true
-    rules_backdoor_check: true
-  rules_enforced:
-    zero_plaintext_credentials: true
-    strict_parameterized_queries: true
-    authorization_on_every_resource: true
+  framework: semgrep+gitleaks
+  checks_file: security/checks.json
+  total_controls: 12
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  prerequisites:
+  - Bun >= 1.1.0
+  - Docker >= 24.0
+  steps:
+  - bun install
+  - bun test
+  - bun run dev
+  - curl http://localhost:3000/healthz

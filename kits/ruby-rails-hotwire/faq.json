@@ -1,0 +1,58 @@
+[
+  {
+    "q": "What is the Rails 8 Solid Stack and how does it replace external services?",
+    "a": "Rails 8 introduces the Solid Stack: Solid Cache (database-backed key-value store), Solid Queue (database-backed background jobs), and Solid Cable (database-backed WebSockets for ActionCable and Turbo Streams). This eliminates the requirement for Redis or Sidekiq in single-node and moderately sized production clusters."
+  },
+  {
+    "q": "How does Hotwire Turbo 8 differ from traditional Single Page Applications (SPAs)?",
+    "a": "Hotwire delivers server-rendered HTML rather than JSON APIs consumed by heavy client bundles. Turbo Drive speeds up page navigation, Turbo Frames isolate partial updates, and Turbo 8 morphing smoothly updates the DOM preserving user scroll and form state with zero React/Vue overhead."
+  },
+  {
+    "q": "Can this kit run on SQLite in production or is PostgreSQL required?",
+    "a": "Rails 8 officially supports SQLite in production for single-node deployments using litestream and WAL mode. For multi-node autoscaling clusters, this kit provides a complete PostgreSQL 16 configuration in docker-compose.yml."
+  },
+  {
+    "q": "How is CSRF protection handled in Turbo Stream and AJAX requests?",
+    "a": "Rails automatically injects CSRF authenticity tokens via `<meta name='csrf-token'>`. Turbo Drive and Turbo Streams automatically attach the `X-CSRF-Token` header to all outgoing non-GET HTTP requests."
+  },
+  {
+    "q": "What is the Brakeman security policy enforced in this kit?",
+    "a": "Brakeman is configured in CI with zero-warning tolerance (`brakeman -q -z`). Any unescaped SQL interpolation, mass assignment vulnerability, or insecure session configuration immediately fails the build."
+  },
+  {
+    "q": "How are Strong Parameters configured for nested attributes?",
+    "a": "Controllers must explicitly whitelist parameters using `params.require(:model).permit(:scalar, nested_attributes: [:id, :attribute])`. Calling `params.permit!` is strictly prohibited."
+  },
+  {
+    "q": "How do Turbo Streams handle asynchronous background model broadcasts?",
+    "a": "Models use ActiveModel lifecycle callbacks like `after_create_commit -> { broadcast_prepend_to 'posts' }`. The broadcast is dispatched via Solid Cable over WebSockets to subscribed client browser sessions without polling."
+  },
+  {
+    "q": "What is the recommended approach for client-side JavaScript in Hotwire?",
+    "a": "Use lightweight Stimulus controllers (`app/javascript/controllers/`). Controllers connect to DOM elements via HTML data-attributes (`data-controller='post'`) to add micro-interactions without mutating server state."
+  },
+  {
+    "q": "How do I avoid N+1 queries when rendering Turbo Stream lists?",
+    "a": "Use `.includes()` or `.eager_load()` on controllers before rendering. Additionally, enable `config.active_record.strict_loading_by_default = true` in development and test environments to raise an error when un-eager-loaded associations are accessed."
+  },
+  {
+    "q": "How does this kit ensure zero secrets are leaked in git commits?",
+    "a": "Gitleaks is integrated via `.github/workflows/security.yml` with a customized configuration that scans all commits, branches, and PRs against secret patterns and credentials."
+  },
+  {
+    "q": "How does the health check endpoint operate?",
+    "a": "The `/healthz` route in `config/routes.rb` is an ultra-lightweight Rack proc that returns HTTP 200 OK with `{\"status\":\"ok\",\"app\":\"ruby-rails-hotwire\",\"version\":\"1.0.0\"}` without hitting database locks, suitable for Kubernetes and load balancer liveness probes."
+  },
+  {
+    "q": "How is authentication handled in this kit?",
+    "a": "Rails 8 includes native authentication generation (`bin/rails generate authentication`), establishing secure password hashing with bcrypt, session tokens stored in HttpOnly cookies, and automatic session revocation upon password changes."
+  },
+  {
+    "q": "What asset pipeline is utilized in Rails 8?",
+    "a": "Rails 8 uses Propshaft for fast asset bundling and importmaps for JavaScript modules without requiring Node.js, Webpack, or npm in the production runtime container."
+  },
+  {
+    "q": "How is Docker multi-stage build optimized for Rails 8?",
+    "a": "The Dockerfile uses a multi-stage Alpine build that installs build dependencies (gcc, make) only in the build stage, precompiles Bootsnap cache, and copies only runtime gems to the final image running under an unprivileged `rails:rails` user."
+  }
+]

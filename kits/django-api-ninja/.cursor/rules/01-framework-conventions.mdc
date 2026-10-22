@@ -1,0 +1,9 @@
+---
+description: Django 5.1 & Django Ninja Architecture
+globs: **/*.py
+---
+# Django 5.1 & Django Ninja Conventions
+- Use Django Ninja routers (Router()) to structure endpoints modularly per domain app.
+- Never write legacy function-based Django views or DRF serializers; use Pydantic v2 Schema models.
+- Group all routers under the main NinjaAPI(title="...", version="1.0.0") instance in config/api.py.
+- Enforce snake_case for Python code and camelCase for JSON output aliases if required.

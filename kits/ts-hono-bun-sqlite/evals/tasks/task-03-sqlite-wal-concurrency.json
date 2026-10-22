@@ -1,0 +1,13 @@
+{
+  "task_id": "eval-03-sqlite-wal-concurrency",
+  "name": "SQLite WAL Mode & Prepared Statement Concurrency",
+  "difficulty": "advanced",
+  "prompt": "Configure SQLite in Write-Ahead Logging (WAL) mode with synchronous=NORMAL. Benchmark concurrent reading and writing without database lock errors using prepared statements.",
+  "expected_files": [
+    "starter/src/index.ts"
+  ],
+  "verification": {
+    "command": "bun test",
+    "criteria": "Database operates in WAL mode with compound indexes and zero lock contention"
+  }
+}

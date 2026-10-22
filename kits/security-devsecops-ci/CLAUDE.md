@@ -1,22 +1,17 @@
-# DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM) — Claude Code Guidelines (CLAUDE.md)
-# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# Assistant Guidelines for DevSecOps CI/CD Stack Kit
 
-## Quick Reference & Non-Negotiable Standards
-### Architectural Standards for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
-# Architecture Standards: DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+## Stack Overview
+- Pipeline Engine: GitHub Actions v4
+- Secret Scanner: Gitleaks 8+
+- SAST Scanner: Semgrep OSS (OWASP Top 10 + Custom Rules)
+- Container & Vulnerability Scanner: Aqua Security Trivy
+- SBOM Generator: Anchore Syft (SPDX 2.3 & CycloneDX 1.5)
+- Image Signing: Sigstore Cosign (SLSA Provenance)
+- Local Runner: Cross-platform Python/Bash local security pipeline
 
-### Security Invariants for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
-
-### Agent Coding Conventions for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-
+## Mandatory Rules
+1. Zero plaintext secrets in code or git history. Enforce Gitleaks pre-commit and in CI.
+2. SAST rules in `.semgrep.yml` must use AST pattern matching. Prohibit raw regex for code analysis.
+3. Containers must execute under unprivileged non-root users and pin immutable image digests.
+4. Block CI merges on CRITICAL and HIGH severity CVEs with available upstream patches.
+5. All security tools must emit SARIF 2.1.0 formatted reports for GitHub Code Scanning integration.

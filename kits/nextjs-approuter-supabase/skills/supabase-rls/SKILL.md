@@ -1,11 +1,12 @@
 ---
-name: "supabase-rls"
-description: "Generate and test Supabase Row-Level Security (RLS) policies."
-version: "1.0.0"
+name: supabase-rls
+description: Core operations skill for Supabase PostgreSQL configuration, auth middleware, and RLS policies.
 ---
 
-# Supabase RLS Policy Skill
+# Supabase RLS Core Skill
 
-1. Enable RLS on the table.
-2. Create policy for SELECT: `CREATE POLICY select_own ON {table} FOR SELECT USING (auth.uid() = user_id);`.
-3. Create policy for INSERT/UPDATE: `WITH CHECK (auth.uid() = user_id);`.
+## Purpose
+Guides setting up `@supabase/ssr` client factories and configuring Row Level Security in Next.js 15.
+
+## Done Means
+Supabase SSR cookies refresh correctly in middleware and all database access respects RLS policies.

@@ -1,0 +1,21 @@
+---
+description: 02 Server Actions And Mutations for Next.js 15+ + Supabase + shadcn/ui
+globs: ["**/*.ts", "**/*.tsx", "**/*.sql", "**/*.css"]
+---
+# Rule 2: Server Actions, Zod Validation & Optimistic Updates
+
+## Context & Principles
+- Implement all data mutations via Next.js Server Actions marked with `'use server'` at file or function level.
+- Never trust client-supplied form data: validate every input payload using strict Zod schemas before executing database queries.
+
+## Standards
+1. **Schema Validation**: Define Zod schemas with explicit types, constraints, and error messages:
+   ```typescript
+   export const CreateItemSchema = z.object({
+     title: z.string().trim().min(3).max(100),
+     description: z.string().trim().max(500).optional(),
+   });
+   ```
+2. **Revalidation**: Always call `revalidatePath()` or `revalidateTag()` after successful mutations to purge stale cached data.
+3. **Error Handling**: Return structured action results `{ success: boolean, data?: T, error?: string }` instead of throwing unhandled exceptions.
+4. **CSRF Protection**: Next.js automatically validates the `Origin` header on Server Actions; never disable origin verification.

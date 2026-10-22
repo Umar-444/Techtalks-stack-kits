@@ -1,0 +1,20 @@
+{
+  "id": "eval-03",
+  "name": "PostgreSQL Query Count Optimization",
+  "prompt": "Optimize the Customer index query in Filament table to prevent N+1 query loops when loading associated User and Orders count.",
+  "rule_under_test": "03-postgresql-database.md",
+  "expected_artifacts": [
+    "app/Filament/Resources/CustomerResource.php"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "app/Filament/Resources/CustomerResource.php",
+      "value": "withCount"
+    },
+    {
+      "type": "max_query_count",
+      "limit": 4
+    }
+  ]
+}

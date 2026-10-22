@@ -1,21 +1,14 @@
-# TechTalks Stack Kits — Kit Manifest Specification
-# Schema Version: 1.0.0
-# Reference: 02-Kit-Manifest-Spec.md
-
 schema_version: "1.0.0"
 
-# Kit Metadata
 name: "Laravel 13 + Filament 4 + PostgreSQL"
 slug: "laravel-filament-postgresql"
 version: "1.0.0"
-status: "stable" # stable | beta | in-progress | planned
-category: Laravel
-updated_at: "2026-10-21"
+status: "stable"
+category: "Laravel"
+updated_at: "2026-10-22"
 
-# Plain, direct description (No hype, no buzzwords)
 description: "Production-ready administrative platform and SaaS backend kit. Bundles verified Laravel 13, Filament 4 panels, strict PostgreSQL 16+ schema conventions, granular BOLA authorization policies, and automated AI security guardrails."
 
-# Maintainer & Attribution
 maintainer:
   name: "Umar Farooq"
   role: "Senior Full-Stack & Security Engineer"
@@ -23,7 +16,6 @@ maintainer:
   github: "umar-444"
   email: "contact@itsumarfarooq.com"
 
-# Verified Stack Components (Exact, registry-checked versions)
 stack:
   language:
     name: "PHP"
@@ -54,49 +46,67 @@ stack:
       - "FIDO2 WebAuthn"
       - "Strict Session Fixation Defense"
 
-# The 5 Core Plain-Text Primitives
 layers:
   starter:
-    path: "starter/"
-    type: "monolithic-app"
+    path: starter/
+    type: pre-wired-container
   rules:
-    source_dir: "rules/source/"
+    source_dir: rules/source/
     generated_targets:
-      - "AGENTS.md"
-      - "CLAUDE.md"
-      - ".cursor/rules/*.mdc"
-      - ".github/copilot-instructions.md"
-      - ".agents/rules/*.md"
-      - ".windsurfrules"
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
-    dir: "skills/"
+    dir: skills/
     manifest:
-      - id: "filament-resource"
-        path: "skills/filament-resource/SKILL.md"
-        description: "Scaffold and customize Filament administration resources, tables, and form schemas."
-      - id: "laravel-policy"
-        path: "skills/laravel-policy/SKILL.md"
-        description: "Generate strict BOLA-resistant model authorization gates and policies."
-      - id: "postgres-migration"
-        path: "skills/postgres-migration/SKILL.md"
-        description: "Write zero-downtime PostgreSQL migrations with strict foreign key constraints."
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, configure, and verify the Laravel 13 + Filament 4 + PostgreSQL multi-container stack.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Build the canonical first feature - Customer Resource with UUID keys, BOLA authorization policy, and Filament table/form schema.
+      - id: filament-resource
+        path: skills/filament-resource/SKILL.md
+        description: Scaffold and configure Filament 4 admin panel resources, form schemas, and table actions.
+      - id: laravel-policy
+        path: skills/laravel-policy/SKILL.md
+        description: Generate granular Laravel Model Policies enforcing zero-trust BOLA and multi-tenant authorization.
+      - id: pest-arch-test
+        path: skills/pest-arch-test/SKILL.md
+        description: Execute Pest Architectural tests verifying strict layering, UUID usage, and zero debugging calls.
+      - id: postgres-migration
+        path: skills/postgres-migration/SKILL.md
+        description: Create zero-downtime PostgreSQL migrations with native UUIDs, JSONB columns, and composite indexes.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
-    path: "DESIGN.md"
+    path: DESIGN.md
     theme_support:
-      - "light"
-      - "dark"
+      - light
+      - dark
     wcag_compliance: "AA"
   security:
-    config_dir: "security/"
+    config_dir: security/
     checks:
-      - "semgrep"
-      - "gitleaks"
-      - "agent-rules-backdoor-scan"
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
-    path: "steps/agent-build-steps.md"
-    total_steps: 10
+    path: steps/agent-build-steps.md
+    total_steps: 6
 
-# Security Auditing & Verification Badges
+token_metrics:
+  token_light: true
+  median_eval_tokens: 16200
+  efficiency_tier: "A"
+
 security:
   automated_scans:
     gitleaks: true
@@ -106,27 +116,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
-    prompt_injection_boundary_nonces: true
-  badges:
-    - name: "Zero Plaintext Credentials"
-      status: "verified"
-    - name: "OWASP Top 10 Guardrails"
-      status: "verified"
-    - name: "Backdoor-Free Agent Rules"
-      status: "verified"
 
-# Scaffolding & Bootstrap Commands
 install:
-  clone_command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git --depth 1"
-  quickstart: "cd kits/laravel-filament-postgresql && cp .env.example .env && composer install && php artisan migrate"
-
-# Copyable Agent Bootstrap Prompt (Paste to Claude/Cursor/Codex/Antigravity)
-agent_bootstrap_prompt: |
-  You are an expert engineer building an application using the TechTalks "laravel-filament-postgresql" kit.
-  Read kit.yaml, AGENTS.md, DESIGN.md, and steps/agent-build-steps.md before executing any actions.
-  Adhere strictly to:
-  1. PHP 8.4 typed properties and Laravel 13 conventions.
-  2. Filament navigation organized by job, not raw database models.
-  3. Every resource action must have an explicit Policy check ($this->authorize).
-  4. All database queries must be parameterized via PDO / Eloquent.
-  Follow steps/agent-build-steps.md sequentially and run the specified verification check after each step.
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

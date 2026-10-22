@@ -1,0 +1,21 @@
+{
+  "id": "eval-02",
+  "name": "Livewire Action Authorization (Security)",
+  "prompt": "Enforce server-side policy check on Task toggleComplete method ensuring non-owners cannot mutate tasks.",
+  "rule_under_test": "04-livewire-security.md",
+  "expected_artifacts": [
+    "app/Policies/TaskPolicy.php"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "app/Policies/TaskPolicy.php",
+      "value": "$user->id === $task->user_id"
+    },
+    {
+      "type": "does_not_contain",
+      "target": "app/Policies/TaskPolicy.php",
+      "value": "return true;"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "kit": "laravel-livewire-postgresql",
   "version": "1.0.0",
-  "total_controls": 24,
+  "total_controls": 12,
   "categories": [
     {
       "name": "Livewire Component & State Security",
@@ -23,6 +23,18 @@
           "name": "Explicit property binding whitelist preventing mass assignment",
           "status": "enforced",
           "test": "tests/Feature/Security/LivewireMassAssignmentTest.php"
+        },
+        {
+          "id": "LW-04",
+          "name": "Wire:model input debouncing and length validation",
+          "status": "enforced",
+          "test": "tests/Feature/Security/LivewireDebounceTest.php"
+        },
+        {
+          "id": "LW-05",
+          "name": "Rate limiting on sensitive component actions",
+          "status": "enforced",
+          "test": "tests/Feature/Security/LivewireRateLimitTest.php"
         }
       ]
     },
@@ -31,7 +43,7 @@
       "controls": [
         {
           "id": "AUTH-01",
-          "name": "Argon2id password hashing with memory cost 65536",
+          "name": "Argon2id password hashing with work factor >= 12",
           "status": "enforced",
           "test": "tests/Feature/Security/PasswordSecurityTest.php"
         },
@@ -40,18 +52,35 @@
           "name": "Strict session fixation prevention on Livewire login events",
           "status": "enforced",
           "test": "tests/Feature/Security/SessionFixationTest.php"
+        },
+        {
+          "id": "AUTH-03",
+          "name": "Secure session cookie flags: Secure, HttpOnly, SameSite=Lax",
+          "status": "enforced",
+          "test": "tests/Feature/Security/CookieFlagsTest.php"
         }
       ]
     },
     {
-      "name": "Data Layer & CI Defenses",
+      "name": "Data Layer & PostgreSQL Hardening",
       "controls": [
         {
           "id": "DATA-01",
-          "name": "Parameterized queries on all PostgreSQL scopes",
+          "name": "Strict parameterized queries on all Eloquent scopes",
           "status": "enforced",
           "test": "tests/Feature/Security/SqlInjectionTest.php"
         },
+        {
+          "id": "DATA-02",
+          "name": "PostgreSQL native UUID primary keys on all models",
+          "status": "enforced",
+          "test": "tests/ArchTest.php"
+        }
+      ]
+    },
+    {
+      "name": "CI & Supply Chain Guardrails",
+      "controls": [
         {
           "id": "CI-01",
           "name": "Gitleaks secret detection in GitHub Actions",

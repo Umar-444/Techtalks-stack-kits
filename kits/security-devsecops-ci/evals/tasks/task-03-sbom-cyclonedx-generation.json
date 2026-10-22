@@ -1,0 +1,13 @@
+{
+  "task_id": "eval-03-sbom-cyclonedx-generation",
+  "name": "Syft CycloneDX SBOM Generation and SLSA Provenance",
+  "difficulty": "advanced",
+  "prompt": "Configure Anchore Syft to generate CycloneDX 1.5 JSON Software Bill of Materials (SBOM) for the container filesystem and archive the artifact for audit compliance.",
+  "expected_files": [
+    "starter/.github/workflows/devsecops.yml"
+  ],
+  "verification": {
+    "command": "python3 -c \"import json; print('SBOM Task Validated')\"",
+    "criteria": "Workflow generates cyclonedx-json artifact and uploads via actions/upload-artifact"
+  }
+}

@@ -488,7 +488,8 @@ function initTabs() {
     tabBtn.classList.add('border-[#e85d26]', 'text-[#12140F]', 'dark:text-white', 'font-semibold', 'bg-white', 'dark:bg-[#131316]');
     
     allPanels.forEach(panel => {
-      if (panel.id === targetId) {
+      const panelId = panel.getAttribute('data-tab-panel') || panel.id;
+      if (panelId === targetId) {
         panel.classList.remove('hidden');
       } else {
         panel.classList.add('hidden');

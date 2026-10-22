@@ -1,81 +1,92 @@
 schema_version: 1.0.0
-name: Rust + Axum + Tokio + SQLx + PostgreSQL
+name: Rust + Axum + PostgreSQL (SQLx)
 slug: rust-axum-postgresql
 version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: Modern async Rust web service built on Axum 0.8+, Tokio runtime, Tower
-  middleware, and SQLx for compile-time verified SQL queries and injection resistance.
-category: Rust
-maintainer:
-  name: TechTalks Rust Community Maintainers
-  role: Rust Systems Engineers
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+status: stable
+category: backend
+updated_at: '2026-10-22'
+description: Production-grade, zero-cost abstraction backend stack kit built with
+  Rust 1.81+, Axum 0.8+, and PostgreSQL 16 with compile-time verified SQLx queries.
+maintainer: TechTalks Engineering
 stack:
   language:
     name: Rust
-    version: 1.80+
+    version: '>= 1.80.0'
     registry: crates.io
   framework:
     name: Axum
-    version: 0.8+
+    version: '>= 0.8.0'
     registry: crates.io
   database:
     engine: PostgreSQL
-    version: 16+
+    version: '>= 16.0'
     features:
-    - sqlx compile-checked queries
-    - connection pool
-  runtime: Tokio 1.40+
-  middleware: Tower-HTTP (CORS, Trace, Compression)
-layers:
-  starter:
-    path: starter/
-    type: starter-scaffold
+    - SQLx compile-checked queries
+    - Connection pooling
+    - Compound Indexing
+  runtime:
+    name: Tokio
+    version: '>= 1.40.0'
+  middleware: Tower-HTTP 0.6+ (CORS, Trace, Timeout, Compression)
+starter:
+  path: starter/
+  health_endpoint: /healthz
+  port: 3000
+  env_file: .env.example
+rules:
+  source: rules/source/
+  dialects:
+  - CLAUDE.md
+  - AGENTS.md
+  - CODEX.md
+  - .cursor/rules/
+  - .agents/rules/
+  - .clinerules
+  - .windsurfrules
+  - .github/copilot-instructions.md
   rules:
-    source_dir: rules/source/
-    generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
-  skills:
-    dir: skills/
-    manifest:
-    - id: rust-axum-postgresql-core
-      path: skills/rust-axum-postgresql-core/SKILL.md
-      description: Core operations and scaffolding skill for Rust + Axum + Tokio +
-        SQLx + PostgreSQL.
-  design:
-    path: DESIGN.md
-    theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
-  security:
-    config_dir: security/
-    checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
-  steps:
-    path: steps/agent-build-steps.md
-    total_steps: 6
-token_metrics:
-  token_light: false
-  median_eval_tokens: 24500
-  efficiency_tier: B
+  - id: 01-axum-architecture-and-routing
+    title: Axum Routing, Handlers, and State Extraction Architecture
+  - id: 02-sqlx-compile-time-verification
+    title: SQLx Compile-Time Verification, Migrations, and Connection Pooling
+  - id: 03-tower-middleware-and-resilience
+    title: Tower-HTTP Middleware Chaining, Observability, and Timeout Control
+  - id: 04-rust-security-and-input-validation
+    title: Memory Safety, Deserialization Limits, and Supply Chain Auditing
+  - id: 05-tokio-concurrency-and-testing
+    title: Async Tokio Runtime Concurrency and Integration Testing
+skills:
+- name: install-and-verify
+  path: skills/install-and-verify/SKILL.md
+- name: first-feature
+  path: skills/first-feature/SKILL.md
+- name: sqlx-compile-time-queries
+  path: skills/sqlx-compile-time-queries/SKILL.md
+- name: tower-middleware-layer
+  path: skills/tower-middleware-layer/SKILL.md
+- name: cargo-audit-security
+  path: skills/cargo-audit-security/SKILL.md
+evals:
+  framework: cargo-test
+  tasks:
+  - id: eval-01-axum-handler-scaffold
+    file: evals/tasks/task-01-axum-handler-scaffold.json
+  - id: eval-02-sqlx-query-as-safety
+    file: evals/tasks/task-02-sqlx-query-as-safety.json
+  - id: eval-03-tower-layer-concurrency
+    file: evals/tasks/task-03-tower-layer-concurrency.json
 security:
-  automated_scans:
-    gitleaks: true
-    semgrep_owasp_top10: true
-    rules_backdoor_check: true
-  rules_enforced:
-    zero_plaintext_credentials: true
-    strict_parameterized_queries: true
-    authorization_on_every_resource: true
+  framework: cargo-audit+gitleaks
+  checks_file: security/checks.json
+  total_controls: 12
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  prerequisites:
+  - Rust >= 1.80.0
+  - Cargo >= 1.80.0
+  - PostgreSQL >= 16.0
+  - Docker >= 24.0
+  steps:
+  - cargo test
+  - cargo sqlx migrate run
+  - docker compose up -d
+  - curl http://localhost:3000/healthz

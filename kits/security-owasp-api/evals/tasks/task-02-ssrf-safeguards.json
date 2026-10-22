@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-02-ssrf-safeguards",
+  "name": "Server-Side Request Forgery (SSRF) Cloud Metadata Safeguard",
+  "difficulty": "advanced",
+  "prompt": "Implement an outbound URL verification function that parses user-supplied webhook URLs, resolves DNS, and blocks private CIDR blocks and AWS metadata (169.254.169.254).",
+  "expected_files": [
+    "starter/main.py",
+    "starter/tests/test_owasp_top10.py"
+  ],
+  "verification": {
+    "command": "python3 starter/run_security_tests.py",
+    "criteria": "Requests targeting loopback or 169.254.169.254 return HTTP 403"
+  }
+}

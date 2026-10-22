@@ -1,0 +1,58 @@
+[
+  {
+    "q": "Why is Rust with Axum considered one of the highest-performing backend web stacks?",
+    "a": "Rust compiles directly to native machine code with zero garbage collection overhead and zero runtime reflection. Axum is built on top of Hyper and Tower, utilizing hyper-optimized async I/O with Tokio, achieving millions of requests per second with microsecond latency and minimal memory consumption."
+  },
+  {
+    "q": "How does SQLx compile-time query verification prevent runtime database errors?",
+    "a": "The `sqlx::query!` and `query_as!` macros connect to your PostgreSQL database at compile time (or check `.sqlx/` metadata in CI). They validate that the SQL syntax is valid, tables and columns exist, and column data types match Rust struct field types, making SQL syntax and type errors impossible at runtime."
+  },
+  {
+    "q": "What is the purpose of `cargo sqlx prepare` for CI/CD pipelines?",
+    "a": "In CI environments without a live PostgreSQL database, `cargo sqlx prepare` creates cached JSON query metadata in a `.sqlx/` folder. When `SQLX_OFFLINE=true` is set, the Rust compiler verifies queries against these saved metadata files without needing a live network connection."
+  },
+  {
+    "q": "How does Axum's `State` extractor differ from traditional dependency injection?",
+    "a": "Axum uses type-safe state extractors (`State(pool): State<PgPool>`) resolved at compile time. If a handler requests a state type that was not registered in the Router with `.with_state()`, the code fails to compile, eliminating runtime null pointer or missing dependency exceptions."
+  },
+  {
+    "q": "What role does Tower middleware play in Axum applications?",
+    "a": "Tower provides composable, protocol-agnostic middleware abstractions. Layers like `TraceLayer` (distributed logging), `TimeoutLayer` (request deadlines), `CorsLayer` (cross-origin security), and `CompressionLayer` wrap the core service cleanly with zero boilerplate in business logic."
+  },
+  {
+    "q": "How does this kit tune PostgreSQL connection pooling with `PgPoolOptions`?",
+    "a": "The pool is configured with `max_connections(25)`, `min_connections(5)`, `acquire_timeout(3s)`, and `idle_timeout(10m)`. This prevents connection spikes from exhausting PostgreSQL process limits while ensuring available idle connections for burst traffic."
+  },
+  {
+    "q": "How does the `AppError` enum prevent information disclosure vulnerabilities?",
+    "a": "The unified `AppError` enum catches underlying `sqlx::Error` variants and logs the detailed database error internally using `tracing::error!()`. It returns only a generic `Internal server error` message with HTTP 500 to the client, preventing table schemas or database credentials from leaking."
+  },
+  {
+    "q": "How does Rust achieve memory safety without garbage collection pauses?",
+    "a": "Rust uses a strict ownership, borrowing, and lifetime system enforced by the compiler. Memory is freed deterministically as soon as its owner goes out of scope (RAII), eliminating memory leaks, use-after-free, double-free bugs, and unpredictable GC stop-the-world pauses."
+  },
+  {
+    "q": "How is non-root execution configured in the Docker container?",
+    "a": "The multi-stage Dockerfile builds the static binary in a builder stage and copies only the compiled binary to a minimal Alpine container. It creates a dedicated unprivileged user (`appuser` with UID 10001) and sets `USER 10001:10001` to isolate the process from the host kernel."
+  },
+  {
+    "q": "What is the recommended approach for pagination in high-traffic Axum services?",
+    "a": "Collection endpoints clamp query limits using `.clamp(1, 100)`. For high-volume tables, cursor-based pagination (`WHERE id > $last_id ORDER BY id ASC LIMIT 50`) is preferred over offset pagination to maintain O(1) query time across large datasets."
+  },
+  {
+    "q": "How do I run security supply-chain audits on Rust dependencies?",
+    "a": "Execute `cargo audit` in CI to compare `Cargo.lock` against the RustSec Advisory Database, and use `cargo deny check` to detect disallowed licenses, yanked crates, and duplicate dependency versions."
+  },
+  {
+    "q": "Why is `DefaultBodyLimit` essential for protecting against DoS attacks?",
+    "a": "Without body limits, an attacker could stream gigabytes of data into a POST endpoint, causing memory exhaustion. Axum provides `DefaultBodyLimit::max(bytes)` to reject oversized request bodies with HTTP 413 Payload Too Large before buffering."
+  },
+  {
+    "q": "How does Tokio handle CPU-intensive tasks without blocking the async runtime?",
+    "a": "Tokio worker threads handle non-blocking I/O. For heavy CPU operations (like password hashing or image processing), use `tokio::task::spawn_blocking()` to offload the work to a dedicated threadpool, preventing async event loop stalls."
+  },
+  {
+    "q": "Can Axum serve both REST APIs and WebSockets?",
+    "a": "Yes. Axum has native first-class WebSocket support via `axum::extract::ws::WebSocketUpgrade`, allowing real-time bidirectional messaging on the same port and router alongside RESTful endpoints."
+  }
+]

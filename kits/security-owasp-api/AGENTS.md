@@ -1,40 +1,16 @@
-# OWASP API Security Top 10 Reference + Pytest Attack Suite — Agent Operating Rules (AGENTS.md)
-# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# Assistant Guidelines for OWASP API Security Top 10 Stack Kit
 
-## Table of Contents
-- [Architectural Standards for OWASP API Security Top 10 Reference + Pytest Attack Suite](#architecture-guidelines)
-- [Security Invariants for OWASP API Security Top 10 Reference + Pytest Attack Suite](#security-invariants)
-- [Agent Coding Conventions for OWASP API Security Top 10 Reference + Pytest Attack Suite](#agent-coding-conventions)
+## Stack Overview
+- Language: Python 3.12+
+- Framework: FastAPI 0.115+
+- Security Standard: OWASP API Security Top 10 (2023)
+- Authentication: PyJWT + Bcrypt (HS256/RS256)
+- Test Harness: Pytest + HTTPX TestClient
+- Validation: Pydantic v2 with strict schemas
 
----
-
-<a id="architecture-guidelines"></a>
-## Architectural Standards for OWASP API Security Top 10 Reference + Pytest Attack Suite
-
-# Architecture Standards: OWASP API Security Top 10 Reference + Pytest Attack Suite
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
-
----
-
-<a id="security-invariants"></a>
-## Security Invariants for OWASP API Security Top 10 Reference + Pytest Attack Suite
-
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
-
----
-
-<a id="agent-coding-conventions"></a>
-## Agent Coding Conventions for OWASP API Security Top 10 Reference + Pytest Attack Suite
-
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-
----
-
+## Mandatory Rules
+1. Mandatory object ownership check on all resourceful lookups (API1:2023 BOLA prevention).
+2. Enforce explicit role verification for administrative actions (API5:2023 BFLA prevention).
+3. Every input schema must reject unexpected fields (`extra = "forbid"`), and responses must never leak internal properties (API3:2023 BOPLA prevention).
+4. Strictly enforce pagination caps (`le=100`) and rate limits (API4:2023).
+5. All external URL fetching must block private IP ranges, loopback, and cloud metadata 169.254.169.254 (API7:2023 SSRF defense).

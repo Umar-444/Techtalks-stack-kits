@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-01-axum-handler-scaffold",
+  "name": "Type-Safe Axum Handler Scaffolding with State Extractor",
+  "difficulty": "intermediate",
+  "prompt": "Implement an orders handler function accepting State(PgPool), Json(CreateOrderRequest), and returning Result<(StatusCode, Json<Order>), AppError>. Verify that invalid amounts return HTTP 400 Bad Request.",
+  "expected_files": [
+    "starter/src/handlers.rs",
+    "starter/src/main.rs"
+  ],
+  "verification": {
+    "command": "cargo check",
+    "criteria": "Compiles with zero warnings and handler correctly registers in router"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "task_id": "eval-02-sqlx-query-as-safety",
+  "name": "SQLx Compile-Time Verified Query Execution",
+  "difficulty": "advanced",
+  "prompt": "Write a compile-time checked SQL query using sqlx::query_as! to fetch sorted items with pagination parameters ($1 limit, $2 offset). Ensure all columns map to the Item struct.",
+  "expected_files": [
+    "starter/src/handlers.rs",
+    "starter/migrations/0001_init.sql"
+  ],
+  "verification": {
+    "command": "cargo check",
+    "criteria": "SQLx queries compile cleanly against PostgreSQL schema"
+  }
+}

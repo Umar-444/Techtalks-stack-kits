@@ -1,0 +1,58 @@
+[
+  {
+    "q": "Why is the Hono + Bun + SQLite stack significantly faster than traditional Node.js/Express stacks?",
+    "a": "Bun is written in Zig and powered by JavaScriptCore, delivering 3-5x faster cold starts and request processing than Node.js. Hono uses a trie-based RegExpRouter with zero allocations on matching paths, and `bun:sqlite` provides direct C-level bindings that eliminate IPC latency."
+  },
+  {
+    "q": "How does SQLite Write-Ahead Logging (WAL) mode handle concurrent traffic?",
+    "a": "In WAL mode (`PRAGMA journal_mode = WAL;`), writers do not block readers and readers do not block writers. Changes append to a separate WAL file while queries read from the main database and WAL simultaneously, allowing thousands of concurrent read queries per second."
+  },
+  {
+    "q": "How do I prevent SQL injection attacks in Bun SQLite?",
+    "a": "Never interpolate variables into query strings. Always use prepared statements with bind parameters (`db.prepare('SELECT * FROM users WHERE id = ?').get(userId)`) or use Drizzle ORM query builders which parameterize all inputs automatically."
+  },
+  {
+    "q": "How does Zod validation prevent mass assignment vulnerabilities in Hono?",
+    "a": "By attaching `.strict()` to Zod object schemas, the `@hono/zod-validator` middleware immediately rejects any payload containing unwhitelisted keys with HTTP 400 Bad Request, stopping attackers from injecting `role: 'admin'` or privileged fields."
+  },
+  {
+    "q": "Can this SQLite setup be deployed to distributed or multi-region environments?",
+    "a": "Yes. While local SQLite is ideal for single-node instances and edge containers, the Drizzle ORM layer in this kit easily switches to LibSQL / Turso for distributed edge database replication without changing application queries."
+  },
+  {
+    "q": "How does Bun native testing compare to Jest or Vitest?",
+    "a": "Bun has a built-in test runner (`bun test`) that executes TypeScript directly without transpilation steps (no ts-node, babel, or esbuild required). Tests execute in under 10 milliseconds directly against in-memory SQLite databases."
+  },
+  {
+    "q": "Why is testing with `app.request()` preferred over spinning up an HTTP server?",
+    "a": "Hono conforms to the Web Standards `fetch` API. Invoking `app.request('/path')` passes a mock `Request` directly through Hono's routing and middleware stack in-memory without binding TCP ports, avoiding port conflicts in parallel CI pipelines."
+  },
+  {
+    "q": "How is non-root execution configured in the Docker container?",
+    "a": "The multi-stage Dockerfile uses `oven/bun:1.1-alpine` and sets `USER bun`. Bun runs under an unprivileged user (UID 1000), preventing potential container escape vulnerabilities from obtaining host root access."
+  },
+  {
+    "q": "What security headers are recommended for Hono web services?",
+    "a": "Use Hono's built-in `secureHeaders()` middleware. It automatically sets `Strict-Transport-Security` (HSTS), `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, and customizable Content Security Policies (CSP)."
+  },
+  {
+    "q": "How are database migrations managed with Drizzle Kit?",
+    "a": "Drizzle schemas live in `src/db/schema.ts`. Running `bun x drizzle-kit generate` produces clean SQL migration scripts in `drizzle/`, which can be applied using `bun x drizzle-kit migrate` during service startup or CI deployment."
+  },
+  {
+    "q": "How does this kit defend against unconstrained query denial-of-service?",
+    "a": "Collection endpoints enforce strict Zod query parameters with hard upper caps (`limit <= 100`). Compound indexes on sorting keys (e.g., `created_at DESC`) guarantee queries never perform full-table scans."
+  },
+  {
+    "q": "Can I use Hono with React, Vue, or Svelte frontends?",
+    "a": "Yes. Hono serves both high-performance REST/GraphQL APIs and static single-page application assets. With Hono's RPC client (`hono/client`), your frontend code gets end-to-end TypeScript types directly from the backend routes."
+  },
+  {
+    "q": "How does Hono handle structured error responses?",
+    "a": "Using `app.onError((err, c) => ...)`, Hono intercepts unhandled exceptions, logs the error stack trace internally, and returns sanitized JSON with consistent error codes, preventing database connection strings from leaking to clients."
+  },
+  {
+    "q": "What is the token footprint of this kit for AI coding agents?",
+    "a": "This kit maintains a median token metric of ~18,200 tokens. The rules and schemas are concise and omit unnecessary boilerplate, allowing agents to ingest the entire kit context while retaining ample window budget for reasoning and feature generation."
+  }
+]

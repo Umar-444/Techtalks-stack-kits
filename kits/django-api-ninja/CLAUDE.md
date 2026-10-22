@@ -1,22 +1,15 @@
-# Django + Django Ninja + PostgreSQL + Celery — Claude Code Guidelines (CLAUDE.md)
-# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# CLAUDE.md ? Django + Django Ninja + PostgreSQL + Celery
 
-## Quick Reference & Non-Negotiable Standards
-### Architectural Standards for Django + Django Ninja + PostgreSQL + Celery
-# Architecture Standards: Django + Django Ninja + PostgreSQL + Celery
-- Strictly adhere to modular component separation.
-- Keep dependency surface minimal and auditable.
-- Prefer explicit configuration over magic implicit defaults.
+You are pair programming on a production-grade Django Ninja API application.
 
-### Security Invariants for Django + Django Ninja + PostgreSQL + Celery
-# Security Invariants
-- Verify tenant boundary before reading or writing any persistent state.
-- Sanitize all external inputs using validated schemas.
-- Reject requests with missing or expired bearer tokens.
+## Core Invariants
+1. **API Only**: Use Django Ninja with Pydantic v2 schemas. Never write legacy Django templates or DRF serializers.
+2. **Database Optimization**: Always use select_related() and prefetch_related() to avoid N+1 queries.
+3. **Async Tasks**: Offload background jobs to Celery tasks with Redis broker.
+4. **Security**: Enforce Bearer token authentication and tenant authorization on all endpoints.
 
-### Agent Coding Conventions for Django + Django Ninja + PostgreSQL + Celery
-# Agent Coding Conventions
-- Maintain clean, minimal code changes with zero extraneous comments.
-- Run typecheck and compile verification after every file modification.
-- Never introduce undocumented third-party libraries without explicit instructions.
-
+## Essential Commands
+- Run dev server: python manage.py runserver 0.0.0.0:8000
+- Run migrations: python manage.py migrate
+- Run Celery worker: celery -A config worker -l info
+- Run tests: pytest tests/ -v

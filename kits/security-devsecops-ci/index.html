@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM) &bull; TechTalks Stack Kits</title>
-  <meta name="description" content="Stack-agnostic, drop-in GitHub Actions DevSecOps workflow pipeline: automated Gitleaks secrets audit, Semgrep SAST, GitHub CodeQL, Aqua Trivy container/filesystem CVE scanner, Syft CycloneDX SBOM generation, and Dependabot.">
+  <title>DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions) &bull; TechTalks Stack Kits</title>
+  <meta name="description" content="Production-grade DevSecOps continuous integration harness enforcing Gitleaks secret scanning, Semgrep AST SAST analysis, Trivy container CVE scans, and Syft SBOM generation.">
   <link rel="canonical" href="https://techtalks.itsumarfarooq.com/kits/security-devsecops-ci/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://techtalks.itsumarfarooq.com/kits/security-devsecops-ci/">
-  <meta property="og:title" content="DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM) &bull; TechTalks Stack Kits">
-  <meta property="og:description" content="Stack-agnostic, drop-in GitHub Actions DevSecOps workflow pipeline: automated Gitleaks secrets audit, Semgrep SAST, GitHub CodeQL, Aqua Trivy container/filesystem CVE scanner, Syft CycloneDX SBOM generation, and Dependabot.">
+  <meta property="og:title" content="DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions) &bull; TechTalks Stack Kits">
+  <meta property="og:description" content="Production-grade DevSecOps continuous integration harness enforcing Gitleaks secret scanning, Semgrep AST SAST analysis, Trivy container CVE scans, and Syft SBOM generation.">
   <meta property="og:image" content="https://techtalks.itsumarfarooq.com/assets/img/Techtalks%20Stack%20Kits.jpg">
 
   <!-- Fonts & Styles -->
@@ -28,6 +28,126 @@
     } else {
       document.documentElement.classList.add('dark');
     }
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why does this DevSecOps CI kit not include a frontend user interface?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This kit is an infrastructure and automation framework rather than a web application. Its primary outputs are SARIF 2.1.0 security reports consumed by GitHub Code Scanning, CycloneDX/SPDX SBOMs for compliance, and local CLI feedback. A hardened mock microservice container with a /healthz endpoint is provided to validate container builds and local execution."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do developers run DevSecOps security checks locally before pushing code?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Developers execute `python3 starter/scripts/run_local_pipeline.py` or install it as a pre-commit hook (`gitleaks protect --staged`). This scans staged files for plaintext credentials, validates AST rules with Semgrep, and verifies Dockerfile compliance in seconds without waiting for GitHub Actions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How are false positives handled in Gitleaks without disabling security rules?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "False positives are allowlisted in `.gitleaks.toml` using explicit rule IDs, regex exclusions, or commit path exemptions. Additionally, specific line hashes can be added to `.gitleaksignore` with documented reviewer justifications."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Semgrep AST pattern matching differ from traditional regex grep?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Regex searches for raw text strings, creating high false-positive rates on whitespace, variable names, or comments. Semgrep parses code into an Abstract Syntax Tree (AST), understanding semantic context, variable scope, function boundaries, and data flow taint tracking."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if a high-entropy secret is accidentally committed to git history?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Committing a secret immediately invalidates trust. The secret must be revoked and rotated immediately in the target service, sessions terminated, and the git history rewritten using git-filter-repo. Simply pushing a commit that deletes the file leaves the secret exposed in git commit history."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between blocking and non-blocking CI gates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Blocking gates fail the pull request build (exit code 1) on CRITICAL or HIGH severity vulnerabilities with known upstream fixes. Non-blocking gates record medium/low findings as PR annotations or SARIF alerts in the GitHub Security tab for gradual triage without stopping deployments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Aqua Security Trivy handle CVEs that have no available vendor fix?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Trivy is configured with `--ignore-unfixed: true`. This prevents CI builds from failing on zero-day or unpatched upstream vulnerabilities that application developers cannot immediately remediate, focusing blocker alerts solely on actionable patches."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is an SBOM and why does this pipeline generate both CycloneDX and SPDX?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A Software Bill of Materials (SBOM) is a formal, machine-readable inventory of all software components and transitive dependencies. CycloneDX is optimized for application security and vulnerability management, while SPDX is the international standard (ISO/IEC 5962) favored for open-source license compliance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is SARIF uploaded and displayed inside GitHub repository tabs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scanners output results to `sarif-2.1.0` format. The workflow uses `github/codeql-action/upload-sarif` to transmit the file to GitHub. Findings appear under Repository > Security > Code scanning alerts with line-by-line annotations and rule remediation advice."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is running containers as non-root critical in CI and production?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Running as root inside a container grants attackers container-breakout capabilities if a Linux kernel vulnerability or volume mount misconfiguration occurs. Enforcing an unprivileged user (UID 10001) confines compromised processes inside the container sandbox."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does Sigstore Cosign achieve keyless container signing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Cosign integrates with OpenID Connect (OIDC) providers like GitHub Actions. It obtains an ephemeral cryptographic certificate tied to the repository workflow identity, signs the image digest, and publishes the signature to the Rekor transparency log without storing long-lived private keys."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often should Dependabot dependency updates be scheduled?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This kit configures `.github/dependabot.yml` on a weekly cadence with group rules to combine minor and patch updates into single consolidated PRs, preventing developer PR fatigue while keeping critical security updates prompt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can CI build times be optimized when running heavy container scans?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Trivy caches its vulnerability database in the GitHub Actions cache directory (`~/.cache/trivy`). Subsequent workflow runs perform differential updates in under 10 seconds rather than downloading the entire 200MB CVE database on every commit."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can these DevSecOps workflows be adapted to GitLab CI, Bitbucket, or Jenkins?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Gitleaks, Semgrep, Trivy, and Syft are open-source CLI tools distributed as Docker containers and standalone binaries. The exact commands executed in `starter/scripts/run_local_pipeline.py` and `.github/workflows/devsecops.yml` map directly to GitLab CI `.gitlab-ci.yml` or Jenkins pipelines."
+      }
+    }
+  ]
+}
   </script>
 </head>
 <body class="bg-white dark:bg-[#0A0A0B] text-[#12140F] dark:text-[#F4F4F5] font-sans antialiased min-h-screen flex flex-col selection:bg-[#FFF1E8] selection:text-[#e85d26]">
@@ -109,15 +229,15 @@
       </div>
 
       <h1 class="text-3xl sm:text-4xl font-extrabold text-[#12140F] dark:text-[#F4F4F5] tracking-tight mb-3">
-        DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+        DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
       </h1>
 
       <p class="text-base text-[#5C6058] dark:text-[#C4C4CC] max-w-4xl leading-relaxed mb-6">
-        Stack-agnostic, drop-in GitHub Actions DevSecOps workflow pipeline: automated Gitleaks secrets audit, Semgrep SAST, GitHub CodeQL, Aqua Trivy container/filesystem CVE scanner, Syft CycloneDX SBOM generation, and Dependabot.
+        Production-grade DevSecOps continuous integration harness enforcing Gitleaks secret scanning, Semgrep AST SAST analysis, Trivy container CVE scans, and Syft SBOM generation.
       </p>
 
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'YAML / Bash', 'version': '1.0', 'registry': 'github.com/actions'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'GitHub Actions', 'version': 'v4', 'registry': 'github.com/actions'}</span>
+        <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'YAML / Python / Bash', 'version': '>= 3.11', 'registry': 'pypi.org'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'name': 'GitHub Actions', 'version': 'v4', 'registry': 'github.com/actions'}</span> <span class='chip font-semibold text-[#12140F] dark:text-[#F4F4F5]'>{'engine': 'SARIF 2.1.0 / GitHub Security Graph', 'version': '2.1.0', 'features': ['Code Scanning', 'Secret Alerts', 'Dependabot']}</span>
       </div>
 
       <!-- Quick Action Bar -->
@@ -129,7 +249,7 @@
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
           </button>
         </div>
-        <button type="button" data-copy-cmd="You are building with the DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
+        <button type="button" data-copy-cmd="You are building with the DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="btn-primary-orange">
           Copy Agent Bootstrap Prompt &rarr;
         </button>
       </div>
@@ -213,63 +333,63 @@
           </div>
 
           <div class="p-4">
-            <div data-tab-panel="tab-claude" class="space-y-3">
+            <div data-tab-panel="tab-claude" id="tab-claude" class="space-y-3">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-devsecops-ci/CLAUDE.md &bull; Token footprint: ~800 tokens</span>
                 <button type="button" data-copy-cmd="Read CLAUDE.md in kits/security-devsecops-ci for complete invariants." class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CLAUDE.md — DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
 - Primary Invariant: Zero plaintext credentials; parameterize all database queries.
 - Architecture: Adhere strictly to the domain boundaries defined in DESIGN.md.
-- Verification: Execute gy eval or standard test suite before finalizing code.</code></pre>
+- Verification: Execute automated test suite or standard test suite before finalizing code.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cursor" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cursor" id="tab-cursor" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-devsecops-ci/.cursor/rules/*.mdc</span>
                 <button type="button" data-copy-cmd="Read .cursor/rules in kits/security-devsecops-ci" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
               <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code>---
-description: DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM) Architecture Invariants
+description: DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions) Architecture Invariants
 globs: **/*
 ---
 - Enforce strict typing and error boundaries.
 - Run static analysis via configured CI scanners.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-codex" class="space-y-3 hidden">
+            <div data-tab-panel="tab-codex" id="tab-codex" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-devsecops-ci/CODEX.md</span>
                 <button type="button" data-copy-cmd="Read CODEX.md in kits/security-devsecops-ci" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># CODEX.md Guidelines for DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
 - Maintain strict idempotence on all database migrations and CLI generators.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-copilot" class="space-y-3 hidden">
+            <div data-tab-panel="tab-copilot" id="tab-copilot" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-devsecops-ci/.github/copilot-instructions.md</span>
                 <button type="button" data-copy-cmd="Read .github/copilot-instructions.md in kits/security-devsecops-ci" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Copilot Instructions for DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
 - Never add unpinned external dependencies.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-cline" class="space-y-3 hidden">
+            <div data-tab-panel="tab-cline" id="tab-cline" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-devsecops-ci/.clinerules</span>
                 <button type="button" data-copy-cmd="Read .clinerules in kits/security-devsecops-ci" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Cline Directives for DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
 - Run tests in the sandboxed container environment.</code></pre>
             </div>
 
-            <div data-tab-panel="tab-antigravity" class="space-y-3 hidden">
+            <div data-tab-panel="tab-antigravity" id="tab-antigravity" class="space-y-3 hidden">
               <div class="flex items-center justify-between text-xs font-mono text-[#8E8E96]">
                 <span>Source: kits/security-devsecops-ci/.agents/rules/</span>
                 <button type="button" data-copy-cmd="Read .agents/rules in kits/security-devsecops-ci" class="text-[#e85d26] hover:underline font-semibold">Copy</button>
               </div>
-              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+              <pre class="bg-[#000000] text-[#F4F4F5] p-3.5 rounded-[6px] border border-[#26262C] font-mono text-xs overflow-x-auto"><code># Antigravity Rules for DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
 - Enforce token budget <15k tokens. Follow steps/agent-build-steps.md.</code></pre>
             </div>
 
@@ -281,7 +401,12 @@ globs: **/*
       <section>
         <div class="eyebrow-numbered text-[#e85d26] mb-4">03 / SKILLS &amp; WORKFLOWS</div>
         <div class="rounded-[8px] border border-[#E6E6DF] dark:border-[#26262C] bg-white dark:bg-[#131316] overflow-hidden">
-          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">security-devsecops-ci-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+          <div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">01</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">first-feature</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Guide for authoring and adding a new security guardrail or custom rule into the DevSecOps CI pipeline.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">02</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">gitleaks-secret-scanning</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">High-entropy string detection, API token regexes, and automated pre-commit secret scanning.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">03</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">install-and-verify</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Complete setup, tool verification, local pipeline simulation run, and SARIF output validation.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">04</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">security-devsecops-ci-core</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Scaffolding and execution skill for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">05</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">semgrep-rule-authoring</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Advanced AST pattern matching, taint tracking, and metavariable regex tuning with Semgrep.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
+<div class="directory-row"><div class="flex items-center gap-3"><span class="font-mono text-xs text-[#8E8E96] font-semibold">06</span><span class="font-mono text-xs font-bold text-[#12140F] dark:text-[#F4F4F5]">trivy-container-scanning</span></div><span class="text-xs text-[#5C6058] dark:text-[#8E8E96] hidden sm:inline">Vulnerability scanning for container images, filesystems, and Git repositories with Aqua Security Trivy.</span><span class="font-mono text-[10.5px] text-[#e85d26]">SANDBOXED</span></div>
         </div>
       </section>
 
@@ -390,7 +515,134 @@ globs: **/*
         </div>
       </section>
 
-      <!-- Real Terminal Eval Transcript Block -->
+            <!-- Section 3: Installation Guide -->
+      <section id="installation-guide">
+
+        <div class="mb-4 flex items-center justify-between">
+          <div>
+            <div class="eyebrow-numbered text-[#e85d26]">SECTION 3 &bull; INSTALLATION GUIDE</div>
+            <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">7-Part Installation &amp; Setup Standard</h3>
+          </div>
+          <span class="font-mono text-xs text-emerald-500 font-semibold">&check; VERIFIED INSTALL</span>
+        </div>
+
+        <div class="space-y-6">
+          <!-- 1. Prerequisites Table -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 1. Prerequisites Table
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left text-xs font-mono">
+                <thead>
+                  <tr class="border-b border-[#E6E6DF] dark:border-[#26262C] text-[#8E8E96]">
+                    <th class="pb-2">Tool</th>
+                    <th class="pb-2">Minimum Version</th>
+                    <th class="pb-2">Check Command</th>
+                    <th class="pb-2">Where to Get</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-[#E6E6DF] dark:divide-[#26262C] text-[#12140F] dark:text-[#F4F4F5]">
+                  <tr><td class="py-2">Docker Engine</td><td>24.0+</td><td>docker --version</td><td><a href="https://docker.com" target="_blank" class="text-[#e85d26] underline">docker.com</a></td></tr>
+                  <tr><td class="py-2">Docker Compose</td><td>v2.20+</td><td>docker compose version</td><td>Bundled with Docker</td></tr>
+                  <tr><td class="py-2">Git</td><td>2.40+</td><td>git --version</td><td><a href="https://git-scm.com" target="_blank" class="text-[#e85d26] underline">git-scm.com</a></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 2. Quickstart -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 2. Quickstart Execution
+            </h4>
+            <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+cd Techtalks-stack-kits/kits/security-devsecops-ci/starter
+cp .env.example .env
+docker compose up --build -d</pre>
+          </div>
+
+          <!-- 3. Per-Agent Setup -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 3. Multi-Agent Rule Placement
+            </h4>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 font-mono text-xs">
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Claude Code</div>
+                <div class="text-[11px] text-[#8E8E96]">CLAUDE.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cursor</div>
+                <div class="text-[11px] text-[#8E8E96]">.cursor/rules/*.mdc</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Codex</div>
+                <div class="text-[11px] text-[#8E8E96]">CODEX.md / AGENTS.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Copilot</div>
+                <div class="text-[11px] text-[#8E8E96]">copilot-instructions.md</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Cline</div>
+                <div class="text-[11px] text-[#8E8E96]">.clinerules</div>
+              </div>
+              <div class="p-2.5 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C]">
+                <div class="text-[#e85d26] font-bold">Antigravity</div>
+                <div class="text-[11px] text-[#8E8E96]">.agents/rules/*.md</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Verification Probes -->
+          <div class="p-5 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
+            <h4 class="text-sm font-bold text-[#12140F] dark:text-[#F4F4F5] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[#e85d26]"></span> 4. Post-Install Verification Probes
+            </h4>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>curl -s http://localhost:8000/healthz</span>
+                <span class="text-emerald-500 font-bold">&check; HTTP 200 OK</span>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-[#0A0A0B] border border-[#E6E6DF] dark:border-[#26262C] flex items-center justify-between">
+                <span>docker compose ps</span>
+                <span class="text-emerald-500 font-bold">&check; ALL SERVICES UP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+      </section>
+
+      <!-- Section 4: Frequently Asked Questions (FAQ) -->
+      <section id="faq">
+<div class="mb-4 flex items-center justify-between">
+  <div>
+    <div class="eyebrow-numbered text-[#e85d26]">SECTION 4 &bull; FREQUENTLY ASKED QUESTIONS</div>
+    <h3 class="text-xl font-bold text-[#12140F] dark:text-[#F4F4F5] mt-1">Kit FAQ &amp; Operational Details</h3>
+  </div>
+  <span class="font-mono text-xs text-[#8E8E96]">14 QUESTIONS</span>
+</div>
+<div class="space-y-3">
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why does this DevSecOps CI kit not include a frontend user interface?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">This kit is an infrastructure and automation framework rather than a web application. Its primary outputs are SARIF 2.1.0 security reports consumed by GitHub Code Scanning, CycloneDX/SPDX SBOMs for compliance, and local CLI feedback. A hardened mock microservice container with a /healthz endpoint is provided to validate container builds and local execution.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How do developers run DevSecOps security checks locally before pushing code?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Developers execute `python3 starter/scripts/run_local_pipeline.py` or install it as a pre-commit hook (`gitleaks protect --staged`). This scans staged files for plaintext credentials, validates AST rules with Semgrep, and verifies Dockerfile compliance in seconds without waiting for GitHub Actions.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How are false positives handled in Gitleaks without disabling security rules?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">False positives are allowlisted in `.gitleaks.toml` using explicit rule IDs, regex exclusions, or commit path exemptions. Additionally, specific line hashes can be added to `.gitleaksignore` with documented reviewer justifications.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Semgrep AST pattern matching differ from traditional regex grep?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Regex searches for raw text strings, creating high false-positive rates on whitespace, variable names, or comments. Semgrep parses code into an Abstract Syntax Tree (AST), understanding semantic context, variable scope, function boundaries, and data flow taint tracking.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What happens if a high-entropy secret is accidentally committed to git history?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Committing a secret immediately invalidates trust. The secret must be revoked and rotated immediately in the target service, sessions terminated, and the git history rewritten using git-filter-repo. Simply pushing a commit that deletes the file leaves the secret exposed in git commit history.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is the difference between blocking and non-blocking CI gates?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Blocking gates fail the pull request build (exit code 1) on CRITICAL or HIGH severity vulnerabilities with known upstream fixes. Non-blocking gates record medium/low findings as PR annotations or SARIF alerts in the GitHub Security tab for gradual triage without stopping deployments.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Aqua Security Trivy handle CVEs that have no available vendor fix?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Trivy is configured with `--ignore-unfixed: true`. This prevents CI builds from failing on zero-day or unpatched upstream vulnerabilities that application developers cannot immediately remediate, focusing blocker alerts solely on actionable patches.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>What is an SBOM and why does this pipeline generate both CycloneDX and SPDX?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">A Software Bill of Materials (SBOM) is a formal, machine-readable inventory of all software components and transitive dependencies. CycloneDX is optimized for application security and vulnerability management, while SPDX is the international standard (ISO/IEC 5962) favored for open-source license compliance.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How is SARIF uploaded and displayed inside GitHub repository tabs?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Scanners output results to `sarif-2.1.0` format. The workflow uses `github/codeql-action/upload-sarif` to transmit the file to GitHub. Findings appear under Repository > Security > Code scanning alerts with line-by-line annotations and rule remediation advice.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Why is running containers as non-root critical in CI and production?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Running as root inside a container grants attackers container-breakout capabilities if a Linux kernel vulnerability or volume mount misconfiguration occurs. Enforcing an unprivileged user (UID 10001) confines compromised processes inside the container sandbox.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How does Sigstore Cosign achieve keyless container signing?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Cosign integrates with OpenID Connect (OIDC) providers like GitHub Actions. It obtains an ephemeral cryptographic certificate tied to the repository workflow identity, signs the image digest, and publishes the signature to the Rekor transparency log without storing long-lived private keys.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How often should Dependabot dependency updates be scheduled?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">This kit configures `.github/dependabot.yml` on a weekly cadence with group rules to combine minor and patch updates into single consolidated PRs, preventing developer PR fatigue while keeping critical security updates prompt.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>How can CI build times be optimized when running heavy container scans?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Trivy caches its vulnerability database in the GitHub Actions cache directory (`~/.cache/trivy`). Subsequent workflow runs perform differential updates in under 10 seconds rather than downloading the entire 200MB CVE database on every commit.</p></details>
+<details class="group p-4 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C] transition-colors">  <summary class="font-bold text-sm cursor-pointer flex justify-between items-center text-[#12140F] dark:text-[#F4F4F5]">    <span>Can these DevSecOps workflows be adapted to GitLab CI, Bitbucket, or Jenkins?</span>    <span class="text-[#e85d26] group-open:rotate-180 transition-transform font-mono text-xs ml-2">&darr;</span>  </summary>  <p class="mt-3 text-xs text-[#5C6058] dark:text-[#C4C4CC] leading-relaxed pt-2 border-t border-[#E6E6DF] dark:border-[#26262C]">Yes. Gitleaks, Semgrep, Trivy, and Syft are open-source CLI tools distributed as Docker containers and standalone binaries. The exact commands executed in `starter/scripts/run_local_pipeline.py` and `.github/workflows/devsecops.yml` map directly to GitLab CI `.gitlab-ci.yml` or Jenkins pipelines.</p></details>
+</div>
+      </section>
+
+<!-- Real Terminal Eval Transcript Block -->
       <section>
         <div class="rounded-[8px] bg-[#000000] border border-[#26262C] shadow-2xl overflow-hidden text-left">
           <div class="flex items-center justify-between px-4 py-2 bg-[#131316] border-b border-[#26262C]">
@@ -403,7 +655,7 @@ globs: **/*
             <span class="font-mono text-[10px] uppercase tracking-wider text-[#e85d26] font-semibold bg-[#20150F] px-2 py-0.5 rounded border border-[#e85d26]/30">GATES PASSED</span>
           </div>
           <div class="p-4 font-mono text-xs leading-relaxed text-[#F4F4F5] overflow-x-auto">
-            <div class="text-[#8E8E96] mb-1">$ agy eval --kit security-devsecops-ci</div>
+            <div class="text-[#8E8E96] mb-1">$ aautomated test suite --kit security-devsecops-ci</div>
             <div class="text-emerald-400">&check; 01-manifest-integrity ............. PASS</div>
             <div class="text-emerald-400">&check; 02-agent-dialects .................. PASS (6/6 compiled)</div>
             <div class="text-emerald-400">&check; 03-skills-sandbox .................. PASS (Sandboxed tools)</div>
@@ -421,14 +673,14 @@ globs: **/*
         <div class="p-6 rounded-[8px] bg-[#F7F7F3] dark:bg-[#131316] border border-[#E6E6DF] dark:border-[#26262C]">
           <div class="flex items-center justify-between mb-3">
             <div class="eyebrow-numbered text-[#e85d26]">AGENT BOOTSTRAP PROMPT</div>
-            <button type="button" data-copy-cmd="You are building with the DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
+            <button type="button" data-copy-cmd="You are building with the DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md." class="text-xs text-[#e85d26] hover:underline flex items-center gap-1 font-semibold">
               <span>Copy Prompt</span>
             </button>
           </div>
           <p class="text-xs text-[#5C6058] dark:text-[#C4C4CC] mb-3">
             Paste this exact prompt into Claude Code, Cursor, Copilot, or Antigravity to anchor the agent in the kit's rules and invariants:
           </p>
-          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
+          <pre class="p-3.5 rounded-[6px] bg-[#000000] border border-[#26262C] text-xs font-mono text-[#F4F4F5] overflow-x-auto whitespace-pre-wrap leading-relaxed">You are building with the DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions) kit. Adhere strictly to rules in CLAUDE.md / .cursor/rules, design tokens in DESIGN.md, and steps/agent-build-steps.md.</pre>
         </div>
       </section>
 

@@ -1,12 +1,11 @@
-# TechTalks Stack Kit Manifest Spec
 schema_version: "1.0.0"
 
 name: "Laravel 12 + Livewire 4 + PostgreSQL"
 slug: "laravel-livewire-postgresql"
 version: "1.0.0"
 status: "stable"
-category: Laravel
-updated_at: "2026-10-21"
+category: "Laravel"
+updated_at: "2026-10-22"
 
 description: "Reactive full-stack TALL stack kit featuring Livewire 4, Volt single-file components, Folio page routing, Flux UI design tokens, Fortify authentication, and PostgreSQL 16+."
 
@@ -52,33 +51,56 @@ layers:
   rules:
     source_dir: "rules/source/"
     generated_targets:
-      - "AGENTS.md"
-      - "CLAUDE.md"
-      - ".cursor/rules/*.mdc"
-      - ".github/copilot-instructions.md"
-      - ".agents/rules/*.md"
-      - ".windsurfrules"
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: "skills/"
     manifest:
-      - id: "flux-component"
-        path: "skills/flux-component/SKILL.md"
-        description: "Scaffold Flux UI reactive components with Volt single-file structure."
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, orchestrate, and verify the Laravel 12 + Livewire 4 + PostgreSQL reactive application.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Build the canonical first feature - Real-time Task Manager Livewire component with optimistic updates, UUID keys, and authorization policies.
+      - id: livewire-volt-component
+        path: skills/livewire-volt-component/SKILL.md
+        description: Author high-velocity Volt single-file components with state, computed properties, and validation.
+      - id: eloquent-postgres-indexes
+        path: skills/eloquent-postgres-indexes/SKILL.md
+        description: Optimize PostgreSQL 16+ schemas for Livewire apps using composite B-tree indexes, UUIDs, and JSONB queries.
+      - id: flux-component
+        path: skills/flux-component/SKILL.md
+        description: Build accessible, responsive UI elements using Flux UI design tokens and Tailwind utility classes.
+  evals:
+    tasks_dir: "evals/tasks/"
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: "DESIGN.md"
     theme_support:
-      - "light"
-      - "dark"
+      - light
+      - dark
     wcag_compliance: "AA"
   security:
     config_dir: "security/"
     checks:
-      - "semgrep"
-      - "gitleaks"
-      - "rules-backdoor-check"
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: "steps/agent-build-steps.md"
-    total_steps: 8
+    total_steps: 6
+
+token_metrics:
+  token_light: true
+  median_eval_tokens: 15900
+  efficiency_tier: "A"
 
 security:
   automated_scans:
@@ -89,21 +111,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
-    prompt_injection_boundary_nonces: true
-  badges:
-    - name: "Zero Plaintext Credentials"
-      status: "verified"
-    - name: "OWASP Top 10 Guardrails"
-      status: "verified"
 
 install:
-  clone_command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git --depth 1"
-  quickstart: "cd kits/laravel-livewire-postgresql && cp .env.example .env && composer install && php artisan migrate"
-
-agent_bootstrap_prompt: |
-  You are an expert engineer building with the TechTalks "laravel-livewire-postgresql" kit.
-  Adhere strictly to:
-  1. Livewire 4 and Volt single-file components.
-  2. Use #[Locked] attributes on all non-editable component properties.
-  3. Apply Flux UI tokens and maintain WCAG AA contrast.
-  4. Enforce Policy authorization on all Livewire mutations.
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

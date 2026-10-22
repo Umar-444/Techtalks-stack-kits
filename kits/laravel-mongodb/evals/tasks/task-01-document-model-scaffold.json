@@ -1,0 +1,21 @@
+{
+  "id": "eval-01",
+  "name": "MongoDB Document Model Scaffolding",
+  "prompt": "Create an Order MongoDB document model extending MongoDB\\Laravel\\Eloquent\\Model with embedded items array and customer reference.",
+  "rule_under_test": "01-framework-conventions.md",
+  "expected_artifacts": [
+    "app/Models/Order.php"
+  ],
+  "assertions": [
+    {
+      "type": "contains_string",
+      "target": "app/Models/Order.php",
+      "value": "MongoDB\\Laravel\\Eloquent\\Model"
+    },
+    {
+      "type": "contains_string",
+      "target": "app/Models/Order.php",
+      "value": "protected $collection"
+    }
+  ]
+}

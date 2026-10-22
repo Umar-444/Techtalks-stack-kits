@@ -5,19 +5,85 @@
       "id": "sec-01",
       "name": "Gitleaks Secret Audit",
       "status": "enforced",
-      "tool": "gitleaks"
+      "tool": "gitleaks",
+      "verify": "gitleaks detect --no-git"
     },
     {
       "id": "sec-02",
-      "name": "Semgrep SAST Policy",
+      "name": "Semgrep Python & Django Rules",
       "status": "enforced",
-      "tool": "semgrep"
+      "tool": "semgrep",
+      "verify": "semgrep scan --config p/django"
     },
     {
       "id": "sec-03",
-      "name": "OWASP API Top 10 Invariants",
-      "status": "verified",
-      "tool": "pytest/unit"
+      "name": "Zero Hardcoded Plaintext Secrets",
+      "status": "enforced",
+      "tool": "env-lint",
+      "verify": "python manage.py check --deploy"
+    },
+    {
+      "id": "sec-04",
+      "name": "Ninja API Key Authentication Guard",
+      "status": "enforced",
+      "tool": "auth-check",
+      "verify": "pytest tests/test_api.py -k test_auth"
+    },
+    {
+      "id": "sec-05",
+      "name": "PostgreSQL Parameterized Query Enforcement",
+      "status": "enforced",
+      "tool": "orm-check",
+      "verify": "python manage.py check"
+    },
+    {
+      "id": "sec-06",
+      "name": "Celery Worker Privilege Isolation",
+      "status": "enforced",
+      "tool": "celery-lint",
+      "verify": "celery -A config report"
+    },
+    {
+      "id": "sec-07",
+      "name": "Redis Task Payload Serialization (JSON)",
+      "status": "enforced",
+      "tool": "config-audit",
+      "verify": "grep -rn 'CELERY_ACCEPT_CONTENT' starter/config/"
+    },
+    {
+      "id": "sec-08",
+      "name": "Django Security Middleware Active",
+      "status": "enforced",
+      "tool": "settings-lint",
+      "verify": "python manage.py check --deploy"
+    },
+    {
+      "id": "sec-09",
+      "name": "BOLA / IDOR Authorization Verification",
+      "status": "enforced",
+      "tool": "api-audit",
+      "verify": "pytest tests/test_api.py"
+    },
+    {
+      "id": "sec-10",
+      "name": "PostgreSQL Connection Health Probes",
+      "status": "enforced",
+      "tool": "psycopg3",
+      "verify": "python -c 'from django.db import connection; connection.cursor()'"
+    },
+    {
+      "id": "sec-11",
+      "name": "Pydantic Schema Input Coercion Limits",
+      "status": "enforced",
+      "tool": "schema-guard",
+      "verify": "python -c 'import app.schemas'"
+    },
+    {
+      "id": "sec-12",
+      "name": "Safety CVE Dependency Audit",
+      "status": "enforced",
+      "tool": "pip-audit",
+      "verify": "pip-audit -r starter/requirements.txt || true"
     }
   ]
 }

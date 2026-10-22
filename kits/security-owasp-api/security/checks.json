@@ -1,23 +1,99 @@
 {
-  "kit_slug": "security-owasp-api",
-  "checks": [
+  "kit": "security-owasp-api",
+  "version": "1.0.0",
+  "total_controls": 12,
+  "categories": [
     {
-      "id": "sec-01",
-      "name": "Gitleaks Secret Audit",
-      "status": "enforced",
-      "tool": "gitleaks"
+      "name": "OWASP API Top 10 Authorization & Auth Controls",
+      "controls": [
+        {
+          "id": "API1-BOLA",
+          "name": "Broken Object Level Authorization (BOLA) verified on all object lookups",
+          "status": "enforced",
+          "test": "starter/tests/test_owasp_top10.py: test_api1_bola_prevention"
+        },
+        {
+          "id": "API2-AUTH",
+          "name": "Cryptographically verified JWT signatures; algorithm confusion defense",
+          "status": "enforced",
+          "test": "starter/tests/test_owasp_top10.py: test_api2_broken_auth_invalid_token"
+        },
+        {
+          "id": "API3-BOPLA",
+          "name": "Pydantic response models filtering out internal and sensitive properties",
+          "status": "enforced",
+          "test": "starter/tests/test_owasp_top10.py: test_api3_bopla_no_sensitive_fields_leaked"
+        },
+        {
+          "id": "API5-BFLA",
+          "name": "Broken Function Level Authorization (BFLA) role guards on administrative routes",
+          "status": "enforced",
+          "test": "starter/tests/test_owasp_top10.py: test_api5_bfla_prevention"
+        }
+      ]
     },
     {
-      "id": "sec-02",
-      "name": "Semgrep SAST Policy",
-      "status": "enforced",
-      "tool": "semgrep"
+      "name": "Resource Consumption & Denial of Service (DoS)",
+      "controls": [
+        {
+          "id": "API4-RATE",
+          "name": "Sliding-window rate limiting returning HTTP 429 Too Many Requests",
+          "status": "enforced",
+          "test": "starter/tests/test_owasp_top10.py: test_api4_rate_limiting"
+        },
+        {
+          "id": "API4-PAGIN",
+          "name": "Hard pagination bounds (le=50) preventing unconstrained query exhaustion",
+          "status": "enforced",
+          "endpoint": "GET /api/v1/documents"
+        },
+        {
+          "id": "API4-SIZE",
+          "name": "Maximum payload size restrictions on incoming JSON requests",
+          "status": "enforced",
+          "config": "starter/main.py"
+        }
+      ]
     },
     {
-      "id": "sec-03",
-      "name": "OWASP API Top 10 Invariants",
-      "status": "verified",
-      "tool": "pytest/unit"
+      "name": "Server-Side Request Forgery & Input Validation",
+      "controls": [
+        {
+          "id": "API7-SSRF1",
+          "name": "Cloud instance metadata service (169.254.169.254) outbound access blocked",
+          "status": "enforced",
+          "test": "starter/tests/test_owasp_top10.py: test_api7_ssrf_metadata_blocked"
+        },
+        {
+          "id": "API7-SSRF2",
+          "name": "RFC1918 private and loopback (127.0.0.1) network access prohibited",
+          "status": "enforced",
+          "test": "starter/tests/test_owasp_top10.py: test_api7_ssrf_loopback_blocked"
+        },
+        {
+          "id": "API8-SCHEM",
+          "name": "Strict Pydantic schemas forbidding unexpected fields (extra = forbid)",
+          "status": "enforced",
+          "models": "starter/main.py"
+        }
+      ]
+    },
+    {
+      "name": "Container Hardening & Operational Health",
+      "controls": [
+        {
+          "id": "OPS-HLTH",
+          "name": "Liveness probe health endpoint (/healthz) returning HTTP 200 OK",
+          "status": "enforced",
+          "endpoint": "GET /healthz"
+        },
+        {
+          "id": "OPS-CONT",
+          "name": "Non-root execution in multi-stage Alpine container (USER 10001:10001)",
+          "status": "enforced",
+          "docker": "starter/Dockerfile"
+        }
+      ]
     }
   ]
 }

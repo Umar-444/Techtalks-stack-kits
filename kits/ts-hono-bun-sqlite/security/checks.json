@@ -1,23 +1,99 @@
 {
-  "kit_slug": "ts-hono-bun-sqlite",
-  "checks": [
+  "kit": "ts-hono-bun-sqlite",
+  "version": "1.0.0",
+  "total_controls": 12,
+  "categories": [
     {
-      "id": "sec-01",
-      "name": "Gitleaks Secret Audit",
-      "status": "enforced",
-      "tool": "gitleaks"
+      "name": "Database & Query Injection Defenses",
+      "controls": [
+        {
+          "id": "SQL-01",
+          "name": "Strict parameter binding via bun:sqlite prepared statements",
+          "status": "enforced",
+          "test": "starter/src/index.ts"
+        },
+        {
+          "id": "SQL-02",
+          "name": "SQLite WAL mode and foreign key constraint enforcement",
+          "status": "enforced",
+          "test": "starter/src/index.ts: PRAGMA journal_mode = WAL"
+        },
+        {
+          "id": "SQL-03",
+          "name": "Compound index coverage on sorted created_at timestamp columns",
+          "status": "enforced",
+          "test": "starter/src/index.ts: idx_messages_created"
+        }
+      ]
     },
     {
-      "id": "sec-02",
-      "name": "Semgrep SAST Policy",
-      "status": "enforced",
-      "tool": "semgrep"
+      "name": "Request Validation & Mass Assignment Protection",
+      "controls": [
+        {
+          "id": "VAL-01",
+          "name": "Strict Zod schema validation on JSON request bodies",
+          "status": "enforced",
+          "test": "starter/src/index.test.ts: POST /api/messages rejects invalid payload"
+        },
+        {
+          "id": "VAL-02",
+          "name": "Rejection of extraneous properties (.strict()) preventing mass assignment",
+          "status": "enforced",
+          "test": "starter/src/index.test.ts: rejects unexpected extra fields"
+        },
+        {
+          "id": "VAL-03",
+          "name": "Enforced query pagination bounds (limit <= 100) preventing memory DoS",
+          "status": "enforced",
+          "test": "starter/src/index.ts: QueryMessagesSchema"
+        }
+      ]
     },
     {
-      "id": "sec-03",
-      "name": "OWASP API Top 10 Invariants",
-      "status": "verified",
-      "tool": "pytest/unit"
+      "name": "HTTP Security & Header Hardening",
+      "controls": [
+        {
+          "id": "SEC-01",
+          "name": "Hono secureHeaders middleware ensuring strict CSP, HSTS, X-Frame-Options",
+          "status": "enforced",
+          "rule": "rules/source/01-hono-framework-architecture.md"
+        },
+        {
+          "id": "SEC-02",
+          "name": "Explicit CORS origin whitelisting without wildcard credentials",
+          "status": "enforced",
+          "rule": "rules/source/01-hono-framework-architecture.md"
+        },
+        {
+          "id": "SEC-03",
+          "name": "Centralized error handling preventing internal stack trace disclosure",
+          "status": "enforced",
+          "rule": "rules/source/01-hono-framework-architecture.md"
+        }
+      ]
+    },
+    {
+      "name": "Container & CI Supply Chain Hardening",
+      "controls": [
+        {
+          "id": "OPS-HLTH",
+          "name": "Container healthcheck probing /healthz returning HTTP 200 OK",
+          "status": "enforced",
+          "endpoint": "GET /healthz"
+        },
+        {
+          "id": "OPS-USER",
+          "name": "Non-root execution inside oven/bun:1.1-alpine (USER bun)",
+          "status": "enforced",
+          "docker": "starter/Dockerfile: USER bun"
+        },
+        {
+          "id": "CI-SCAN",
+          "name": "Gitleaks secret detection and Semgrep AST scanning in CI",
+          "status": "enforced",
+          "workflow": ".github/workflows/security.yml"
+        }
+      ]
     }
   ]
 }
