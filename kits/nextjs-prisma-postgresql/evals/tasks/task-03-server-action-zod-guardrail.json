@@ -1,0 +1,11 @@
+{
+  "id": "task-03-server-action-zod-guardrail",
+  "title": "Server Action Zod Validation Guardrail",
+  "instruction": "Assert that Server Actions reject malformed and cross-tenant mutations via Zod.",
+  "assertions": [
+    "Zod validation rejects short titles and invalid enums",
+    "Action returns structured error payload without database write"
+  ],
+  "prompt_tokens": 3500,
+  "completion_tokens": 2300
+}

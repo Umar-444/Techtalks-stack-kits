@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowed placeholder test connection strings"
+regexes = [
+  '''(?i)postgresql://postgres:postgres_secret_password@postgres:5432''',
+  '''(?i)eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'''
+]

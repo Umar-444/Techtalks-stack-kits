@@ -1,0 +1,11 @@
+{
+  "id": "task-01-nextjs-prisma-scaffold",
+  "title": "Next.js 15 & Prisma Client Scaffold Check",
+  "instruction": "Verify Next.js 15 runtime, health route, and Prisma Client singleton.",
+  "assertions": [
+    "Route /api/health responds with status ok",
+    "PrismaClient singleton instantiated without connection exhaustion"
+  ],
+  "prompt_tokens": 3400,
+  "completion_tokens": 2200
+}

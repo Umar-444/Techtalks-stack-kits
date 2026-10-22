@@ -43,6 +43,7 @@ TOKEN_BENCHMARK_PROFILES = {
     "rag-haystack-weaviate": {"median_build": 25600, "tier": "B", "reason": "Explicit Haystack DAG pipeline components, hybrid search"},
     "rust-actix-postgresql": {"median_build": 26800, "tier": "B", "reason": "High-performance Actix actors, SeaORM entities"},
     "rag-langgraph-agentic": {"median_build": 27800, "tier": "B", "reason": "Cyclic graph state machines, human-in-the-loop nodes"},
+    "nextjs-prisma-postgresql": {"median_build": 16800, "tier": "A", "reason": "Next.js 15 App Router, React 19 Server Actions with Zod, and Prisma ORM migrations"},
     "laravel-ai-features": {"median_build": 16400, "tier": "A", "reason": "Structured LLM output generation, PostgreSQL pgvector embeddings, and RAG Q&A"},
     "laravel-filament-mysql": {"median_build": 16100, "tier": "A", "reason": "Filament 4 admin panel, MySQL 8.4 full-text search, and Pest architecture suites"},
     "laravel-filament-postgresql": {"median_build": 28400, "tier": "B", "reason": "Full admin panel generation, Pest architecture suites"},

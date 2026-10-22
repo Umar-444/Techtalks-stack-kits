@@ -1,0 +1,22 @@
+---
+id: 04-security-and-authorization
+title: Security and Multi-Tenant Authorization
+description: Zero-trust BOLA defense, session validation, and secret hygiene.
+globs: ["src/**/*.ts", "src/**/*.tsx"]
+alwaysApply: true
+---
+
+# Security and Multi-Tenant Authorization
+
+## 1. Tenant Scoping on Every Query
+- Always include `tenantId` in Prisma `where` criteria:
+  ```typescript
+  const project = await prisma.project.findFirst({
+    where: { id: projectId, tenantId: user.tenantId }
+  });
+  ```
+- If the record is not found, return 404 or throw an authorization error.
+
+## 2. Server Action Guardrails
+- Authenticate the caller session inside every Server Action prior to execution.
+- Sanitize user-provided rich text or HTML inputs to prevent XSS.

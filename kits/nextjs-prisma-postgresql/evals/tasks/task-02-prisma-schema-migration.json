@@ -1,0 +1,11 @@
+{
+  "id": "task-02-prisma-schema-migration",
+  "title": "Prisma Schema Declarative Migration",
+  "instruction": "Verify Prisma models User, Project, Task and PostgreSQL composite indexes.",
+  "assertions": [
+    "Prisma schema validates with exit code 0",
+    "Models include tenantId composite indexing"
+  ],
+  "prompt_tokens": 3600,
+  "completion_tokens": 2400
+}

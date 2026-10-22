@@ -1,0 +1,55 @@
+{
+  "kit_slug": "nextjs-prisma-postgresql",
+  "name": "Next.js 15+ + Prisma ORM + PostgreSQL + Tailwind CSS",
+  "token_metrics": {
+    "median_tokens": 16800,
+    "tier": "A",
+    "token_light": true
+  },
+  "eval_tasks": [
+    {
+      "id": "nextjs-prisma-postgresql-task-01",
+      "title": "Initialization & Environment Config",
+      "instruction": "Verify Next.js 15 + Prisma + PostgreSQL boots cleanly.",
+      "assertions": [
+        "Runtime boots with exit code 0",
+        "Health check responds 200 OK"
+      ],
+      "prompt_tokens": 2900,
+      "completion_tokens": 2100
+    },
+    {
+      "id": "nextjs-prisma-postgresql-task-02",
+      "title": "Data Model & Schema",
+      "instruction": "Define Prisma schema models and relation indexes.",
+      "assertions": [
+        "Schema validates",
+        "Relations and composite indexes defined"
+      ],
+      "prompt_tokens": 3200,
+      "completion_tokens": 2300
+    },
+    {
+      "id": "nextjs-prisma-postgresql-task-03",
+      "title": "API Handlers & Security",
+      "instruction": "Expose Server Actions with Zod validation guardrails.",
+      "assertions": [
+        "Zod validation enforced",
+        "Tenant boundary preserved"
+      ],
+      "prompt_tokens": 3000,
+      "completion_tokens": 2200
+    },
+    {
+      "id": "nextjs-prisma-postgresql-task-04",
+      "title": "Security & Architecture Invariants Test",
+      "instruction": "Execute schema unit tests and security scans.",
+      "assertions": [
+        "Vitest tests pass with 0 failures",
+        "Zero secrets detected"
+      ],
+      "prompt_tokens": 3100,
+      "completion_tokens": 2400
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+[
+  {
+    "q": "How does Prisma Client handle connection pooling in Next.js 15 Server Components?",
+    "a": "A global singleton pattern (src/lib/prisma.ts) stores the PrismaClient instance on globalThis in non-production environments, preventing connection pool exhaustion caused by Next.js hot module reloading."
+  },
+  {
+    "q": "How are Server Actions secured against unauthorized execution and CSRF?",
+    "a": "Next.js 15 enforces Host and Origin header checks on Server Actions. Additionally, our action handlers parse every payload using Zod schemas and verify the authenticated session's tenant ID before executing database writes."
+  },
+  {
+    "q": "What is the recommended pattern for Prisma relations in multi-tenant systems?",
+    "a": "Every tenant-owned entity includes a tenantId foreign key with composite indexes (e.g. @@index([tenantId, createdAt])). Queries always include where: { tenantId } at the top level."
+  },
+  {
+    "q": "How does the starter handle database migrations in CI/CD environments?",
+    "a": "Production deployments execute npx prisma migrate deploy, which applies pending migration files deterministically without prompting for user confirmation."
+  },
+  {
+    "q": "Can Prisma handle optimistic UI updates in React 19?",
+    "a": "Yes. Server Actions can be invoked inside React 19's useActionState or useOptimistic hooks, allowing immediate UI feedback while the Prisma transaction settles in PostgreSQL."
+  },
+  {
+    "q": "Why is PostgreSQL 16 chosen for this Next.js kit?",
+    "a": "PostgreSQL 16 offers exceptional concurrency, support for JSONB indexing, robust full-text search, and seamless scalability to managed providers like Supabase, Neon, or AWS RDS."
+  },
+  {
+    "q": "How does rootless containerization work with Node.js 22 LTS?",
+    "a": "The Dockerfile defines a dedicated appuser with UID 10001:10001. All npm install, build, and next start commands execute without root privileges, minimizing attack surface."
+  },
+  {
+    "q": "How are database transactions executed in Prisma?",
+    "a": "Atomic operations utilize prisma.$transaction([ ... ]) or interactive transactions prisma.$transaction(async (tx) => { ... }), ensuring consistency during multi-table writes."
+  },
+  {
+    "q": "What is the token consumption benchmark tier for this kit?",
+    "a": "The kit is benchmarked at Tier A (16,800 median build tokens) due to Prisma's concise schema definition language and typed auto-generated client."
+  },
+  {
+    "q": "How is soft-deletion handled in Prisma schema?",
+    "a": "Entities include an optional deletedAt DateTime? column, and custom Prisma Client extensions automatically filter out soft-deleted records on standard findMany queries."
+  },
+  {
+    "q": "Are Prisma queries immune to SQL injection?",
+    "a": "Yes. Standard Prisma Client API calls use parameterized queries under the hood. For custom raw queries, $queryRaw with tagged template literals ensures parameters are safely bound."
+  },
+  {
+    "q": "How does Vitest test Server Actions without running a full browser?",
+    "a": "Vitest tests invoke Server Action functions directly as asynchronous TypeScript functions, passing mock payloads and validating database state changes via Prisma."
+  },
+  {
+    "q": "How are Tailwind CSS design tokens integrated?",
+    "a": "Tailwind configuration maps semantic CSS variables for dark and light modes, enabling seamless theme toggling with zero flash of unstyled content (FOUC)."
+  },
+  {
+    "q": "What automated security scans run in CI for this kit?",
+    "a": "GitHub Actions runs Gitleaks for secret detection, Semgrep with OWASP Top 10 rules, TypeScript typechecking, and manifest schema validation."
+  }
+]

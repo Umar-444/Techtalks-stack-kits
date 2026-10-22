@@ -1,0 +1,45 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nextjs_prisma_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: "postgresql://postgres:postgres_secret_password@postgres:5432/nextjs_prisma?schema=public&connection_limit=20"
+      PORT: 3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - nextjs_prisma_net
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: nextjs_prisma_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nextjs_prisma
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_secret_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nextjs_prisma"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - nextjs_prisma_net
+
+volumes:
+  postgres_data:
+
+networks:
+  nextjs_prisma_net:
+    driver: bridge

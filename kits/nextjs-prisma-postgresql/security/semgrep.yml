@@ -1,0 +1,6 @@
+rules:
+  - id: avoid-raw-sql-in-queryraw
+    pattern: prisma.$queryRawUnsafe("..." + $VAR)
+    message: "Avoid concatenating unescaped variables into $queryRawUnsafe. Use $queryRaw with template tags."
+    languages: [typescript, javascript]
+    severity: ERROR

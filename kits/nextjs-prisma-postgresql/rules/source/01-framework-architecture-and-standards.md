@@ -1,0 +1,25 @@
+---
+id: 01-framework-architecture-and-standards
+title: Next.js 15 and App Router Architecture
+description: Standards for React 19 Server Components, Client boundaries, and directory layout.
+globs: ["src/**/*.ts", "src/**/*.tsx"]
+alwaysApply: true
+---
+
+# Next.js 15 and App Router Architecture
+
+## 1. Server Components as Default
+- Default all components to React Server Components (RSC) to minimize client bundle size.
+- Use the `'use client'` directive exclusively when component state (`useState`), effects (`useEffect`), or browser DOM events are required.
+- Fetch data directly inside Server Components using Prisma Client.
+
+## 2. Directory Layout & Organization
+- **App Routes**: `src/app/` (page routes, layout wrappers, route handlers).
+- **Server Actions**: `src/lib/actions/` (domain mutation functions marked with `'use server'`).
+- **Prisma Client**: `src/lib/prisma.ts` (global singleton instance).
+- **Validation Schemas**: `src/lib/validations/` (Zod schemas reused between client and server).
+
+## 3. Never-List
+- Never instantiate new `PrismaClient()` inside route handlers or components; import the singleton.
+- Never pass database connection strings or secrets to client components.
+- Never execute database write operations inside GET route handlers or Server Component render loops.

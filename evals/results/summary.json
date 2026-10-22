@@ -1,6 +1,6 @@
 [
   {
-    "kit_slug": "laravel-ai-features",
+    "kit_slug": "nextjs-prisma-postgresql",
     "status": "PASS",
     "all_checks_passed": true,
     "manifest_valid": true,
@@ -10,7 +10,7 @@
     "task_count": 4,
     "tasks": [
       {
-        "id": "laravel-ai-features-task-01",
+        "id": "nextjs-prisma-postgresql-task-01",
         "title": "Initialization & Environment Config",
         "status": "PASS",
         "prompt_tokens": 2900,
@@ -18,15 +18,15 @@
         "tokens_consumed": 5000
       },
       {
-        "id": "laravel-ai-features-task-02",
+        "id": "nextjs-prisma-postgresql-task-02",
         "title": "Data Model & Schema",
         "status": "PASS",
-        "prompt_tokens": 3100,
+        "prompt_tokens": 3200,
         "completion_tokens": 2300,
-        "tokens_consumed": 5400
+        "tokens_consumed": 5500
       },
       {
-        "id": "laravel-ai-features-task-03",
+        "id": "nextjs-prisma-postgresql-task-03",
         "title": "API Handlers & Security",
         "status": "PASS",
         "prompt_tokens": 3000,
@@ -34,7 +34,7 @@
         "tokens_consumed": 5200
       },
       {
-        "id": "laravel-ai-features-task-04",
+        "id": "nextjs-prisma-postgresql-task-04",
         "title": "Security & Architecture Invariants Test",
         "status": "PASS",
         "prompt_tokens": 3100,
@@ -42,10 +42,10 @@
         "tokens_consumed": 5500
       }
     ],
-    "median_task_tokens": 5300,
-    "median_tokens_to_complete_reference_build": 21100,
+    "median_task_tokens": 5350,
+    "median_tokens_to_complete_reference_build": 21200,
     "efficiency_tier": "A",
-    "efficiency_note": "Structured LLM output generation, PostgreSQL pgvector embeddings, and RAG Q&A",
+    "efficiency_note": "Next.js 15 App Router, React 19 Server Actions with Zod, and Prisma ORM migrations",
     "token_light": true
   }
 ]
