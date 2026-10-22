@@ -1,0 +1,90 @@
+{
+  "kit_slug": "laravel-filament-mysql",
+  "updated_at": "2026-10-22",
+  "checks": [
+    {
+      "id": "SEC-01",
+      "name": "Zero Plaintext Credentials",
+      "status": "PASS",
+      "description": "No hardcoded credentials; env secrets enforced."
+    },
+    {
+      "id": "SEC-02",
+      "name": "Rootless Container Isolation",
+      "status": "PASS",
+      "description": "Dockerfile specifies non-root USER 10001:10001."
+    },
+    {
+      "id": "SEC-03",
+      "name": "BOLA Policy Enforcement",
+      "status": "PASS",
+      "description": "Every Filament resource bound to dedicated Laravel policy."
+    },
+    {
+      "id": "SEC-04",
+      "name": "Parameterized MySQL Queries",
+      "status": "PASS",
+      "description": "Zero raw string interpolation in SQL; MATCH AGAINST bound via parameters."
+    },
+    {
+      "id": "SEC-05",
+      "name": "MySQL Strict SQL Mode",
+      "status": "PASS",
+      "description": "STRICT_TRANS_TABLES prevents silent truncation."
+    },
+    {
+      "id": "SEC-06",
+      "name": "Mass Assignment Protection",
+      "status": "PASS",
+      "description": "All Eloquent models declare $fillable or guarded properties."
+    },
+    {
+      "id": "SEC-07",
+      "name": "CSRF & Form Protection",
+      "status": "PASS",
+      "description": "Livewire / Filament form CSRF tokens strictly validated."
+    },
+    {
+      "id": "SEC-08",
+      "name": "Session Cookie Hardening",
+      "status": "PASS",
+      "description": "SameSite=Lax, HttpOnly, and Secure cookie flags active."
+    },
+    {
+      "id": "SEC-09",
+      "name": "Argon2id Password Hashing",
+      "status": "PASS",
+      "description": "Modern Argon2id hashing with memory cost 65536."
+    },
+    {
+      "id": "SEC-10",
+      "name": "Rate Limiting on Auth Endpoints",
+      "status": "PASS",
+      "description": "5 requests per minute throttling on login routes."
+    },
+    {
+      "id": "SEC-11",
+      "name": "XSS Output Escaping",
+      "status": "PASS",
+      "description": "Blade {{ }} double-curly auto-escaping enforced across all views."
+    },
+    {
+      "id": "SEC-12",
+      "name": "Deadlock Retry Safety",
+      "status": "PASS",
+      "description": "Automatic retry logic for MySQL 1213 deadlock errors."
+    },
+    {
+      "id": "SEC-13",
+      "name": "SAST Semgrep OSS Scan",
+      "status": "PASS",
+      "description": "0 blocking findings on OWASP Top 10 ruleset."
+    },
+    {
+      "id": "SEC-14",
+      "name": "Gitleaks Secret Scan",
+      "status": "PASS",
+      "description": "0 leaked tokens or keys detected."
+    }
+  ]
+}

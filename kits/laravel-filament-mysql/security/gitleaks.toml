@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowed placeholder test hashes"
+regexes = [
+  '''(?i)eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9''',
+  '''laravel_filament_secret_test_key'''
+]

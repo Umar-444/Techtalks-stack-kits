@@ -1,0 +1,11 @@
+{
+  "id": "task-03-bola-policy-enforcement",
+  "title": "Zero-Trust BOLA Policy Authorization",
+  "instruction": "Enforce that cross-tenant access returns 403 Forbidden under CustomerPolicy.",
+  "assertions": [
+    "CustomerPolicy blocks unauthorized cross-team customer inspection",
+    "Admin user retains global oversight privilege"
+  ],
+  "prompt_tokens": 3600,
+  "completion_tokens": 2400
+}

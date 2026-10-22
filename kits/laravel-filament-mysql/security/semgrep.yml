@@ -1,0 +1,6 @@
+rules:
+  - id: avoid-raw-sql-concatenation
+    pattern: DB::raw("..." . $VAR)
+    message: "Avoid concatenating unescaped variables into DB::raw(). Use parameterized bindings."
+    languages: [php]
+    severity: ERROR

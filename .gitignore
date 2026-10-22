@@ -12,3 +12,5 @@ doc20.md
 doc21.md
 doc22.md
 doc23.md
+__pycache__/
+*.pyc

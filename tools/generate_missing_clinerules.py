@@ -1,4 +1,4 @@
-﻿import os
+import os
 
 base = "kits"
 kits = [d for d in os.listdir(base) if os.path.isdir(os.path.join(base, d))]

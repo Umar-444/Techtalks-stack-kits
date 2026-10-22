@@ -1,0 +1,11 @@
+{
+  "id": "task-02-mysql-fulltext-search",
+  "title": "MySQL 8.4 InnoDB Full-Text Search Indexing",
+  "instruction": "Assert that MATCH AGAINST queries execute efficiently over customer name, email, and company.",
+  "assertions": [
+    "Migration creates customers_fulltext_idx",
+    "Customer::fullTextSearch() returns matching entity in Boolean mode"
+  ],
+  "prompt_tokens": 3400,
+  "completion_tokens": 2300
+}

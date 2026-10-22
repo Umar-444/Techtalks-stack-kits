@@ -1,0 +1,70 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: filament_mysql_app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_KEY: base64:e48N5G+m4vG5xH7iP/0nE49bS4T7X2p1l4g8B7Z+9mQ=
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: laravel_filament
+      DB_USERNAME: filament_user
+      DB_PASSWORD: filament_password
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - filament_net
+
+  mysql:
+    image: mysql:8.4
+    container_name: filament_mysql_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root_secret_password
+      MYSQL_DATABASE: laravel_filament
+      MYSQL_USER: filament_user
+      MYSQL_PASSWORD: filament_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "filament_user", "-pfilament_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - filament_net
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: filament_mysql_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - filament_net
+
+volumes:
+  mysql_data:
+
+networks:
+  filament_net:
+    driver: bridge

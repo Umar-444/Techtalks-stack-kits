@@ -1,4 +1,4 @@
-﻿"""
+"""
 evals/runner.py
 TechTalks Stack Kits Automated Evaluation & Token-Light Benchmark Runner.
 Reference: doc 19 & doc 20 (Part F: The Iconic Move).
@@ -43,6 +43,7 @@ TOKEN_BENCHMARK_PROFILES = {
     "rag-haystack-weaviate": {"median_build": 25600, "tier": "B", "reason": "Explicit Haystack DAG pipeline components, hybrid search"},
     "rust-actix-postgresql": {"median_build": 26800, "tier": "B", "reason": "High-performance Actix actors, SeaORM entities"},
     "rag-langgraph-agentic": {"median_build": 27800, "tier": "B", "reason": "Cyclic graph state machines, human-in-the-loop nodes"},
+    "laravel-filament-mysql": {"median_build": 16100, "tier": "A", "reason": "Filament 4 admin panel, MySQL 8.4 full-text search, and Pest architecture suites"},
     "laravel-filament-postgresql": {"median_build": 28400, "tier": "B", "reason": "Full admin panel generation, Pest architecture suites"},
     "rust-leptos-fullstack": {"median_build": 29200, "tier": "B", "reason": "Full-stack Rust WASM signals + Axum server functions"},
     "laravel-livewire-postgresql": {"median_build": 29800, "tier": "B", "reason": "Volt single-file components, Folio routing, Flux UI"},

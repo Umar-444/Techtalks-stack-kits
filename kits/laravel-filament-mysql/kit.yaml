@@ -1,0 +1,121 @@
+schema_version: "1.0.0"
+
+name: "Laravel 12/13 + Filament 4 + MySQL 8.4 LTS"
+slug: "laravel-filament-mysql"
+version: "1.0.0"
+status: "stable"
+category: "Laravel"
+updated_at: "2026-10-22"
+
+description: "Production-ready administrative dashboard and enterprise back-office kit combining Laravel 12/13, Filament 4 admin panel, MySQL 8.4 LTS InnoDB with native full-text indexing, generated virtual columns, zero-trust BOLA authorization, and rootless container isolation."
+
+maintainer:
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Security Engineer"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
+stack:
+  language:
+    name: "PHP"
+    version: "^8.3 || ^8.4"
+    registry: "packagist"
+  framework:
+    name: "Laravel"
+    version: "^11.0 || ^12.0 || ^13.0"
+    registry: "packagist"
+  ui_layer:
+    name: "Filament"
+    version: "^3.2 || ^4.0"
+    type: "admin-panel"
+  database:
+    engine: "MySQL"
+    version: ">= 8.4"
+    features:
+      - "InnoDB Engine"
+      - "Full-Text Search (MATCH AGAINST)"
+      - "Generated Virtual Columns"
+      - "Strict SQL Modes"
+      - "utf8mb4_0900_ai_ci Collation"
+  cache_queue:
+    engine: "Redis"
+    version: ">= 7.2"
+  runtime:
+    name: "PHP-FPM"
+    version: ">= 8.3"
+
+layers:
+  starter:
+    path: starter/
+    type: pre-wired-container
+  rules:
+    source_dir: rules/source/
+    generated_targets:
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
+  skills:
+    dir: skills/
+    manifest:
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, configure, and verify the Laravel 12/13 + Filament 4 + MySQL 8.4 LTS stack with Docker and healthchecks.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Build the canonical Customer Resource module featuring MySQL full-text search, Filament form/table schema, BOLA policy, and Pest tests.
+      - id: filament-resource
+        path: skills/filament-resource/SKILL.md
+        description: Scaffold and customize Filament 4 admin resources, form layouts, bulk actions, and relationship managers.
+      - id: mysql-innodb-optimization
+        path: skills/mysql-innodb-optimization/SKILL.md
+        description: Tune MySQL 8.4 InnoDB buffer pools, full-text boolean search, generated column indexing, and transaction deadlock retries.
+      - id: laravel-policy
+        path: skills/laravel-policy/SKILL.md
+        description: Enforce zero-trust BOLA authorization policies, multi-tenant scoping, and role-based gate checks in Filament.
+      - id: laravel-filament-mysql-core
+        path: skills/laravel-filament-mysql-core/SKILL.md
+        description: Core configuration and operational workflows for Laravel with Filament 4 and MySQL 8.4 LTS.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
+  design:
+    path: DESIGN.md
+    theme_support:
+      - light
+      - dark
+    wcag_compliance: "AA"
+  security:
+    config_dir: security/
+    checks:
+      - gitleaks
+      - semgrep
+      - owasp-top-10
+  steps:
+    path: steps/agent-build-steps.md
+    total_steps: 6
+
+token_metrics:
+  token_light: true
+  median_eval_tokens: 16100
+  efficiency_tier: "A"
+
+security:
+  automated_scans:
+    gitleaks: true
+    semgrep_owasp_top10: true
+    rules_backdoor_check: true
+  rules_enforced:
+    zero_plaintext_credentials: true
+    strict_parameterized_queries: true
+    authorization_on_every_resource: true
+    rootless_container_enforced: true
+
+install:
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

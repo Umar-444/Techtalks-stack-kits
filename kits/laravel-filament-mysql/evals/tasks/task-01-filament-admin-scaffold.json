@@ -1,0 +1,11 @@
+{
+  "id": "task-01-filament-admin-scaffold",
+  "title": "Filament Admin Panel Scaffold & Health Check",
+  "instruction": "Verify Filament Admin Panel provider and MySQL 8.4 database connectivity.",
+  "assertions": [
+    "Route /api/health returns HTTP 200",
+    "AdminPanelProvider registers /admin path with Amber theme"
+  ],
+  "prompt_tokens": 3200,
+  "completion_tokens": 2100
+}
