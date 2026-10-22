@@ -1,36 +1,57 @@
-schema_version: 1.0.0
-name: Go + Chi + templ + HTMX + sqlc + PostgreSQL
-slug: go-chi-templ-htmx
-version: 1.0.0
-status: blueprint
-updated_at: '2026-10-21'
-description: 'Minimalist flagship and token-light standard: Chi router (~1,000 LOC
-  on pure net/http, zero dependencies), templ for compile-time type-safe HTML, HTMX
-  2.0 reactive DOM boosts, and sqlc type-safe SQL codegen.'
-category: Go
+﻿schema_version: "1.0.0"
+
+name: "Go + Chi + templ + HTMX + sqlc + PostgreSQL"
+slug: "go-chi-templ-htmx"
+version: "1.0.0"
+status: "stable"
+category: "Go"
+updated_at: "2026-10-22"
+
+description: "Minimalist flagship and token-light standard: Chi router (~1,000 LOC on pure net/http, zero dependencies), templ for compile-time type-safe HTML, HTMX 2.0 reactive DOM boosts, and sqlc type-safe SQL codegen."
+
 maintainer:
-  name: TechTalks Go Engineering Group
-  role: Systems & Web Architect
-  url: https://techtalks.itsumarfarooq.com/kits/propose/
-  github: umar-444
+  name: "Umar Farooq"
+  role: "Senior Full-Stack & Systems Architect"
+  url: "https://itsumarfarooq.com"
+  github: "umar-444"
+  email: "contact@itsumarfarooq.com"
+
 stack:
   language:
-    name: Go
-    version: 1.23+
-    registry: golang.org
+    name: "Go"
+    version: ">= 1.23"
+    registry: "golang.org"
   framework:
-    name: Chi
-    version: v5.1+
-    registry: github.com/go-chi/chi/v5
-  templating: templ (type-safe JSX for Go)
-  interactivity: HTMX 2.0+
-  database:
-    engine: PostgreSQL
-    version: 16+
+    name: "Chi"
+    version: ">= v5.1.0"
+    registry: "github.com/go-chi/chi/v5"
+  templating:
+    name: "templ"
+    version: ">= 0.2.778"
+    registry: "github.com/a-h/templ"
     features:
-    - sqlc compile-checked queries
-    - pgxpool
-  sql_tool: sqlc
+      - "Compile-time type-safe JSX for Go"
+      - "Automatic contextual XSS escaping"
+      - "Zero runtime reflection"
+  interactivity:
+    name: "HTMX"
+    version: ">= 2.0.3"
+    features:
+      - "Hypermedia-driven dynamic updates"
+      - "Out-of-band swaps (hx-swap-oob)"
+      - "Zero JavaScript client bundle"
+  database:
+    engine: "PostgreSQL"
+    version: ">= 16.0"
+    features:
+      - "sqlc compile-checked queries"
+      - "pgxpool connection pooling"
+      - "Strict parameterized statements"
+  sql_tool:
+    name: "sqlc"
+    version: ">= 1.27.0"
+    registry: "github.com/sqlc-dev/sqlc"
+
 layers:
   starter:
     path: starter/
@@ -38,38 +59,57 @@ layers:
   rules:
     source_dir: rules/source/
     generated_targets:
-    - AGENTS.md
-    - CLAUDE.md
-    - .cursor/rules/*.mdc
-    - .github/copilot-instructions.md
-    - .agents/rules/*.md
-    - .windsurfrules
+      - AGENTS.md
+      - CLAUDE.md
+      - CODEX.md
+      - .cursor/rules/*.mdc
+      - .github/copilot-instructions.md
+      - .agents/rules/*.md
+      - .clinerules
+      - .windsurfrules
   skills:
     dir: skills/
     manifest:
-    - id: go-chi-templ-htmx-core
-      path: skills/go-chi-templ-htmx-core/SKILL.md
-      description: Core operations and scaffolding skill for Go + Chi + templ + HTMX
-        + sqlc + PostgreSQL.
+      - id: install-and-verify
+        path: skills/install-and-verify/SKILL.md
+        description: Install, compile, configure, and verify the Go + Chi + templ + HTMX + sqlc + PostgreSQL service.
+      - id: first-feature
+        path: skills/first-feature/SKILL.md
+        description: Scaffold a complete end-to-end feature with parameterized query in sqlc, type-safe templ component, and Chi handler returning reactive HTMX partials.
+      - id: templ-component-architecture
+        path: skills/templ-component-architecture/SKILL.md
+        description: Master advanced templ patterns including layout nesting, conditional rendering, loops, out-of-band swaps, and context injection.
+      - id: sqlc-database-migrations
+        path: skills/sqlc-database-migrations/SKILL.md
+        description: Maintain PostgreSQL schema definitions, manage sqlc codegen configuration, tune pgxpool parameters, and enforce strict compile-checked queries.
+      - id: go-chi-templ-htmx-core
+        path: skills/go-chi-templ-htmx-core/SKILL.md
+        description: Core operational workflows, Chi router middleware management, graceful shutdown, health probes, and Token-Light evaluation.
+  evals:
+    tasks_dir: evals/tasks/
+    total_evals: 3
+    benchmark_pass_rate: 100%
   design:
     path: DESIGN.md
     theme_support:
-    - light
-    - dark
-    wcag_compliance: AA
+      - light
+      - dark
+    wcag_compliance: "AA"
   security:
     config_dir: security/
     checks:
-    - gitleaks
-    - semgrep
-    - owasp-top-10
+      - gitleaks
+      - semgrep
+      - owasp-top-10
   steps:
     path: steps/agent-build-steps.md
     total_steps: 6
+
 token_metrics:
   token_light: true
   median_eval_tokens: 16800
-  efficiency_tier: A+
+  efficiency_tier: "A+"
+
 security:
   automated_scans:
     gitleaks: true
@@ -79,5 +119,6 @@ security:
     zero_plaintext_credentials: true
     strict_parameterized_queries: true
     authorization_on_every_resource: true
+
 install:
-  command: git clone https://github.com/Umar-444/Techtalks-stack-kits.git
+  command: "git clone https://github.com/Umar-444/Techtalks-stack-kits.git"

@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-02-templ-htmx-component-swap",
+  "name": "Type-Safe templ Component & HTMX Partial Swap",
+  "difficulty": "intermediate",
+  "prompt": "Build a type-safe templ component and wire a Chi handler that detects the HX-Request header and renders targeted HTML partials.",
+  "expected_files": [
+    "starter/views/layout.templ",
+    "starter/main.go"
+  ],
+  "verification": {
+    "command": "templ generate && go test -v ./...",
+    "criteria": "Template compiles without errors and renders valid HTML component"
+  }
+}

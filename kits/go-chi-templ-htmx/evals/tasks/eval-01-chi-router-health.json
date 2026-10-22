@@ -1,0 +1,14 @@
+﻿{
+  "task_id": "eval-01-chi-router-health",
+  "name": "Chi Router Setup & Health Probe Invariant",
+  "difficulty": "beginner",
+  "prompt": "Initialize the Chi router with standard middleware (RequestID, RealIP, Logger, Recoverer, Timeout) and expose the /health endpoint returning JSON status.",
+  "expected_files": [
+    "starter/main.go",
+    "starter/main_test.go"
+  ],
+  "verification": {
+    "command": "go test -v ./... -run TestHealthEndpoint",
+    "criteria": "Health endpoint returns HTTP 200 with status ok and token_light true"
+  }
+}

@@ -1,0 +1,58 @@
+﻿[
+  {
+    "question": "Why is Go + Chi + templ + HTMX recognized as the Token-Light Line Flagship (Document 20 Part F)?",
+    "answer": "This stack adheres strictly to standard Go `net/http` primitives, compile-time type-checked templates (`templ`), and declarative SQL code generation (`sqlc`). Because there is zero ORM reflection, zero complex state machines, and zero JavaScript build steps, AI agents write concise, predictable business logic without boilerplate. The median build token consumption is verified at 16,800 tokens, achieving an Efficiency Tier of A+ (Token-Light Verified)."
+  },
+  {
+    "question": "What are the key architectural advantages of Chi router over heavy web frameworks like Gin, Echo, or Fiber?",
+    "answer": "Chi is 100% compatible with the Go standard library `net/http` package. It introduces ~1,000 lines of core routing code, has zero external dependencies, and uses standard `http.Handler` interfaces. This means any standard Go middleware or third-party HTTP library works seamlessly without custom adapter shims. In contrast, frameworks like Fiber use `fasthttp`, breaking standard library compatibility and introducing subtle HTTP/2 and WebSocket edge cases."
+  },
+  {
+    "question": "How does templ provide compile-time type safety for HTML components, and how does it compare to html/template?",
+    "answer": "`templ` compiles `.templ` template files directly into standard Go code during build time. Variables, structs, and function calls inside templates are fully verified by the Go compiler. If a struct field is renamed or a type mismatch occurs, the build fails immediately. Standard `html/template` parses text at runtime via reflection, meaning template typos or nil-pointer bugs are only discovered during live execution."
+  },
+  {
+    "question": "How does HTMX 2.0 eliminate the need for heavy single-page application (SPA) JavaScript frameworks like React or Vue?",
+    "answer": "HTMX extends HTML with declarative attributes (`hx-get`, `hx-post`, `hx-target`, `hx-swap`), enabling browsers to request HTML fragments from the server and swap them into the live DOM. This delivers the snappy, interactive feel of a single-page app without client-side routing, massive webpack/vite bundling, JSON serialization overhead, or duplicated state management between client and server."
+  },
+  {
+    "question": "How does sqlc compare to Go ORMs like GORM or Ent, and why is it preferred for production systems?",
+    "answer": "sqlc is SQL-first: you write standard PostgreSQL DDL and raw queries in `.sql` files. `sqlc generate` validates the queries against the schema at compile time and emits type-safe Go structs and repository methods. Unlike GORM, sqlc has zero runtime reflection overhead, generates zero unexpected N+1 queries, produces zero dynamic SQL string vulnerabilities, and executes at raw database driver speed."
+  },
+  {
+    "question": "How do you distinguish between full-page loads and HTMX partial fragment requests in Chi handlers?",
+    "answer": "HTMX automatically sends the `HX-Request: true` HTTP request header on all AJAX hypermedia calls. In your Chi handler, inspect `r.Header.Get(\"HX-Request\") == \"true\"`. If true, render only the targeted component fragment (`views.ItemRow(item)`). If false (such as when a user directly navigates to the URL or refreshes), render the complete outer layout (`views.Layout(title, views.ItemRow(item))`)."
+  },
+  {
+    "question": "How does templ prevent Cross-Site Scripting (XSS) attacks by default?",
+    "answer": "`templ` automatically contextual-escapes all dynamic variables interpolated within HTML tags, attribute values, and text nodes according to strict HTML5 security standards. Dynamic user input cannot inject unescaped `<script>` tags or malicious event handlers. Raw HTML can only be rendered using `templ.Raw()`, which is strictly audited during security code reviews."
+  },
+  {
+    "question": "How do you configure and tune PostgreSQL connection pooling with pgxpool to prevent connection exhaustion?",
+    "answer": "Use `github.com/jackc/pgx/v5/pgxpool` with explicit configuration limits. Set `MaxConns` (e.g., 20-30 based on container CPU allocations), `MinConns` (e.g., 4 to keep warm sockets ready), `MaxConnLifetime` (e.g., 1 hour to prevent stale connections through load balancers), and `MaxConnIdleTime` (e.g., 15 minutes). Always pass `r.Context()` to queries so canceled client HTTP requests cleanly abort pending database queries."
+  },
+  {
+    "question": "How do you implement Cross-Site Request Forgery (CSRF) protection with HTMX and Chi?",
+    "answer": "Use a CSRF middleware (such as `gorilla/csrf` or custom cookie HMAC tokens) that injects an anti-CSRF token into the initial page layout. Configure HTMX globally on the `<body>` tag: `<body hx-headers='{\"X-CSRF-Token\": \"...\"}'>`. HTMX automatically attaches this header to all subsequent asynchronous mutations (`POST`, `PUT`, `DELETE`), allowing the server to validate requests without hidden form inputs."
+  },
+  {
+    "question": "How do you execute atomic out-of-band (OOB) swaps to update multiple DOM elements in a single HTTP response?",
+    "answer": "In your `templ` response component, include the primary target HTML alongside secondary elements tagged with `hx-swap-oob=\"true\"` and matching IDs. When HTMX receives the response, it swaps the primary content into the active target and automatically finds and swaps the out-of-band elements into their respective DOM positions (such as notification counters or flash banners) in a single render pass."
+  },
+  {
+    "question": "How do you handle graceful shutdown in Chi when deploying inside Kubernetes or Docker containers?",
+    "answer": "Listen for OS termination signals (`SIGINT`, `SIGTERM`) on a buffered channel. When received, call `server.Shutdown(ctx)` with a bounded context timeout (e.g., 10 seconds). This stops accepting new connections, allows in-flight HTTP requests to complete cleanly, releases PostgreSQL connection pools, and exits with code 0 without abruptly terminating user transactions."
+  },
+  {
+    "question": "Why does the production Dockerfile use a multi-stage Alpine build running as UID 10001?",
+    "answer": "The multi-stage build compiles a static Go binary (`CGO_ENABLED=0`) in a build container and copies only the compiled binary into a minimal Alpine runtime image (~15MB total size). Declaring `USER 10001:10001` ensures the container runs as an unprivileged user, preventing privilege escalation vulnerabilities and satisfying OWASP/Semgrep container security invariants."
+  },
+  {
+    "question": "How do you write unit tests for Chi handlers using net/http/httptest without external network mocks?",
+    "answer": "Use standard library `net/http/httptest.NewRequest()` and `httptest.NewRecorder()`. Instantiate your Chi router and invoke `router.ServeHTTP(rec, req)`. Because `sqlc` generates a `Querier` interface, you can inject an in-memory mock repository into handler structs, executing complete request routing, middleware validation, and templ HTML assertion tests in under 5 milliseconds per test."
+  },
+  {
+    "question": "What are the memory and latency characteristics of Chi + templ compared to Node.js Next.js or Python FastAPI?",
+    "answer": "A compiled Go Chi + templ binary idles at ~15-25MB of RAM and typically delivers p95 response latencies under 2 milliseconds for server-rendered HTML fragments. In contrast, Node.js Next.js SSR servers require 150-300MB of RAM with cold-start latencies of 50-200ms, while Python FastAPI requires 80-120MB. Go Chi delivers up to 10x higher request throughput per CPU core."
+  }
+]

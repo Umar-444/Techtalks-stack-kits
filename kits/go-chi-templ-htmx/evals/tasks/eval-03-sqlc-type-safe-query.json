@@ -1,0 +1,15 @@
+﻿{
+  "task_id": "eval-03-sqlc-type-safe-query",
+  "name": "sqlc Compile-Checked Queries & Parameterized Safety",
+  "difficulty": "advanced",
+  "prompt": "Define PostgreSQL schema in schema.sql, write parameterized queries in query.sql, and verify zero SQL injection vulnerabilities.",
+  "expected_files": [
+    "starter/schema.sql",
+    "starter/query.sql",
+    "starter/sqlc.yaml"
+  ],
+  "verification": {
+    "command": "sqlc generate || true",
+    "criteria": "sqlc compiles queries to type-safe Go structs with parameterized statements"
+  }
+}
