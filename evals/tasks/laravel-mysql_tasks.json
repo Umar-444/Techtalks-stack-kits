@@ -1,51 +1,71 @@
 {
   "kit_slug": "laravel-mysql",
   "name": "Laravel 12 + MySQL Dashboard",
-  "token_metrics": {
-    "median_tokens": 27500,
-    "tier": "B",
-    "token_light": false
-  },
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. No token figures are recorded here; evals/runner.py measures context cost directly from the kit files. The suite runs against SQLite in-memory (DB_CONNECTION=sqlite, DB_DATABASE=:memory: in phpunit.xml) so no MySQL service is required; MySQL-specific settings are asserted against the shipped connection config, not a live server.",
+  "setup": "cd starter && composer install",
   "eval_tasks": [
     {
       "id": "laravel-mysql-task-01",
-      "title": "Initialization & Environment Config",
-      "instruction": "Verify Laravel 12 + MySQL Dashboard boots cleanly.",
+      "title": "Application installs and boots",
+      "instruction": "Composer dependencies must resolve and the Laravel application must bootstrap far enough to list its routes.",
       "assertions": [
-        "Runtime boots with exit code 0"
+        "vendor/autoload.php exists",
+        "artisan route:list exits 0"
       ],
-      "prompt_tokens": 2722,
-      "completion_tokens": 3327
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php artisan route:list"
     },
     {
       "id": "laravel-mysql-task-02",
-      "title": "Data Model & Schema",
-      "instruction": "Define models and persistence layers.",
+      "title": "Feature behaviour",
+      "instruction": "The kit's feature tests must pass.",
       "assertions": [
-        "Schema validates"
+        "articles list and search",
+        "drafts are hidden from non-authors",
+        "create and delete round-trip"
       ],
-      "prompt_tokens": 3003,
-      "completion_tokens": 4147
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/phpunit --filter ArticleTest"
     },
     {
       "id": "laravel-mysql-task-03",
-      "title": "API Handlers & Security",
-      "instruction": "Expose endpoints with authorization.",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite that exercises the controls named in security/checks.json. Each test is mutation-verified: removing the control makes the test fail.",
       "assertions": [
-        "Auth enforced"
+        "SQL-01 search input is bound, never interpolated",
+        "SQL-02/03 MySQL strict modes and utf8mb4 configured",
+        "AUTH-01 fillable whitelist, id not mass-assignable",
+        "AUTH-02 policy blocks cross-user view/delete",
+        "unauthenticated writes return 401",
+        "AUTH-03 invalid payloads return 422",
+        "CONC-01 transaction retry, CONC-02 compound index, CONC-03 cascade",
+        "OPS-01 /healthz, OPS-02 non-root Dockerfile, CI-01 clean .env.example"
       ],
-      "prompt_tokens": 2904,
-      "completion_tokens": 3696
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/phpunit --filter SecurityControlsTest"
     },
     {
       "id": "laravel-mysql-task-04",
-      "title": "Automated Security Tests",
-      "instruction": "Run security audits and test suites.",
+      "title": "Full suite green",
+      "instruction": "The complete suite must pass with no failures.",
       "assertions": [
-        "Zero leaks"
+        "phpunit exits 0"
       ],
-      "prompt_tokens": 3080,
-      "completion_tokens": 4620
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/phpunit"
     }
   ]
 }

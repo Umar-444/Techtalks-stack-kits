@@ -9,3 +9,4 @@ class AgentState(TypedDict):
     max_iterations: int
     groundedness_score: float
     status: str
+    prompt: str

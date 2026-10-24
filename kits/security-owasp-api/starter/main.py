@@ -7,6 +7,7 @@ from typing import Dict, List, Optional
 
 import jwt
 from fastapi import Depends, FastAPI, HTTPException, Query, Request, status
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel, Field
 
 app = FastAPI(
@@ -30,6 +31,9 @@ USER_PROFILES = {
 
 RATE_LIMIT_STORE = defaultdict(list)
 
+# API4:2023 - maximum request body size (bytes)
+MAX_BODY_BYTES = 64 * 1024
+
 # Schemas
 class UserContext(BaseModel):
     user_id: str
@@ -41,7 +45,9 @@ class DocumentResponse(BaseModel):
     owner_id: str
     content: str
 
-    model_config = {"extra": "forbid"}
+    # Response models must DROP unknown keys; "forbid" would turn a leaked
+    # property into a 500 instead of filtering it out.
+    model_config = {"extra": "ignore"}
 
 class UserPublicProfile(BaseModel):
     id: str
@@ -49,10 +55,12 @@ class UserPublicProfile(BaseModel):
     email: str
     role: str
 
-    model_config = {"extra": "forbid"}
+    model_config = {"extra": "ignore"}
 
 class WebhookRequest(BaseModel):
     callback_url: str
+
+    model_config = {"extra": "forbid"}
 
 # Authentication Dependency (API2:2023 Broken Authentication)
 def get_current_user(request: Request) -> UserContext:
@@ -61,7 +69,7 @@ def get_current_user(request: Request) -> UserContext:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Missing or invalid token (API2:2023)")
     token = auth.split(" ")[1]
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"], options={"require": ["sub"]})
         return UserContext(user_id=payload["sub"], role=payload.get("role", "user"))
     except jwt.PyJWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token signature (API2:2023)")
@@ -71,6 +79,23 @@ def require_admin(user: UserContext = Depends(get_current_user)) -> UserContext:
     if user.role != "admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="BFLA protection: Admin privileges required (API5:2023)")
     return user
+
+# API4:2023 - Payload size cap. Checks the declared Content-Length first, then
+# the bytes actually received, so a missing or lying header does not bypass it.
+@app.middleware("http")
+async def limit_body_size(request: Request, call_next):
+    declared = request.headers.get("content-length")
+    if declared is not None:
+        try:
+            too_big = int(declared) > MAX_BODY_BYTES
+        except ValueError:
+            return JSONResponse(status_code=400, content={"detail": "Invalid Content-Length"})
+        if too_big:
+            return JSONResponse(status_code=413, content={"detail": "Payload too large (API4:2023)"})
+    elif request.method in {"POST", "PUT", "PATCH"}:
+        if len(await request.body()) > MAX_BODY_BYTES:
+            return JSONResponse(status_code=413, content={"detail": "Payload too large (API4:2023)"})
+    return await call_next(request)
 
 # Health endpoint
 @app.get("/healthz")

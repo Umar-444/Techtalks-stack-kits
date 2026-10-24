@@ -1,18 +1,76 @@
 {
   "kit_slug": "laravel-mongodb",
   "name": "Laravel 12 + MongoDB (NoSQL)",
+  "schema_version": "2.0.0",
+  "note": "UNVERIFIED IN THE AUTHORING ENVIRONMENT. MongoDB cannot be emulated by SQLite, and these tests need a live mongod plus the ext-mongodb PHP extension (composer install of mongodb/laravel-mongodb fails without it), so every task requires the mongod binary and the runner reports them skipped on a machine without it. phpunit.xml points at MONGODB_URI=mongodb://127.0.0.1:27017, database app_mongo_test. Separately, the DB-free subset of SecurityControlsTest (auth gate, operator-key rejection, input validation, policy, hashing, pool caps, env, Dockerfile) was run once and mutation-checked with ext-mongodb ignored at install time; that run is not a substitute for a real run. Not covered because the kit ships no implementation: NOSQL-02 ObjectId validation, NOSQL-03 TLS, NOSQL-04 collection schema validation, NOSQL-05 index guard, AUTH-03 session fixation defence. CI-01/02 are pipeline gates.",
+  "setup": "cd starter && composer install",
   "eval_tasks": [
     {
-      "id": "kit3-task-01",
-      "title": "MongoDB Model Inheritance",
-      "instruction": "Models must extend MongoDB\\Laravel\\Eloquent\\Model.",
-      "assertions": ["Extends MongoDB Eloquent base model"]
+      "id": "laravel-mongodb-task-01",
+      "title": "Application installs and boots",
+      "instruction": "Composer dependencies must resolve and the Laravel application must bootstrap far enough to list its routes.",
+      "assertions": [
+        "vendor/autoload.php exists",
+        "artisan route:list exits 0"
+      ],
+      "requires": [
+        "php",
+        "composer",
+        "mongod"
+      ],
+      "verify": "cd starter && php artisan route:list"
     },
     {
-      "id": "kit3-task-02",
-      "title": "NoSQL Injection Defense",
-      "instruction": "Ensure raw $where operators are strictly prohibited.",
-      "assertions": ["Zero usage of $where operator in queries"]
+      "id": "laravel-mongodb-task-02",
+      "title": "Feature behaviour",
+      "instruction": "The kit's feature tests must pass.",
+      "assertions": [
+        "health endpoint responds",
+        "an authenticated user can post and list their own events",
+        "the category aggregation pipeline runs"
+      ],
+      "requires": [
+        "php",
+        "composer",
+        "mongod"
+      ],
+      "verify": "cd starter && php vendor/bin/phpunit --filter \"EventLogTest\""
+    },
+    {
+      "id": "laravel-mongodb-task-03",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite that exercises the controls named in security/checks.json. Each test is mutation-verified where the control lives in kit code: removing the control makes the test fail.",
+      "assertions": [
+        "unauthenticated reads and writes return 401",
+        "NOSQL-01 operator keys ($where, $ne, $gt, $regex) and dotted keys are rejected at any depth of metadata",
+        "DATA-01 invalid severity, category length, latency and metadata type return 422",
+        "the client cannot choose the owner of an event",
+        "AUTH-02 users only see their own events and aggregates; policy allows only the owner",
+        "AUTH-01 argon2id hashing",
+        "DATA-02 connection pool and timeouts are capped",
+        "models are MongoDB documents with a fillable whitelist",
+        "empty APP_KEY and non-root Dockerfile"
+      ],
+      "requires": [
+        "php",
+        "composer",
+        "mongod"
+      ],
+      "verify": "cd starter && php vendor/bin/phpunit --filter \"SecurityControlsTest\""
+    },
+    {
+      "id": "laravel-mongodb-task-04",
+      "title": "Full suite green",
+      "instruction": "The complete suite must pass with no failures.",
+      "assertions": [
+        "test runner exits 0"
+      ],
+      "requires": [
+        "php",
+        "composer",
+        "mongod"
+      ],
+      "verify": "cd starter && php vendor/bin/phpunit"
     }
   ]
 }

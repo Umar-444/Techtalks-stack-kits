@@ -79,6 +79,7 @@ def main() -> int:
                 unchanged += 1
 
         errors = sc.validate(manifest)
+        errors += sc.check_evidence_paths(manifest, KITS_DIR / slug)
         if shape != "v2" and not args.fix:
             errors.insert(0, f"legacy {shape} manifest; run validate_checks.py --fix")
         if errors:

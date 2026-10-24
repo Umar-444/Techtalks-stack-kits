@@ -3,12 +3,18 @@ import { createItem, toggleItem } from './actions';
 
 export default async function DashboardPage() {
   const supabase = await createClient();
-  
-  // Fetch user-scoped items protected by RLS
-  const { data: items } = await supabase
-    .from('items')
-    .select('*')
-    .order('created_at', { ascending: false });
+
+  // Verify the session on the server (AUTH-03); never trust the proxy alone.
+  const { data: { user } } = await supabase.auth.getUser();
+
+  // Explicit user_id filter in addition to RLS (RLS-02).
+  const { data: items } = user
+    ? await supabase
+        .from('items')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+    : { data: null };
 
   const totalCount = items?.length || 0;
   const completedCount = items?.filter((i: any) => i.is_completed).length || 0;

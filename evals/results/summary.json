@@ -4,9 +4,9 @@
   "kits_failing_gates": [],
   "measurement": "tiktoken:cl100k_base",
   "context_tokens": {
-    "min": 1690,
-    "median": 1690,
-    "max": 1690
+    "min": 1238,
+    "median": 1238,
+    "max": 1238
   },
   "task_verification": {
     "total": 4,

@@ -25,4 +25,10 @@ USER 10001:10001
 
 EXPOSE 8080
 
-CMD ["node", "--loader", "ts-node/esm", "src/server.ts"]
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD node -e "fetch('http://127.0.0.1:8080/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+
+# src/server.ts exports the Hono app only; src/index.ts is what binds a port
+# via @hono/node-server. The previous CMD invoked ts-node, which was never a
+# dependency, against a module that starts no listener.
+CMD ["npx", "tsx", "src/index.ts"]

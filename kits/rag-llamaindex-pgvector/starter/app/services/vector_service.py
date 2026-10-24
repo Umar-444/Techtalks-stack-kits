@@ -1,7 +1,11 @@
 import os
+import re
 import hashlib
 import math
 from typing import Any, Optional
+
+IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]{0,47}$")
+FAITHFULNESS_THRESHOLD = 0.8
 
 class VectorService:
     def __init__(
@@ -12,6 +16,8 @@ class VectorService:
         table_name: str = "data_rag_embeddings",
         vector_dim: int = 384
     ):
+        if not IDENTIFIER_RE.match(os.getenv("TABLE_NAME", table_name)):
+            raise ValueError("TABLE_NAME must be a plain SQL identifier ([A-Za-z_][A-Za-z0-9_]{0,47})")
         self.host = host or os.getenv("POSTGRES_HOST", "localhost")
         self.port = int(os.getenv("POSTGRES_PORT", str(port)))
         self.db_name = os.getenv("POSTGRES_DB", db_name)
@@ -20,30 +26,57 @@ class VectorService:
         self._in_memory_nodes = []
         self._use_in_memory = os.getenv("PGVECTOR_IN_MEMORY", "1") == "1"
 
+    def schema_statements(self) -> list[str]:
+        """DDL for the table, HNSW cosine index and metadata GIN index.
+
+        Only the validated identifier and an integer dimension are interpolated;
+        no request data ever reaches this SQL.
+        """
+        t = self.table_name
+        return [
+            "CREATE EXTENSION IF NOT EXISTS vector;",
+            f"CREATE TABLE IF NOT EXISTS {t} ("
+            "id TEXT PRIMARY KEY, document_id TEXT NOT NULL, text TEXT NOT NULL, "
+            f"metadata_ JSONB DEFAULT '{{}}', embedding vector({self.vector_dim}));",
+            f"CREATE INDEX IF NOT EXISTS idx_{t}_hnsw ON {t} "
+            "USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 100);",
+            f"CREATE INDEX IF NOT EXISTS idx_{t}_metadata ON {t} USING gin (metadata_);",
+        ]
+
+    def _connect(self):
+        import psycopg
+        # The password comes only from the environment; there is no default.
+        return psycopg.connect(
+            host=self.host,
+            port=self.port,
+            dbname=self.db_name,
+            user=os.getenv("POSTGRES_USER", "postgres"),
+            password=os.getenv("POSTGRES_PASSWORD"),
+            connect_timeout=5,
+        )
+
     def initialize(self):
-        """Initializes pgvector table and HNSW index if PostgreSQL is live."""
+        """Initializes pgvector table, HNSW and GIN indexes if PostgreSQL is live."""
         if not self._use_in_memory:
             try:
-                import psycopg
-                conn_str = f"host={self.host} port={self.port} dbname={self.db_name} user={os.getenv('POSTGRES_USER', 'postgres')} password={os.getenv('POSTGRES_PASSWORD', 'postgres')}"
-                with psycopg.connect(conn_str) as conn:
+                with self._connect() as conn:
                     with conn.cursor() as cur:
-                        cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
-                        cur.execute(f"""
-                            CREATE TABLE IF NOT EXISTS {self.table_name} (
-                                id TEXT PRIMARY KEY,
-                                document_id TEXT NOT NULL,
-                                text TEXT NOT NULL,
-                                metadata_ JSONB DEFAULT '{{}}',
-                                embedding vector({self.vector_dim})
-                            );
-                        """)
+                        for statement in self.schema_statements():
+                            cur.execute(statement)
                     conn.commit()
             except Exception:
                 self._use_in_memory = True
 
     def is_connected(self) -> bool:
-        return True
+        if self._use_in_memory:
+            return True
+        try:
+            with self._connect() as conn:
+                with conn.cursor() as cur:
+                    cur.execute("SELECT 1")
+            return True
+        except Exception:
+            return False
 
     def _generate_vector(self, text: str) -> list[float]:
         """Deterministic unit-normalized vector generator for offline and test runs."""
@@ -61,6 +94,9 @@ class VectorService:
         return max(-1.0, min(1.0, dot))
 
     def chunk_text(self, text: str, chunk_size: int = 512, chunk_overlap: int = 64) -> list[str]:
+        if chunk_size < 1 or chunk_overlap < 0 or chunk_overlap >= chunk_size:
+            # overlap >= size makes the window stop advancing: an infinite loop
+            raise ValueError("chunk_overlap must be >= 0 and smaller than chunk_size")
         chunks = []
         start = 0
         while start < len(text):
@@ -73,7 +109,14 @@ class VectorService:
             start += chunk_size - chunk_overlap
         return chunks
 
+    @staticmethod
+    def _require_tenant(tenant: Any) -> str:
+        if not isinstance(tenant, str) or not tenant.strip():
+            raise ValueError("tenant_id is required")
+        return tenant
+
     def ingest_document(self, document_id: str, title: Optional[str], text: str, metadata: dict[str, Any]) -> int:
+        self._require_tenant(metadata.get("tenant_id"))
         chunks = self.chunk_text(text)
         meta = dict(metadata)
         if title:
@@ -97,22 +140,20 @@ class VectorService:
         self,
         query: str,
         top_k: int = 3,
-        score_threshold: float = 0.50,
-        filters: Optional[dict[str, Any]] = None
+        score_threshold: float = 0.60,
+        filters: Optional[dict[str, Any]] = None,
+        *,
+        tenant_id: str,
     ) -> list[dict]:
+        self._require_tenant(tenant_id)
+        # The trusted tenant overrides any tenant_id the caller put in the filters.
+        scope = {**(filters or {}), "tenant_id": tenant_id}
         query_vec = self._generate_vector(query)
         candidates = []
 
         for node in self._in_memory_nodes:
-            # Check filters
-            if filters:
-                match = True
-                for k, v in filters.items():
-                    if node["metadata"].get(k) != v:
-                        match = False
-                        break
-                if not match:
-                    continue
+            if any(node["metadata"].get(k) != v for k, v in scope.items()):
+                continue
 
             sim = self._cosine_similarity(query_vec, node["vector"])
             # Normalize to 0..1 scale for consistency
@@ -130,16 +171,22 @@ class VectorService:
         return candidates[:top_k]
 
     def evaluate(self, query: str, response: str, contexts: list[str]) -> dict:
-        """Evaluates groundedness and query relevancy."""
-        query_lower = query.lower()
-        response_lower = response.lower()
+        """Lexical groundedness and relevancy (a heuristic, not an LLM judge)."""
+        punctuation = '.,!?:;"' + "'"
 
-        # Check if response has terms present in context
-        overlap_found = any(word in " ".join(contexts).lower() for word in response_lower.split() if len(word) > 4)
-        faithfulness = overlap_found or len(contexts) > 0
-        relevancy = len(response.strip()) > 10
+        def words(text: str) -> list[str]:
+            return [w.lower().strip(punctuation) for w in text.split() if len(w.strip(punctuation)) > 3]
 
-        score = 1.0 if (faithfulness and relevancy) else 0.5
+        resp_words = words(response)
+        context_text = " ".join(contexts).lower()
+        if not contexts or not resp_words:
+            grounded = 0.0
+        else:
+            grounded = sum(1 for w in resp_words if w in context_text) / len(resp_words)
+        faithfulness = grounded >= FAITHFULNESS_THRESHOLD
+        relevancy = bool(set(words(query)) & set(resp_words))
+
+        score = round(grounded, 3) if relevancy else round(min(grounded, 0.5), 3)
         return {
             "faithfulness_passing": faithfulness,
             "relevancy_passing": relevancy,

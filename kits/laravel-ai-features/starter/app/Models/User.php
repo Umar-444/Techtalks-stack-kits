@@ -16,9 +16,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
-        'team_id',
     ];
+
+    // role and team_id are deliberately NOT fillable: privilege and tenancy
+    // must never be set from request data.
 
     protected $hidden = [
         'password',

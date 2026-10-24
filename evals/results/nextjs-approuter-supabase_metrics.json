@@ -48,13 +48,42 @@
     "efficiency_tier": "A+"
   },
   "starter": {
-    "files": 15,
-    "source_loc": 280
+    "files": 21,
+    "source_loc": 595
   },
   "task_verification": {
-    "tasks": [],
-    "total": 0,
-    "passed": 0,
+    "tasks": [
+      {
+        "id": "nextjs-approuter-supabase-task-01",
+        "title": "Zod schema is strict",
+        "assertions": 3,
+        "status": "pass",
+        "exit_code": 0
+      },
+      {
+        "id": "nextjs-approuter-supabase-task-02",
+        "title": "Server Actions scope every query to the session user",
+        "assertions": 5,
+        "status": "pass",
+        "exit_code": 0
+      },
+      {
+        "id": "nextjs-approuter-supabase-task-03",
+        "title": "Declared security controls hold under test",
+        "assertions": 5,
+        "status": "pass",
+        "exit_code": 0
+      },
+      {
+        "id": "nextjs-approuter-supabase-task-04",
+        "title": "Full suite green",
+        "assertions": 1,
+        "status": "pass",
+        "exit_code": 0
+      }
+    ],
+    "total": 4,
+    "passed": 4,
     "failed": 0,
     "skipped": 0,
     "not_executed": 0

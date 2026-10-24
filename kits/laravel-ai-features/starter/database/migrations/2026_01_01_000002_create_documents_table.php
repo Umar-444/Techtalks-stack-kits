@@ -11,22 +11,32 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Enable pgvector extension
-        DB::statement('CREATE EXTENSION IF NOT EXISTS vector;');
+        $pgsql = Schema::getConnection()->getDriverName() === 'pgsql';
 
-        Schema::create('documents', function (Blueprint $table) {
+        if ($pgsql) {
+            // Enable pgvector extension
+            DB::statement('CREATE EXTENSION IF NOT EXISTS vector;');
+        }
+
+        Schema::create('documents', function (Blueprint $table) use ($pgsql) {
             $table->id();
             $table->string('title');
             $table->text('content');
             $table->unsignedBigInteger('tenant_id')->default(1)->index();
+            if (! $pgsql) {
+                // No vector type outside PostgreSQL (e.g. SQLite in the test suite).
+                $table->text('embedding')->nullable();
+            }
             $table->timestamps();
         });
 
-        // Add vector column via direct DDL
-        DB::statement('ALTER TABLE documents ADD COLUMN embedding vector(1536);');
+        if ($pgsql) {
+            // Add vector column via direct DDL
+            DB::statement('ALTER TABLE documents ADD COLUMN embedding vector(1536);');
 
-        // Add HNSW cosine index
-        DB::statement('CREATE INDEX documents_embedding_hnsw_idx ON documents USING hnsw (embedding vector_cosine_ops);');
+            // Add HNSW cosine index
+            DB::statement('CREATE INDEX documents_embedding_hnsw_idx ON documents USING hnsw (embedding vector_cosine_ops);');
+        }
     }
 
     public function down(): void

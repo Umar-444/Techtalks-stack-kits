@@ -1,18 +1,71 @@
 {
   "kit_slug": "laravel-livewire-postgresql",
-  "name": "Laravel 12 + Livewire 4 + PostgreSQL",
+  "name": "Laravel 12 + Livewire 3 + PostgreSQL",
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. No token figures are recorded here; evals/runner.py measures context cost directly from the kit files. The suite runs against SQLite in-memory (DB_CONNECTION=sqlite, DB_DATABASE=:memory: in phpunit.xml) so no PostgreSQL service is required. Not exercised: AUTH-02 (the kit ships no login component), DATA-01 (no query-building code beyond plain Eloquent) and CI-01/02 (pipeline gates). LW-01 tests Livewire's own checksum and is not mutation-checkable from kit code.",
+  "setup": "cd starter && composer install",
   "eval_tasks": [
     {
-      "id": "kit2-task-01",
-      "title": "Volt Single-File Component Scaffolding",
-      "instruction": "Create reactive component with typed state properties.",
-      "assertions": ["Component defines typed properties"]
+      "id": "laravel-livewire-postgresql-task-01",
+      "title": "Application installs and boots",
+      "instruction": "Composer dependencies must resolve and the Laravel application must bootstrap far enough to list its routes.",
+      "assertions": [
+        "vendor/autoload.php exists",
+        "artisan route:list exits 0"
+      ],
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php artisan route:list"
     },
     {
-      "id": "kit2-task-02",
-      "title": "Livewire Property Locking",
-      "instruction": "Ensure sensitive model IDs are locked from client mutation.",
-      "assertions": ["#[Locked] attribute used on IDs"]
+      "id": "laravel-livewire-postgresql-task-02",
+      "title": "Feature behaviour",
+      "instruction": "The kit's feature tests must pass.",
+      "assertions": [
+        "health endpoint responds",
+        "a signed-in user can create a task through the Livewire component"
+      ],
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/phpunit --filter \"LivewireTaskTest\""
+    },
+    {
+      "id": "laravel-livewire-postgresql-task-03",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite that exercises the controls named in security/checks.json. Each test is mutation-verified where the control lives in kit code: removing the control makes the test fail.",
+      "assertions": [
+        "LW-01 a tampered Livewire snapshot is rejected",
+        "LW-02 toggle and delete are policy-authorized; guests and other users get 403; the list is scoped to the owner",
+        "LW-03 owner is not client-writable; priority restricted to low/medium/high",
+        "LW-04 title and description lengths validated",
+        "LW-05 mutating actions throttled at 30 per minute per user",
+        "AUTH-01 argon2id hashing, AUTH-03 session cookie flags",
+        "DATA-02 UUID primary keys",
+        "task titles are HTML-escaped",
+        "empty APP_KEY and non-root Dockerfile"
+      ],
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/phpunit --filter \"SecurityControlsTest\""
+    },
+    {
+      "id": "laravel-livewire-postgresql-task-04",
+      "title": "Full suite green",
+      "instruction": "The complete suite must pass with no failures.",
+      "assertions": [
+        "test runner exits 0"
+      ],
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/phpunit"
     }
   ]
 }

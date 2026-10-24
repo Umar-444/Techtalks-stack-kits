@@ -16,10 +16,10 @@ RUN groupadd -g 1000 appuser && useradd -u 1000 -g appuser -s /bin/bash -m appus
 COPY --from=builder /root/.local /home/appuser/.local
 COPY --chown=appuser:appuser . /app
 
-ENV PATH=/home/appuser/.local/bin:
+ENV PATH=/home/appuser/.local/bin:$PATH
 ENV PYTHONUNBUFFERED=1
 
-USER appuser
+USER 1000:1000
 
 EXPOSE 8000
 

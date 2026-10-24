@@ -4,8 +4,10 @@ services:
   ollama:
     image: ollama/ollama:latest
     container_name: local_rag_ollama
-    ports:
-      - "11434:11434"
+    # Not published to the host and attached only to an internal network:
+    # the model server has no route out and nothing outside the stack can reach it.
+    networks:
+      - llm_net
     volumes:
       - ollama_models:/root/.ollama
     environment:
@@ -32,7 +34,14 @@ services:
       - chroma_data:/app/data/chromadb
     depends_on:
       - ollama
+    networks:
+      - default
+      - llm_net
     restart: unless-stopped
+
+networks:
+  llm_net:
+    internal: true
 
 volumes:
   ollama_models:

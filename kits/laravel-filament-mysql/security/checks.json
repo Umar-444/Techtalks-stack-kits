@@ -39,7 +39,11 @@
       "description": "No hardcoded credentials; env secrets enforced.",
       "cwe": [
         "CWE-798"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-02",
@@ -53,7 +57,11 @@
       "description": "Dockerfile specifies non-root USER 10001:10001.",
       "cwe": [
         "CWE-250"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-03",
@@ -67,7 +75,11 @@
       "description": "Every Filament resource bound to dedicated Laravel policy.",
       "cwe": [
         "CWE-639"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-04",
@@ -81,7 +93,11 @@
       "description": "Zero raw string interpolation in SQL; MATCH AGAINST bound via parameters.",
       "cwe": [
         "CWE-89"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-05",
@@ -95,7 +111,11 @@
       "description": "STRICT_TRANS_TABLES prevents silent truncation.",
       "cwe": [
         "CWE-16"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-06",
@@ -109,7 +129,11 @@
       "description": "All Eloquent models declare $fillable or guarded properties.",
       "cwe": [
         "CWE-915"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-07",
@@ -123,7 +147,11 @@
       "description": "Livewire / Filament form CSRF tokens strictly validated.",
       "cwe": [
         "CWE-352"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-08",
@@ -137,7 +165,11 @@
       "description": "SameSite=Lax, HttpOnly, and Secure cookie flags active.",
       "cwe": [
         "CWE-1004"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-09",
@@ -151,7 +183,11 @@
       "description": "Modern Argon2id hashing with memory cost 65536.",
       "cwe": [
         "CWE-916"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-10",
@@ -165,7 +201,11 @@
       "description": "5 requests per minute throttling on login routes.",
       "cwe": [
         "CWE-770"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-11",
@@ -179,7 +219,11 @@
       "description": "Blade {{ }} double-curly auto-escaping enforced across all views.",
       "cwe": [
         "CWE-79"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-12",
@@ -193,7 +237,11 @@
       "description": "Automatic retry logic for MySQL 1213 deadlock errors.",
       "cwe": [
         "CWE-755"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-13",
@@ -207,7 +255,11 @@
       "description": "0 blocking findings on OWASP Top 10 ruleset.",
       "cwe": [
         "CWE-1357"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-14",
@@ -221,7 +273,11 @@
       "description": "0 leaked tokens or keys detected.",
       "cwe": [
         "CWE-798"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     }
   ]
 }

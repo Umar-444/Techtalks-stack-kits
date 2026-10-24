@@ -68,6 +68,10 @@ jobs:
         run: |
           python tools/build_chrome.py --check
 
+      - name: "Check every image build context excludes secrets"
+        run: |
+          python tools/build_dockerignore.py --check
+
       - name: "Execute verification runner"
         run: |
           python evals/runner.py

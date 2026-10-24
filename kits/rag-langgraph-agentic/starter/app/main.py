@@ -1,5 +1,6 @@
 import os
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, Request, status
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.schemas import (
     QueryRequest, QueryResponse,
@@ -8,7 +9,7 @@ from app.schemas import (
     HealthResponse
 )
 from app.vector_store import vector_service
-from app.graph import run_agentic_rag
+from app.graph import run_agentic_rag, agent_graph, groundedness_threshold
 from app.evals import ragas_evaluator
 
 app = FastAPI(
@@ -20,7 +21,14 @@ app = FastAPI(
 
 # CORS Policy - Strict origin configuration, zero wildcard
 raw_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:8080")
-allowed_origins = [o.strip() for o in raw_origins.split(",") if o.strip()]
+allowed_origins = [o.strip() for o in raw_origins.split(",") if o.strip() and o.strip() != "*"]
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    # Never echo exception text, hostnames or stack frames to the caller.
+    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -32,10 +40,12 @@ app.add_middleware(
 
 @app.get("/health", response_model=HealthResponse, tags=["Observability"])
 async def health_check():
+    qdrant_ok = vector_service.is_healthy()
+    graph_ok = agent_graph is not None
     return HealthResponse(
-        status="healthy",
-        qdrant="connected",
-        graph="ready",
+        status="healthy" if (qdrant_ok and graph_ok) else "degraded",
+        qdrant="connected" if qdrant_ok else "unreachable",
+        graph="ready" if graph_ok else "not_ready",
         version="1.0.0"
     )
 
@@ -50,25 +60,19 @@ async def index_documents(req: IngestRequest):
 
 @app.post("/api/v1/rag/query", response_model=QueryResponse, tags=["RAG"])
 async def query_agentic_rag(req: QueryRequest):
-    try:
-        final_state = run_agentic_rag(
-            question=req.question,
-            tenant_id=req.tenant_id,
-            max_iterations=req.max_iterations
-        )
-        return QueryResponse(
-            question=req.question,
-            answer=final_state.get("generation", ""),
-            retrieved_documents=final_state.get("documents", []),
-            iterations_used=final_state.get("iterations", 0),
-            groundedness_score=final_state.get("groundedness_score", 0.0),
-            status=final_state.get("status", "completed")
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Agentic graph execution error: {str(e)}"
-        )
+    final_state = run_agentic_rag(
+        question=req.question,
+        tenant_id=req.tenant_id,
+        max_iterations=req.max_iterations
+    )
+    return QueryResponse(
+        question=req.question,
+        answer=final_state.get("generation", ""),
+        retrieved_documents=final_state.get("documents", []),
+        iterations_used=final_state.get("iterations", 0),
+        groundedness_score=final_state.get("groundedness_score", 0.0),
+        status=final_state.get("status", "completed")
+    )
 
 @app.post("/api/v1/rag/eval", response_model=EvalScoreResponse, tags=["Evaluations"])
 async def evaluate_output(req: EvalScoreRequest):
@@ -82,7 +86,7 @@ async def evaluate_output(req: EvalScoreRequest):
         question=req.question,
         documents=docs
     )
-    is_hallucination = groundedness < 0.85
+    is_hallucination = groundedness < groundedness_threshold()
     return EvalScoreResponse(
         groundedness=groundedness,
         context_precision=precision,

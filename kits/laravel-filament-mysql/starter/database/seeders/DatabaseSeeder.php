@@ -12,15 +12,15 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::firstOrCreate(
-            ['email' => 'admin@techtalks.dev'],
-            [
+        $admin = User::firstOrNew(['email' => 'admin@techtalks.dev']);
+        if (! $admin->exists) {
+            $admin->forceFill([
                 'name' => 'Admin User',
                 'password' => Hash::make('password123'),
                 'role' => 'admin',
                 'team_id' => 1,
-            ]
-        );
+            ])->save();
+        }
 
         $this->call(CustomerSeeder::class);
     }

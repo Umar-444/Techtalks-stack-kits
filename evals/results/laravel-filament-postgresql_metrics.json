@@ -48,13 +48,42 @@
     "efficiency_tier": "B"
   },
   "starter": {
-    "files": 14,
-    "source_loc": 292
+    "files": 42,
+    "source_loc": 1602
   },
   "task_verification": {
-    "tasks": [],
-    "total": 0,
-    "passed": 0,
+    "tasks": [
+      {
+        "id": "laravel-filament-postgresql-task-01",
+        "title": "Application installs and boots",
+        "assertions": 2,
+        "status": "pass",
+        "exit_code": 0
+      },
+      {
+        "id": "laravel-filament-postgresql-task-02",
+        "title": "Feature behaviour",
+        "assertions": 3,
+        "status": "pass",
+        "exit_code": 0
+      },
+      {
+        "id": "laravel-filament-postgresql-task-03",
+        "title": "Declared security controls hold under test",
+        "assertions": 10,
+        "status": "pass",
+        "exit_code": 0
+      },
+      {
+        "id": "laravel-filament-postgresql-task-04",
+        "title": "Full suite green",
+        "assertions": 1,
+        "status": "pass",
+        "exit_code": 0
+      }
+    ],
+    "total": 4,
+    "passed": 4,
     "failed": 0,
     "skipped": 0,
     "not_executed": 0

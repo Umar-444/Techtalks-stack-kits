@@ -1,55 +1,78 @@
 {
   "kit_slug": "rag-haystack-weaviate",
   "name": "Haystack Pipelines + Weaviate + FastAPI (Hayhooks)",
-  "token_metrics": {
-    "median_tokens": 25600,
-    "tier": "B",
-    "token_light": false
-  },
+  "schema_version": "2.0.0",
+  "note": "Every task runs a real command. The starter's Weaviate layer is its own in-memory store (the interface the pipeline calls), and no LLM is wired in, so no Weaviate server or model is needed. Tenant isolation is therefore verified against that in-memory store, not against a live Weaviate tenant. The Haystack DAG itself is real (haystack-ai). Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
+  "setup": "cd starter && pip install -r requirements.txt",
   "eval_tasks": [
     {
       "id": "rag-haystack-weaviate-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the Haystack Pipelines + Weaviate + FastAPI (Hayhooks) core runtime with zero-warning configuration.",
+      "title": "Explicit Haystack DAG and health probes",
+      "instruction": "The retrieval DAG must be wired explicitly, the retriever must refuse to run without a tenant, and the health probe must reflect real component state.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "retriever.documents is explicitly connected to prompt_builder.documents",
+        "the retriever declares typed output sockets",
+        "retrieval without a tenant raises",
+        "health is healthy normally and degraded when Weaviate or the pipeline is not ready"
       ],
-      "prompt_tokens": 2534,
-      "completion_tokens": 3097
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "haystack", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"dag or retriever or health\" -q -p no:warnings"
     },
     {
       "id": "rag-haystack-weaviate-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Tenant-partitioned hybrid search",
+      "instruction": "Hybrid search must be partitioned per tenant, tenant must be mandatory with a restricted format, and weak candidates must be rejected.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "tenant A never retrieves tenant B chunks over HTTP and vice versa",
+        "the same document id in two tenants does not collide",
+        "search, index and the HTTP schemas all reject a missing tenant",
+        "tenant ids containing spaces, quotes, traversal or newlines are rejected",
+        "candidates below the 0.40 fused-score floor are dropped"
       ],
-      "prompt_tokens": 2795,
-      "completion_tokens": 3860
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "haystack", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"tenant or hybrid or fused or partitioned\" -q -p no:warnings"
     },
     {
       "id": "rag-haystack-weaviate-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Faithfulness gate and prompt-injection boundary",
+      "instruction": "Answers below the 0.85 faithfulness threshold must be withheld, and retrieved chunks must be delimited as untrusted data they cannot escape.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "the groundedness threshold is 0.85",
+        "an ungrounded answer is replaced by a refusal and a grounded one is returned",
+        "the eval endpoint flags a hallucinated answer",
+        "each chunk sits in its own delimited block and cannot close it",
+        "document ids cannot inject markup into the block header"
       ],
-      "prompt_tokens": 2703,
-      "completion_tokens": 3440
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "haystack", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"faith or groundedness or ungrounded or grounded or eval_endpoint or evaluator or prompt or block or markup\" -q -p no:warnings"
     },
     {
       "id": "rag-haystack-weaviate-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "CORS, input limits, error hygiene and container hardening",
+      "instruction": "A wildcard CORS origin must never be honoured, bodies must be size-bounded, errors must not leak internals, Weaviate must not be published to the host, and the image must run non-root.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "a wildcard origin is dropped and unlisted origins get no allow header",
+        "oversized or malformed bodies are rejected with 422",
+        "pipeline failures return a generic 500",
+        "the weaviate compose service publishes no ports and the app targets its internal port",
+        "the final Dockerfile stage drops to a numeric UID >= 10000",
+        "credential-named keys in .env.example are empty"
       ],
-      "prompt_tokens": 2867,
-      "completion_tokens": 4300
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "haystack", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"cors or oversized or generic_500 or published or non_root or env_example\" -q -p no:warnings"
+    },
+    {
+      "id": "rag-haystack-weaviate-task-05",
+      "title": "Full suite green",
+      "instruction": "The complete functional and security suite must pass with no failures.",
+      "assertions": ["pytest exits 0 across tests/"],
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "haystack", "yaml"],
+      "verify": "cd starter && python -m pytest tests/ -q -p no:warnings"
     }
   ]
 }

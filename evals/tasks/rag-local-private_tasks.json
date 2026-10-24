@@ -1,55 +1,80 @@
 {
   "kit_slug": "rag-local-private",
-  "name": "Local Private RAG (Ollama + Chroma + FastAPI)",
-  "token_metrics": {
-    "median_tokens": 19500,
-    "tier": "A",
-    "token_light": true
-  },
+  "name": "Local Private RAG (Ollama + ChromaDB, airgapped)",
+  "schema_version": "2.0.0",
+  "note": "Every task runs a real command with TEST_MODE=true (tests/conftest.py): the kit's in-memory store and a synthetic embedder, so no Ollama, ChromaDB or network is needed. Where the production path matters the client is stubbed at the boundary: a fake Chroma collection records the where clause and a fake httpx client records outbound URLs. Not verified: real ChromaDB persistence, real Ollama generation, and caller identity (tenant and clearance are asserted in the request body; the kit has no authentication). The groundedness scorer is a lexical-overlap heuristic. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
+  "setup": "cd starter && pip install -r requirements.txt",
   "eval_tasks": [
     {
       "id": "rag-local-private-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the Local Private RAG (Ollama + Chroma + FastAPI) core runtime with zero-warning configuration.",
+      "title": "Zero-egress airgap guard",
+      "instruction": "Every outbound request must be checked against the loopback and compose-alias allowlist before it is made, health must report the real airgap state, and the LLM server must have no route out.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "loopback, localhost, ollama and chroma are allowed",
+        "public hosts, userinfo and subdomain look-alikes, metadata IPs and non-http schemes are blocked",
+        "embedding and generation to a blocked host raise before any HTTP request is issued",
+        "turning the restriction off is the only way to lift the guard, and it defaults to on",
+        "health reports airgap_safe false and degraded for a non-local endpoint or when restriction is off",
+        "the ollama compose service publishes no port and sits only on an internal network"
       ],
-      "prompt_tokens": 1930,
-      "completion_tokens": 2359
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pydantic_settings", "pytest", "pytest_asyncio", "httpx", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"hosts_are or egress or health or llm_server or embedding_to or generation_to or unrestricted\" -q -p no:warnings"
     },
     {
       "id": "rag-local-private-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Tenant isolation and classification clearance",
+      "instruction": "Retrieval must be pinned to the caller's tenant and clearance on both the in-memory path and the ChromaDB query, and chunk ids must be deterministic and tenant-scoped.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "tenant A never retrieves tenant B chunks, in memory and over HTTP",
+        "each clearance level sees only its own and lower classes",
+        "the ChromaDB where clause pins tenant_id and the allowed classification list",
+        "ingest tags every chunk with tenant and classification",
+        "unknown fields, bad classifications and missing tenants are rejected",
+        "re-ingesting is idempotent and the same document id in two tenants does not collide"
       ],
-      "prompt_tokens": 2129,
-      "completion_tokens": 2940
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pydantic_settings", "pytest", "pytest_asyncio", "httpx", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"tenants_are or clearance or chromadb or schemas_reject or cross_tenant or reingesting or same_document or chunk_ids\" -q -p no:warnings"
     },
     {
       "id": "rag-local-private-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Prompt-injection boundary and groundedness guardrail",
+      "instruction": "Retrieved text must be confined to one delimited context block it cannot close, and offline evaluation must flag hallucinated answers without any network call.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "context delimiter look-alikes in any case or spacing are stripped",
+        "the prompt has exactly one context block and the user question sits outside it",
+        "a hallucinated answer is flagged and a grounded one is not",
+        "evaluation issues no network request"
       ],
-      "prompt_tokens": 2059,
-      "completion_tokens": 2620
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pydantic_settings", "pytest", "pytest_asyncio", "httpx", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"lookalikes or delimited_context or outside_the_context or hallucinated or grounded_answer or evaluation_makes\" -q -p no:warnings"
     },
     {
       "id": "rag-local-private-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "Error hygiene, CORS, chunk and input limits, container hardening",
+      "instruction": "Failures must return a generic 500, a wildcard CORS origin must never be honoured, no chunk may exceed its size, inputs must be bounded, and the image must run non-root without credentials in the env template.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "query, ingest and evaluate failures return a generic 500 with no host, secret or path",
+        "a wildcard origin is dropped and unlisted origins get no allow header",
+        "no chunk exceeds the requested size, including an oversized single paragraph",
+        "ingest and query size limits are enforced by the schema",
+        "the final Dockerfile stage drops to a numeric UID >= 10000",
+        "credential-named keys in .env.example are empty and egress stays restricted"
       ],
-      "prompt_tokens": 2184,
-      "completion_tokens": 3276
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pydantic_settings", "pytest", "pytest_asyncio", "httpx", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"generic_500 or wildcard or cors or chunk or ingest_limits or non_root or env_example\" -q -p no:warnings"
+    },
+    {
+      "id": "rag-local-private-task-05",
+      "title": "Full suite green",
+      "instruction": "The complete functional and security suite must pass with no failures.",
+      "assertions": ["pytest exits 0 across tests/"],
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pydantic_settings", "pytest", "pytest_asyncio", "httpx", "yaml"],
+      "verify": "cd starter && python -m pytest tests/ -q -p no:warnings"
     }
   ]
 }

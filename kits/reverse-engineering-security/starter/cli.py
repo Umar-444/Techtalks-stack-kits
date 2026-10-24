@@ -64,7 +64,8 @@ def main():
         print(f"  NX / DEP:        {'[PASS]' if res.nx_enabled else '[FAIL]'}")
         print(f"  PIE / ASLR:      {'[PASS]' if res.pie_aslr_enabled else '[FAIL]'}")
         print(f"  Stack Canary:    {'[PASS]' if res.canary_detected else '[FAIL]'}")
-        print(f"  Full RELRO:      {'[PASS]' if res.relro_detected else '[FAIL]'}")
+        last_label = "Control Flow Guard:" if res.format == "PE" else "Full RELRO:"
+        print(f"  {last_label:<16} {'[PASS]' if res.relro_detected else '[FAIL]'}")
         if res.remediation_notes:
             print("\n  Remediation Actions Required:")
             for note in res.remediation_notes:

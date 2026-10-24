@@ -227,7 +227,7 @@
       ],
       "evidence": {
         "kind": "workflow",
-        "path": ".github/workflows/security.yml"
+        "path": ".github/workflows/validate-kits.yml"
       }
     }
   ]

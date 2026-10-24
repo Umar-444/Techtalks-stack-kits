@@ -48,15 +48,44 @@
     "efficiency_tier": "A"
   },
   "starter": {
-    "files": 11,
-    "source_loc": 239
+    "files": 28,
+    "source_loc": 857
   },
   "task_verification": {
-    "tasks": [],
-    "total": 0,
+    "tasks": [
+      {
+        "id": "laravel-mongodb-task-01",
+        "title": "Application installs and boots",
+        "assertions": 2,
+        "status": "skipped",
+        "reason": "toolchain not installed: mongod"
+      },
+      {
+        "id": "laravel-mongodb-task-02",
+        "title": "Feature behaviour",
+        "assertions": 3,
+        "status": "skipped",
+        "reason": "toolchain not installed: mongod"
+      },
+      {
+        "id": "laravel-mongodb-task-03",
+        "title": "Declared security controls hold under test",
+        "assertions": 9,
+        "status": "skipped",
+        "reason": "toolchain not installed: mongod"
+      },
+      {
+        "id": "laravel-mongodb-task-04",
+        "title": "Full suite green",
+        "assertions": 1,
+        "status": "skipped",
+        "reason": "toolchain not installed: mongod"
+      }
+    ],
+    "total": 4,
     "passed": 0,
     "failed": 0,
-    "skipped": 0,
+    "skipped": 4,
     "not_executed": 0
   },
   "not_measured": [

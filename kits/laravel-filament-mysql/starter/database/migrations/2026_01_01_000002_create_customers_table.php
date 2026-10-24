@@ -19,8 +19,11 @@ return new class extends Migration
             $table->unsignedBigInteger('team_id')->default(1)->index();
             $table->timestamps();
 
-            // Native MySQL 8.4 Full-Text Index
-            $table->fullText(['name', 'email', 'company_name'], 'customers_fulltext_idx');
+            // Native MySQL 8.4 Full-Text Index (SQLite, used by the test suite,
+            // has no equivalent).
+            if (in_array(Schema::getConnection()->getDriverName(), ['mysql', 'mariadb', 'pgsql'], true)) {
+                $table->fullText(['name', 'email', 'company_name'], 'customers_fulltext_idx');
+            }
         });
     }
 

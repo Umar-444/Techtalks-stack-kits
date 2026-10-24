@@ -21,4 +21,8 @@ Route::get('/healthz', function () {
     ]);
 });
 
-Route::apiResource('api/articles', ArticleController::class);
+Route::apiResource('api/articles', ArticleController::class)
+    ->only(['index', 'show']);
+Route::apiResource('api/articles', ArticleController::class)
+    ->only(['store', 'destroy'])
+    ->middleware('auth');

@@ -1,5 +1,6 @@
 import os
-from fastapi import FastAPI, HTTPException, status
+from fastapi import FastAPI, Request, status
+from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.schemas import (
     QueryRequest, QueryResponse,
@@ -8,7 +9,7 @@ from app.schemas import (
     HealthResponse
 )
 from app.weaviate_service import weaviate_service
-from app.pipeline import rag_pipeline, faithfulness_evaluator
+from app.pipeline import rag_pipeline, faithfulness_evaluator, FAITHFULNESS_THRESHOLD
 
 app = FastAPI(
     title="Haystack Pipelines + Weaviate RAG API",
@@ -19,7 +20,14 @@ app = FastAPI(
 
 # CORS Policy - Strict whitelist from environment, zero wildcard
 raw_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:8080")
-allowed_origins = [o.strip() for o in raw_origins.split(",") if o.strip()]
+allowed_origins = [o.strip() for o in raw_origins.split(",") if o.strip() and o.strip() != "*"]
+
+
+@app.exception_handler(Exception)
+async def unhandled_exception_handler(request: Request, exc: Exception):
+    # Never echo exception text, hostnames or stack frames to the caller.
+    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
+
 
 app.add_middleware(
     CORSMiddleware,
@@ -31,10 +39,12 @@ app.add_middleware(
 
 @app.get("/health", response_model=HealthResponse, tags=["Observability"])
 async def health_check():
+    weaviate_ok = weaviate_service.is_healthy()
+    pipeline_ok = bool(getattr(rag_pipeline, "is_ready", False))
     return HealthResponse(
-        status="healthy",
-        weaviate="connected",
-        pipeline="ready",
+        status="healthy" if (weaviate_ok and pipeline_ok) else "degraded",
+        weaviate="connected" if weaviate_ok else "unreachable",
+        pipeline="ready" if pipeline_ok else "not_ready",
         version="1.0.0"
     )
 
@@ -49,24 +59,18 @@ async def index_documents(req: IngestRequest):
 
 @app.post("/api/v1/rag/query", response_model=QueryResponse, tags=["RAG"])
 async def query_pipeline(req: QueryRequest):
-    try:
-        result = rag_pipeline.run(
-            question=req.question,
-            tenant_id=req.tenant_id,
-            alpha=req.alpha
-        )
-        return QueryResponse(
-            question=req.question,
-            answer=result["answer"],
-            retrieved_chunks=result["documents"],
-            faithfulness_score=result["faithfulness"],
-            pipeline_latency_ms=result["latency_ms"]
-        )
-    except Exception as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Haystack pipeline error: {str(e)}"
-        )
+    result = rag_pipeline.run(
+        question=req.question,
+        tenant_id=req.tenant_id,
+        alpha=req.alpha
+    )
+    return QueryResponse(
+        question=req.question,
+        answer=result["answer"],
+        retrieved_chunks=result["documents"],
+        faithfulness_score=result["faithfulness"],
+        pipeline_latency_ms=result["latency_ms"]
+    )
 
 @app.post("/api/v1/rag/eval", response_model=EvalResponse, tags=["Evaluations"])
 async def evaluate_output(req: EvalRequest):
@@ -74,5 +78,5 @@ async def evaluate_output(req: EvalRequest):
     score = faithfulness_evaluator.evaluate(answer=req.answer, documents=docs)
     return EvalResponse(
         faithfulness=score,
-        is_grounded=(score >= 0.85)
+        is_grounded=(score >= FAITHFULNESS_THRESHOLD)
     )

@@ -1,11 +1,22 @@
 import os
 from typing import List, Dict, Any, Optional
 
+# Hybrid candidates whose fused score falls below this are rejected.
+MIN_FUSED_SCORE = 0.40
+
+
 class WeaviateVectorService:
     def __init__(self, url: Optional[str] = None):
         self.url = url or os.getenv("WEAVIATE_URL", "http://localhost:8085")
         # In-memory document storage for high-speed, zero-dependency testing
         self._memory_store: List[Dict[str, Any]] = []
+
+    @staticmethod
+    def _require_tenant(doc: Dict[str, Any]) -> str:
+        tenant = doc.get("tenant_id")
+        if not tenant or not str(tenant).strip():
+            raise ValueError("every indexed document needs a tenant_id")
+        return str(tenant)
 
     def index_documents(self, documents: List[Dict[str, Any]]) -> int:
         count = 0
@@ -13,7 +24,7 @@ class WeaviateVectorService:
             entry = {
                 "id": str(doc.get("id", count)),
                 "content": str(doc.get("content", "")),
-                "tenant_id": str(doc.get("tenant_id", "default-tenant")),
+                "tenant_id": self._require_tenant(doc),
                 "metadata": doc.get("metadata", {})
             }
             # Deduplicate by id and tenant_id
@@ -25,7 +36,9 @@ class WeaviateVectorService:
             count += 1
         return count
 
-    def hybrid_search(self, query: str, tenant_id: str, alpha: float = 0.65, limit: int = 5) -> List[Dict[str, Any]]:
+    def hybrid_search(self, query: str, tenant_id: str, alpha: float = 0.65, limit: int = 5, min_score: float = MIN_FUSED_SCORE) -> List[Dict[str, Any]]:
+        if not tenant_id:
+            raise ValueError("tenant_id is required for every search")
         query_words = set(query.lower().split())
         scored = []
         for doc in self._memory_store:
@@ -38,7 +51,7 @@ class WeaviateVectorService:
             
             # Hybrid fused score: (1 - alpha) * sparse + alpha * dense
             fused_score = ((1.0 - alpha) * bm25_sparse) + (alpha * dense_semantic)
-            if fused_score > 0.0 or not query_words:
+            if fused_score >= min_score:
                 scored.append((fused_score, doc))
 
         scored.sort(key=lambda x: x[0], reverse=True)

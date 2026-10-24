@@ -1,41 +1,73 @@
 {
   "kit_slug": "laravel-filament-postgresql",
-  "name": "Laravel 12/13 + Filament 4/3 + PostgreSQL",
+  "name": "Laravel 12 + Filament 3 + PostgreSQL",
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. No token figures are recorded here; evals/runner.py measures context cost directly from the kit files. The suite is Pest and runs against SQLite in-memory (DB_CONNECTION=sqlite, DB_DATABASE=:memory: in phpunit.xml) so no PostgreSQL service is required; the jsonb column maps to text on SQLite. AUTH-03, AUTH-04 and DATA-02 are asserted against Filament/Laravel behaviour and are not mutation-checkable from kit code. CI-01..03 (Gitleaks, Semgrep, composer audit) are pipeline gates not exercised by this suite.",
+  "setup": "cd starter && composer install",
   "eval_tasks": [
     {
-      "id": "kit1-task-01",
-      "title": "Filament Panel SPA Configuration",
-      "instruction": "Configure the admin panel provider with SPA mode and custom color palette tokens matching DESIGN.md.",
+      "id": "laravel-filament-postgresql-task-01",
+      "title": "Application installs and boots",
+      "instruction": "Composer dependencies must resolve and the Laravel application must bootstrap far enough to list its routes.",
       "assertions": [
-        "AdminPanelProvider.php contains ->spa()",
-        "Primary color mapped to #E85D26"
-      ]
+        "vendor/autoload.php exists",
+        "artisan route:list exits 0"
+      ],
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php artisan route:list"
     },
     {
-      "id": "kit1-task-02",
-      "title": "UUID Model & PostgreSQL Schema",
-      "instruction": "Ensure User model implements HasUuids trait and migration defines UUID primary key.",
+      "id": "laravel-filament-postgresql-task-02",
+      "title": "Feature behaviour",
+      "instruction": "The kit's feature tests must pass.",
       "assertions": [
-        "User model uses HasUuids",
-        "Migration defines $table->uuid('id')->primary()"
-      ]
+        "health endpoint responds",
+        "a user cannot view a customer owned by someone else",
+        "deleting a user cascades to their customers"
+      ],
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/pest --filter \"CustomerResourceTest\""
     },
     {
-      "id": "kit1-task-03",
-      "title": "BOLA Authorization Policy",
-      "instruction": "Every model mutation must verify user permissions via policy check.",
+      "id": "laravel-filament-postgresql-task-03",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite that exercises the controls named in security/checks.json. Each test is mutation-verified where the control lives in kit code: removing the control makes the test fail.",
       "assertions": [
-        "Policy denies unauthorized update/delete",
-        "Superadmin bypass configured in Gate::before"
-      ]
+        "AUTH-01 argon2id hashing",
+        "AUTH-02 session cookie flags hardened",
+        "AUTH-03 session id regenerates on login",
+        "AUTH-04 Filament login throttles after 5 attempts",
+        "AUTHZ-01 list and edit are scoped to the owner; created records are owned by the creator",
+        "AUTHZ-02 policy blocks other users for view, update and delete",
+        "DATA-01 table search treats injection as data",
+        "DATA-02 customer name is HTML-escaped in the table",
+        "DATA-03 panel keeps CSRF middleware",
+        "UUID primary keys, empty APP_KEY, non-root Dockerfile"
+      ],
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/pest --filter \"SecurityControlsTest\""
     },
     {
-      "id": "kit1-task-04",
-      "title": "Pest Architecture Test",
-      "instruction": "Enforce that controllers do not directly call DB facade.",
+      "id": "laravel-filament-postgresql-task-04",
+      "title": "Full suite green",
+      "instruction": "The complete suite must pass with no failures.",
       "assertions": [
-        "tests/ArchTest.php contains expect('App\\Http\\Controllers')->not->toUse('DB')"
-      ]
+        "test runner exits 0"
+      ],
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/pest"
     }
   ]
 }

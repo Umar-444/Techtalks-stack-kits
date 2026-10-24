@@ -38,7 +38,11 @@
       "description": "All /api/v1/ routes (except /auth/login) must require auth:sanctum middleware.",
       "cwe": [
         "CWE-287"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-02",
@@ -52,7 +56,11 @@
       "description": "Controller actions with route model binding must call $this->authorize('action', $model).",
       "cwe": [
         "CWE-639"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-03",
@@ -66,7 +74,11 @@
       "description": "Index queries must filter by auth()->id() or tenant relationship.",
       "cwe": [
         "CWE-639"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-04",
@@ -80,7 +92,11 @@
       "description": "Mutating endpoints must enforce token abilities via ability middleware.",
       "cwe": [
         "CWE-287"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-05",
@@ -94,7 +110,11 @@
       "description": "Sanctum personal access tokens must have explicit expiration configured.",
       "cwe": [
         "CWE-287"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-06",
@@ -108,7 +128,11 @@
       "description": "API endpoints must apply throttle:60,1 to prevent brute force and denial of service.",
       "cwe": [
         "CWE-307"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-07",
@@ -122,7 +146,11 @@
       "description": "Controllers must return API Resources rather than raw Eloquent models to prevent password/token leaks.",
       "cwe": [
         "CWE-502"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-08",
@@ -136,7 +164,11 @@
       "description": "Spatie QueryBuilder must explicitly whitelist allowedFilters and allowedSorts to prevent arbitrary column filtering.",
       "cwe": [
         "CWE-653"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-09",
@@ -150,7 +182,11 @@
       "description": "Container process must execute as unprivileged user 10001:10001.",
       "cwe": [
         "CWE-250"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-10",
@@ -164,7 +200,11 @@
       "description": "Source code and git history must not contain unencrypted API keys or token hashes.",
       "cwe": [
         "CWE-311"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-11",
@@ -178,7 +218,11 @@
       "description": "CORS must restrict allowed origins and not use wildcard '*' with credentials.",
       "cwe": [
         "CWE-942"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-12",
@@ -192,7 +236,11 @@
       "description": "All mutating requests must be validated through custom FormRequest classes.",
       "cwe": [
         "CWE-20"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-13",
@@ -206,7 +254,11 @@
       "description": "Stateless API routes must not use CSRF cookies; Bearer tokens provide intrinsic CSRF immunity.",
       "cwe": [
         "CWE-287"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-14",
@@ -220,7 +272,11 @@
       "description": "Operations updating multiple tables must execute inside DB::transaction().",
       "cwe": [
         "CWE-662"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     }
   ]
 }

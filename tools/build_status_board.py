@@ -302,6 +302,11 @@ def update_readme(data: dict) -> bool:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check", action="store_true", help="fail if outputs are stale")
+    parser.add_argument(
+        "--summary",
+        action="store_true",
+        help="print a GitHub Actions step summary to stdout and write nothing",
+    )
     args = parser.parse_args()
 
     if not RESULTS_DIR.exists() or not any(RESULTS_DIR.glob("*_metrics.json")):
@@ -309,6 +314,22 @@ def main() -> int:
         return 1
 
     data = collect()
+
+    if args.summary:
+        c, t = data["counts"], data["tasks"]
+        print("## Kit verification\n")
+        print(f"**{data['kit_count']} kits** — {c['verified']} verified, "
+              f"{c['partial']} partial, {c['pending']} pending toolchain, "
+              f"{c['scaffold']} scaffold, {c['failing']} failing\n")
+        print(f"**{t['passed']}/{t['total']}** eval tasks executed and passed"
+              f" · {t['skipped']} skipped · {t['undefined']} undefined\n")
+        print("| Kit | Maturity | Context | Tasks |")
+        print("|---|---|---:|---|")
+        for kit in data["kits"]:
+            print(f"| `{kit['slug']}` | {kit['maturity']} | {kit['context_tokens']:,} "
+                  f"| {kit['tasks_passed']}/{kit['tasks_total']} |")
+        return 0
+
     json_text = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
     html_text = render_html(data)
 

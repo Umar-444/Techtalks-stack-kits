@@ -59,7 +59,14 @@ class SecurityAstVisitor(ast.NodeVisitor):
 
         # 3. SQL string formatting inside execute()
         if func_name in ("execute", "raw", "raw_query"):
-            if node.args and isinstance(node.args[0], (ast.JoinedStr, ast.BinOp)):
+            first = node.args[0] if node.args else None
+            # f-string, "..." + x, "..." % x, or "...".format(x)
+            is_dynamic = isinstance(first, (ast.JoinedStr, ast.BinOp)) or (
+                isinstance(first, ast.Call)
+                and isinstance(first.func, ast.Attribute)
+                and first.func.attr == "format"
+            )
+            if is_dynamic:
                 self.findings.append(Finding(
                     rule_id="SEC-AST-003",
                     message="Database query formed via dynamic string interpolation/f-string. Always use parameterized queries ($1, ?).",

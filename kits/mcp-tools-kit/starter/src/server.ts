@@ -6,6 +6,7 @@ import {
   readSecureFileSchema,
   handleCalculator,
   calculatorSchema,
+  sanitizeError,
 } from './tools/index.js';
 
 export function createMcpServer() {
@@ -38,9 +39,9 @@ export function createMcpServer() {
         return {
           content: [{ type: 'text', text: JSON.stringify(data, null, 2) }],
         };
-      } catch (err: any) {
+      } catch (err) {
         return {
-          content: [{ type: 'text', text: `ERROR: ${err.message}` }],
+          content: [{ type: 'text', text: `ERROR: ${sanitizeError(err)}` }],
           isError: true,
         };
       }
@@ -58,9 +59,9 @@ export function createMcpServer() {
         return {
           content: [{ type: 'text', text: JSON.stringify({ a, b, operation, result }) }],
         };
-      } catch (err: any) {
+      } catch (err) {
         return {
-          content: [{ type: 'text', text: `ERROR: ${err.message}` }],
+          content: [{ type: 'text', text: `ERROR: ${sanitizeError(err)}` }],
           isError: true,
         };
       }

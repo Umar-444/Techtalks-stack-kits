@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
 
@@ -16,9 +18,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',
-        'team_id',
     ];
+
+    // role and team_id are deliberately NOT fillable: privilege and tenancy
+    // must never be set from request data (SEC-06).
 
     protected $hidden = [
         'password',
@@ -31,6 +34,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->team_id !== null;
     }
 
     public function isAdmin(): bool

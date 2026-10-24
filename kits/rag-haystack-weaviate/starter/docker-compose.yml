@@ -10,7 +10,7 @@ services:
       - APP_ENV=development
       - PORT=8080
       - ALLOWED_ORIGINS=http://localhost:3000,http://localhost:8080
-      - WEAVIATE_URL=http://weaviate:8085
+      - WEAVIATE_URL=http://weaviate:8080
       - WEAVIATE_GRPC_PORT=50051
       - HYBRID_SEARCH_ALPHA=0.65
     depends_on:
@@ -21,9 +21,10 @@ services:
   weaviate:
     image: semitechnologies/weaviate:1.27.0
     container_name: rag-haystack-weaviate-db
-    ports:
-      - "8085:8080"
-      - "50051:50051"
+    # No published ports: Weaviate is reachable only on the compose network.
+    expose:
+      - "8080"
+      - "50051"
     environment:
       - QUERY_DEFAULTS_LIMIT=20
       - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true

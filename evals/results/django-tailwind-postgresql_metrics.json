@@ -9,39 +9,39 @@
     "secret_hits": []
   },
   "context_cost": {
-    "measurement": "estimated:chars/4.4",
-    "exact": false,
-    "context_tokens": 1829,
-    "shared_context_tokens": 738,
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 1893,
+    "shared_context_tokens": 807,
     "shared_context": {
-      "DESIGN.md": 20,
-      "SECURITY.md": 26,
-      "agent-build-steps.md": 692
+      "DESIGN.md": 24,
+      "SECURITY.md": 24,
+      "agent-build-steps.md": 759
     },
     "per_dialect": {
       "claude": {
-        "rules_tokens": 1091,
-        "total_tokens": 1829
+        "rules_tokens": 1086,
+        "total_tokens": 1893
       },
       "codex": {
-        "rules_tokens": 1251,
-        "total_tokens": 1989
+        "rules_tokens": 1238,
+        "total_tokens": 2045
       },
       "standard": {
-        "rules_tokens": 1243,
-        "total_tokens": 1981
+        "rules_tokens": 1274,
+        "total_tokens": 2081
       },
       "cline": {
-        "rules_tokens": 939,
-        "total_tokens": 1677
+        "rules_tokens": 924,
+        "total_tokens": 1731
       },
       "windsurf": {
-        "rules_tokens": 1074,
-        "total_tokens": 1812
+        "rules_tokens": 1071,
+        "total_tokens": 1878
       },
       "copilot": {
-        "rules_tokens": 1078,
-        "total_tokens": 1816
+        "rules_tokens": 1072,
+        "total_tokens": 1879
       }
     },
     "leanest_dialect": "cline",

@@ -38,6 +38,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   evidence pointer. `tools/validate_checks.py` validates, migrates (`--fix`)
   and re-derives classifications (`--reclassify`).
 - **`tools/check_encoding.py`** — rejects UTF-8 BOMs in parsed files, now a CI gate.
+- **Per-toolchain verification CI** (`.github/workflows/verify-kits.yml`,
+  `tools/ci_matrix.py`). The catalogue spans eight toolchains, so no single
+  machine can verify it; one job per toolchain now runs the kits that need it.
+  Jobs carry no hardcoded kit lists — `ci_matrix.py` derives them from the same
+  `requires` / `requires_python` fields the runner uses, so a job can never be
+  handed a kit whose toolchain it did not install. Each job uploads its
+  metrics and a final job merges them, so the published board reflects every
+  toolchain instead of whichever one ran last.
 - **`tools/build_chrome.py`** — single source for the site header and footer.
   Both were duplicated across 78 hand-maintained HTML files, so a link added in
   one place silently went missing from the rest. The page generators now import

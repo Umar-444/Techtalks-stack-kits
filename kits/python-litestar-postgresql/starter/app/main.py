@@ -13,7 +13,7 @@ async def health_check() -> HealthResponse:
     return HealthResponse(status="ok", framework="litestar", typing="strict")
 
 @get("/api/v1/items", status_code=HTTP_200_OK)
-async def list_items(tenant_id: Optional[str] = None) -> List[ItemResponse]:
+async def list_items(tenant_id: str) -> List[ItemResponse]:
     return await item_service.list(tenant_id=tenant_id)
 
 @post("/api/v1/items", status_code=HTTP_201_CREATED)

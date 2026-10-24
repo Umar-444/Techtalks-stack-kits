@@ -1,55 +1,72 @@
 {
   "kit_slug": "security-passkeys-auth",
   "name": "Passkeys WebAuthn + Hardened Auth Reference (TypeScript)",
-  "token_metrics": {
-    "median_tokens": 16900,
-    "tier": "A+",
-    "token_light": true
-  },
+  "schema_version": "2.0.0",
+  "note": "Each task runs the real vitest suite against the real Hono app via app.request(). A software authenticator in tests/authenticator.ts signs genuine ES256 assertions and builds none-attestation registrations with node:crypto, so the real @simplewebauthn/server verifier runs unmocked. The store is the in-memory MemoryAuthStore; Redis is not used and no database is involved. Not covered: attestation formats other than none, a real browser or hardware authenticator, and starting the server under bun or in the Docker image. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
+  "setup": "cd starter && npm install",
   "eval_tasks": [
     {
       "id": "security-passkeys-auth-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the Passkeys WebAuthn + Hardened Auth Reference (TypeScript) core runtime with zero-warning configuration.",
+      "title": "Health endpoint and full ceremony round trip",
+      "instruction": "The service must report health and a registered software authenticator must be able to authenticate.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "/health reports ok and the relying party id",
+        "registration then authentication succeeds with real signatures"
       ],
-      "prompt_tokens": 1673,
-      "completion_tokens": 2044
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run tests/security.test.ts -t \"SEC-07|registration ceremony\""
     },
     {
       "id": "security-passkeys-auth-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Origin, RP ID and challenge binding",
+      "instruction": "Registration and assertion verification must reject the wrong origin, RP ID, challenge, signature or missing user verification, and replayed or expired challenges.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "SEC-11: wrong origin and wrong RP ID rejected for registration and assertion",
+        "wrong challenge and forged signature rejected",
+        "SEC-05: assertion and registration replay rejected; a failed attempt burns the challenge",
+        "SEC-04: challenge expires after 120 seconds and is consumed once",
+        "SEC-08: non-increasing counter rejected and not persisted"
       ],
-      "prompt_tokens": 1845,
-      "completion_tokens": 2548
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run tests/security.test.ts -t \"SEC-11|SEC-05|SEC-04|SEC-08\""
     },
     {
       "id": "security-passkeys-auth-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Sessions, cookies, registration takeover and error hygiene",
+      "instruction": "Login must rotate the session id, cookies must be HttpOnly and SameSite=Lax, existing accounts must not be claimable, and errors and bodies must be bounded.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "SEC-09: pre-login sid is destroyed and replaced",
+        "SEC-10: HttpOnly, SameSite=Lax and Max-Age on challenge and session cookies",
+        "adding a passkey to an existing user requires that user's session",
+        "no shared default user; identity bound to the issued challenge",
+        "verifier errors are generic; malformed JSON is a generic 400; oversize body is 413",
+        "SEC-03: CORS allowlist without wildcard",
+        "SEC-06: Dockerfile runs as UID 10001"
       ],
-      "prompt_tokens": 1784,
-      "completion_tokens": 2271
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run tests/security.test.ts -t \"SEC-09|account takeover|error sanitization|SEC-03|SEC-06\""
     },
     {
       "id": "security-passkeys-auth-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "Full suite green",
+      "instruction": "The complete passkey suite must pass with no failures.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "vitest exits 0 across tests/"
       ],
-      "prompt_tokens": 1892,
-      "completion_tokens": 2839
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run"
     }
   ]
 }

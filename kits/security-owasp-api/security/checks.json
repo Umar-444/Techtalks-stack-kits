@@ -190,7 +190,11 @@
       ],
       "cwe": [
         "CWE-20"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/test_security.py"
+      }
     },
     {
       "id": "OPS-01",

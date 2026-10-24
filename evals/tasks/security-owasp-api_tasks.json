@@ -1,55 +1,92 @@
 {
   "kit_slug": "security-owasp-api",
   "name": "OWASP API Security Top 10 Reference + Pytest Attack Suite",
-  "token_metrics": {
-    "median_tokens": 15200,
-    "tier": "A+",
-    "token_light": true
-  },
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. Token figures are not recorded here; evals/runner.py measures context cost directly. The reference API keeps documents and users in in-memory dicts and the rate limiter in a process-local store, so no database or Redis is needed. SSRF tests use IP literals, so no DNS or network access happens.",
+  "setup": "cd starter && pip install -r requirements.txt",
   "eval_tasks": [
     {
       "id": "security-owasp-api-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the OWASP API Security Top 10 Reference + Pytest Attack Suite core runtime with zero-warning configuration.",
+      "title": "API boots and serves the liveness probe",
+      "instruction": "The FastAPI app imports and answers GET /healthz without credentials.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "GET /healthz responds 200",
+        "no Authorization header is required"
       ],
-      "prompt_tokens": 1504,
-      "completion_tokens": 1839
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "fastapi",
+        "jwt",
+        "pytest",
+        "httpx"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_owasp_top10.py -k healthz -q -p no:warnings"
     },
     {
       "id": "security-owasp-api-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Happy-path OWASP controls hold",
+      "instruction": "BOLA, auth, property filtering, rate limit, BFLA and SSRF behave correctly for the reference scenarios.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "a stranger gets 403 on another owner's document",
+        "internal_secret is absent from user profiles",
+        "the 6th request in a window returns 429",
+        "a non-admin gets 403 on the admin route",
+        "metadata and loopback webhook targets return 403"
       ],
-      "prompt_tokens": 1659,
-      "completion_tokens": 2292
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "fastapi",
+        "jwt",
+        "pytest",
+        "httpx"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_owasp_top10.py -q -p no:warnings"
     },
     {
       "id": "security-owasp-api-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Controls resist attack",
+      "instruction": "Run the adversarial suite: forged, none-alg, wrong-alg and expired JWTs; every private address form; over-limit pagination and payloads (declared and chunked); strict request schemas; rootless container.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "alg=none, HS512, wrong-key, expired and sub-less tokens return 401",
+        "10/8, 172.16/12, 192.168/16, 127/8, 0.0.0.0, localhost and 169.254.169.254 are blocked",
+        "limit above 50 is rejected with 422",
+        "bodies over the cap return 413 with and without Content-Length",
+        "unknown request fields are rejected",
+        "Dockerfile final USER is 10001"
       ],
-      "prompt_tokens": 1605,
-      "completion_tokens": 2042
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "fastapi",
+        "jwt",
+        "pytest",
+        "httpx"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_security.py -q -p no:warnings"
     },
     {
       "id": "security-owasp-api-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "Full suite and CLI runner green",
+      "instruction": "The complete suite passes, including through the kit's own run_security_tests.py wrapper.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "pytest exits 0 across tests/",
+        "run_security_tests.py exits 0"
       ],
-      "prompt_tokens": 1702,
-      "completion_tokens": 2553
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "fastapi",
+        "jwt",
+        "pytest",
+        "httpx"
+      ],
+      "verify": "cd starter && python -m pytest tests/ -q -p no:warnings && python run_security_tests.py"
     }
   ]
 }

@@ -39,7 +39,11 @@
       "description": "All API tokens and secrets loaded via environment variables.",
       "cwe": [
         "CWE-798"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-02",
@@ -53,7 +57,11 @@
       "description": "Dockerfile specifies non-root USER 10001:10001.",
       "cwe": [
         "CWE-250"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-03",
@@ -67,7 +75,11 @@
       "description": "path.resolve() sandbox boundary validation prevents directory escapes.",
       "cwe": [
         "CWE-22"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-04",
@@ -81,7 +93,11 @@
       "description": "Every tool call argument validated against strict Zod schema.",
       "cwe": [
         "CWE-20"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-05",
@@ -95,7 +111,11 @@
       "description": "Child process exec() prohibited; only deterministic utilities permitted.",
       "cwe": [
         "CWE-78"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-06",
@@ -109,7 +129,11 @@
       "description": "All responses comply with JSON-RPC 2.0 specifications.",
       "cwe": [
         "CWE-1287"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-07",
@@ -123,7 +147,11 @@
       "description": "HTTP SSE endpoints protected by Bearer token authorization.",
       "cwe": [
         "CWE-287"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-08",
@@ -137,7 +165,11 @@
       "description": "Maximum JSON-RPC payload size capped at 4MB to prevent memory exhaustion.",
       "cwe": [
         "CWE-770"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-09",
@@ -151,7 +183,11 @@
       "description": "SSE endpoints restrict cross-origin access to allowlisted origins.",
       "cwe": [
         "CWE-942"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-10",
@@ -165,7 +201,11 @@
       "description": "Per-client rate limiting prevents tool abuse and denial-of-service.",
       "cwe": [
         "CWE-770"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-11",
@@ -179,7 +219,11 @@
       "description": "No eval() or new Function() used in calculation or query tools.",
       "cwe": [
         "CWE-95"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-12",
@@ -193,7 +237,11 @@
       "description": "Internal stack traces masked in client error responses.",
       "cwe": [
         "CWE-362"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-13",
@@ -207,7 +255,11 @@
       "description": "0 blocking findings on OWASP Top 10 ruleset.",
       "cwe": [
         "CWE-1357"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     },
     {
       "id": "SEC-14",
@@ -221,7 +273,11 @@
       "description": "0 leaked tokens or credentials detected.",
       "cwe": [
         "CWE-798"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security-sandbox.test.ts"
+      }
     }
   ]
 }

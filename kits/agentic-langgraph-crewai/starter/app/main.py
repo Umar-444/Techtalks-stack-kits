@@ -1,5 +1,7 @@
+import logging
+
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from app.graph import create_agent_graph
 
 app = FastAPI(
@@ -8,7 +10,15 @@ app = FastAPI(
     description="Production multi-agent execution pipeline with cyclic state verification."
 )
 
+logger = logging.getLogger(__name__)
+
+# Hard ceiling on graph supersteps; a runaway cycle raises instead of looping forever.
+RECURSION_LIMIT = 25
+
+
 class AgentQueryRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     query: str = Field(min_length=3, max_length=500, description="Goal prompt for the agent squad")
 
 class AgentExecutionResponse(BaseModel):
@@ -33,12 +43,14 @@ async def run_agent_workflow(payload: AgentQueryRequest):
             "iteration_count": 0,
             "is_satisfactory": False
         }
-        result = graph_app.invoke(initial_state, {"recursion_limit": 25})
+        result = graph_app.invoke(initial_state, {"recursion_limit": RECURSION_LIMIT})
         return AgentExecutionResponse(
             query=payload.query,
             report=result.get("synthesized_report", "Execution finished without report"),
             iterations=result.get("iteration_count", 1),
             status="success"
         )
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+    except Exception:
+        # Never echo exception text to the caller: it can carry prompts, paths or keys.
+        logger.exception("agent workflow failed")
+        raise HTTPException(status_code=500, detail="Agent execution failed")

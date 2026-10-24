@@ -160,6 +160,17 @@ class SecurityControlsTest extends TestCase
         $this->assertDatabaseMissing('articles', ['id' => $article->id]);
     }
 
+    public function test_unauthenticated_writes_are_refused(): void
+    {
+        $this->postJson('/api/articles', ['title' => 'Anonymous post', 'content' => 'x'])
+            ->assertStatus(401);
+        $this->assertSame(0, Article::count());
+
+        $article = Article::factory()->create(['user_id' => User::factory()->create()->id]);
+        $this->deleteJson("/api/articles/{$article->id}")->assertStatus(401);
+        $this->assertDatabaseHas('articles', ['id' => $article->id]);
+    }
+
     // --- AUTH-03: input validation (A05:2025, CWE-20) ---------------------
 
     #[DataProvider('invalidPayloads')]

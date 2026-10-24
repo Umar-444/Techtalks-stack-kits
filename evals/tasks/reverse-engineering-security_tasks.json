@@ -1,51 +1,80 @@
 {
   "kit_slug": "reverse-engineering-security",
   "name": "Reverse Engineering & Security Audit Pack",
-  "token_metrics": {
-    "median_tokens": 21000,
-    "tier": "A",
-    "token_light": false
-  },
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. Token figures are not recorded here; evals/runner.py measures context cost directly. No services are involved: ELF and PE test images are assembled byte by byte in the tests, so no compiler or sample binary is needed. SCA-01..03 (SBOM, hash pinning, CVE correlation) are rule-only and have no starter code, so no task verifies them.",
+  "setup": "cd starter && pip install -r requirements.txt",
   "eval_tasks": [
     {
       "id": "reverse-engineering-security-task-01",
-      "title": "Initialization & Environment Config",
-      "instruction": "Verify Reverse Engineering & Security Audit Pack boots cleanly.",
+      "title": "AST analyzer flags dangerous sinks",
+      "instruction": "eval/exec, subprocess shell=True and dynamically built SQL must each be reported as HIGH, and safe equivalents must stay clean.",
       "assertions": [
-        "Runtime boots with exit code 0"
+        "eval and exec produce SEC-AST-001",
+        "subprocess shell=True produces SEC-AST-002 for every entry point",
+        "f-string, concatenated, %-formatted and .format SQL produce SEC-AST-003",
+        "parameterized SQL and argument lists produce no findings"
       ],
-      "prompt_tokens": 2079,
-      "completion_tokens": 2541
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "pytest"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_audit.py tests/test_security.py -k \"ast or eval or shell or sql or Sink or dynamic\" -q -p no:warnings"
     },
     {
       "id": "reverse-engineering-security-task-02",
-      "title": "Data Model & Schema",
-      "instruction": "Define models and persistence layers.",
+      "title": "Binary mitigation checker parses real headers",
+      "instruction": "ELF program headers and PE DllCharacteristics must decide NX, PIE/ASLR, canary and RELRO, and marker text in data must not fake a pass.",
       "assertions": [
-        "Schema validates"
+        "ELF32/64 in both byte orders pass when hardened",
+        "an RWX PT_GNU_STACK fails NX",
+        "ET_EXEC fails PIE",
+        "RELRO without BIND_NOW is not Full RELRO",
+        "each PE characteristic flag controls only its own check"
       ],
-      "prompt_tokens": 2293,
-      "completion_tokens": 3166
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "pytest"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_security.py -k \"elf or pe or relro or canary or nx or pie or binary or checksec or marker or truncated\" -q -p no:warnings"
     },
     {
       "id": "reverse-engineering-security-task-03",
-      "title": "API Handlers & Security",
-      "instruction": "Expose endpoints with authorization.",
+      "title": "SARIF output and CI gating",
+      "instruction": "Reports must be valid SARIF 2.1.0 and the CLI must exit non-zero on HIGH findings.",
       "assertions": [
-        "Auth enforced"
+        "SARIF has version, schema, tool driver and 1-based regions",
+        "clean code yields empty results",
+        "scan exits 1 on a HIGH finding and 0 on clean code",
+        "directories are scanned recursively",
+        "the Dockerfile runs as UID 10001"
       ],
-      "prompt_tokens": 2217,
-      "completion_tokens": 2822
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "pytest"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_security.py -k \"sarif or cli or audit_entry or health or dockerfile\" -q -p no:warnings"
     },
     {
       "id": "reverse-engineering-security-task-04",
-      "title": "Automated Security Tests",
-      "instruction": "Run security audits and test suites.",
+      "title": "Full suite green",
+      "instruction": "The complete AST, binary, reporting and CLI suite passes.",
       "assertions": [
-        "Zero leaks"
+        "pytest exits 0 across tests/"
       ],
-      "prompt_tokens": 2352,
-      "completion_tokens": 3528
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "pytest"
+      ],
+      "verify": "cd starter && python -m pytest tests/ -q -p no:warnings"
     }
   ]
 }

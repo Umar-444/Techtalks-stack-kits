@@ -57,7 +57,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/ObjectIdValidationTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -74,7 +74,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/TlsEnforcementTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -91,7 +91,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/SchemaValidationTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -108,7 +108,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/IndexScanTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -125,7 +125,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/PasswordSecurityTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -142,7 +142,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/DocumentPolicyTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -159,7 +159,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/SessionFixationTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -176,7 +176,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/PayloadSanitizationTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -193,7 +193,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/ConnectionPoolTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -210,7 +210,7 @@
       ],
       "evidence": {
         "kind": "workflow",
-        "path": ".github/workflows/security.yml"
+        "path": ".github/workflows/validate-kits.yml"
       }
     },
     {
@@ -227,7 +227,7 @@
       ],
       "evidence": {
         "kind": "workflow",
-        "path": ".github/workflows/security.yml"
+        "path": ".github/workflows/validate-kits.yml"
       }
     }
   ]

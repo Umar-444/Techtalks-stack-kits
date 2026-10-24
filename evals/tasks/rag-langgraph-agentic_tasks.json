@@ -1,55 +1,82 @@
 {
   "kit_slug": "rag-langgraph-agentic",
-  "name": "LangGraph + LangChain + Qdrant + Ragas Evals",
-  "token_metrics": {
-    "median_tokens": 27800,
-    "tier": "B",
-    "token_light": false
-  },
+  "name": "LangGraph Agentic RAG + Qdrant + Ragas",
+  "schema_version": "2.0.0",
+  "note": "Every task runs a real command. The starter's Qdrant layer is its own in-memory store and no LLM is wired in, so no Qdrant server or model is needed. Tenant isolation is therefore verified against that in-memory store, not against a live Qdrant payload filter. The LangGraph graph is real (langgraph). The groundedness scorer is a lexical-overlap heuristic, not Ragas. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
+  "setup": "cd starter && pip install -r requirements.txt",
   "eval_tasks": [
     {
       "id": "rag-langgraph-agentic-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the LangGraph + LangChain + Qdrant + Ragas Evals core runtime with zero-warning configuration.",
+      "title": "Tenant isolation across the agentic cycle",
+      "instruction": "Retrieval must be partitioned per tenant on every pass of the rewrite loop, tenant must be mandatory with a restricted format, and Qdrant must not be published to the host.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "tenant A never retrieves tenant B documents through the HTTP query path",
+        "rewrite cycles stay inside the tenant and find nothing across it",
+        "the same document id in two tenants does not collide",
+        "search, index, run and the HTTP schemas all reject a missing tenant",
+        "tenant ids with spaces, quotes, traversal or newlines are rejected",
+        "the qdrant compose service publishes no ports"
       ],
-      "prompt_tokens": 2752,
-      "completion_tokens": 3363
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "langgraph", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"tenant or cross or published or collide\" -q -p no:warnings"
     },
     {
       "id": "rag-langgraph-agentic-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Cycle and recursion limits",
+      "instruction": "The rewrite loop must be bounded by a hard ceiling that no caller can lift, LangGraph must receive an explicit recursion limit, and a recursion error must stop the run.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "max_iterations is clamped to a ceiling of 5, including hostile values",
+        "the HTTP schema rejects iteration counts outside 1..5",
+        "a query that matches nothing still terminates at the ceiling",
+        "routers stop rewriting once the budget is spent",
+        "LangGraph is invoked with an explicit recursion_limit",
+        "GraphRecursionError ends the run instead of falling back to a re-run"
       ],
-      "prompt_tokens": 3035,
-      "completion_tokens": 4192
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "langgraph", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"iteration or recursion or rewrite_loop or routers or compiled_graph\" -q -p no:warnings"
     },
     {
       "id": "rag-langgraph-agentic-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Groundedness gate and prompt-injection boundary",
+      "instruction": "An answer still below the groundedness threshold after the rewrite budget must be withheld, the threshold must be configurable and clamped, and retrieved chunks must be delimited untrusted data.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "the threshold defaults to 0.85, ignores garbage and clamps to [0, 1]",
+        "an ungrounded answer is replaced by a refusal and a grounded one is returned",
+        "the eval endpoint flags a hallucination and honours the configured threshold",
+        "each chunk sits in its own delimited block and cannot close it",
+        "document ids cannot inject markup into the block header",
+        "the graph state carries the delimited prompt"
       ],
-      "prompt_tokens": 2935,
-      "completion_tokens": 3736
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "langgraph", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"groundedness or ungrounded or grounded or eval_endpoint or prompt or block or markup\" -q -p no:warnings"
     },
     {
       "id": "rag-langgraph-agentic-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "CORS, input limits, error hygiene, health and container hardening",
+      "instruction": "A wildcard CORS origin must never be honoured, bodies must be size-bounded, errors must not leak internals, health must reflect real state, and the image must run non-root.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "a wildcard origin is dropped and unlisted origins get no allow header",
+        "oversized or malformed bodies are rejected with 422",
+        "graph failures return a generic 500",
+        "health is degraded when the vector store or the compiled graph is unavailable",
+        "the final Dockerfile stage drops to a numeric UID >= 10000",
+        "credential-named keys in .env.example are empty"
       ],
-      "prompt_tokens": 3113,
-      "completion_tokens": 4670
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "langgraph", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"cors or oversized or generic_500 or health or non_root or env_example\" -q -p no:warnings"
+    },
+    {
+      "id": "rag-langgraph-agentic-task-05",
+      "title": "Full suite green",
+      "instruction": "The complete functional and security suite must pass with no failures.",
+      "assertions": ["pytest exits 0 across tests/"],
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "langgraph", "yaml"],
+      "verify": "cd starter && python -m pytest tests/ -q -p no:warnings"
     }
   ]
 }

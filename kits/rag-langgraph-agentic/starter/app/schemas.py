@@ -1,14 +1,16 @@
 from typing import Optional, List, Dict, Any
 from pydantic import BaseModel, Field
 
+TENANT_PATTERN = r"^[A-Za-z0-9_.-]{1,64}$"
+
 class DocumentPayload(BaseModel):
-    id: str = Field(..., description="Unique document ID")
-    content: str = Field(..., min_length=1, description="Text chunk payload")
-    tenant_id: str = Field(default="default-tenant", description="Multi-tenant namespace")
+    id: str = Field(..., min_length=1, max_length=128, description="Unique document ID")
+    content: str = Field(..., min_length=1, max_length=20000, description="Text chunk payload")
+    tenant_id: str = Field(..., pattern=TENANT_PATTERN, description="Multi-tenant namespace (required)")
     metadata: Dict[str, Any] = Field(default_factory=dict, description="Arbitrary JSON metadata")
 
 class IngestRequest(BaseModel):
-    documents: List[DocumentPayload] = Field(..., min_length=1)
+    documents: List[DocumentPayload] = Field(..., min_length=1, max_length=100)
 
 class IngestResponse(BaseModel):
     status: str
@@ -16,7 +18,7 @@ class IngestResponse(BaseModel):
 
 class QueryRequest(BaseModel):
     question: str = Field(..., min_length=3, max_length=1000, description="User search query")
-    tenant_id: str = Field(default="default-tenant", description="Target tenant isolation ID")
+    tenant_id: str = Field(..., pattern=TENANT_PATTERN, description="Target tenant isolation ID (required)")
     max_iterations: int = Field(default=3, ge=1, le=5, description="Cyclic recursion limit")
 
 class QueryResponse(BaseModel):
@@ -28,9 +30,9 @@ class QueryResponse(BaseModel):
     status: str
 
 class EvalScoreRequest(BaseModel):
-    question: str
-    context: List[str]
-    answer: str
+    question: str = Field(..., max_length=1000)
+    context: List[str] = Field(..., max_length=50)
+    answer: str = Field(..., max_length=20000)
 
 class EvalScoreResponse(BaseModel):
     groundedness: float

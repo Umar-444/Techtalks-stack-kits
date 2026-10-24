@@ -1,55 +1,70 @@
 {
   "kit_slug": "laravel-ai-features",
-  "name": "Laravel 12/13 + AI Features",
-  "token_metrics": {
-    "median_tokens": 16400,
-    "tier": "A",
-    "token_light": true
-  },
+  "name": "Laravel 12 + AI Features (pgvector)",
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. No token figures are recorded here; evals/runner.py measures context cost directly from the kit files. The suite is Pest and runs against SQLite in-memory (DB_CONNECTION=sqlite, DB_DATABASE=:memory: in phpunit.xml) so no PostgreSQL service is required. pgvector's <=> operator cannot execute on SQLite, so the vector query is asserted on its generated SQL and bindings, and the migration stores embedding as text on non-pgsql drivers. The AI provider is the kit's deterministic mock; no network call is made. NOT covered because the kit ships no implementation: SEC-06 rate and token budgets, SEC-07 DTO output validation, SEC-08 egress allowlist, SEC-09 canary tokens, SEC-10 streaming auth, SEC-12 queue poison handling. SEC-13 and SEC-14 are pipeline gates.",
+  "setup": "cd starter && composer install",
   "eval_tasks": [
     {
       "id": "laravel-ai-features-task-01",
-      "title": "Initialization & Environment Config",
-      "instruction": "Verify Laravel 12/13 + AI Features boots cleanly.",
+      "title": "Application installs and boots",
+      "instruction": "Composer dependencies must resolve and the Laravel application must bootstrap far enough to list its routes.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health check responds 200 OK"
+        "vendor/autoload.php exists",
+        "artisan route:list exits 0"
       ],
-      "prompt_tokens": 2900,
-      "completion_tokens": 2100
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php artisan route:list"
     },
     {
       "id": "laravel-ai-features-task-02",
-      "title": "Data Model & Schema",
-      "instruction": "Define pgvector embeddings schema and models.",
+      "title": "Feature behaviour",
+      "instruction": "The kit's feature tests must pass.",
       "assertions": [
-        "Schema validates",
-        "Vector column declared"
+        "health endpoint responds",
+        "structured completion returns summary and confidence",
+        "embeddings are 1536-dimensional and deterministic"
       ],
-      "prompt_tokens": 3100,
-      "completion_tokens": 2300
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/pest --filter \"AiServiceTest|VectorSearchTest\""
     },
     {
       "id": "laravel-ai-features-task-03",
-      "title": "API Handlers & Security",
-      "instruction": "Expose endpoints with prompt injection guardrails.",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite that exercises the controls named in security/checks.json. Each test is mutation-verified where the control lives in kit code: removing the control makes the test fail.",
       "assertions": [
-        "Auth enforced",
-        "Prompt injection blocked"
+        "SEC-01 .env.example ships empty APP_KEY and OPENAI_API_KEY",
+        "SEC-02 non-root Dockerfile",
+        "SEC-03 injection phrases (incl. extra whitespace) are blocked and user input cannot close the <user_query> delimiter",
+        "SEC-04 the pgvector query binds the vector and coerces values to floats",
+        "SEC-05 cosineSearch requires a tenant and always filters tenant_id",
+        "result limit is capped at 50",
+        "role and team_id are not mass-assignable"
       ],
-      "prompt_tokens": 3000,
-      "completion_tokens": 2200
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/pest --filter \"SecurityControlsTest\""
     },
     {
       "id": "laravel-ai-features-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Execute Pest architecture assertions and security scans.",
+      "title": "Full suite green",
+      "instruction": "The complete suite must pass with no failures.",
       "assertions": [
-        "Arch test passes with 0 violations",
-        "Zero secrets detected"
+        "test runner exits 0"
       ],
-      "prompt_tokens": 3100,
-      "completion_tokens": 2400
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/pest"
     }
   ]
 }

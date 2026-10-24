@@ -7,8 +7,10 @@ Route::get('/', function () {
     return redirect('/events');
 });
 
-Route::get('/events', [EventLogController::class, 'index']);
-Route::post('/events', [EventLogController::class, 'store']);
+Route::middleware('auth')->group(function () {
+    Route::get('/events', [EventLogController::class, 'index']);
+    Route::post('/events', [EventLogController::class, 'store']);
+});
 
 Route::get('/healthz', function () {
     return response()->json([

@@ -39,7 +39,11 @@
       "description": "Database connection URL and secrets managed via .env.",
       "cwe": [
         "CWE-798"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-02",
@@ -53,7 +57,11 @@
       "description": "Dockerfile specifies non-root USER 10001:10001.",
       "cwe": [
         "CWE-250"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-03",
@@ -67,7 +75,11 @@
       "description": "All database operations use typed Prisma client or parameterized raw queries.",
       "cwe": [
         "CWE-89"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-04",
@@ -81,7 +93,11 @@
       "description": "Server Actions validate all input parameters against strict Zod schemas.",
       "cwe": [
         "CWE-20"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-05",
@@ -95,7 +111,11 @@
       "description": "All data queries scope records by authenticated tenantId.",
       "cwe": [
         "CWE-287"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-06",
@@ -109,7 +129,11 @@
       "description": "PrismaClient singleton prevents connection leaks across hot reloads.",
       "cwe": [
         "CWE-400"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-07",
@@ -123,7 +147,11 @@
       "description": "Next.js 15 Server Action built-in host/origin verification active.",
       "cwe": [
         "CWE-294"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-08",
@@ -137,7 +165,11 @@
       "description": "SameSite=Lax, HttpOnly, and Secure cookie flags enforced.",
       "cwe": [
         "CWE-1004"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-09",
@@ -151,7 +183,11 @@
       "description": "React JSX auto-escaping prevents cross-site scripting vulnerabilities.",
       "cwe": [
         "CWE-79"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-10",
@@ -165,7 +201,11 @@
       "description": "Sliding-window IP and user rate limiting on creation actions.",
       "cwe": [
         "CWE-770"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-11",
@@ -179,7 +219,11 @@
       "description": "Multi-entity mutations wrapped in prisma.$transaction blocks.",
       "cwe": [
         "CWE-662"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-12",
@@ -193,7 +237,11 @@
       "description": "Explicit DTO fields selected in Prisma create/update payloads.",
       "cwe": [
         "CWE-915"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-13",
@@ -207,7 +255,11 @@
       "description": "0 blocking findings on OWASP Top 10 ruleset.",
       "cwe": [
         "CWE-1357"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     },
     {
       "id": "SEC-14",
@@ -221,7 +273,11 @@
       "description": "0 leaked tokens or credentials detected.",
       "cwe": [
         "CWE-798"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/security.test.ts"
+      }
     }
   ]
 }

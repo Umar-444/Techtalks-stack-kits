@@ -38,6 +38,9 @@ def test_document_ingest():
     assert data["chunks_created"] >= 1
 
 def test_semantic_search():
+    # Real semantic ranking needs the fastembed model. Without it the service
+    # falls back to a hash embedder where only identical text matches.
+    pytest.importorskip("fastembed")
     # First ingest document
     client.post("/api/v1/documents/ingest", json={
         "document_id": "test-doc-search",
@@ -60,6 +63,21 @@ def test_semantic_search():
     assert len(data["sources"]) >= 1
     assert data["sources"][0]["document_id"] == "test-doc-search"
     assert "assembled_context" in data
+
+def test_search_plumbing_with_offline_embedder():
+    text = "Employees receive up to $1,000 annually for remote work hardware purchases."
+    client.post("/api/v1/documents/ingest", json={
+        "document_id": "test-doc-plumbing", "text": text,
+        "metadata": {"tenant_id": "tenant-test-a"},
+    })
+    data = client.post("/api/v1/query", json={
+        "query": text, "top_k": 3, "score_threshold": 0.9,
+        "filter": {"tenant_id": "tenant-test-a"},
+    }).json()
+    assert data["results_count"] == 1
+    assert data["sources"][0]["document_id"] == "test-doc-plumbing"
+    assert "assembled_context" in data
+
 
 def test_tenant_filtered_search():
     # Ingest for tenant-a

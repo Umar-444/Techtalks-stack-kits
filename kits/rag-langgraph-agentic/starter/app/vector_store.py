@@ -7,13 +7,19 @@ class QdrantVectorService:
         # In-memory document store as deterministic high-speed fallback
         self._memory_store: List[Dict[str, Any]] = []
 
+    @staticmethod
+    def _require_tenant(tenant: Any) -> str:
+        if not tenant or not str(tenant).strip():
+            raise ValueError("tenant_id is required")
+        return str(tenant)
+
     def index_documents(self, documents: List[Dict[str, Any]]) -> int:
         count = 0
         for doc in documents:
             doc_entry = {
                 "id": str(doc.get("id", count)),
                 "content": str(doc.get("content", "")),
-                "tenant_id": str(doc.get("tenant_id", "default-tenant")),
+                "tenant_id": self._require_tenant(doc.get("tenant_id")),
                 "metadata": doc.get("metadata", {})
             }
             # Deduplicate by id and tenant_id
@@ -26,6 +32,7 @@ class QdrantVectorService:
         return count
 
     def search(self, query: str, tenant_id: str, limit: int = 5) -> List[Dict[str, Any]]:
+        self._require_tenant(tenant_id)
         query_words = set(query.lower().split())
         scored = []
         for doc in self._memory_store:

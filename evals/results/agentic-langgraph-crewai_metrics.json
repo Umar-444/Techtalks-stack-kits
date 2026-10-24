@@ -48,45 +48,45 @@
     "efficiency_tier": "A+"
   },
   "starter": {
-    "files": 12,
-    "source_loc": 122
+    "files": 15,
+    "source_loc": 303
   },
   "task_verification": {
     "tasks": [
       {
         "id": "agentic-langgraph-crewai-task-01",
-        "title": "Initialization & Environment Config",
-        "assertions": 1,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Service boots and reports health",
+        "assertions": 2,
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "agentic-langgraph-crewai-task-02",
-        "title": "Data Model & Schema",
-        "assertions": 1,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Agent graph runs to a report",
+        "assertions": 3,
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "agentic-langgraph-crewai-task-03",
-        "title": "API Handlers & Security",
-        "assertions": 1,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Declared security controls hold under test",
+        "assertions": 7,
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "agentic-langgraph-crewai-task-04",
-        "title": "Automated Security Tests",
+        "title": "Full suite green",
         "assertions": 1,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "status": "pass",
+        "exit_code": 0
       }
     ],
     "total": 4,
-    "passed": 0,
+    "passed": 4,
     "failed": 0,
     "skipped": 0,
-    "not_executed": 4
+    "not_executed": 0
   },
   "not_measured": [
     "tokens_to_complete_build \u2014 requires a live agent run",

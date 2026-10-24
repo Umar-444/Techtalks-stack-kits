@@ -17,6 +17,22 @@ class CustomerResource extends Resource
     protected static ?string $model = Customer::class;
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    /**
+     * Non-admins only ever see their own team's customers (SEC-03). The policy
+     * guards a single record; this guards the list query.
+     */
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = auth()->user();
+
+        if ($user && ! $user->isAdmin()) {
+            $query->where('team_id', $user->team_id);
+        }
+
+        return $query;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

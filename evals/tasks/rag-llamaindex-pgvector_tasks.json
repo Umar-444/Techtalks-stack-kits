@@ -1,55 +1,82 @@
 {
   "kit_slug": "rag-llamaindex-pgvector",
-  "name": "LlamaIndex + PostgreSQL pgvector + FastAPI",
-  "token_metrics": {
-    "median_tokens": 23200,
-    "tier": "A",
-    "token_light": false
-  },
+  "name": "LlamaIndex + PostgreSQL pgvector",
+  "schema_version": "2.0.0",
+  "note": "Every task runs a real command. The starter's default vector layer is its in-memory mode with a deterministic hash embedder; PostgreSQL is replaced by a recording psycopg stub wherever SQL is involved, so no database or model is needed. The starter has no SQL read/write path (ingest and query always use the in-memory store), so only the DDL, identifier validation and credential handling are verified, not parameterised queries. The faithfulness scorer is a lexical-overlap heuristic, not LlamaIndex's LLM-based evaluator. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
+  "setup": "cd starter && pip install -r requirements.txt",
   "eval_tasks": [
     {
       "id": "rag-llamaindex-pgvector-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the LlamaIndex + PostgreSQL pgvector + FastAPI core runtime with zero-warning configuration.",
+      "title": "Ingest and tenant-isolated retrieval",
+      "instruction": "A document must be chunked and indexed, and every query must be pinned to one tenant that a caller-supplied filter cannot override.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "a document is indexed with HTTP 201 and retrieved with its delimited citation block",
+        "tenant A never sees tenant B nodes over HTTP and vice versa",
+        "queries and ingests without a tenant are rejected with 422 and at service level",
+        "a spoofed tenant_id in the filter is overridden by the trusted tenant",
+        "extra filters cannot widen the tenant scope"
       ],
-      "prompt_tokens": 2296,
-      "completion_tokens": 2807
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"ingest or tenant or semantic_search or pins_trusted\" -q -p no:warnings"
     },
     {
       "id": "rag-llamaindex-pgvector-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "pgvector schema, HNSW index and credential handling",
+      "instruction": "The schema must create an HNSW cosine index and a metadata GIN index, the table name must be a validated identifier, and no database credential may be hardcoded or defaulted.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "the DDL contains the vector extension, vector(384), an HNSW vector_cosine_ops index with m=16 and ef_construction=100, and a GIN metadata index",
+        "initialize executes every DDL statement then commits, and falls back to memory when the database is unreachable",
+        "table names with injection characters are rejected",
+        "the connection password comes only from the environment with no default",
+        "no python source hardcodes a password",
+        "compose carries no literal password and does not publish the database port",
+        "credential-named keys in .env.example are empty"
       ],
-      "prompt_tokens": 2533,
-      "completion_tokens": 3498
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"table_name or schema or initialize or password or hardcoded or compose or env_example\" -q -p no:warnings"
     },
     {
       "id": "rag-llamaindex-pgvector-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Faithfulness guardrail and prompt-injection boundary",
+      "instruction": "Hallucinated or partially grounded answers must fail the faithfulness check, and retrieved nodes must be delimited untrusted data they cannot escape.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "the faithfulness threshold is 0.8",
+        "a hallucinated, partially grounded or context-free answer fails faithfulness",
+        "a grounded answer passes",
+        "an off-topic answer fails relevancy",
+        "each node sits in a delimited block it cannot close and document ids cannot inject markup"
       ],
-      "prompt_tokens": 2449,
-      "completion_tokens": 3118
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"faithfulness or hallucinat or grounded or relevancy or evaluate or context or delimiter or markup or rag_evaluation\" -q -p no:warnings"
     },
     {
       "id": "rag-llamaindex-pgvector-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "Health, errors, CORS, limits and container hardening",
+      "instruction": "Health must reflect database reachability, errors must not leak internals, a wildcard origin must never be honoured, inputs must be bounded, and the image must run non-root.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "health is degraded when the database is down and ok when it answers",
+        "an unhandled error returns a generic 500 with no host, secret or traceback",
+        "a wildcard origin is dropped and unlisted origins get no allow header",
+        "oversized or malformed bodies are rejected with 422",
+        "a non-advancing chunk window is rejected instead of looping forever",
+        "the default score threshold is 0.60",
+        "the final Dockerfile stage drops to a numeric UID >= 10000"
       ],
-      "prompt_tokens": 2598,
-      "completion_tokens": 3897
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "yaml"],
+      "verify": "cd starter && python -m pytest tests -k \"health or unhandled or cors or oversized or chunker or default_score or non_root\" -q -p no:warnings"
+    },
+    {
+      "id": "rag-llamaindex-pgvector-task-05",
+      "title": "Full suite green",
+      "instruction": "The complete functional and security suite must pass with no failures.",
+      "assertions": ["pytest exits 0 across tests/"],
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "yaml"],
+      "verify": "cd starter && python -m pytest tests/ -q -p no:warnings"
     }
   ]
 }

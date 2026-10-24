@@ -10,10 +10,10 @@ use RuntimeException;
 class AiService
 {
     private array $jailbreakPatterns = [
-        '/ignore previous instructions/i',
-        '/you are now dan/i',
-        '/reveal system prompt/i',
-        '/bypass guardrails/i',
+        '/ignore\s+(all\s+)?previous\s+instructions/i',
+        '/you\s+are\s+now\s+dan/i',
+        '/reveal\s+(the\s+)?system\s+prompt/i',
+        '/bypass\s+guardrails/i',
     ];
 
     public function screenPrompt(string $prompt): string

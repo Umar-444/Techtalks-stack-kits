@@ -7,29 +7,33 @@ namespace App\Http\Controllers;
 use App\Models\EventLog;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class EventLogController
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $events = EventLog::query()->latest()->take(50)->get();
+        // Every query is scoped to the signed-in user's own events (AUTH-02).
+        $owner = (string) $request->user()->getAuthIdentifier();
 
-        // MongoDB Aggregation Pipeline for Category Summary
-        $stats = EventLog::raw(function ($collection) {
+        $events = EventLog::query()->where('user_id', $owner)->latest()->take(50)->get();
+
+        // MongoDB Aggregation Pipeline for Category Summary. The $match stage
+        // comes first so the pipeline only ever sees the caller's documents.
+        $stats = EventLog::raw(function ($collection) use ($owner) {
             return $collection->aggregate([
+                ['$match' => ['user_id' => $owner]],
                 ['$group' => [
                     '_id' => '$category',
                     'count' => ['$sum' => 1],
-                    'avg_latency' => ['$avg' => '$latency_ms']
+                    'avg_latency' => ['$avg' => '$latency_ms'],
                 ]],
-                ['$sort' => ['count' => -1]]
+                ['$sort' => ['count' => -1]],
             ])->toArray();
         });
 
         return response()->json([
             'status' => 'ok',
-            'total_events' => EventLog::count(),
+            'total_events' => EventLog::query()->where('user_id', $owner)->count(),
             'category_stats' => $stats,
             'recent_events' => $events,
         ]);
@@ -45,18 +49,14 @@ class EventLogController
             'metadata' => 'nullable|array',
         ]);
 
-        // Sanitize any NoSQL operator injection in metadata keys
-        if (isset($validated['metadata'])) {
-            foreach (array_keys($validated['metadata']) as $key) {
-                if (str_starts_with((string)$key, '$')) {
-                    return response()->json(['error' => 'Illegal operator in metadata keys'], 422);
-                }
-            }
+        // Reject NoSQL operator injection anywhere in the metadata tree
+        // (NOSQL-01), not just in its top-level keys.
+        if (isset($validated['metadata']) && self::hasOperatorKey($validated['metadata'])) {
+            return response()->json(['error' => 'Illegal operator in metadata keys'], 422);
         }
 
-        $user = Auth::user();
         $event = EventLog::create([
-            'user_id' => $user ? (string)$user->id : 'system',
+            'user_id' => (string) $request->user()->getAuthIdentifier(),
             'category' => $validated['category'],
             'action' => $validated['action'],
             'severity' => $validated['severity'],
@@ -68,5 +68,23 @@ class EventLogController
             'status' => 'created',
             'event' => $event,
         ], 201);
+    }
+
+    /** True when any key at any depth starts with "$" or contains ".". */
+    private static function hasOperatorKey(array $data): bool
+    {
+        foreach ($data as $key => $value) {
+            $key = (string) $key;
+
+            if (str_starts_with($key, '$') || str_contains($key, '.')) {
+                return true;
+            }
+
+            if (is_array($value) && self::hasOperatorKey($value)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

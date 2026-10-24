@@ -2,7 +2,7 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
+import { ItemSchema } from '@/lib/validations';
 
 /**
  * Every mutation verifies the caller first (rules/source/01) and scopes the
@@ -13,12 +13,8 @@ import { z } from 'zod';
  * widen access, and the intent is visible at the call site.
  */
 
-const ItemSchema = z
-  .object({
-    title: z.string().trim().min(3, 'Title must be at least 3 characters').max(120),
-    description: z.string().trim().max(500).optional(),
-  })
-  .strict();
+// Database error text can name tables, columns and constraints; never echo it.
+const DB_FAILURE = { success: false as const, error: 'Request failed' };
 
 const UNAUTHENTICATED = { success: false as const, error: 'Authentication required' };
 
@@ -46,7 +42,7 @@ export async function createItem(formData: FormData) {
     is_completed: false,
   });
 
-  if (error) return { success: false, error: error.message };
+  if (error) return DB_FAILURE;
 
   revalidatePath('/');
   return { success: true };
@@ -63,7 +59,7 @@ export async function toggleItem(id: string, currentState: boolean) {
     .eq('id', id)
     .eq('user_id', user.id);
 
-  if (error) return { success: false, error: error.message };
+  if (error) return DB_FAILURE;
 
   revalidatePath('/');
   return { success: true };
@@ -80,7 +76,7 @@ export async function deleteItem(id: string) {
     .eq('id', id)
     .eq('user_id', user.id);
 
-  if (error) return { success: false, error: error.message };
+  if (error) return DB_FAILURE;
 
   revalidatePath('/');
   return { success: true };
@@ -97,7 +93,7 @@ export async function listItems() {
     .eq('user_id', user.id)
     .order('created_at', { ascending: false });
 
-  if (error) return { success: false, error: error.message };
+  if (error) return DB_FAILURE;
 
   return { success: true, items: data ?? [] };
 }

@@ -16,7 +16,7 @@ class DocumentIngestResponse(BaseModel):
 class SearchQueryRequest(BaseModel):
     query: str = Field(..., min_length=1, max_length=1000, description="Natural language search query")
     similarity_top_k: int = Field(default=3, ge=1, le=20, description="Number of results to retrieve")
-    score_threshold: float = Field(default=0.50, ge=0.0, le=1.0, description="Minimum cosine similarity score")
+    score_threshold: float = Field(default=0.60, ge=0.0, le=1.0, description="Minimum cosine similarity score")
     filter: Optional[dict[str, Any]] = Field(default=None, description="Exact match payload filters e.g. tenant_id")
 
 class SearchResultSource(BaseModel):
@@ -33,9 +33,9 @@ class SearchQueryResponse(BaseModel):
     response: str
 
 class EvaluationRequest(BaseModel):
-    query: str
-    response: str
-    contexts: list[str]
+    query: str = Field(..., max_length=1000)
+    response: str = Field(..., max_length=20000)
+    contexts: list[str] = Field(..., max_length=50)
 
 class EvaluationResponse(BaseModel):
     faithfulness_passing: bool

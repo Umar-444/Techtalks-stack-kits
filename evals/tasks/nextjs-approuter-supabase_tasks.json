@@ -1,18 +1,71 @@
 {
   "kit_slug": "nextjs-approuter-supabase",
   "name": "Next.js 15+ + Supabase + shadcn/ui",
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real vitest command. The Supabase client, next/headers and next/cache are stubbed at the module boundary, so the suite runs offline with no Supabase instance or PostgreSQL. The stub records the query-builder calls, so tests assert the exact .eq('user_id', ...) filters the actions build. RLS is checked by parsing the real migration SQL, not by executing it: no Postgres means policy enforcement itself is not exercised. next build is not run. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
+  "setup": "cd starter && npm install",
   "eval_tasks": [
     {
-      "id": "kit5-task-01",
-      "title": "Server Action Zod Validation",
-      "instruction": "Every server action must parse inputs via Zod schema.",
-      "assertions": ["Zod safeParse() executed before mutation"]
+      "id": "nextjs-approuter-supabase-task-01",
+      "title": "Zod schema is strict",
+      "instruction": "Server Action payloads must be validated by a strict schema that rejects unknown keys such as user_id.",
+      "assertions": [
+        "a valid payload parses",
+        "short and over-length fields are rejected",
+        "unknown keys (user_id, is_completed) are rejected rather than stripped"
+      ],
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run tests/schema.test.ts"
     },
     {
-      "id": "kit5-task-02",
-      "title": "Supabase Row-Level Security",
-      "instruction": "Enable RLS on all tables and verify owner policies.",
-      "assertions": ["ENABLE ROW LEVEL SECURITY present in migrations"]
+      "id": "nextjs-approuter-supabase-task-02",
+      "title": "Server Actions scope every query to the session user",
+      "instruction": "Every action must authenticate first and filter by the session user id, with owner taken from the session.",
+      "assertions": [
+        "create inserts user_id from the session, ignoring a smuggled one",
+        "toggle, delete and list filter by user_id",
+        "unauthenticated calls never reach the database",
+        "database error text is not returned to the client",
+        "revalidatePath runs after a successful write"
+      ],
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run tests/actions.test.ts"
+    },
+    {
+      "id": "nextjs-approuter-supabase-task-03",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite covering RLS migrations, service-role key isolation, cookie flags and session verification from security/checks.json.",
+      "assertions": [
+        "RLS-01/02: RLS enabled and auth.uid() = user_id policies with WITH CHECK, no USING (true)",
+        "RLS-04: compound user_id, created_at index",
+        "RLS-03: service-role key has no NEXT_PUBLIC_ name and appears in no source file",
+        "AUTH-01: SameSite=Lax and production Secure are forced on session cookies",
+        "AUTH-02/03: middleware and page use getUser(), not getSession()"
+      ],
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run tests/security.test.ts"
+    },
+    {
+      "id": "nextjs-approuter-supabase-task-04",
+      "title": "Full suite green",
+      "instruction": "The complete schema, action and security suite must pass with no failures.",
+      "assertions": [
+        "vitest exits 0 across tests/"
+      ],
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run"
     }
   ]
 }

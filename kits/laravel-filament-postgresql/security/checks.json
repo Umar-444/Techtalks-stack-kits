@@ -39,7 +39,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/PasswordSecurityTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -56,7 +56,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/SessionSecurityTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -73,7 +73,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/SessionRegenerationTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -90,7 +90,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/RateLimitingTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -107,7 +107,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/TenantIsolationTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -124,7 +124,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/PolicyAuthorizationTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -141,7 +141,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/SqlInjectionTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -158,7 +158,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/XssProtectionTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -175,7 +175,7 @@
       ],
       "evidence": {
         "kind": "test",
-        "path": "tests/Feature/Security/CsrfProtectionTest.php"
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
       }
     },
     {
@@ -192,7 +192,7 @@
       ],
       "evidence": {
         "kind": "workflow",
-        "path": ".github/workflows/security.yml"
+        "path": ".github/workflows/validate-kits.yml"
       }
     },
     {
@@ -209,7 +209,7 @@
       ],
       "evidence": {
         "kind": "workflow",
-        "path": ".github/workflows/security.yml"
+        "path": ".github/workflows/validate-kits.yml"
       }
     },
     {
@@ -226,7 +226,7 @@
       ],
       "evidence": {
         "kind": "workflow",
-        "path": ".github/workflows/security.yml"
+        "path": ".github/workflows/validate-kits.yml"
       }
     }
   ]

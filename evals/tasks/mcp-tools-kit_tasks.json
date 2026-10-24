@@ -1,55 +1,74 @@
 {
   "kit_slug": "mcp-tools-kit",
   "name": "Model Context Protocol (MCP) Server Kit (stdio + SSE)",
-  "token_metrics": {
-    "median_tokens": 14800,
-    "tier": "A+",
-    "token_light": true
-  },
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real vitest command with no mocks of the code under test: the real McpServer is driven through the SDK's in-memory transport, and the real Express SSE app is bound to an ephemeral localhost port and called with fetch. Sandbox tests use a temp directory. No database or external service is involved. The stdio transport is not exercised end to end. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
+  "setup": "cd starter && npm install",
   "eval_tasks": [
     {
       "id": "mcp-tools-kit-task-01",
-      "title": "Initialization & Environment Config",
-      "instruction": "Verify MCP server boots cleanly across stdio and SSE transports.",
+      "title": "Tools and MCP protocol",
+      "instruction": "Tools must be registered with typed Zod inputs and behave correctly through the MCP protocol.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health check responds 200 OK"
+        "tools/list advertises three tools with object input schemas",
+        "calculator executes through the protocol",
+        "wrong types and enum values are rejected by Zod",
+        "tool errors are structured and carry no internals"
       ],
-      "prompt_tokens": 2700,
-      "completion_tokens": 1900
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run tests/mcp-tools.test.ts tests/protocol.test.ts"
     },
     {
       "id": "mcp-tools-kit-task-02",
-      "title": "Data Model & Schema",
-      "instruction": "Define tool input schemas using Zod and register capabilities.",
+      "title": "Filesystem sandbox, size cap and error sanitization",
+      "instruction": "read_secure_file must stay inside the sandbox root, cap output, and expose only structured error codes.",
       "assertions": [
-        "Schemas validate with Zod",
-        "Tools declared with typed inputs"
+        "SEC-03: ../ traversal, prefix-sibling directory, absolute path and symlink escape are all rejected",
+        "SEC-08: output is capped at MAX_READ_BYTES and large files are not fully loaded",
+        "SEC-12: raw fs errors and requested paths are masked",
+        "SEC-05: no child_process, eval or Function in src",
+        "SEC-02: Dockerfile runtime stage is non-root"
       ],
-      "prompt_tokens": 3000,
-      "completion_tokens": 2100
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run tests/security-sandbox.test.ts"
     },
     {
       "id": "mcp-tools-kit-task-03",
-      "title": "API Handlers & Security",
-      "instruction": "Expose tools with path traversal sandbox defenses.",
+      "title": "SSE transport hardening and JSON-RPC conformance",
+      "instruction": "The SSE transport must require a bearer token, restrict CORS, cap bodies, rate limit, isolate sessions and speak JSON-RPC 2.0.",
       "assertions": [
-        "Traversal attempts blocked",
-        "JSON-RPC 2.0 protocol conformance"
+        "SEC-07: missing or wrong bearer token gets 401; app refuses to start without a key",
+        "SEC-09: only allowlisted origins are echoed, never *",
+        "SEC-06: initialize and tools/list return jsonrpc 2.0 responses with matching ids; unknown method returns -32601; non-JSON-RPC body is 400",
+        "SEC-08: oversized body returns generic 413",
+        "SEC-10: requests beyond the window limit get 429",
+        "responses are routed to the originating session only"
       ],
-      "prompt_tokens": 2900,
-      "completion_tokens": 2000
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run tests/sse-http.test.ts"
     },
     {
       "id": "mcp-tools-kit-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Execute Vitest unit tests and Semgrep security scans.",
+      "title": "Full suite green and TypeScript builds",
+      "instruction": "The complete suite must pass and the starter must type-check cleanly.",
       "assertions": [
-        "Vitest tests pass with 0 failures",
-        "Zero secrets detected"
+        "vitest exits 0 across tests/",
+        "tsc --noEmit reports no errors"
       ],
-      "prompt_tokens": 3000,
-      "completion_tokens": 2200
+      "requires": [
+        "node",
+        "npm"
+      ],
+      "verify": "cd starter && npx vitest run && npx tsc --noEmit -p ."
     }
   ]
 }

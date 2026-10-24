@@ -9,84 +9,91 @@
     "secret_hits": []
   },
   "context_cost": {
-    "measurement": "tiktoken:cl100k_base",
-    "exact": true,
-    "context_tokens": 3828,
-    "shared_context_tokens": 635,
+    "measurement": "estimated:chars/4.4",
+    "exact": false,
+    "context_tokens": 3761,
+    "shared_context_tokens": 533,
     "shared_context": {
-      "DESIGN.md": 337,
-      "SECURITY.md": 157,
-      "agent-build-steps.md": 141
+      "DESIGN.md": 246,
+      "SECURITY.md": 150,
+      "agent-build-steps.md": 137
     },
     "per_dialect": {
       "claude": {
-        "rules_tokens": 3193,
-        "total_tokens": 3828
+        "rules_tokens": 3228,
+        "total_tokens": 3761
       },
       "codex": {
-        "rules_tokens": 3343,
-        "total_tokens": 3978
+        "rules_tokens": 3386,
+        "total_tokens": 3919
       },
       "standard": {
-        "rules_tokens": 3241,
-        "total_tokens": 3876
+        "rules_tokens": 3244,
+        "total_tokens": 3777
       },
       "cline": {
-        "rules_tokens": 1942,
-        "total_tokens": 2577
+        "rules_tokens": 2067,
+        "total_tokens": 2600
       },
       "windsurf": {
-        "rules_tokens": 3038,
-        "total_tokens": 3673
+        "rules_tokens": 3055,
+        "total_tokens": 3588
       },
       "copilot": {
-        "rules_tokens": 3039,
-        "total_tokens": 3674
+        "rules_tokens": 3058,
+        "total_tokens": 3591
       }
     },
     "leanest_dialect": "cline",
     "efficiency_tier": "B"
   },
   "starter": {
-    "files": 11,
-    "source_loc": 467
+    "files": 15,
+    "source_loc": 799
   },
   "task_verification": {
     "tasks": [
       {
         "id": "rag-local-private-task-01",
-        "title": "Core Environment & Service Initialization",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Zero-egress airgap guard",
+        "assertions": 6,
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "rag-local-private-task-02",
-        "title": "Data Schema & Repository Definition",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Tenant isolation and classification clearance",
+        "assertions": 6,
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "rag-local-private-task-03",
-        "title": "API Routing & Authorization Policy",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Prompt-injection boundary and groundedness guardrail",
+        "assertions": 4,
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "rag-local-private-task-04",
-        "title": "Security & Architecture Invariants Test",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Error hygiene, CORS, chunk and input limits, container hardening",
+        "assertions": 6,
+        "status": "pass",
+        "exit_code": 0
+      },
+      {
+        "id": "rag-local-private-task-05",
+        "title": "Full suite green",
+        "assertions": 1,
+        "status": "pass",
+        "exit_code": 0
       }
     ],
-    "total": 4,
-    "passed": 0,
+    "total": 5,
+    "passed": 5,
     "failed": 0,
     "skipped": 0,
-    "not_executed": 4
+    "not_executed": 0
   },
   "not_measured": [
     "tokens_to_complete_build \u2014 requires a live agent run",

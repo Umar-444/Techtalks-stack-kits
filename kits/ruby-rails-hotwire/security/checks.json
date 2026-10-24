@@ -8,7 +8,8 @@
     "total": 12,
     "categories": 4,
     "by_status": {
-      "enforced": 12
+      "advisory": 4,
+      "enforced": 8
     },
     "by_severity": {
       "critical": 2,
@@ -101,52 +102,40 @@
       "id": "AUTH-01",
       "category": "Session, Authentication & CSRF Protection",
       "name": "CSRF authenticity token verification on all non-GET requests",
-      "status": "enforced",
+      "status": "advisory",
       "severity": "high",
       "owasp": [
         "A06:2025"
       ],
       "cwe": [
         "CWE-352"
-      ],
-      "evidence": {
-        "kind": "config",
-        "path": "ApplicationController"
-      }
+      ]
     },
     {
       "id": "AUTH-02",
       "category": "Session, Authentication & CSRF Protection",
       "name": "Encrypted session cookies with HttpOnly, Secure, and SameSite=Lax",
-      "status": "enforced",
+      "status": "advisory",
       "severity": "high",
       "owasp": [
         "A07:2025"
       ],
       "cwe": [
         "CWE-1004"
-      ],
-      "evidence": {
-        "kind": "config",
-        "path": "config/initializers/session_store.rb"
-      }
+      ]
     },
     {
       "id": "AUTH-03",
       "category": "Session, Authentication & CSRF Protection",
       "name": "Comprehensive sensitive parameter filtering (passwords, tokens, keys)",
-      "status": "enforced",
+      "status": "advisory",
       "severity": "high",
       "owasp": [
         "A09:2025"
       ],
       "cwe": [
         "CWE-532"
-      ],
-      "evidence": {
-        "kind": "config",
-        "path": "config/initializers/filter_parameter_logging.rb"
-      }
+      ]
     },
     {
       "id": "DB-01",
@@ -186,18 +175,14 @@
       "id": "DB-03",
       "category": "Database & Concurrency Hardening",
       "name": "Strict loading enabled in development/test to eliminate N+1 queries",
-      "status": "enforced",
+      "status": "advisory",
       "severity": "low",
       "owasp": [
         "A06:2025"
       ],
       "cwe": [
         "CWE-1049"
-      ],
-      "evidence": {
-        "kind": "config",
-        "path": "config/environments/development.rb"
-      }
+      ]
     },
     {
       "id": "CI-01",
@@ -213,7 +198,7 @@
       ],
       "evidence": {
         "kind": "workflow",
-        "path": ".github/workflows/security.yml"
+        "path": ".github/workflows/validate-kits.yml"
       }
     },
     {

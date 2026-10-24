@@ -55,10 +55,28 @@ class QdrantService:
         except Exception:
             pass
 
+    @staticmethod
+    def build_filter(tenant_id: str, filters: Optional[dict[str, Any]] = None) -> models.Filter:
+        """Always pins the query to one tenant.
+
+        The tenant condition is built from the trusted ``tenant_id`` argument. A
+        caller-supplied ``tenant_id`` key in ``filters`` is discarded, so a client
+        cannot widen or redirect the query to another tenant.
+        """
+        if not tenant_id or not isinstance(tenant_id, str):
+            raise ValueError("tenant_id is required for every vector query")
+        conditions = [
+            models.FieldCondition(key="tenant_id", match=models.MatchValue(value=tenant_id))
+        ]
+        for k, v in (filters or {}).items():
+            if k == "tenant_id":
+                continue
+            conditions.append(models.FieldCondition(key=k, match=models.MatchValue(value=v)))
+        return models.Filter(must=conditions)
+
     def is_connected(self) -> bool:
         try:
-            client = self.get_client()
-            return client.collection_exists(self.collection_name) or True
+            return bool(self.get_client().collection_exists(self.collection_name))
         except Exception:
             return False
 
@@ -67,13 +85,14 @@ class QdrantService:
         points = []
         for chunk, vector in zip(chunks, vectors):
             point_id = str(uuid.uuid5(uuid.NAMESPACE_DNS, f"{document_id}_{chunk['chunk_index']}"))
+            # Caller metadata goes first so it can never overwrite the system fields.
             payload = {
+                **metadata,
                 "document_id": document_id,
                 "chunk_index": chunk["chunk_index"],
                 "text": chunk["text"],
                 "start_char": chunk["start_char"],
                 "end_char": chunk["end_char"],
-                **metadata
             }
             points.append(
                 models.PointStruct(
@@ -92,30 +111,23 @@ class QdrantService:
         query_vector: list[float],
         top_k: int = 3,
         score_threshold: float = 0.50,
-        filters: Optional[dict[str, Any]] = None
+        filters: Optional[dict[str, Any]] = None,
+        *,
+        tenant_id: str,
     ) -> list[dict]:
         client = self.get_client()
-        
-        query_filter = None
-        if filters:
-            conditions = []
-            for k, v in filters.items():
-                conditions.append(
-                    models.FieldCondition(
-                        key=k,
-                        match=models.MatchValue(value=v)
-                    )
-                )
-            if conditions:
-                query_filter = models.Filter(must=conditions)
 
-        search_results = client.search(
+        query_filter = self.build_filter(tenant_id, filters)
+
+        # query_points replaces the removed QdrantClient.search (qdrant-client >= 1.16)
+        search_results = client.query_points(
             collection_name=self.collection_name,
-            query_vector=query_vector,
+            query=query_vector,
             query_filter=query_filter,
             limit=top_k,
-            score_threshold=score_threshold
-        )
+            score_threshold=score_threshold,
+            with_payload=True,
+        ).points
 
         results = []
         for hit in search_results:

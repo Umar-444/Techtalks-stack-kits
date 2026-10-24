@@ -1,0 +1,322 @@
+name: "Execute Kit Verification Suites"
+
+# Runs each kit's real verify commands on a runner that has the toolchain
+# installed. The structural gates live in validate-kits.yml; this workflow is
+# what turns a "pending toolchain" kit into a verified one.
+#
+# Kit lists are never hardcoded here — tools/ci_matrix.py derives them from the
+# same `requires` / `requires_python` fields evals/runner.py uses, so a job can
+# never be handed a kit whose toolchain it did not install.
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUTF8: "1"
+
+jobs:
+  plan:
+    name: "Plan — which kits run where"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: "Show the toolchain assignment"
+        run: python tools/ci_matrix.py
+
+  python-kits:
+    name: "Python kits"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: "Install each kit's requirements and run its suite"
+        run: |
+          status=0
+          for slug in $(python tools/ci_matrix.py --toolchain python); do
+            echo "::group::$slug"
+            req="kits/$slug/starter/requirements.txt"
+            [ -f "$req" ] && pip install -r "$req" || echo "no requirements.txt"
+            python evals/runner.py --kit "$slug" || status=1
+            echo "::endgroup::"
+          done
+          exit $status
+
+
+      - name: "Upload this job's metrics"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-python
+          path: evals/results/*_metrics.json
+          if-no-files-found: ignore
+  php-kits:
+    name: "PHP kits"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: mbstring, intl, pdo_sqlite, sqlite3, bcmath
+          tools: composer:v2
+      - name: "composer install and run each suite"
+        run: |
+          status=0
+          for slug in $(python tools/ci_matrix.py --toolchain php); do
+            echo "::group::$slug"
+            (cd "kits/$slug/starter" && composer install --no-interaction --prefer-dist --no-progress)
+            python evals/runner.py --kit "$slug" || status=1
+            echo "::endgroup::"
+          done
+          exit $status
+
+
+      - name: "Upload this job's metrics"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-php
+          path: evals/results/*_metrics.json
+          if-no-files-found: ignore
+  go-kits:
+    name: "Go kits"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+      - name: "Run each Go kit's suite"
+        run: |
+          status=0
+          for slug in $(python tools/ci_matrix.py --toolchain go); do
+            echo "::group::$slug"
+            python evals/runner.py --kit "$slug" || status=1
+            echo "::endgroup::"
+          done
+          exit $status
+
+
+      - name: "Upload this job's metrics"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-go
+          path: evals/results/*_metrics.json
+          if-no-files-found: ignore
+  rust-kits:
+    name: "Rust kits"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+      - name: "Install cargo-audit"
+        run: cargo install cargo-audit --locked
+      - uses: Swatinem/rust-cache@v2
+      - name: "Run each Rust kit's suite"
+        run: |
+          status=0
+          for slug in $(python tools/ci_matrix.py --toolchain rust); do
+            echo "::group::$slug"
+            python evals/runner.py --kit "$slug" || status=1
+            echo "::endgroup::"
+          done
+          exit $status
+
+
+      - name: "Upload this job's metrics"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-rust
+          path: evals/results/*_metrics.json
+          if-no-files-found: ignore
+  node-kits:
+    name: "Node kits"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: "npm install and run each suite"
+        run: |
+          status=0
+          for slug in $(python tools/ci_matrix.py --toolchain node); do
+            echo "::group::$slug"
+            (cd "kits/$slug/starter" && npm install --no-audit --no-fund)
+            python evals/runner.py --kit "$slug" || status=1
+            echo "::endgroup::"
+          done
+          exit $status
+
+
+      - name: "Upload this job's metrics"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-node
+          path: evals/results/*_metrics.json
+          if-no-files-found: ignore
+  bun-kits:
+    name: "Bun kits"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: "Run each Bun kit's suite"
+        run: |
+          status=0
+          for slug in $(python tools/ci_matrix.py --toolchain bun); do
+            echo "::group::$slug"
+            python evals/runner.py --kit "$slug" || status=1
+            echo "::endgroup::"
+          done
+          exit $status
+
+
+      - name: "Upload this job's metrics"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-bun
+          path: evals/results/*_metrics.json
+          if-no-files-found: ignore
+  elixir-kits:
+    name: "Elixir kits"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: "27"
+          elixir-version: "1.17"
+      - name: "Run each Elixir kit's suite"
+        run: |
+          status=0
+          for slug in $(python tools/ci_matrix.py --toolchain elixir); do
+            echo "::group::$slug"
+            python evals/runner.py --kit "$slug" || status=1
+            echo "::endgroup::"
+          done
+          exit $status
+
+
+      - name: "Upload this job's metrics"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-elixir
+          path: evals/results/*_metrics.json
+          if-no-files-found: ignore
+  ruby-kits:
+    name: "Ruby kits"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+      - name: "bundle install and run each suite"
+        run: |
+          status=0
+          for slug in $(python tools/ci_matrix.py --toolchain ruby); do
+            echo "::group::$slug"
+            (cd "kits/$slug/starter" && bundle install --jobs 4 --retry 2)
+            python evals/runner.py --kit "$slug" || status=1
+            echo "::endgroup::"
+          done
+          exit $status
+
+
+      - name: "Upload this job's metrics"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: metrics-ruby
+          path: evals/results/*_metrics.json
+          if-no-files-found: ignore
+  publish-status:
+    name: "Regenerate status board from all toolchains"
+    needs: [python-kits, php-kits, go-kits, rust-kits, node-kits, bun-kits, elixir-kits, ruby-kits]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+
+      # Each language job saw only its own kits. Merging their metrics is what
+      # lets the board reflect every toolchain instead of just this runner's.
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: metrics-*
+          merge-multiple: true
+          path: evals/results
+
+      - name: "Rebuild board and matrix from the merged results"
+        run: |
+          ls -1 evals/results/*_metrics.json | wc -l | xargs echo "merged metrics files:"
+          python tools/build_status_board.py
+          python tools/build_security_matrix.py
+
+      - name: "Publish the board as a run artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          name: kit-status-board
+          path: |
+            status.json
+            status/index.html
+            security/coverage.json
+            security/coverage/index.html
+
+      - name: "Summarise in the run output"
+        run: python tools/build_status_board.py --summary >> "$GITHUB_STEP_SUMMARY"

@@ -1,55 +1,73 @@
 {
   "kit_slug": "laravel-filament-mysql",
-  "name": "Laravel 12/13 + Filament 4 + MySQL 8.4 LTS",
-  "token_metrics": {
-    "median_tokens": 16100,
-    "tier": "A",
-    "token_light": true
-  },
+  "name": "Laravel 12 + Filament 3 + MySQL",
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. No token figures are recorded here; evals/runner.py measures context cost directly from the kit files. The suite is Pest and runs against SQLite in-memory (DB_CONNECTION=sqlite, DB_DATABASE=:memory: in phpunit.xml) so no MySQL or Redis service is required. MySQL MATCH AGAINST cannot run on SQLite, so the full-text scope is asserted on its generated SQL and bindings, and the fulltext index migration is skipped on SQLite. MySQL strict modes are asserted against the shipped connection config. SEC-12 (deadlock retry), SEC-13 (Semgrep) and SEC-14 (Gitleaks) are not exercised by this suite.",
+  "setup": "cd starter && composer install",
   "eval_tasks": [
     {
       "id": "laravel-filament-mysql-task-01",
-      "title": "Initialization & Environment Config",
-      "instruction": "Verify Laravel 12/13 + Filament 4 + MySQL 8.4 boots cleanly.",
+      "title": "Application installs and boots",
+      "instruction": "Composer dependencies must resolve and the Laravel application must bootstrap far enough to list its routes.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health check responds 200 OK"
+        "vendor/autoload.php exists",
+        "artisan route:list exits 0"
       ],
-      "prompt_tokens": 2800,
-      "completion_tokens": 2100
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php artisan route:list"
     },
     {
       "id": "laravel-filament-mysql-task-02",
-      "title": "Data Model & Schema",
-      "instruction": "Define models and MySQL full-text persistence layers.",
+      "title": "Feature behaviour",
+      "instruction": "The kit's feature tests must pass.",
       "assertions": [
-        "Schema validates",
-        "Full-text index declared"
+        "health endpoint responds",
+        "full-text scope binds the term",
+        "policy allows own team and admin only"
       ],
-      "prompt_tokens": 3100,
-      "completion_tokens": 2300
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/pest --filter \"BolaPolicyTest|CustomerResourceTest\""
     },
     {
       "id": "laravel-filament-mysql-task-03",
-      "title": "API Handlers & Security",
-      "instruction": "Expose endpoints with BOLA policy authorization.",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite that exercises the controls named in security/checks.json. Each test is mutation-verified: removing the control makes the test fail.",
       "assertions": [
-        "Auth enforced",
-        "Cross-tenant access blocked"
+        "SEC-01 .env.example ships empty APP_KEY",
+        "SEC-02 non-root Dockerfile",
+        "SEC-03 list and edit are team-scoped; create is forced into creators team; delete is admin only",
+        "SEC-04 MATCH AGAINST term is bound",
+        "SEC-05 MySQL strict modes configured",
+        "SEC-06 role and team_id are not mass-assignable",
+        "SEC-07 panel keeps CSRF and cookie encryption middleware",
+        "SEC-08 session cookie flags hardened",
+        "SEC-09 argon2id hashing",
+        "SEC-10 Filament login throttles after 5 attempts"
       ],
-      "prompt_tokens": 2900,
-      "completion_tokens": 2200
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/pest --filter SecurityControlsTest"
     },
     {
       "id": "laravel-filament-mysql-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Execute Pest architecture assertions and security scans.",
+      "title": "Full suite green",
+      "instruction": "The complete suite must pass with no failures.",
       "assertions": [
-        "Arch test passes with 0 violations",
-        "Zero secrets detected"
+        "phpunit exits 0"
       ],
-      "prompt_tokens": 3000,
-      "completion_tokens": 2400
+      "requires": [
+        "php",
+        "composer"
+      ],
+      "verify": "cd starter && php vendor/bin/pest"
     }
   ]
 }

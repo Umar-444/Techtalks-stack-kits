@@ -1,55 +1,88 @@
 {
   "kit_slug": "python-litestar-postgresql",
   "name": "Python + Litestar + SQLAlchemy 2 + PostgreSQL + Redis",
-  "token_metrics": {
-    "median_tokens": 22100,
-    "tier": "A",
-    "token_light": false
-  },
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. Token figures are not recorded here; evals/runner.py measures context cost directly. The starter keeps items in an in-memory store, so no PostgreSQL or Redis is needed. SEC-09 (asyncpg pool) and SEC-11 (Redis) have no code in the starter and are not asserted by tests.",
+  "setup": "cd starter && pip install -r requirements.txt",
   "eval_tasks": [
     {
       "id": "python-litestar-postgresql-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the Python + Litestar + SQLAlchemy 2 + PostgreSQL + Redis core runtime with zero-warning configuration.",
+      "title": "Litestar app boots and serves the health probe",
+      "instruction": "The app must import and answer GET /health.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "GET /health responds 200",
+        "body reports status ok"
       ],
-      "prompt_tokens": 2187,
-      "completion_tokens": 2674
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "litestar",
+        "pytest",
+        "yaml",
+        "pydantic"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_app.py -k health -q -p no:warnings"
     },
     {
       "id": "python-litestar-postgresql-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Typed item API round-trips",
+      "instruction": "Create and list items through the pydantic schemas.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "POST returns 201",
+        "list returns the created item"
       ],
-      "prompt_tokens": 2413,
-      "completion_tokens": 3332
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "litestar",
+        "pytest",
+        "yaml",
+        "pydantic"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_app.py -q -p no:warnings"
     },
     {
       "id": "python-litestar-postgresql-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite covering SEC-03..08 and SEC-10: tenant isolation, unknown-field rejection, CORS, rootless container, health, error disclosure.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "a foreign tenant gets 404, identical to a missing id",
+        "listing without tenant_id is refused",
+        "unknown fields and oversize values are rejected",
+        "CORS has no wildcard and does not reflect an unlisted origin",
+        "Dockerfile final USER is 10001",
+        "debug is off and 500s do not leak internals"
       ],
-      "prompt_tokens": 2333,
-      "completion_tokens": 2970
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "litestar",
+        "pytest",
+        "yaml",
+        "pydantic"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_security.py -q -p no:warnings"
     },
     {
       "id": "python-litestar-postgresql-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "Full suite green",
+      "instruction": "The complete functional and security suite passes.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "pytest exits 0 across tests/"
       ],
-      "prompt_tokens": 2475,
-      "completion_tokens": 3712
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "litestar",
+        "pytest",
+        "yaml",
+        "pydantic"
+      ],
+      "verify": "cd starter && python -m pytest tests/ -q -p no:warnings"
     }
   ]
 }

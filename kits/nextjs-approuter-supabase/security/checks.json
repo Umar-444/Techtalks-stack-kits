@@ -147,7 +147,7 @@
     {
       "id": "AUTH-01",
       "category": "Authentication & Session Protection",
-      "name": "Supabase SSR cookie security flags (HttpOnly, Secure, SameSite=Lax)",
+      "name": "Supabase SSR cookie flags forced to Secure (production) and SameSite=Lax; HttpOnly is not set because the browser client reads the session cookie",
       "status": "enforced",
       "severity": "high",
       "owasp": [
@@ -209,7 +209,7 @@
       ],
       "evidence": {
         "kind": "workflow",
-        "path": ".github/workflows/security.yml"
+        "path": ".github/workflows/validate-kits.yml"
       }
     },
     {
@@ -226,7 +226,7 @@
       ],
       "evidence": {
         "kind": "workflow",
-        "path": ".github/workflows/security.yml"
+        "path": ".github/workflows/validate-kits.yml"
       }
     }
   ]

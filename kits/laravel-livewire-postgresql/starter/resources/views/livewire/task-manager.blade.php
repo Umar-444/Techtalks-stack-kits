@@ -5,6 +5,10 @@
         </div>
     @endif
 
+    @error('rate')
+        <div class="p-4 rounded-lg bg-red-50 border border-red-200 text-red-800 text-sm font-medium">{{ $message }}</div>
+    @enderror
+
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
             <div class="text-sm font-medium text-slate-500">Total Live Tasks</div>

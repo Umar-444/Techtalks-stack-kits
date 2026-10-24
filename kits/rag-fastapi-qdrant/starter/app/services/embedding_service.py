@@ -19,6 +19,9 @@ class EmbeddingService:
 
     def chunk_text(self, text: str, chunk_size: int = 500, chunk_overlap: int = 50) -> list[dict]:
         """Partitions text into overlapping sliding-window chunks with char offsets."""
+        if chunk_size < 1 or chunk_overlap < 0 or chunk_overlap >= chunk_size:
+            # overlap >= size makes the window stop advancing: an infinite loop
+            raise ValueError("chunk_overlap must be >= 0 and smaller than chunk_size")
         chunks = []
         start = 0
         idx = 0

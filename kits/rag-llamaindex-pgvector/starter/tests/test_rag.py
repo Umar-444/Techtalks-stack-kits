@@ -85,7 +85,7 @@ def test_tenant_filtered_search():
 def test_rag_evaluation():
     eval_payload = {
         "query": "What is the wellness stipend amount?",
-        "response": "The wellness stipend amount is $1,200 annually.",
+        "response": "The wellness expenses are $1,200 annually.",
         "contexts": ["Full-time team members receive up to $1,200 annually for fitness and wellness expenses."]
     }
     response = client.post("/api/v1/evaluate", json=eval_payload)

@@ -306,6 +306,44 @@ def dump(manifest: dict[str, Any], path: str | Path) -> None:
     )
 
 
+#: Evidence kinds that name a file on disk. `tool` and `endpoint` identify a
+#: binary or an HTTP route instead, so they have nothing to resolve.
+_FILE_EVIDENCE_KINDS = frozenset(
+    {"test", "workflow", "rule", "docker", "migration", "config", "source", "docs"}
+)
+
+
+def check_evidence_paths(manifest: dict[str, Any], kit_dir: Path) -> list[str]:
+    """Report controls whose evidence pointer does not resolve to a real file.
+
+    A manifest that says a control is enforced, and points at a test that was
+    never written, is worse than one that admits the gap: it reads as proof.
+    """
+    problems: list[str] = []
+    for check in manifest.get("checks", []):
+        evidence = check.get("evidence")
+        if not evidence:
+            if check.get("status") == "enforced":
+                problems.append(
+                    f"{check['id']}: status is 'enforced' with no evidence pointer"
+                )
+            continue
+        if evidence["kind"] not in _FILE_EVIDENCE_KINDS:
+            continue
+        # Strip a pytest-style ::node selector before resolving.
+        rel = evidence["path"].split("::", 1)[0]
+        bases = [kit_dir, kit_dir / "starter"]
+        # CI lives at the repository root, not inside each kit, so a workflow
+        # pointer resolves there.
+        if rel.startswith(".github/") or evidence["kind"] == "workflow":
+            bases.append(REPO_ROOT)
+        if not any((base / rel).exists() for base in bases):
+            problems.append(
+                f"{check['id']}: evidence path does not exist — {rel}"
+            )
+    return problems
+
+
 def validate(manifest: dict[str, Any]) -> list[str]:
     """Validate against the JSON Schema plus repo-specific invariants."""
     errors: list[str] = []

@@ -39,7 +39,11 @@
       "description": "LLM API keys enforced via environment variables.",
       "cwe": [
         "CWE-798"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-02",
@@ -53,7 +57,11 @@
       "description": "Dockerfile specifies non-root USER 10001:10001.",
       "cwe": [
         "CWE-250"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-03",
@@ -67,7 +75,11 @@
       "description": "Regex heuristics and delimiter encapsulation on user inputs.",
       "cwe": [
         "CWE-1427"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-04",
@@ -81,7 +93,11 @@
       "description": "pgvector <=> operator executed via parameterized bindings.",
       "cwe": [
         "CWE-89"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-05",
@@ -95,7 +111,11 @@
       "description": "Strict tenant_id scoping on all semantic search queries.",
       "cwe": [
         "CWE-639"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-06",
@@ -109,7 +129,11 @@
       "description": "Redis sliding-window rate limiters prevent denial-of-wallet.",
       "cwe": [
         "CWE-770"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-07",
@@ -123,7 +147,11 @@
       "description": "Structured outputs validated against typed PHP DTO schemas.",
       "cwe": [
         "CWE-20"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-08",
@@ -137,7 +165,11 @@
       "description": "Outbound HTTP calls restricted to approved LLM endpoints.",
       "cwe": [
         "CWE-653"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-09",
@@ -151,7 +183,11 @@
       "description": "Synthetic canary validation prevents system prompt exfiltration.",
       "cwe": [
         "CWE-20"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-10",
@@ -165,7 +201,11 @@
       "description": "Streaming endpoints require valid session or Bearer token.",
       "cwe": [
         "CWE-287"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-11",
@@ -179,7 +219,11 @@
       "description": "AI responses escaped prior to frontend rendering.",
       "cwe": [
         "CWE-79"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-12",
@@ -193,7 +237,11 @@
       "description": "Embedding jobs configured with maxTries=3 and dead-letter queue.",
       "cwe": [
         "CWE-755"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-13",
@@ -207,7 +255,11 @@
       "description": "0 blocking findings on OWASP Top 10 ruleset.",
       "cwe": [
         "CWE-1357"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     },
     {
       "id": "SEC-14",
@@ -221,7 +273,11 @@
       "description": "0 leaked tokens or keys detected.",
       "cwe": [
         "CWE-798"
-      ]
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/tests/Feature/SecurityControlsTest.php"
+      }
     }
   ]
 }

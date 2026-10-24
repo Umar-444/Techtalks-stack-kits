@@ -1,51 +1,75 @@
 {
   "kit_slug": "rag-fastapi-qdrant",
-  "name": "RAG FastAPI + Qdrant + OpenAI",
-  "token_metrics": {
-    "median_tokens": 23500,
-    "tier": "A",
-    "token_light": false
-  },
+  "name": "RAG FastAPI + Qdrant",
+  "schema_version": "2.0.0",
+  "note": "Every task runs a real command. Qdrant runs in its embedded in-memory mode (QdrantClient(':memory:')), so no server is needed; embeddings use the deterministic offline fallback, so no model download. Semantic-ranking quality needs the fastembed model and is skipped inside pytest when it is absent. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
+  "setup": "cd starter && pip install -r requirements.txt",
   "eval_tasks": [
     {
       "id": "rag-fastapi-qdrant-task-01",
-      "title": "Initialization & Environment Config",
-      "instruction": "Verify RAG FastAPI + Qdrant + OpenAI boots cleanly.",
+      "title": "Ingest, retrieve and health probe against embedded Qdrant",
+      "instruction": "The service must boot, chunk and index a document, retrieve it through the query endpoint, and report degraded health when the backend is unreachable.",
       "assertions": [
-        "Runtime boots with exit code 0"
+        "a document is chunked and indexed with HTTP 201",
+        "retrieval returns the ingested chunk with its citation block",
+        "health is ok when the collection exists and degraded when it does not or the backend is down",
+        "the collection is created with the declared HNSW parameters and a keyword tenant index"
       ],
-      "prompt_tokens": 2326,
-      "completion_tokens": 2843
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "qdrant_client"],
+      "verify": "cd starter && python -m pytest tests -k \"healthz or ingest or plumbing or health_reports or hnsw\" -q -p no:warnings"
     },
     {
       "id": "rag-fastapi-qdrant-task-02",
-      "title": "Data Model & Schema",
-      "instruction": "Define models and persistence layers.",
+      "title": "Tenant isolation on every vector query",
+      "instruction": "A query must always be pinned to one tenant: cross-tenant chunks are never returned, a missing tenant is rejected, and a spoofed or extra filter cannot widen the scope.",
       "assertions": [
-        "Schema validates"
+        "tenant A never sees tenant B chunks and vice versa",
+        "queries and ingests without a tenant_id are rejected with 422",
+        "extra filters cannot widen the tenant scope",
+        "a caller-supplied tenant_id key cannot override the trusted tenant condition",
+        "caller metadata cannot overwrite document_id or text in the stored payload"
       ],
-      "prompt_tokens": 2566,
-      "completion_tokens": 3543
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "qdrant_client"],
+      "verify": "cd starter && python -m pytest tests -k \"tenant or filters or metadata_cannot\" -q -p no:warnings"
     },
     {
       "id": "rag-fastapi-qdrant-task-03",
-      "title": "API Handlers & Security",
-      "instruction": "Expose endpoints with authorization.",
+      "title": "Prompt-injection delimiting, input limits and error hygiene",
+      "instruction": "Retrieved text must be wrapped in delimited untrusted blocks it cannot escape, inputs must be size-bounded, the chunker must terminate, and unhandled errors must not leak internals.",
       "assertions": [
-        "Auth enforced"
+        "each chunk sits in a delimited block and cannot close its own delimiter",
+        "document_id cannot inject markup into the block header",
+        "oversized or malformed ingest and query bodies are rejected with 422",
+        "a non-advancing chunk window is rejected instead of looping forever",
+        "unhandled errors return a generic 500 with no host, secret or traceback",
+        "a wildcard CORS origin is never honoured and unlisted origins get no allow header"
       ],
-      "prompt_tokens": 2481,
-      "completion_tokens": 3158
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "qdrant_client"],
+      "verify": "cd starter && python -m pytest tests -k \"context or delimiter or markup or oversized or chunker or embedding_dimension or unhandled or cors\" -q -p no:warnings"
     },
     {
       "id": "rag-fastapi-qdrant-task-04",
-      "title": "Automated Security Tests",
-      "instruction": "Run security audits and test suites.",
+      "title": "Container and configuration hardening",
+      "instruction": "The final image stage must run as a non-root UID and the env template must carry no credential values.",
       "assertions": [
-        "Zero leaks"
+        "the final Dockerfile stage drops to a numeric UID >= 10000",
+        "credential-named keys in .env.example are empty"
       ],
-      "prompt_tokens": 2632,
-      "completion_tokens": 3948
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "qdrant_client"],
+      "verify": "cd starter && python -m pytest tests -k \"non_root or env_example\" -q -p no:warnings"
+    },
+    {
+      "id": "rag-fastapi-qdrant-task-05",
+      "title": "Full suite green",
+      "instruction": "The complete functional and security suite must pass with no failures.",
+      "assertions": ["pytest exits 0 across tests/"],
+      "requires": ["python"],
+      "requires_python": ["fastapi", "pydantic", "pytest", "httpx", "qdrant_client"],
+      "verify": "cd starter && python -m pytest tests/ -q -p no:warnings"
     }
   ]
 }
