@@ -1,4 +1,4 @@
-﻿# Multi-stage production container for Rust + Loco.rs + SeaORM + SQLite
+# Multi-stage production container for Rust + Loco.rs + SeaORM + SQLite
 FROM rust:1.81-alpine AS builder
 
 WORKDIR /app

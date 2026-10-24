@@ -1,90 +1,227 @@
 {
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
   "kit_slug": "laravel-ai-features",
   "updated_at": "2026-10-22",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 14,
+    "categories": 1,
+    "by_status": {
+      "enforced": 14
+    },
+    "by_severity": {
+      "critical": 5,
+      "high": 7,
+      "medium": 2
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A02:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A07:2025",
+      "A10:2025"
+    ]
+  },
   "checks": [
     {
       "id": "SEC-01",
+      "category": "Core Security Guardrails",
       "name": "Zero Plaintext Credentials",
-      "status": "PASS",
-      "description": "LLM API keys enforced via environment variables."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "description": "LLM API keys enforced via environment variables.",
+      "cwe": [
+        "CWE-798"
+      ]
     },
     {
       "id": "SEC-02",
+      "category": "Core Security Guardrails",
       "name": "Rootless Container Isolation",
-      "status": "PASS",
-      "description": "Dockerfile specifies non-root USER 10001:10001."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "description": "Dockerfile specifies non-root USER 10001:10001.",
+      "cwe": [
+        "CWE-250"
+      ]
     },
     {
       "id": "SEC-03",
+      "category": "Core Security Guardrails",
       "name": "Prompt Injection Screening",
-      "status": "PASS",
-      "description": "Regex heuristics and delimiter encapsulation on user inputs."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "description": "Regex heuristics and delimiter encapsulation on user inputs.",
+      "cwe": [
+        "CWE-1427"
+      ]
     },
     {
       "id": "SEC-04",
+      "category": "Core Security Guardrails",
       "name": "Parameterized Vector Queries",
-      "status": "PASS",
-      "description": "pgvector <=> operator executed via parameterized bindings."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "description": "pgvector <=> operator executed via parameterized bindings.",
+      "cwe": [
+        "CWE-89"
+      ]
     },
     {
       "id": "SEC-05",
+      "category": "Core Security Guardrails",
       "name": "Multi-Tenant Vector Isolation",
-      "status": "PASS",
-      "description": "Strict tenant_id scoping on all semantic search queries."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "description": "Strict tenant_id scoping on all semantic search queries.",
+      "cwe": [
+        "CWE-639"
+      ]
     },
     {
       "id": "SEC-06",
+      "category": "Core Security Guardrails",
       "name": "Token Budget & Rate Limiting",
-      "status": "PASS",
-      "description": "Redis sliding-window rate limiters prevent denial-of-wallet."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "description": "Redis sliding-window rate limiters prevent denial-of-wallet.",
+      "cwe": [
+        "CWE-770"
+      ]
     },
     {
       "id": "SEC-07",
+      "category": "Core Security Guardrails",
       "name": "JSON Schema Output Validation",
-      "status": "PASS",
-      "description": "Structured outputs validated against typed PHP DTO schemas."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "description": "Structured outputs validated against typed PHP DTO schemas.",
+      "cwe": [
+        "CWE-20"
+      ]
     },
     {
       "id": "SEC-08",
+      "category": "Core Security Guardrails",
       "name": "Egress Domain Allowlisting",
-      "status": "PASS",
-      "description": "Outbound HTTP calls restricted to approved LLM endpoints."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "description": "Outbound HTTP calls restricted to approved LLM endpoints.",
+      "cwe": [
+        "CWE-653"
+      ]
     },
     {
       "id": "SEC-09",
+      "category": "Core Security Guardrails",
       "name": "Canary Token Leak Defense",
-      "status": "PASS",
-      "description": "Synthetic canary validation prevents system prompt exfiltration."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "description": "Synthetic canary validation prevents system prompt exfiltration.",
+      "cwe": [
+        "CWE-20"
+      ]
     },
     {
       "id": "SEC-10",
+      "category": "Core Security Guardrails",
       "name": "CSRF & SSE Authentication",
-      "status": "PASS",
-      "description": "Streaming endpoints require valid session or Bearer token."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "description": "Streaming endpoints require valid session or Bearer token.",
+      "cwe": [
+        "CWE-287"
+      ]
     },
     {
       "id": "SEC-11",
+      "category": "Core Security Guardrails",
       "name": "XSS Output Escaping on AI Content",
-      "status": "PASS",
-      "description": "AI responses escaped prior to frontend rendering."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "description": "AI responses escaped prior to frontend rendering.",
+      "cwe": [
+        "CWE-79"
+      ]
     },
     {
       "id": "SEC-12",
+      "category": "Core Security Guardrails",
       "name": "Queue Poison Message Handling",
-      "status": "PASS",
-      "description": "Embedding jobs configured with maxTries=3 and dead-letter queue."
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A10:2025"
+      ],
+      "description": "Embedding jobs configured with maxTries=3 and dead-letter queue.",
+      "cwe": [
+        "CWE-755"
+      ]
     },
     {
       "id": "SEC-13",
+      "category": "Core Security Guardrails",
       "name": "SAST Semgrep OSS Scan",
-      "status": "PASS",
-      "description": "0 blocking findings on OWASP Top 10 ruleset."
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "description": "0 blocking findings on OWASP Top 10 ruleset.",
+      "cwe": [
+        "CWE-1357"
+      ]
     },
     {
       "id": "SEC-14",
+      "category": "Core Security Guardrails",
       "name": "Gitleaks Secret Scan",
-      "status": "PASS",
-      "description": "0 leaked tokens or keys detected."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "description": "0 leaked tokens or keys detected.",
+      "cwe": [
+        "CWE-798"
+      ]
     }
   ]
 }

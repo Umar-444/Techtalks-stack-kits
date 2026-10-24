@@ -1,49 +1,95 @@
 {
   "kit_slug": "rust-leptos-fullstack",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "rust-leptos-fullstack-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 2890,
-      "completion_tokens": 3533,
-      "tokens_consumed": 6423
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 2021,
+    "shared_context_tokens": 768,
+    "shared_context": {
+      "DESIGN.md": 337,
+      "SECURITY.md": 157,
+      "agent-build-steps.md": 274
     },
-    {
-      "id": "rust-leptos-fullstack-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 3188,
-      "completion_tokens": 4403,
-      "tokens_consumed": 7591
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1253,
+        "total_tokens": 2021
+      },
+      "codex": {
+        "rules_tokens": 1405,
+        "total_tokens": 2173
+      },
+      "standard": {
+        "rules_tokens": 1430,
+        "total_tokens": 2198
+      },
+      "cline": {
+        "rules_tokens": 1171,
+        "total_tokens": 1939
+      },
+      "windsurf": {
+        "rules_tokens": 1238,
+        "total_tokens": 2006
+      },
+      "copilot": {
+        "rules_tokens": 1239,
+        "total_tokens": 2007
+      }
     },
-    {
-      "id": "rust-leptos-fullstack-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 3083,
-      "completion_tokens": 3924,
-      "tokens_consumed": 7007
-    },
-    {
-      "id": "rust-leptos-fullstack-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 3270,
-      "completion_tokens": 4905,
-      "tokens_consumed": 8175
-    }
-  ],
-  "median_task_tokens": 7299,
-  "median_tokens_to_complete_reference_build": 29196,
-  "efficiency_tier": "B",
-  "efficiency_note": "Full-stack Rust WASM signals + Axum server functions",
-  "token_light": false
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A"
+  },
+  "starter": {
+    "files": 8,
+    "source_loc": 91
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "rust-leptos-fullstack-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rust-leptos-fullstack-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rust-leptos-fullstack-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rust-leptos-fullstack-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

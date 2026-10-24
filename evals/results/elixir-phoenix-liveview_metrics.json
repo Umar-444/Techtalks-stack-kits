@@ -1,49 +1,95 @@
 {
   "kit_slug": "elixir-phoenix-liveview",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "elixir-phoenix-liveview-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 1920,
-      "completion_tokens": 2347,
-      "tokens_consumed": 4267
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 1878,
+    "shared_context_tokens": 647,
+    "shared_context": {
+      "DESIGN.md": 341,
+      "SECURITY.md": 161,
+      "agent-build-steps.md": 145
     },
-    {
-      "id": "elixir-phoenix-liveview-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 2118,
-      "completion_tokens": 2925,
-      "tokens_consumed": 5043
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1231,
+        "total_tokens": 1878
+      },
+      "codex": {
+        "rules_tokens": 1384,
+        "total_tokens": 2031
+      },
+      "standard": {
+        "rules_tokens": 1483,
+        "total_tokens": 2130
+      },
+      "cline": {
+        "rules_tokens": 1062,
+        "total_tokens": 1709
+      },
+      "windsurf": {
+        "rules_tokens": 1216,
+        "total_tokens": 1863
+      },
+      "copilot": {
+        "rules_tokens": 1217,
+        "total_tokens": 1864
+      }
     },
-    {
-      "id": "elixir-phoenix-liveview-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 2048,
-      "completion_tokens": 2607,
-      "tokens_consumed": 4655
-    },
-    {
-      "id": "elixir-phoenix-liveview-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 2172,
-      "completion_tokens": 3259,
-      "tokens_consumed": 5431
-    }
-  ],
-  "median_task_tokens": 4849,
-  "median_tokens_to_complete_reference_build": 19396,
-  "efficiency_tier": "A",
-  "efficiency_note": "Single language full-stack, LiveView server state",
-  "token_light": true
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A+"
+  },
+  "starter": {
+    "files": 22,
+    "source_loc": 401
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "elixir-phoenix-liveview-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "elixir-phoenix-liveview-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "elixir-phoenix-liveview-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "elixir-phoenix-liveview-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

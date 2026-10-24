@@ -1,49 +1,95 @@
 {
   "kit_slug": "laravel-ai-features",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "laravel-ai-features-task-01",
-      "title": "Initialization & Environment Config",
-      "status": "PASS",
-      "prompt_tokens": 2900,
-      "completion_tokens": 2100,
-      "tokens_consumed": 5000
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 1803,
+    "shared_context_tokens": 888,
+    "shared_context": {
+      "DESIGN.md": 351,
+      "SECURITY.md": 182,
+      "agent-build-steps.md": 355
     },
-    {
-      "id": "laravel-ai-features-task-02",
-      "title": "Data Model & Schema",
-      "status": "PASS",
-      "prompt_tokens": 3100,
-      "completion_tokens": 2300,
-      "tokens_consumed": 5400
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 915,
+        "total_tokens": 1803
+      },
+      "codex": {
+        "rules_tokens": 1065,
+        "total_tokens": 1953
+      },
+      "standard": {
+        "rules_tokens": 1019,
+        "total_tokens": 1907
+      },
+      "cline": {
+        "rules_tokens": 623,
+        "total_tokens": 1511
+      },
+      "windsurf": {
+        "rules_tokens": 835,
+        "total_tokens": 1723
+      },
+      "copilot": {
+        "rules_tokens": 836,
+        "total_tokens": 1724
+      }
     },
-    {
-      "id": "laravel-ai-features-task-03",
-      "title": "API Handlers & Security",
-      "status": "PASS",
-      "prompt_tokens": 3000,
-      "completion_tokens": 2200,
-      "tokens_consumed": 5200
-    },
-    {
-      "id": "laravel-ai-features-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 3100,
-      "completion_tokens": 2400,
-      "tokens_consumed": 5500
-    }
-  ],
-  "median_task_tokens": 5300,
-  "median_tokens_to_complete_reference_build": 21100,
-  "efficiency_tier": "A",
-  "efficiency_note": "Structured LLM output generation, PostgreSQL pgvector embeddings, and RAG Q&A",
-  "token_light": true
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A+"
+  },
+  "starter": {
+    "files": 15,
+    "source_loc": 267
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "laravel-ai-features-task-01",
+        "title": "Initialization & Environment Config",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "laravel-ai-features-task-02",
+        "title": "Data Model & Schema",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "laravel-ai-features-task-03",
+        "title": "API Handlers & Security",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "laravel-ai-features-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

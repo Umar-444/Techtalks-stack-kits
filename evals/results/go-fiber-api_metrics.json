@@ -1,49 +1,95 @@
 {
   "kit_slug": "go-fiber-api",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "go-fiber-api-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 1871,
-      "completion_tokens": 2286,
-      "tokens_consumed": 4157
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 1885,
+    "shared_context_tokens": 754,
+    "shared_context": {
+      "DESIGN.md": 328,
+      "SECURITY.md": 148,
+      "agent-build-steps.md": 278
     },
-    {
-      "id": "go-fiber-api-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 2063,
-      "completion_tokens": 2850,
-      "tokens_consumed": 4913
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1131,
+        "total_tokens": 1885
+      },
+      "codex": {
+        "rules_tokens": 1281,
+        "total_tokens": 2035
+      },
+      "standard": {
+        "rules_tokens": 1308,
+        "total_tokens": 2062
+      },
+      "cline": {
+        "rules_tokens": 1058,
+        "total_tokens": 1812
+      },
+      "windsurf": {
+        "rules_tokens": 1116,
+        "total_tokens": 1870
+      },
+      "copilot": {
+        "rules_tokens": 1117,
+        "total_tokens": 1871
+      }
     },
-    {
-      "id": "go-fiber-api-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 1995,
-      "completion_tokens": 2540,
-      "tokens_consumed": 4535
-    },
-    {
-      "id": "go-fiber-api-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 2116,
-      "completion_tokens": 3175,
-      "tokens_consumed": 5291
-    }
-  ],
-  "median_task_tokens": 4724,
-  "median_tokens_to_complete_reference_build": 18896,
-  "efficiency_tier": "A",
-  "efficiency_note": "Express-like Go ergonomics, compact fasthttp handlers",
-  "token_light": true
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A+"
+  },
+  "starter": {
+    "files": 6,
+    "source_loc": 186
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "go-fiber-api-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "go-fiber-api-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "go-fiber-api-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "go-fiber-api-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

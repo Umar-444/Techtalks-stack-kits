@@ -1,90 +1,227 @@
 {
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
   "kit_slug": "laravel-filament-mysql",
   "updated_at": "2026-10-22",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 14,
+    "categories": 1,
+    "by_status": {
+      "enforced": 14
+    },
+    "by_severity": {
+      "critical": 5,
+      "high": 6,
+      "medium": 3
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A02:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A07:2025",
+      "A10:2025"
+    ]
+  },
   "checks": [
     {
       "id": "SEC-01",
+      "category": "Core Security Guardrails",
       "name": "Zero Plaintext Credentials",
-      "status": "PASS",
-      "description": "No hardcoded credentials; env secrets enforced."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "description": "No hardcoded credentials; env secrets enforced.",
+      "cwe": [
+        "CWE-798"
+      ]
     },
     {
       "id": "SEC-02",
+      "category": "Core Security Guardrails",
       "name": "Rootless Container Isolation",
-      "status": "PASS",
-      "description": "Dockerfile specifies non-root USER 10001:10001."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "description": "Dockerfile specifies non-root USER 10001:10001.",
+      "cwe": [
+        "CWE-250"
+      ]
     },
     {
       "id": "SEC-03",
+      "category": "Core Security Guardrails",
       "name": "BOLA Policy Enforcement",
-      "status": "PASS",
-      "description": "Every Filament resource bound to dedicated Laravel policy."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "description": "Every Filament resource bound to dedicated Laravel policy.",
+      "cwe": [
+        "CWE-639"
+      ]
     },
     {
       "id": "SEC-04",
+      "category": "Core Security Guardrails",
       "name": "Parameterized MySQL Queries",
-      "status": "PASS",
-      "description": "Zero raw string interpolation in SQL; MATCH AGAINST bound via parameters."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "description": "Zero raw string interpolation in SQL; MATCH AGAINST bound via parameters.",
+      "cwe": [
+        "CWE-89"
+      ]
     },
     {
       "id": "SEC-05",
+      "category": "Core Security Guardrails",
       "name": "MySQL Strict SQL Mode",
-      "status": "PASS",
-      "description": "STRICT_TRANS_TABLES prevents silent truncation."
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A02:2025"
+      ],
+      "description": "STRICT_TRANS_TABLES prevents silent truncation.",
+      "cwe": [
+        "CWE-16"
+      ]
     },
     {
       "id": "SEC-06",
+      "category": "Core Security Guardrails",
       "name": "Mass Assignment Protection",
-      "status": "PASS",
-      "description": "All Eloquent models declare $fillable or guarded properties."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A01:2025"
+      ],
+      "description": "All Eloquent models declare $fillable or guarded properties.",
+      "cwe": [
+        "CWE-915"
+      ]
     },
     {
       "id": "SEC-07",
+      "category": "Core Security Guardrails",
       "name": "CSRF & Form Protection",
-      "status": "PASS",
-      "description": "Livewire / Filament form CSRF tokens strictly validated."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "description": "Livewire / Filament form CSRF tokens strictly validated.",
+      "cwe": [
+        "CWE-352"
+      ]
     },
     {
       "id": "SEC-08",
+      "category": "Core Security Guardrails",
       "name": "Session Cookie Hardening",
-      "status": "PASS",
-      "description": "SameSite=Lax, HttpOnly, and Secure cookie flags active."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "description": "SameSite=Lax, HttpOnly, and Secure cookie flags active.",
+      "cwe": [
+        "CWE-1004"
+      ]
     },
     {
       "id": "SEC-09",
+      "category": "Core Security Guardrails",
       "name": "Argon2id Password Hashing",
-      "status": "PASS",
-      "description": "Modern Argon2id hashing with memory cost 65536."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A07:2025"
+      ],
+      "description": "Modern Argon2id hashing with memory cost 65536.",
+      "cwe": [
+        "CWE-916"
+      ]
     },
     {
       "id": "SEC-10",
+      "category": "Core Security Guardrails",
       "name": "Rate Limiting on Auth Endpoints",
-      "status": "PASS",
-      "description": "5 requests per minute throttling on login routes."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "description": "5 requests per minute throttling on login routes.",
+      "cwe": [
+        "CWE-770"
+      ]
     },
     {
       "id": "SEC-11",
+      "category": "Core Security Guardrails",
       "name": "XSS Output Escaping",
-      "status": "PASS",
-      "description": "Blade {{ }} double-curly auto-escaping enforced across all views."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "description": "Blade {{ }} double-curly auto-escaping enforced across all views.",
+      "cwe": [
+        "CWE-79"
+      ]
     },
     {
       "id": "SEC-12",
+      "category": "Core Security Guardrails",
       "name": "Deadlock Retry Safety",
-      "status": "PASS",
-      "description": "Automatic retry logic for MySQL 1213 deadlock errors."
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A10:2025"
+      ],
+      "description": "Automatic retry logic for MySQL 1213 deadlock errors.",
+      "cwe": [
+        "CWE-755"
+      ]
     },
     {
       "id": "SEC-13",
+      "category": "Core Security Guardrails",
       "name": "SAST Semgrep OSS Scan",
-      "status": "PASS",
-      "description": "0 blocking findings on OWASP Top 10 ruleset."
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "description": "0 blocking findings on OWASP Top 10 ruleset.",
+      "cwe": [
+        "CWE-1357"
+      ]
     },
     {
       "id": "SEC-14",
+      "category": "Core Security Guardrails",
       "name": "Gitleaks Secret Scan",
-      "status": "PASS",
-      "description": "0 leaked tokens or keys detected."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "description": "0 leaked tokens or keys detected.",
+      "cwe": [
+        "CWE-798"
+      ]
     }
   ]
 }

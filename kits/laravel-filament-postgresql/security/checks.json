@@ -1,99 +1,233 @@
 {
-  "kit": "laravel-filament-postgresql",
-  "version": "1.0.0",
-  "total_controls": 28,
-  "categories": [
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
+  "kit_slug": "laravel-filament-postgresql",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 4,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 5,
+      "high": 6,
+      "medium": 1
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A07:2025"
+    ]
+  },
+  "checks": [
     {
-      "name": "Authentication & Session Security",
-      "controls": [
-        {
-          "id": "AUTH-01",
-          "name": "Bcrypt / Argon2id password hashing with work factor >= 12",
-          "status": "enforced",
-          "test": "tests/Feature/Security/PasswordSecurityTest.php"
-        },
-        {
-          "id": "AUTH-02",
-          "name": "Session cookie flags: Secure, HttpOnly, SameSite=Lax",
-          "status": "enforced",
-          "test": "tests/Feature/Security/SessionSecurityTest.php"
-        },
-        {
-          "id": "AUTH-03",
-          "name": "Session regeneration on authentication and privilege escalation",
-          "status": "enforced",
-          "test": "tests/Feature/Security/SessionRegenerationTest.php"
-        },
-        {
-          "id": "AUTH-04",
-          "name": "Rate limiting on login and password reset routes",
-          "status": "enforced",
-          "test": "tests/Feature/Security/RateLimitingTest.php"
-        }
-      ]
+      "id": "AUTH-01",
+      "category": "Authentication & Session Security",
+      "name": "Bcrypt / Argon2id password hashing with work factor >= 12",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-916"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/PasswordSecurityTest.php"
+      }
     },
     {
-      "name": "Authorization & Multi-Tenancy",
-      "controls": [
-        {
-          "id": "AUTHZ-01",
-          "name": "Filament panel multi-tenant scoping via TenantScope",
-          "status": "enforced",
-          "test": "tests/Feature/Security/TenantIsolationTest.php"
-        },
-        {
-          "id": "AUTHZ-02",
-          "name": "Strict Model Policy enforcement on all Filament resources",
-          "status": "enforced",
-          "test": "tests/Feature/Security/PolicyAuthorizationTest.php"
-        }
-      ]
+      "id": "AUTH-02",
+      "category": "Authentication & Session Security",
+      "name": "Session cookie flags: Secure, HttpOnly, SameSite=Lax",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-1004"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/SessionSecurityTest.php"
+      }
     },
     {
-      "name": "Input Validation & Data Layer",
-      "controls": [
-        {
-          "id": "DATA-01",
-          "name": "Strict Eloquent parameterization preventing SQL injection",
-          "status": "enforced",
-          "test": "tests/Feature/Security/SqlInjectionTest.php"
-        },
-        {
-          "id": "DATA-02",
-          "name": "XSS escaping on Blade and Filament table components",
-          "status": "enforced",
-          "test": "tests/Feature/Security/XssProtectionTest.php"
-        },
-        {
-          "id": "DATA-03",
-          "name": "CSRF token verification on all POST/PUT/DELETE endpoints",
-          "status": "enforced",
-          "test": "tests/Feature/Security/CsrfProtectionTest.php"
-        }
-      ]
+      "id": "AUTH-03",
+      "category": "Authentication & Session Security",
+      "name": "Session regeneration on authentication and privilege escalation",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-384"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/SessionRegenerationTest.php"
+      }
     },
     {
-      "name": "CI & Supply Chain Guardrails",
-      "controls": [
-        {
-          "id": "CI-01",
-          "name": "Gitleaks pre-commit and PR secret scanning",
-          "status": "enforced",
-          "workflow": ".github/workflows/security.yml"
-        },
-        {
-          "id": "CI-02",
-          "name": "Semgrep OWASP Top 10 ruleset evaluation",
-          "status": "enforced",
-          "workflow": ".github/workflows/security.yml"
-        },
-        {
-          "id": "CI-03",
-          "name": "Composer audit zero high/critical vulnerabilities gate",
-          "status": "enforced",
-          "workflow": ".github/workflows/security.yml"
-        }
-      ]
+      "id": "AUTH-04",
+      "category": "Authentication & Session Security",
+      "name": "Rate limiting on login and password reset routes",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-770"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/RateLimitingTest.php"
+      }
+    },
+    {
+      "id": "AUTHZ-01",
+      "category": "Authorization & Multi-Tenancy",
+      "name": "Filament panel multi-tenant scoping via TenantScope",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-639"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/TenantIsolationTest.php"
+      }
+    },
+    {
+      "id": "AUTHZ-02",
+      "category": "Authorization & Multi-Tenancy",
+      "name": "Strict Model Policy enforcement on all Filament resources",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-285"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/PolicyAuthorizationTest.php"
+      }
+    },
+    {
+      "id": "DATA-01",
+      "category": "Input Validation & Data Layer",
+      "name": "Strict Eloquent parameterization preventing SQL injection",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-89"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/SqlInjectionTest.php"
+      }
+    },
+    {
+      "id": "DATA-02",
+      "category": "Input Validation & Data Layer",
+      "name": "XSS escaping on Blade and Filament table components",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-79"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/XssProtectionTest.php"
+      }
+    },
+    {
+      "id": "DATA-03",
+      "category": "Input Validation & Data Layer",
+      "name": "CSRF token verification on all POST/PUT/DELETE endpoints",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-352"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/CsrfProtectionTest.php"
+      }
+    },
+    {
+      "id": "CI-01",
+      "category": "CI & Supply Chain Guardrails",
+      "name": "Gitleaks pre-commit and PR secret scanning",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": ".github/workflows/security.yml"
+      }
+    },
+    {
+      "id": "CI-02",
+      "category": "CI & Supply Chain Guardrails",
+      "name": "Semgrep OWASP Top 10 ruleset evaluation",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": ".github/workflows/security.yml"
+      }
+    },
+    {
+      "id": "CI-03",
+      "category": "CI & Supply Chain Guardrails",
+      "name": "Composer audit zero high/critical vulnerabilities gate",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1104"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": ".github/workflows/security.yml"
+      }
     }
   ]
 }

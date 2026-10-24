@@ -1,98 +1,223 @@
 {
-  "kit": "security-devsecops-ci",
-  "version": "1.0.0",
-  "total_controls": 12,
-  "categories": [
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
+  "kit_slug": "security-devsecops-ci",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 4,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 3,
+      "high": 7,
+      "medium": 2
+    },
+    "owasp_covered": [
+      "A02:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A09:2025"
+    ]
+  },
+  "checks": [
     {
-      "name": "Secret Detection & Credential Hygiene",
-      "controls": [
-        {
-          "id": "SEC-01",
-          "name": "Zero plaintext secrets across git commit history via Gitleaks",
-          "status": "enforced",
-          "tool": "gitleaks"
-        },
-        {
-          "id": "SEC-02",
-          "name": "Customized regex & high-entropy string rules in .gitleaks.toml",
-          "status": "enforced",
-          "config": "starter/.gitleaks.toml"
-        },
-        {
-          "id": "SEC-03",
-          "name": "Pre-commit hook protection for staged developer commits",
-          "status": "enforced",
-          "script": "starter/scripts/run_local_pipeline.py"
-        }
+      "id": "SEC-01",
+      "category": "Secret Detection & Credential Hygiene",
+      "name": "Zero plaintext secrets across git commit history via Gitleaks",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "gitleaks"
+      }
+    },
+    {
+      "id": "SEC-02",
+      "category": "Secret Detection & Credential Hygiene",
+      "name": "Customized regex & high-entropy string rules in .gitleaks.toml",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "config",
+        "path": "starter/.gitleaks.toml"
+      }
+    },
+    {
+      "id": "SEC-03",
+      "category": "Secret Detection & Credential Hygiene",
+      "name": "Pre-commit hook protection for staged developer commits",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
       ]
     },
     {
-      "name": "Static Code Analysis (SAST)",
-      "controls": [
-        {
-          "id": "SAST-01",
-          "name": "Semgrep OSS AST pattern matching for OWASP Top 10 vulnerabilities",
-          "status": "enforced",
-          "tool": "semgrep"
-        },
-        {
-          "id": "SAST-02",
-          "name": "SQL injection and command injection taint tracking",
-          "status": "enforced",
-          "config": "starter/.semgrep.yml"
-        },
-        {
-          "id": "SAST-03",
-          "name": "Standardized SARIF 2.1.0 output uploaded to GitHub Code Scanning",
-          "status": "enforced",
-          "workflow": "starter/.github/workflows/devsecops.yml"
-        }
-      ]
+      "id": "SAST-01",
+      "category": "Static Code Analysis (SAST)",
+      "name": "Semgrep OSS AST pattern matching for OWASP Top 10 vulnerabilities",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "semgrep"
+      }
     },
     {
-      "name": "Container Hardening & Vulnerability Management (SCA)",
-      "controls": [
-        {
-          "id": "CONT-01",
-          "name": "Aqua Security Trivy CVE vulnerability scans on filesystem and image",
-          "status": "enforced",
-          "tool": "trivy"
-        },
-        {
-          "id": "CONT-02",
-          "name": "Automated blocking on CRITICAL and HIGH CVEs with known upstream fixes",
-          "status": "enforced",
-          "config": "starter/trivy.yaml"
-        },
-        {
-          "id": "CONT-03",
-          "name": "Non-root container user execution and minimal Alpine base image",
-          "status": "enforced",
-          "docker": "starter/Dockerfile: USER 10001:10001"
-        }
-      ]
+      "id": "SAST-02",
+      "category": "Static Code Analysis (SAST)",
+      "name": "SQL injection and command injection taint tracking",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-89"
+      ],
+      "evidence": {
+        "kind": "config",
+        "path": "starter/.semgrep.yml"
+      }
     },
     {
-      "name": "Supply Chain & Software Bill of Materials (SBOM)",
-      "controls": [
-        {
-          "id": "SUP-01",
-          "name": "Automated CycloneDX & SPDX SBOM generation via Anchore Syft",
-          "status": "enforced",
-          "tool": "syft"
-        },
-        {
-          "id": "SUP-02",
-          "name": "Dependabot weekly automated dependency updates and security PRs",
-          "status": "enforced",
-          "config": "starter/.github/dependabot.yml"
-        },
-        {
-          "id": "SUP-03",
-          "name": "Cross-platform local simulation script for pre-flight developer runs",
-          "status": "enforced",
-          "script": "starter/scripts/run_local_pipeline.py"
-        }
+      "id": "SAST-03",
+      "category": "Static Code Analysis (SAST)",
+      "name": "Standardized SARIF 2.1.0 output uploaded to GitHub Code Scanning",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A09:2025"
+      ],
+      "cwe": [
+        "CWE-778"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": "starter/.github/workflows/devsecops.yml"
+      }
+    },
+    {
+      "id": "CONT-01",
+      "category": "Container Hardening & Vulnerability Management (SCA)",
+      "name": "Aqua Security Trivy CVE vulnerability scans on filesystem and image",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1104"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "trivy"
+      }
+    },
+    {
+      "id": "CONT-02",
+      "category": "Container Hardening & Vulnerability Management (SCA)",
+      "name": "Automated blocking on CRITICAL and HIGH CVEs with known upstream fixes",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1104"
+      ],
+      "evidence": {
+        "kind": "config",
+        "path": "starter/trivy.yaml"
+      }
+    },
+    {
+      "id": "CONT-03",
+      "category": "Container Hardening & Vulnerability Management (SCA)",
+      "name": "Non-root container user execution and minimal Alpine base image",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-250"
+      ],
+      "evidence": {
+        "kind": "docker",
+        "path": "starter/Dockerfile"
+      }
+    },
+    {
+      "id": "SUP-01",
+      "category": "Supply Chain & Software Bill of Materials (SBOM)",
+      "name": "Automated CycloneDX & SPDX SBOM generation via Anchore Syft",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "syft"
+      }
+    },
+    {
+      "id": "SUP-02",
+      "category": "Supply Chain & Software Bill of Materials (SBOM)",
+      "name": "Dependabot weekly automated dependency updates and security PRs",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1104"
+      ],
+      "evidence": {
+        "kind": "config",
+        "path": "starter/.github/dependabot.yml"
+      }
+    },
+    {
+      "id": "SUP-03",
+      "category": "Supply Chain & Software Bill of Materials (SBOM)",
+      "name": "Cross-platform local simulation script for pre-flight developer runs",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
       ]
     }
   ]

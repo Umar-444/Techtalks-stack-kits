@@ -1,90 +1,227 @@
 {
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
   "kit_slug": "mcp-tools-kit",
   "updated_at": "2026-10-22",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 14,
+    "categories": 1,
+    "by_status": {
+      "enforced": 14
+    },
+    "by_severity": {
+      "critical": 4,
+      "high": 7,
+      "medium": 3
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A02:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A07:2025",
+      "A08:2025"
+    ]
+  },
   "checks": [
     {
       "id": "SEC-01",
+      "category": "Core Security Guardrails",
       "name": "Zero Plaintext Credentials",
-      "status": "PASS",
-      "description": "All API tokens and secrets loaded via environment variables."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "description": "All API tokens and secrets loaded via environment variables.",
+      "cwe": [
+        "CWE-798"
+      ]
     },
     {
       "id": "SEC-02",
+      "category": "Core Security Guardrails",
       "name": "Rootless Container Isolation",
-      "status": "PASS",
-      "description": "Dockerfile specifies non-root USER 10001:10001."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "description": "Dockerfile specifies non-root USER 10001:10001.",
+      "cwe": [
+        "CWE-250"
+      ]
     },
     {
       "id": "SEC-03",
+      "category": "Core Security Guardrails",
       "name": "Path Traversal Sandboxing",
-      "status": "PASS",
-      "description": "path.resolve() sandbox boundary validation prevents directory escapes."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A01:2025"
+      ],
+      "description": "path.resolve() sandbox boundary validation prevents directory escapes.",
+      "cwe": [
+        "CWE-22"
+      ]
     },
     {
       "id": "SEC-04",
+      "category": "Core Security Guardrails",
       "name": "Runtime Zod Schema Validation",
-      "status": "PASS",
-      "description": "Every tool call argument validated against strict Zod schema."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "description": "Every tool call argument validated against strict Zod schema.",
+      "cwe": [
+        "CWE-20"
+      ]
     },
     {
       "id": "SEC-05",
+      "category": "Core Security Guardrails",
       "name": "Zero Arbitrary Shell Execution",
-      "status": "PASS",
-      "description": "Child process exec() prohibited; only deterministic utilities permitted."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "description": "Child process exec() prohibited; only deterministic utilities permitted.",
+      "cwe": [
+        "CWE-78"
+      ]
     },
     {
       "id": "SEC-06",
+      "category": "Core Security Guardrails",
       "name": "JSON-RPC 2.0 Schema Conformance",
-      "status": "PASS",
-      "description": "All responses comply with JSON-RPC 2.0 specifications."
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A08:2025"
+      ],
+      "description": "All responses comply with JSON-RPC 2.0 specifications.",
+      "cwe": [
+        "CWE-1287"
+      ]
     },
     {
       "id": "SEC-07",
+      "category": "Core Security Guardrails",
       "name": "Bearer Token Auth for SSE",
-      "status": "PASS",
-      "description": "HTTP SSE endpoints protected by Bearer token authorization."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "description": "HTTP SSE endpoints protected by Bearer token authorization.",
+      "cwe": [
+        "CWE-287"
+      ]
     },
     {
       "id": "SEC-08",
+      "category": "Core Security Guardrails",
       "name": "Payload Size Capping",
-      "status": "PASS",
-      "description": "Maximum JSON-RPC payload size capped at 4MB to prevent memory exhaustion."
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A06:2025"
+      ],
+      "description": "Maximum JSON-RPC payload size capped at 4MB to prevent memory exhaustion.",
+      "cwe": [
+        "CWE-770"
+      ]
     },
     {
       "id": "SEC-09",
+      "category": "Core Security Guardrails",
       "name": "CORS Origin Restriction",
-      "status": "PASS",
-      "description": "SSE endpoints restrict cross-origin access to allowlisted origins."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "description": "SSE endpoints restrict cross-origin access to allowlisted origins.",
+      "cwe": [
+        "CWE-942"
+      ]
     },
     {
       "id": "SEC-10",
+      "category": "Core Security Guardrails",
       "name": "Rate Limiting on Tool Invocations",
-      "status": "PASS",
-      "description": "Per-client rate limiting prevents tool abuse and denial-of-service."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "description": "Per-client rate limiting prevents tool abuse and denial-of-service.",
+      "cwe": [
+        "CWE-770"
+      ]
     },
     {
       "id": "SEC-11",
+      "category": "Core Security Guardrails",
       "name": "Safe Math & Query Evaluation",
-      "status": "PASS",
-      "description": "No eval() or new Function() used in calculation or query tools."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "description": "No eval() or new Function() used in calculation or query tools.",
+      "cwe": [
+        "CWE-95"
+      ]
     },
     {
       "id": "SEC-12",
+      "category": "Core Security Guardrails",
       "name": "Structured Error Code Sanitization",
-      "status": "PASS",
-      "description": "Internal stack traces masked in client error responses."
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "description": "Internal stack traces masked in client error responses.",
+      "cwe": [
+        "CWE-362"
+      ]
     },
     {
       "id": "SEC-13",
+      "category": "Core Security Guardrails",
       "name": "SAST Semgrep OSS Scan",
-      "status": "PASS",
-      "description": "0 blocking findings on OWASP Top 10 ruleset."
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "description": "0 blocking findings on OWASP Top 10 ruleset.",
+      "cwe": [
+        "CWE-1357"
+      ]
     },
     {
       "id": "SEC-14",
+      "category": "Core Security Guardrails",
       "name": "Gitleaks Secret Scan",
-      "status": "PASS",
-      "description": "0 leaked tokens or credentials detected."
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "description": "0 leaked tokens or credentials detected.",
+      "cwe": [
+        "CWE-798"
+      ]
     }
   ]
 }

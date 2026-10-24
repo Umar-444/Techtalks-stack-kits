@@ -1,99 +1,237 @@
 {
-  "kit": "ruby-rails-hotwire",
-  "version": "1.0.0",
-  "total_controls": 12,
-  "categories": [
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
+  "kit_slug": "ruby-rails-hotwire",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 4,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 2,
+      "high": 6,
+      "medium": 2,
+      "low": 2
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A02:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A07:2025",
+      "A08:2025",
+      "A09:2025"
+    ]
+  },
+  "checks": [
     {
-      "name": "Static Analysis & Brakeman Invariants",
-      "controls": [
-        {
-          "id": "BRAKE-01",
-          "name": "Zero high or medium confidence Brakeman vulnerabilities",
-          "status": "enforced",
-          "tool": "brakeman"
-        },
-        {
-          "id": "BRAKE-02",
-          "name": "Strict Strong Parameters required on all mutating controller actions",
-          "status": "enforced",
-          "test": "app/controllers/posts_controller.rb"
-        },
-        {
-          "id": "BRAKE-03",
-          "name": "SQL injection prevention via bind parameters exclusively",
-          "status": "enforced",
-          "tool": "brakeman"
-        },
-        {
-          "id": "BRAKE-04",
-          "name": "Cross-Site Scripting (XSS) defense; no raw unescaped user strings",
-          "status": "enforced",
-          "tool": "brakeman"
-        }
-      ]
+      "id": "BRAKE-01",
+      "category": "Static Analysis & Brakeman Invariants",
+      "name": "Zero high or medium confidence Brakeman vulnerabilities",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "brakeman"
+      }
     },
     {
-      "name": "Session, Authentication & CSRF Protection",
-      "controls": [
-        {
-          "id": "AUTH-01",
-          "name": "CSRF authenticity token verification on all non-GET requests",
-          "status": "enforced",
-          "config": "ApplicationController: protect_from_forgery"
-        },
-        {
-          "id": "AUTH-02",
-          "name": "Encrypted session cookies with HttpOnly, Secure, and SameSite=Lax",
-          "status": "enforced",
-          "config": "config/initializers/session_store.rb"
-        },
-        {
-          "id": "AUTH-03",
-          "name": "Comprehensive sensitive parameter filtering (passwords, tokens, keys)",
-          "status": "enforced",
-          "config": "config/initializers/filter_parameter_logging.rb"
-        }
-      ]
+      "id": "BRAKE-02",
+      "category": "Static Analysis & Brakeman Invariants",
+      "name": "Strict Strong Parameters required on all mutating controller actions",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-915"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "app/controllers/posts_controller.rb"
+      }
     },
     {
-      "name": "Database & Concurrency Hardening",
-      "controls": [
-        {
-          "id": "DB-01",
-          "name": "Database-level nullability constraints and foreign key enforcement",
-          "status": "enforced",
-          "test": "db/migrate/"
-        },
-        {
-          "id": "DB-02",
-          "name": "Compound index coverage on filtered and sorted timestamp columns",
-          "status": "enforced",
-          "test": "db/migrate/"
-        },
-        {
-          "id": "DB-03",
-          "name": "Strict loading enabled in development/test to eliminate N+1 queries",
-          "status": "enforced",
-          "config": "config/environments/development.rb"
-        }
-      ]
+      "id": "BRAKE-03",
+      "category": "Static Analysis & Brakeman Invariants",
+      "name": "SQL injection prevention via bind parameters exclusively",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-89"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "brakeman"
+      }
     },
     {
-      "name": "CI / Supply Chain & Container Security",
-      "controls": [
-        {
-          "id": "CI-01",
-          "name": "Gitleaks secret detection across git commit history",
-          "status": "enforced",
-          "workflow": ".github/workflows/security.yml"
-        },
-        {
-          "id": "CI-02",
-          "name": "Non-root container user execution in multi-stage Dockerfile",
-          "status": "enforced",
-          "docker": "starter/Dockerfile: USER rails:rails"
-        }
-      ]
+      "id": "BRAKE-04",
+      "category": "Static Analysis & Brakeman Invariants",
+      "name": "Cross-Site Scripting (XSS) defense; no raw unescaped user strings",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-79"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "brakeman"
+      }
+    },
+    {
+      "id": "AUTH-01",
+      "category": "Session, Authentication & CSRF Protection",
+      "name": "CSRF authenticity token verification on all non-GET requests",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-352"
+      ],
+      "evidence": {
+        "kind": "config",
+        "path": "ApplicationController"
+      }
+    },
+    {
+      "id": "AUTH-02",
+      "category": "Session, Authentication & CSRF Protection",
+      "name": "Encrypted session cookies with HttpOnly, Secure, and SameSite=Lax",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-1004"
+      ],
+      "evidence": {
+        "kind": "config",
+        "path": "config/initializers/session_store.rb"
+      }
+    },
+    {
+      "id": "AUTH-03",
+      "category": "Session, Authentication & CSRF Protection",
+      "name": "Comprehensive sensitive parameter filtering (passwords, tokens, keys)",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A09:2025"
+      ],
+      "cwe": [
+        "CWE-532"
+      ],
+      "evidence": {
+        "kind": "config",
+        "path": "config/initializers/filter_parameter_logging.rb"
+      }
+    },
+    {
+      "id": "DB-01",
+      "category": "Database & Concurrency Hardening",
+      "name": "Database-level nullability constraints and foreign key enforcement",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A08:2025"
+      ],
+      "cwe": [
+        "CWE-1059"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "db/migrate/"
+      }
+    },
+    {
+      "id": "DB-02",
+      "category": "Database & Concurrency Hardening",
+      "name": "Compound index coverage on filtered and sorted timestamp columns",
+      "status": "enforced",
+      "severity": "low",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-1049"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "db/migrate/"
+      }
+    },
+    {
+      "id": "DB-03",
+      "category": "Database & Concurrency Hardening",
+      "name": "Strict loading enabled in development/test to eliminate N+1 queries",
+      "status": "enforced",
+      "severity": "low",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-1049"
+      ],
+      "evidence": {
+        "kind": "config",
+        "path": "config/environments/development.rb"
+      }
+    },
+    {
+      "id": "CI-01",
+      "category": "CI / Supply Chain & Container Security",
+      "name": "Gitleaks secret detection across git commit history",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": ".github/workflows/security.yml"
+      }
+    },
+    {
+      "id": "CI-02",
+      "category": "CI / Supply Chain & Container Security",
+      "name": "Non-root container user execution in multi-stage Dockerfile",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-250"
+      ],
+      "evidence": {
+        "kind": "docker",
+        "path": "starter/Dockerfile"
+      }
     }
   ]
 }

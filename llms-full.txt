@@ -55,7 +55,7 @@ TechTalks is an open-source engineering knowledge platform providing production-
 [![Security Audited](https://img.shields.io/badge/Security-Verified_Pest_Arch_|_Semgrep-teal)](https://techtalks.itsumarfarooq.com/kits/laravel-filament-postgresql/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Official TechTalks Flagship Stack Kit for **Laravel 12/13 + Filament 4/3 + PostgreSQL 16+**. A production-ready, verified project setup combining an opinionated starter, multi-agent rules transpiled to 6 dialects, specialized skills, a comprehensive `DESIGN.md`, and automated security guardrails.
+Official TechTalks Flagship Stack Kit for **Laravel 12/13 + Filament 4/3 + PostgreSQL 16+**. A production-ready, verified project setup combining an opinionated starter, multi-agent rules transpiled to 8 dialect targets, specialized skills, a comprehensive `DESIGN.md`, and automated security guardrails.
 
 - **Kit Slug:** `laravel-filament-postgresql`
 - **Documentation & Catalog:** [techtalks.itsumarfarooq.com/kits/laravel-filament-postgresql/](https://techtalks.itsumarfarooq.com/kits/laravel-filament-postgresql/)

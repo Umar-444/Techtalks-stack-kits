@@ -1,55 +1,66 @@
 {
   "kit_slug": "laravel-api-sanctum",
-  "name": "Laravel 12/13 + Sanctum REST API + Spatie Query Builder",
-  "token_metrics": {
-    "median_tokens": 15800,
-    "tier": "A",
-    "token_light": true
-  },
+  "name": "Laravel 12 + Sanctum REST API",
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. No token figures are recorded here; evals/runner.py measures context cost directly from the kit files. The suite runs against SQLite in-memory (DB_CONNECTION=sqlite, DB_DATABASE=:memory: in phpunit.xml) so no MySQL or Postgres service is required.",
+  "setup": "cd starter && composer install",
   "eval_tasks": [
     {
       "id": "laravel-api-sanctum-task-01",
-      "title": "Initialization & Environment Config",
-      "instruction": "Verify Laravel 12/13 REST API + Sanctum boots cleanly with rootless Docker isolation.",
+      "title": "Application installs and boots",
+      "instruction": "Composer dependencies must resolve and the Laravel application must bootstrap far enough to list its routes.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health check responds 200 OK"
+        "vendor/autoload.php exists",
+        "artisan route:list exits 0",
+        "the v1 API routes are registered"
       ],
-      "prompt_tokens": 2700,
-      "completion_tokens": 1900
+      "requires": ["php", "composer"],
+      "verify": "cd starter && php artisan route:list --path=api/v1"
     },
     {
       "id": "laravel-api-sanctum-task-02",
-      "title": "Data Model & Schema",
-      "instruction": "Define User and Project models with personal_access_tokens and foreign key integrity.",
+      "title": "Auth and project API round-trip",
+      "instruction": "Token issue, authenticated listing, BOLA refusal and ability gating must all behave as specified.",
       "assertions": [
-        "Schema validates",
-        "Personal access tokens table migration ready"
+        "login returns a bearer token",
+        "invalid credentials return 422",
+        "unauthenticated request returns 401",
+        "a user lists only their own projects",
+        "cross-tenant project access is refused",
+        "a token without write ability cannot create"
       ],
-      "prompt_tokens": 2900,
-      "completion_tokens": 2200
+      "requires": ["php", "composer"],
+      "verify": "cd starter && php vendor/bin/phpunit --filter \"AuthApiTest|ProjectApiTest\""
     },
     {
       "id": "laravel-api-sanctum-task-03",
-      "title": "API Handlers & Security",
-      "instruction": "Implement AuthController and ProjectController with Spatie Query Builder filtering and strict BOLA authorization.",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite that exercises the controls named in security/checks.json. Each test is mutation-verified: removing the control makes the test fail.",
       "assertions": [
-        "Sanctum token generation succeeds",
-        "Spatie QueryBuilder whitelist enforced"
+        "SEC-02 cross-tenant update and delete are refused with 403",
+        "SEC-03 list queries never return another tenant's rows",
+        "SEC-04 token abilities gate read and write independently",
+        "SEC-05 sanctum token expiration is configured",
+        "SEC-06 the login endpoint returns 429 under repeated attempts",
+        "SEC-07 password and remember_token never appear in a response",
+        "SEC-08 a filter outside the Spatie whitelist is rejected with 400",
+        "SEC-10 .env.example ships an empty APP_KEY and no BOM",
+        "SEC-12 invalid status and out-of-range priority return 422",
+        "SEC-13 a bearer-token write succeeds with no CSRF token",
+        "a payload cannot reassign project ownership via user_id"
       ],
-      "prompt_tokens": 3100,
-      "completion_tokens": 2400
+      "requires": ["php", "composer"],
+      "verify": "cd starter && php vendor/bin/phpunit --filter SecurityControlsTest"
     },
     {
       "id": "laravel-api-sanctum-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Execute Pest/PHPUnit tests verifying BOLA defense, token abilities, and rate limiting.",
+      "title": "Full suite green",
+      "instruction": "The complete feature and security suite must pass with no failures.",
       "assertions": [
-        "Unauthorized tenant access returns 403 Forbidden",
-        "Throttle middleware caps excessive requests"
+        "phpunit exits 0 across tests/Feature"
       ],
-      "prompt_tokens": 3000,
-      "completion_tokens": 2300
+      "requires": ["php", "composer"],
+      "verify": "cd starter && php vendor/bin/phpunit"
     }
   ]
 }

@@ -123,6 +123,10 @@
             class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">Blog</a>
           <a href="../security/"
             class="text-[#12140F] dark:text-white font-semibold border-b-2 border-[#E85D26] pb-[1px] transition-colors">Standards</a>
+          <a href="/security/coverage/"
+            class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">Coverage</a>
+          <a href="/status/"
+            class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors">Status</a>
           <a href="https://github.com/Umar-444/Techtalks-stack-kits/discussions" target="_blank"
             rel="noopener noreferrer"
             class="text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white font-medium transition-colors inline-flex items-center gap-1">
@@ -267,6 +271,27 @@
           TechTalks enforces a deterministic three-layer defense system across every stack kit to guarantee supply chain
           integrity, zero credential leaks, and OWASP compliance.
         </p>
+
+        <a href="/security/coverage/"
+          class="group mt-8 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 rounded-[10px] border border-[#E6E6DF] dark:border-[#2A2E2A] bg-[#FAFAF7] dark:bg-[#141716] p-5 hover:border-[#E85D26] dark:hover:border-[#E85D26] transition-colors">
+          <div class="flex-1">
+            <div class="font-mono text-[11px] uppercase tracking-wider text-[#E85D26] font-semibold mb-1.5">
+              OWASP Top 10:2025
+            </div>
+            <div
+              class="text-[16px] font-semibold text-[#12140F] dark:text-white group-hover:text-[#E85D26] transition-colors">
+              Coverage matrix across every kit
+            </div>
+            <p class="mt-1 text-[14px] text-[#5C6058] dark:text-[#A8ACA0] leading-[1.6]">
+              430 enforced controls mapped to all ten categories, generated from each kit's
+              <code class="font-mono text-[13px] text-[#E85D26]">security/checks.json</code> so it cannot drift.
+            </p>
+          </div>
+          <svg class="w-5 h-5 shrink-0 text-[#5C6058] group-hover:text-[#E85D26] transition-colors" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
       </div>
     </section>
 

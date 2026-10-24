@@ -1,49 +1,95 @@
 {
   "kit_slug": "laravel-mysql",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "laravel-mysql-task-01",
-      "title": "Initialization & Environment Config",
-      "status": "PASS",
-      "prompt_tokens": 2722,
-      "completion_tokens": 3327,
-      "tokens_consumed": 6049
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 1396,
+    "shared_context_tokens": 65,
+    "shared_context": {
+      "DESIGN.md": 21,
+      "SECURITY.md": 21,
+      "agent-build-steps.md": 23
     },
-    {
-      "id": "laravel-mysql-task-02",
-      "title": "Data Model & Schema",
-      "status": "PASS",
-      "prompt_tokens": 3003,
-      "completion_tokens": 4147,
-      "tokens_consumed": 7150
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1331,
+        "total_tokens": 1396
+      },
+      "codex": {
+        "rules_tokens": 1480,
+        "total_tokens": 1545
+      },
+      "standard": {
+        "rules_tokens": 1606,
+        "total_tokens": 1671
+      },
+      "cline": {
+        "rules_tokens": 702,
+        "total_tokens": 767
+      },
+      "windsurf": {
+        "rules_tokens": 1315,
+        "total_tokens": 1380
+      },
+      "copilot": {
+        "rules_tokens": 1316,
+        "total_tokens": 1381
+      }
     },
-    {
-      "id": "laravel-mysql-task-03",
-      "title": "API Handlers & Security",
-      "status": "PASS",
-      "prompt_tokens": 2904,
-      "completion_tokens": 3696,
-      "tokens_consumed": 6600
-    },
-    {
-      "id": "laravel-mysql-task-04",
-      "title": "Automated Security Tests",
-      "status": "PASS",
-      "prompt_tokens": 3080,
-      "completion_tokens": 4620,
-      "tokens_consumed": 7700
-    }
-  ],
-  "median_task_tokens": 6875,
-  "median_tokens_to_complete_reference_build": 27499,
-  "efficiency_tier": "B",
-  "efficiency_note": "Classic Laravel 12 MySQL dashboard & Fortify auth",
-  "token_light": false
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A+"
+  },
+  "starter": {
+    "files": 12,
+    "source_loc": 195
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "laravel-mysql-task-01",
+        "title": "Initialization & Environment Config",
+        "assertions": 1,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "laravel-mysql-task-02",
+        "title": "Data Model & Schema",
+        "assertions": 1,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "laravel-mysql-task-03",
+        "title": "API Handlers & Security",
+        "assertions": 1,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "laravel-mysql-task-04",
+        "title": "Automated Security Tests",
+        "assertions": 1,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

@@ -1,118 +1,226 @@
 {
-  "version": "1.0.0",
-  "kit": "laravel-api-sanctum",
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
+  "kit_slug": "laravel-api-sanctum",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 14,
+    "categories": 12,
+    "by_status": {
+      "enforced": 14
+    },
+    "by_severity": {
+      "critical": 2,
+      "high": 11,
+      "medium": 1
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A02:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A07:2025",
+      "A08:2025"
+    ]
+  },
   "checks": [
     {
-      "id": "SEC-SANCTUM-001",
+      "id": "SEC-01",
+      "category": "Authentication",
       "name": "Stateless Sanctum Authentication Enforcement",
-      "severity": "CRITICAL",
-      "category": "Authentication",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
       "description": "All /api/v1/ routes (except /auth/login) must require auth:sanctum middleware.",
-      "remediation": "Wrap protected routes in Route::middleware('auth:sanctum')->group(...)."
+      "cwe": [
+        "CWE-287"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-002",
+      "id": "SEC-02",
+      "category": "Authorization",
       "name": "BOLA / IDOR Model Policy Authorization",
-      "severity": "CRITICAL",
-      "category": "Authorization",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
       "description": "Controller actions with route model binding must call $this->authorize('action', $model).",
-      "remediation": "Invoke $this->authorize('view', $project) in show, update, destroy actions."
+      "cwe": [
+        "CWE-639"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-003",
-      "name": "Tenant Isolation in Query Lists",
-      "severity": "CRITICAL",
+      "id": "SEC-03",
       "category": "Data Access",
+      "name": "Tenant Isolation in Query Lists",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
       "description": "Index queries must filter by auth()->id() or tenant relationship.",
-      "remediation": "Scope query builder with QueryBuilder::for(auth()->user()->projects())."
+      "cwe": [
+        "CWE-639"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-004",
-      "name": "Granular Token Ability Scopes",
-      "severity": "HIGH",
+      "id": "SEC-04",
       "category": "Authorization",
+      "name": "Granular Token Ability Scopes",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
       "description": "Mutating endpoints must enforce token abilities via ability middleware.",
-      "remediation": "Add middleware('ability:projects:write') to POST/PUT/DELETE routes."
+      "cwe": [
+        "CWE-287"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-005",
-      "name": "Token Expiration Configuration",
-      "severity": "HIGH",
+      "id": "SEC-05",
       "category": "Authentication",
+      "name": "Token Expiration Configuration",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
       "description": "Sanctum personal access tokens must have explicit expiration configured.",
-      "remediation": "Set Sanctum::tokensExpireIn(now()->addDays(7)) in AuthServiceProvider."
+      "cwe": [
+        "CWE-287"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-006",
-      "name": "API Rate Limiting Throttle Middleware",
-      "severity": "HIGH",
+      "id": "SEC-06",
       "category": "Availability",
+      "name": "API Rate Limiting Throttle Middleware",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
       "description": "API endpoints must apply throttle:60,1 to prevent brute force and denial of service.",
-      "remediation": "Apply throttle:api or throttle:60,1 in routes/api.php."
+      "cwe": [
+        "CWE-307"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-007",
-      "name": "Strict Eloquent API Resource Serialization",
-      "severity": "MEDIUM",
+      "id": "SEC-07",
       "category": "Data Exposure",
+      "name": "Strict Eloquent API Resource Serialization",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A08:2025"
+      ],
       "description": "Controllers must return API Resources rather than raw Eloquent models to prevent password/token leaks.",
-      "remediation": "Wrap model responses in ProjectResource::make($project) or ProjectResource::collection($projects)."
+      "cwe": [
+        "CWE-502"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-008",
-      "name": "Spatie Allowed Filters Whitelist",
-      "severity": "MEDIUM",
+      "id": "SEC-08",
       "category": "SQL Injection / DoS",
+      "name": "Spatie Allowed Filters Whitelist",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
       "description": "Spatie QueryBuilder must explicitly whitelist allowedFilters and allowedSorts to prevent arbitrary column filtering.",
-      "remediation": "Declare ->allowedFilters(['status', 'title']) and ->allowedSorts(['created_at', 'title'])."
+      "cwe": [
+        "CWE-653"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-009",
-      "name": "Rootless Dockerfile Execution",
-      "severity": "HIGH",
+      "id": "SEC-09",
       "category": "Container Security",
+      "name": "Rootless Dockerfile Execution",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
       "description": "Container process must execute as unprivileged user 10001:10001.",
-      "remediation": "Include USER 10001:10001 in Dockerfile."
+      "cwe": [
+        "CWE-250"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-010",
-      "name": "No Secret Tokens in Source Code or VCS",
-      "severity": "CRITICAL",
+      "id": "SEC-10",
       "category": "Secret Management",
+      "name": "No Secret Tokens in Source Code or VCS",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A04:2025"
+      ],
       "description": "Source code and git history must not contain unencrypted API keys or token hashes.",
-      "remediation": "Store all secrets in .env and add .env to .gitignore."
+      "cwe": [
+        "CWE-311"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-011",
-      "name": "Strict CORS Configuration",
-      "severity": "HIGH",
+      "id": "SEC-11",
       "category": "Network Security",
+      "name": "Strict CORS Configuration",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
       "description": "CORS must restrict allowed origins and not use wildcard '*' with credentials.",
-      "remediation": "Configure config/cors.php with explicit allowed_origins from APP_URL."
+      "cwe": [
+        "CWE-942"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-012",
-      "name": "Form Request Validation with Typed Rules",
-      "severity": "MEDIUM",
+      "id": "SEC-12",
       "category": "Input Validation",
+      "name": "Form Request Validation with Typed Rules",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
       "description": "All mutating requests must be validated through custom FormRequest classes.",
-      "remediation": "Inject StoreProjectRequest and UpdateProjectRequest instead of Request."
+      "cwe": [
+        "CWE-20"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-013",
-      "name": "CSRF Disabled on Stateless API Routes",
-      "severity": "LOW",
+      "id": "SEC-13",
       "category": "Architecture",
+      "name": "CSRF Disabled on Stateless API Routes",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
       "description": "Stateless API routes must not use CSRF cookies; Bearer tokens provide intrinsic CSRF immunity.",
-      "remediation": "Exclude /api/* routes from VerifyCsrfToken middleware."
+      "cwe": [
+        "CWE-287"
+      ]
     },
     {
-      "id": "SEC-SANCTUM-014",
-      "name": "Database Transaction Wrapping for Compound Writes",
-      "severity": "MEDIUM",
+      "id": "SEC-14",
       "category": "Data Integrity",
+      "name": "Database Transaction Wrapping for Compound Writes",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A08:2025"
+      ],
       "description": "Operations updating multiple tables must execute inside DB::transaction().",
-      "remediation": "Wrap multi-table mutations in DB::transaction(fn() => ...)."
+      "cwe": [
+        "CWE-662"
+      ]
     }
   ]
 }

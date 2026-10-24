@@ -1,49 +1,95 @@
 {
   "kit_slug": "rag-local-private",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "rag-local-private-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 1930,
-      "completion_tokens": 2359,
-      "tokens_consumed": 4289
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 3828,
+    "shared_context_tokens": 635,
+    "shared_context": {
+      "DESIGN.md": 337,
+      "SECURITY.md": 157,
+      "agent-build-steps.md": 141
     },
-    {
-      "id": "rag-local-private-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 2129,
-      "completion_tokens": 2940,
-      "tokens_consumed": 5069
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 3193,
+        "total_tokens": 3828
+      },
+      "codex": {
+        "rules_tokens": 3343,
+        "total_tokens": 3978
+      },
+      "standard": {
+        "rules_tokens": 3241,
+        "total_tokens": 3876
+      },
+      "cline": {
+        "rules_tokens": 1942,
+        "total_tokens": 2577
+      },
+      "windsurf": {
+        "rules_tokens": 3038,
+        "total_tokens": 3673
+      },
+      "copilot": {
+        "rules_tokens": 3039,
+        "total_tokens": 3674
+      }
     },
-    {
-      "id": "rag-local-private-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 2059,
-      "completion_tokens": 2620,
-      "tokens_consumed": 4679
-    },
-    {
-      "id": "rag-local-private-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 2184,
-      "completion_tokens": 3276,
-      "tokens_consumed": 5460
-    }
-  ],
-  "median_task_tokens": 4874,
-  "median_tokens_to_complete_reference_build": 19497,
-  "efficiency_tier": "A",
-  "efficiency_note": "Ollama local API, self-contained ChromaDB collections",
-  "token_light": true
+    "leanest_dialect": "cline",
+    "efficiency_tier": "B"
+  },
+  "starter": {
+    "files": 11,
+    "source_loc": 467
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "rag-local-private-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rag-local-private-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rag-local-private-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rag-local-private-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

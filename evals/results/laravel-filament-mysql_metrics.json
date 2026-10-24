@@ -1,49 +1,95 @@
 {
   "kit_slug": "laravel-filament-mysql",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "laravel-filament-mysql-task-01",
-      "title": "Initialization & Environment Config",
-      "status": "PASS",
-      "prompt_tokens": 2800,
-      "completion_tokens": 2100,
-      "tokens_consumed": 4900
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 1916,
+    "shared_context_tokens": 883,
+    "shared_context": {
+      "DESIGN.md": 329,
+      "SECURITY.md": 206,
+      "agent-build-steps.md": 348
     },
-    {
-      "id": "laravel-filament-mysql-task-02",
-      "title": "Data Model & Schema",
-      "status": "PASS",
-      "prompt_tokens": 3100,
-      "completion_tokens": 2300,
-      "tokens_consumed": 5400
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1033,
+        "total_tokens": 1916
+      },
+      "codex": {
+        "rules_tokens": 1183,
+        "total_tokens": 2066
+      },
+      "standard": {
+        "rules_tokens": 1110,
+        "total_tokens": 1993
+      },
+      "cline": {
+        "rules_tokens": 718,
+        "total_tokens": 1601
+      },
+      "windsurf": {
+        "rules_tokens": 948,
+        "total_tokens": 1831
+      },
+      "copilot": {
+        "rules_tokens": 949,
+        "total_tokens": 1832
+      }
     },
-    {
-      "id": "laravel-filament-mysql-task-03",
-      "title": "API Handlers & Security",
-      "status": "PASS",
-      "prompt_tokens": 2900,
-      "completion_tokens": 2200,
-      "tokens_consumed": 5100
-    },
-    {
-      "id": "laravel-filament-mysql-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 3000,
-      "completion_tokens": 2400,
-      "tokens_consumed": 5400
-    }
-  ],
-  "median_task_tokens": 5250,
-  "median_tokens_to_complete_reference_build": 20800,
-  "efficiency_tier": "A",
-  "efficiency_note": "Filament 4 admin panel, MySQL 8.4 full-text search, and Pest architecture suites",
-  "token_light": true
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A"
+  },
+  "starter": {
+    "files": 20,
+    "source_loc": 402
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "laravel-filament-mysql-task-01",
+        "title": "Initialization & Environment Config",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "laravel-filament-mysql-task-02",
+        "title": "Data Model & Schema",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "laravel-filament-mysql-task-03",
+        "title": "API Handlers & Security",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "laravel-filament-mysql-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

@@ -1,37 +1,48 @@
-# Assistant Guidelines for Rag Langgraph Agentic Stack Kit
-
-# LangGraph + LangChain + Qdrant + Ragas Evals — Agent Operating Rules (AGENTS.md)
+# Cline Rules — LangGraph + LangChain + Qdrant + Ragas Evals
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# Directives only. Code examples live in AGENTS.md to keep this file token-light.
 
-## Table of Contents
-- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
-- [02 Adaptive Retrieval And Query Rewriting](#02-adaptive-retrieval-and-query-rewriting)
-- [03 Qdrant Vector Filtering And Payloads](#03-qdrant-vector-filtering-and-payloads)
-- [04 Ragas Groundedness And Hallucination Evals](#04-ragas-groundedness-and-hallucination-evals)
-- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
-
----
-
-<a id="01-framework-architecture-and-standards"></a>
-## 01 Framework Architecture And Standards
-
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture & Standards
-globs: "**/*.py"
-alwaysApply: true
----
-# Agentic RAG Architecture & LangGraph State Standards
-
-## 1. Cyclical State Machine for Retrieval-Augmented Generation
+## Framework Architecture & Standards
 - Classical RAG is a static linear pipeline: `Query -> Embed -> Retrieve -> Generate`.
 - Agentic RAG introduces dynamic decision-making nodes:
-  - `retrieve`: Query Qdrant for semantic matches.
-  - `grade_documents`: Evaluates retrieved chunk relevance to the user question.
-  - `decide_to_generate`: If documents are irrelevant, transition to `rewrite_query`; otherwise transition to `generate`.
-  - `rewrite_query`: Transform and clarify user input for better vector search convergence.
-  - `generate`: Synthesize answers using verified grounded context.
-  - `grade_generation`: Check for hallucinations; if ungrounded, loop back.
-
-## 2. Immutable State Schema
+- `retrieve`: Query Qdrant for semantic matches.
+- `grade_documents`: Evaluates retrieved chunk relevance to the user question.
+- `decide_to_generate`: If documents are irrelevant, transition to `rewrite_query`; otherwise transition to `generate`.
+- `rewrite_query`: Transform and clarify user input for better vector search convergence.
+- `generate`: Synthesize answers using verified grounded context.
+- `grade_generation`: Check for hallucinations; if ungrounded, loop back.
 - Define state using `TypedDict` with explicit field semantics:
+- All nodes must return state deltas as dictionaries, never mutating the input state object.
+- Every execution must set a strict recursion limit (default: 15 iterations):
+- If `iteration_count` exceeds 3 query rewrites, route immediately to a fallback generation node or human review.
+
+## Adaptive Retrieval & Query Rewriting
+- Use a fast, specialized prompt or compact LLM to binary-grade document relevance:
+- Output strictly `{"score": "yes"}` or `{"score": "no"}` using structured schemas.
+- Filter out noisy or irrelevant chunks before context injection to minimize hallucination risk.
+- When retrieved documents do not address the core query, the rewrite node inspects the original question and prior search failures:
+- Strips conversational fillers, expands domain-specific acronyms, and generates alternative keyword combinations.
+
+## Qdrant Vector Filtering & Payload Isolation
+- Collections must configure Cosine distance and HNSW graph parameters:
+- Every vector query MUST include payload filters enforcing multi-tenant isolation:
+
+## Ragas Groundedness & Hallucination Evals
+- Implement continuous scoring across three core Ragas metrics:
+- **Faithfulness**: Are claims in the generated answer strictly derived from retrieved context?
+- **Answer Relevance**: Does the generated answer directly address the user's inquiry?
+- **Context Precision**: Did the retriever rank the most relevant chunks at the top?
+- The generation grader node inspects the generated output against the retrieved chunks:
+- If hallucination is detected and iterations remain, route back to `generate` with a prompt warning: "Your previous answer included facts not supported by the context. Re-synthesize strictly using provided documents."
+
+## Testing, Verification & CI Invariants
+- Unit tests must mock external LLM calls to verify graph topology, conditional branching, and termination guarantees in `< 1.0s` without API dependencies.
+- Verify that a sequence of low-relevance documents triggers `rewrite_query` and that high-relevance triggers `generate`.
+- Multi-stage `Dockerfile` executing as `USER 10001:10001`.
+- Health probes verify FastAPI and Qdrant network connectivity.
+- Must pass:
+- `gitleaks detect --no-git` with 0 secret leaks.
+- `semgrep scan --config p/owasp-top-ten` with 0 blocking SAST findings.
+- `python tools/validate_manifest.py` verifying full physical layout.
+- `python tools/transpiler.py --check` guaranteeing zero dialect drift.
+

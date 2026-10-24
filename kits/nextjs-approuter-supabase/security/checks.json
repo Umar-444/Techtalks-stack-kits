@@ -1,99 +1,233 @@
 {
-  "kit": "nextjs-approuter-supabase",
-  "version": "1.0.0",
-  "total_controls": 12,
-  "categories": [
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
+  "kit_slug": "nextjs-approuter-supabase",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 4,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 5,
+      "high": 6,
+      "medium": 1
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A07:2025"
+    ]
+  },
+  "checks": [
     {
-      "name": "Row Level Security (RLS) & Database Layer",
-      "controls": [
-        {
-          "id": "RLS-01",
-          "name": "Mandatory Row Level Security enabled on all PostgreSQL tables",
-          "status": "enforced",
-          "test": "supabase/migrations/"
-        },
-        {
-          "id": "RLS-02",
-          "name": "Strict auth.uid() = user_id tenant isolation policies",
-          "status": "enforced",
-          "test": "supabase/migrations/"
-        },
-        {
-          "id": "RLS-03",
-          "name": "Service role key isolated from client-side bundles (no NEXT_PUBLIC_)",
-          "status": "enforced",
-          "test": "starter/.env.example"
-        },
-        {
-          "id": "RLS-04",
-          "name": "Compound index coverage on user_id and timestamp columns",
-          "status": "enforced",
-          "test": "supabase/migrations/"
-        }
-      ]
+      "id": "RLS-01",
+      "category": "Row Level Security (RLS) & Database Layer",
+      "name": "Mandatory Row Level Security enabled on all PostgreSQL tables",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-639"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "supabase/migrations/"
+      }
     },
     {
-      "name": "Server Actions & Input Validation",
-      "controls": [
-        {
-          "id": "ACT-01",
-          "name": "Strict Zod schema validation on all Server Action inputs",
-          "status": "enforced",
-          "test": "src/app/actions.ts"
-        },
-        {
-          "id": "ACT-02",
-          "name": "Next.js automatic CSRF Origin header verification",
-          "status": "enforced",
-          "test": "src/app/actions.ts"
-        },
-        {
-          "id": "ACT-03",
-          "name": "Revalidation of mutated paths via revalidatePath()",
-          "status": "enforced",
-          "test": "src/app/actions.ts"
-        }
-      ]
+      "id": "RLS-02",
+      "category": "Row Level Security (RLS) & Database Layer",
+      "name": "Strict auth.uid() = user_id tenant isolation policies",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-639"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "supabase/migrations/"
+      }
     },
     {
-      "name": "Authentication & Session Protection",
-      "controls": [
-        {
-          "id": "AUTH-01",
-          "name": "Supabase SSR cookie security flags (HttpOnly, Secure, SameSite=Lax)",
-          "status": "enforced",
-          "test": "src/lib/supabase/server.ts"
-        },
-        {
-          "id": "AUTH-02",
-          "name": "Middleware session refresh and PKCE flow enforcement",
-          "status": "enforced",
-          "test": "src/middleware.ts"
-        },
-        {
-          "id": "AUTH-03",
-          "name": "Server Component direct session verification",
-          "status": "enforced",
-          "test": "src/app/page.tsx"
-        }
-      ]
+      "id": "RLS-03",
+      "category": "Row Level Security (RLS) & Database Layer",
+      "name": "Service role key isolated from client-side bundles (no NEXT_PUBLIC_)",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-639"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/.env.example"
+      }
     },
     {
-      "name": "CI & Supply Chain Guardrails",
-      "controls": [
-        {
-          "id": "CI-01",
-          "name": "Gitleaks secret detection in GitHub Actions",
-          "status": "enforced",
-          "workflow": ".github/workflows/security.yml"
-        },
-        {
-          "id": "CI-02",
-          "name": "Semgrep security scanning for TypeScript and Next.js rules",
-          "status": "enforced",
-          "workflow": ".github/workflows/security.yml"
-        }
-      ]
+      "id": "RLS-04",
+      "category": "Row Level Security (RLS) & Database Layer",
+      "name": "Compound index coverage on user_id and timestamp columns",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-639"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "supabase/migrations/"
+      }
+    },
+    {
+      "id": "ACT-01",
+      "category": "Server Actions & Input Validation",
+      "name": "Strict Zod schema validation on all Server Action inputs",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "src/app/actions.ts"
+      }
+    },
+    {
+      "id": "ACT-02",
+      "category": "Server Actions & Input Validation",
+      "name": "Next.js automatic CSRF Origin header verification",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-352"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "src/app/actions.ts"
+      }
+    },
+    {
+      "id": "ACT-03",
+      "category": "Server Actions & Input Validation",
+      "name": "Revalidation of mutated paths via revalidatePath()",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "src/app/actions.ts"
+      }
+    },
+    {
+      "id": "AUTH-01",
+      "category": "Authentication & Session Protection",
+      "name": "Supabase SSR cookie security flags (HttpOnly, Secure, SameSite=Lax)",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-1004"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "src/lib/supabase/server.ts"
+      }
+    },
+    {
+      "id": "AUTH-02",
+      "category": "Authentication & Session Protection",
+      "name": "Middleware session refresh and PKCE flow enforcement",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-287"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "src/middleware.ts"
+      }
+    },
+    {
+      "id": "AUTH-03",
+      "category": "Authentication & Session Protection",
+      "name": "Server Component direct session verification",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-287"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "src/app/page.tsx"
+      }
+    },
+    {
+      "id": "CI-01",
+      "category": "CI & Supply Chain Guardrails",
+      "name": "Gitleaks secret detection in GitHub Actions",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": ".github/workflows/security.yml"
+      }
+    },
+    {
+      "id": "CI-02",
+      "category": "CI & Supply Chain Guardrails",
+      "name": "Semgrep security scanning for TypeScript and Next.js rules",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": ".github/workflows/security.yml"
+      }
     }
   ]
 }

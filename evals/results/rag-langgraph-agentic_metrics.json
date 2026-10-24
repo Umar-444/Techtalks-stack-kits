@@ -1,49 +1,95 @@
 {
   "kit_slug": "rag-langgraph-agentic",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "rag-langgraph-agentic-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 2752,
-      "completion_tokens": 3363,
-      "tokens_consumed": 6115
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 2239,
+    "shared_context_tokens": 944,
+    "shared_context": {
+      "DESIGN.md": 337,
+      "SECURITY.md": 157,
+      "agent-build-steps.md": 450
     },
-    {
-      "id": "rag-langgraph-agentic-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 3035,
-      "completion_tokens": 4192,
-      "tokens_consumed": 7227
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1295,
+        "total_tokens": 2239
+      },
+      "codex": {
+        "rules_tokens": 1446,
+        "total_tokens": 2390
+      },
+      "standard": {
+        "rules_tokens": 1475,
+        "total_tokens": 2419
+      },
+      "cline": {
+        "rules_tokens": 716,
+        "total_tokens": 1660
+      },
+      "windsurf": {
+        "rules_tokens": 1280,
+        "total_tokens": 2224
+      },
+      "copilot": {
+        "rules_tokens": 1281,
+        "total_tokens": 2225
+      }
     },
-    {
-      "id": "rag-langgraph-agentic-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 2935,
-      "completion_tokens": 3736,
-      "tokens_consumed": 6671
-    },
-    {
-      "id": "rag-langgraph-agentic-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 3113,
-      "completion_tokens": 4670,
-      "tokens_consumed": 7783
-    }
-  ],
-  "median_task_tokens": 6949,
-  "median_tokens_to_complete_reference_build": 27796,
-  "efficiency_tier": "B",
-  "efficiency_note": "Cyclic graph state machines, human-in-the-loop nodes",
-  "token_light": false
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A"
+  },
+  "starter": {
+    "files": 14,
+    "source_loc": 443
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "rag-langgraph-agentic-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rag-langgraph-agentic-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rag-langgraph-agentic-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rag-langgraph-agentic-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

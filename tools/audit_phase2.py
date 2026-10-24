@@ -3,6 +3,9 @@ import sys
 import yaml
 import json
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from lib import security_checks as _sc
+
 phase2_slugs = [
     "laravel-mysql",
     "django-tailwind-postgresql",
@@ -92,24 +95,24 @@ for slug in phase2_slugs:
         if len(evals) < 3:
             status["errors"].append(f"Only {len(evals)} evals (expected >= 3)")
             
-    # Check 7: Security checks (>= 12)
+    # Check 7: Security checks — canonical v2 manifest with >= 12 controls
     sc_p = os.path.join(kit_dir, "security", "checks.json")
     if not os.path.exists(sc_p):
         status["errors"].append("Missing security/checks.json")
     else:
-        with open(sc_p, "r", encoding="utf-8") as f:
-            try:
-                sc_data = json.load(f)
-                controls_count = 0
-                if "categories" in sc_data:
-                    for cat in sc_data["categories"]:
-                        controls_count += len(cat.get("controls", []))
-                elif "checks" in sc_data:
-                    controls_count = len(sc_data["checks"])
-                if controls_count < 12:
-                    status["errors"].append(f"Only {controls_count} security controls (expected >= 12)")
-            except Exception as e:
-                status["errors"].append(f"Corrupt security/checks.json: {e}")
+        try:
+            manifest = _sc.load(sc_p)
+            count = len(manifest["checks"])
+            if count < _sc.MIN_CHECKS:
+                status["errors"].append(f"Only {count} security controls (expected >= {_sc.MIN_CHECKS})")
+            raw_version = json.load(open(sc_p, "r", encoding="utf-8")).get("schema_version")
+            if raw_version != _sc.SCHEMA_VERSION:
+                status["errors"].append(
+                    f"checks.json is schema {raw_version or 'v1'}; "
+                    "run tools/validate_checks.py --fix"
+                )
+        except Exception as e:
+            status["errors"].append(f"Corrupt security/checks.json: {e}")
                 
     # Check 8: FAQs (>= 14)
     faq_p = os.path.join(kit_dir, "faq.json")

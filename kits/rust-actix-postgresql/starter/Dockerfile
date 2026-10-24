@@ -1,4 +1,4 @@
-﻿# Multi-stage production container for Rust + Actix Web + SeaORM + PostgreSQL
+# Multi-stage production container for Rust + Actix Web + SeaORM + PostgreSQL
 FROM rust:1.81-alpine AS builder
 
 WORKDIR /app

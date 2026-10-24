@@ -1,49 +1,95 @@
 {
   "kit_slug": "agentic-langgraph-crewai",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "agentic-langgraph-crewai-task-01",
-      "title": "Initialization & Environment Config",
-      "status": "PASS",
-      "prompt_tokens": 2821,
-      "completion_tokens": 3448,
-      "tokens_consumed": 6269
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 1238,
+    "shared_context_tokens": 77,
+    "shared_context": {
+      "DESIGN.md": 25,
+      "SECURITY.md": 25,
+      "agent-build-steps.md": 27
     },
-    {
-      "id": "agentic-langgraph-crewai-task-02",
-      "title": "Data Model & Schema",
-      "status": "PASS",
-      "prompt_tokens": 3112,
-      "completion_tokens": 4297,
-      "tokens_consumed": 7409
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1161,
+        "total_tokens": 1238
+      },
+      "codex": {
+        "rules_tokens": 1314,
+        "total_tokens": 1391
+      },
+      "standard": {
+        "rules_tokens": 1325,
+        "total_tokens": 1402
+      },
+      "cline": {
+        "rules_tokens": 691,
+        "total_tokens": 768
+      },
+      "windsurf": {
+        "rules_tokens": 1146,
+        "total_tokens": 1223
+      },
+      "copilot": {
+        "rules_tokens": 1147,
+        "total_tokens": 1224
+      }
     },
-    {
-      "id": "agentic-langgraph-crewai-task-03",
-      "title": "API Handlers & Security",
-      "status": "PASS",
-      "prompt_tokens": 3009,
-      "completion_tokens": 3830,
-      "tokens_consumed": 6839
-    },
-    {
-      "id": "agentic-langgraph-crewai-task-04",
-      "title": "Automated Security Tests",
-      "status": "PASS",
-      "prompt_tokens": 3192,
-      "completion_tokens": 4788,
-      "tokens_consumed": 7980
-    }
-  ],
-  "median_task_tokens": 7124,
-  "median_tokens_to_complete_reference_build": 28497,
-  "efficiency_tier": "A",
-  "efficiency_note": "Standard stack",
-  "token_light": false
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A+"
+  },
+  "starter": {
+    "files": 12,
+    "source_loc": 122
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "agentic-langgraph-crewai-task-01",
+        "title": "Initialization & Environment Config",
+        "assertions": 1,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "agentic-langgraph-crewai-task-02",
+        "title": "Data Model & Schema",
+        "assertions": 1,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "agentic-langgraph-crewai-task-03",
+        "title": "API Handlers & Security",
+        "assertions": 1,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "agentic-langgraph-crewai-task-04",
+        "title": "Automated Security Tests",
+        "assertions": 1,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

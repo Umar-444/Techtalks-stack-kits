@@ -1,4 +1,4 @@
-﻿# Multi-stage hardened build for Flask + HTMX + SQLite
+# Multi-stage hardened build for Flask + HTMX + SQLite
 FROM python:3.12-slim-bookworm AS builder
 
 WORKDIR /build

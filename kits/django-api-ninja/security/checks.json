@@ -1,89 +1,236 @@
 {
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
   "kit_slug": "django-api-ninja",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 1,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 5,
+      "high": 5,
+      "medium": 1,
+      "low": 1
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A02:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A07:2025",
+      "A08:2025",
+      "A10:2025"
+    ]
+  },
   "checks": [
     {
-      "id": "sec-01",
+      "id": "SEC-01",
+      "category": "Core Security Guardrails",
       "name": "Gitleaks Secret Audit",
       "status": "enforced",
-      "tool": "gitleaks",
-      "verify": "gitleaks detect --no-git"
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "gitleaks"
+      }
     },
     {
-      "id": "sec-02",
+      "id": "SEC-02",
+      "category": "Core Security Guardrails",
       "name": "Semgrep Python & Django Rules",
       "status": "enforced",
-      "tool": "semgrep",
-      "verify": "semgrep scan --config p/django"
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "semgrep"
+      }
     },
     {
-      "id": "sec-03",
+      "id": "SEC-03",
+      "category": "Core Security Guardrails",
       "name": "Zero Hardcoded Plaintext Secrets",
       "status": "enforced",
-      "tool": "env-lint",
-      "verify": "python manage.py check --deploy"
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "env-lint"
+      }
     },
     {
-      "id": "sec-04",
+      "id": "SEC-04",
+      "category": "Core Security Guardrails",
       "name": "Ninja API Key Authentication Guard",
       "status": "enforced",
-      "tool": "auth-check",
-      "verify": "pytest tests/test_api.py -k test_auth"
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-287"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "auth-check"
+      }
     },
     {
-      "id": "sec-05",
+      "id": "SEC-05",
+      "category": "Core Security Guardrails",
       "name": "PostgreSQL Parameterized Query Enforcement",
       "status": "enforced",
-      "tool": "orm-check",
-      "verify": "python manage.py check"
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-89"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "orm-check"
+      }
     },
     {
-      "id": "sec-06",
+      "id": "SEC-06",
+      "category": "Core Security Guardrails",
       "name": "Celery Worker Privilege Isolation",
       "status": "enforced",
-      "tool": "celery-lint",
-      "verify": "celery -A config report"
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-285"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "celery-lint"
+      }
     },
     {
-      "id": "sec-07",
+      "id": "SEC-07",
+      "category": "Core Security Guardrails",
       "name": "Redis Task Payload Serialization (JSON)",
       "status": "enforced",
-      "tool": "config-audit",
-      "verify": "grep -rn 'CELERY_ACCEPT_CONTENT' starter/config/"
+      "severity": "high",
+      "owasp": [
+        "A08:2025"
+      ],
+      "cwe": [
+        "CWE-502"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "config-audit"
+      }
     },
     {
-      "id": "sec-08",
+      "id": "SEC-08",
+      "category": "Core Security Guardrails",
       "name": "Django Security Middleware Active",
       "status": "enforced",
-      "tool": "settings-lint",
-      "verify": "python manage.py check --deploy"
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-16"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "settings-lint"
+      }
     },
     {
-      "id": "sec-09",
+      "id": "SEC-09",
+      "category": "Core Security Guardrails",
       "name": "BOLA / IDOR Authorization Verification",
       "status": "enforced",
-      "tool": "api-audit",
-      "verify": "pytest tests/test_api.py"
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-639"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "api-audit"
+      }
     },
     {
-      "id": "sec-10",
+      "id": "SEC-10",
+      "category": "Core Security Guardrails",
       "name": "PostgreSQL Connection Health Probes",
       "status": "enforced",
-      "tool": "psycopg3",
-      "verify": "python -c 'from django.db import connection; connection.cursor()'"
+      "severity": "low",
+      "owasp": [
+        "A10:2025"
+      ],
+      "cwe": [
+        "CWE-755"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "psycopg3"
+      }
     },
     {
-      "id": "sec-11",
+      "id": "SEC-11",
+      "category": "Core Security Guardrails",
       "name": "Pydantic Schema Input Coercion Limits",
       "status": "enforced",
-      "tool": "schema-guard",
-      "verify": "python -c 'import app.schemas'"
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "schema-guard"
+      }
     },
     {
-      "id": "sec-12",
+      "id": "SEC-12",
+      "category": "Core Security Guardrails",
       "name": "Safety CVE Dependency Audit",
       "status": "enforced",
-      "tool": "pip-audit",
-      "verify": "pip-audit -r starter/requirements.txt || true"
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1104"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pip-audit"
+      }
     }
   ]
 }

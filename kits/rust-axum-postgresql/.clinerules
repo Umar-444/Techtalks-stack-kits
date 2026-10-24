@@ -1,16 +1,58 @@
-# Assistant Guidelines for Rust + Axum + PostgreSQL Stack Kit
+# Cline Rules — Rust + Axum + PostgreSQL (SQLx)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# Directives only. Code examples live in AGENTS.md to keep this file token-light.
 
-## Stack Overview
-- Language: Rust 1.81+ (Edition 2021)
-- Framework: Axum 0.8+
-- Runtime: Tokio 1.40+ (Multi-threaded async)
-- Database: PostgreSQL 16+ via SQLx 0.8+ (Compile-time verified queries)
-- Middleware: Tower-HTTP 0.6+ (CORS, Trace, Timeout, Compression)
-- Security: #![deny(unsafe_code)], cargo-audit, non-root Alpine container
+## Architectural Standards for Rust + Axum + Tokio + SQLx + PostgreSQL
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
 
-## Mandatory Rules
-1. Zero unparameterized SQL queries. Always use SQLx query macros with bind parameters ($1, $2).
-2. All handlers must return Result<Json<T>, AppError> with explicit error status codes.
-3. Apply Tower-HTTP layers for timeout (15s), CORS, and Tracing on all API routes.
-4. Bound connection pools using PgPoolOptions with explicit max_connections and timeouts.
-5. In-memory integration tests must use oneshot requests to verify status codes and payloads.
+## Axum Routing, Handlers, and State Extraction Architecture
+- Structure routers hierarchically using `Router::new().nest("/api/v1", api_routes)`.
+- Handlers must be pure asynchronous functions accepting type-safe extractors:
+- Place extractors in correct order: body extractors (`Json`, `Form`) must be the final argument.
+- Share thread-safe dependencies (database pools, caches, config) via `Router::with_state(app_state)`.
+- Use shallow-cloneable handles (such as `PgPool` or `Arc<AppState>`).
+- Never lock async execution blocks with synchronous mutexes (`std::sync::Mutex`); use `tokio::sync::Mutex` or lock-free channels.
+- Use a unified `AppError` enum implementing `IntoResponse`:
+- Map database errors to HTTP status codes cleanly without leaking internal connection strings or queries to clients.
+
+## Security Invariants for Rust + Axum + Tokio + SQLx + PostgreSQL
+- Verify tenant boundary before reading or writing any persistent state.
+- Sanitize all external inputs using validated schemas.
+- Reject requests with missing or expired bearer tokens.
+
+## SQLx Compile-Time Verification, Migrations, and Connection Pooling
+- Prefer `sqlx::query!` and `sqlx::query_as!` macros for compile-time syntax and type checking against PostgreSQL schemas:
+- Use `cargo sqlx prepare` to generate `.sqlx/` metadata for offline CI builds without requiring a live database.
+- Write migrations in `migrations/` named with versioned prefixes (e.g., `0001_init.sql`).
+- Apply migrations automatically at service startup using `sqlx::migrate!().run(&pool).await?`.
+- Configure explicit pool boundaries via `PgPoolOptions`:
+
+## Agent Coding Conventions for Rust + Axum + Tokio + SQLx + PostgreSQL
+- Maintain clean, minimal code changes with zero extraneous comments.
+- Run typecheck and compile verification after every file modification.
+- Never introduce undocumented third-party libraries without explicit instructions.
+
+## Tower-HTTP Middleware Chaining, Observability, and Timeout Control
+- Wrap Axum routers with standard Tower-HTTP middleware:
+- `TraceLayer::new_for_http()`: Structured request logging with OpenTelemetry / Tracing.
+- `TimeoutLayer::new(Duration::from_secs(15))`: Fast failure for stalled operations.
+- `CorsLayer`: Explicit allowed origins and headers; never allow wildcard `*` with credentials.
+- `CompressionLayer::new()`: Gzip/Brotli automatic payload compression.
+- Instrument async handler functions with `#[tracing::instrument(skip(pool))]`.
+- Emits contextual trace spans across request lifecycles.
+
+## Memory Safety, Deserialization Limits, and Supply Chain Auditing
+- The codebase enforces `#![deny(unsafe_code)]`. Memory safety is guaranteed by Rust's ownership and borrow checker.
+- Protect against memory exhaustion denial-of-service by imposing payload size limits:
+- Validate input structs with custom validation functions or the `validator` crate.
+- Run `cargo audit` in CI to detect vulnerabilities in third-party dependencies (`Cargo.lock`).
+- Maintain `cargo deny` checks to enforce permissive software licenses and avoid duplicate crates.
+
+## Async Tokio Runtime Concurrency and Integration Testing
+- Execute the service under the multi-threaded Tokio runtime: `#[tokio::main]`.
+- Avoid blocking worker threads. Offload CPU-heavy tasks or blocking file I/O to `tokio::task::spawn_blocking`.
+- Test endpoints directly using `tower::ServiceExt::oneshot` and `axum::http::Request`:
+- Guarantees fast, reproducible test execution without binding physical TCP ports.
+

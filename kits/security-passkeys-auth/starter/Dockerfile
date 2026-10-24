@@ -1,4 +1,4 @@
-﻿# Multi-stage hardened build for Passkeys WebAuthn Reference
+# Multi-stage hardened build for Passkeys WebAuthn Reference
 FROM node:22-bookworm-slim AS builder
 
 WORKDIR /build

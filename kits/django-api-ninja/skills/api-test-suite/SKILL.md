@@ -4,6 +4,6 @@ description: Run automated Pytest-Django tests with TestClient.
 ---
 # API Test Suite Skill
 
-`ash
+```bash
 pytest tests/ -v --tb=short
-`
+```

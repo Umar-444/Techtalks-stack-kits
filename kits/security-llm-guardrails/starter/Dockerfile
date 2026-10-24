@@ -1,4 +1,4 @@
-﻿# Multi-stage hardened build for LLM Guardrails & AI Gateway
+# Multi-stage hardened build for LLM Guardrails & AI Gateway
 FROM python:3.12-slim-bookworm AS builder
 
 WORKDIR /build

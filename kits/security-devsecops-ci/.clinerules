@@ -1,17 +1,64 @@
-# Assistant Guidelines for DevSecOps CI/CD Stack Kit
+# Cline Rules — DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# Directives only. Code examples live in AGENTS.md to keep this file token-light.
 
-## Stack Overview
-- Pipeline Engine: GitHub Actions v4
-- Secret Scanner: Gitleaks 8+
-- SAST Scanner: Semgrep OSS (OWASP Top 10 + Custom Rules)
-- Container & Vulnerability Scanner: Aqua Security Trivy
-- SBOM Generator: Anchore Syft (SPDX 2.3 & CycloneDX 1.5)
-- Image Signing: Sigstore Cosign (SLSA Provenance)
-- Local Runner: Cross-platform Python/Bash local security pipeline
+## Architectural Standards for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+- Strictly adhere to modular component separation.
+- Keep dependency surface minimal and auditable.
+- Prefer explicit configuration over magic implicit defaults.
 
-## Mandatory Rules
-1. Zero plaintext secrets in code or git history. Enforce Gitleaks pre-commit and in CI.
-2. SAST rules in `.semgrep.yml` must use AST pattern matching. Prohibit raw regex for code analysis.
-3. Containers must execute under unprivileged non-root users and pin immutable image digests.
-4. Block CI merges on CRITICAL and HIGH severity CVEs with available upstream patches.
-5. All security tools must emit SARIF 2.1.0 formatted reports for GitHub Code Scanning integration.
+## DevSecOps CI Pipeline Architecture and Gating Standards
+- Security pipelines execute across four synchronized stages:
+- **Pre-Flight Secret Audit**: Detect plaintext credentials and tokens before running build steps (`gitleaks`).
+- **Static Application Security Testing (SAST)**: AST-based vulnerability analysis with zero compiler dependence (`semgrep`).
+- **Software Composition Analysis (SCA) & Container Scanning**: Filesystem package and base image CVE audits (`trivy`).
+- **Supply Chain & Provenance**: Software Bill of Materials generation (`syft`) and cryptographic image signing (`cosign`).
+- **Blocking Gates (Exit Code 1)**: Any `CRITICAL` or `HIGH` severity finding with a known fix halts pull request merges.
+- **Advisory Warnings**: Medium and low findings are logged as annotations in the GitHub Security tab without blocking developer velocity.
+- Suppressions must be temporary and documented with expiration timestamps in `.trivyignore` or `.gitleaksignore`.
+- All scanners must emit Static Analysis Results Interchange Format (`SARIF 2.1.0`) reports.
+- Upload reports to `github/codeql-action/upload-sarif` to centralize triaging directly within repository security dashboards.
+
+## Secret Detection, Entropy Scanning, and Gitleaks Invariants
+- No private keys, JWT secrets, database connection strings, cloud API keys, or Webhook tokens may be committed to version control.
+- All secrets must be sourced from runtime secret managers (AWS Secrets Manager, HashiCorp Vault, GitHub Encrypted Secrets).
+- Maintain customized rules in `.gitleaks.toml`:
+- Run full historical scans on pull requests using `--log-opts="--all"`.
+- If a secret is committed:
+- Revoke and rotate the compromised credential immediately.
+- Invalidate active sessions tied to the secret.
+- Purge the git commit history using `git-filter-repo` or BFG Repo-Cleaner.
+- Never merely commit a "delete secret" patch—historical commits remain compromised.
+
+## Security Invariants for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+- Verify tenant boundary before reading or writing any persistent state.
+- Sanitize all external inputs using validated schemas.
+- Reject requests with missing or expired bearer tokens.
+
+## Agent Coding Conventions for DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)
+- Maintain clean, minimal code changes with zero extraneous comments.
+- Run typecheck and compile verification after every file modification.
+- Never introduce undocumented third-party libraries without explicit instructions.
+
+## Static Application Security Testing (SAST) and Custom Semgrep Rules
+- Use Semgrep AST semantic pattern matching rather than brittle string regex:
+- Trace unvalidated user input sources (`request.args`, `params[]`) into dangerous execution sinks (`exec`, `system`, SQL queries).
+- Enforce sanitizers or type casting before data reaches external sinks.
+- When an alert is an intentional, hardened pattern, use inline suppression:
+- Review all inline suppressions periodically during security retrospectives.
+
+## Container Hardening, CVE Scanning, and Trivy Invariants
+- Standardize on minimal Alpine (`alpine:3.20`) or Google Distroless base images.
+- Prohibit generic `:latest` tags; pin explicit patch versions with SHA256 digests:
+- Containers must never execute as `root`.
+- Always create a dedicated unprivileged user and group in the Dockerfile:
+- Scan both filesystem dependencies and built container images:
+- Suppress unfixed vulnerabilities lacking upstream vendor patches (`--ignore-unfixed`).
+
+## Supply Chain Security, SBOM Generation, and Cosign Verification
+- Automatically generate machine-readable SBOMs for every production release using Anchore Syft:
+- Archive SBOM artifacts alongside container images for regulatory and audit compliance.
+- Sign container images in GitHub Actions using keyless OIDC identity:
+- Enforce signature verification before deploying images to Kubernetes or production runtimes.
+- Maintain `.github/dependabot.yml` configured for weekly security version bump PRs with automated testing.
+

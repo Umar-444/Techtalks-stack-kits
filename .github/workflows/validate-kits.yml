@@ -22,7 +22,7 @@ jobs:
       - name: "Install Python dependencies"
         run: |
           python -m pip install --upgrade pip
-          pip install pyyaml
+          pip install -r requirements.txt
 
       - name: "Validate all kit manifests & physical layers"
         run: |
@@ -42,9 +42,37 @@ jobs:
             fi
           done
 
-      - name: "Execute benchmark evaluation runner"
+      - name: "Validate security manifests against JSON Schema"
+        run: |
+          python tools/validate_checks.py
+
+      - name: "Audit every kit against the 18-checkpoint standard"
+        run: |
+          status=0
+          for kit_dir in kits/*/; do
+            slug="$(basename "$kit_dir")"
+            [ -f "${kit_dir}kit.yaml" ] || continue
+            python tools/audit_kit.py "$slug" || status=1
+          done
+          exit $status
+
+      - name: "Check OWASP coverage matrix is current"
+        run: |
+          python tools/build_security_matrix.py --check
+
+      - name: "Reject UTF-8 BOMs in parsed files"
+        run: |
+          python tools/check_encoding.py
+
+      - name: "Execute verification runner"
         run: |
           python evals/runner.py
+
+      - name: "Check kit status board is current"
+        run: |
+          python tools/build_status_board.py
+          git diff --exit-code status.json status/ \
+            || (echo "::error::status board is stale — run tools/build_status_board.py and commit" && exit 1)
 
   gitleaks-secret-scan:
     name: "Gitleaks Secret Scan"

@@ -28,6 +28,9 @@ def create_app(test_config=None):
     
     from app import db
     db.init_app(app)
+
+    from app import observability
+    observability.init_app(app)
     
     # Auto-initialize database tables if file doesn't exist yet
     with app.app_context():

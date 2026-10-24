@@ -1,89 +1,235 @@
 {
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
   "kit_slug": "elixir-phoenix-liveview",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 1,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 2,
+      "high": 6,
+      "medium": 4
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A02:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A07:2025",
+      "A08:2025"
+    ]
+  },
   "checks": [
     {
-      "id": "sec-01",
+      "id": "SEC-01",
+      "category": "Core Security Guardrails",
       "name": "Gitleaks Secret Audit",
       "status": "enforced",
-      "tool": "gitleaks",
-      "verify": "gitleaks detect --no-git"
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "gitleaks"
+      }
     },
     {
-      "id": "sec-02",
+      "id": "SEC-02",
+      "category": "Core Security Guardrails",
       "name": "Sobelow Static Security Analysis",
       "status": "enforced",
-      "tool": "sobelow",
-      "verify": "mix sobelow --config || true"
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "sobelow"
+      }
     },
     {
-      "id": "sec-03",
+      "id": "SEC-03",
+      "category": "Core Security Guardrails",
       "name": "LiveView CSRF Token Handshake",
       "status": "enforced",
-      "tool": "phoenix-csrf",
-      "verify": "grep -rn 'get_csrf_token()' starter/lib/"
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-352"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "phoenix-csrf"
+      }
     },
     {
-      "id": "sec-04",
+      "id": "SEC-04",
+      "category": "Core Security Guardrails",
       "name": "Ecto Changeset Parameter Filtering",
       "status": "enforced",
-      "tool": "ecto-guard",
-      "verify": "grep -rn 'cast(' starter/lib/"
+      "severity": "high",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-915"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "ecto-guard"
+      }
     },
     {
-      "id": "sec-05",
+      "id": "SEC-05",
+      "category": "Core Security Guardrails",
       "name": "Parameterized PostgreSQL Query Enforcement",
       "status": "enforced",
-      "tool": "postgrex",
-      "verify": "mix compile"
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-89"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "postgrex"
+      }
     },
     {
-      "id": "sec-06",
+      "id": "SEC-06",
+      "category": "Core Security Guardrails",
       "name": "WebSocket Connection Origin Validation",
       "status": "enforced",
-      "tool": "endpoint-check",
-      "verify": "grep -rn 'check_origin' starter/config/"
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "endpoint-check"
+      }
     },
     {
-      "id": "sec-07",
+      "id": "SEC-07",
+      "category": "Core Security Guardrails",
       "name": "BEAM Process Supervisor Isolation",
       "status": "enforced",
-      "tool": "otp-supervisor",
-      "verify": "mix run -e 'assert Demo.Supervisor' || true"
+      "severity": "medium",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-662"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "otp-supervisor"
+      }
     },
     {
-      "id": "sec-08",
+      "id": "SEC-08",
+      "category": "Core Security Guardrails",
       "name": "Content Security Policy (put_secure_browser_headers)",
       "status": "enforced",
-      "tool": "router-lint",
-      "verify": "grep -rn 'put_secure_browser_headers' starter/lib/"
+      "severity": "medium",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-693"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "router-lint"
+      }
     },
     {
-      "id": "sec-09",
+      "id": "SEC-09",
+      "category": "Core Security Guardrails",
       "name": "Session Cookie Protection (HttpOnly, SameSite=Lax)",
       "status": "enforced",
-      "tool": "cookie-lint",
-      "verify": "grep -rn 'same_site: \"Lax\"' starter/lib/"
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-1004"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "cookie-lint"
+      }
     },
     {
-      "id": "sec-10",
+      "id": "SEC-10",
+      "category": "Core Security Guardrails",
       "name": "Ecto PostgreSQL Constraint Migrations",
       "status": "enforced",
-      "tool": "migration-check",
-      "verify": "mix ecto.migrations"
+      "severity": "medium",
+      "owasp": [
+        "A08:2025"
+      ],
+      "cwe": [
+        "CWE-1059"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "migration-check"
+      }
     },
     {
-      "id": "sec-11",
+      "id": "SEC-11",
+      "category": "Core Security Guardrails",
       "name": "PubSub Topic Injection Prevention",
       "status": "enforced",
-      "tool": "pubsub-lint",
-      "verify": "grep -rn 'Phoenix.PubSub.subscribe' starter/lib/"
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-74"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pubsub-lint"
+      }
     },
     {
-      "id": "sec-12",
+      "id": "SEC-12",
+      "category": "Core Security Guardrails",
       "name": "Hex Package Vulnerability Audit (mix hex.audit)",
       "status": "enforced",
-      "tool": "hex-audit",
-      "verify": "mix hex.audit || true"
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1104"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "hex-audit"
+      }
     }
   ]
 }

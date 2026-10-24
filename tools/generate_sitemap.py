@@ -57,6 +57,18 @@ def generate():
         "changefreq": "weekly"
     })
     pages.append({
+        "url": f"{BASE_URL}/security/coverage/",
+        "file": "security/coverage/index.html",
+        "priority": "0.85",
+        "changefreq": "weekly"
+    })
+    pages.append({
+        "url": f"{BASE_URL}/status/",
+        "file": "status/index.html",
+        "priority": "0.85",
+        "changefreq": "weekly"
+    })
+    pages.append({
         "url": f"{BASE_URL}/security/laravel/",
         "file": "security/laravel/index.html",
         "priority": "0.85",

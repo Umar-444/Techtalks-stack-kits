@@ -1,49 +1,95 @@
 {
   "kit_slug": "go-chi-templ-htmx",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "go-chi-templ-htmx-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 1663,
-      "completion_tokens": 2032,
-      "tokens_consumed": 3695
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 3528,
+    "shared_context_tokens": 632,
+    "shared_context": {
+      "DESIGN.md": 336,
+      "SECURITY.md": 156,
+      "agent-build-steps.md": 140
     },
-    {
-      "id": "go-chi-templ-htmx-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 1834,
-      "completion_tokens": 2533,
-      "tokens_consumed": 4367
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 2896,
+        "total_tokens": 3528
+      },
+      "codex": {
+        "rules_tokens": 3051,
+        "total_tokens": 3683
+      },
+      "standard": {
+        "rules_tokens": 2946,
+        "total_tokens": 3578
+      },
+      "cline": {
+        "rules_tokens": 1289,
+        "total_tokens": 1921
+      },
+      "windsurf": {
+        "rules_tokens": 2744,
+        "total_tokens": 3376
+      },
+      "copilot": {
+        "rules_tokens": 2745,
+        "total_tokens": 3377
+      }
     },
-    {
-      "id": "go-chi-templ-htmx-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 1774,
-      "completion_tokens": 2257,
-      "tokens_consumed": 4031
-    },
-    {
-      "id": "go-chi-templ-htmx-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 1881,
-      "completion_tokens": 2822,
-      "tokens_consumed": 4703
-    }
-  ],
-  "median_task_tokens": 4199,
-  "median_tokens_to_complete_reference_build": 16796,
-  "efficiency_tier": "A+",
-  "efficiency_note": "Chi net/http stdlib, templ type-safe HTML, sqlc codegen",
-  "token_light": true
+    "leanest_dialect": "cline",
+    "efficiency_tier": "B"
+  },
+  "starter": {
+    "files": 10,
+    "source_loc": 113
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "go-chi-templ-htmx-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "go-chi-templ-htmx-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "go-chi-templ-htmx-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "go-chi-templ-htmx-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

@@ -1,4 +1,4 @@
-﻿<tr id="item-{{ item['id'] }}" class="item-row {% if item['completed'] %}completed{% endif %}">
+<tr id="item-{{ item['id'] }}" class="item-row {% if item['completed'] %}completed{% endif %}">
     <td class="col-status">
         <button class="toggle-btn"
                 hx-post="{{ url_for('main.toggle_item', item_id=item['id']) }}"

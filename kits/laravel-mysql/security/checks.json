@@ -1,99 +1,235 @@
 {
-  "kit": "laravel-mysql",
-  "version": "1.0.0",
-  "total_controls": 12,
-  "categories": [
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
+  "kit_slug": "laravel-mysql",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 4,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 3,
+      "high": 3,
+      "medium": 3,
+      "low": 3
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A02:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A08:2025",
+      "A10:2025"
+    ]
+  },
+  "checks": [
     {
-      "name": "Database & Query Injection Defenses",
-      "controls": [
-        {
-          "id": "SQL-01",
-          "name": "Strict PDO MySQL bind parameterization on all Eloquent and raw queries",
-          "status": "enforced",
-          "test": "starter/app/Models/Article.php"
-        },
-        {
-          "id": "SQL-02",
-          "name": "Strict MySQL SQL modes enabled (ONLY_FULL_GROUP_BY, STRICT_TRANS_TABLES)",
-          "status": "enforced",
-          "rule": "rules/source/02-mysql-innodb-and-schema-integrity.md"
-        },
-        {
-          "id": "SQL-03",
-          "name": "UTF8mb4 character set and utf8mb4_0900_ai_ci collation standard",
-          "status": "enforced",
-          "rule": "rules/source/02-mysql-innodb-and-schema-integrity.md"
-        }
-      ]
+      "id": "SQL-01",
+      "category": "Database & Query Injection Defenses",
+      "name": "Strict PDO MySQL bind parameterization on all Eloquent and raw queries",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-89"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/app/Models/Article.php"
+      }
     },
     {
-      "name": "Mass Assignment & Authorization Controls",
-      "controls": [
-        {
-          "id": "AUTH-01",
-          "name": "Explicit $fillable whitelist arrays on all Eloquent models",
-          "status": "enforced",
-          "test": "starter/app/Models/Article.php: $fillable"
-        },
-        {
-          "id": "AUTH-02",
-          "name": "Model-level authorization policies guarding CRUD mutations",
-          "status": "enforced",
-          "test": "starter/app/Policies/ArticlePolicy.php"
-        },
-        {
-          "id": "AUTH-03",
-          "name": "Form Request validation enforcing strict type and size constraints",
-          "status": "enforced",
-          "test": "starter/app/Http/Controllers/ArticleController.php"
-        }
-      ]
+      "id": "SQL-02",
+      "category": "Database & Query Injection Defenses",
+      "name": "Strict MySQL SQL modes enabled (ONLY_FULL_GROUP_BY, STRICT_TRANS_TABLES)",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-16"
+      ],
+      "evidence": {
+        "kind": "rule",
+        "path": "rules/source/02-mysql-innodb-and-schema-integrity.md"
+      }
     },
     {
-      "name": "Concurrency, Deadlocks & Index Hardening",
-      "controls": [
-        {
-          "id": "CONC-01",
-          "name": "Deadlock-resilient transactions with retry loops (DB::transaction attempts: 5)",
-          "status": "enforced",
-          "test": "starter/app/Http/Controllers/ArticleController.php"
-        },
-        {
-          "id": "CONC-02",
-          "name": "Compound index coverage on filtered status and sorted created_at columns",
-          "status": "enforced",
-          "migration": "starter/database/migrations/2026_10_22_000001_create_articles_table.php"
-        },
-        {
-          "id": "CONC-03",
-          "name": "Cascade on delete foreign keys preventing orphaned database records",
-          "status": "enforced",
-          "migration": "starter/database/migrations/2026_10_22_000001_create_articles_table.php"
-        }
-      ]
+      "id": "SQL-03",
+      "category": "Database & Query Injection Defenses",
+      "name": "UTF8mb4 character set and utf8mb4_0900_ai_ci collation standard",
+      "status": "enforced",
+      "severity": "low",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-16"
+      ],
+      "evidence": {
+        "kind": "rule",
+        "path": "rules/source/02-mysql-innodb-and-schema-integrity.md"
+      }
     },
     {
-      "name": "Container & CI Supply Chain Hardening",
-      "controls": [
-        {
-          "id": "OPS-HLTH",
-          "name": "Liveness probe health endpoint (/healthz) returning HTTP 200 OK",
-          "status": "enforced",
-          "endpoint": "GET /healthz"
-        },
-        {
-          "id": "OPS-USER",
-          "name": "Non-root execution in multi-stage Alpine container (USER appuser)",
-          "status": "enforced",
-          "docker": "starter/Dockerfile: USER appuser"
-        },
-        {
-          "id": "CI-SCAN",
-          "name": "Gitleaks secret detection and Semgrep AST scanning in CI",
-          "status": "enforced",
-          "workflow": ".github/workflows/security.yml"
-        }
-      ]
+      "id": "AUTH-01",
+      "category": "Mass Assignment & Authorization Controls",
+      "name": "Explicit $fillable whitelist arrays on all Eloquent models",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-915"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/app/Models/Article.php"
+      }
+    },
+    {
+      "id": "AUTH-02",
+      "category": "Mass Assignment & Authorization Controls",
+      "name": "Model-level authorization policies guarding CRUD mutations",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-285"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/app/Policies/ArticlePolicy.php"
+      }
+    },
+    {
+      "id": "AUTH-03",
+      "category": "Mass Assignment & Authorization Controls",
+      "name": "Form Request validation enforcing strict type and size constraints",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/app/Http/Controllers/ArticleController.php"
+      }
+    },
+    {
+      "id": "CONC-01",
+      "category": "Concurrency, Deadlocks & Index Hardening",
+      "name": "Deadlock-resilient transactions with retry loops (DB::transaction attempts: 5)",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A10:2025"
+      ],
+      "cwe": [
+        "CWE-755"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/app/Http/Controllers/ArticleController.php"
+      }
+    },
+    {
+      "id": "CONC-02",
+      "category": "Concurrency, Deadlocks & Index Hardening",
+      "name": "Compound index coverage on filtered status and sorted created_at columns",
+      "status": "enforced",
+      "severity": "low",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-1049"
+      ],
+      "evidence": {
+        "kind": "migration",
+        "path": "starter/database/migrations/2026_10_22_000001_create_articles_table.php"
+      }
+    },
+    {
+      "id": "CONC-03",
+      "category": "Concurrency, Deadlocks & Index Hardening",
+      "name": "Cascade on delete foreign keys preventing orphaned database records",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A08:2025"
+      ],
+      "cwe": [
+        "CWE-1059"
+      ],
+      "evidence": {
+        "kind": "migration",
+        "path": "starter/database/migrations/2026_10_22_000001_create_articles_table.php"
+      }
+    },
+    {
+      "id": "OPS-01",
+      "category": "Container & CI Supply Chain Hardening",
+      "name": "Liveness probe health endpoint (/healthz) returning HTTP 200 OK",
+      "status": "enforced",
+      "severity": "low",
+      "owasp": [
+        "A10:2025"
+      ],
+      "cwe": [
+        "CWE-755"
+      ],
+      "evidence": {
+        "kind": "endpoint",
+        "path": "GET /healthz"
+      }
+    },
+    {
+      "id": "OPS-02",
+      "category": "Container & CI Supply Chain Hardening",
+      "name": "Non-root execution in multi-stage Alpine container (USER appuser)",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-250"
+      ],
+      "evidence": {
+        "kind": "docker",
+        "path": "starter/Dockerfile"
+      }
+    },
+    {
+      "id": "CI-01",
+      "category": "Container & CI Supply Chain Hardening",
+      "name": "Gitleaks secret detection and Semgrep AST scanning in CI",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": ".github/workflows/security.yml"
+      }
     }
   ]
 }

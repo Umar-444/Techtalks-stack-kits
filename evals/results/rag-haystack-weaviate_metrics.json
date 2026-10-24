@@ -1,49 +1,95 @@
 {
   "kit_slug": "rag-haystack-weaviate",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "rag-haystack-weaviate-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 2534,
-      "completion_tokens": 3097,
-      "tokens_consumed": 5631
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 2033,
+    "shared_context_tokens": 911,
+    "shared_context": {
+      "DESIGN.md": 337,
+      "SECURITY.md": 157,
+      "agent-build-steps.md": 417
     },
-    {
-      "id": "rag-haystack-weaviate-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 2795,
-      "completion_tokens": 3860,
-      "tokens_consumed": 6655
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1122,
+        "total_tokens": 2033
+      },
+      "codex": {
+        "rules_tokens": 1274,
+        "total_tokens": 2185
+      },
+      "standard": {
+        "rules_tokens": 1306,
+        "total_tokens": 2217
+      },
+      "cline": {
+        "rules_tokens": 1042,
+        "total_tokens": 1953
+      },
+      "windsurf": {
+        "rules_tokens": 1106,
+        "total_tokens": 2017
+      },
+      "copilot": {
+        "rules_tokens": 1107,
+        "total_tokens": 2018
+      }
     },
-    {
-      "id": "rag-haystack-weaviate-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 2703,
-      "completion_tokens": 3440,
-      "tokens_consumed": 6143
-    },
-    {
-      "id": "rag-haystack-weaviate-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 2867,
-      "completion_tokens": 4300,
-      "tokens_consumed": 7167
-    }
-  ],
-  "median_task_tokens": 6399,
-  "median_tokens_to_complete_reference_build": 25596,
-  "efficiency_tier": "B",
-  "efficiency_note": "Explicit Haystack DAG pipeline components, hybrid search",
-  "token_light": false
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A"
+  },
+  "starter": {
+    "files": 12,
+    "source_loc": 283
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "rag-haystack-weaviate-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rag-haystack-weaviate-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rag-haystack-weaviate-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rag-haystack-weaviate-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

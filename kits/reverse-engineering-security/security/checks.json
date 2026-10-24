@@ -1,99 +1,232 @@
 {
-  "kit": "reverse-engineering-security",
-  "version": "1.0.0",
-  "total_controls": 12,
-  "categories": [
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
+  "kit_slug": "reverse-engineering-security",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 4,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 3,
+      "high": 5,
+      "medium": 4
+    },
+    "owasp_covered": [
+      "A02:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A09:2025"
+    ]
+  },
+  "checks": [
     {
-      "name": "Static Analysis & AST Vulnerability Detection",
-      "controls": [
-        {
-          "id": "AST-AUDIT-01",
-          "name": "Dangerous dynamic execution sink detection (eval, exec)",
-          "status": "enforced",
-          "test": "starter/analyzers/ast_analyzer.py: SEC-AST-001"
-        },
-        {
-          "id": "AST-AUDIT-02",
-          "name": "Command injection vulnerability detection (subprocess shell=True)",
-          "status": "enforced",
-          "test": "starter/analyzers/ast_analyzer.py: SEC-AST-002"
-        },
-        {
-          "id": "AST-AUDIT-03",
-          "name": "SQL injection string interpolation detection in query execution calls",
-          "status": "enforced",
-          "test": "starter/analyzers/ast_analyzer.py: SEC-AST-003"
-        }
-      ]
+      "id": "AST-01",
+      "category": "Static Analysis & AST Vulnerability Detection",
+      "name": "Dangerous dynamic execution sink detection (eval, exec)",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-95"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/analyzers/ast_analyzer.py"
+      }
     },
     {
-      "name": "Binary Hardening & Exploit Mitigation Auditing",
-      "controls": [
-        {
-          "id": "BIN-AUDIT-01",
-          "name": "Non-Executable Stack (NX/DEP) verification via ELF/PE structural headers",
-          "status": "enforced",
-          "rule": "rules/source/03-binary-hardening-and-exploit-mitigation-verification.md"
-        },
-        {
-          "id": "BIN-AUDIT-02",
-          "name": "Position Independent Executable (PIE/ASLR) verification",
-          "status": "enforced",
-          "rule": "rules/source/03-binary-hardening-and-exploit-mitigation-verification.md"
-        },
-        {
-          "id": "BIN-AUDIT-03",
-          "name": "Stack canary symbol detection (__stack_chk_fail)",
-          "status": "enforced",
-          "rule": "rules/source/03-binary-hardening-and-exploit-mitigation-verification.md"
-        }
-      ]
+      "id": "AST-02",
+      "category": "Static Analysis & AST Vulnerability Detection",
+      "name": "Command injection vulnerability detection (subprocess shell=True)",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-78"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/analyzers/ast_analyzer.py"
+      }
     },
     {
-      "name": "Software Supply Chain & Vulnerability Correlation",
-      "controls": [
-        {
-          "id": "SCA-AUDIT-01",
-          "name": "CycloneDX and SPDX Software Bill of Materials (SBOM) validation",
-          "status": "enforced",
-          "rule": "rules/source/04-software-supply-chain-and-sbom-validation.md"
-        },
-        {
-          "id": "SCA-AUDIT-02",
-          "name": "Cryptographic SHA-256 package hash verification in dependencies",
-          "status": "enforced",
-          "rule": "rules/source/04-software-supply-chain-and-sbom-validation.md"
-        },
-        {
-          "id": "SCA-AUDIT-03",
-          "name": "Known CVE vulnerability advisory correlation",
-          "status": "enforced",
-          "rule": "rules/source/04-software-supply-chain-and-sbom-validation.md"
-        }
-      ]
+      "id": "AST-03",
+      "category": "Static Analysis & AST Vulnerability Detection",
+      "name": "SQL injection string interpolation detection in query execution calls",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-89"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/analyzers/ast_analyzer.py"
+      }
     },
     {
-      "name": "CI/CD Security Gating & Container Hardening",
-      "controls": [
-        {
-          "id": "OPS-AUDIT-01",
-          "name": "OASIS SARIF 2.1.0 standard reporting for GitHub Code Scanning integration",
-          "status": "enforced",
-          "test": "starter/reporting/sarif_report.py"
-        },
-        {
-          "id": "OPS-AUDIT-02",
-          "name": "Non-root execution inside minimal Alpine container (USER 10001:10001)",
-          "status": "enforced",
-          "docker": "starter/Dockerfile: USER 10001:10001"
-        },
-        {
-          "id": "OPS-AUDIT-03",
-          "name": "Automated security gating exiting with non-zero status on HIGH severity findings",
-          "status": "enforced",
-          "test": "starter/cli.py"
-        }
-      ]
+      "id": "BIN-01",
+      "category": "Binary Hardening & Exploit Mitigation Auditing",
+      "name": "Non-Executable Stack (NX/DEP) verification via ELF/PE structural headers",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-693"
+      ],
+      "evidence": {
+        "kind": "rule",
+        "path": "rules/source/03-binary-hardening-and-exploit-mitigation-verification.md"
+      }
+    },
+    {
+      "id": "BIN-02",
+      "category": "Binary Hardening & Exploit Mitigation Auditing",
+      "name": "Position Independent Executable (PIE/ASLR) verification",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-693"
+      ],
+      "evidence": {
+        "kind": "rule",
+        "path": "rules/source/03-binary-hardening-and-exploit-mitigation-verification.md"
+      }
+    },
+    {
+      "id": "BIN-03",
+      "category": "Binary Hardening & Exploit Mitigation Auditing",
+      "name": "Stack canary symbol detection (__stack_chk_fail)",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-693"
+      ],
+      "evidence": {
+        "kind": "rule",
+        "path": "rules/source/03-binary-hardening-and-exploit-mitigation-verification.md"
+      }
+    },
+    {
+      "id": "SCA-01",
+      "category": "Software Supply Chain & Vulnerability Correlation",
+      "name": "CycloneDX and SPDX Software Bill of Materials (SBOM) validation",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "rule",
+        "path": "rules/source/04-software-supply-chain-and-sbom-validation.md"
+      }
+    },
+    {
+      "id": "SCA-02",
+      "category": "Software Supply Chain & Vulnerability Correlation",
+      "name": "Cryptographic SHA-256 package hash verification in dependencies",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-311"
+      ],
+      "evidence": {
+        "kind": "rule",
+        "path": "rules/source/04-software-supply-chain-and-sbom-validation.md"
+      }
+    },
+    {
+      "id": "SCA-03",
+      "category": "Software Supply Chain & Vulnerability Correlation",
+      "name": "Known CVE vulnerability advisory correlation",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1104"
+      ],
+      "evidence": {
+        "kind": "rule",
+        "path": "rules/source/04-software-supply-chain-and-sbom-validation.md"
+      }
+    },
+    {
+      "id": "OPS-01",
+      "category": "CI/CD Security Gating & Container Hardening",
+      "name": "OASIS SARIF 2.1.0 standard reporting for GitHub Code Scanning integration",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A09:2025"
+      ],
+      "cwe": [
+        "CWE-778"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/reporting/sarif_report.py"
+      }
+    },
+    {
+      "id": "OPS-02",
+      "category": "CI/CD Security Gating & Container Hardening",
+      "name": "Non-root execution inside minimal Alpine container (USER 10001:10001)",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-250"
+      ],
+      "evidence": {
+        "kind": "docker",
+        "path": "starter/Dockerfile"
+      }
+    },
+    {
+      "id": "OPS-03",
+      "category": "CI/CD Security Gating & Container Hardening",
+      "name": "Automated security gating exiting with non-zero status on HIGH severity findings",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "starter/cli.py"
+      }
     }
   ]
 }

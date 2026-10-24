@@ -1,0 +1,920 @@
+{
+  "generated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "schema_version": "2.0.0",
+  "kit_count": 35,
+  "control_count": 433,
+  "categories": [
+    {
+      "id": "A01:2025",
+      "rank": 1,
+      "name": "Broken Access Control",
+      "summary": "Authorization gaps including IDOR/BOLA, tenant leakage, privilege escalation, and server-side request forgery (absorbed from A10:2021).",
+      "url": "https://owasp.org/Top10/2025/A01_2025-Broken_Access_Control/",
+      "control_count": 35,
+      "kits_covering": 21,
+      "kits_missing": [
+        "agentic-langgraph-crewai",
+        "django-tailwind-postgresql",
+        "flask-htmx-sqlite",
+        "go-chi-templ-htmx",
+        "go-fiber-api",
+        "go-gin-postgresql",
+        "rag-langgraph-agentic",
+        "reverse-engineering-security",
+        "rust-actix-postgresql",
+        "rust-axum-postgresql",
+        "rust-loco-sqlite",
+        "security-devsecops-ci",
+        "security-llm-guardrails",
+        "security-passkeys-auth"
+      ]
+    },
+    {
+      "id": "A02:2025",
+      "rank": 2,
+      "name": "Security Misconfiguration",
+      "summary": "Insecure defaults, permissive CORS, debug surfaces in production, over-privileged containers, and missing hardening headers.",
+      "url": "https://owasp.org/Top10/2025/A02_2025-Security_Misconfiguration/",
+      "control_count": 60,
+      "kits_covering": 31,
+      "kits_missing": [
+        "laravel-filament-postgresql",
+        "laravel-livewire-postgresql",
+        "laravel-mongodb",
+        "nextjs-approuter-supabase"
+      ]
+    },
+    {
+      "id": "A03:2025",
+      "rank": 3,
+      "name": "Software Supply Chain Failures",
+      "summary": "Compromise of dependencies, build systems, package registries, and distribution infrastructure. Expanded from A06:2021 components.",
+      "url": "https://owasp.org/Top10/2025/A03_2025-Software_Supply_Chain_Failures/",
+      "control_count": 48,
+      "kits_covering": 27,
+      "kits_missing": [
+        "laravel-api-sanctum",
+        "laravel-mysql",
+        "rust-actix-postgresql",
+        "rust-axum-postgresql",
+        "rust-leptos-fullstack",
+        "rust-loco-sqlite",
+        "security-owasp-api",
+        "ts-hono-bun-sqlite"
+      ]
+    },
+    {
+      "id": "A04:2025",
+      "rank": 4,
+      "name": "Cryptographic Failures",
+      "summary": "Weak or missing encryption in transit and at rest, poor key handling, and inadequate password hashing.",
+      "url": "https://owasp.org/Top10/2025/A04_2025-Cryptographic_Failures/",
+      "control_count": 46,
+      "kits_covering": 34,
+      "kits_missing": [
+        "security-owasp-api"
+      ]
+    },
+    {
+      "id": "A05:2025",
+      "rank": 5,
+      "name": "Injection",
+      "summary": "SQL, NoSQL, command, template, and LDAP injection, plus cross-site scripting arising from untrusted input reaching an interpreter.",
+      "url": "https://owasp.org/Top10/2025/A05_2025-Injection/",
+      "control_count": 75,
+      "kits_covering": 33,
+      "kits_missing": [
+        "go-fiber-api",
+        "security-passkeys-auth"
+      ]
+    },
+    {
+      "id": "A06:2025",
+      "rank": 6,
+      "name": "Insecure Design",
+      "summary": "Missing or ineffective control design: absent threat modelling, unbounded resource consumption, and missing rate limits.",
+      "url": "https://owasp.org/Top10/2025/A06_2025-Insecure_Design/",
+      "control_count": 71,
+      "kits_covering": 31,
+      "kits_missing": [
+        "django-api-ninja",
+        "rag-fastapi-qdrant",
+        "reverse-engineering-security",
+        "security-devsecops-ci"
+      ]
+    },
+    {
+      "id": "A07:2025",
+      "rank": 7,
+      "name": "Authentication Failures",
+      "summary": "Credential stuffing exposure, weak session lifecycle, missing MFA. Renamed from Identification and Authentication Failures.",
+      "url": "https://owasp.org/Top10/2025/A07_2025-Authentication_Failures/",
+      "control_count": 37,
+      "kits_covering": 17,
+      "kits_missing": [
+        "agentic-langgraph-crewai",
+        "flask-htmx-sqlite",
+        "go-chi-templ-htmx",
+        "go-fiber-api",
+        "go-gin-postgresql",
+        "laravel-mysql",
+        "python-litestar-postgresql",
+        "rag-fastapi-qdrant",
+        "rag-haystack-weaviate",
+        "rag-llamaindex-pgvector",
+        "rag-local-private",
+        "reverse-engineering-security",
+        "rust-actix-postgresql",
+        "rust-axum-postgresql",
+        "rust-leptos-fullstack",
+        "security-devsecops-ci",
+        "security-llm-guardrails",
+        "ts-hono-bun-sqlite"
+      ]
+    },
+    {
+      "id": "A08:2025",
+      "rank": 8,
+      "name": "Software or Data Integrity Failures",
+      "summary": "Unverified updates, insecure deserialization, and CI/CD pipelines that accept unsigned or unpinned artifacts.",
+      "url": "https://owasp.org/Top10/2025/A08_2025-Software_or_Data_Integrity_Failures/",
+      "control_count": 20,
+      "kits_covering": 17,
+      "kits_missing": [
+        "flask-htmx-sqlite",
+        "go-chi-templ-htmx",
+        "go-fiber-api",
+        "go-gin-postgresql",
+        "laravel-ai-features",
+        "laravel-filament-mysql",
+        "laravel-filament-postgresql",
+        "laravel-livewire-postgresql",
+        "laravel-mongodb",
+        "nextjs-approuter-supabase",
+        "python-litestar-postgresql",
+        "rag-langgraph-agentic",
+        "reverse-engineering-security",
+        "security-devsecops-ci",
+        "security-llm-guardrails",
+        "security-owasp-api",
+        "security-passkeys-auth",
+        "ts-hono-bun-sqlite"
+      ]
+    },
+    {
+      "id": "A09:2025",
+      "rank": 9,
+      "name": "Security Logging & Alerting Failures",
+      "summary": "Insufficient audit trails, unmonitored security events, and logs that leak secrets or personal data. Renamed to emphasise alerting.",
+      "url": "https://owasp.org/Top10/2025/A09_2025-Security_Logging_and_Alerting_Failures/",
+      "control_count": 8,
+      "kits_covering": 6,
+      "kits_missing": [
+        "agentic-langgraph-crewai",
+        "django-api-ninja",
+        "django-tailwind-postgresql",
+        "elixir-phoenix-liveview",
+        "go-gin-postgresql",
+        "laravel-ai-features",
+        "laravel-api-sanctum",
+        "laravel-filament-mysql",
+        "laravel-filament-postgresql",
+        "laravel-livewire-postgresql",
+        "laravel-mongodb",
+        "laravel-mysql",
+        "mcp-tools-kit",
+        "nextjs-approuter-supabase",
+        "nextjs-prisma-postgresql",
+        "python-litestar-postgresql",
+        "rag-fastapi-qdrant",
+        "rag-haystack-weaviate",
+        "rag-langgraph-agentic",
+        "rag-llamaindex-pgvector",
+        "rag-local-private",
+        "rust-actix-postgresql",
+        "rust-axum-postgresql",
+        "rust-leptos-fullstack",
+        "rust-loco-sqlite",
+        "security-llm-guardrails",
+        "security-owasp-api",
+        "security-passkeys-auth",
+        "ts-hono-bun-sqlite"
+      ]
+    },
+    {
+      "id": "A10:2025",
+      "rank": 10,
+      "name": "Mishandling of Exceptional Conditions",
+      "summary": "Improper error handling, fail-open logic, verbose stack traces, and unhandled edge cases that degrade into insecure states.",
+      "url": "https://owasp.org/Top10/2025/A10_2025-Mishandling_of_Exceptional_Conditions/",
+      "control_count": 33,
+      "kits_covering": 21,
+      "kits_missing": [
+        "agentic-langgraph-crewai",
+        "django-tailwind-postgresql",
+        "elixir-phoenix-liveview",
+        "laravel-api-sanctum",
+        "laravel-filament-postgresql",
+        "laravel-livewire-postgresql",
+        "laravel-mongodb",
+        "mcp-tools-kit",
+        "nextjs-approuter-supabase",
+        "nextjs-prisma-postgresql",
+        "reverse-engineering-security",
+        "ruby-rails-hotwire",
+        "security-devsecops-ci",
+        "security-passkeys-auth"
+      ]
+    }
+  ],
+  "severity_totals": {
+    "critical": 110,
+    "high": 194,
+    "medium": 97,
+    "low": 32
+  },
+  "kits": [
+    {
+      "slug": "agentic-langgraph-crewai",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 1,
+        "A03:2025": 2,
+        "A05:2025": 3,
+        "A06:2025": 3,
+        "A08:2025": 1,
+        "A02:2025": 2
+      },
+      "severity": {
+        "critical": 2,
+        "medium": 1,
+        "high": 9
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "django-api-ninja",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 2,
+        "A03:2025": 2,
+        "A07:2025": 1,
+        "A05:2025": 2,
+        "A01:2025": 2,
+        "A08:2025": 1,
+        "A02:2025": 1,
+        "A10:2025": 1
+      },
+      "severity": {
+        "critical": 5,
+        "medium": 1,
+        "high": 5,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "django-tailwind-postgresql",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 1,
+        "A03:2025": 2,
+        "A02:2025": 2,
+        "A06:2025": 2,
+        "A05:2025": 2,
+        "A08:2025": 1,
+        "A07:2025": 2
+      },
+      "severity": {
+        "critical": 2,
+        "medium": 3,
+        "high": 6,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "elixir-phoenix-liveview",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 1,
+        "A03:2025": 2,
+        "A06:2025": 2,
+        "A01:2025": 1,
+        "A05:2025": 3,
+        "A02:2025": 1,
+        "A07:2025": 1,
+        "A08:2025": 1
+      },
+      "severity": {
+        "critical": 2,
+        "medium": 4,
+        "high": 6
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "flask-htmx-sqlite",
+      "total": 15,
+      "owasp": {
+        "A04:2025": 2,
+        "A03:2025": 1,
+        "A05:2025": 2,
+        "A06:2025": 4,
+        "A02:2025": 2,
+        "A10:2025": 1,
+        "A09:2025": 3
+      },
+      "severity": {
+        "critical": 3,
+        "medium": 5,
+        "high": 5,
+        "low": 2
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "go-chi-templ-htmx",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 2,
+        "A03:2025": 1,
+        "A05:2025": 2,
+        "A10:2025": 2,
+        "A06:2025": 3,
+        "A02:2025": 1,
+        "A09:2025": 1
+      },
+      "severity": {
+        "critical": 2,
+        "medium": 5,
+        "high": 3,
+        "low": 2
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "go-fiber-api",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 1,
+        "A03:2025": 2,
+        "A06:2025": 3,
+        "A02:2025": 2,
+        "A10:2025": 3,
+        "A09:2025": 1
+      },
+      "severity": {
+        "critical": 1,
+        "medium": 5,
+        "high": 4,
+        "low": 2
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "go-gin-postgresql",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 1,
+        "A03:2025": 2,
+        "A05:2025": 2,
+        "A02:2025": 3,
+        "A10:2025": 2,
+        "A06:2025": 2
+      },
+      "severity": {
+        "critical": 2,
+        "medium": 4,
+        "high": 4,
+        "low": 2
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "laravel-ai-features",
+      "total": 14,
+      "owasp": {
+        "A04:2025": 2,
+        "A02:2025": 1,
+        "A05:2025": 5,
+        "A01:2025": 1,
+        "A06:2025": 2,
+        "A07:2025": 1,
+        "A10:2025": 1,
+        "A03:2025": 1
+      },
+      "severity": {
+        "critical": 5,
+        "high": 7,
+        "medium": 2
+      },
+      "updated_at": "2026-10-22"
+    },
+    {
+      "slug": "laravel-api-sanctum",
+      "total": 14,
+      "owasp": {
+        "A07:2025": 5,
+        "A01:2025": 2,
+        "A08:2025": 2,
+        "A06:2025": 1,
+        "A02:2025": 2,
+        "A04:2025": 1,
+        "A05:2025": 1
+      },
+      "severity": {
+        "high": 11,
+        "critical": 2,
+        "medium": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "laravel-filament-mysql",
+      "total": 14,
+      "owasp": {
+        "A04:2025": 2,
+        "A02:2025": 2,
+        "A01:2025": 2,
+        "A05:2025": 2,
+        "A06:2025": 2,
+        "A07:2025": 2,
+        "A10:2025": 1,
+        "A03:2025": 1
+      },
+      "severity": {
+        "critical": 5,
+        "high": 6,
+        "medium": 3
+      },
+      "updated_at": "2026-10-22"
+    },
+    {
+      "slug": "laravel-filament-postgresql",
+      "total": 12,
+      "owasp": {
+        "A07:2025": 3,
+        "A06:2025": 2,
+        "A01:2025": 2,
+        "A05:2025": 2,
+        "A04:2025": 1,
+        "A03:2025": 2
+      },
+      "severity": {
+        "critical": 5,
+        "high": 6,
+        "medium": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "laravel-livewire-postgresql",
+      "total": 12,
+      "owasp": {
+        "A05:2025": 3,
+        "A01:2025": 3,
+        "A06:2025": 1,
+        "A07:2025": 3,
+        "A04:2025": 1,
+        "A03:2025": 1
+      },
+      "severity": {
+        "high": 7,
+        "critical": 4,
+        "medium": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "laravel-mongodb",
+      "total": 12,
+      "owasp": {
+        "A05:2025": 4,
+        "A04:2025": 2,
+        "A06:2025": 2,
+        "A07:2025": 2,
+        "A01:2025": 1,
+        "A03:2025": 1
+      },
+      "severity": {
+        "critical": 4,
+        "high": 5,
+        "low": 1,
+        "medium": 2
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "laravel-mysql",
+      "total": 12,
+      "owasp": {
+        "A05:2025": 2,
+        "A02:2025": 3,
+        "A01:2025": 2,
+        "A10:2025": 2,
+        "A06:2025": 1,
+        "A08:2025": 1,
+        "A04:2025": 1
+      },
+      "severity": {
+        "critical": 3,
+        "medium": 3,
+        "low": 3,
+        "high": 3
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "mcp-tools-kit",
+      "total": 14,
+      "owasp": {
+        "A04:2025": 2,
+        "A02:2025": 2,
+        "A01:2025": 1,
+        "A05:2025": 3,
+        "A08:2025": 1,
+        "A07:2025": 1,
+        "A06:2025": 3,
+        "A03:2025": 1
+      },
+      "severity": {
+        "critical": 4,
+        "high": 7,
+        "medium": 3
+      },
+      "updated_at": "2026-10-22"
+    },
+    {
+      "slug": "nextjs-approuter-supabase",
+      "total": 12,
+      "owasp": {
+        "A01:2025": 4,
+        "A05:2025": 2,
+        "A06:2025": 1,
+        "A07:2025": 3,
+        "A04:2025": 1,
+        "A03:2025": 1
+      },
+      "severity": {
+        "critical": 5,
+        "high": 6,
+        "medium": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "nextjs-prisma-postgresql",
+      "total": 14,
+      "owasp": {
+        "A04:2025": 2,
+        "A02:2025": 1,
+        "A05:2025": 3,
+        "A07:2025": 3,
+        "A06:2025": 2,
+        "A08:2025": 1,
+        "A01:2025": 1,
+        "A03:2025": 1
+      },
+      "severity": {
+        "critical": 3,
+        "high": 8,
+        "medium": 3
+      },
+      "updated_at": "2026-10-22"
+    },
+    {
+      "slug": "python-litestar-postgresql",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 1,
+        "A03:2025": 2,
+        "A05:2025": 2,
+        "A01:2025": 1,
+        "A02:2025": 2,
+        "A10:2025": 2,
+        "A06:2025": 2
+      },
+      "severity": {
+        "critical": 3,
+        "medium": 4,
+        "high": 4,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "rag-fastapi-qdrant",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 2,
+        "A03:2025": 2,
+        "A01:2025": 1,
+        "A05:2025": 2,
+        "A10:2025": 2,
+        "A02:2025": 2,
+        "A08:2025": 1
+      },
+      "severity": {
+        "critical": 4,
+        "medium": 3,
+        "high": 4,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "rag-haystack-weaviate",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 1,
+        "A03:2025": 2,
+        "A01:2025": 1,
+        "A08:2025": 1,
+        "A06:2025": 2,
+        "A05:2025": 2,
+        "A02:2025": 2,
+        "A10:2025": 1
+      },
+      "severity": {
+        "critical": 3,
+        "medium": 2,
+        "high": 6,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "rag-langgraph-agentic",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 1,
+        "A03:2025": 2,
+        "A06:2025": 3,
+        "A05:2025": 2,
+        "A02:2025": 2,
+        "A10:2025": 1,
+        "A07:2025": 1
+      },
+      "severity": {
+        "critical": 2,
+        "medium": 2,
+        "high": 7,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "rag-llamaindex-pgvector",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 1,
+        "A03:2025": 2,
+        "A05:2025": 2,
+        "A01:2025": 1,
+        "A06:2025": 1,
+        "A10:2025": 2,
+        "A02:2025": 2,
+        "A08:2025": 1
+      },
+      "severity": {
+        "critical": 4,
+        "medium": 3,
+        "high": 4,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "rag-local-private",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 1,
+        "A03:2025": 2,
+        "A06:2025": 2,
+        "A01:2025": 1,
+        "A05:2025": 1,
+        "A10:2025": 2,
+        "A02:2025": 2,
+        "A08:2025": 1
+      },
+      "severity": {
+        "critical": 3,
+        "medium": 3,
+        "high": 5,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "reverse-engineering-security",
+      "total": 12,
+      "owasp": {
+        "A05:2025": 3,
+        "A02:2025": 4,
+        "A03:2025": 3,
+        "A04:2025": 1,
+        "A09:2025": 1
+      },
+      "severity": {
+        "critical": 3,
+        "medium": 4,
+        "high": 5
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "ruby-rails-hotwire",
+      "total": 12,
+      "owasp": {
+        "A03:2025": 1,
+        "A01:2025": 1,
+        "A05:2025": 2,
+        "A06:2025": 3,
+        "A07:2025": 1,
+        "A09:2025": 1,
+        "A08:2025": 1,
+        "A04:2025": 1,
+        "A02:2025": 1
+      },
+      "severity": {
+        "medium": 2,
+        "high": 6,
+        "critical": 2,
+        "low": 2
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "rust-actix-postgresql",
+      "total": 12,
+      "owasp": {
+        "A05:2025": 2,
+        "A08:2025": 2,
+        "A06:2025": 3,
+        "A02:2025": 2,
+        "A10:2025": 2,
+        "A04:2025": 1
+      },
+      "severity": {
+        "critical": 4,
+        "medium": 5,
+        "high": 2,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "rust-axum-postgresql",
+      "total": 12,
+      "owasp": {
+        "A05:2025": 2,
+        "A08:2025": 2,
+        "A06:2025": 4,
+        "A10:2025": 2,
+        "A02:2025": 1,
+        "A04:2025": 1
+      },
+      "severity": {
+        "critical": 4,
+        "medium": 6,
+        "low": 1,
+        "high": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "rust-leptos-fullstack",
+      "total": 12,
+      "owasp": {
+        "A05:2025": 2,
+        "A08:2025": 1,
+        "A01:2025": 2,
+        "A02:2025": 4,
+        "A06:2025": 1,
+        "A10:2025": 1,
+        "A04:2025": 1
+      },
+      "severity": {
+        "critical": 4,
+        "high": 4,
+        "medium": 3,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "rust-loco-sqlite",
+      "total": 12,
+      "owasp": {
+        "A05:2025": 2,
+        "A08:2025": 1,
+        "A06:2025": 3,
+        "A02:2025": 3,
+        "A07:2025": 1,
+        "A10:2025": 1,
+        "A04:2025": 1
+      },
+      "severity": {
+        "critical": 4,
+        "medium": 3,
+        "high": 4,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "security-devsecops-ci",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 2,
+        "A03:2025": 7,
+        "A05:2025": 1,
+        "A09:2025": 1,
+        "A02:2025": 1
+      },
+      "severity": {
+        "critical": 3,
+        "high": 7,
+        "medium": 2
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "security-llm-guardrails",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 1,
+        "A03:2025": 1,
+        "A02:2025": 2,
+        "A05:2025": 3,
+        "A06:2025": 4,
+        "A10:2025": 1
+      },
+      "severity": {
+        "critical": 3,
+        "medium": 1,
+        "high": 6,
+        "low": 2
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "security-owasp-api",
+      "total": 12,
+      "owasp": {
+        "A01:2025": 4,
+        "A07:2025": 1,
+        "A05:2025": 2,
+        "A06:2025": 3,
+        "A10:2025": 1,
+        "A02:2025": 1
+      },
+      "severity": {
+        "critical": 2,
+        "high": 7,
+        "medium": 2,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "security-passkeys-auth",
+      "total": 12,
+      "owasp": {
+        "A04:2025": 2,
+        "A03:2025": 1,
+        "A02:2025": 2,
+        "A07:2025": 6,
+        "A06:2025": 1
+      },
+      "severity": {
+        "critical": 1,
+        "medium": 1,
+        "high": 9,
+        "low": 1
+      },
+      "updated_at": "2026-10-24"
+    },
+    {
+      "slug": "ts-hono-bun-sqlite",
+      "total": 12,
+      "owasp": {
+        "A05:2025": 2,
+        "A06:2025": 3,
+        "A01:2025": 1,
+        "A04:2025": 2,
+        "A02:2025": 2,
+        "A10:2025": 2
+      },
+      "severity": {
+        "critical": 2,
+        "medium": 3,
+        "low": 2,
+        "high": 5
+      },
+      "updated_at": "2026-10-24"
+    }
+  ]
+}

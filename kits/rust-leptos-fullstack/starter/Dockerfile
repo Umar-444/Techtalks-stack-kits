@@ -1,4 +1,4 @@
-﻿# Multi-stage production container for Rust + Leptos Full-Stack + Axum + WebAssembly
+# Multi-stage production container for Rust + Leptos Full-Stack + Axum + WebAssembly
 FROM rust:1.81-alpine AS builder
 
 WORKDIR /app

@@ -1,37 +1,45 @@
-# Assistant Guidelines for Flask Htmx Sqlite Stack Kit
-
-# Flask + HTMX + SQLite — Agent Operating Rules (AGENTS.md)
+# Cline Rules — Flask + HTMX + SQLite
 # Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# Directives only. Code examples live in AGENTS.md to keep this file token-light.
 
-## Table of Contents
-- [01 Framework Architecture And Standards](#01-framework-architecture-and-standards)
-- [02 Htmx Reactivity And Jinja Rendering](#02-htmx-reactivity-and-jinja-rendering)
-- [03 Sqlite Wal Mode And Concurrency](#03-sqlite-wal-mode-and-concurrency)
-- [04 Csrf Security And Input Validation](#04-csrf-security-and-input-validation)
-- [05 Testing Verification And Ci](#05-testing-verification-and-ci)
-
----
-
-<a id="01-framework-architecture-and-standards"></a>
-## 01 Framework Architecture And Standards
-
-﻿---
-id: framework-architecture-and-standards
-title: Framework Architecture & Standards
-globs: "**/*.py"
-alwaysApply: true
----
-# Flask Application Factory Architecture & Production Standards
-
-## 1. Application Factory Pattern
+## Framework Architecture & Standards
 - Always construct Flask applications using the factory pattern: `create_app(test_config=None)`.
 - Never use global app instances or module-level `app = Flask(__name__)` in production modules.
 - Register all functional route groups using Flask Blueprints with explicit URL prefixes:
-  ```python
-  from flask import Flask
+- Deploy with Gunicorn using gevent, eventlet, or gthread workers for concurrent I/O:
+- Gracefully handle SIGTERM and SIGINT to flush WAL write transactions before process termination.
 
-  def create_app(test_config=None):
-      app = Flask(__name__, instance_relative_config=True)
-      app.config.from_mapping(
-          SECRET_KEY=os.environ.get("SECRET_KEY", "dev-insecure-key-change-me"),
-          DATABASE=os.path.join(app.instance_path, "app.sqlite"),
+## HTMX Reactivity & Jinja2 Partial Rendering
+- Handlers MUST detect if an incoming request is driven by HTMX via `HX-Request`:
+- This guarantees direct deep-linking (full page navigation) and lightning-fast partial DOM swaps from the exact same URL.
+- Use explicit swap strategies:
+- `hx-swap="outerHTML"` for updating full table rows or cards.
+- `hx-swap="innerHTML"` for container updates or tab body switches.
+- `hx-swap="beforeend"` for append-only log feeds or paginated items.
+- Always implement progressive enhancement:
+- For responsive filtering, utilize `hx-trigger="keyup changed delay:300ms, search"`:
+- Always render loading indicators cleanly via `#search-spinner.htmx-indicator`.
+
+## SQLite WAL Mode & Concurrency Architecture
+- SQLite must always be initialized with Write-Ahead Logging (WAL) and explicit busy timeout limits on every new connection:
+- Register automatic connection closure via Flask's teardown callback:
+- When performing mutations involving multiple statements, use explicit transaction contexts:
+
+## CSRF Security & Input Sanitization
+- All state-changing requests (POST, PUT, PATCH, DELETE) MUST validate CSRF tokens.
+- Inject the token into the global HTML layout meta tag:
+- Configure HTMX to automatically append `X-CSRFToken` to every outgoing AJAX request:
+- NEVER use Python f-strings, `%` formatting, or manual string concatenation in SQL queries.
+- ALWAYS use parameter placeholders (`?` in sqlite3):
+- Set standard security headers on every response:
+
+## Testing, Verification & CI Invariants
+- Always configure an isolated temporary database in tests so unit runs never mutate real files:
+- Assert that requests without `HX-Request` return full HTML shells (`<html`, `<head`, `<body>`).
+- Assert that requests with `headers={"HX-Request": "true"}` return ONLY targeted HTML fragments:
+- Code must pass:
+- `gitleaks detect --no-git` with 0 secret leaks.
+- `semgrep scan --config p/owasp-top-ten --config p/security-code-scan` with 0 blocking findings.
+- `python tools/validate_manifest.py` ensuring complete physical manifest parity.
+- `python tools/transpiler.py --check` guaranteeing 0 dialect drift.
+

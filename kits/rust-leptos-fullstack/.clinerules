@@ -1,16 +1,39 @@
-﻿# Assistant Guidelines for Rust + Leptos Full-Stack + Axum + WebAssembly Stack Kit
+# Cline Rules — Rust + Leptos Full-Stack + Axum + WebAssembly
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# Directives only. Code examples live in AGENTS.md to keep this file token-light.
 
-## Stack Overview
-- Language: Rust 1.80+ (Edition 2021)
-- Frontend Framework: Leptos 0.7+ (Fine-grained reactive signals, zero-VDOM)
-- Backend Engine: Axum 0.8+ (Server functions RPC, SSR streaming, Tokio async)
-- Hydration: WebAssembly via wasm-bindgen
-- Styling: Tailwind CSS & modern design tokens
-- Security: #![deny(unsafe_code)], CSP wasm directives, strict CORS, non-root Alpine container (USER 10001:10001)
+## 01 Framework Architecture And Standards
+- **Isomorphic Full-Stack Rust**: Leptos provides full-stack reactive web applications sharing one language, type definitions, and validation logic between browser WebAssembly and server Axum runtimes.
+- **Feature-Gated Dependency Separation**: Partition Cargo dependencies strictly using `ssr` and `hydrate` features. Ensure server-only crates (database pools, secret management, file I/O) are compiled exclusively under `#[cfg(feature = "ssr")]` to avoid bloating the client WASM bundle.
+- **Fine-Grained Reactive Signals**: Structure UI state using fine-grained signals (`create_signal`, `create_memo`, `create_resource`). Avoid monolithic state objects; mutate only individual DOM nodes connected to updated signals without Virtual DOM diffing.
+- **Isomorphic App Entrypoint**: Keep core routing, layout components, and pages inside `src/app.rs`. Provide `src/main.rs` as the Axum SSR server entrypoint and `src/lib.rs` as the `wasm_bindgen` client hydration hook.
+- **No Unsafe Code Policy**: Enforce `#[deny(unsafe_code)]` crate-wide to ensure memory safety, concurrency guarantees, and crash prevention across both server Tokio tasks and browser WebAssembly threads.
 
-## Mandatory Rules
-1. Zero unsafe code. Use idiomatic Rust across both server and client.
-2. Partition server-only logic and dependencies using #[cfg(feature = "ssr")].
-3. Expose backend mutations through type-safe Leptos #[server] functions with input validation.
-4. Wrap async data fetching in create_resource and <Suspense> boundaries to avoid hydration blocking.
-5. Deploy strict CSP response headers permitting wasm-unsafe-eval while forbidding inline unauthorized scripts.
+## 02 Leptos Server Functions And Axum Integration
+- **Type-Safe RPC via Server Functions**: Define backend endpoints using Leptos `#[server(Prefix, "/api")]` macros. Server functions act as ordinary async Rust functions on the client while compiling to Axum HTTP handlers on the server.
+- **Server Context Dependency Injection**: Access database connections, cache clients, and configuration within server functions using `leptos_axum::extract()` or `use_context::<AppState>()`.
+- **Strict Input Sanitization**: Validate all server function arguments using the `validator` crate or manual invariant checks prior to database interactions. Reject malformed payloads immediately with typed `ServerFnError`.
+- **Serialization Safety**: Configure server function payloads with Serde JSON or Postcard serialization. Never transmit raw sensitive internal records (e.g. password hashes, database connection strings) across the server function boundary.
+- **Streaming Server-Side Rendering (SSR)**: Wrap asynchronous data loaders in `<Suspense>` components. Enable HTTP response streaming in Axum to dispatch early HTML headers and skeletons while async server functions resolve.
+
+## 03 Wasm Client Hydration And Reactivity
+- **Client Hydration Lifecycle**: Hydrate server-rendered HTML into an active reactive application via `leptos::mount_to_body` inside `src/lib.rs`. Ensure client signal initializers match server SSR rendered states to avoid hydration mismatches.
+- **Suspense and Resource Boundaries**: Wrap asynchronous queries in `create_resource` paired with `<Suspense fallback=...>`. This renders accessible fallback loading states during WASM initialization and dynamic fetches.
+- **WASM Binary Footprint Optimization**: Keep client WASM bundle sizes minimal. Compile release builds with `opt-level = "z"`, `lto = true`, `codegen-units = 1`, and run `wasm-opt -Oz` in CI pipelines to achieve fast mobile startup times.
+- **Client-Side Navigation**: Use Leptos `<Router>` and `<A>` components for instant zero-reload page transitions, preserving WebAssembly memory state and reactive signal trees across navigation events.
+- **Progressive Enhancement**: Implement forms using `<ActionForm>` so that basic user interactions succeed even before WebAssembly completes hydration over low-bandwidth connections.
+
+## 04 Security Invariants And Content Security
+- **Strict WebAssembly Content Security Policy**: Deploy strict CSP response headers via Axum middleware (`default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'`). Prevent script injection while allowing WASM module compilation.
+- **Server Function Authorization**: Protect sensitive server functions with session or bearer token verification extracted from Axum request headers. Never rely on client-side routing guards alone for data authorization.
+- **CORS Origin Filtering**: Whitelist allowed API origins strictly from the `ALLOWED_ORIGINS` environment variable in the Axum HTTP layer; reject permissive wildcard origins (`*`).
+- **Non-Root Container Hardening**: Build statically linked release server binaries and package into minimal Alpine Linux runtime containers executing as unprivileged user `USER 10001:10001`.
+- **Denial-of-Service Defense**: Apply Axum request body limits (`DefaultBodyLimit::max(262_144)`) and timeout middleware to guard server function endpoints against memory exhaustion and Slowloris attacks.
+
+## 05 Testing Verification And Ci
+- **Axum Server Integration Testing**: Verify SSR routes, server functions, and health probes using `axum::test` harnesses and standard Tokio test runners.
+- **WebAssembly Headless Testing**: Author client component interaction tests using `wasm-bindgen-test` to verify signal propagation and DOM event handlers inside headless browser environments.
+- **Health and Readiness Probes**: Expose `/healthz` returning HTTP 200 and machine-readable service status for container healthchecks.
+- **Supply Chain Security**: Enforce `cargo audit` in CI to detect vulnerabilities in dependencies and verify license compliance with `cargo deny`.
+- **Transpiler Zero-Drift**: Validate that all 6 agent dialects match source rules using `python tools/transpiler.py --check` in continuous integration.
+

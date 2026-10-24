@@ -1,4 +1,5 @@
-﻿DROP TABLE IF EXISTS items;
+DROP TABLE IF EXISTS items;
+DROP TABLE IF EXISTS audit_log;
 
 CREATE TABLE items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -8,6 +9,19 @@ CREATE TABLE items (
     completed BOOLEAN NOT NULL DEFAULT 0,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE audit_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    request_id TEXT,
+    action TEXT NOT NULL,
+    entity TEXT NOT NULL,
+    entity_id TEXT,
+    detail TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_audit_log_entity ON audit_log(entity, entity_id);
+CREATE INDEX idx_audit_log_created_at ON audit_log(created_at);
 
 CREATE INDEX idx_items_category ON items(category);
 CREATE INDEX idx_items_created_at ON items(created_at);

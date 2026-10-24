@@ -1,99 +1,233 @@
 {
-  "kit": "laravel-livewire-postgresql",
-  "version": "1.0.0",
-  "total_controls": 12,
-  "categories": [
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
+  "kit_slug": "laravel-livewire-postgresql",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 4,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 4,
+      "high": 7,
+      "medium": 1
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A07:2025"
+    ]
+  },
+  "checks": [
     {
-      "name": "Livewire Component & State Security",
-      "controls": [
-        {
-          "id": "LW-01",
-          "name": "Checksum validation on all public component properties",
-          "status": "enforced",
-          "test": "tests/Feature/Security/LivewireChecksumTest.php"
-        },
-        {
-          "id": "LW-02",
-          "name": "Server-side authorization check before executing component actions",
-          "status": "enforced",
-          "test": "tests/Feature/Security/LivewireActionPolicyTest.php"
-        },
-        {
-          "id": "LW-03",
-          "name": "Explicit property binding whitelist preventing mass assignment",
-          "status": "enforced",
-          "test": "tests/Feature/Security/LivewireMassAssignmentTest.php"
-        },
-        {
-          "id": "LW-04",
-          "name": "Wire:model input debouncing and length validation",
-          "status": "enforced",
-          "test": "tests/Feature/Security/LivewireDebounceTest.php"
-        },
-        {
-          "id": "LW-05",
-          "name": "Rate limiting on sensitive component actions",
-          "status": "enforced",
-          "test": "tests/Feature/Security/LivewireRateLimitTest.php"
-        }
-      ]
+      "id": "LW-01",
+      "category": "Livewire Component & State Security",
+      "name": "Checksum validation on all public component properties",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/LivewireChecksumTest.php"
+      }
     },
     {
-      "name": "Authentication & Session Protection",
-      "controls": [
-        {
-          "id": "AUTH-01",
-          "name": "Argon2id password hashing with work factor >= 12",
-          "status": "enforced",
-          "test": "tests/Feature/Security/PasswordSecurityTest.php"
-        },
-        {
-          "id": "AUTH-02",
-          "name": "Strict session fixation prevention on Livewire login events",
-          "status": "enforced",
-          "test": "tests/Feature/Security/SessionFixationTest.php"
-        },
-        {
-          "id": "AUTH-03",
-          "name": "Secure session cookie flags: Secure, HttpOnly, SameSite=Lax",
-          "status": "enforced",
-          "test": "tests/Feature/Security/CookieFlagsTest.php"
-        }
-      ]
+      "id": "LW-02",
+      "category": "Livewire Component & State Security",
+      "name": "Server-side authorization check before executing component actions",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-285"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/LivewireActionPolicyTest.php"
+      }
     },
     {
-      "name": "Data Layer & PostgreSQL Hardening",
-      "controls": [
-        {
-          "id": "DATA-01",
-          "name": "Strict parameterized queries on all Eloquent scopes",
-          "status": "enforced",
-          "test": "tests/Feature/Security/SqlInjectionTest.php"
-        },
-        {
-          "id": "DATA-02",
-          "name": "PostgreSQL native UUID primary keys on all models",
-          "status": "enforced",
-          "test": "tests/ArchTest.php"
-        }
-      ]
+      "id": "LW-03",
+      "category": "Livewire Component & State Security",
+      "name": "Explicit property binding whitelist preventing mass assignment",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-915"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/LivewireMassAssignmentTest.php"
+      }
     },
     {
-      "name": "CI & Supply Chain Guardrails",
-      "controls": [
-        {
-          "id": "CI-01",
-          "name": "Gitleaks secret detection in GitHub Actions",
-          "status": "enforced",
-          "workflow": ".github/workflows/security.yml"
-        },
-        {
-          "id": "CI-02",
-          "name": "Semgrep OWASP rule scans on pull requests",
-          "status": "enforced",
-          "workflow": ".github/workflows/security.yml"
-        }
-      ]
+      "id": "LW-04",
+      "category": "Livewire Component & State Security",
+      "name": "Wire:model input debouncing and length validation",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/LivewireDebounceTest.php"
+      }
+    },
+    {
+      "id": "LW-05",
+      "category": "Livewire Component & State Security",
+      "name": "Rate limiting on sensitive component actions",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-770"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/LivewireRateLimitTest.php"
+      }
+    },
+    {
+      "id": "AUTH-01",
+      "category": "Authentication & Session Protection",
+      "name": "Argon2id password hashing with work factor >= 12",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-916"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/PasswordSecurityTest.php"
+      }
+    },
+    {
+      "id": "AUTH-02",
+      "category": "Authentication & Session Protection",
+      "name": "Strict session fixation prevention on Livewire login events",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-384"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/SessionFixationTest.php"
+      }
+    },
+    {
+      "id": "AUTH-03",
+      "category": "Authentication & Session Protection",
+      "name": "Secure session cookie flags: Secure, HttpOnly, SameSite=Lax",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-1004"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/CookieFlagsTest.php"
+      }
+    },
+    {
+      "id": "DATA-01",
+      "category": "Data Layer & PostgreSQL Hardening",
+      "name": "Strict parameterized queries on all Eloquent scopes",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-89"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/SqlInjectionTest.php"
+      }
+    },
+    {
+      "id": "DATA-02",
+      "category": "Data Layer & PostgreSQL Hardening",
+      "name": "PostgreSQL native UUID primary keys on all models",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-915"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/ArchTest.php"
+      }
+    },
+    {
+      "id": "CI-01",
+      "category": "CI & Supply Chain Guardrails",
+      "name": "Gitleaks secret detection in GitHub Actions",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": ".github/workflows/security.yml"
+      }
+    },
+    {
+      "id": "CI-02",
+      "category": "CI & Supply Chain Guardrails",
+      "name": "Semgrep OWASP rule scans on pull requests",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": ".github/workflows/security.yml"
+      }
     }
   ]
 }

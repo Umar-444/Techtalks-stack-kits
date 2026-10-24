@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, abort
 from app.db import get_db
+from app.observability import record_audit
 
 main_bp = Blueprint("main", __name__)
 
@@ -43,6 +44,7 @@ def items():
         db.commit()
         
         item = db.execute("SELECT * FROM items WHERE id = ?", (item_id,)).fetchone()
+        record_audit("create", "item", item_id, {"title": title, "category": category})
         
         # When triggered by HTMX, return only the rendered partial item row
         if request.headers.get("HX-Request") == "true":
@@ -79,6 +81,7 @@ def toggle_item(item_id):
     db.execute("UPDATE items SET completed = ? WHERE id = ?", (new_status, item_id))
     db.commit()
     
+    record_audit("toggle", "item", item_id, {"completed": new_status})
     updated_item = db.execute("SELECT * FROM items WHERE id = ?", (item_id,)).fetchone()
     return render_template("partials/item_row.html", item=updated_item)
 
@@ -87,5 +90,6 @@ def delete_item(item_id):
     db = get_db()
     db.execute("DELETE FROM items WHERE id = ?", (item_id,))
     db.commit()
+    record_audit("delete", "item", item_id)
     # Empty string response allows HTMX hx-swap="outerHTML" to clean remove element from DOM
     return "", 200

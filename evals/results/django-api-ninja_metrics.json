@@ -1,49 +1,95 @@
 {
   "kit_slug": "django-api-ninja",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "django-api-ninja-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 2029,
-      "completion_tokens": 2480,
-      "tokens_consumed": 4509
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 3054,
+    "shared_context_tokens": 620,
+    "shared_context": {
+      "DESIGN.md": 332,
+      "SECURITY.md": 152,
+      "agent-build-steps.md": 136
     },
-    {
-      "id": "django-api-ninja-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 2238,
-      "completion_tokens": 3091,
-      "tokens_consumed": 5329
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 2434,
+        "total_tokens": 3054
+      },
+      "codex": {
+        "rules_tokens": 2585,
+        "total_tokens": 3205
+      },
+      "standard": {
+        "rules_tokens": 2474,
+        "total_tokens": 3094
+      },
+      "cline": {
+        "rules_tokens": 848,
+        "total_tokens": 1468
+      },
+      "windsurf": {
+        "rules_tokens": 2278,
+        "total_tokens": 2898
+      },
+      "copilot": {
+        "rules_tokens": 2279,
+        "total_tokens": 2899
+      }
     },
-    {
-      "id": "django-api-ninja-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 2164,
-      "completion_tokens": 2755,
-      "tokens_consumed": 4919
-    },
-    {
-      "id": "django-api-ninja-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 2296,
-      "completion_tokens": 3444,
-      "tokens_consumed": 5740
-    }
-  ],
-  "median_task_tokens": 5124,
-  "median_tokens_to_complete_reference_build": 20497,
-  "efficiency_tier": "A",
-  "efficiency_note": "Typed Pydantic endpoints with Django ORM batteries",
-  "token_light": false
+    "leanest_dialect": "cline",
+    "efficiency_tier": "B"
+  },
+  "starter": {
+    "files": 26,
+    "source_loc": 605
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "django-api-ninja-task-01",
+        "title": "Django settings and NinjaAPI boot cleanly",
+        "assertions": 3,
+        "status": "pass",
+        "exit_code": 0
+      },
+      {
+        "id": "django-api-ninja-task-02",
+        "title": "Typed CRUD surface over the ORM",
+        "assertions": 3,
+        "status": "pass",
+        "exit_code": 0
+      },
+      {
+        "id": "django-api-ninja-task-03",
+        "title": "Declared security controls hold under test",
+        "assertions": 8,
+        "status": "pass",
+        "exit_code": 0
+      },
+      {
+        "id": "django-api-ninja-task-04",
+        "title": "Full suite green",
+        "assertions": 1,
+        "status": "pass",
+        "exit_code": 0
+      }
+    ],
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 0
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

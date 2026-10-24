@@ -1,0 +1,723 @@
+{
+  "generated_at": "2026-10-24",
+  "kit_count": 35,
+  "counts": {
+    "verified": 3,
+    "partial": 0,
+    "scaffold": 32,
+    "failing": 0
+  },
+  "tasks": {
+    "total": 124,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "undefined": 112
+  },
+  "thresholds": {
+    "real_starter_loc": 250,
+    "note": "Maturity is derived from executed eval results, not declared in kit.yaml."
+  },
+  "kits": [
+    {
+      "slug": "django-api-ninja",
+      "maturity": "verified",
+      "context_tokens": 3054,
+      "tier": "B",
+      "starter_files": 26,
+      "starter_loc": 605,
+      "tasks_total": 4,
+      "tasks_passed": 4,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 0,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "flask-htmx-sqlite",
+      "maturity": "verified",
+      "context_tokens": 2466,
+      "tier": "A",
+      "starter_files": 18,
+      "starter_loc": 574,
+      "tasks_total": 4,
+      "tasks_passed": 4,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 0,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "laravel-api-sanctum",
+      "maturity": "verified",
+      "context_tokens": 2264,
+      "tier": "A",
+      "starter_files": 39,
+      "starter_loc": 1202,
+      "tasks_total": 4,
+      "tasks_passed": 4,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 0,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "agentic-langgraph-crewai",
+      "maturity": "scaffold",
+      "context_tokens": 1238,
+      "tier": "A+",
+      "starter_files": 12,
+      "starter_loc": 122,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "django-tailwind-postgresql",
+      "maturity": "scaffold",
+      "context_tokens": 1893,
+      "tier": "A+",
+      "starter_files": 20,
+      "starter_loc": 256,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "elixir-phoenix-liveview",
+      "maturity": "scaffold",
+      "context_tokens": 1878,
+      "tier": "A+",
+      "starter_files": 22,
+      "starter_loc": 401,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "go-chi-templ-htmx",
+      "maturity": "scaffold",
+      "context_tokens": 3528,
+      "tier": "B",
+      "starter_files": 10,
+      "starter_loc": 113,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "go-fiber-api",
+      "maturity": "scaffold",
+      "context_tokens": 1885,
+      "tier": "A+",
+      "starter_files": 6,
+      "starter_loc": 186,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "go-gin-postgresql",
+      "maturity": "scaffold",
+      "context_tokens": 1883,
+      "tier": "A+",
+      "starter_files": 6,
+      "starter_loc": 187,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "laravel-ai-features",
+      "maturity": "scaffold",
+      "context_tokens": 1803,
+      "tier": "A+",
+      "starter_files": 15,
+      "starter_loc": 267,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "laravel-filament-mysql",
+      "maturity": "scaffold",
+      "context_tokens": 1916,
+      "tier": "A",
+      "starter_files": 20,
+      "starter_loc": 402,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "laravel-filament-postgresql",
+      "maturity": "scaffold",
+      "context_tokens": 2984,
+      "tier": "B",
+      "starter_files": 14,
+      "starter_loc": 292,
+      "tasks_total": 0,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 0,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "laravel-livewire-postgresql",
+      "maturity": "scaffold",
+      "context_tokens": 3042,
+      "tier": "B",
+      "starter_files": 15,
+      "starter_loc": 394,
+      "tasks_total": 0,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 0,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "laravel-mongodb",
+      "maturity": "scaffold",
+      "context_tokens": 2853,
+      "tier": "A",
+      "starter_files": 11,
+      "starter_loc": 239,
+      "tasks_total": 0,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 0,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "laravel-mysql",
+      "maturity": "scaffold",
+      "context_tokens": 1396,
+      "tier": "A+",
+      "starter_files": 12,
+      "starter_loc": 195,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "mcp-tools-kit",
+      "maturity": "scaffold",
+      "context_tokens": 1562,
+      "tier": "A+",
+      "starter_files": 11,
+      "starter_loc": 199,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "nextjs-approuter-supabase",
+      "maturity": "scaffold",
+      "context_tokens": 1791,
+      "tier": "A+",
+      "starter_files": 15,
+      "starter_loc": 280,
+      "tasks_total": 0,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 0,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "nextjs-prisma-postgresql",
+      "maturity": "scaffold",
+      "context_tokens": 1690,
+      "tier": "A+",
+      "starter_files": 13,
+      "starter_loc": 182,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "python-litestar-postgresql",
+      "maturity": "scaffold",
+      "context_tokens": 3197,
+      "tier": "B",
+      "starter_files": 13,
+      "starter_loc": 137,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "rag-fastapi-qdrant",
+      "maturity": "scaffold",
+      "context_tokens": 3238,
+      "tier": "B",
+      "starter_files": 13,
+      "starter_loc": 398,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "rag-haystack-weaviate",
+      "maturity": "scaffold",
+      "context_tokens": 2033,
+      "tier": "A",
+      "starter_files": 12,
+      "starter_loc": 283,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "rag-langgraph-agentic",
+      "maturity": "scaffold",
+      "context_tokens": 2239,
+      "tier": "A",
+      "starter_files": 14,
+      "starter_loc": 443,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "rag-llamaindex-pgvector",
+      "maturity": "scaffold",
+      "context_tokens": 3113,
+      "tier": "B",
+      "starter_files": 13,
+      "starter_loc": 388,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "rag-local-private",
+      "maturity": "scaffold",
+      "context_tokens": 3828,
+      "tier": "B",
+      "starter_files": 11,
+      "starter_loc": 467,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "reverse-engineering-security",
+      "maturity": "scaffold",
+      "context_tokens": 1684,
+      "tier": "A+",
+      "starter_files": 11,
+      "starter_loc": 373,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "ruby-rails-hotwire",
+      "maturity": "scaffold",
+      "context_tokens": 2405,
+      "tier": "A",
+      "starter_files": 12,
+      "starter_loc": 111,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "rust-actix-postgresql",
+      "maturity": "scaffold",
+      "context_tokens": 2088,
+      "tier": "A",
+      "starter_files": 11,
+      "starter_loc": 279,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "rust-axum-postgresql",
+      "maturity": "scaffold",
+      "context_tokens": 1964,
+      "tier": "A",
+      "starter_files": 8,
+      "starter_loc": 196,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "rust-leptos-fullstack",
+      "maturity": "scaffold",
+      "context_tokens": 2021,
+      "tier": "A",
+      "starter_files": 8,
+      "starter_loc": 91,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "rust-loco-sqlite",
+      "maturity": "scaffold",
+      "context_tokens": 2030,
+      "tier": "A",
+      "starter_files": 15,
+      "starter_loc": 173,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "security-devsecops-ci",
+      "maturity": "scaffold",
+      "context_tokens": 2259,
+      "tier": "A",
+      "starter_files": 8,
+      "starter_loc": 152,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "security-llm-guardrails",
+      "maturity": "scaffold",
+      "context_tokens": 2587,
+      "tier": "A",
+      "starter_files": 15,
+      "starter_loc": 323,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "security-owasp-api",
+      "maturity": "scaffold",
+      "context_tokens": 2218,
+      "tier": "A",
+      "starter_files": 6,
+      "starter_loc": 221,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "security-passkeys-auth",
+      "maturity": "scaffold",
+      "context_tokens": 2487,
+      "tier": "A",
+      "starter_files": 6,
+      "starter_loc": 223,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    },
+    {
+      "slug": "ts-hono-bun-sqlite",
+      "maturity": "scaffold",
+      "context_tokens": 2063,
+      "tier": "A",
+      "starter_files": 5,
+      "starter_loc": 122,
+      "tasks_total": 4,
+      "tasks_passed": 0,
+      "tasks_failed": 0,
+      "tasks_skipped": 0,
+      "tasks_undefined": 4,
+      "gates": {
+        "manifest_valid": true,
+        "transpiler_zero_drift": true,
+        "dialects_complete": true,
+        "secret_leak_free": true,
+        "secret_hits": []
+      }
+    }
+  ]
+}

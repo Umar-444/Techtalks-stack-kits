@@ -1,4 +1,4 @@
-﻿# Multi-stage production Dockerfile for Local Private RAG
+# Multi-stage production Dockerfile for Local Private RAG
 FROM python:3.12-slim AS builder
 
 WORKDIR /build

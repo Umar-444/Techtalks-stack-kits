@@ -1,49 +1,95 @@
 {
   "kit_slug": "ruby-rails-hotwire",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "ruby-rails-hotwire-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 1405,
-      "completion_tokens": 1718,
-      "tokens_consumed": 3123
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 2405,
+    "shared_context_tokens": 653,
+    "shared_context": {
+      "DESIGN.md": 343,
+      "SECURITY.md": 163,
+      "agent-build-steps.md": 147
     },
-    {
-      "id": "ruby-rails-hotwire-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 1550,
-      "completion_tokens": 2141,
-      "tokens_consumed": 3691
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1752,
+        "total_tokens": 2405
+      },
+      "codex": {
+        "rules_tokens": 1903,
+        "total_tokens": 2556
+      },
+      "standard": {
+        "rules_tokens": 2064,
+        "total_tokens": 2717
+      },
+      "cline": {
+        "rules_tokens": 1058,
+        "total_tokens": 1711
+      },
+      "windsurf": {
+        "rules_tokens": 1737,
+        "total_tokens": 2390
+      },
+      "copilot": {
+        "rules_tokens": 1738,
+        "total_tokens": 2391
+      }
     },
-    {
-      "id": "ruby-rails-hotwire-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 1499,
-      "completion_tokens": 1908,
-      "tokens_consumed": 3407
-    },
-    {
-      "id": "ruby-rails-hotwire-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 1590,
-      "completion_tokens": 2385,
-      "tokens_consumed": 3975
-    }
-  ],
-  "median_task_tokens": 3549,
-  "median_tokens_to_complete_reference_build": 14196,
-  "efficiency_tier": "A+",
-  "efficiency_note": "Convention over configuration; agent writes only business logic",
-  "token_light": true
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A"
+  },
+  "starter": {
+    "files": 12,
+    "source_loc": 111
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "ruby-rails-hotwire-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "ruby-rails-hotwire-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "ruby-rails-hotwire-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "ruby-rails-hotwire-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

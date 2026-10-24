@@ -1,49 +1,95 @@
 {
   "kit_slug": "rust-axum-postgresql",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "rust-axum-postgresql-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 2425,
-      "completion_tokens": 2964,
-      "tokens_consumed": 5389
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 1964,
+    "shared_context_tokens": 629,
+    "shared_context": {
+      "DESIGN.md": 335,
+      "SECURITY.md": 155,
+      "agent-build-steps.md": 139
     },
-    {
-      "id": "rust-axum-postgresql-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 2675,
-      "completion_tokens": 3694,
-      "tokens_consumed": 6369
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1335,
+        "total_tokens": 1964
+      },
+      "codex": {
+        "rules_tokens": 1486,
+        "total_tokens": 2115
+      },
+      "standard": {
+        "rules_tokens": 1637,
+        "total_tokens": 2266
+      },
+      "cline": {
+        "rules_tokens": 853,
+        "total_tokens": 1482
+      },
+      "windsurf": {
+        "rules_tokens": 1319,
+        "total_tokens": 1948
+      },
+      "copilot": {
+        "rules_tokens": 1320,
+        "total_tokens": 1949
+      }
     },
-    {
-      "id": "rust-axum-postgresql-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 2587,
-      "completion_tokens": 3292,
-      "tokens_consumed": 5879
-    },
-    {
-      "id": "rust-axum-postgresql-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 2744,
-      "completion_tokens": 4116,
-      "tokens_consumed": 6860
-    }
-  ],
-  "median_task_tokens": 6124,
-  "median_tokens_to_complete_reference_build": 24497,
-  "efficiency_tier": "B",
-  "efficiency_note": "Axum Tower middleware, SQLx compile-checked queries",
-  "token_light": false
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A"
+  },
+  "starter": {
+    "files": 8,
+    "source_loc": 196
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "rust-axum-postgresql-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rust-axum-postgresql-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rust-axum-postgresql-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "rust-axum-postgresql-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

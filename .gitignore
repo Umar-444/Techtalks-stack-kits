@@ -14,3 +14,20 @@ doc22.md
 doc23.md
 __pycache__/
 *.pyc
+
+# Kit starter runtime artifacts (never committed)
+kits/*/starter/instance/
+.pytest_cache/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+.venv/
+
+# PHP kit starter dependencies and caches (never committed)
+kits/*/starter/vendor/
+kits/*/starter/.phpunit.cache/
+kits/*/starter/.phpunit.result.cache
+kits/*/starter/composer.lock
+*.sqlite3
+kits/*/starter/node_modules/
+kits/*/starter/db.sqlite3

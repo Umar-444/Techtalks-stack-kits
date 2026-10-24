@@ -1,4 +1,4 @@
-﻿# Multi-stage production Dockerfile for Go + Chi service
+# Multi-stage production Dockerfile for Go + Chi service
 FROM golang:1.23-alpine AS builder
 
 WORKDIR /build

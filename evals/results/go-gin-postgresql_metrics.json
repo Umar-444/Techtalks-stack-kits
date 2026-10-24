@@ -1,49 +1,95 @@
 {
   "kit_slug": "go-gin-postgresql",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "go-gin-postgresql-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 2118,
-      "completion_tokens": 2589,
-      "tokens_consumed": 4707
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 1883,
+    "shared_context_tokens": 758,
+    "shared_context": {
+      "DESIGN.md": 333,
+      "SECURITY.md": 153,
+      "agent-build-steps.md": 272
     },
-    {
-      "id": "go-gin-postgresql-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 2336,
-      "completion_tokens": 3227,
-      "tokens_consumed": 5563
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1125,
+        "total_tokens": 1883
+      },
+      "codex": {
+        "rules_tokens": 1276,
+        "total_tokens": 2034
+      },
+      "standard": {
+        "rules_tokens": 1295,
+        "total_tokens": 2053
+      },
+      "cline": {
+        "rules_tokens": 1054,
+        "total_tokens": 1812
+      },
+      "windsurf": {
+        "rules_tokens": 1110,
+        "total_tokens": 1868
+      },
+      "copilot": {
+        "rules_tokens": 1111,
+        "total_tokens": 1869
+      }
     },
-    {
-      "id": "go-gin-postgresql-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 2259,
-      "completion_tokens": 2876,
-      "tokens_consumed": 5135
-    },
-    {
-      "id": "go-gin-postgresql-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 2396,
-      "completion_tokens": 3595,
-      "tokens_consumed": 5991
-    }
-  ],
-  "median_task_tokens": 5349,
-  "median_tokens_to_complete_reference_build": 21396,
-  "efficiency_tier": "A",
-  "efficiency_note": "Mainstream Go API, clean router & repository layout",
-  "token_light": false
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A+"
+  },
+  "starter": {
+    "files": 6,
+    "source_loc": 187
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "go-gin-postgresql-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "go-gin-postgresql-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "go-gin-postgresql-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "go-gin-postgresql-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

@@ -1,49 +1,95 @@
 {
   "kit_slug": "security-devsecops-ci",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "security-devsecops-ci-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 831,
-      "completion_tokens": 1016,
-      "tokens_consumed": 1847
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 2259,
+    "shared_context_tokens": 656,
+    "shared_context": {
+      "DESIGN.md": 344,
+      "SECURITY.md": 164,
+      "agent-build-steps.md": 148
     },
-    {
-      "id": "security-devsecops-ci-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 917,
-      "completion_tokens": 1266,
-      "tokens_consumed": 2183
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1603,
+        "total_tokens": 2259
+      },
+      "codex": {
+        "rules_tokens": 1753,
+        "total_tokens": 2409
+      },
+      "standard": {
+        "rules_tokens": 1939,
+        "total_tokens": 2595
+      },
+      "cline": {
+        "rules_tokens": 960,
+        "total_tokens": 1616
+      },
+      "windsurf": {
+        "rules_tokens": 1587,
+        "total_tokens": 2243
+      },
+      "copilot": {
+        "rules_tokens": 1588,
+        "total_tokens": 2244
+      }
     },
-    {
-      "id": "security-devsecops-ci-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 887,
-      "completion_tokens": 1128,
-      "tokens_consumed": 2015
-    },
-    {
-      "id": "security-devsecops-ci-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 940,
-      "completion_tokens": 1411,
-      "tokens_consumed": 2351
-    }
-  ],
-  "median_task_tokens": 2099,
-  "median_tokens_to_complete_reference_build": 8396,
-  "efficiency_tier": "A+",
-  "efficiency_note": "Declarative GitHub Actions workflows, zero app boilerplate",
-  "token_light": true
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A"
+  },
+  "starter": {
+    "files": 8,
+    "source_loc": 152
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "security-devsecops-ci-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "security-devsecops-ci-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "security-devsecops-ci-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "security-devsecops-ci-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

@@ -1,89 +1,235 @@
 {
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
   "kit_slug": "rag-langgraph-agentic",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 1,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 2,
+      "high": 7,
+      "medium": 2,
+      "low": 1
+    },
+    "owasp_covered": [
+      "A02:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A07:2025",
+      "A10:2025"
+    ]
+  },
   "checks": [
     {
-      "id": "sec-01",
+      "id": "SEC-01",
+      "category": "Core Security Guardrails",
       "name": "Gitleaks Secret Audit",
       "status": "enforced",
-      "tool": "gitleaks",
-      "verify": "gitleaks detect --no-git"
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "gitleaks"
+      }
     },
     {
-      "id": "sec-02",
+      "id": "SEC-02",
+      "category": "Core Security Guardrails",
       "name": "Semgrep SAST Python & FastAPI Security Policy",
       "status": "enforced",
-      "tool": "semgrep",
-      "verify": "semgrep scan --config p/fastapi"
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "semgrep"
+      }
     },
     {
-      "id": "sec-03",
+      "id": "SEC-03",
+      "category": "Core Security Guardrails",
       "name": "Qdrant Tenant Payload Isolation Gate",
       "status": "enforced",
-      "tool": "pytest",
-      "verify": "pytest starter/tests/test_agentic_rag.py -k test_qdrant_vector_service_and_tenant_isolation"
+      "severity": "medium",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-653"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pytest"
+      }
     },
     {
-      "id": "sec-04",
+      "id": "SEC-04",
+      "category": "Core Security Guardrails",
       "name": "Cyclic Recursion Limit Enforcement",
       "status": "enforced",
-      "tool": "pytest",
-      "verify": "pytest starter/tests/test_agentic_rag.py -k test_query_rewrite_node"
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-674"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pytest"
+      }
     },
     {
-      "id": "sec-05",
+      "id": "SEC-05",
+      "category": "Core Security Guardrails",
       "name": "Ragas Groundedness Hallucination Defense",
       "status": "enforced",
-      "tool": "eval-check",
-      "verify": "pytest starter/tests/test_agentic_rag.py -k test_ragas_evaluation_groundedness"
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-1426"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "eval-check"
+      }
     },
     {
-      "id": "sec-06",
+      "id": "SEC-06",
+      "category": "Core Security Guardrails",
       "name": "Indirect Prompt Injection Boundary Isolation",
       "status": "enforced",
-      "tool": "ast-lint",
-      "verify": "python -c 'from app.main import app; assert app.title'"
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-1427"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "ast-lint"
+      }
     },
     {
-      "id": "sec-07",
+      "id": "SEC-07",
+      "category": "Core Security Guardrails",
       "name": "Strict CORS Whitelist (Zero Wildcard)",
       "status": "enforced",
-      "tool": "pytest",
-      "verify": "pytest starter/tests/test_agentic_rag.py -k test_cors_configuration"
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-942"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pytest"
+      }
     },
     {
-      "id": "sec-08",
+      "id": "SEC-08",
+      "category": "Core Security Guardrails",
       "name": "Non-Root Container Execution (UID 10001)",
       "status": "enforced",
-      "tool": "dockerfile-lint",
-      "verify": "grep -q 'USER 10001:10001' starter/Dockerfile"
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-250"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "dockerfile-lint"
+      }
     },
     {
-      "id": "sec-09",
+      "id": "SEC-09",
+      "category": "Core Security Guardrails",
       "name": "Liveness and Readiness Health Probes",
       "status": "enforced",
-      "tool": "pytest",
-      "verify": "pytest starter/tests/test_agentic_rag.py -k test_health_check"
+      "severity": "low",
+      "owasp": [
+        "A10:2025"
+      ],
+      "cwe": [
+        "CWE-755"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pytest"
+      }
     },
     {
-      "id": "sec-10",
+      "id": "SEC-10",
+      "category": "Core Security Guardrails",
       "name": "Input Validation & Max Length Constraints",
       "status": "enforced",
-      "tool": "pydantic-lint",
-      "verify": "python -c 'from app.schemas import QueryRequest; assert QueryRequest'"
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pydantic-lint"
+      }
     },
     {
-      "id": "sec-11",
+      "id": "SEC-11",
+      "category": "Core Security Guardrails",
       "name": "Qdrant Unauthenticated Network Isolation",
       "status": "enforced",
-      "tool": "compose-lint",
-      "verify": "grep -q 'rag-langgraph-agentic-qdrant' starter/docker-compose.yml"
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-287"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "compose-lint"
+      }
     },
     {
-      "id": "sec-12",
+      "id": "SEC-12",
+      "category": "Core Security Guardrails",
       "name": "Safety CVE Dependency Audit",
       "status": "enforced",
-      "tool": "pip-audit",
-      "verify": "pip-audit -r starter/requirements.txt || true"
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1104"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pip-audit"
+      }
     }
   ]
 }

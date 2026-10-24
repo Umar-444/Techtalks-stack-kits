@@ -70,8 +70,12 @@ A **Stack Kit** is a complete, tested project foundation for one exact technolog
 │   ├── laravel-livewire-postgresql/
 │   ├── laravel-mongodb/
 │   └── nextjs-approuter-supabase/
+├── schemas/                     # JSON Schemas for machine-readable kit artifacts
+│   └── kit-security-checks.schema.json
 ├── security/                    # Production Security Masterclass (22 lessons)
 │   ├── index.html               # Central security hub directory
+│   ├── coverage/                # OWASP Top 10:2025 coverage matrix (generated)
+│   ├── coverage.json            # Machine-readable aggregate (generated)
 │   └── laravel/                 # Laravel & AI security track + interactive checklist
 ├── templates/                   # Reusable starting templates for new kits
 │   ├── kit.yaml
@@ -81,8 +85,14 @@ A **Stack Kit** is a complete, tested project foundation for one exact technolog
 │   ├── SKILL.md
 │   └── README.md
 ├── tools/                       # Multi-agent build and validation CLI tools
+│   ├── lib/                     # Shared libraries
+│   │   ├── owasp.py             # OWASP Top 10:2025 taxonomy & control classifier
+│   │   └── security_checks.py   # Manifest load / normalize / validate
+│   ├── audit_kit.py             # 18-checkpoint kit completeness audit
 │   ├── build_kit_pages.py       # Static kit detail page generator
-│   ├── transpiler.py            # Single-source rules transpiler (6 dialects)
+│   ├── build_security_matrix.py # OWASP coverage matrix generator
+│   ├── transpiler.py            # Single-source rules transpiler (8 dialects)
+│   ├── validate_checks.py       # Security manifest schema validator & migrator
 │   └── validate_manifest.py     # Kit manifest specification validator
 ├── CHANGELOG.md                 # Release history
 ├── CODE_OF_CONDUCT.md           # Community guidelines
@@ -102,19 +112,78 @@ A **Stack Kit** is a complete, tested project foundation for one exact technolog
 python tools/validate_manifest.py kits/laravel-filament-postgresql/kit.yaml
 ```
 
-### 2. Transpile Rules into 6 Agent Formats
+### 2. Transpile Rules into 8 Agent Formats
 ```bash
-# Transpile single-source rules into Cursor, Claude, Codex, Copilot, Antigravity, Windsurf
+# AGENTS.md, CLAUDE.md, CODEX.md, .clinerules, .cursor/rules/*.mdc,
+# .github/copilot-instructions.md, .agents/rules/*.md, .windsurfrules
 python tools/transpiler.py --kit kits/laravel-filament-postgresql
 
-# Verify zero rule drift (enforced in CI)
+# Verify zero rule drift, including stale generated files (enforced in CI)
 python tools/transpiler.py --kit kits/laravel-filament-postgresql --check
 ```
 
-### 3. Run Benchmark Evaluations
+Dialects are rendered, not copied: `CODEX.md` leads with the verification
+contract, and `.clinerules` strips code fences because Cline prepends it to
+every request. The two per-rule directories are owned by the transpiler, so a
+renamed rule's old output is pruned rather than left for an agent to load
+alongside the current one.
+
+### 2b. Validate & Audit Security Manifests
 ```bash
-python evals/runner.py
+# Validate every kit's security/checks.json against the JSON Schema
+python tools/validate_checks.py
+
+# Migrate a legacy manifest to canonical v2 (preserves hand-tuned OWASP tags)
+python tools/validate_checks.py --fix
+
+# Re-derive OWASP/severity after editing tools/lib/owasp.py
+python tools/validate_checks.py --reclassify
+
+# Full 18-checkpoint completeness audit for one kit
+python tools/audit_kit.py laravel-filament-postgresql
+
+# Regenerate the OWASP Top 10:2025 coverage matrix
+python tools/build_security_matrix.py
+python tools/build_security_matrix.py --check   # CI freshness gate
 ```
+
+### 3. Run Verification & Context-Cost Measurement
+```bash
+python evals/runner.py                  # executes every task that defines a verify command
+python evals/runner.py --kit flask-htmx-sqlite
+python tools/build_status_board.py      # regenerate status.json + /status/ from those results
+```
+
+**What is measured, and what is not.** The runner counts the real context an
+agent must load before it can work in a kit — its rules dialect plus
+`DESIGN.md`, `SECURITY.md` and the build steps — using tiktoken
+`cl100k_base`. Across the catalogue that is **1,238–3,828 tokens (median
+2,088)**. Efficiency tiers are derived from that measured number, so a grade
+always traces back to something you can reproduce.
+
+Tokens to *complete* a build, and first-try agent correctness, are **not
+reported**, because determining them requires running a live agent and this
+runner does not. Earlier revisions printed hardcoded constants for those
+figures; they were removed. A constant presented as a measurement is worse
+than no measurement.
+
+**Maturity is earned, not declared.** `/status/` grades every kit from
+executed results, never from a self-assigned field in `kit.yaml`:
+
+| Label | Meaning |
+|---|---|
+| `verified` | all eval tasks define real commands, the executed ones passed, starter ships ≥250 LOC |
+| `partial` | some tasks ran and passed; others have no verify command yet |
+| `scaffold` | structure and rules are complete and drift-checked, but nothing has been executed |
+| `failing` | a structural gate or an executed task failed |
+
+### 3b. Encoding & Hygiene Gates
+```bash
+python tools/check_encoding.py          # rejects UTF-8 BOMs in parsed files
+python tools/check_encoding.py --fix
+```
+A BOM is invisible in an editor but breaks `.env` parsing, renders into HTML
+before `<!doctype>`, and trips strict JSON/SQL parsers.
 
 ### 4. Build Website CSS & Showcase Pages
 ```bash

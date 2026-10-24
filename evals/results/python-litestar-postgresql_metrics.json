@@ -1,49 +1,95 @@
 {
   "kit_slug": "python-litestar-postgresql",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "python-litestar-postgresql-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 2187,
-      "completion_tokens": 2674,
-      "tokens_consumed": 4861
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 3197,
+    "shared_context_tokens": 629,
+    "shared_context": {
+      "DESIGN.md": 335,
+      "SECURITY.md": 155,
+      "agent-build-steps.md": 139
     },
-    {
-      "id": "python-litestar-postgresql-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 2413,
-      "completion_tokens": 3332,
-      "tokens_consumed": 5745
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 2568,
+        "total_tokens": 3197
+      },
+      "codex": {
+        "rules_tokens": 2721,
+        "total_tokens": 3350
+      },
+      "standard": {
+        "rules_tokens": 2615,
+        "total_tokens": 3244
+      },
+      "cline": {
+        "rules_tokens": 819,
+        "total_tokens": 1448
+      },
+      "windsurf": {
+        "rules_tokens": 2415,
+        "total_tokens": 3044
+      },
+      "copilot": {
+        "rules_tokens": 2416,
+        "total_tokens": 3045
+      }
     },
-    {
-      "id": "python-litestar-postgresql-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 2333,
-      "completion_tokens": 2970,
-      "tokens_consumed": 5303
-    },
-    {
-      "id": "python-litestar-postgresql-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 2475,
-      "completion_tokens": 3712,
-      "tokens_consumed": 6187
-    }
-  ],
-  "median_task_tokens": 5524,
-  "median_tokens_to_complete_reference_build": 22096,
-  "efficiency_tier": "A",
-  "efficiency_note": "Modern ASGI, clean DI, first-class DTO typing",
-  "token_light": false
+    "leanest_dialect": "cline",
+    "efficiency_tier": "B"
+  },
+  "starter": {
+    "files": 13,
+    "source_loc": 137
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "python-litestar-postgresql-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "python-litestar-postgresql-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "python-litestar-postgresql-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "python-litestar-postgresql-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

@@ -1,16 +1,45 @@
-# CLAUDE.md ? Agentic LangGraph + CrewAI + FastAPI
+# Cline Rules — Agentic LangGraph + CrewAI + FastAPI
+# Auto-generated from rules/source/*.md by tools/transpiler.py. Do NOT edit directly.
+# Directives only. Code examples live in AGENTS.md to keep this file token-light.
 
-You are pair programming on an enterprise-grade multi-agent AI system.
+## Framework Architecture & Standards
+- Target Python 3.12+ with strict typing across all functions, state transitions, and tool signatures.
+- Use Pydantic v2 schemas (`BaseModel`) for all API requests, responses, and tool arguments.
+- Expose FastAPI endpoints as `async def` with explicit `response_model`, status codes, and error models.
+- Structure dependencies using FastAPI `Depends()` for state stores, session managers, and agent squad injection:
+- FastAPI workers remain stateless while LangGraph checkpoints cyclic execution state into Redis or MemorySaver.
+- Never store in-memory execution state in global variables.
 
-## Primary Invariants
-1. **LangGraph State**: Never mutate state in-place; always return updated TypedDict partials from nodes.
-2. **CrewAI Squads**: Define explicit roles, goals, and backstories. Keep tools sandboxed with Pydantic schemas.
-3. **Security**: Never execute unvalidated shell commands. Use Gitleaks for secret scanning and Semgrep for AST checks.
-4. **FastAPI**: Write async endpoints with explicit Pydantic v2 
-esponse_model definitions.
+## LangGraph State Machine & Cyclic Graph Control
+- Define graph state using `TypedDict` or Pydantic `BaseModel` with explicit reducer annotations (`Annotated[list, add]` or custom operators).
+- Never mutate state in-place within a node; always return a dictionary representing the state delta:
+- All cyclic graphs (self-correction loops, critique loops, agent debate) MUST define explicit recursion limits:
+- Conditional edges must inspect `iteration_count` and force-route to `END` if maximum threshold is reached, preventing infinite agent spend loops.
 
-## Key Commands
-- Run API server: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-- Run test suite: pytest tests/ -v
-- Run security scans: gitleaks detect --source .
-- Docker compose up: docker compose up -d
+## CrewAI Delegation & Agent Squads
+- Define agents with distinct, unambiguous responsibilities, backstories, and goals:
+- `Researcher`: Explores documentation, queries tools, retrieves factual data.
+- `Coder`: Generates syntax-checked implementations.
+- `Reviewer / QA`: Validates code against security invariants and edge cases.
+- Explicitly declare `allow_delegation=False` on leaf worker agents to prevent uncontrolled recursive delegation chains.
+- Use `Process.sequential` for deterministic step-by-step handoffs or `Process.hierarchical` with a designated manager agent.
+- Bind short-term memory and entity memory to Redis or vector stores with scoped tenant IDs.
+
+## Security, Tool Sandboxing & Guardrails
+- All tools accessible to agents must enforce strict Pydantic schemas.
+- NEVER permit agents to run raw arbitrary shell commands or unsanitized SQL queries.
+- Read-only tools must be partitioned from state-mutating tools:
+- Any code execution tool must execute inside an ephemeral, resource-constrained container or isolated WebAssembly (Wasm) sandbox without network egress or host filesystem mount.
+- Critical state mutations (deploying code, purchasing, deleting databases) must yield LangGraph interrupts:
+
+## Testing, Verification & CI Invariants
+- Unit tests must not incur live LLM API costs or fail due to model nondeterminism.
+- Use `FakeListChatModel` or deterministic function mocks to simulate LLM decision nodes:
+- Assert that all state transitions cleanly reach the `END` state within expected iteration limits.
+- Assert that prompt injections into the initial task do not execute malicious shell commands.
+- Must pass:
+- `gitleaks detect --no-git` with 0 secrets.
+- `semgrep scan --config p/owasp-top-ten` with 0 findings.
+- `python tools/validate_manifest.py` verifying full physical layout.
+- `python tools/transpiler.py --check` guaranteeing zero dialect drift.
+

@@ -1,33 +1,66 @@
 {
   "kit_slug": "laravel-livewire-postgresql",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 2,
-  "tasks": [
-    {
-      "id": "kit2-task-01",
-      "title": "Volt Single-File Component Scaffolding",
-      "status": "PASS",
-      "prompt_tokens": 861,
-      "completion_tokens": 734,
-      "tokens_consumed": 1595
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 3042,
+    "shared_context_tokens": 1597,
+    "shared_context": {
+      "DESIGN.md": 1342,
+      "SECURITY.md": 95,
+      "agent-build-steps.md": 160
     },
-    {
-      "id": "kit2-task-02",
-      "title": "Livewire Property Locking",
-      "status": "PASS",
-      "prompt_tokens": 863,
-      "completion_tokens": 734,
-      "tokens_consumed": 1597
-    }
-  ],
-  "median_task_tokens": 1596,
-  "median_tokens_to_complete_reference_build": 3192,
-  "efficiency_tier": "B",
-  "efficiency_note": "Volt single-file components, Folio routing, Flux UI",
-  "token_light": false
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1445,
+        "total_tokens": 3042
+      },
+      "codex": {
+        "rules_tokens": 1596,
+        "total_tokens": 3193
+      },
+      "standard": {
+        "rules_tokens": 1635,
+        "total_tokens": 3232
+      },
+      "cline": {
+        "rules_tokens": 1103,
+        "total_tokens": 2700
+      },
+      "windsurf": {
+        "rules_tokens": 1392,
+        "total_tokens": 2989
+      },
+      "copilot": {
+        "rules_tokens": 1393,
+        "total_tokens": 2990
+      }
+    },
+    "leanest_dialect": "cline",
+    "efficiency_tier": "B"
+  },
+  "starter": {
+    "files": 15,
+    "source_loc": 394
+  },
+  "task_verification": {
+    "tasks": [],
+    "total": 0,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 0
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

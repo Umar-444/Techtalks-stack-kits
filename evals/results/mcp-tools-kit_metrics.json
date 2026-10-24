@@ -1,49 +1,95 @@
 {
   "kit_slug": "mcp-tools-kit",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "mcp-tools-kit-task-01",
-      "title": "Initialization & Environment Config",
-      "status": "PASS",
-      "prompt_tokens": 2700,
-      "completion_tokens": 1900,
-      "tokens_consumed": 4600
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 1562,
+    "shared_context_tokens": 765,
+    "shared_context": {
+      "DESIGN.md": 258,
+      "SECURITY.md": 156,
+      "agent-build-steps.md": 351
     },
-    {
-      "id": "mcp-tools-kit-task-02",
-      "title": "Data Model & Schema",
-      "status": "PASS",
-      "prompt_tokens": 3000,
-      "completion_tokens": 2100,
-      "tokens_consumed": 5100
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 797,
+        "total_tokens": 1562
+      },
+      "codex": {
+        "rules_tokens": 943,
+        "total_tokens": 1708
+      },
+      "standard": {
+        "rules_tokens": 899,
+        "total_tokens": 1664
+      },
+      "cline": {
+        "rules_tokens": 581,
+        "total_tokens": 1346
+      },
+      "windsurf": {
+        "rules_tokens": 719,
+        "total_tokens": 1484
+      },
+      "copilot": {
+        "rules_tokens": 720,
+        "total_tokens": 1485
+      }
     },
-    {
-      "id": "mcp-tools-kit-task-03",
-      "title": "API Handlers & Security",
-      "status": "PASS",
-      "prompt_tokens": 2900,
-      "completion_tokens": 2000,
-      "tokens_consumed": 4900
-    },
-    {
-      "id": "mcp-tools-kit-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 3000,
-      "completion_tokens": 2200,
-      "tokens_consumed": 5200
-    }
-  ],
-  "median_task_tokens": 5000,
-  "median_tokens_to_complete_reference_build": 19800,
-  "efficiency_tier": "A+",
-  "efficiency_note": "Model Context Protocol stdio/SSE server, Zod schemas, zero-ceremony tool definitions",
-  "token_light": true
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A+"
+  },
+  "starter": {
+    "files": 11,
+    "source_loc": 199
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "mcp-tools-kit-task-01",
+        "title": "Initialization & Environment Config",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "mcp-tools-kit-task-02",
+        "title": "Data Model & Schema",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "mcp-tools-kit-task-03",
+        "title": "API Handlers & Security",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "mcp-tools-kit-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

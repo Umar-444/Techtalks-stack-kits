@@ -1,4 +1,4 @@
-﻿# Multi-stage production Dockerfile for Python Litestar
+# Multi-stage production Dockerfile for Python Litestar
 FROM python:3.12-slim AS builder
 
 WORKDIR /build

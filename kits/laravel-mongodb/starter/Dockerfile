@@ -1,4 +1,4 @@
-﻿FROM php:8.4-cli-alpine
+FROM php:8.4-cli-alpine
 
 # Install system build dependencies and MongoDB PECL extension
 RUN apk add --no-cache $PHPIZE_DEPS openssl-dev git unzip curl \

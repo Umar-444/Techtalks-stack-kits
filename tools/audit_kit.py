@@ -3,6 +3,9 @@ import sys
 import yaml
 import json
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from lib import security_checks as sc
+
 def audit(slug):
     kit_dir = os.path.join("kits", slug)
     kit_yaml_p = os.path.join(kit_dir, "kit.yaml")
@@ -83,14 +86,21 @@ def audit(slug):
     if not os.path.exists(os.path.join(kit_dir, "DESIGN.md")) and not os.path.exists(os.path.join(kit_dir, "DESIGN-NOTES.md")):
         errors.append("Missing DESIGN.md or DESIGN-NOTES.md")
 
-    # 12. security/checks.json (>= 12 checks)
+    # 12. security/checks.json — canonical v2 schema, >= 12 OWASP-mapped controls
     sec_p = os.path.join(kit_dir, "security", "checks.json")
     if os.path.exists(sec_p):
-        with open(sec_p, "r", encoding="utf-8") as f:
-            sec_data = json.load(f)
-            checks_list = sec_data.get("checks", [])
-            if len(checks_list) < 12:
-                errors.append(f"security/checks.json has only {len(checks_list)} checks (minimum 12)")
+        try:
+            raw = json.load(open(sec_p, "r", encoding="utf-8"))
+            if raw.get("schema_version") != sc.SCHEMA_VERSION:
+                errors.append(
+                    f"security/checks.json is not schema v{sc.SCHEMA_VERSION}; "
+                    "run tools/validate_checks.py --fix"
+                )
+            else:
+                for problem in sc.validate(raw):
+                    errors.append(f"security/checks.json {problem}")
+        except (json.JSONDecodeError, sc.ManifestError) as exc:
+            errors.append(f"security/checks.json unreadable: {exc}")
     else:
         errors.append("Missing security/checks.json")
 

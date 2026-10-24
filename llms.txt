@@ -10,37 +10,60 @@
 > Email: contact@itsumarfarooq.com
 
 ## About TechTalks
-TechTalks is an open-source engineering platform providing production-tested full-stack project setups designed specifically for autonomous AI coding agents (Claude Code, Cursor, Copilot, Codex, Antigravity, Windsurf). Every kit includes starter source code, single-source rules transpiled into 6 native formats, domain skills, design tokens, and non-negotiable security scanning.
+TechTalks is an open-source engineering platform providing production-tested full-stack project setups designed specifically for autonomous AI coding agents (Claude Code, Cursor, Copilot, Codex, Antigravity, Windsurf). Every kit includes starter source code, single-source rules transpiled into 8 native agent formats, domain skills, design tokens, and non-negotiable security scanning.
 
-## The Iconic Metric: Token Consumption Benchmark (doc 20 Part F)
-TechTalks is the only platform that measures and publishes the median tokens consumed by autonomous coding agents to construct a verified reference implementation:
-- **Ruby on Rails 8 + Hotwire**: 14,200 tokens (Lowest full-stack kit on the platform)
-- **OWASP API Top 10 Reference (FastAPI)**: 15,200 tokens
-- **Flask + HTMX + SQLite**: 15,900 tokens
-- **Go + Chi + templ + HTMX**: 16,800 tokens
-- **Passkeys WebAuthn + Hardened Auth (TS)**: 16,900 tokens
-- **LLM Guardrails Gateway (Python)**: 17,600 tokens
-- **TypeScript + Hono + Bun + SQLite**: 18,200 tokens
-- **Go + Fiber + PostgreSQL**: 18,900 tokens
-- **Elixir + Phoenix LiveView**: 19,400 tokens
-- **Local Private Airgapped RAG**: 19,500 tokens
-- **Rust + Loco.rs + SQLite**: 19,800 tokens
-- **Django Ninja + PostgreSQL**: 20,497 tokens
-- **Go + Gin + PostgreSQL + Redis**: 21,396 tokens
-- **Python Litestar + SQLAlchemy 2**: 22,096 tokens
-- **LlamaIndex + PostgreSQL pgvector**: 23,196 tokens
-- **Rust + Axum + SQLx + PostgreSQL**: 24,497 tokens
-- **Haystack Pipelines + Weaviate**: 25,596 tokens
-- **Rust + Actix Web + SeaORM**: 26,796 tokens
-- **LangGraph Agentic RAG**: 27,796 tokens
-- **Laravel 12 + Filament + PostgreSQL**: 28,400 tokens
-- **Rust + Leptos Full-Stack WASM**: 29,196 tokens
-- **Laravel 12 + Livewire 4 + PostgreSQL**: 29,800 tokens
-- **Next.js 15+ + Supabase + React 19**: 38,600 tokens
+## Measured Agent Context Cost
+
+Every kit publishes the real token weight an agent must load before it can write code:
+its rules dialect plus DESIGN.md, SECURITY.md and the build steps. Counted with tiktoken
+`cl100k_base` by `evals/runner.py`, regenerated on every CI run.
+
+Across 35 kits: **min 1,238 / median 2,088 / max 3,828 tokens**.
+
+- **Agentic LangGraph + CrewAI + FastAPI**: 1,238 context tokens (tier A+, scaffold)
+- **Laravel 11/12 + MySQL 8.4 LTS (InnoDB + Full-Text Search)**: 1,396 context tokens (tier A+, scaffold)
+- **Model Context Protocol (MCP) Server Kit (stdio + SSE)**: 1,562 context tokens (tier A+, scaffold)
+- **Reverse Engineering & Security Audit Pack**: 1,684 context tokens (tier A+, scaffold)
+- **Next.js 15+ + Prisma ORM + PostgreSQL + Tailwind CSS**: 1,690 context tokens (tier A+, scaffold)
+- **Next.js 15+ + Supabase + shadcn/ui**: 1,791 context tokens (tier A+, scaffold)
+- **Laravel 12/13 + AI Features (LLM Orchestration, Embeddings & RAG)**: 1,803 context tokens (tier A+, scaffold)
+- **Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL**: 1,878 context tokens (tier A+, scaffold)
+- **Go + Gin + sqlc + PostgreSQL + Redis**: 1,883 context tokens (tier A+, scaffold)
+- **Go + Fiber + PostgreSQL**: 1,885 context tokens (tier A+, scaffold)
+- **Django 5 + Tailwind CSS + PostgreSQL**: 1,893 context tokens (tier A+, scaffold)
+- **Laravel 12/13 + Filament 4 + MySQL 8.4 LTS**: 1,916 context tokens (tier A, scaffold)
+- **Rust + Axum + PostgreSQL (SQLx)**: 1,964 context tokens (tier A, scaffold)
+- **Rust + Leptos Full-Stack + Axum + WebAssembly**: 2,021 context tokens (tier A, scaffold)
+- **Rust + Loco.rs + SeaORM + SQLite**: 2,030 context tokens (tier A, scaffold)
+- **Haystack Pipelines + Weaviate + FastAPI (Hayhooks)**: 2,033 context tokens (tier A, scaffold)
+- **TypeScript + Hono + Bun + SQLite (Drizzle ORM)**: 2,063 context tokens (tier A, scaffold)
+- **Rust + Actix Web + SeaORM + PostgreSQL**: 2,088 context tokens (tier A, scaffold)
+- **OWASP API Security Top 10 (2023) Test Harness (FastAPI + PyJWT + Pytest)**: 2,218 context tokens (tier A, scaffold)
+- **LangGraph + LangChain + Qdrant + Ragas Evals**: 2,239 context tokens (tier A, scaffold)
+- **DevSecOps CI Pipeline (Gitleaks + Semgrep + Trivy + GitHub Actions)**: 2,259 context tokens (tier A, scaffold)
+- **Laravel 12/13 + Sanctum REST API + Spatie Query Builder**: 2,264 context tokens (tier A, scaffold)
+- **Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL**: 2,405 context tokens (tier A, scaffold)
+- **Flask + HTMX + SQLite**: 2,466 context tokens (tier A, verified)
+- **Passkeys WebAuthn + Hardened Auth Reference (TypeScript)**: 2,487 context tokens (tier A, scaffold)
+- **LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)**: 2,587 context tokens (tier A, scaffold)
+- **Laravel 12 + MongoDB (NoSQL)**: 2,853 context tokens (tier A, scaffold)
+- **Laravel 13 + Filament 4 + PostgreSQL**: 2,984 context tokens (tier B, scaffold)
+- **Laravel 12 + Livewire 4 + PostgreSQL**: 3,042 context tokens (tier B, scaffold)
+- **Django + Django Ninja + PostgreSQL + Celery**: 3,054 context tokens (tier B, scaffold)
+- **LlamaIndex + PostgreSQL pgvector + FastAPI**: 3,113 context tokens (tier B, scaffold)
+- **Python + Litestar + SQLAlchemy 2 + PostgreSQL + Redis**: 3,197 context tokens (tier B, scaffold)
+- **RAG FastAPI + Qdrant + FastEmbed**: 3,238 context tokens (tier B, scaffold)
+- **Go + Chi + templ + HTMX + sqlc + PostgreSQL**: 3,528 context tokens (tier B, scaffold)
+- **Local Private RAG (Ollama + Chroma + FastAPI)**: 3,828 context tokens (tier B, scaffold)
+
+NOT measured and deliberately not claimed: tokens to *complete* a build, and first-try
+agent correctness. Both require running a live agent against the kit; the runner does not,
+so it reports neither. Maturity labels above are derived from executed verification runs
+and published at https://techtalks.itsumarfarooq.com/status/
 
 ---
 
-## Master Stack Kits Catalogue (38 Kits in 6 Lines)
+## Master Stack Kits Catalogue (35 Kits)
 
 ### 1. Token-Light Line (doc 20 Part F)
 - [Ruby on Rails 8 + Hotwire](https://techtalks.itsumarfarooq.com/kits/ruby-rails-hotwire/) — `Complete & Verified`. Rails 8, Turbo 8, Stimulus 3, Solid Cache/Queue, SQLite/PostgreSQL. (14,200 median tokens).
@@ -94,4 +117,18 @@ Every kit conforms to the 5-layer house anatomy:
 2. `rules/source/*.md`: Single-source rules transpiled into Cursor, Claude Code, Copilot, Cline, Codex, and Antigravity.
 3. `skills/<slug>/SKILL.md`: On-demand agent cheatsheets and procedural scaffolding scripts.
 4. `DESIGN.md`: Document 17/18 visual design tokens (Inter typography, 8pt grid, Notion-style card surfaces, zero gradients).
-5. `security/checks.json`: Enforced Gitleaks secret scans, Semgrep SAST, and BOLA tenant verification tests.
+5. `security/checks.json`: Enforced security controls, each mapped to OWASP Top 10:2025 with a severity, CWE, and an evidence pointer to the file that enforces it. Validates against `schemas/kit-security-checks.schema.json` (schema v2.0.0).
+
+## OWASP Top 10:2025 Coverage
+430 enforced controls across 35 kits, mapped to all ten categories of the current OWASP Top 10 (2025 edition; the 2021 edition is superseded).
+
+- Human-readable matrix: https://techtalks.itsumarfarooq.com/security/coverage/
+- Machine-readable aggregate: https://techtalks.itsumarfarooq.com/security/coverage.json
+- Control manifest schema: https://techtalks.itsumarfarooq.com/schemas/kit-security-checks.schema.json
+
+To find which kit already solves a given security problem, query the aggregate rather than reading 35 manifests:
+
+    curl -s https://techtalks.itsumarfarooq.com/security/coverage.json \
+      | jq '.categories[] | select(.id=="A01:2025") | .kits_missing'
+
+Both artifacts are generated by `tools/build_security_matrix.py` directly from the kit manifests and verified fresh in CI, so they cannot drift from what the kits enforce.

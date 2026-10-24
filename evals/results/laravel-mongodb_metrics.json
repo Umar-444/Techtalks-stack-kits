@@ -1,33 +1,66 @@
 {
   "kit_slug": "laravel-mongodb",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 2,
-  "tasks": [
-    {
-      "id": "kit3-task-01",
-      "title": "MongoDB Model Inheritance",
-      "status": "PASS",
-      "prompt_tokens": 859,
-      "completion_tokens": 734,
-      "tokens_consumed": 1593
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 2853,
+    "shared_context_tokens": 1492,
+    "shared_context": {
+      "DESIGN.md": 1229,
+      "SECURITY.md": 94,
+      "agent-build-steps.md": 169
     },
-    {
-      "id": "kit3-task-02",
-      "title": "NoSQL Injection Defense",
-      "status": "PASS",
-      "prompt_tokens": 861,
-      "completion_tokens": 758,
-      "tokens_consumed": 1619
-    }
-  ],
-  "median_task_tokens": 1606,
-  "median_tokens_to_complete_reference_build": 3212,
-  "efficiency_tier": "B",
-  "efficiency_note": "MongoDB ODM, hybrid relational-document schemas",
-  "token_light": false
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1361,
+        "total_tokens": 2853
+      },
+      "codex": {
+        "rules_tokens": 1508,
+        "total_tokens": 3000
+      },
+      "standard": {
+        "rules_tokens": 1544,
+        "total_tokens": 3036
+      },
+      "cline": {
+        "rules_tokens": 1096,
+        "total_tokens": 2588
+      },
+      "windsurf": {
+        "rules_tokens": 1310,
+        "total_tokens": 2802
+      },
+      "copilot": {
+        "rules_tokens": 1311,
+        "total_tokens": 2803
+      }
+    },
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A"
+  },
+  "starter": {
+    "files": 11,
+    "source_loc": 239
+  },
+  "task_verification": {
+    "tasks": [],
+    "total": 0,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 0
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

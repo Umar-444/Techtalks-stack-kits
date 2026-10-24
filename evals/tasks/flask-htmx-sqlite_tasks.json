@@ -1,51 +1,64 @@
 {
   "kit_slug": "flask-htmx-sqlite",
   "name": "Flask + HTMX + SQLite",
-  "token_metrics": {
-    "median_tokens": 15900,
-    "tier": "A+",
-    "token_light": true
-  },
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. Token figures are not recorded here; evals/runner.py measures context cost directly from the kit files.",
+  "setup": "cd starter && pip install -r requirements.txt",
   "eval_tasks": [
     {
       "id": "flask-htmx-sqlite-task-01",
-      "title": "Initialization & Environment Config",
-      "instruction": "Verify Flask + HTMX + SQLite boots cleanly.",
+      "title": "Application factory boots with WAL enabled",
+      "instruction": "The app factory must construct cleanly and the health endpoint must report SQLite running in WAL journal mode.",
       "assertions": [
-        "Runtime boots with exit code 0"
+        "create_app() returns a configured app",
+        "GET /health responds 200",
+        "journal_mode is wal"
       ],
-      "prompt_tokens": 1574,
-      "completion_tokens": 1923
+      "requires": ["python"],
+      "requires_python": ["flask", "pytest", "flask_wtf"],
+      "verify": "cd starter && python -m pytest tests/test_app.py::test_health_check_endpoint -q"
     },
     {
       "id": "flask-htmx-sqlite-task-02",
-      "title": "Data Model & Schema",
-      "instruction": "Define models and persistence layers.",
+      "title": "HTMX dual-render and CRUD lifecycle",
+      "instruction": "A standard GET returns a full document; an HX-Request returns only the fragment. Create, toggle and delete must round-trip.",
       "assertions": [
-        "Schema validates"
+        "GET / returns a full HTML document",
+        "HX-Request returns a fragment with no <html> wrapper",
+        "create, toggle and delete all succeed",
+        "empty title is rejected with 400"
       ],
-      "prompt_tokens": 1736,
-      "completion_tokens": 2397
+      "requires": ["python"],
+      "requires_python": ["flask", "pytest", "flask_wtf"],
+      "verify": "cd starter && python -m pytest tests/test_app.py -q"
     },
     {
       "id": "flask-htmx-sqlite-task-03",
-      "title": "API Handlers & Security",
-      "instruction": "Expose endpoints with authorization.",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite that exercises the controls named in security/checks.json with CSRF protection switched on.",
       "assertions": [
-        "Auth enforced"
+        "tokenless POST, HTMX POST and DELETE are all rejected with 400",
+        "a CSRF token is rendered for HTMX to attach",
+        "security headers are present on every response",
+        "a quote-breaking search payload is treated as a literal",
+        "stored script payloads are HTML-escaped on render",
+        "WAL, foreign_keys and busy_timeout pragmas are enforced",
+        ".env.example contains no real secret and no BOM"
       ],
-      "prompt_tokens": 1679,
-      "completion_tokens": 2136
+      "requires": ["python"],
+      "requires_python": ["flask", "pytest", "flask_wtf"],
+      "verify": "cd starter && python -m pytest tests/test_security.py -q"
     },
     {
       "id": "flask-htmx-sqlite-task-04",
-      "title": "Automated Security Tests",
-      "instruction": "Run security audits and test suites.",
+      "title": "Full suite green",
+      "instruction": "The complete functional and security suite must pass with no failures.",
       "assertions": [
-        "Zero leaks"
+        "pytest exits 0 across tests/"
       ],
-      "prompt_tokens": 1780,
-      "completion_tokens": 2671
+      "requires": ["python"],
+      "requires_python": ["flask", "pytest", "flask_wtf"],
+      "verify": "cd starter && python -m pytest tests/ -q"
     }
   ]
 }

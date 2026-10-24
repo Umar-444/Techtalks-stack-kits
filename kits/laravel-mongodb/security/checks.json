@@ -1,99 +1,234 @@
 {
-  "kit": "laravel-mongodb",
-  "version": "1.0.0",
-  "total_controls": 12,
-  "categories": [
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
+  "kit_slug": "laravel-mongodb",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 4,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 4,
+      "high": 5,
+      "medium": 2,
+      "low": 1
+    },
+    "owasp_covered": [
+      "A01:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A07:2025"
+    ]
+  },
+  "checks": [
     {
-      "name": "NoSQL Injection & Query Sanitization",
-      "controls": [
-        {
-          "id": "NOSQL-01",
-          "name": "Strict array operator sanitization ($where, $regex, $ne filter middleware)",
-          "status": "enforced",
-          "test": "tests/Feature/EventLogTest.php"
-        },
-        {
-          "id": "NOSQL-02",
-          "name": "BSON ObjectID validation before query compilation",
-          "status": "enforced",
-          "test": "tests/Feature/Security/ObjectIdValidationTest.php"
-        },
-        {
-          "id": "NOSQL-03",
-          "name": "MongoDB replica set TLS encryption in transit enforcement",
-          "status": "enforced",
-          "test": "tests/Feature/Security/TlsEnforcementTest.php"
-        },
-        {
-          "id": "NOSQL-04",
-          "name": "WiredTiger collection JSON schema validation constraints",
-          "status": "enforced",
-          "test": "tests/Feature/Security/SchemaValidationTest.php"
-        },
-        {
-          "id": "NOSQL-05",
-          "name": "Compound index query performance guard preventing COLLSCAN",
-          "status": "enforced",
-          "test": "tests/Feature/Security/IndexScanTest.php"
-        }
-      ]
+      "id": "NOSQL-01",
+      "category": "NoSQL Injection & Query Sanitization",
+      "name": "Strict array operator sanitization ($where, $regex, $ne filter middleware)",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-943"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/EventLogTest.php"
+      }
     },
     {
-      "name": "Authentication & Access Control",
-      "controls": [
-        {
-          "id": "AUTH-01",
-          "name": "Argon2id / Bcrypt password hashing with work factor >= 12",
-          "status": "enforced",
-          "test": "tests/Feature/Security/PasswordSecurityTest.php"
-        },
-        {
-          "id": "AUTH-02",
-          "name": "Granular BOLA document ownership verification in Eloquent models",
-          "status": "enforced",
-          "test": "tests/Feature/Security/DocumentPolicyTest.php"
-        },
-        {
-          "id": "AUTH-03",
-          "name": "Session fixation defense on document mutations",
-          "status": "enforced",
-          "test": "tests/Feature/Security/SessionFixationTest.php"
-        }
-      ]
+      "id": "NOSQL-02",
+      "category": "NoSQL Injection & Query Sanitization",
+      "name": "BSON ObjectID validation before query compilation",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/ObjectIdValidationTest.php"
+      }
     },
     {
-      "name": "Data Layer & Connection Security",
-      "controls": [
-        {
-          "id": "DATA-01",
-          "name": "Casting and sanitization of unstructured JSON payload inputs",
-          "status": "enforced",
-          "test": "tests/Feature/Security/PayloadSanitizationTest.php"
-        },
-        {
-          "id": "DATA-02",
-          "name": "MongoDB client connection pooling and timeout caps",
-          "status": "enforced",
-          "test": "tests/Feature/Security/ConnectionPoolTest.php"
-        }
-      ]
+      "id": "NOSQL-03",
+      "category": "NoSQL Injection & Query Sanitization",
+      "name": "MongoDB replica set TLS encryption in transit enforcement",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-319"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/TlsEnforcementTest.php"
+      }
     },
     {
-      "name": "CI & Secret Auditing",
-      "controls": [
-        {
-          "id": "CI-01",
-          "name": "Gitleaks secret scanning on commit",
-          "status": "enforced",
-          "workflow": ".github/workflows/security.yml"
-        },
-        {
-          "id": "CI-02",
-          "name": "Semgrep security scanning for PHP/NoSQL vulnerabilities",
-          "status": "enforced",
-          "workflow": ".github/workflows/security.yml"
-        }
-      ]
+      "id": "NOSQL-04",
+      "category": "NoSQL Injection & Query Sanitization",
+      "name": "WiredTiger collection JSON schema validation constraints",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/SchemaValidationTest.php"
+      }
+    },
+    {
+      "id": "NOSQL-05",
+      "category": "NoSQL Injection & Query Sanitization",
+      "name": "Compound index query performance guard preventing COLLSCAN",
+      "status": "enforced",
+      "severity": "low",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-1049"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/IndexScanTest.php"
+      }
+    },
+    {
+      "id": "AUTH-01",
+      "category": "Authentication & Access Control",
+      "name": "Argon2id / Bcrypt password hashing with work factor >= 12",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-916"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/PasswordSecurityTest.php"
+      }
+    },
+    {
+      "id": "AUTH-02",
+      "category": "Authentication & Access Control",
+      "name": "Granular BOLA document ownership verification in Eloquent models",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A01:2025"
+      ],
+      "cwe": [
+        "CWE-639"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/DocumentPolicyTest.php"
+      }
+    },
+    {
+      "id": "AUTH-03",
+      "category": "Authentication & Access Control",
+      "name": "Session fixation defense on document mutations",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A07:2025"
+      ],
+      "cwe": [
+        "CWE-384"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/SessionFixationTest.php"
+      }
+    },
+    {
+      "id": "DATA-01",
+      "category": "Data Layer & Connection Security",
+      "name": "Casting and sanitization of unstructured JSON payload inputs",
+      "status": "enforced",
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/PayloadSanitizationTest.php"
+      }
+    },
+    {
+      "id": "DATA-02",
+      "category": "Data Layer & Connection Security",
+      "name": "MongoDB client connection pooling and timeout caps",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-400"
+      ],
+      "evidence": {
+        "kind": "test",
+        "path": "tests/Feature/Security/ConnectionPoolTest.php"
+      }
+    },
+    {
+      "id": "CI-01",
+      "category": "CI & Secret Auditing",
+      "name": "Gitleaks secret scanning on commit",
+      "status": "enforced",
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": ".github/workflows/security.yml"
+      }
+    },
+    {
+      "id": "CI-02",
+      "category": "CI & Secret Auditing",
+      "name": "Semgrep security scanning for PHP/NoSQL vulnerabilities",
+      "status": "enforced",
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "workflow",
+        "path": ".github/workflows/security.yml"
+      }
     }
   ]
 }

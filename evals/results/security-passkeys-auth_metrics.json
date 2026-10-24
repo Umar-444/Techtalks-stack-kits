@@ -1,49 +1,95 @@
 {
   "kit_slug": "security-passkeys-auth",
   "status": "PASS",
-  "all_checks_passed": true,
-  "manifest_valid": true,
-  "transpiler_zero_drift": true,
-  "dialects_complete": true,
-  "secret_leak_free": true,
-  "task_count": 4,
-  "tasks": [
-    {
-      "id": "security-passkeys-auth-task-01",
-      "title": "Core Environment & Service Initialization",
-      "status": "PASS",
-      "prompt_tokens": 1673,
-      "completion_tokens": 2044,
-      "tokens_consumed": 3717
+  "gates": {
+    "manifest_valid": true,
+    "transpiler_zero_drift": true,
+    "dialects_complete": true,
+    "secret_leak_free": true,
+    "secret_hits": []
+  },
+  "context_cost": {
+    "measurement": "tiktoken:cl100k_base",
+    "exact": true,
+    "context_tokens": 2487,
+    "shared_context_tokens": 632,
+    "shared_context": {
+      "DESIGN.md": 336,
+      "SECURITY.md": 156,
+      "agent-build-steps.md": 140
     },
-    {
-      "id": "security-passkeys-auth-task-02",
-      "title": "Data Schema & Repository Definition",
-      "status": "PASS",
-      "prompt_tokens": 1845,
-      "completion_tokens": 2548,
-      "tokens_consumed": 4393
+    "per_dialect": {
+      "claude": {
+        "rules_tokens": 1855,
+        "total_tokens": 2487
+      },
+      "codex": {
+        "rules_tokens": 2004,
+        "total_tokens": 2636
+      },
+      "standard": {
+        "rules_tokens": 2024,
+        "total_tokens": 2656
+      },
+      "cline": {
+        "rules_tokens": 759,
+        "total_tokens": 1391
+      },
+      "windsurf": {
+        "rules_tokens": 1839,
+        "total_tokens": 2471
+      },
+      "copilot": {
+        "rules_tokens": 1840,
+        "total_tokens": 2472
+      }
     },
-    {
-      "id": "security-passkeys-auth-task-03",
-      "title": "API Routing & Authorization Policy",
-      "status": "PASS",
-      "prompt_tokens": 1784,
-      "completion_tokens": 2271,
-      "tokens_consumed": 4055
-    },
-    {
-      "id": "security-passkeys-auth-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "status": "PASS",
-      "prompt_tokens": 1892,
-      "completion_tokens": 2839,
-      "tokens_consumed": 4731
-    }
-  ],
-  "median_task_tokens": 4224,
-  "median_tokens_to_complete_reference_build": 16896,
-  "efficiency_tier": "A+",
-  "efficiency_note": "Modular WebAuthn TS ceremonies, minimal auth surface",
-  "token_light": true
+    "leanest_dialect": "cline",
+    "efficiency_tier": "A"
+  },
+  "starter": {
+    "files": 6,
+    "source_loc": 223
+  },
+  "task_verification": {
+    "tasks": [
+      {
+        "id": "security-passkeys-auth-task-01",
+        "title": "Core Environment & Service Initialization",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "security-passkeys-auth-task-02",
+        "title": "Data Schema & Repository Definition",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "security-passkeys-auth-task-03",
+        "title": "API Routing & Authorization Policy",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      },
+      {
+        "id": "security-passkeys-auth-task-04",
+        "title": "Security & Architecture Invariants Test",
+        "assertions": 2,
+        "status": "not_executed",
+        "reason": "task defines no verify command"
+      }
+    ],
+    "total": 4,
+    "passed": 0,
+    "failed": 0,
+    "skipped": 0,
+    "not_executed": 4
+  },
+  "not_measured": [
+    "tokens_to_complete_build \u2014 requires a live agent run",
+    "first_try_correctness \u2014 requires a live agent run"
+  ]
 }

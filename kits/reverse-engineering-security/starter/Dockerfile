@@ -1,4 +1,4 @@
-﻿# Production container for Reverse Engineering & Security Audit Pack
+# Production container for Reverse Engineering & Security Audit Pack
 FROM python:3.12-alpine
 
 WORKDIR /app

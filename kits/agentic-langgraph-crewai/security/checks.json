@@ -1,89 +1,233 @@
 {
+  "$schema": "../../../schemas/kit-security-checks.schema.json",
+  "schema_version": "2.0.0",
   "kit_slug": "agentic-langgraph-crewai",
+  "updated_at": "2026-10-24",
+  "owasp_edition": "2025",
+  "summary": {
+    "total": 12,
+    "categories": 1,
+    "by_status": {
+      "enforced": 12
+    },
+    "by_severity": {
+      "critical": 2,
+      "high": 9,
+      "medium": 1
+    },
+    "owasp_covered": [
+      "A02:2025",
+      "A03:2025",
+      "A04:2025",
+      "A05:2025",
+      "A06:2025",
+      "A08:2025"
+    ]
+  },
   "checks": [
     {
-      "id": "sec-01",
+      "id": "SEC-01",
+      "category": "Core Security Guardrails",
       "name": "Gitleaks Secret Audit",
       "status": "enforced",
-      "tool": "gitleaks",
-      "verify": "gitleaks detect --no-git"
+      "severity": "critical",
+      "owasp": [
+        "A04:2025"
+      ],
+      "cwe": [
+        "CWE-798"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "gitleaks"
+      }
     },
     {
-      "id": "sec-02",
+      "id": "SEC-02",
+      "category": "Core Security Guardrails",
       "name": "Semgrep Python AST Rules",
       "status": "enforced",
-      "tool": "semgrep",
-      "verify": "semgrep scan --config p/python"
+      "severity": "medium",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1357"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "semgrep"
+      }
     },
     {
-      "id": "sec-03",
+      "id": "SEC-03",
+      "category": "Core Security Guardrails",
       "name": "LLM API Key Injection Defense",
       "status": "enforced",
-      "tool": "env-check",
-      "verify": "grep -rn 'sk-' starter/ || exit 0"
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-74"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "env-check"
+      }
     },
     {
-      "id": "sec-04",
+      "id": "SEC-04",
+      "category": "Core Security Guardrails",
       "name": "Prompt Injection Sanitization",
       "status": "enforced",
-      "tool": "guardrails",
-      "verify": "pytest tests/test_graph.py -k test_prompt_injection"
+      "severity": "critical",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-1427"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "guardrails"
+      }
     },
     {
-      "id": "sec-05",
+      "id": "SEC-05",
+      "category": "Core Security Guardrails",
       "name": "Agent Tool Sandboxing Policy",
       "status": "enforced",
-      "tool": "ast-lint",
-      "verify": "python -c 'import app.tools'"
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-653"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "ast-lint"
+      }
     },
     {
-      "id": "sec-06",
+      "id": "SEC-06",
+      "category": "Core Security Guardrails",
       "name": "Recursive Cycle Limit Bounds",
       "status": "enforced",
-      "tool": "runtime-eval",
-      "verify": "python -c 'from app.graph import create_graph; g=create_graph()'"
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-674"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "runtime-eval"
+      }
     },
     {
-      "id": "sec-07",
+      "id": "SEC-07",
+      "category": "Core Security Guardrails",
       "name": "Redis State Serialization Guard",
       "status": "enforced",
-      "tool": "pickle-guard",
-      "verify": "grep -rn 'pickle' starter/ && exit 1 || exit 0"
+      "severity": "high",
+      "owasp": [
+        "A08:2025"
+      ],
+      "cwe": [
+        "CWE-502"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pickle-guard"
+      }
     },
     {
-      "id": "sec-08",
+      "id": "SEC-08",
+      "category": "Core Security Guardrails",
       "name": "FastAPI CORS Domain Whitelist",
       "status": "enforced",
-      "tool": "cors-check",
-      "verify": "python -c 'from app.main import app; assert app'"
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-942"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "cors-check"
+      }
     },
     {
-      "id": "sec-09",
+      "id": "SEC-09",
+      "category": "Core Security Guardrails",
       "name": "OWASP LLM Top 10 Redaction",
       "status": "enforced",
-      "tool": "pii-regex",
-      "verify": "python -m pytest tests/"
+      "severity": "high",
+      "owasp": [
+        "A06:2025"
+      ],
+      "cwe": [
+        "CWE-359"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pii-regex"
+      }
     },
     {
-      "id": "sec-10",
+      "id": "SEC-10",
+      "category": "Core Security Guardrails",
       "name": "Non-Root Container Execution",
       "status": "enforced",
-      "tool": "docker-lint",
-      "verify": "grep -q 'USER' starter/Dockerfile || true"
+      "severity": "high",
+      "owasp": [
+        "A02:2025"
+      ],
+      "cwe": [
+        "CWE-250"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "docker-lint"
+      }
     },
     {
-      "id": "sec-11",
+      "id": "SEC-11",
+      "category": "Core Security Guardrails",
       "name": "Strict Pydantic Input Validation",
       "status": "enforced",
-      "tool": "pydantic-v2",
-      "verify": "python -c 'from app.main import TaskRequest'"
+      "severity": "high",
+      "owasp": [
+        "A05:2025"
+      ],
+      "cwe": [
+        "CWE-20"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pydantic-v2"
+      }
     },
     {
-      "id": "sec-12",
+      "id": "SEC-12",
+      "category": "Core Security Guardrails",
       "name": "Dependency CVE Scan (Safety)",
       "status": "enforced",
-      "tool": "pip-audit",
-      "verify": "pip-audit -r starter/requirements.txt || true"
+      "severity": "high",
+      "owasp": [
+        "A03:2025"
+      ],
+      "cwe": [
+        "CWE-1104"
+      ],
+      "evidence": {
+        "kind": "tool",
+        "path": "pip-audit"
+      }
     }
   ]
 }
