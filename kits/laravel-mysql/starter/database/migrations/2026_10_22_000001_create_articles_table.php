@@ -17,8 +17,16 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index(['status', 'created_at']);
-            $table->fullText(['title', 'content']);
         });
+
+        // FULLTEXT is a MySQL/Postgres feature. The test suite runs on SQLite,
+        // which has no equivalent on a regular table, so this is applied only
+        // where the driver supports it.
+        if (in_array(Schema::getConnection()->getDriverName(), ['mysql', 'mariadb'], true)) {
+            Schema::table('articles', function (Blueprint $table) {
+                $table->fullText(['title', 'content']);
+            });
+        }
     }
 
     public function down(): void

@@ -38,6 +38,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   evidence pointer. `tools/validate_checks.py` validates, migrates (`--fix`)
   and re-derives classifications (`--reclassify`).
 - **`tools/check_encoding.py`** — rejects UTF-8 BOMs in parsed files, now a CI gate.
+- **`tools/build_chrome.py`** — single source for the site header and footer.
+  Both were duplicated across 78 hand-maintained HTML files, so a link added in
+  one place silently went missing from the rest. The page generators now import
+  `nav_html()` / `footer_html()`, and `--check` is a CI gate.
+- **Generated README kit table.** `tools/build_status_board.py` writes the
+  status matrix into `README.md` between markers, so it cannot go stale. The
+  previous table listed 10 kits of 35 and marked `flask-htmx-sqlite` a blueprint
+  after it had become the first verified kit.
 - **Two new agent dialects generated from source:** `CODEX.md` and
   `.clinerules` are produced by the transpiler rather than hand-maintained
   copies of `AGENTS.md`, bringing the total to 8.
@@ -51,6 +59,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **Eval tasks now carry real commands.** Every kit's
+  `evals/tasks/<slug>_tasks.json` defines a `verify` command with declared
+  `requires` / `requires_python`. Previously only 3 of 35 did, so the status
+  board reported 112 tasks as `undefined`.
+- **Four kits had no task file the runner could find.** `laravel-filament-postgresql`,
+  `laravel-livewire-postgresql`, `laravel-mongodb` and `nextjs-approuter-supabase`
+  were still under the legacy names `kit1`/`kit2`/`kit3`/`kit5_tasks.json`, so they
+  reported no verification at all. Renamed to match their slugs.
+- **New `pending` maturity tier.** A kit whose tasks all define real commands but
+  whose toolchain (Go, Rust, Bun, Elixir, Ruby) is absent on the machine producing
+  the board now reports `pending toolchain`, not `scaffold`. Conflating "cannot run
+  here" with "nothing defined" understated eleven kits.
+- **`security-devsecops-ci` shipped five real defects**, all caught by giving it a
+  suite that parses its own configuration:
+  - `.semgrep.yml` did not parse — nested unescaped quotes in the
+    `hardcoded-secret-assignment` pattern, so the whole ruleset was dead.
+  - `scripts/run_local_pipeline.py` had a `SyntaxError` and could not execute,
+    while control SUP-03 claimed it as a working pre-flight runner.
+  - That script printed "All 12 security controls verified!" after running three
+    checks. It now names only what it ran and points to CI for the rest.
+  - Dependabot watched `github-actions` only, so base-image CVEs that Trivy
+    reports had nothing proposing the upgrade. Added the `docker` ecosystem.
+  - SEC-03 claimed pre-commit protection with no `.pre-commit-config.yaml`
+    present. Added one, with pinned revisions and staged-change secret scanning.
+- **Footer responsiveness.** The grid jumped straight from 1 to 4 columns at
+  `md`, cramping the link lists between 768px and 1024px. Now 1 / 2 / 12-col at
+  `sm` and `lg`, with the bottom bar stacking until `lg` and long monospace
+  links wrapping instead of overflowing.
 - **90 orphaned generated rule files** across 18 kits. The transpiler wrote
   `.cursor/rules/*.mdc` and `.agents/rules/*.md` keyed on rule id but never
   pruned renamed outputs, so agents loaded superseded rules alongside current
@@ -69,8 +105,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Navigation restructured.** `Community` removed from the navbar; its links
+  now live in the footer's Project column, where community resources belong.
+  The new top level is Kits (dropdown, verified kits first), How It Works,
+  Standards (dropdown: Security Standard, OWASP Coverage, Kit Status Board,
+  Masterclass) and Blog.
+- **Footer rebuilt** into Kits / Standards &amp; Proof / Project, exposing the
+  machine-readable artifacts (`coverage.json`, `status.json`,
+  `kit-security-checks.schema.json`) and the changelog.
+- Chrome links are now root-absolute, so one string is correct at every
+  directory depth.
 - CI enforces the 18-checkpoint audit, security-manifest schema validation,
-  BOM rejection, and freshness of both the coverage matrix and status board.
+  BOM rejection, header/footer sync, and freshness of the coverage matrix,
+  status board and generated README table.
 - `requirements.txt` adds `jsonschema` and `tiktoken`.
 
 ## [1.0.0] - 2026-10-21

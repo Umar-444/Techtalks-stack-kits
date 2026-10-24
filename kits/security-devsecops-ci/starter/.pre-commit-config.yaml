@@ -1,0 +1,38 @@
+# Backs control SEC-03. Catching a secret before it is committed is the only
+# cheap moment: once it reaches a remote, the credential must be rotated even
+# after the history is rewritten.
+#
+#   pip install pre-commit && pre-commit install
+#
+# Rev pins are deliberate. An unpinned hook is a supply-chain path with commit
+# access to the working tree, which is exactly what SEC-03 exists to prevent.
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+        name: Detect hardcoded secrets in staged changes
+        args: ["protect", "--staged", "--redact", "--config=.gitleaks.toml"]
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: detect-private-key
+      - id: check-added-large-files
+        args: ["--maxkb=1024"]
+      - id: check-yaml
+        name: Validate scanner configuration is parseable
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: no-commit-to-branch
+        args: ["--branch", "main"]
+
+  - repo: local
+    hooks:
+      - id: local-pipeline
+        name: DevSecOps pre-flight (secret scan, container audit, config lint)
+        entry: python scripts/run_local_pipeline.py
+        language: system
+        pass_filenames: false
+        stages: [pre-push]

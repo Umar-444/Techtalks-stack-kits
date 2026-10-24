@@ -3,6 +3,9 @@ import sys
 import json
 import re
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from build_chrome import footer_html, nav_html
+
 try:
     import yaml
 except ImportError:
@@ -330,6 +333,8 @@ def render_kit_page(kit_meta, kit_dir, template_str):
 
     # Perform placeholder replacements
     html = template_str
+    html = html.replace("{{SITE_HEADER}}", nav_html("kits"))
+    html = html.replace("{{SITE_FOOTER}}", footer_html())
     html = html.replace("{{DISPLAY_NAME}}", display_name)
     html = html.replace("{{DESCRIPTION}}", desc)
     html = html.replace("{{SLUG}}", slug)

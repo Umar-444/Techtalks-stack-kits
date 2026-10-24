@@ -13,7 +13,7 @@ rules:
     severity: ERROR
 
   - id: hardcoded-secret-assignment
-    pattern: "SECRET_KEY = "...""
-    message: "Hardcoded secret key in source code. Sourced from environment variable."
+    pattern: 'SECRET_KEY = "..."'
+    message: "Hardcoded secret key in source code. Source it from an environment variable."
     languages: [python]
     severity: WARNING

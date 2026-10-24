@@ -1,55 +1,56 @@
 {
   "kit_slug": "elixir-phoenix-liveview",
   "name": "Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL",
-  "token_metrics": {
-    "median_tokens": 19400,
-    "tier": "A",
-    "token_light": true
-  },
+  "schema_version": "2.0.0",
+  "note": "Requires the Elixir/Mix toolchain. This kit ships test support files but no ExUnit cases yet — task-04 will pass vacuously until cases are added. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
   "eval_tasks": [
     {
       "id": "elixir-phoenix-liveview-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the Elixir + Phoenix 1.7+ + LiveView + Ecto + PostgreSQL core runtime with zero-warning configuration.",
+      "title": "Dependencies resolve",
+      "instruction": "mix must fetch the locked dependency set.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "mix deps.get exits 0"
       ],
-      "prompt_tokens": 1920,
-      "completion_tokens": 2347
+      "requires": [
+        "mix"
+      ],
+      "verify": "cd starter && mix deps.get"
     },
     {
       "id": "elixir-phoenix-liveview-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Compiles with warnings treated as errors",
+      "instruction": "The application must compile with zero warnings.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "mix compile --warnings-as-errors exits 0"
       ],
-      "prompt_tokens": 2118,
-      "completion_tokens": 2925
+      "requires": [
+        "mix"
+      ],
+      "verify": "cd starter && mix compile --warnings-as-errors"
     },
     {
       "id": "elixir-phoenix-liveview-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Sobelow static security analysis is clean",
+      "instruction": "Sobelow must report no findings for the Phoenix application.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "mix sobelow --exit exits 0"
       ],
-      "prompt_tokens": 2048,
-      "completion_tokens": 2607
+      "requires": [
+        "mix"
+      ],
+      "verify": "cd starter && mix sobelow --exit"
     },
     {
       "id": "elixir-phoenix-liveview-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "Test suite passes",
+      "instruction": "The ExUnit suite must pass. NOTE: this kit currently ships only test/support and test_helper; adding real cases is tracked as a gap.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "mix test exits 0"
       ],
-      "prompt_tokens": 2172,
-      "completion_tokens": 3259
+      "requires": [
+        "mix"
+      ],
+      "verify": "cd starter && mix test"
     }
   ]
 }

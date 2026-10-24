@@ -12,7 +12,10 @@ toolchain installed.
     verified   every eval task has a verify command, all executed ones passed,
                and the starter ships enough source to be a real application
     partial    some tasks executed and passed, others are still undefined
-    scaffold   structural gates pass but nothing has been executed
+    pending    every task defines a real command, but the toolchain needed to
+               run it is absent on this machine (Go, Rust, Bun, Elixir, Ruby).
+               CI with that toolchain installed will execute them.
+    scaffold   no task defines a verify command, so nothing can be executed
     failing    a structural gate or an executed task failed
 
 Run `python evals/runner.py` first; this reads what that run recorded.
@@ -28,10 +31,16 @@ import os
 import sys
 from pathlib import Path
 
+from build_chrome import footer_html, nav_html  # noqa: E402
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RESULTS_DIR = REPO_ROOT / "evals" / "results"
 JSON_OUT = REPO_ROOT / "status.json"
 HTML_OUT = REPO_ROOT / "status" / "index.html"
+README = REPO_ROOT / "README.md"
+
+README_BEGIN = "<!-- BEGIN GENERATED: kit-status -->"
+README_END = "<!-- END GENERATED: kit-status -->"
 
 SITE = "https://techtalks.itsumarfarooq.com"
 
@@ -41,6 +50,7 @@ REAL_STARTER_LOC = 250
 LABELS = {
     "verified": ("Verified", "bg-[#1F7A4D] text-white"),
     "partial": ("Partially verified", "bg-[#E85D26] text-white"),
+    "pending": ("Pending toolchain", "bg-[#FFF1E8] dark:bg-[#2A2E2A] text-[#8A4A28] dark:text-[#C9A68E]"),
     "scaffold": ("Scaffold", "bg-[#FDE3D2] dark:bg-[#4A2A18] text-[#A3450F] dark:text-[#F5BE9B]"),
     "failing": ("Failing", "bg-[#FBEAE4] dark:bg-[#3A201A] text-[#B23B12] dark:text-[#F0A389]"),
 }
@@ -61,11 +71,16 @@ def classify(metrics: dict) -> str:
     passed = tasks.get("passed", 0)
     total = tasks.get("total", 0)
     undefined = tasks.get("not_executed", 0)
+    skipped = tasks.get("skipped", 0)
 
     if passed and undefined == 0 and starter.get("source_loc", 0) >= REAL_STARTER_LOC:
         return "verified"
     if passed:
         return "partial"
+    # Every task has a real command; none could run here for lack of a
+    # toolchain. That is materially better than having no commands at all.
+    if total and skipped == total:
+        return "pending"
     return "scaffold"
 
 
@@ -89,7 +104,7 @@ def collect() -> dict:
             "gates": metrics.get("gates", {}),
         })
 
-    order = {"verified": 0, "partial": 1, "scaffold": 2, "failing": 3}
+    order = {"verified": 0, "partial": 1, "pending": 2, "scaffold": 3, "failing": 4}
     kits.sort(key=lambda k: (order[k["maturity"]], -k["tasks_passed"], k["slug"]))
 
     counts = {level: sum(1 for k in kits if k["maturity"] == level) for level in LABELS}
@@ -170,31 +185,7 @@ def render_html(data: dict) -> str:
 
 <body class="bg-white dark:bg-[#0F1110] text-[#12140F] dark:text-[#F2F2EC] selection:bg-[#FFF1E8] selection:text-[#E85D26] min-h-screen flex flex-col font-sans transition-colors">
 
-  <header class="sticky top-0 z-50 h-[60px] bg-white/90 dark:bg-[#0F1110]/90 backdrop-blur-md border-b border-[#E6E6DF] dark:border-[#2A2E2A] transition-colors">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2.5 group select-none" aria-label="TechTalks Stack Kits Home">
-        <div class="w-[30px] h-[30px] rounded-[6px] bg-[#E85D26] flex items-center justify-center text-white font-bold text-xs">
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
-        </div>
-        <div class="flex items-baseline">
-          <span class="font-bold text-[17px] tracking-[-0.02em] group-hover:text-[#E85D26] transition-colors">TechTalks</span>
-          <span class="font-mono text-[10px] uppercase tracking-wider text-[#5C6058] dark:text-[#A8ACA0] font-semibold ml-2">STACK KITS</span>
-        </div>
-      </a>
-      <nav class="hidden md:flex items-center gap-6 text-[15px]" aria-label="Main Navigation">
-        <a href="/kits/" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">Kits</a>
-        <a href="/security/" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">Standards</a>
-        <a href="/security/coverage/" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">Coverage</a>
-        <a href="/status/" class="text-[#E85D26] font-semibold transition-colors" aria-current="page">Status</a>
-        <a href="https://github.com/Umar-444/Techtalks-stack-kits" target="_blank" rel="noopener noreferrer" class="text-[#5C6058] dark:text-[#8E8E96] hover:text-[#12140F] dark:hover:text-[#F4F4F5] font-medium transition-colors">GitHub</a>
-      </nav>
-      <button id="theme-toggle" type="button" aria-label="Toggle theme"
-        class="w-[36px] h-[36px] rounded-[6px] flex items-center justify-center text-[#5C6058] dark:text-[#A8ACA0] hover:text-[#12140F] dark:hover:text-white hover:bg-[#F7F7F3] dark:hover:bg-[#171A18] transition-colors focus:outline-none focus:ring-2 focus:ring-[#E85D26]">
-        <svg class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
-        <svg class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
-      </button>
-    </div>
-  </header>
+  {nav_html('status')}
 
   <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
 
@@ -205,9 +196,10 @@ def render_html(data: dict) -> str:
       a kit cannot declare itself verified in its own manifest.
     </p>
 
-    <div class="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
+    <div class="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
       {stat(counts['verified'], 'verified', 'text-[#1F7A4D] dark:text-[#6EE7A8]')}
       {stat(counts['partial'], 'partial')}
+      {stat(counts['pending'], 'pending toolchain')}
       {stat(counts['scaffold'], 'scaffold')}
       {stat(f"{tasks['passed']}/{tasks['total']}", 'tasks executed &amp; passed')}
     </div>
@@ -217,6 +209,7 @@ def render_html(data: dict) -> str:
       <ul class="mt-3 space-y-2 text-[14px] leading-relaxed text-[#5C6058] dark:text-[#A8ACA0]">
         <li><strong class="text-[#12140F] dark:text-[#F2F2EC]">Verified</strong> &mdash; every eval task defines a real command, the executed ones passed, and the starter ships at least {data['thresholds']['real_starter_loc']} lines of source.</li>
         <li><strong class="text-[#12140F] dark:text-[#F2F2EC]">Partial</strong> &mdash; some tasks ran and passed; others have no verify command yet.</li>
+        <li><strong class="text-[#12140F] dark:text-[#F2F2EC]">Pending toolchain</strong> &mdash; every task defines a real verify command, but the language toolchain (Go, Rust, Bun, Elixir, Ruby) is not installed on the machine that produced this board. CI with it installed executes them.</li>
         <li><strong class="text-[#12140F] dark:text-[#F2F2EC]">Scaffold</strong> &mdash; rules, security manifest and structure are complete and drift-checked, but nothing has been executed. Useful as an agent context pack; not yet a runnable application.</li>
         <li><strong class="text-[#12140F] dark:text-[#F2F2EC]">Context tokens</strong> &mdash; measured with tiktoken <code class="font-mono text-[12.5px]">cl100k_base</code>: what an agent must read before writing code. Tokens to <em>complete</em> a build are not measured, because that needs a live agent run.</li>
       </ul>
@@ -251,18 +244,59 @@ python tools/build_status_board.py  # regenerates this page from those results</
 
   </main>
 
-  <footer class="border-t border-[#E6E6DF] dark:border-[#2A2E2A] py-8 mt-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p class="text-[13px] text-[#5C6058] dark:text-[#A8ACA0]">&copy; 2026 Umar Farooq &middot; MIT licensed</p>
-      <p class="font-mono text-[11.5px] text-[#5C6058] dark:text-[#A8ACA0]">Generated {data['generated_at']} by <span class="text-[#E85D26]">tools/build_status_board.py</span></p>
-    </div>
-  </footer>
+  {footer_html()}
 
   <script src="/assets/js/main.js"></script>
 </body>
 
 </html>
 """
+
+
+def render_readme_table(data: dict) -> str:
+    """Markdown kit table for the generated README section."""
+    badge = {"verified": "**Verified**", "partial": "Partial",
+             "pending": "Pending toolchain", "scaffold": "Scaffold", "failing": "FAILING"}
+    rows = [
+        "| Kit | Maturity | Context tokens | Tier | Starter LOC | Verification |",
+        "|---|---|---:|:---:|---:|---|",
+    ]
+    for kit in data["kits"]:
+        verification = (
+            f'{kit["tasks_passed"]}/{kit["tasks_total"]} passed'
+            if kit["tasks_passed"] else
+            (f'{kit["tasks_undefined"]} tasks undefined' if kit["tasks_total"] else "—")
+        )
+        rows.append(
+            f'| [`{kit["slug"]}`](kits/{kit["slug"]}/) | {badge[kit["maturity"]]} '
+            f'| {kit["context_tokens"]:,} | {kit["tier"]} | {kit["starter_loc"]:,} | {verification} |'
+        )
+    c, t = data["counts"], data["tasks"]
+    return (
+        f"<!-- Generated by tools/build_status_board.py on {data['generated_at']}. Do not edit by hand. -->\n\n"
+        f"**{data['kit_count']} kits** — {c['verified']} verified, {c['partial']} partial, "
+        f"{c['pending']} pending toolchain, {c['scaffold']} scaffold, {c['failing']} failing. "
+        f"**{t['passed']}/{t['total']}** eval tasks execute and pass.\n\n"
+        "Context tokens are what an agent must read before writing code, measured with tiktoken\n"
+        "`cl100k_base`. Tiers derive from that number. Starter LOC excludes installed dependencies.\n\n"
+        + "\n".join(rows)
+    )
+
+
+def update_readme(data: dict) -> bool:
+    """Replace the generated block in README.md. Returns True if it changed."""
+    if not README.exists():
+        return False
+    text = README.read_text(encoding="utf-8")
+    if README_BEGIN not in text or README_END not in text:
+        return False
+    head, rest = text.split(README_BEGIN, 1)
+    _old, tail = rest.split(README_END, 1)
+    updated = f"{head}{README_BEGIN}\n{render_readme_table(data)}\n{README_END}{tail}"
+    if updated == text:
+        return False
+    README.write_text(updated, encoding="utf-8")
+    return True
 
 
 def main() -> int:
@@ -284,6 +318,13 @@ def main() -> int:
             for p, expected in ((JSON_OUT, json_text), (HTML_OUT, html_text))
             if not p.exists() or p.read_text(encoding="utf-8") != expected
         ]
+        readme_text = README.read_text(encoding="utf-8") if README.exists() else ""
+        if README_BEGIN in readme_text:
+            expected_block = README_BEGIN + "\n" + render_readme_table(data) + "\n" + README_END
+            _head, rest = readme_text.split(README_BEGIN, 1)
+            body, _tail = rest.split(README_END, 1)
+            if README_BEGIN + body + README_END != expected_block:
+                stale.append("README.md (kit-status section)")
         if stale:
             print("FAIL — status board out of date: " + ", ".join(stale))
             print("Regenerate with: python tools/build_status_board.py")
@@ -294,11 +335,13 @@ def main() -> int:
     HTML_OUT.parent.mkdir(parents=True, exist_ok=True)
     JSON_OUT.write_text(json_text, encoding="utf-8")
     HTML_OUT.write_text(html_text, encoding="utf-8")
+    if update_readme(data):
+        print("updated README.md kit-status section")
 
     c = data["counts"]
     print(f"wrote status.json and status/index.html")
     print(f"\n{data['kit_count']} kits: {c['verified']} verified, {c['partial']} partial, "
-          f"{c['scaffold']} scaffold, {c['failing']} failing")
+          f"{c['pending']} pending toolchain, {c['scaffold']} scaffold, {c['failing']} failing")
     print(f"tasks: {data['tasks']['passed']}/{data['tasks']['total']} executed and passed, "
           f"{data['tasks']['undefined']} still undefined")
     return 0

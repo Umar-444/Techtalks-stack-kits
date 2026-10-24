@@ -1,55 +1,62 @@
 {
   "kit_slug": "security-devsecops-ci",
-  "name": "DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM)",
-  "token_metrics": {
-    "median_tokens": 8400,
-    "tier": "A+",
-    "token_light": true
-  },
+  "name": "Stack-Agnostic DevSecOps CI Pipeline",
+  "schema_version": "2.0.0",
+  "note": "This kit's product is its configuration, so the suite parses the real workflow, scanner and Dependabot files rather than asserting on prose. Needs only Python and PyYAML — no scanners, containers or network. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
+  "setup": "pip install pyyaml pytest",
   "eval_tasks": [
     {
       "id": "security-devsecops-ci-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the DevSecOps CI Pipeline (Gitleaks, Semgrep, CodeQL, Trivy, SBOM) core runtime with zero-warning configuration.",
+      "title": "Pipeline configuration parses and declares every scan job",
+      "instruction": "The GitHub Actions workflow and all scanner configs must be valid YAML with the expected jobs present.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "devsecops.yml parses and defines secret-scan, sast-scan and container-cve-scan",
+        ".semgrep.yml parses and declares at least one rule",
+        "the Dockerfile declares a non-root USER"
       ],
-      "prompt_tokens": 831,
-      "completion_tokens": 1016
+      "requires": ["python"],
+      "requires_python": ["yaml", "pytest"],
+      "verify": "cd starter && python -m pytest tests/pipeline_test.py -q -p no:cacheprovider"
     },
     {
       "id": "security-devsecops-ci-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Declared controls are backed by real configuration",
+      "instruction": "Every control in security/checks.json must be provable against the shipped config, not merely asserted.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "Gitleaks runs with fetch-depth 0 so full history is scanned, not just the tip commit",
+        "Semgrep rules cover SQL and command injection sinks",
+        "SARIF output is both produced and uploaded to GitHub Code Scanning",
+        "Trivy blocks on CRITICAL and HIGH severities",
+        "Syft emits both CycloneDX and SPDX",
+        "Dependabot watches every ecosystem present in the repo, including docker",
+        "pre-commit hooks are pinned to releases and scan staged changes"
       ],
-      "prompt_tokens": 917,
-      "completion_tokens": 1266
+      "requires": ["python"],
+      "requires_python": ["yaml", "pytest"],
+      "verify": "cd starter && python -m pytest tests/test_security.py -q -p no:cacheprovider"
     },
     {
       "id": "security-devsecops-ci-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Local pre-flight runner executes end to end",
+      "instruction": "The cross-platform pre-flight script backing SUP-03 must compile and complete successfully.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "run_local_pipeline.py compiles",
+        "the script exits 0 against the kit's own starter directory"
       ],
-      "prompt_tokens": 887,
-      "completion_tokens": 1128
+      "requires": ["python"],
+      "requires_python": ["yaml"],
+      "verify": "cd starter && python scripts/run_local_pipeline.py"
     },
     {
       "id": "security-devsecops-ci-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "Full suite green",
+      "instruction": "The complete configuration and security suite must pass with no failures.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "pytest exits 0 across tests/"
       ],
-      "prompt_tokens": 940,
-      "completion_tokens": 1411
+      "requires": ["python"],
+      "requires_python": ["yaml", "pytest"],
+      "verify": "cd starter && python -m pytest tests/ -q -p no:cacheprovider"
     }
   ]
 }

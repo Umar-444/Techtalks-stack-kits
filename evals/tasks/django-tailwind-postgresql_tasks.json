@@ -1,51 +1,67 @@
 {
   "kit_slug": "django-tailwind-postgresql",
-  "name": "Django 5 + Tailwind CSS + PostgreSQL",
-  "token_metrics": {
-    "median_tokens": 24200,
-    "tier": "B",
-    "token_light": false
-  },
+  "name": "Django 5 + Tailwind + PostgreSQL",
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. Token figures are not recorded here; evals/runner.py measures context cost directly from the kit files. Tests run against SQLite (settings fall back automatically when POSTGRES_DB is unset), so no PostgreSQL service is required.",
+  "setup": "cd starter && pip install -r requirements.txt",
   "eval_tasks": [
     {
       "id": "django-tailwind-postgresql-task-01",
-      "title": "Initialization & Environment Config",
-      "instruction": "Verify Django 5 + Tailwind CSS + PostgreSQL boots cleanly.",
+      "title": "Django project checks clean and migrations apply",
+      "instruction": "System checks must report no issues and the app migrations must apply against a fresh database.",
       "assertions": [
-        "Runtime boots with exit code 0"
+        "manage.py check exits 0",
+        "app migrations apply without error",
+        "GET /healthz responds 200"
       ],
-      "prompt_tokens": 2395,
-      "completion_tokens": 2928
+      "requires": ["python"],
+      "requires_python": ["django", "pytest", "pytest_django", "whitenoise"],
+      "verify": "cd starter && python manage.py check && python -m pytest tests/test_views.py -q -p no:warnings"
     },
     {
       "id": "django-tailwind-postgresql-task-02",
-      "title": "Data Model & Schema",
-      "instruction": "Define models and persistence layers.",
+      "title": "Model, form and view lifecycle",
+      "instruction": "The Item model, ModelForm and class-based views must round-trip create and toggle.",
       "assertions": [
-        "Schema validates"
+        "Item creation persists with defaults applied",
+        "the list view renders with aggregate counts",
+        "create redirects and persists",
+        "toggle flips completion state"
       ],
-      "prompt_tokens": 2642,
-      "completion_tokens": 3649
+      "requires": ["python"],
+      "requires_python": ["django", "pytest", "pytest_django", "whitenoise"],
+      "verify": "cd starter && python -m pytest tests/test_models.py tests/test_views.py -q -p no:warnings"
     },
     {
       "id": "django-tailwind-postgresql-task-03",
-      "title": "API Handlers & Security",
-      "instruction": "Expose endpoints with authorization.",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite exercising the controls named in security/checks.json, with CSRF enforcement switched on.",
       "assertions": [
-        "Auth enforced"
+        "tokenless POST and toggle are rejected with 403",
+        "a quote-breaking ORM filter is bound, not interpreted",
+        "stored script payloads are HTML-escaped on render",
+        "X-Frame-Options DENY, nosniff and Referrer-Policy are sent",
+        "session cookies are HttpOnly and SameSite=Lax",
+        "check --deploy reports no issues in production config",
+        "a wildcard ALLOWED_HOSTS is refused when DEBUG is off",
+        "composite indexes exist on (is_completed, -created_at) and (priority)",
+        "weak and all-numeric passwords are rejected by the validators",
+        "every dependency in requirements.txt is version-pinned"
       ],
-      "prompt_tokens": 2555,
-      "completion_tokens": 3252
+      "requires": ["python"],
+      "requires_python": ["django", "pytest", "pytest_django", "whitenoise"],
+      "verify": "cd starter && python -m pytest tests/test_security.py -q -p no:warnings"
     },
     {
       "id": "django-tailwind-postgresql-task-04",
-      "title": "Automated Security Tests",
-      "instruction": "Run security audits and test suites.",
+      "title": "Full suite green",
+      "instruction": "The complete functional and security suite must pass with no failures.",
       "assertions": [
-        "Zero leaks"
+        "pytest exits 0 across tests/"
       ],
-      "prompt_tokens": 2710,
-      "completion_tokens": 4065
+      "requires": ["python"],
+      "requires_python": ["django", "pytest", "pytest_django", "whitenoise"],
+      "verify": "cd starter && python -m pytest tests/ -q -p no:warnings"
     }
   ]
 }

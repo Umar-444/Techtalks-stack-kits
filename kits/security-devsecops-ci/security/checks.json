@@ -69,7 +69,11 @@
       ],
       "cwe": [
         "CWE-1357"
-      ]
+      ],
+      "evidence": {
+        "kind": "config",
+        "path": ".pre-commit-config.yaml"
+      }
     },
     {
       "id": "SAST-01",
@@ -218,7 +222,11 @@
       ],
       "cwe": [
         "CWE-1357"
-      ]
+      ],
+      "evidence": {
+        "kind": "source",
+        "path": "starter/scripts/run_local_pipeline.py"
+      }
     }
   ]
 }

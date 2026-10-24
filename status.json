@@ -4,6 +4,7 @@
   "counts": {
     "verified": 3,
     "partial": 0,
+    "pending": 0,
     "scaffold": 32,
     "failing": 0
   },

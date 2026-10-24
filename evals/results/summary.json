@@ -1,18 +1,18 @@
 {
-  "kits_evaluated": 35,
-  "kits_passing_gates": 35,
+  "kits_evaluated": 1,
+  "kits_passing_gates": 1,
   "kits_failing_gates": [],
   "measurement": "tiktoken:cl100k_base",
   "context_tokens": {
-    "min": 1238,
-    "median": 2088,
-    "max": 3828
+    "min": 1690,
+    "median": 1690,
+    "max": 1690
   },
   "task_verification": {
-    "total": 124,
-    "passed": 12,
+    "total": 4,
+    "passed": 4,
     "skipped_no_toolchain": 0,
-    "not_executed": 112
+    "not_executed": 0
   },
   "not_measured": [
     "tokens_to_complete_build \u2014 requires a live agent run",

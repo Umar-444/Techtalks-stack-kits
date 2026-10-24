@@ -1,25 +1,52 @@
 import { describe, it, expect } from 'vitest';
-import { createProjectSchema, createTaskSchema } from '../src/lib/validations';
+import { createProjectSchema, projectPersistSchema } from '../src/lib/validations';
 
-describe('Validation Schemas', () => {
-  it('should validate valid project input', () => {
-    const valid = {
+describe('createProjectSchema', () => {
+  it('accepts a valid client payload', () => {
+    const res = createProjectSchema.safeParse({
       title: 'Cloud Architecture Redesign',
       description: 'Revamping cloud components',
-      tenantId: 'tenant-123',
-      userId: 'user-456',
-    };
-    const res = createProjectSchema.safeParse(valid);
+    });
     expect(res.success).toBe(true);
   });
 
-  it('should reject project with short title', () => {
-    const invalid = {
-      title: 'No',
-      tenantId: 'tenant-123',
-      userId: 'user-456',
-    };
-    const res = createProjectSchema.safeParse(invalid);
+  it('accepts a payload without the optional description', () => {
+    expect(createProjectSchema.safeParse({ title: 'Minimal project' }).success).toBe(true);
+  });
+
+  it('rejects a short title', () => {
+    expect(createProjectSchema.safeParse({ title: 'No' }).success).toBe(false);
+  });
+
+  it('rejects a description over the 500 character limit', () => {
+    const res = createProjectSchema.safeParse({
+      title: 'Valid title',
+      description: 'x'.repeat(501),
+    });
+    expect(res.success).toBe(false);
+  });
+
+  it('does not accept tenantId from the client', () => {
+    const res = createProjectSchema.safeParse({
+      title: 'Valid title',
+      tenantId: 'tenant-b',
+    });
+    expect(res.success).toBe(false);
+  });
+});
+
+describe('projectPersistSchema', () => {
+  it('is the shape written to the database, with session fields merged in', () => {
+    const res = projectPersistSchema.safeParse({
+      title: 'Valid title',
+      tenantId: 'tenant-a',
+      userId: 'user-a',
+    });
+    expect(res.success).toBe(true);
+  });
+
+  it('requires a tenantId at persist time', () => {
+    const res = projectPersistSchema.safeParse({ title: 'Valid title', userId: 'user-a' });
     expect(res.success).toBe(false);
   });
 });

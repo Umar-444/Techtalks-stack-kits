@@ -1,55 +1,57 @@
 {
   "kit_slug": "rust-axum-postgresql",
   "name": "Rust + Axum + Tokio + SQLx + PostgreSQL",
-  "token_metrics": {
-    "median_tokens": 24500,
-    "tier": "B",
-    "token_light": false
-  },
+  "schema_version": "2.0.0",
+  "note": "Requires the Rust toolchain. cargo audit additionally requires cargo-audit to be installed. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
   "eval_tasks": [
     {
       "id": "rust-axum-postgresql-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the Rust + Axum + Tokio + SQLx + PostgreSQL core runtime with zero-warning configuration.",
+      "title": "Crate type-checks across all targets",
+      "instruction": "cargo check must succeed for lib, bins and tests.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "cargo check --all-targets exits 0"
       ],
-      "prompt_tokens": 2425,
-      "completion_tokens": 2964
+      "requires": [
+        "cargo"
+      ],
+      "verify": "cd starter && cargo check --all-targets"
     },
     {
       "id": "rust-axum-postgresql-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Formatting is canonical",
+      "instruction": "Source must already be rustfmt-clean.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "cargo fmt --check exits 0"
       ],
-      "prompt_tokens": 2675,
-      "completion_tokens": 3694
+      "requires": [
+        "cargo"
+      ],
+      "verify": "cd starter && cargo fmt --all --check"
     },
     {
       "id": "rust-axum-postgresql-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Test suite passes",
+      "instruction": "The integration test suite must pass.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "cargo test exits 0"
       ],
-      "prompt_tokens": 2587,
-      "completion_tokens": 3292
+      "requires": [
+        "cargo"
+      ],
+      "verify": "cd starter && cargo test"
     },
     {
       "id": "rust-axum-postgresql-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "No known-vulnerable dependencies",
+      "instruction": "cargo-audit must report no advisories for the locked dependency set.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "cargo audit exits 0"
       ],
-      "prompt_tokens": 2744,
-      "completion_tokens": 4116
+      "requires": [
+        "cargo",
+        "cargo-audit"
+      ],
+      "verify": "cd starter && cargo audit"
     }
   ]
 }

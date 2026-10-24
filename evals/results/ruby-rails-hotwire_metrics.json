@@ -55,38 +55,38 @@
     "tasks": [
       {
         "id": "ruby-rails-hotwire-task-01",
-        "title": "Core Environment & Service Initialization",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Bundle installs",
+        "assertions": 1,
+        "status": "skipped",
+        "reason": "toolchain not installed: ruby, bundle"
       },
       {
         "id": "ruby-rails-hotwire-task-02",
-        "title": "Data Schema & Repository Definition",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Model and controller tests pass",
+        "assertions": 1,
+        "status": "skipped",
+        "reason": "toolchain not installed: ruby, bundle"
       },
       {
         "id": "ruby-rails-hotwire-task-03",
-        "title": "API Routing & Authorization Policy",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Brakeman finds no high or medium warnings",
+        "assertions": 1,
+        "status": "skipped",
+        "reason": "toolchain not installed: ruby, bundle"
       },
       {
         "id": "ruby-rails-hotwire-task-04",
-        "title": "Security & Architecture Invariants Test",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Strict loading prevents N+1 queries",
+        "assertions": 1,
+        "status": "skipped",
+        "reason": "toolchain not installed: ruby, bundle"
       }
     ],
     "total": 4,
     "passed": 0,
     "failed": 0,
-    "skipped": 0,
-    "not_executed": 4
+    "skipped": 4,
+    "not_executed": 0
   },
   "not_measured": [
     "tokens_to_complete_build \u2014 requires a live agent run",

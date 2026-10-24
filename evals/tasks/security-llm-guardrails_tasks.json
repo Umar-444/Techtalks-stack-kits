@@ -1,55 +1,95 @@
 {
   "kit_slug": "security-llm-guardrails",
-  "name": "LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard)",
-  "token_metrics": {
-    "median_tokens": 17600,
-    "tier": "A+",
-    "token_light": true
-  },
+  "name": "LLM Guardrails & AI Gateway",
+  "schema_version": "2.0.0",
+  "note": "Every task runs a real command. The guardrails are pure logic, so the suite needs no Redis and no upstream LLM. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
+  "setup": "cd starter && pip install -r requirements.txt",
   "eval_tasks": [
     {
       "id": "security-llm-guardrails-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the LLM Guardrails & AI Gateway (Pydantic AI + Llama Guard) core runtime with zero-warning configuration.",
+      "title": "Gateway boots and reports guardrail state",
+      "instruction": "The FastAPI gateway must construct and the health probe must confirm the guardrail chain is active.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "GET /health responds 200",
+        "guardrails_active is true",
+        "security headers are present on the response"
       ],
-      "prompt_tokens": 1742,
-      "completion_tokens": 2129
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "fastapi",
+        "pydantic",
+        "pytest",
+        "httpx"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_security.py -k \"health_probe or security_headers\" -q -p no:warnings"
     },
     {
       "id": "security-llm-guardrails-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Prompt injection and canary leakage defences",
+      "instruction": "Known jailbreak signatures must be intercepted, benign prompts must pass, and the input sandbox boundary must be unguessable.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "eight known jailbreak phrasings are blocked",
+        "benign prompts are not false-positived",
+        "base64 smuggling signatures are blocked",
+        "injection is rejected with 400 at the HTTP boundary",
+        "the sandbox boundary tag differs on every call",
+        "untrusted input cannot close its own boundary",
+        "canary tokens are unique and leak-detectable"
       ],
-      "prompt_tokens": 1921,
-      "completion_tokens": 2654
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "fastapi",
+        "pydantic",
+        "pytest",
+        "httpx"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_security.py -k \"jailbreak or injection or benign or base64 or boundary or canary or sandbox\" -q -p no:warnings"
     },
     {
       "id": "security-llm-guardrails-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "PII masking, cost ceilings and strict output schema",
+      "instruction": "PII must be masked reversibly, spend and request rate must be capped per tenant, and model output must satisfy the declared schema.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "email, SSN, credit card, phone and API-key patterns are masked",
+        "masking round-trips without loss",
+        "text without PII is left byte-identical",
+        "the limiter blocks past its ceiling and is scoped per tenant",
+        "spend accumulates per tenant at the declared rate",
+        "the HTTP layer returns 429 once limited",
+        "malformed or negative-token model output is rejected"
       ],
-      "prompt_tokens": 1858,
-      "completion_tokens": 2365
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "fastapi",
+        "pydantic",
+        "pytest",
+        "httpx"
+      ],
+      "verify": "cd starter && python -m pytest tests/test_security.py -k \"pii or masked or masking or rate_limit or spend or 429 or output or token_counts or role or oversized\" -q -p no:warnings"
     },
     {
       "id": "security-llm-guardrails-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "Full suite green",
+      "instruction": "The complete functional and security suite must pass with no failures.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "pytest exits 0 across tests/"
       ],
-      "prompt_tokens": 1971,
-      "completion_tokens": 2956
+      "requires": [
+        "python"
+      ],
+      "requires_python": [
+        "fastapi",
+        "pydantic",
+        "pytest",
+        "httpx"
+      ],
+      "verify": "cd starter && python -m pytest tests/ -q -p no:warnings"
     }
   ]
 }

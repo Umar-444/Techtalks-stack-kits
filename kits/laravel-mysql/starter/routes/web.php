@@ -4,7 +4,11 @@ use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return response()->json([
+        'kit' => 'laravel-mysql',
+        'docs' => '/api/articles',
+        'health' => '/healthz',
+    ]);
 });
 
 // Health check endpoint

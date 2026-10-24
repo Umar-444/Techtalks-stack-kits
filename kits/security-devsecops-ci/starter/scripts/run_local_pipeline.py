@@ -19,7 +19,7 @@ def scan_secrets(root_dir):
     patterns = [
         ("Private Key", re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----")),
         ("AWS Access Key", re.compile(r"AKIA[0-9A-Z]{16}")),
-        ("Generic Hardcoded Secret", re.compile(r"(?i)(api[_-]?key|secret[_-]?key)\s*[:=]\s*['"][0-9a-zA-Z\-_]{20,}['"]")),
+        ("Generic Hardcoded Secret", re.compile(r"""(?i)(api[_-]?key|secret[_-]?key)\s*[:=]\s*['"][0-9a-zA-Z\-_]{20,}['"]""")),
         ("GitHub Personal Access Token", re.compile(r"ghp_[0-9a-zA-Z]{36}")),
     ]
     findings = []
@@ -88,7 +88,12 @@ def main():
     cfg_ok = audit_configs(root)
     
     if sec_ok and docker_ok and cfg_ok:
-        print("\n\033[92m>>> PIPELINE VERIFICATION PASSED: All 12 security controls verified! <<<\033[0m")
+        # Names only what this script actually ran. The full control set is
+        # enforced by the CI workflow, which runs Gitleaks, Semgrep, Trivy and
+        # Syft against real scanners this pre-flight script does not invoke.
+        print("\n\033[92m>>> PRE-FLIGHT PASSED: secret scan, container audit and "
+              "config lint are clean. <<<\033[0m")
+        print("\033[94m    Full control set runs in CI (.github/workflows/devsecops.yml).\033[0m")
         return 0
     else:
         print("\n\033[91m>>> PIPELINE VERIFICATION FAILED: Resolve issues before pushing! <<<\033[0m")

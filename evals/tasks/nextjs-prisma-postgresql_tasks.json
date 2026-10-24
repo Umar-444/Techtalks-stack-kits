@@ -1,55 +1,62 @@
 {
   "kit_slug": "nextjs-prisma-postgresql",
-  "name": "Next.js 15+ + Prisma ORM + PostgreSQL + Tailwind CSS",
-  "token_metrics": {
-    "median_tokens": 16800,
-    "tier": "A",
-    "token_light": true
-  },
+  "name": "Next.js 15 + Prisma + PostgreSQL",
+  "schema_version": "2.0.0",
+  "note": "Each task runs a real command. Prisma and the session are mocked at the module boundary so the suite runs offline with no PostgreSQL; what is under test is the Server Action logic itself. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
+  "setup": "cd starter && npm install",
   "eval_tasks": [
     {
       "id": "nextjs-prisma-postgresql-task-01",
-      "title": "Initialization & Environment Config",
-      "instruction": "Verify Next.js 15 + Prisma + PostgreSQL boots cleanly.",
+      "title": "Zod schemas reject client-supplied tenancy",
+      "instruction": "Client payload schemas must be strict and must not accept tenantId or userId; those belong to the session.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health check responds 200 OK"
+        "a valid client payload parses",
+        "a short title is rejected",
+        "an over-length description is rejected",
+        "tenantId in the payload is rejected rather than silently stripped"
       ],
-      "prompt_tokens": 2900,
-      "completion_tokens": 2100
+      "requires": ["node", "npm"],
+      "verify": "cd starter && npx vitest run tests/schema.test.ts"
     },
     {
       "id": "nextjs-prisma-postgresql-task-02",
-      "title": "Data Model & Schema",
-      "instruction": "Define Prisma schema models and relation indexes.",
+      "title": "Task schema enum and persist shape",
+      "instruction": "Task input must validate its status enum, require a projectId, and require a server-stamped tenantId at persist time.",
       "assertions": [
-        "Schema validates",
-        "Relations and composite indexes defined"
+        "an out-of-range status enum is rejected",
+        "the default status is applied when omitted",
+        "projectId is required",
+        "persist shape requires tenantId"
       ],
-      "prompt_tokens": 3200,
-      "completion_tokens": 2300
+      "requires": ["node", "npm"],
+      "verify": "cd starter && npx vitest run tests/actions.test.ts"
     },
     {
       "id": "nextjs-prisma-postgresql-task-03",
-      "title": "API Handlers & Security",
-      "instruction": "Expose Server Actions with Zod validation guardrails.",
+      "title": "Declared security controls hold under test",
+      "instruction": "Run the suite covering the controls named in security/checks.json: mass assignment, tenant isolation, authentication and input validation.",
       "assertions": [
-        "Zod validation enforced",
-        "Tenant boundary preserved"
+        "SEC-12: smuggled tenantId, userId and unknown keys are all rejected",
+        "SEC-12: the tenant written to the database comes from the session, never the payload",
+        "SEC-05: create, list and read are scoped by the session tenant",
+        "SEC-05: a foreign project id reads as missing, not forbidden",
+        "SEC-05: a task cannot be attached to a project outside the caller tenant",
+        "auth: unauthenticated calls throw and never reach the database",
+        "SEC-04: validation failure short-circuits before any write",
+        "SEC-01: .env.example contains placeholders only"
       ],
-      "prompt_tokens": 3000,
-      "completion_tokens": 2200
+      "requires": ["node", "npm"],
+      "verify": "cd starter && npx vitest run tests/security.test.ts"
     },
     {
       "id": "nextjs-prisma-postgresql-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Execute schema unit tests and security scans.",
+      "title": "Full suite green",
+      "instruction": "The complete schema, action and security suite must pass with no failures.",
       "assertions": [
-        "Vitest tests pass with 0 failures",
-        "Zero secrets detected"
+        "vitest exits 0 across tests/"
       ],
-      "prompt_tokens": 3100,
-      "completion_tokens": 2400
+      "requires": ["node", "npm"],
+      "verify": "cd starter && npx vitest run"
     }
   ]
 }

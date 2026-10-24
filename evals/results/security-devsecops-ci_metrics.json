@@ -48,45 +48,45 @@
     "efficiency_tier": "A"
   },
   "starter": {
-    "files": 8,
-    "source_loc": 152
+    "files": 10,
+    "source_loc": 297
   },
   "task_verification": {
     "tasks": [
       {
         "id": "security-devsecops-ci-task-01",
-        "title": "Core Environment & Service Initialization",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Pipeline configuration parses and declares every scan job",
+        "assertions": 3,
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "security-devsecops-ci-task-02",
-        "title": "Data Schema & Repository Definition",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Declared controls are backed by real configuration",
+        "assertions": 7,
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "security-devsecops-ci-task-03",
-        "title": "API Routing & Authorization Policy",
+        "title": "Local pre-flight runner executes end to end",
         "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "security-devsecops-ci-task-04",
-        "title": "Security & Architecture Invariants Test",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Full suite green",
+        "assertions": 1,
+        "status": "pass",
+        "exit_code": 0
       }
     ],
     "total": 4,
-    "passed": 0,
+    "passed": 4,
     "failed": 0,
     "skipped": 0,
-    "not_executed": 4
+    "not_executed": 0
   },
   "not_measured": [
     "tokens_to_complete_build \u2014 requires a live agent run",

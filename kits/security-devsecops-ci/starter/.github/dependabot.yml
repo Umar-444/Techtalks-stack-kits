@@ -1,6 +1,17 @@
 version: 2
 updates:
+  # Workflow actions: an unpinned or abandoned action is a supply-chain path
+  # straight into CI, which holds repository credentials.
   - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7
+
+  # Base image CVEs are the most common finding Trivy reports; without this,
+  # nothing ever proposes the upgrade that clears them.
+  - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "weekly"

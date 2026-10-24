@@ -55,38 +55,38 @@
     "tasks": [
       {
         "id": "ts-hono-bun-sqlite-task-01",
-        "title": "Core Environment & Service Initialization",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Dependencies install",
+        "assertions": 1,
+        "status": "skipped",
+        "reason": "toolchain not installed: bun"
       },
       {
         "id": "ts-hono-bun-sqlite-task-02",
-        "title": "Data Schema & Repository Definition",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "TypeScript type-checks",
+        "assertions": 1,
+        "status": "skipped",
+        "reason": "toolchain not installed: bun"
       },
       {
         "id": "ts-hono-bun-sqlite-task-03",
-        "title": "API Routing & Authorization Policy",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Test suite passes",
+        "assertions": 1,
+        "status": "skipped",
+        "reason": "toolchain not installed: bun"
       },
       {
         "id": "ts-hono-bun-sqlite-task-04",
-        "title": "Security & Architecture Invariants Test",
-        "assertions": 2,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Health endpoint responds",
+        "assertions": 1,
+        "status": "skipped",
+        "reason": "toolchain not installed: bun"
       }
     ],
     "total": 4,
     "passed": 0,
     "failed": 0,
-    "skipped": 0,
-    "not_executed": 4
+    "skipped": 4,
+    "not_executed": 0
   },
   "not_measured": [
     "tokens_to_complete_build \u2014 requires a live agent run",

@@ -2,46 +2,122 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![CI Status](https://img.shields.io/badge/CI-Passing-teal.svg)](https://github.com/Umar-444/Techtalks-stack-kits/actions)
-[![Kits Available](https://img.shields.io/badge/Stack%20Kits-4%20Complete%20|%206%20Blueprints-orange)](https://techtalks.itsumarfarooq.com/kits/)
-[![Dialects Supported](https://img.shields.io/badge/Agent%20Dialects-6%20Generated-gold)](https://techtalks.itsumarfarooq.com/kits/)
+[![Stack Kits](https://img.shields.io/badge/Stack%20Kits-35-orange)](https://techtalks.itsumarfarooq.com/kits/)
+[![Verified](https://img.shields.io/badge/Verified-3%20%7C%2032%20Scaffold-1F7A4D)](https://techtalks.itsumarfarooq.com/status/)
+[![Agent Dialects](https://img.shields.io/badge/Agent%20Dialects-8%20Generated-gold)](https://techtalks.itsumarfarooq.com/kits/)
+[![OWASP](https://img.shields.io/badge/OWASP-Top%2010%3A2025-E85D26)](https://techtalks.itsumarfarooq.com/security/coverage/)
 
-Official open-source repository for **TechTalks** ([techtalks.itsumarfarooq.com](https://techtalks.itsumarfarooq.com/)). A curated monorepo providing tested full-stack project setups pre-wired with AI agent rules, specialized skills, design system tokens, and non-negotiable security guardrails alongside enterprise web security masterclasses.
+Official open-source repository for **TechTalks** ([techtalks.itsumarfarooq.com](https://techtalks.itsumarfarooq.com/)).
+A monorepo of full-stack project foundations pre-wired with AI agent rules, skills, design tokens and
+OWASP-mapped security controls, alongside a 22-lesson web security masterclass.
 
 - **Author & Maintainer:** Umar Farooq (Senior Full-Stack & Security Engineer)
 - **Website:** [techtalks.itsumarfarooq.com](https://techtalks.itsumarfarooq.com/)
-- **Kits Hub:** [techtalks.itsumarfarooq.com/kits/](https://techtalks.itsumarfarooq.com/kits/)
-- **Security Masterclass:** [techtalks.itsumarfarooq.com/security/](https://techtalks.itsumarfarooq.com/security/)
-- **Interactive Checklist:** [techtalks.itsumarfarooq.com/security/laravel/checklist.html](https://techtalks.itsumarfarooq.com/security/laravel/checklist.html)
+- **Kits Hub:** [/kits/](https://techtalks.itsumarfarooq.com/kits/)
+- **Kit Status Board:** [/status/](https://techtalks.itsumarfarooq.com/status/) — which kits are actually verified
+- **OWASP Coverage Matrix:** [/security/coverage/](https://techtalks.itsumarfarooq.com/security/coverage/) — 433 controls mapped to Top 10:2025
+- **Security Masterclass:** [/security/](https://techtalks.itsumarfarooq.com/security/)
+
+### What this project claims, and what it does not
+
+This repository reports only what it can demonstrate:
+
+- **Measured:** agent context cost per kit (tiktoken `cl100k_base`), structural gates,
+  security controls mapped to OWASP Top 10:2025, and which eval tasks actually execute and pass.
+- **Not measured, and not claimed:** tokens an agent needs to *complete* a build, and
+  first-try correctness. Both require running a live agent; this repo does not, so it
+  reports neither. Earlier releases printed hardcoded constants for these — see the
+  [CHANGELOG](CHANGELOG.md) 2.0.0 entry.
+- **Maturity is earned, not declared.** A kit cannot mark itself verified in `kit.yaml`;
+  the label is derived from executed verification runs. Today that is **3 verified, 32 scaffold**.
 
 ---
 
 ## What is a Stack Kit?
 
-A **Stack Kit** is a complete, tested project foundation for one exact technology combination (e.g. Laravel + Filament + PostgreSQL). Unlike generic boilerplate repositories, every kit bundles the **5 Core Plain-Text Primitives**:
+A **Stack Kit** is a project foundation for one exact technology combination
+(e.g. Laravel + Filament + PostgreSQL). Every kit bundles:
 
-1. **Starter Structure (`starter/`):** Clean, working application skeleton with multi-stage Docker Compose and `.env.example`.
-2. **Single-Source Rules (`rules/source/*.md`):** Numbered, topic-focused rules transpiled via `tools/transpiler.py` into native formats for **Cursor**, **Claude Code**, **Codex**, **GitHub Copilot**, **Google Antigravity**, and **Windsurf**.
-3. **Agent Skills (`skills/`):** Reusable workflows conforming to the Anthropics Agent Skills spec (e.g., Filament resource scaffolding, RLS policy authoring).
-4. **Design Tokens (`DESIGN.md`):** Concrete color tokens, typography scales, dark mode guidelines, and WCAG AA contrast standards.
-5. **Non-Negotiable Security (`SECURITY.md`):** Threat models, authorization enforcement on every resource, parameterized SQL, and automated Gitleaks/Semgrep scans.
-6. **Agent Build Steps (`steps/agent-build-steps.md`):** Numbered, sequential agent prompts with self-verification commands.
+1. **Starter (`starter/`):** application source with rootless Docker Compose and `.env.example`.
+2. **Single-source rules (`rules/source/*.md`):** transpiled by `tools/transpiler.py` into
+   **8 agent dialect targets** — `AGENTS.md`, `CLAUDE.md`, `CODEX.md`, `.clinerules`,
+   `.cursor/rules/*.mdc`, `.github/copilot-instructions.md`, `.agents/rules/*.md`, `.windsurfrules`.
+   Dialects are *rendered*, not copied: `CODEX.md` leads with the verification contract, and
+   `.clinerules` strips code fences because Cline prepends it to every request.
+3. **Agent skills (`skills/`):** reusable workflows following the Anthropic Agent Skills spec.
+4. **Design tokens (`DESIGN.md`):** colour, typography, dark mode, WCAG AA.
+5. **Security manifest (`security/checks.json`):** every control carries an OWASP Top 10:2025
+   category, severity, CWE and an **evidence pointer** to the file that enforces it. Validated
+   against [`schemas/kit-security-checks.schema.json`](schemas/kit-security-checks.schema.json).
+6. **Build steps (`steps/agent-build-steps.md`):** numbered prompts with verification commands.
+7. **Eval tasks (`evals/tasks/<slug>_tasks.json`):** each with a real `verify` command.
+
+### Verified vs scaffold
+
+A **verified** kit has been installed and executed: its test suite runs, and each declared
+security control was *mutation-tested* — the protection was removed to confirm the test
+actually fails without it. A test that cannot fail is not a test.
+
+| Kit | Suite | Mutation-checked controls |
+|---|---|---|
+| [`flask-htmx-sqlite`](kits/flask-htmx-sqlite/) | 27 tests | CSRF, XSS escaping, SQL parameterization, log redaction, audit trail |
+| [`django-api-ninja`](kits/django-api-ninja/) | 39 tests | tenant isolation (BOLA), schema strictness, token auth, Celery serialization |
+| [`laravel-api-sanctum`](kits/laravel-api-sanctum/) | 21 tests, 44 assertions | tenant scope, policy authorization, mass-assignment filtering |
+
+The other 32 kits are **scaffolds**: rules, security manifest and structure are complete and
+drift-checked, which makes them useful as agent context packs, but nothing has been executed.
+[`/status/`](https://techtalks.itsumarfarooq.com/status/) is the live breakdown.
 
 ---
 
 ## Stack Kits Status Matrix
 
-| # | Kit Slug | Primary Stack | Status | Dialects Generated |
-|---|---|---|---|---|
-| **01** | `laravel-filament-postgresql` | PHP 8.4 • Laravel 12/13 • Filament 4/3 • PostgreSQL 16+ | **Ready to Clone** | 6 Dialects &check; |
-| **02** | `laravel-livewire-postgresql` | PHP 8.4 • Laravel 12 • Livewire 4 • Flux UI • Volt/Folio | **Ready to Clone** | 6 Dialects &check; |
-| **03** | `laravel-mongodb` | PHP 8.4 • Laravel 12 • MongoDB 7+ • Inertia/React | **Ready to Clone** (Pioneer) | 6 Dialects &check; |
-| **04** | `laravel-mysql` | PHP 8.4 • Laravel 12 • MySQL 8 • Larastan L8 • Pest Arch | Blueprint Spec | Catalog Page &check; |
-| **05** | `nextjs-approuter-supabase` | TypeScript 5 • Next.js 15 (Turbopack) • Supabase RLS • shadcn/ui | **Ready to Clone** | 6 Dialects &check; |
-| **06** | `django-tailwind-postgresql` | Python 3.12+ • Django 5 • django-tailwind • Celery | Blueprint Spec | Catalog Page &check; |
-| **07** | `flask-htmx-sqlite` | Python 3.12+ • Flask 3 • HTMX 2 • Alpine.js | Blueprint Spec | Catalog Page &check; |
-| **08** | `rag-fastapi-qdrant` | Python 3.12+ • FastAPI • Qdrant • LangChain / LlamaIndex | Blueprint Spec | Catalog Page &check; |
-| **09** | `agentic-langgraph-crewai` | Python 3.12+ • LangGraph • CrewAI • Docker Sandbox | Blueprint Spec | Catalog Page &check; |
-| **10** | `reverse-engineering-security` | Python 3.12+ • GhidraMCP • Radare2 • Semgrep AST | Blueprint Spec | Catalog Page &check; |
+<!-- BEGIN GENERATED: kit-status -->
+<!-- Generated by tools/build_status_board.py on 2026-10-24. Do not edit by hand. -->
+
+**35 kits** — 3 verified, 0 partial, 0 pending toolchain, 32 scaffold, 0 failing. **12/124** eval tasks execute and pass.
+
+Context tokens are what an agent must read before writing code, measured with tiktoken
+`cl100k_base`. Tiers derive from that number. Starter LOC excludes installed dependencies.
+
+| Kit | Maturity | Context tokens | Tier | Starter LOC | Verification |
+|---|---|---:|:---:|---:|---|
+| [`django-api-ninja`](kits/django-api-ninja/) | **Verified** | 3,054 | B | 605 | 4/4 passed |
+| [`flask-htmx-sqlite`](kits/flask-htmx-sqlite/) | **Verified** | 2,466 | A | 574 | 4/4 passed |
+| [`laravel-api-sanctum`](kits/laravel-api-sanctum/) | **Verified** | 2,264 | A | 1,202 | 4/4 passed |
+| [`agentic-langgraph-crewai`](kits/agentic-langgraph-crewai/) | Scaffold | 1,238 | A+ | 122 | 4 tasks undefined |
+| [`django-tailwind-postgresql`](kits/django-tailwind-postgresql/) | Scaffold | 1,893 | A+ | 256 | 4 tasks undefined |
+| [`elixir-phoenix-liveview`](kits/elixir-phoenix-liveview/) | Scaffold | 1,878 | A+ | 401 | 4 tasks undefined |
+| [`go-chi-templ-htmx`](kits/go-chi-templ-htmx/) | Scaffold | 3,528 | B | 113 | 4 tasks undefined |
+| [`go-fiber-api`](kits/go-fiber-api/) | Scaffold | 1,885 | A+ | 186 | 4 tasks undefined |
+| [`go-gin-postgresql`](kits/go-gin-postgresql/) | Scaffold | 1,883 | A+ | 187 | 4 tasks undefined |
+| [`laravel-ai-features`](kits/laravel-ai-features/) | Scaffold | 1,803 | A+ | 267 | 4 tasks undefined |
+| [`laravel-filament-mysql`](kits/laravel-filament-mysql/) | Scaffold | 1,916 | A | 402 | 4 tasks undefined |
+| [`laravel-filament-postgresql`](kits/laravel-filament-postgresql/) | Scaffold | 2,984 | B | 292 | — |
+| [`laravel-livewire-postgresql`](kits/laravel-livewire-postgresql/) | Scaffold | 3,042 | B | 394 | — |
+| [`laravel-mongodb`](kits/laravel-mongodb/) | Scaffold | 2,853 | A | 239 | — |
+| [`laravel-mysql`](kits/laravel-mysql/) | Scaffold | 1,396 | A+ | 195 | 4 tasks undefined |
+| [`mcp-tools-kit`](kits/mcp-tools-kit/) | Scaffold | 1,562 | A+ | 199 | 4 tasks undefined |
+| [`nextjs-approuter-supabase`](kits/nextjs-approuter-supabase/) | Scaffold | 1,791 | A+ | 280 | — |
+| [`nextjs-prisma-postgresql`](kits/nextjs-prisma-postgresql/) | Scaffold | 1,690 | A+ | 182 | 4 tasks undefined |
+| [`python-litestar-postgresql`](kits/python-litestar-postgresql/) | Scaffold | 3,197 | B | 137 | 4 tasks undefined |
+| [`rag-fastapi-qdrant`](kits/rag-fastapi-qdrant/) | Scaffold | 3,238 | B | 398 | 4 tasks undefined |
+| [`rag-haystack-weaviate`](kits/rag-haystack-weaviate/) | Scaffold | 2,033 | A | 283 | 4 tasks undefined |
+| [`rag-langgraph-agentic`](kits/rag-langgraph-agentic/) | Scaffold | 2,239 | A | 443 | 4 tasks undefined |
+| [`rag-llamaindex-pgvector`](kits/rag-llamaindex-pgvector/) | Scaffold | 3,113 | B | 388 | 4 tasks undefined |
+| [`rag-local-private`](kits/rag-local-private/) | Scaffold | 3,828 | B | 467 | 4 tasks undefined |
+| [`reverse-engineering-security`](kits/reverse-engineering-security/) | Scaffold | 1,684 | A+ | 373 | 4 tasks undefined |
+| [`ruby-rails-hotwire`](kits/ruby-rails-hotwire/) | Scaffold | 2,405 | A | 111 | 4 tasks undefined |
+| [`rust-actix-postgresql`](kits/rust-actix-postgresql/) | Scaffold | 2,088 | A | 279 | 4 tasks undefined |
+| [`rust-axum-postgresql`](kits/rust-axum-postgresql/) | Scaffold | 1,964 | A | 196 | 4 tasks undefined |
+| [`rust-leptos-fullstack`](kits/rust-leptos-fullstack/) | Scaffold | 2,021 | A | 91 | 4 tasks undefined |
+| [`rust-loco-sqlite`](kits/rust-loco-sqlite/) | Scaffold | 2,030 | A | 173 | 4 tasks undefined |
+| [`security-devsecops-ci`](kits/security-devsecops-ci/) | Scaffold | 2,259 | A | 152 | 4 tasks undefined |
+| [`security-llm-guardrails`](kits/security-llm-guardrails/) | Scaffold | 2,587 | A | 323 | 4 tasks undefined |
+| [`security-owasp-api`](kits/security-owasp-api/) | Scaffold | 2,218 | A | 221 | 4 tasks undefined |
+| [`security-passkeys-auth`](kits/security-passkeys-auth/) | Scaffold | 2,487 | A | 223 | 4 tasks undefined |
+| [`ts-hono-bun-sqlite`](kits/ts-hono-bun-sqlite/) | Scaffold | 2,063 | A | 122 | 4 tasks undefined |
+<!-- END GENERATED: kit-status -->
 
 ---
 
@@ -89,8 +165,11 @@ A **Stack Kit** is a complete, tested project foundation for one exact technolog
 │   │   ├── owasp.py             # OWASP Top 10:2025 taxonomy & control classifier
 │   │   └── security_checks.py   # Manifest load / normalize / validate
 │   ├── audit_kit.py             # 18-checkpoint kit completeness audit
+│   ├── build_chrome.py          # Single-source site header + footer
 │   ├── build_kit_pages.py       # Static kit detail page generator
 │   ├── build_security_matrix.py # OWASP coverage matrix generator
+│   ├── build_status_board.py    # Kit maturity board + README table
+│   ├── check_encoding.py        # UTF-8 BOM gate
 │   ├── transpiler.py            # Single-source rules transpiler (8 dialects)
 │   ├── validate_checks.py       # Security manifest schema validator & migrator
 │   └── validate_manifest.py     # Kit manifest specification validator
@@ -184,6 +263,19 @@ python tools/check_encoding.py --fix
 ```
 A BOM is invisible in an editor but breaks `.env` parsing, renders into HTML
 before `<!doctype>`, and trips strict JSON/SQL parsers.
+
+### 3c. Site Header & Footer (single source)
+```bash
+python tools/build_chrome.py            # rewrite nav + footer across every page
+python tools/build_chrome.py --check    # CI gate: fail on drift
+python tools/build_chrome.py --list     # preview which pages would change
+```
+The navbar and footer live once in `tools/build_chrome.py`. The page
+generators (`build_kit_pages.py`, `build_security_matrix.py`,
+`build_status_board.py`) import `nav_html()` / `footer_html()` from it, and the
+CLI rewrites the static pages. Previously both were duplicated across ~78
+hand-maintained HTML files, so a link added in one place silently went missing
+from the rest.
 
 ### 4. Build Website CSS & Showcase Pages
 ```bash

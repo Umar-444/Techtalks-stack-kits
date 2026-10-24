@@ -9,84 +9,84 @@
     "secret_hits": []
   },
   "context_cost": {
-    "measurement": "tiktoken:cl100k_base",
-    "exact": true,
-    "context_tokens": 1893,
-    "shared_context_tokens": 807,
+    "measurement": "estimated:chars/4.4",
+    "exact": false,
+    "context_tokens": 1829,
+    "shared_context_tokens": 738,
     "shared_context": {
-      "DESIGN.md": 24,
-      "SECURITY.md": 24,
-      "agent-build-steps.md": 759
+      "DESIGN.md": 20,
+      "SECURITY.md": 26,
+      "agent-build-steps.md": 692
     },
     "per_dialect": {
       "claude": {
-        "rules_tokens": 1086,
-        "total_tokens": 1893
+        "rules_tokens": 1091,
+        "total_tokens": 1829
       },
       "codex": {
-        "rules_tokens": 1238,
-        "total_tokens": 2045
+        "rules_tokens": 1251,
+        "total_tokens": 1989
       },
       "standard": {
-        "rules_tokens": 1274,
-        "total_tokens": 2081
+        "rules_tokens": 1243,
+        "total_tokens": 1981
       },
       "cline": {
-        "rules_tokens": 924,
-        "total_tokens": 1731
+        "rules_tokens": 939,
+        "total_tokens": 1677
       },
       "windsurf": {
-        "rules_tokens": 1071,
-        "total_tokens": 1878
+        "rules_tokens": 1074,
+        "total_tokens": 1812
       },
       "copilot": {
-        "rules_tokens": 1072,
-        "total_tokens": 1879
+        "rules_tokens": 1078,
+        "total_tokens": 1816
       }
     },
     "leanest_dialect": "cline",
     "efficiency_tier": "A+"
   },
   "starter": {
-    "files": 20,
-    "source_loc": 256
+    "files": 25,
+    "source_loc": 481
   },
   "task_verification": {
     "tasks": [
       {
         "id": "django-tailwind-postgresql-task-01",
-        "title": "Initialization & Environment Config",
-        "assertions": 1,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Django project checks clean and migrations apply",
+        "assertions": 3,
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "django-tailwind-postgresql-task-02",
-        "title": "Data Model & Schema",
-        "assertions": 1,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Model, form and view lifecycle",
+        "assertions": 4,
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "django-tailwind-postgresql-task-03",
-        "title": "API Handlers & Security",
-        "assertions": 1,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "title": "Declared security controls hold under test",
+        "assertions": 10,
+        "status": "pass",
+        "exit_code": 0
       },
       {
         "id": "django-tailwind-postgresql-task-04",
-        "title": "Automated Security Tests",
+        "title": "Full suite green",
         "assertions": 1,
-        "status": "not_executed",
-        "reason": "task defines no verify command"
+        "status": "pass",
+        "exit_code": 0
       }
     ],
     "total": 4,
-    "passed": 0,
+    "passed": 4,
     "failed": 0,
     "skipped": 0,
-    "not_executed": 4
+    "not_executed": 0
   },
   "not_measured": [
     "tokens_to_complete_build \u2014 requires a live agent run",

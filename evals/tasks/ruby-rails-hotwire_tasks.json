@@ -1,55 +1,60 @@
 {
   "kit_slug": "ruby-rails-hotwire",
   "name": "Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL",
-  "token_metrics": {
-    "median_tokens": 14200,
-    "tier": "A+",
-    "token_light": true
-  },
+  "schema_version": "2.0.0",
+  "note": "Requires Ruby and Bundler. Uses SQLite, so no database server is needed. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
   "eval_tasks": [
     {
       "id": "ruby-rails-hotwire-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the Ruby on Rails 8 + Hotwire (Turbo + Stimulus) + SQLite/PostgreSQL core runtime with zero-warning configuration.",
+      "title": "Bundle installs",
+      "instruction": "The Gemfile must resolve.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "bundle install exits 0"
       ],
-      "prompt_tokens": 1405,
-      "completion_tokens": 1718
+      "requires": [
+        "ruby",
+        "bundle"
+      ],
+      "verify": "cd starter && bundle install"
     },
     {
       "id": "ruby-rails-hotwire-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Model and controller tests pass",
+      "instruction": "The Minitest suite covering Post model and PostsController must pass.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "bundle exec rails test exits 0"
       ],
-      "prompt_tokens": 1550,
-      "completion_tokens": 2141
+      "requires": [
+        "ruby",
+        "bundle"
+      ],
+      "verify": "cd starter && bundle exec rails test"
     },
     {
       "id": "ruby-rails-hotwire-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Brakeman finds no high or medium warnings",
+      "instruction": "Static analysis of the Rails app must be clean at confidence level 2.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "brakeman exits 0 with -w2"
       ],
-      "prompt_tokens": 1499,
-      "completion_tokens": 1908
+      "requires": [
+        "ruby",
+        "bundle"
+      ],
+      "verify": "cd starter && bundle exec brakeman -q -w2"
     },
     {
       "id": "ruby-rails-hotwire-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "Strict loading prevents N+1 queries",
+      "instruction": "Associations must be strict-loaded in test so an N+1 raises instead of silently degrading.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "rails test exits 0 with strict_loading enabled"
       ],
-      "prompt_tokens": 1590,
-      "completion_tokens": 2385
+      "requires": [
+        "ruby",
+        "bundle"
+      ],
+      "verify": "cd starter && RAILS_ENV=test bundle exec rails test"
     }
   ]
 }

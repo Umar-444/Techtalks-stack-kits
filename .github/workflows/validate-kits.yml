@@ -64,6 +64,10 @@ jobs:
         run: |
           python tools/check_encoding.py
 
+      - name: "Check site header and footer are in sync"
+        run: |
+          python tools/build_chrome.py --check
+
       - name: "Execute verification runner"
         run: |
           python evals/runner.py

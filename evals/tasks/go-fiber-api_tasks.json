@@ -1,55 +1,56 @@
 {
   "kit_slug": "go-fiber-api",
   "name": "Go + Fiber + PostgreSQL",
-  "token_metrics": {
-    "median_tokens": 18900,
-    "tier": "A",
-    "token_light": false
-  },
+  "schema_version": "2.0.0",
+  "note": "Requires the Go toolchain. No database server is needed: the suite uses the stdlib test harness. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
   "eval_tasks": [
     {
       "id": "go-fiber-api-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the Go + Fiber + PostgreSQL core runtime with zero-warning configuration.",
+      "title": "Module builds with no errors",
+      "instruction": "The Go module must compile cleanly from a clean checkout.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "go build ./... exits 0"
       ],
-      "prompt_tokens": 1871,
-      "completion_tokens": 2286
+      "requires": [
+        "go"
+      ],
+      "verify": "cd starter && go build ./..."
     },
     {
       "id": "go-fiber-api-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "go vet reports no suspicious constructs",
+      "instruction": "Static analysis must find no vet diagnostics.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "go vet ./... exits 0"
       ],
-      "prompt_tokens": 2063,
-      "completion_tokens": 2850
+      "requires": [
+        "go"
+      ],
+      "verify": "cd starter && go vet ./..."
     },
     {
       "id": "go-fiber-api-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Test suite passes",
+      "instruction": "The handler and routing test suite must pass.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "go test ./... exits 0"
       ],
-      "prompt_tokens": 1995,
-      "completion_tokens": 2540
+      "requires": [
+        "go"
+      ],
+      "verify": "cd starter && go test ./..."
     },
     {
       "id": "go-fiber-api-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "No data races under concurrent load",
+      "instruction": "The race detector must find no races; these handlers run concurrently per request.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "go test -race ./... exits 0"
       ],
-      "prompt_tokens": 2116,
-      "completion_tokens": 3175
+      "requires": [
+        "go"
+      ],
+      "verify": "cd starter && go test -race ./..."
     }
   ]
 }

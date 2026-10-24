@@ -1,55 +1,57 @@
 {
   "kit_slug": "rust-leptos-fullstack",
   "name": "Rust + Leptos Full-Stack + Axum + WebAssembly",
-  "token_metrics": {
-    "median_tokens": 29200,
-    "tier": "B",
-    "token_light": false
-  },
+  "schema_version": "2.0.0",
+  "note": "Requires the Rust toolchain. cargo audit additionally requires cargo-audit to be installed. Token figures are not recorded here; evals/runner.py measures context cost from the kit files.",
   "eval_tasks": [
     {
       "id": "rust-leptos-fullstack-task-01",
-      "title": "Core Environment & Service Initialization",
-      "instruction": "Initialize the Rust + Leptos Full-Stack + Axum + WebAssembly core runtime with zero-warning configuration.",
+      "title": "Crate type-checks across all targets",
+      "instruction": "cargo check must succeed for lib, bins and tests.",
       "assertions": [
-        "Runtime boots with exit code 0",
-        "Health endpoint responds 200 OK"
+        "cargo check --all-targets exits 0"
       ],
-      "prompt_tokens": 2890,
-      "completion_tokens": 3533
+      "requires": [
+        "cargo"
+      ],
+      "verify": "cd starter && cargo check --all-targets"
     },
     {
       "id": "rust-leptos-fullstack-task-02",
-      "title": "Data Schema & Repository Definition",
-      "instruction": "Define strongly-typed models and database migrations.",
+      "title": "Formatting is canonical",
+      "instruction": "Source must already be rustfmt-clean.",
       "assertions": [
-        "Schema validates against type checker",
-        "Migrations execute idempotently"
+        "cargo fmt --check exits 0"
       ],
-      "prompt_tokens": 3188,
-      "completion_tokens": 4403
+      "requires": [
+        "cargo"
+      ],
+      "verify": "cd starter && cargo fmt --all --check"
     },
     {
       "id": "rust-leptos-fullstack-task-03",
-      "title": "API Routing & Authorization Policy",
-      "instruction": "Wire endpoints with strict tenant authorization and BOLA defense.",
+      "title": "Test suite passes",
+      "instruction": "The integration test suite must pass.",
       "assertions": [
-        "Unauthorized access returns 401/403",
-        "Owner access returns 200"
+        "cargo test exits 0"
       ],
-      "prompt_tokens": 3083,
-      "completion_tokens": 3924
+      "requires": [
+        "cargo"
+      ],
+      "verify": "cd starter && cargo test"
     },
     {
       "id": "rust-leptos-fullstack-task-04",
-      "title": "Security & Architecture Invariants Test",
-      "instruction": "Verify static analysis, secret scans, and automated test assertions.",
+      "title": "No known-vulnerable dependencies",
+      "instruction": "cargo-audit must report no advisories for the locked dependency set.",
       "assertions": [
-        "Gitleaks zero findings",
-        "Automated attack suite passes 100%"
+        "cargo audit exits 0"
       ],
-      "prompt_tokens": 3270,
-      "completion_tokens": 4905
+      "requires": [
+        "cargo",
+        "cargo-audit"
+      ],
+      "verify": "cd starter && cargo audit"
     }
   ]
 }
